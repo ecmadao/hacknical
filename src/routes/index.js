@@ -1,19 +1,23 @@
-import {injectReducer} from '../redux/reducer/index';
-import reducers from './App/redux/reducers';
+import { injectReducer } from '../redux/reducer/index';
+import reducer from './App/redux/reducers';
 import App from './App/index';
 
-const createRoutes = (store) => {
-  injectReducer(store, { key: 'app', reducers });
+export const createRoutes = (store) => {
+  injectReducer(store, { key: 'app', reducer });
+  console.log('=== reducers === reducers ===')
+  console.log(reducer);
+
   return {
+    path: '/',
     component: App,
-    childRoutes: [
-      {
-        path: '/',
-        // onEnter: (nextState, replace) => {
-        //   replace('/weathers/now');
-        // }
-      }
-    ]
+    // childRoutes: [
+    //   {
+    //     path: '/',
+    //     onEnter: (nextState, replace) => {
+    //       replace('/weathers/now');
+    //     }
+    //   }
+    // ]
   }
 }
 

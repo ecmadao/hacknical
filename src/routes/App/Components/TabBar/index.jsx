@@ -34,10 +34,11 @@ class TabBar extends React.Component {
     const {changeActiveTab, activeTab} = this.props;
     return TABS.map((tab, index) => {
       const {id, name, icon} = tab;
+      const tabClass = id === activeTab ? 'app_tab active' : 'app_tab';
       return (
         <div
           key={index}
-          className={`app_tab ${id === activeTab && 'active'}`}
+          className={tabClass}
           onClick={() => {
             changeActiveTab && changeActiveTab(id);
           }}>
@@ -50,15 +51,17 @@ class TabBar extends React.Component {
 
   render() {
     return (
-      <div className="tab">
-        {this.renderTab()}
+      <div className="app_tabs">
+        <div className="app_tabs_container">
+          {this.renderTab()}
+        </div>
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  const {tabBarActive, activeTab} = state;
+  const {tabBarActive, activeTab} = state.app;
   return {
     tabBarActive,
     activeTab

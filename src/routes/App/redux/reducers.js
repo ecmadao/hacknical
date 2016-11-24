@@ -7,39 +7,41 @@ const initialState = {
   activeTab: 'profile'
 };
 
-export default handleActions({
+const reducers = handleActions({
   LOGIN_USER(state, action) {
-    return {
+    return ({
       ...state,
       user: action.payload
-    };
+    });
   },
 
   LOGOUT_USER(state, action) {
-    return {
+    return ({
       ...state,
       user: null
-    };
+    });
   },
 
   TOGGLE_LOADING(state, action) {
-    return {
+    return ({
       ...state,
       loading: action.payload
-    };
+    });
   },
 
   TOGGLE_TABBAR(state, action) {
-    return {
+    return ({
       ...state,
       tabBarActive: action.payload
-    };
+    });
   },
 
   CHANGE_ACTIVE_TAB(state, action) {
-    return {
+    return ({
       ...state,
       activeTab: action.payload
-    }
+    })
   }
-}, initialState)
+}, initialState);
+
+export default reducers;

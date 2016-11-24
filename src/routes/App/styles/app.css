@@ -1,0 +1,51 @@
+/* main */
+.app {
+  width: 100%;
+}
+
+.app_top,
+.app_content {
+  width: 100%;
+}
+
+/* header & tab */
+.app_header {
+  background-color: #F7F8FD;
+  color: #4a4a4a;
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 1px solid #E4E6EF;
+}
+
+.app_tabs {
+  width: 100%;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  background-color: #EFF1FA;
+  color: #4a4a4a;
+}
+
+.app_header_container {
+  width: 80%;
+  margin: 0 10%;
+  max-width: 1248px;
+  display: flex;
+}
+
+.app_tabs_container {
+  width: 50%;
+  margin: 0 25%;
+  display: flex;
+  min-width: 300px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 14px;
+}
+
+.app_tab {
+  flex: 1;
+  text-align: center;
+
+  & i {
+    color: #4a4a4a;
+  }
+}

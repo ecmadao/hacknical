@@ -4,9 +4,12 @@ import { routerReducer as routing } from 'react-router-redux';
 // REDUCERS.routing = routerReducer;
 // const appReducer = combineReducers(REDUCERS);
 
-export const makeRootReducer = (asyncReducers = {}) => {
+const initialReducers = {};
+
+export const makeRootReducer = (asyncReducers) => {
   const reducer = combineReducers({
     routing,
+    ...initialReducers,
     ...asyncReducers,
   });
   return reducer;
