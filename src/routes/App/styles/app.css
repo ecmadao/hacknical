@@ -14,7 +14,7 @@
   color: #4a4a4a;
   height: 50px;
   line-height: 50px;
-  border-bottom: 1px solid #E4E6EF;
+  border-bottom: 1px solid #EBEEFA;
 }
 
 .app_tabs {
@@ -44,8 +44,26 @@
 .app_tab {
   flex: 1;
   text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
 
   & i {
     color: #4a4a4a;
   }
+
+  &:hover,
+  &.active {
+    color: #2196F3;
+    border-bottom: 2px solid #2196F3;
+
+    & i {
+      color: #2196F3;
+    }
+  }
+}
+
+/* content */
+.content_container {
+  width: 80%;
+  margin: 0 10%;
 }

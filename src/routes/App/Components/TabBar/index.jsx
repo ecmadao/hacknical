@@ -25,6 +25,10 @@ const TABS = [
   }
 ];
 
+/**
+ * TODO: Add animation
+ */
+
 class TabBar extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +75,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     changeActiveTab: (tab) => {
-      dispatch(AppAction.changeActiveTab(tab));
+      dispatch(AppAction.changeTab(tab));
     }
   }
 }

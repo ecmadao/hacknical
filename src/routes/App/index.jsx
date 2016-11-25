@@ -18,7 +18,9 @@ class App extends React.Component {
           <TabBar />
         </div>
         <div className="app_content">
-          {children}
+          <div className="content_container">
+            {children}
+          </div>
         </div>
       </div>
     )
