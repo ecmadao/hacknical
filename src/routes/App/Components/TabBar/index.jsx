@@ -39,7 +39,6 @@ class TabBar extends React.Component {
     const {changeActiveTab} = this.props;
     return TABS.map((tab, index) => {
       const {id, name, icon} = tab;
-      // const tabClass = id === activeTab ? 'app_tab active' : 'app_tab';
       return (
         <div
           key={index}

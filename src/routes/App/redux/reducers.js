@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 
 const initialState = {
   loading: true,
-  user: null,
+  userId: null,
   tabBarActive: true,
   activeTab: 'profile'
 };
@@ -11,14 +11,14 @@ const reducers = handleActions({
   LOGIN_USER(state, action) {
     return ({
       ...state,
-      user: action.payload
+      userId: action.payload
     });
   },
 
   LOGOUT_USER(state, action) {
     return ({
       ...state,
-      user: null
+      userId: null
     });
   },
 
