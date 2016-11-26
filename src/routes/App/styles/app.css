@@ -10,7 +10,7 @@
 
 /* header & tab */
 .app_header {
-  background-color: #F7F8FD;
+  background-color: #ffffff;
   color: #4a4a4a;
   height: 50px;
   line-height: 50px;
@@ -20,7 +20,7 @@
 .app_tabs {
   width: 100%;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-  background-color: #EFF1FA;
+  background-color: #F7F8FD;
   color: #4a4a4a;
 }
 
@@ -47,12 +47,8 @@
   cursor: pointer;
   transition: all 0.3s;
 
-  & i {
-    color: #4a4a4a;
-  }
-
   &:hover,
-  &.active {
+  & .app_tab_active {
     color: #2196F3;
     border-bottom: 2px solid #2196F3;
 
@@ -60,7 +56,26 @@
       color: #2196F3;
     }
   }
+
+  & a {
+    display: block;
+    color: #4a4a4a;
+    text-decoration: none;
+
+    & i {
+      color: #4a4a4a;
+    }
+  }
 }
+
+/*.app_tab_active {
+  color: #2196F3;
+  border-bottom: 2px solid #2196F3;
+
+  & i {
+    color: #2196F3;
+  }
+}*/
 
 /* content */
 .content_container {

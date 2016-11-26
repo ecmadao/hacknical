@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { push } from 'react-router-redux'
+// import { push } from 'react-router-redux'
 
 const loginUser = createAction('LOGIN_USER', user => user);
 
@@ -12,7 +12,7 @@ const toggleTabBar = createAction('TOGGLE_TABBAR', (status) => status);
 const changeActiveTab = createAction('CHANGE_ACTIVE_TAB');
 
 const changeTab = (tab) => (dispatch, getState) => {
-  dispatch(push(tab))
+  // dispatch(push(tab))
   dispatch(changeActiveTab(tab));
 };
 

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import AppAction from '../../redux/actions';
 
 const TABS = [
@@ -35,19 +36,21 @@ class TabBar extends React.Component {
   }
 
   renderTab() {
-    const {changeActiveTab, activeTab} = this.props;
+    const {changeActiveTab} = this.props;
     return TABS.map((tab, index) => {
       const {id, name, icon} = tab;
-      const tabClass = id === activeTab ? 'app_tab active' : 'app_tab';
+      // const tabClass = id === activeTab ? 'app_tab active' : 'app_tab';
       return (
         <div
           key={index}
-          className={tabClass}
+          className="app_tab"
           onClick={() => {
             changeActiveTab && changeActiveTab(id);
           }}>
-          <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
-          {name}
+          <Link to={`/${id}`} activeClassName="app_tab_active">
+            <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
+            {name}
+          </Link>
         </div>
       )
     })
