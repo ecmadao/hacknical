@@ -50,7 +50,14 @@ module.exports = {
     ],
   },
   resolve: {
+    root: PATH.SOURCE_PATH,
+    modulesDirectories: ['node_modules'],
     extensions: ['', '.js', '.jsx'],
+    alias: {
+      COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
+      // UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
+      // MODULES: path.join(PATH.SOURCE_PATH, 'modules'),
+    }
   },
   postcss: function() {
     return [
