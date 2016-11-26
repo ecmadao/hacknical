@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const postcssImport = require("postcss-import");
+const cssImport = require("postcss-import");
 const cssnext = require("postcss-cssnext");
 
 const Dashboard = require('webpack-dashboard');
@@ -62,7 +62,7 @@ module.exports = {
   },
   postcss: function() {
     return [
-      postcssImport({addDependencyTo: webpack}),
+      cssImport({addDependencyTo: webpack}),
       cssnext({autoprefixer: {browsers: "ie >= 9, ..."}})
     ];
   },

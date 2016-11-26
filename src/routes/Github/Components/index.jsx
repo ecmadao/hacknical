@@ -5,20 +5,24 @@ import 'github-calendar/dist/github-calendar.css';
 import '../styles/github.css';
 import Loading from 'COMPONENTS/Loading';
 import githubActions from '../redux/actions';
+import UserInfoCard from './UserInfoCard';
+import UserChartCard from './UserChartCard';
 
 class Github extends React.Component {
   componentDidMount() {
-    const {getGithubInfo} = this.props;
+    const { getGithubInfo, getRepos } = this.props;
     getGithubInfo();
-    GitHubCalendar(".calendar", "ecmadao");
+    getRepos();
+    // GitHubCalendar(".calendar", "ecmadao");
   }
 
   render() {
-    const {user} = this.props;
-    console.log(user);
+    const { user, repos } = this.props;
     return (
       <div className="github_info_container">
-        <div className="calendar github_calendar">
+        {user ? <UserInfoCard user={user}/> : ''}
+        {repos.length ? <UserChartCard repos={repos} username={user.name}/> : ''}
+        <div className="calendar github_calendar card">
           <Loading />
         </div>
       </div>
@@ -27,10 +31,11 @@ class Github extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {loading, user} = state.github;
+  const {loading, user, repos} = state.github;
   return {
     loading,
-    user
+    user,
+    repos
   }
 }
 
@@ -38,6 +43,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getGithubInfo: () => {
       return dispatch(githubActions.getGithubInfo());
+    },
+    getRepos: () => {
+      return dispatch(githubActions.getGithubRepos());
     }
   }
 }

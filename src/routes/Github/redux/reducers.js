@@ -2,7 +2,9 @@ import { handleActions } from 'redux-actions';
 
 const initialState = {
   loading: true,
-  user: null
+  user: null,
+  repos: [],
+  reposReadme: null
 };
 
 const reducers = handleActions({
@@ -16,6 +18,18 @@ const reducers = handleActions({
     return ({
       ...state,
       loading: action.payload
+    });
+  },
+  SET_GITHUB_REPOS(state, action) {
+    return ({
+      ...state,
+      repos: action.payload
+    });
+  },
+  SET_REPOS_README(state, action) {
+    return ({
+      ...state,
+      reposReadme: action.payload
     });
   }
 }, initialState);
