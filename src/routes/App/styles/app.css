@@ -68,17 +68,8 @@
   }
 }
 
-/*.app_tab_active {
-  color: #2196F3;
-  border-bottom: 2px solid #2196F3;
-
-  & i {
-    color: #2196F3;
-  }
-}*/
-
 /* content */
 .content_container {
   width: 80%;
-  margin: 0 10%;
+  margin: 30px 10%;
 }

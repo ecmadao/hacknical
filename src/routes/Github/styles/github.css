@@ -1,0 +1,14 @@
+.github_calendar {
+  transition: all 0.4s;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  & h2:first-child {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 300;
+  }
+}
