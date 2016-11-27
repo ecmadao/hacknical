@@ -186,14 +186,15 @@ class UserChartCard extends React.Component {
             </span>) : ''}<br/>
             <span>{repository.description}</span>
           </div>
-          <div className="repos_star">
-            <i className="fa fa-star-o" aria-hidden="true"></i>&nbsp;{repository['stargazers_count']}
+          <div className={`repos_star ${repository['stargazers_count'] > 0 ? 'active' : ''}`}>
+            <i className={`fa ${repository['stargazers_count'] > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{repository['stargazers_count']}
           </div>
         </div>
       )
     });
     return (
       <div className="repos_show_container">
+        <p className="repos_show_title">{showLanguage}</p>
         {targetRepos}
       </div>
     )

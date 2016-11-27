@@ -136,6 +136,14 @@
   & .repos_show_container {
     display: block;
 
+    & .repos_show_title {
+      padding-left: 10px;
+      margin-left: 10px;
+      font-size: 1.5em;
+      border-left: 3px solid #9B9B9B;
+      line-height: 40px;
+    }
+
     & .repos_show {
       display: flex;
       padding: 10px;
@@ -179,6 +187,10 @@
         right: 10px;
         top: 50%;
         transform: translateY(-50%);
+
+        &.active {
+          color: #4990E2;
+        }
       }
     }
   }
