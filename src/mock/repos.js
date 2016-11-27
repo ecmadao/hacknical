@@ -1,4 +1,6 @@
-export const ALL_REPOS = [
+import ALL_REPOS_2 from './repos2';
+
+const ALL_REPOS_1 = [
 {
 "id": 62483436,
 "name": "Alfred-TodoList",
@@ -2622,6 +2624,8 @@ export const ALL_REPOS = [
 "default_branch": "master"
 }
 ];
+
+export const ALL_REPOS = ALL_REPOS_1.concat(ALL_REPOS_2);
 
 export const REPOS_README = {
 "name": "README.md",
