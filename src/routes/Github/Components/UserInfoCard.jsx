@@ -2,6 +2,7 @@ import React from 'react';
 
 const UserInfoCard = (props) => {
   const {user} = props;
+  if (!user) { return (<div></div>) }
   return (
     <div className="info_card_container">
       <p>基本信息</p>

@@ -57,15 +57,26 @@ const getStarDatasets = (repos) => {
 class UserChartCard extends React.Component {
   constructor(props) {
     super(props);
+    this.reposReviewChart = null;
+    this.languageSkillChart = null;
+    this.languageDistributionChart = null;
     this.chartClickCallback = this.chartClickCallback.bind(this);
   }
 
   componentDidMount() {
-    const {repos} = this.props;
-    const flatRepos = getFlatReposInfos(repos);
-    this.renderBarChart(flatRepos.slice(0, 10));
-    this.renderPieChart(flatRepos);
-    this.renderRadarChart(flatRepos);
+    const {actions} = this.props;
+    actions.getGithubRepos();
+  }
+
+  componentDidUpdate(preProps) {
+    const { repos } = this.props;
+    const preRepos = preProps.repos;
+    if (!preRepos.length && repos.length) {
+      const flatRepos = getFlatReposInfos(repos);
+      !this.reposReviewChart && this.renderBarChart(flatRepos.slice(0, 10));
+      !this.languageDistributionChart && this.renderPieChart(flatRepos);
+      !this.languageSkillChart && this.renderRadarChart(flatRepos);
+    }
   }
 
   chartClickCallback(ctx, data) {
@@ -78,7 +89,7 @@ class UserChartCard extends React.Component {
     const languages = Object.keys(languageDistributions);
     const distribution = languages.map(language => languageDistributions[language]);
     const languageDistribution = ReactDOM.findDOMNode(this.languageDistribution);
-    const languageDistributionChart = new Chart(languageDistribution, {
+    this.languageDistributionChart = new Chart(languageDistribution, {
       type: 'doughnut',
       data: {
         labels: languages,
@@ -102,7 +113,7 @@ class UserChartCard extends React.Component {
     const languages = Object.keys(languageSkills).filter(language => languageSkills[language]);
     const skill = languages.map(language => languageSkills[language]);
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
-    const languageSkillChart = new Chart(languageSkill, {
+    this.languageSkillChart = new Chart(languageSkill, {
       type: 'radar',
       data: {
         labels: languages,
@@ -131,7 +142,7 @@ class UserChartCard extends React.Component {
   renderBarChart(flatRepos) {
     const {username} = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
-    const reposReviewChart = new Chart(reposReview, {
+    this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',
       data: {
         labels: getReposNames(flatRepos),
@@ -155,6 +166,8 @@ class UserChartCard extends React.Component {
   }
 
   render() {
+    const { repos } = this.props;
+    if (!repos || !repos.length) { return (<div></div>) }
     return (
       <div className="info_card_container repos_card_container">
         <p>仓库概览</p>
@@ -175,16 +188,17 @@ class UserChartCard extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { showLanguage, repos } = state.github;
+  const { showLanguage, repos, user } = state.github;
   return {
     repos,
-    showLanguage
+    showLanguage,
+    username: user && user.name
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    action: bindActionCreators(githubActions, dispatch)
+    actions: bindActionCreators(githubActions, dispatch)
   }
 }
 
