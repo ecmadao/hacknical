@@ -56,3 +56,7 @@ export const getLanguageSkill = (repos) => {
   });
   return reposLanguages;
 };
+
+export const getReposByLanguage = (repos, language) => {
+  return repos.filter(repository => repository.language === language).sort(sortRepos('stargazers_count'));
+};

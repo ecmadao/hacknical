@@ -114,6 +114,7 @@
     width: 100%;
   }
 
+  & .repos_show_container,
   & .repos_chart_container {
     width: 95%;
     margin-left: 2.5%;
@@ -128,6 +129,56 @@
       & #repos_chart {
         width: 300px !important;
         height: 300px !important;
+      }
+    }
+  }
+
+  & .repos_show_container {
+    display: block;
+
+    & .repos_show {
+      display: flex;
+      padding: 10px;
+      position: relative;
+      transition: all 0.4s;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      & .repos_info {
+        padding-right: 50px;
+        width: 100%;
+
+        & .repos_info_name {
+          text-decoration: none;
+          color: #4a4a4a;
+          line-height: 1.5em;
+          font-size: 16px;
+
+          &:hover {
+            color: #4990E2;
+          }
+        }
+
+        & span {
+          font-size: 14px;
+        }
+
+        & .repos_info_forked {
+          display: inline-block;
+          background-color: #e4e4e4;
+          margin-left: 8px;
+          padding: 3px 4px;
+          border-radius: 2px;
+        }
+      }
+
+      & .repos_star {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
   }

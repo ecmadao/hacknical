@@ -10,7 +10,8 @@ import {
   getReposForks,
   getReposStars,
   getLanguageDistribution,
-  getLanguageSkill
+  getLanguageSkill,
+  getReposByLanguage
 } from '../helper/repos';
 import githubActions from '../redux/actions';
 
@@ -81,7 +82,9 @@ class UserChartCard extends React.Component {
 
   chartClickCallback(ctx, data) {
     if (!data[0]) { return }
+    const { actions } = this.props;
     const language = data[0]['_model'].label;
+    actions.setShowLanguage(language);
   }
 
   renderPieChart(flatRepos) {
@@ -165,8 +168,39 @@ class UserChartCard extends React.Component {
     });
   }
 
+  renderShowRepos() {
+    const { showLanguage, repos } = this.props;
+    const targetRepos = getReposByLanguage(repos, showLanguage).map((repository, index) => {
+      return (
+        <div className="repos_show" key={index}>
+          <div className="repos_info">
+            <a
+              target="_blank"
+              href={repository['html_url']}
+              className="repos_info_name">
+              {repository.name}
+            </a>{repository.fork ? (<span className="repos_info_forked">
+              <i className="fa fa-code-fork" aria-hidden="true">
+              </i>&nbsp;
+              forked
+            </span>) : ''}<br/>
+            <span>{repository.description}</span>
+          </div>
+          <div className="repos_star">
+            <i className="fa fa-star-o" aria-hidden="true"></i>&nbsp;{repository['stargazers_count']}
+          </div>
+        </div>
+      )
+    });
+    return (
+      <div className="repos_show_container">
+        {targetRepos}
+      </div>
+    )
+  }
+
   render() {
-    const { repos } = this.props;
+    const { repos, showLanguage } = this.props;
     if (!repos || !repos.length) { return (<div></div>) }
     return (
       <div className="info_card_container repos_card_container">
@@ -181,6 +215,7 @@ class UserChartCard extends React.Component {
               <canvas ref={ref => this.languageSkill = ref}></canvas>
             </div>
           </div>
+          { showLanguage ? this.renderShowRepos() : ''}
         </div>
       </div>
     )
