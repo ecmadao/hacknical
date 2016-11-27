@@ -13,7 +13,7 @@ class Github extends React.Component {
     const { getGithubInfo, getRepos } = this.props;
     getGithubInfo();
     getRepos();
-    // GitHubCalendar(".calendar", "ecmadao");
+    GitHubCalendar(".calendar", "ecmadao");
   }
 
   render() {
@@ -22,8 +22,11 @@ class Github extends React.Component {
       <div className="github_info_container">
         {user ? <UserInfoCard user={user}/> : ''}
         {repos.length ? <UserChartCard repos={repos} username={user.name}/> : ''}
-        <div className="calendar github_calendar card">
-          <Loading />
+        <div className="info_card_container">
+          <p>活跃度</p>
+          <div className="calendar github_calendar card">
+            <Loading />
+          </div>
         </div>
       </div>
     )
