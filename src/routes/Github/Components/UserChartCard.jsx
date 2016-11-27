@@ -11,6 +11,13 @@ import {
 } from '../helper/repos';
 
 const REPOS_BASE_URL = 'https://github.com';
+const BLUE_COLORS = [
+  'rgba(41, 128, 185, 1)',
+  'rgba(41, 128, 185, 0.8)',
+  'rgba(41, 128, 185, 0.6)',
+  'rgba(41, 128, 185, 0.4)',
+  'rgba(41, 128, 185, 0.2)'
+]
 
 const getForkDatasets = (repos) => {
   return {
@@ -58,12 +65,12 @@ class UserChartCard extends React.Component {
     const distribution = languages.map(language => languageDistributions[language]);
     const languageDistribution = ReactDOM.findDOMNode(this.languageDistribution);
     const languageDistributionChart = new Chart(languageDistribution, {
-      type: 'pie',
+      type: 'doughnut',
       data: {
         labels: languages,
         datasets: [{
           data: distribution,
-          backgroundColor: 'rgba(74, 144, 226, 0.7)'
+          backgroundColor: BLUE_COLORS
         }]
       },
       options: {
@@ -77,7 +84,6 @@ class UserChartCard extends React.Component {
 
   renderRadarChart(flatRepos) {
     const languageSkills = getLanguageSkill(flatRepos);
-    console.log(languageSkills);
     const languages = Object.keys(languageSkills).filter(language => languageSkills[language]);
     const skill = languages.map(language => languageSkills[language]);
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
@@ -87,6 +93,7 @@ class UserChartCard extends React.Component {
         labels: languages,
         datasets: [{
           data: skill,
+          label: '擅长语言',
           fill: true,
           backgroundColor: "rgba(231, 76, 60, 0.2)",
           borderColor: "rgba(231, 76, 60, 1)",

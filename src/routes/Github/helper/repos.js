@@ -1,6 +1,6 @@
-const sortRepos = (firstRepos, secRepos) => {
-  return parseInt(secRepos.stargazersCount) - parseInt(firstRepos.stargazersCount)
-}
+export const sortRepos = (key = 'stargazersCount') => (firstRepos, secRepos) => {
+  return parseInt(secRepos[key]) - parseInt(firstRepos[key]);
+};
 
 export const getFlatReposInfos = (repos) => {
   return repos.map((repository) => {
@@ -24,7 +24,7 @@ export const getFlatReposInfos = (repos) => {
       watchersCount: watchers_count,
       forksCount: forks_count
     }
-  }).sort(sortRepos);
+  }).sort(sortRepos());
 }
 
 export const getReposNames = (repos) => {

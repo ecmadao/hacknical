@@ -11,7 +11,7 @@ const UserInfoCard = (props) => {
             <img src={user['avatar_url']} />
           </div>
           <div className="info_user">
-            <h3>{user.name}</h3>
+            <a href={user.html_url} target="_blank">{user.name}</a>
             <span>加入时间：{user['created_at'].split('T')[0]}</span>
             {user.bio ? <blockquote>{user.bio}</blockquote> : ''}
           </div>

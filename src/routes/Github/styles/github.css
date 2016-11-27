@@ -55,9 +55,17 @@
     & .info_user {
       flex: 1;
 
-      & h3 {
-        color: #4A4A4A;
+      & a {
+        font-size: 1.3em;
+        display: block;
         margin-bottom: 10px;
+        text-decoration: none;
+        color: #4A4A4A;
+        transition: all 0.4s;
+
+        &:hover {
+          color: #4990E2;
+        }
       }
 
       & span {
@@ -90,7 +98,7 @@
 
       &:hover {
         color: #4990E2;
-        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.12), 0 0 8px 0 rgba(0, 0, 0, 0.08);
+        box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.12), 0 0 10px 0 rgba(0, 0, 0, 0.08);
       }
 
       & span:first-child {
@@ -118,8 +126,8 @@
       flex: 1;
 
       & #repos_chart {
-        width: 320px !important;
-        height: 320px !important;
+        width: 300px !important;
+        height: 300px !important;
       }
     }
   }
