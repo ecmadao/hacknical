@@ -26,6 +26,8 @@ const getReposReadme = () => (dispatch, getState) => {
   dispatch(setReposReadme(REPOS_README));
 };
 
+const setShowLanguage = createAction('SET_SHOW_LANGUAGE');
+
 export default {
   setGithubInfo,
   getGithubInfo,
@@ -33,5 +35,6 @@ export default {
   setGithubRepos,
   getGithubRepos,
   setReposReadme,
-  getReposReadme
+  getReposReadme,
+  setShowLanguage
 }

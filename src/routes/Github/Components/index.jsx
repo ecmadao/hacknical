@@ -1,7 +1,9 @@
 import React from 'react';
 import GitHubCalendar from 'github-calendar';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import 'github-calendar/dist/github-calendar.css';
+
 import '../styles/github.css';
 import Loading from 'COMPONENTS/Loading';
 import githubActions from '../redux/actions';
@@ -10,10 +12,10 @@ import UserChartCard from './UserChartCard';
 
 class Github extends React.Component {
   componentDidMount() {
-    const { getGithubInfo, getRepos } = this.props;
-    getGithubInfo();
-    getRepos();
-    GitHubCalendar(".calendar", "ecmadao");
+    const { actions } = this.props;
+    actions.getGithubInfo();
+    actions.getRepos();
+    // GitHubCalendar(".calendar", "ecmadao");
   }
 
   render() {
@@ -21,7 +23,7 @@ class Github extends React.Component {
     return (
       <div className="github_info_container">
         {user ? <UserInfoCard user={user}/> : ''}
-        {repos.length ? <UserChartCard repos={repos} username={user.name}/> : ''}
+        <UserChartCard username={user.name}/>
         <div className="info_card_container">
           <p>活跃度</p>
           <div className="calendar github_calendar card">
@@ -34,22 +36,19 @@ class Github extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {loading, user, repos} = state.github;
+  const {
+    loading,
+    user
+  } = state.github;
   return {
     loading,
-    user,
-    repos
+    user
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getGithubInfo: () => {
-      return dispatch(githubActions.getGithubInfo());
-    },
-    getRepos: () => {
-      return dispatch(githubActions.getGithubRepos());
-    }
+    actions: bindActionCreators(githubActions, dispatch)
   }
 }
 

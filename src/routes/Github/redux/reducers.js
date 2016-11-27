@@ -4,7 +4,8 @@ const initialState = {
   loading: true,
   user: null,
   repos: [],
-  reposReadme: null
+  reposReadme: null,
+  showLanguage: null
 };
 
 const reducers = handleActions({
@@ -30,6 +31,12 @@ const reducers = handleActions({
     return ({
       ...state,
       reposReadme: action.payload
+    });
+  },
+  SET_SHOW_LANGUAGE(state, action) {
+    return ({
+      ...state,
+      showLanguage: action.payload
     });
   }
 }, initialState);

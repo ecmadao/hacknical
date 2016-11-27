@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Chart from 'chart.js';
+
 import {
   getFlatReposInfos,
   getReposNames,
@@ -9,6 +12,7 @@ import {
   getLanguageDistribution,
   getLanguageSkill
 } from '../helper/repos';
+import githubActions from '../redux/actions';
 
 const REPOS_BASE_URL = 'https://github.com';
 const BLUE_COLORS = [
@@ -51,12 +55,22 @@ const getStarDatasets = (repos) => {
 };
 
 class UserChartCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.chartClickCallback = this.chartClickCallback.bind(this);
+  }
+
   componentDidMount() {
     const {repos} = this.props;
     const flatRepos = getFlatReposInfos(repos);
     this.renderBarChart(flatRepos.slice(0, 10));
     this.renderPieChart(flatRepos);
     this.renderRadarChart(flatRepos);
+  }
+
+  chartClickCallback(ctx, data) {
+    if (!data[0]) { return }
+    const language = data[0]['_model'].label;
   }
 
   renderPieChart(flatRepos) {
@@ -74,6 +88,7 @@ class UserChartCard extends React.Component {
         }]
       },
       options: {
+        onClick: this.chartClickCallback,
         title: {
           display: true,
           text: '仓库语言分布'
@@ -104,6 +119,7 @@ class UserChartCard extends React.Component {
         }]
       },
       options: {
+        onClick: this.chartClickCallback,
         title: {
           display: true,
           text: '擅长语言分析'
@@ -158,4 +174,18 @@ class UserChartCard extends React.Component {
   }
 }
 
-export default UserChartCard;
+function mapStateToProps(state) {
+  const { showLanguage, repos } = state.github;
+  return {
+    repos,
+    showLanguage
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    action: bindActionCreators(githubActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserChartCard);
