@@ -24,7 +24,7 @@ export const getFlatReposInfos = (repos) => {
       watchersCount: watchers_count,
       forksCount: forks_count
     }
-  }).sort(sortRepos).slice(0, 10);
+  }).sort(sortRepos);
 }
 
 export const getReposNames = (repos) => {
@@ -37,4 +37,22 @@ export const getReposForks = (repos) => {
 
 export const getReposStars = (repos) => {
   return repos.map(repository => repository.stargazersCount);
+};
+
+export const getLanguageDistribution = (repos) => {
+  const reposLanguages = {};
+  repos.forEach((repository) => {
+    const {language} = repository;
+    reposLanguages[language] = isNaN(reposLanguages[language]) ? 1 : reposLanguages[language] + 1;
+  });
+  return reposLanguages;
+};
+
+export const getLanguageSkill = (repos) => {
+  const reposLanguages = {};
+  repos.forEach((repository) => {
+    const {language, stargazersCount} = repository;
+    reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazersCount) : reposLanguages[language] + parseInt(stargazersCount);
+  });
+  return reposLanguages;
 };

@@ -5,7 +5,9 @@ import {
   getFlatReposInfos,
   getReposNames,
   getReposForks,
-  getReposStars
+  getReposStars,
+  getLanguageDistribution,
+  getLanguageSkill
 } from '../helper/repos';
 
 const REPOS_BASE_URL = 'https://github.com';
@@ -22,6 +24,9 @@ const getForkDatasets = (repos) => {
 
 const chartClickCallback = (username) => {
   return (ctx, data) => {
+    if (!data[0]) {
+      return;
+    }
     window.location.target = "_blank";
     const reposName = data[0]['_model'].label;
     window.open(`${REPOS_BASE_URL}/${username}/${reposName}`);
@@ -40,8 +45,68 @@ const getStarDatasets = (repos) => {
 
 class UserChartCard extends React.Component {
   componentDidMount() {
-    const {username, repos} = this.props;
+    const {repos} = this.props;
     const flatRepos = getFlatReposInfos(repos);
+    this.renderBarChart(flatRepos.slice(0, 10));
+    this.renderPieChart(flatRepos);
+    this.renderRadarChart(flatRepos);
+  }
+
+  renderPieChart(flatRepos) {
+    const languageDistributions = getLanguageDistribution(flatRepos);
+    const languages = Object.keys(languageDistributions);
+    const distribution = languages.map(language => languageDistributions[language]);
+    const languageDistribution = ReactDOM.findDOMNode(this.languageDistribution);
+    const languageDistributionChart = new Chart(languageDistribution, {
+      type: 'pie',
+      data: {
+        labels: languages,
+        datasets: [{
+          data: distribution,
+          backgroundColor: 'rgba(74, 144, 226, 0.7)'
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: '仓库语言分布'
+        }
+      }
+    });
+  }
+
+  renderRadarChart(flatRepos) {
+    const languageSkills = getLanguageSkill(flatRepos);
+    console.log(languageSkills);
+    const languages = Object.keys(languageSkills).filter(language => languageSkills[language]);
+    const skill = languages.map(language => languageSkills[language]);
+    const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
+    const languageSkillChart = new Chart(languageSkill, {
+      type: 'radar',
+      data: {
+        labels: languages,
+        datasets: [{
+          data: skill,
+          fill: true,
+          backgroundColor: "rgba(231, 76, 60, 0.2)",
+          borderColor: "rgba(231, 76, 60, 1)",
+          pointBackgroundColor: "rgba(231, 76, 60, 1)",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(231, 76, 60, 1)"
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: '擅长语言分析'
+        }
+      }
+    });
+  }
+
+  renderBarChart(flatRepos) {
+    const {username} = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     const reposReviewChart = new Chart(reposReview, {
       type: 'bar',
@@ -71,8 +136,14 @@ class UserChartCard extends React.Component {
       <div className="info_card_container repos_card_container">
         <p>仓库概览</p>
         <div className="info_card card">
-          <div className="repos_review">
-            <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
+          <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
+          <div className="repos_chart_container">
+            <div className="repos_chart">
+              <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas>
+            </div>
+            <div className="repos_chart">
+              <canvas ref={ref => this.languageSkill = ref}></canvas>
+            </div>
           </div>
         </div>
       </div>
