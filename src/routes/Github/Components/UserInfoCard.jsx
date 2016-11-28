@@ -29,7 +29,7 @@ const UserInfoCard = (props) => {
   const userCardColor = getUserCardColor(user);
   return (
     <div className="info_card_container">
-      <p>基本信息</p>
+      <p><i aria-hidden="true" className="fa fa-vcard-o"></i>&nbsp;&nbsp;基本信息</p>
       <div className="info_card card">
         <div className="info_header">
           <div className="info_avator">

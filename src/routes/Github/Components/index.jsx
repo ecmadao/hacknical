@@ -24,7 +24,7 @@ class Github extends React.Component {
         <UserInfoCard user={user} />
         <UserChartCard />
         <div className="info_card_container">
-          <p>活跃度</p>
+          <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
           <div className="calendar github_calendar card">
             <Loading />
           </div>
