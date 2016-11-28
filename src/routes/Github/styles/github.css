@@ -89,21 +89,40 @@
       transition: all 0.4s;
       display: block;
       text-decoration: none;
-      color: #9B9B9B;
       text-align: center;
+      border-radius: 3px;
+      margin: 15px 7.5px;
 
-      &:not(:last-child) {
-        border-right: 1px solid #ddd;
+      &:first-child {
+        margin-left: 15px;
+      }
+
+      &:last-child {
+        margin-right: 15px;
       }
 
       &:hover {
-        color: #4990E2;
+        color: rgba(255, 255, 255, 1);
         box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.12), 0 0 10px 0 rgba(0, 0, 0, 0.08);
+
+        & span {
+          color: rgba(255, 255, 255, 1);
+
+          &:first-child {
+            color: rgba(255, 255, 255, 1);
+          }
+        }
       }
 
-      & span:first-child {
-        line-height: 90px;
-        font-size: 2.5em;
+      & span {
+        transition: all 0.4s;
+        color: rgba(255, 255, 255, 0.5);
+
+        &:first-child {
+          line-height: 90px;
+          font-size: 2.5em;
+          color: rgba(255, 255, 255, 0.7);
+        }
       }
     }
   }
