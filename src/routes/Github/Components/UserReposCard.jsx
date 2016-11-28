@@ -1,4 +1,5 @@
 import React from 'react';
+import CHOSED_REPOS from 'MOCK/chosed_repos';
 
 class UserReposCard extends React.Component {
   render() {

@@ -59,14 +59,20 @@ class UserChartCard extends React.Component {
   }
 
   componentDidMount() {
-    const {actions} = this.props;
-    actions.getGithubRepos();
+    const {actions, repos} = this.props;
+    this.renderCharts();
+    if (!repos.length) {
+      actions.getGithubRepos();
+    }
   }
 
   componentDidUpdate(preProps) {
+    this.renderCharts();
+  }
+
+  renderCharts() {
     const { repos } = this.props;
-    const preRepos = preProps.repos;
-    if (!preRepos.length && repos.length) {
+    if (repos.length) {
       const flatRepos = getFlatReposInfos(repos);
       !this.reposReviewChart && this.renderBarChart(flatRepos.slice(0, 10));
       !this.languageDistributionChart && this.renderPieChart(flatRepos);
