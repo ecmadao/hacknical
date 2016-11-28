@@ -1,12 +1,5 @@
 import React from 'react';
-
-const CARD_COLORS = [
-  'rgba(52, 143, 223, 1)',
-  'rgba(52, 143, 223, 0.8)',
-  'rgba(52, 143, 223, 0.6)',
-  'rgba(52, 143, 223, 0.4)',
-  'rgba(52, 143, 223, 0.2)'
-];
+import { BLUE_COLORS } from 'UTILS/colors';
 
 const getUserCardColor = (user) => {
   const {public_repos, followers, following} = user;
@@ -18,7 +11,7 @@ const getUserCardColor = (user) => {
   Object.keys(obj).sort((thisKey, nextKey) => {
     return parseInt(obj[nextKey]) - parseInt(obj[thisKey]);
   }).forEach((key, index) => {
-    obj[key] = CARD_COLORS[index];
+    obj[key] = BLUE_COLORS[index];
   });
   return obj;
 };

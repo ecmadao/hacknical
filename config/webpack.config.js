@@ -56,6 +56,7 @@ module.exports = {
     alias: {
       COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
       MOCK: path.join(PATH.SOURCE_PATH, 'mock'),
+      UTILS: path.join(PATH.SOURCE_PATH, 'utils')
       // UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
       // MODULES: path.join(PATH.SOURCE_PATH, 'modules'),
     }

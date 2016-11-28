@@ -9,26 +9,28 @@ import Loading from 'COMPONENTS/Loading';
 import githubActions from '../redux/actions';
 import UserInfoCard from './UserInfoCard';
 import UserChartCard from './UserChartCard';
+import UserReposCard from './UserReposCard';
 
 class Github extends React.Component {
   componentDidMount() {
     const { actions } = this.props;
     actions.getGithubInfo();
-    // GitHubCalendar(".calendar", "ecmadao");
+    GitHubCalendar(".calendar", "ecmadao");
   }
 
   render() {
     const { user, repos } = this.props;
     return (
       <div className="github_info_container">
-        <UserInfoCard user={user} />
-        <UserChartCard />
         <div className="info_card_container">
           <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
           <div className="calendar github_calendar card">
             <Loading />
           </div>
         </div>
+        <UserInfoCard user={user} />
+        <UserChartCard />
+        <UserReposCard />
       </div>
     )
   }

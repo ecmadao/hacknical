@@ -14,22 +14,16 @@ import {
   getReposByLanguage
 } from '../helper/repos';
 import githubActions from '../redux/actions';
+import { BLUE_COLORS } from 'UTILS/colors';
 
 const REPOS_BASE_URL = 'https://github.com';
-const BLUE_COLORS = [
-  'rgba(41, 128, 185, 1)',
-  'rgba(41, 128, 185, 0.8)',
-  'rgba(41, 128, 185, 0.6)',
-  'rgba(41, 128, 185, 0.4)',
-  'rgba(41, 128, 185, 0.2)'
-]
 
 const getForkDatasets = (repos) => {
   return {
     label: 'forks',
     data: getReposForks(repos),
-    backgroundColor: 'rgba(74, 144, 226, 0.4)',
-    borderColor: 'rgba(74, 144, 226, 0.7)',
+    backgroundColor: BLUE_COLORS[2],
+    borderColor: BLUE_COLORS[1],
     borderWidth: 1
   }
 };
@@ -49,8 +43,8 @@ const getStarDatasets = (repos) => {
   return {
     label: 'stars',
     data: getReposStars(repos),
-    backgroundColor: 'rgba(74, 144, 226, 0.7)',
-    borderColor: 'rgba(74, 144, 226, 1)',
+    backgroundColor: BLUE_COLORS[1],
+    borderColor: BLUE_COLORS[0],
     borderWidth: 1
   }
 };
@@ -124,12 +118,12 @@ class UserChartCard extends React.Component {
           data: skill,
           label: '擅长语言',
           fill: true,
-          backgroundColor: "rgba(231, 76, 60, 0.2)",
-          borderColor: "rgba(231, 76, 60, 1)",
-          pointBackgroundColor: "rgba(231, 76, 60, 1)",
+          backgroundColor: BLUE_COLORS[3],
+          borderColor: BLUE_COLORS[0],
+          pointBackgroundColor: BLUE_COLORS[0],
           pointBorderColor: "#fff",
           pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgba(231, 76, 60, 1)"
+          pointHoverBorderColor: BLUE_COLORS[0]
         }]
       },
       options: {
@@ -204,7 +198,7 @@ class UserChartCard extends React.Component {
     const { repos, showLanguage } = this.props;
     if (!repos || !repos.length) { return (<div></div>) }
     return (
-      <div className="info_card_container repos_card_container">
+      <div className="info_card_container chart_card_container">
         <p><i aria-hidden="true" className="fa fa-cubes"></i>&nbsp;&nbsp;仓库概览</p>
         <div className="info_card card">
           <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>

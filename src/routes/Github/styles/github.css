@@ -128,7 +128,7 @@
   }
 }
 
-.repos_card_container {
+.chart_card_container {
   & #repos_review {
     width: 100%;
   }
