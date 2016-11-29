@@ -61,7 +61,15 @@ class UserReposCard extends React.Component {
     const offsetLeft = getOffsetLeft(minDate, maxDate);
     const offsetRight = getOffsetRight(minDate, maxDate);
     return repos.map((repository, index) => {
-      const {created_at, pushed_at} = repository;
+      const {
+        created_at,
+        pushed_at,
+        name,
+        language,
+        forks_count,
+        stargazers_count
+      } = repository;
+
       const left = offsetLeft(new Date(created_at));
       const right = offsetRight(new Date(pushed_at));
       const color = randomColor();
@@ -70,7 +78,17 @@ class UserReposCard extends React.Component {
         <div
           key={index}
           style={{marginLeft: left, marginRight: right, backgroundColor: color}}
-          className="repos_timeline"></div>
+          className="repos_timeline">
+          <div className="repos_tipso">
+            <div className="tipso_container">
+              <span className="tipso_title">{name}</span>&nbsp;{`<${language}>`}<br/>
+              <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
+              &nbsp;&nbsp;
+              <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}<br/>
+              {created_at.split('T')[0]} ~ {pushed_at.split('T')[0]}
+            </div>
+          </div>
+        </div>
       )
     });
   }

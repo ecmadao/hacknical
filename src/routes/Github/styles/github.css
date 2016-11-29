@@ -250,9 +250,57 @@
     opacity: 0.8;
     transition: all 0.4s;
     cursor: pointer;
+    position: relative;
 
+    &.active,
     &:hover {
       opacity: 1;
+
+      & .repos_tipso {
+        /*opacity: 1;*/
+        visibility: visible;
+      }
+    }
+
+    & .repos_tipso {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      opacity: 1;
+      z-index: 9;
+      visibility: hidden;
+      transition: all 0.2s;
+    }
+
+    & .tipso_container {
+      background-color: #fff;
+      border-radius: 3px;
+      border: 1px solid rgba(155, 155, 155, 0.3);
+      box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+      padding: 15px;
+      font-size: 12px;
+      color: rgba(74, 74, 74, 0.6);
+      line-height: 1.5em;
+      min-width: 200px;
+      margin-top: 12px;
+
+      &::before {
+        width: 0;
+        height: 0;
+        content: '';
+        display: block;
+        position: absolute;
+        left: 10px;
+        top: 0;
+        border-left: 17px solid transparent;
+        border-right: 17px solid transparent;
+        border-bottom: 12px solid #cecece;
+      }
+
+      & .tipso_title {
+        font-size: 14px;
+        color: #4a4a4a;
+      }
     }
   }
 }
