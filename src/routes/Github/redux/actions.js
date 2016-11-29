@@ -4,6 +4,7 @@ import {
   ALL_REPOS,
   REPOS_README
 } from 'MOCK/repos';
+import CHOSED_REPOS from 'MOCK/chosed_repos';
 
 const toggleLoading = createAction('TOGGLE_LOADING');
 
@@ -28,6 +29,12 @@ const getReposReadme = () => (dispatch, getState) => {
 
 const setShowLanguage = createAction('SET_SHOW_LANGUAGE');
 
+const choseRepos = () => (dispatch, getState) => {
+  dispatch(setChosedRepos(CHOSED_REPOS));
+};
+
+const setChosedRepos = createAction('SET_CHOSED_REPOS');
+
 export default {
   setGithubInfo,
   getGithubInfo,
@@ -36,5 +43,7 @@ export default {
   getGithubRepos,
   setReposReadme,
   getReposReadme,
-  setShowLanguage
+  setShowLanguage,
+  choseRepos,
+  setChosedRepos
 }

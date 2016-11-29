@@ -4,6 +4,7 @@ const initialState = {
   loading: true,
   user: null,
   repos: [],
+  chosedRepos: [],
   reposReadme: null,
   showLanguage: null
 };
@@ -24,7 +25,7 @@ const reducers = handleActions({
   SET_GITHUB_REPOS(state, action) {
     return ({
       ...state,
-      repos: action.payload
+      repos: [...action.payload]
     });
   },
   SET_REPOS_README(state, action) {
@@ -37,6 +38,14 @@ const reducers = handleActions({
     return ({
       ...state,
       showLanguage: action.payload
+    });
+  },
+  SET_CHOSED_REPOS(state, action) {
+    console.log('===== action =====');
+    console.log(action)
+    return ({
+      ...state,
+      chosedRepos: [...action.payload]
     });
   }
 }, initialState);
