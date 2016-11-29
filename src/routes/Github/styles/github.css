@@ -256,3 +256,31 @@
     }
   }
 }
+
+.repos_intros {
+  display: flex;
+  flex-direction: column;
+
+  & .repos_intro {
+    margin-bottom: 25px;
+    display: flex;
+
+    & .intro_line {
+      width: 8px;
+      border-radius: 3px;
+      margin-right: 15px;
+    }
+
+    & .intro_info {
+      font-size: 14px;
+      color: rgba(74, 74, 74, 0.6);
+      line-height: 1.7em;
+
+      & .intro_title {
+        font-size: 18px;
+        color: #4A4A4A;
+        line-height: 1.5em;
+      }
+    }
+  }
+}

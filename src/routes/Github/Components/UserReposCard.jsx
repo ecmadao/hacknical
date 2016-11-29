@@ -24,11 +24,16 @@ const RANDOM_COLORS = [
   '#50E3C2',
   '#9B9B9B',
   '#00BCD4',
-  '#F44336'
+  '#F44336',
+  '#FDD835',
+  '#FF9800',
+  '#78909C',
+  '#673AB7',
+  '#E91E63'
 ];
 
 const randomColor = () => {
-  const index = Math.floor(Math.random() * 5);
+  const index = Math.floor(Math.random() * RANDOM_COLORS.length);
   return RANDOM_COLORS[index];
 };
 
@@ -59,12 +64,31 @@ class UserReposCard extends React.Component {
       const {created_at, pushed_at} = repository;
       const left = offsetLeft(new Date(created_at));
       const right = offsetRight(new Date(pushed_at));
+      const color = randomColor();
+      repository.color = color;
       return (
         <div
           key={index}
-          style={{marginLeft: left, marginRight: right, backgroundColor: randomColor()}}
+          style={{marginLeft: left, marginRight: right, backgroundColor: color}}
           className="repos_timeline"></div>
       )
+    });
+  }
+
+  renderReposIntros(repos) {
+    return repos.map((repository, index) => {
+      const {name, description, color} = repository;
+      return (
+        <div className="repos_intro" key={index}>
+          <div
+            className="intro_line"
+            style={{backgroundColor: color}}></div>
+          <div className="intro_info">
+            <span className="intro_title">{name}</span><br/>
+            <span className="intro_desc">{description}</span>
+          </div>
+        </div>
+      );
     });
   }
 
@@ -81,6 +105,9 @@ class UserReposCard extends React.Component {
         </div>
         <div className="repos_timelines">
           {this.renderTimeLine(sortedRepos)}
+        </div>
+        <div className="repos_intros">
+          {this.renderReposIntros(sortedRepos)}
         </div>
       </div>
     )
