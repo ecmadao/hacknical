@@ -1,11 +1,14 @@
+import moment from 'moment';
+moment.locale('zh-cn');
+
 export const getMinDate = (repos) => {
   const createDates = repos.map(repository => new Date(repository['created_at']));
-  return Math.min(...createDates);
+  return moment(Math.min(...createDates)).format('l');
 };
 
 export const getMaxDate = (repos) => {
   const pushDates = repos.map(repository => new Date(repository['pushed_at']));
-  return Math.max(...pushDates);
+  return moment(Math.max(...pushDates)).format('l');
 };
 
 const sortRepos = (thisRepos, nextRepos) => {
@@ -13,5 +16,5 @@ const sortRepos = (thisRepos, nextRepos) => {
 };
 
 export const sortByDate = (repos) => {
-  return repos.sort(sortByDate);
+  return repos.sort(sortRepos);
 };

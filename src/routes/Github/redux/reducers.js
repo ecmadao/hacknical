@@ -41,8 +41,6 @@ const reducers = handleActions({
     });
   },
   SET_CHOSED_REPOS(state, action) {
-    console.log('===== action =====');
-    console.log(action)
     return ({
       ...state,
       chosedRepos: [...action.payload]

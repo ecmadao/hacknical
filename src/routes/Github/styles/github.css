@@ -214,3 +214,45 @@
     }
   }
 }
+
+/* chosed repos */
+.repos_timeline_container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.repos_dates {
+  display: flex;
+  color: #9B9B9B;
+  font-size: 12px;
+
+  & .repos_date {
+    flex: 1;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.repos_timelines {
+  display: flex;
+  flex-direction: column;
+
+  & .repos_timeline {
+    height: 25px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    opacity: 0.8;
+    transition: all 0.4s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
