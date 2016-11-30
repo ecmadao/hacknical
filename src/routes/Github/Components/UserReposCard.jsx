@@ -77,15 +77,19 @@ class UserReposCard extends React.Component {
       return (
         <div
           key={index}
-          style={{marginLeft: left, marginRight: right, backgroundColor: color}}
-          className="repos_timeline">
+          className="repos_timeline_wrapper"
+          style={{marginLeft: left, marginRight: right}}>
+          <div
+            style={{backgroundColor: color}}
+            className="repos_timeline">
+          </div>
           <div className="repos_tipso">
             <div className="tipso_container">
               <span className="tipso_title">{name}</span>&nbsp;{`<${language}>`}<br/>
               <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
               &nbsp;&nbsp;
               <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}<br/>
-              {created_at.split('T')[0]} ~ {pushed_at.split('T')[0]}
+              <p>{created_at.split('T')[0]} ~ {pushed_at.split('T')[0]}</p>
             </div>
           </div>
         </div>
