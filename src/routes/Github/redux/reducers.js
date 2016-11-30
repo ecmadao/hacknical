@@ -5,7 +5,7 @@ const initialState = {
   user: null,
   repos: [],
   chosedRepos: [],
-  reposReadme: null,
+  showedReposId: null,
   showLanguage: null
 };
 
@@ -28,12 +28,6 @@ const reducers = handleActions({
       repos: [...action.payload]
     });
   },
-  SET_REPOS_README(state, action) {
-    return ({
-      ...state,
-      reposReadme: action.payload
-    });
-  },
   SET_SHOW_LANGUAGE(state, action) {
     return ({
       ...state,
@@ -44,6 +38,12 @@ const reducers = handleActions({
     return ({
       ...state,
       chosedRepos: [...action.payload]
+    });
+  },
+  SET_SHOWED_REPOS_ID(state, action) {
+    return ({
+      ...state,
+      showedReposId: action.payload
     });
   }
 }, initialState);

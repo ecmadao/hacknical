@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import classNames from 'classnames';
 
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 import githubActions from '../redux/actions';
@@ -56,6 +57,7 @@ class UserReposCard extends React.Component {
   }
 
   renderTimeLine(repos) {
+    const {actions, showedReposId} = this.props;
     const minDate = new Date(this.minDate);
     const maxDate = new Date(this.maxDate);
     const offsetLeft = getOffsetLeft(minDate, maxDate);
@@ -67,21 +69,27 @@ class UserReposCard extends React.Component {
         name,
         language,
         forks_count,
-        stargazers_count
+        stargazers_count,
+        id,
+        full_name,
+        color
       } = repository;
 
       const left = offsetLeft(new Date(created_at));
       const right = offsetRight(new Date(pushed_at));
-      const color = randomColor();
-      repository.color = color;
+      repository.color = color || randomColor();
+      const wrapperClass = classNames('repos_timeline_wrapper', {
+        'active': showedReposId === id
+      });
       return (
         <div
           key={index}
-          className="repos_timeline_wrapper"
+          className={wrapperClass}
           style={{marginLeft: left, marginRight: right}}>
           <div
-            style={{backgroundColor: color}}
-            className="repos_timeline">
+            style={{backgroundColor: repository.color}}
+            className="repos_timeline"
+            onClick={() => actions.showReposReadme(full_name, id)}>
           </div>
           <div className="repos_tipso">
             <div className="tipso_container">
@@ -98,8 +106,9 @@ class UserReposCard extends React.Component {
   }
 
   renderReposIntros(repos) {
+    const { showedReposId } = this.props;
     return repos.map((repository, index) => {
-      const {name, description, color} = repository;
+      const {name, description, color, id, readme} = repository;
       return (
         <div className="repos_intro" key={index}>
           <div
@@ -109,6 +118,7 @@ class UserReposCard extends React.Component {
             <span className="intro_title">{name}</span><br/>
             <span className="intro_desc">{description}</span>
           </div>
+          { id === showedReposId && <div dangerouslySetInnerHTML={{__html: readme}} />}
         </div>
       );
     });
@@ -149,8 +159,8 @@ class UserReposCard extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { chosedRepos } = state.github;
-  return { chosedRepos }
+  const { chosedRepos, showedReposId } = state.github;
+  return { chosedRepos, showedReposId }
 }
 
 function mapDispatchToProps(dispatch) {
