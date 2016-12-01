@@ -125,8 +125,9 @@ class UserReposCard extends React.Component {
     return repos.map((repository, index) => {
       const {name, description, color, id, readme} = repository;
       const rgb = hex2Rgba(color);
-      const opacity = id === showedReposId ? MIN_OPACITY : MAX_OPACITY;
-      const infoClass = id === showedReposId ? 'intro_info with_readme' : 'intro_info';
+      const isTarget = id === showedReposId;
+      const opacity = isTarget ? MIN_OPACITY : MAX_OPACITY;
+      const infoClass = isTarget ? 'intro_info with_readme' : 'intro_info';
       return (
         <div className="repos_intro" key={index}>
           <div
@@ -137,7 +138,7 @@ class UserReposCard extends React.Component {
               <span className="intro_title">{name}</span><br/>
               <span className="intro_desc">{description}</span>
             </div>
-            {id === showedReposId && this.renderReposReadme(readme)}
+            {isTarget && this.renderReposReadme(readme)}
           </div>
         </div>
       );
