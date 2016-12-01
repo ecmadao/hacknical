@@ -5,10 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const cssImport = require("postcss-import");
 const cssnext = require("postcss-cssnext");
 
-const Dashboard = require('webpack-dashboard');
-const DashboardPlugin = require('webpack-dashboard/plugin');
-const dashboard = new Dashboard();
-
 const PATH = require('./path');
 const path = require('path');
 const fs = require('fs');
@@ -68,7 +64,6 @@ module.exports = {
     ];
   },
   plugins: [
-    new DashboardPlugin(dashboard.setData),
     new ExtractTextPlugin("[name].bundle.css", {
       allChunks: true
     }),
@@ -87,8 +82,6 @@ module.exports = {
       chunks: ['index']
     })
   ],
-  debug: true,
   displayErrorDetails: true,
-  outputPathinfo: true,
-  devtool: "cheap-module-eval-source-map"
+  outputPathinfo: true
 };

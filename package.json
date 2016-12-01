@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "./node_modules/webpack-dashboard/bin/webpack-dashboard.js -- ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config config/webpack.config.js",
-    "dev-server": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base build/",
-    "watch_dev": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js -p --watch"
+    "dev": "./node_modules/webpack-dashboard/bin/webpack-dashboard.js -- ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config config/webpack.dev.js",
+    "watch_dev": "./node_modules/webpack/bin/webpack.js --config config/webpack.dev.js -p --watch",
+    "build_dev": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js -p --progress --colors"
   },
   "author": "ecmadao",
   "license": "ISC",
