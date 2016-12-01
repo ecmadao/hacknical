@@ -248,21 +248,22 @@
     margin-bottom: 15px;
     position: relative;
 
-    &.active,
     &:hover {
-      & .repos_timeline {
-        opacity: 1;
-      }
-
       & .repos_tipso {
         opacity: 1;
         visibility: visible;
       }
     }
+
+    &.active {
+      & .repos_timeline {
+        opacity: 1;
+      }
+    }
   }
 
   & .repos_timeline {
-    opacity: 0.8;
+    opacity: 0.6;
     border-radius: 20px;
     width: 100%;
     height: 100%;
@@ -311,7 +312,7 @@
     }
 
     & p {
-      line-height: 1.8em;
+      line-height: 2em;
     }
   }
 }
@@ -328,6 +329,14 @@
       width: 8px;
       border-radius: 3px;
       margin-right: 15px;
+      transition: all 0.2s;
+    }
+
+    & .intro_info_wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      max-width: 100%;
     }
 
     & .intro_info {
@@ -340,6 +349,14 @@
         color: #4A4A4A;
         line-height: 1.5em;
       }
+    }
+
+    & .readme_container {
+      padding: 10px 20px;
+      max-height: 300px;
+      margin-top: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
   }
 }

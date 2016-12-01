@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 
+import Loading from '../../../components/Loading/index';
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 import githubActions from '../redux/actions';
 import {
   getMaxDate,
   sortByDate
 } from '../helper/chosed_repos';
+import { hex2Rgba } from '../helper/color_helper';
 
 const getOffsetLeft = (start, end) => (left) => {
   const length = end - start;
@@ -32,6 +34,8 @@ const RANDOM_COLORS = [
   '#673AB7',
   '#E91E63'
 ];
+const MAX_OPACITY = 1;
+const MIN_OPACITY = 0.3;
 
 const randomColor = () => {
   const index = Math.floor(Math.random() * RANDOM_COLORS.length);
@@ -105,20 +109,35 @@ class UserReposCard extends React.Component {
     });
   }
 
+  renderReposReadme(readme) {
+    if (readme) {
+      return (<div className="readme_container" dangerouslySetInnerHTML={{__html: readme}} />);
+    }
+    return (
+      <div className="readme_container">
+        <Loading />
+      </div>
+    )
+  }
+
   renderReposIntros(repos) {
     const { showedReposId } = this.props;
     return repos.map((repository, index) => {
       const {name, description, color, id, readme} = repository;
+      const rgb = hex2Rgba(color);
+      const opacity = id === showedReposId ? MIN_OPACITY : MAX_OPACITY;
       return (
         <div className="repos_intro" key={index}>
           <div
             className="intro_line"
-            style={{backgroundColor: color}}></div>
-          <div className="intro_info">
-            <span className="intro_title">{name}</span><br/>
-            <span className="intro_desc">{description}</span>
+            style={{background: `linear-gradient(to bottom, ${rgb(MAX_OPACITY)}, ${rgb(opacity)})`}}></div>
+          <div className="intro_info_wrapper">
+            <div className="intro_info">
+              <span className="intro_title">{name}</span><br/>
+              <span className="intro_desc">{description}</span>
+            </div>
+            {id === showedReposId && this.renderReposReadme(readme)}
           </div>
-          { id === showedReposId && <div dangerouslySetInnerHTML={{__html: readme}} />}
         </div>
       );
     });
