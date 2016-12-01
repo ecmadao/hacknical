@@ -166,6 +166,7 @@
     & .repos_show {
       display: flex;
       padding: 10px;
+      border-radius: 3px;
       position: relative;
       transition: all 0.4s;
 
@@ -348,6 +349,11 @@
         font-size: 18px;
         color: #4A4A4A;
         line-height: 1.5em;
+      }
+
+      &.with_readme {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f0f0f0;
       }
     }
 

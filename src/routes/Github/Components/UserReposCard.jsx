@@ -97,9 +97,9 @@ class UserReposCard extends React.Component {
           </div>
           <div className="repos_tipso">
             <div className="tipso_container">
-              <span className="tipso_title">{name}</span>&nbsp;{`<${language}>`}<br/>
+              <span className="tipso_title">{name}</span>&nbsp;&nbsp;{`<${language}>`}<br/>
               <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
-              &nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;
               <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}<br/>
               <p>{created_at.split('T')[0]} ~ {pushed_at.split('T')[0]}</p>
             </div>
@@ -126,13 +126,14 @@ class UserReposCard extends React.Component {
       const {name, description, color, id, readme} = repository;
       const rgb = hex2Rgba(color);
       const opacity = id === showedReposId ? MIN_OPACITY : MAX_OPACITY;
+      const infoClass = id === showedReposId ? 'intro_info with_readme' : 'intro_info';
       return (
         <div className="repos_intro" key={index}>
           <div
             className="intro_line"
             style={{background: `linear-gradient(to bottom, ${rgb(MAX_OPACITY)}, ${rgb(opacity)})`}}></div>
           <div className="intro_info_wrapper">
-            <div className="intro_info">
+            <div className={infoClass}>
               <span className="intro_title">{name}</span><br/>
               <span className="intro_desc">{description}</span>
             </div>
