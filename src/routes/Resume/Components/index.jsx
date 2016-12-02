@@ -1,9 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import '../styles/resume.css';
 
 class Resume extends React.Component {
   render() {
     return (
-      <h1>Resume</h1>
+      <div className="resume_container">
+        
+      </div>
     )
   }
 }
