@@ -37,7 +37,7 @@ class Education extends React.Component {
   }
 
   render() {
-    const {edu, handleEduChange, index} = this.props;
+    const {edu, handleEduChange, deleteEdu, index} = this.props;
     const {entranceOpen, graduationOpen} = this.state;
     const {
       school,
@@ -48,7 +48,10 @@ class Education extends React.Component {
     } = edu;
 
     return (
-      <div>
+      <div className="edu_container">
+        <div className="edu_delete" onClick={deleteEdu}>
+          <i className="fa fa-trash-o" aria-hidden="true"></i>
+        </div>
         <div className="resume_wrapper">
           <Input
             value={school}

@@ -9,6 +9,7 @@ import Education from './Education';
 class Educations extends React.Component {
   constructor(props) {
     super(props);
+    this.deleteEdu = this.deleteEdu.bind(this);
     this.handleEduChange = this.handleEduChange.bind(this);
   }
 
@@ -16,6 +17,13 @@ class Educations extends React.Component {
     const {actions} = this.props;
     return (type) => (value) => {
       actions.handleEduChange({[type]: value}, index);
+    }
+  }
+
+  deleteEdu(index) {
+    const {actions} = this.props;
+    return () => {
+      actions.deleteEducation(index);
     }
   }
 
@@ -27,6 +35,7 @@ class Educations extends React.Component {
           key={index}
           edu={edu}
           index={index}
+          deleteEdu={this.deleteEdu(index)}
           handleEduChange={this.handleEduChange(index)}
         />
       )
@@ -34,9 +43,19 @@ class Educations extends React.Component {
   }
 
   render() {
+    const {actions} = this.props;
     return (
       <div>
-        {this.renderEdu()}
+        <div className="edus_container">
+          {this.renderEdu()}
+        </div>
+        <div
+          className="edu_add"
+          onClick={actions.addEducation}>
+          <i className="fa fa-plus-circle" aria-hidden="true"></i>
+          &nbsp;&nbsp;&nbsp;
+          添加教育经历
+        </div>
       </div>
     )
   }

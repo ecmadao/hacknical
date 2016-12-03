@@ -1,7 +1,9 @@
+import { EDUCATIONS } from '../helper/const_value';
+
 export const EDU = {
   school: '',
   major: '',
-  education: '',
+  education: EDUCATIONS[0].id,
   startTime: null,
   endTime: null,
 };

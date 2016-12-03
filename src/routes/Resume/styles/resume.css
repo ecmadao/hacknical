@@ -94,6 +94,62 @@
   display: flex;
 }
 
+/* edu */
+.edu_container {
+  padding-bottom: 15px;
+  position: relative;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  &:not(:first-child) {
+    padding-top: 15px;
+  }
+
+  & .edu_delete {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    left: -20px;
+    top: 27.5px;
+    transform: translateY(-50%);
+    transition: opacity 0.3s;
+
+    & i {
+      color: #D0011B;
+    }
+  }
+
+  &:hover {
+    & .edu_delete {
+      opacity: 1;
+    }
+  }
+}
+
+.edu_add {
+  color: #4a4a4a;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  & i {
+    color: #4a4a4a;
+  }
+
+  &:hover {
+    color: #4990E2;
+
+    & i {
+      color: #4990E2;
+    }
+  }
+}
+
 .SingleDatePicker {
   flex: 1;
 }
