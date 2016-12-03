@@ -14,12 +14,12 @@ class Input extends React.Component {
   }
 
   render() {
-    const {value, placeholder, type} = this.props;
+    const {value, placeholder, type, style} = this.props;
     return (
       <input
         type={type}
         value={value}
-        className="input"
+        className={`input ${style}`}
         onChange={this.onChange}
         placeholder={placeholder}
         ref={ref => this.input = ref}
@@ -32,13 +32,15 @@ Input.propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
-  type: PropTypes.string
+  type: PropTypes.string,
+  style: PropTypes.string
 };
 
 Input.defaultProps = {
   value: '',
   placeholder: '',
   type: 'string',
+  style: 'material',
   onChange: () => {}
 }
 

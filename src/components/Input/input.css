@@ -1,9 +1,7 @@
 .input {
-  height: 30px;
-  border: 1px solid #CBCBCB;
   outline: none;
   background-color: #fff;
-  transition: border 0.3s;
+  transition: all 0.3s;
   font-size: 12px;
   color: #4a4a4a;
   padding: 0 15px;
@@ -24,7 +22,24 @@
     color: #BEBEBE;
   }
 
-  &:focus {
-    border: 1px solid #4990E2;
+  &.material {
+    border: none;
+    height: 35px;
+    line-height: 35px;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+
+    &:focus {
+      box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.10), 0 0 2px 0 rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &.flat {
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #CBCBCB;
+
+    &:focus {
+      border: 1px solid #4990E2;
+    }
   }
 }

@@ -41,9 +41,9 @@ class Selector extends React.Component {
   }
 
   render() {
-    const {value} = this.props;
+    const {value, style} = this.props;
     return (
-      <div className="selector_container">
+      <div className={`selector_container ${style}`}>
         {this.currentText}&nbsp;&nbsp;&nbsp;{ARROW_DOWN}
         <select
           value={value}
@@ -59,12 +59,14 @@ class Selector extends React.Component {
 
 Selector.propTypes = {
   value: PropTypes.string,
+  style: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.array
 };
 
 Selector.defaultProps = {
   value: '',
+  style: 'material',
   options: [],
   onChange: () => {}
 }

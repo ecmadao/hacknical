@@ -2,13 +2,11 @@
   background-color: #FFF;
   color: #4a4a4a;
   font-size: 12px;
-  border: 1px solid #CBCBCB;
+  /*border: 1px solid #CBCBCB;*/
   cursor: pointer;
-  height: 30px;
-  line-height: 30px;
   min-width: 4em;
   text-align: center;
-  transition: border 0.1s;
+  transition: all 0.1s;
   border-radius: 2px;
   position: relative;
   padding: 0 15px;
@@ -16,14 +14,33 @@
 
   & svg {
     fill: #4a4a4a;
-    transition: background-color 0.1s;
+    transition: fill 0.1s;
   }
 
   &:hover {
-    border: 1px solid #4990E2;
-
     & svg {
       fill: #4990E2;
+    }
+  }
+
+  &.material {
+    border: none;
+    height: 35px;
+    line-height: 35px;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+
+    &:focus {
+      box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.10), 0 0 2px 0 rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &.flat {
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #CBCBCB;
+
+    &:focus {
+      border: 1px solid #4990E2;
     }
   }
 }
