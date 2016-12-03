@@ -34,7 +34,7 @@
 
   & .section_wrapper {
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.2s;
 
     &:hover {
       color: #4990E2;
@@ -50,7 +50,7 @@
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      transition: background-color 0.3s;
+      transition: background-color 0.2s;
       background-color: rgba(149, 149, 149, 0.25);
       margin-bottom: 10px;
       margin-left: auto;
@@ -61,6 +61,7 @@
   &.active {
     & .section_wrapper {
       cursor: default;
+      color: #4990E2;
 
       &::before {
         background-color: #4990E2;
@@ -84,7 +85,7 @@
   border-radius: 3px;
   min-height: 200px;
   margin-left: 15px;
-  padding: 50px;
+  padding: 20px 50px;
 }
 
 .info_container {
@@ -105,6 +106,10 @@
 
   &:not(:first-child) {
     padding-top: 15px;
+
+    & .edu_delete {
+      top: 40.5px;
+    }
   }
 
   & .edu_delete {
@@ -114,7 +119,7 @@
     left: -20px;
     top: 27.5px;
     transform: translateY(-50%);
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
 
     & i {
       color: #D0011B;
@@ -135,7 +140,7 @@
   margin-left: 5px;
   display: inline-block;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: color 0.2s;
 
   & i {
     color: #4a4a4a;

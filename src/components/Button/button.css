@@ -6,7 +6,7 @@
   padding: 0 20px;
   border-radius: 2px;
   opacity: 0.8;
-  transition: all 0.3s;
+  transition: all 0.2s;
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.3);
   margin: 15px 5px;
   color: #fff;
@@ -32,5 +32,13 @@
   &:hover {
     opacity: 1;
     box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  & i:first-child {
+    margin-right: 10px;
+  }
+
+  & i:last-child {
+    margin-left: 10px;
   }
 }

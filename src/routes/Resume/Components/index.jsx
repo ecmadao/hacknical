@@ -77,9 +77,15 @@ class Resume extends React.Component {
             <Button
               value="预览"
               className="dark"
+              leftIcon={(
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+              )}
             />
             <Button
               value="保存"
+              leftIcon={(
+                <i className="fa fa-save" aria-hidden="true"></i>
+              )}
             />
           </div>
         </div>
@@ -91,17 +97,28 @@ class Resume extends React.Component {
                 <Button
                   value="上一步"
                   className="dark"
+                  leftIcon={(
+                    <i className="fa fa-angle-left" aria-hidden="true"></i>
+                  )}
                   onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
                 />
               )}
               {currentIndex < max - 1 && (
                 <Button
                   value="下一步"
+                  rightIcon={(
+                    <i className="fa fa-angle-right" aria-hidden="true"></i>
+                  )}
                   onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
                 />
               )}
               {currentIndex === max - 1 && (
-                <Button value="完成"/>
+                <Button
+                  value="完成"
+                  leftIcon={(
+                    <i className="fa fa-save" aria-hidden="true"></i>
+                  )}
+                />
               )}
             </div>
           </div>
