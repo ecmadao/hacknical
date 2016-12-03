@@ -1,0 +1,30 @@
+.input {
+  height: 30px;
+  border: 1px solid #CBCBCB;
+  outline: none;
+  background-color: #fff;
+  transition: border 0.3s;
+  font-size: 12px;
+  color: #4a4a4a;
+  padding: 0 15px;
+  flex: 1;
+  border-radius: 2px;
+  margin: 10px 5px;
+  font-family: 'Lato', sans-serif;
+
+  &::-moz-placeholder {
+    color: #BEBEBE;
+  }
+
+  &::-webkit-input-placeholder {
+    color: #BEBEBE;
+  }
+
+  &:-ms-input-placeholder {
+    color: #BEBEBE;
+  }
+
+  &:focus {
+    border: 1px solid #4990E2;
+  }
+}
