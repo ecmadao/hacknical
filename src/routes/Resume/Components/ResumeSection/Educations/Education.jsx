@@ -48,8 +48,8 @@ class Education extends React.Component {
     } = edu;
 
     return (
-      <div className="edu_container">
-        <div className="edu_delete" onClick={deleteEdu}>
+      <div className="resume_piece_container">
+        <div className="resume_delete" onClick={deleteEdu}>
           <i className="fa fa-trash-o" aria-hidden="true"></i>
         </div>
         <div className="resume_wrapper">

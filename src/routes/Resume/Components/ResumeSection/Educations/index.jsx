@@ -46,11 +46,11 @@ class Educations extends React.Component {
     const {actions} = this.props;
     return (
       <div>
-        <div className="edus_container">
+        <div>
           {this.renderEdu()}
         </div>
         <div
-          className="edu_add"
+          className="resume_add"
           onClick={actions.addEducation}>
           <i className="fa fa-plus-circle" aria-hidden="true"></i>
           &nbsp;&nbsp;&nbsp;
