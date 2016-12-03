@@ -52,6 +52,9 @@ class Education extends React.Component {
         <div className="resume_delete" onClick={deleteEdu}>
           <i className="fa fa-trash-o" aria-hidden="true"></i>
         </div>
+        <div className="resume_title">
+          学历信息
+        </div>
         <div className="resume_wrapper">
           <Input
             value={school}

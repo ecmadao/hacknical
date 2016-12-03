@@ -96,8 +96,6 @@ const reducers = handleActions({
 
   HANDLE_EDU_CHANGE(state, action) {
     const {educations} = state;
-    console.log('action.payload');
-    console.log(action.payload);
     const {edu, index} = action.payload;
     return ({
       ...state,
