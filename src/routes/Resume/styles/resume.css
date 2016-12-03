@@ -3,7 +3,8 @@
 }
 
 .resume_navigation {
-  position: fixed;
+  position: absolute;
+  left: -120px;
   box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   color: #7A7A7A;

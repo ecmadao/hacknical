@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import '../styles/resume.css';
 import { RESUME_SECTIONS } from '../helper/const_value';
+import ResumeSection from './ResumeSection/index';
 
 class Resume extends React.Component {
   constructor(props) {
@@ -44,11 +45,13 @@ class Resume extends React.Component {
   }
 
   render() {
+    const {activeSection} = this.state;
     return (
       <div className="resume_container">
         <div className="resume_navigation">
           {this.renderNavigation()}
         </div>
+        <ResumeSection section={activeSection}/>
       </div>
     )
   }
