@@ -20,3 +20,14 @@ export const RESUME_SECTIONS = [
     text: '其他补充'
   }
 ];
+
+export const GENDERS = [
+  {
+    id: 'male',
+    text: '男性'
+  },
+  {
+    id: 'female',
+    text: '女性'
+  }
+];

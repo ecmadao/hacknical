@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 
+import Button from 'COMPONENTS/Button';
 import '../styles/resume.css';
 import { RESUME_SECTIONS } from '../helper/const_value';
 import ResumeSection from './ResumeSection/index';
@@ -51,7 +52,10 @@ class Resume extends React.Component {
         <div className="resume_navigation">
           {this.renderNavigation()}
         </div>
-        <ResumeSection section={activeSection}/>
+        <div className="resume_sections">
+          <ResumeSection section={activeSection}/>
+          <Button value={ activeSection === RESUME_SECTIONS.slice(-1)[0].id ? "上一步" : "下一步"}/>
+        </div>
       </div>
     )
   }

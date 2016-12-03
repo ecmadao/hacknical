@@ -63,3 +63,19 @@
     margin: 7px auto;
   }
 }
+
+.resume_sections {
+  background-color: #fff;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  min-height: 200px;
+  margin-left: 15px;
+  padding: 50px;
+}
+
+.info_container {
+}
+
+.info_wrapper {
+  display: flex;
+}

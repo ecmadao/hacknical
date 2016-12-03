@@ -1,0 +1,27 @@
+.button {
+  text-align: center;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 20px;
+  border-radius: 2px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.3);
+  margin: 15px 5px;
+  color: #fff;
+  font-size: 12px;
+  display: inline-block;
+
+  &.blue {
+    background-color: #4990E2;
+  }
+
+  &.red {
+    background-color: #D0011B;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
