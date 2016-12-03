@@ -90,6 +90,24 @@
 .info_container {
 }
 
-.info_wrapper {
+.resume_wrapper {
   display: flex;
+}
+
+.SingleDatePicker {
+  flex: 1;
+}
+
+.SingleDatePickerInput {
+  border: none !important;
+  margin: 10px 5px;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+
+  & .DateInput {
+    font-size: 12px !important;
+    line-height: inherit !important;
+    padding: 7px !important;
+    display: block;
+    width: auto !important;
+  }
 }

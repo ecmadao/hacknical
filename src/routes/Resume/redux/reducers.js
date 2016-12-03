@@ -22,7 +22,9 @@ const initialState = {
     {
       school: '厦门大学',
       major: '材料科学与工程',
-      education: '本科'
+      education: '本科',
+      startTime: '2011-11-01',
+      endTime: '2016-07-01'
     }
   ],
   workExperiences: [
@@ -94,6 +96,8 @@ const reducers = handleActions({
 
   HANDLE_EDU_CHANGE(state, action) {
     const {educations} = state;
+    console.log('action.payload');
+    console.log(action.payload);
     const {edu, index} = action.payload;
     return ({
       ...state,

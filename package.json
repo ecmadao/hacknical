@@ -26,11 +26,13 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.24.1",
+    "node-sass": "^3.13.0",
     "postcss-cssnext": "^2.8.0",
     "postcss-import": "^8.1.2",
     "postcss-loader": "^0.9.1",
     "postcss-reporter": "^1.4.1",
     "react": "^15.3.2",
+    "react-addons-shallow-compare": "^15.4.1",
     "react-dom": "^15.3.2",
     "react-portal": "^3.0.0",
     "react-redux": "^4.4.5",
@@ -41,6 +43,7 @@
     "redux-logger": "^2.7.4",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
+    "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
@@ -55,6 +58,7 @@
     "moment": "^2.17.0",
     "normalize.css": "^5.0.0",
     "nprogress": "^0.2.0",
-    "object-assign": "^4.1.0"
+    "object-assign": "^4.1.0",
+    "react-dates": "^4.1.0"
   }
 }

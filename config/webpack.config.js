@@ -34,7 +34,14 @@ module.exports = {
     loaders: [
       {test: require.resolve("jquery"), loader: "expose?jQuery"},
       {test: require.resolve("jquery"), loader: "expose?$"},
-      {test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style", "css!postcss")
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract("css!postcss!sass")
+      },
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,

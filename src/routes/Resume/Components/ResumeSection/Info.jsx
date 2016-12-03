@@ -35,7 +35,7 @@ class Info extends React.Component {
     } = this.props;
     return (
       <div className="info_container">
-        <div className="info_wrapper">
+        <div className="resume_wrapper">
           <Input
             value={name}
             placeholder="姓名"
@@ -47,7 +47,7 @@ class Info extends React.Component {
             onChange={this.handleInfoChange('gender')}
           />
         </div>
-        <div className="info_wrapper">
+        <div className="resume_wrapper">
           <Input
             type="email"
             value={email}
@@ -61,7 +61,7 @@ class Info extends React.Component {
             onChange={this.handleInfoChange('phone')}
           />
         </div>
-        <div className="info_wrapper">
+        <div className="resume_wrapper">
           <Input
             value={intention}
             placeholder="意向职位"

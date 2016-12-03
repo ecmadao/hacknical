@@ -31,3 +31,34 @@ export const GENDERS = [
     text: '女性'
   }
 ];
+
+export const EDUCATIONS = [
+  {
+    id: '初中',
+    text: '初中'
+  },
+  {
+    id: '高中',
+    text: '高中'
+  },
+  {
+    id: '大专',
+    text: '大专'
+  },
+  {
+    id: '本科',
+    text: '本科'
+  },
+  {
+    id: '硕士',
+    text: '硕士'
+  },
+  {
+    id: '博士',
+    text: '博士'
+  },
+  {
+    id: '其他',
+    text: '其他'
+  }
+];
