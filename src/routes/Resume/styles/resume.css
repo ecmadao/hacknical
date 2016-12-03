@@ -5,6 +5,7 @@
 .resume_navigation {
   position: absolute;
   left: -120px;
+  top: 60px;
   box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   color: #7A7A7A;
@@ -13,6 +14,19 @@
   display: flex;
   flex-direction: column;
   padding: 20px 15px;
+}
+
+.resume_operations {
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  & .operations_wrapper {
+    float: right;
+  }
 }
 
 .resume_section {

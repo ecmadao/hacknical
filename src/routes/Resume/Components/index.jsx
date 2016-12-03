@@ -15,6 +15,7 @@ class Resume extends React.Component {
       activeSection: RESUME_SECTIONS[0].id
     };
     this.handleSectionChange = this.handleSectionChange.bind(this);
+    this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this);
   }
 
   handleSectionChange(id) {
@@ -45,16 +46,65 @@ class Resume extends React.Component {
     });
   }
 
+  get currentIndex() {
+    const {activeSection} = this.state;
+    let currentIndex = 0;
+    RESUME_SECTIONS.forEach((section, index) => {
+      if (section.id === activeSection) {
+        currentIndex = index;
+      }
+    });
+    return currentIndex;
+  }
+
+  handleSectionIndexChange(index) {
+    const section = RESUME_SECTIONS[index];
+    this.handleSectionChange(section.id);
+  }
+
   render() {
     const {activeSection} = this.state;
+    const currentIndex = this.currentIndex;
+    const max = RESUME_SECTIONS.length;
+
     return (
       <div className="resume_container">
         <div className="resume_navigation">
           {this.renderNavigation()}
         </div>
+        <div className="resume_operations">
+          <div className="operations_wrapper">
+            <Button
+              value="预览"
+              className="dark"
+            />
+            <Button
+              value="保存"
+            />
+          </div>
+        </div>
         <div className="resume_sections">
           <ResumeSection section={activeSection}/>
-          <Button value={ activeSection === RESUME_SECTIONS.slice(-1)[0].id ? "上一步" : "下一步"}/>
+          <div className="resume_operations">
+            <div className="operations_wrapper">
+              {currentIndex > 0 && (
+                <Button
+                  value="上一步"
+                  className="dark"
+                  onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
+                />
+              )}
+              {currentIndex < max - 1 && (
+                <Button
+                  value="下一步"
+                  onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
+                />
+              )}
+              {currentIndex === max - 1 && (
+                <Button value="完成"/>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     )
