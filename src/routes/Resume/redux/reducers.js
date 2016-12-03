@@ -1,6 +1,13 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 
+import {
+  EDU,
+  WORK_EXPERIENCE,
+  WORK_PROJECT,
+  PERSONAL_PROJECT
+} from './templates';
+
 const initialState = {
   info: {
     name: 'ecmadao',
@@ -8,9 +15,16 @@ const initialState = {
     phone: '15659279468',
     gender: 'male',
     location: 'beijing',
-    avator: '',
+    avator: 'https://avatars0.githubusercontent.com/u/10706318?v=3&u=a88a9a2703b6b014e7b7b0a2039b8663dfcf2c6f&s=400',
     intention: 'Node全栈工程师'
   },
+  educations: [
+    {
+      school: '厦门大学',
+      major: '材料科学与工程',
+      education: '本科'
+    }
+  ],
   workExperiences: [
     {
       company: '厦门市创艺社',
@@ -29,18 +43,11 @@ const initialState = {
       ]
     }
   ],
-  educations: [
-    {
-      school: '厦门大学',
-      major: '材料科学与工程',
-      education: '本科'
-    }
-  ],
   personalProjects: [
     {
       url: 'https://ecmadao.github.io/react-times',
       desc: '基于React的时间选择器，没有jQuery依赖。已发布为NPM包',
-      tech: ['javascript', 'webpack', 'react']
+      techs: ['javascript', 'webpack', 'react']
     }
   ],
   others: {
@@ -66,30 +73,12 @@ const reducers = handleActions({
     });
   },
 
-  // workExperiences
-  ADD_WORK_EXPERIENCE(state, action) {
-    const {workExperiences} = state;
-    return ({
-      ...state,
-      workExperiences: [...workExperiences, action.payload]
-    });
-  },
-
-  DELETE_WORK_EXPERIENCE(state, action) {
-    const {workExperiences} = state;
-    const index = action.payload;
-    return ({
-      ...state,
-      workExperiences: [...workExperiences.slice(0, index), ...workExperiences.slice(index + 1)]
-    });
-  },
-
   // educations
   ADD_EDUCATION(state, action) {
     const {educations} = state;
     return ({
       ...state,
-      educations: [...educations, action.payload]
+      educations: [...educations, objectAssign({}, EDU)]
     });
   },
 
@@ -98,7 +87,144 @@ const reducers = handleActions({
     const index = action.payload;
     return ({
       ...state,
-      educations: [...educations.slice(0, index), ...educations.slice(index + 1)]
+      educations: [...educations.slice(0, index),
+        ...educations.slice(index + 1)]
+    });
+  },
+
+  HANDLE_EDU_CHANGE(state, action) {
+    const {educations} = state;
+    const {edu, index} = action.payload;
+    return ({
+      ...state,
+      educations: [...educations.slice(0, index),
+        objectAssign({}, educations[index], edu),
+        ...educations.slice(index + 1)]
+    });
+  },
+
+  // workExperiences
+  ADD_WORK_EXPERIENCE(state, action) {
+    const {workExperiences} = state;
+    return ({
+      ...state,
+      workExperiences: [...workExperiences, objectAssign({}, WORK_EXPERIENCE)]
+    });
+  },
+
+  DELETE_WORK_EXPERIENCE(state, action) {
+    const {workExperiences} = state;
+    const index = action.payload;
+    return ({
+      ...state,
+      workExperiences: [...workExperiences.slice(0, index),
+        ...workExperiences.slice(index + 1)]
+    });
+  },
+
+  ADD_WORK_PROJECT(state, action) {
+    const {workExperiences} = state;
+    const index = action.payload;
+    const workExperience = workExperiences[index];
+
+    return ({
+      ...state,
+      workExperiences: [...workExperiences.slice(0, index),
+        objectAssign({}, workExperience, {
+          projects: [...workExperience.projects, WORK_PROJECT]
+        }),
+        ...workExperiences.slice(index + 1)]
+    });
+  },
+
+  DELETE_WORK_PROJECT(state, action) {
+    const {workExperiences} = state;
+    const {workIndex, projectIndex} = action.payload;
+    const workExperience = workExperiences[workIndex];
+    const {projects} = workExperience;
+
+    return ({
+      ...state,
+      workExperiences: [...workExperiences.slice(0, workIndex),
+        objectAssign({}, workExperience, {
+          projects: [...projects.slice(0, projectIndex),
+            ...projects.slice(projectIndex + 1)]
+        }),
+        ...workExperiences.slice(workIndex + 1)]
+    });
+  },
+
+  ADD_WORK_PROJECT_DETAIL(state, action) {
+    const {workExperiences} = state;
+    const {detail, workIndex, projectIndex} = action.payload;
+    const workExperience = workExperiences[workIndex];
+    const {projects} = workExperience;
+    const project = projects[projectIndex];
+
+    return ({
+      ...state,
+      workExperiences: [...workExperiences.slice(0, workIndex),
+        objectAssign({}, workExperience, {
+          projects: [...projects.slice(0, projectIndex),
+            objectAssign({}, project, {
+              details: [...project.details, detail]
+            }),
+            ...projects.slice(projectIndex + 1)]
+        }),
+        ...workExperiences.slice(workIndex + 1)]
+    })
+  },
+
+  DELETE_WORK_PROJECT_DETAIL(state, action) {
+    const {workExperiences} = state;
+    const {detailIndex, workIndex, projectIndex} = action.payload;
+    const workExperience = workExperiences[workIndex];
+    const {projects} = workExperience;
+    const project = projects[projectIndex];
+
+    return ({
+      ...state,
+      workExperiences: [...workExperiences.slice(0, workIndex),
+        objectAssign({}, workExperience, {
+          projects: [...projects.slice(0, projectIndex),
+            objectAssign({}, project, {
+              details: [...project.details.slice(0, detailIndex),
+                ...project.details.slice(detailIndex + 1)]
+            }),
+            ...projects.slice(projectIndex + 1)]
+        }),
+        ...workExperiences.slice(workIndex + 1)]
+    })
+  },
+
+  HANDLE_WORK_PROJECT_CHANGE(state, action) {
+    const {workExperiences} = state;
+    const {workProject, workIndex, projectIndex} = action.payload;
+    const workExperience = workExperiences[workIndex];
+    const {projects} = workExperience;
+    const project = projects[projectIndex];
+
+    return ({
+      ...state,
+      workExperiences: [...workExperiences.slice(0, workIndex),
+        objectAssign({}, workExperience, {
+          projects: [...projects.slice(0, projectIndex),
+            objectAssign({}, project, workProject),
+            ...projects.slice(projectIndex + 1)]
+        }),
+        ...workExperiences.slice(workIndex + 1)]
+    })
+  },
+
+  HANDLE_WORK_EXPERIENCE_CHANGE(state, action) {
+    const {workExperiences} = state;
+    const {workExperience, index} = action.payload;
+
+    return ({
+      ...state,
+      workExperiences: [...workExperiences.slice(0, index),
+        objectAssign({}, workExperiences[index], workExperience),
+        ...workExperiences.slice(index + 1)]
     });
   },
 
@@ -107,16 +233,61 @@ const reducers = handleActions({
     const {personalProjects} = state;
     return ({
       ...state,
-      personalProjects: [...personalProjects, action.payload]
+      personalProjects: [...personalProjects, objectAssign({}, PERSONAL_PROJECT)]
     });
   },
 
   DELETE_PERSONAL_PROJECT(state, action) {
     const {personalProjects} = state;
     const index = action.payload;
+
     return ({
       ...state,
-      personalProjects: [...personalProjects.slice(0, index), ...personalProjects.slice(index + 1)]
+      personalProjects: [...personalProjects.slice(0, index),
+        ...personalProjects.slice(index + 1)]
+    });
+  },
+
+  HANDLE_PERSONAL_PROJECT_CHANGE(state, action) {
+    const {personalProject, index} = action.payload;
+    const {personalProjects} = state;
+
+    return ({
+      ...state,
+      personalProjects: [...personalProjects.slice(0, index),
+        objectAssign({}, personalProjects[index], personalProject),
+        ...personalProjects.slice(index + 1)]
+    });
+  },
+
+  ADD_PROJECT_TECH(state, action) {
+    const {tech, index} = action.payload;
+    const {personalProjects} = state;
+    const personalProject = personalProjects[index];
+
+    return ({
+      ...state,
+      personalProjects: [...personalProjects.slice(0, index),
+        objectAssign({}, personalProject, {
+          techs: [...personalProject.techs, tech]
+        }),
+        ...personalProjects.slice(index + 1)]
+    });
+  },
+
+  DELETE_PROJECT_TECH(state, action) {
+    const {projectIndex, techIndex} = action.payload;
+    const {personalProjects} = state;
+    const personalProject = personalProjects[projectIndex];
+    const {techs} = personalProject;
+
+    return ({
+      ...state,
+      personalProjects: [...personalProjects.slice(0, projectIndex),
+        objectAssign({}, personalProject, {
+          techs: [...techs.slice(0, techIndex), techs.slice(techIndex + 1)]
+        }),
+        ...personalProjects.slice(projectIndex + 1)]
     });
   },
 
@@ -147,7 +318,8 @@ const reducers = handleActions({
     return ({
       ...state,
       others: objectAssign({}, others, {
-        expectLocations: [...expectLocations.slice(0, index), ...expectLocations.slice(index + 1)]
+        expectLocations: [...expectLocations.slice(0, index),
+          ...expectLocations.slice(index + 1)]
       })
     });
   },
@@ -170,7 +342,8 @@ const reducers = handleActions({
     return ({
       ...state,
       others: objectAssign({}, others, {
-        supplements: [...supplements.slice(0, index), ...supplements.slice(index + 1)]
+        supplements: [...supplements.slice(0, index),
+          ...supplements.slice(index + 1)]
       })
     });
   },
