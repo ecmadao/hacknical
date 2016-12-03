@@ -1,3 +1,64 @@
 .resume_container {
   position: relative;
 }
+
+.resume_navigation {
+  position: fixed;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  color: #7A7A7A;
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px;
+}
+
+.resume_section {
+  flex: 1;
+
+  & .section_wrapper {
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #4990E2;
+
+      &::before {
+        background-color: #4990E2;
+      }
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+      background-color: rgba(149, 149, 149, 0.25);
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &.active {
+    & .section_wrapper {
+      cursor: default;
+
+      &::before {
+        background-color: #4990E2;
+      }
+    }
+  }
+
+  &:not(:last-child)::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background-color: #7A7A7A;
+    margin: 7px auto;
+  }
+}
