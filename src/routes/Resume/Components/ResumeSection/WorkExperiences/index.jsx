@@ -91,7 +91,7 @@ class WorkExperiences extends React.Component {
           {this.renderExperience()}
         </div>
         <div
-          className="resume_add"
+          className="resume_add_button"
           onClick={actions.addWorkExperience}>
           <i className="fa fa-plus-circle" aria-hidden="true"></i>
           &nbsp;&nbsp;&nbsp;

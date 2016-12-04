@@ -26,7 +26,7 @@ class WorkProject extends React.Component {
     });
   }
 
-  changeDetail(index, detail) {
+  changeDetail(detail, index) {
     const { project, onChange } = this.props;
     const { details } = project;
     onChange && onChange({

@@ -48,6 +48,7 @@
     line-height: 24px;
     padding: 0 5px;
     margin: 0;
+    width: 300px;
     border: 1px solid transparent;
 
     &:focus {

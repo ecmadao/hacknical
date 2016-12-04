@@ -106,24 +106,41 @@
 }
 
 .resume_add {
-  color: #4a4a4a;
+  color: #4990E2;
   font-size: 14px;
   margin-bottom: 10px;
   margin-left: 5px;
   display: inline-block;
   cursor: pointer;
-  transition: color 0.2s;
+  margin-top: 15px;
 
   & i {
-    color: #4a4a4a;
+    color: #4990E2;
+  }
+}
+
+.resume_add_button {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  display: inline-block;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s;
+  border-radius: 3px;
+  height: 35px;
+  line-height: 35px;
+  background-color: #4A4A4A;
+  padding: 0 15px;
+
+  & i {
+    color: #fff;
   }
 
   &:hover {
-    color: #4990E2;
-
-    & i {
-      color: #4990E2;
-    }
+    opacity: 1;
+    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.3);
   }
 }
 
