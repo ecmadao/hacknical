@@ -4,19 +4,22 @@ import Input from 'COMPONENTS/Input';
 class ListItem extends React.Component {
   constructor(props) {
     super(props);
-    // this.onChange = this.onChange.bind(this);
   }
 
   render() {
-    const {item, onChange} = this.props;
+    const {item, onChange, onDelete} = this.props;
     return (
-      <li>-&nbsp;&nbsp;
+      <li className="list_item">-&nbsp;&nbsp;
         <Input
           value={item}
           onChange={onChange}
           placeholder="项目描述"
           style="borderless"
-        />
+        />&nbsp;&nbsp;&nbsp;
+        <i
+          className="fa fa-close"
+          aria-hidden="true"
+          onClick={onDelete}></i>
       </li>
     )
   }

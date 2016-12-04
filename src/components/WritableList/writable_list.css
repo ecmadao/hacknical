@@ -7,3 +7,21 @@
     line-height: 1.7em;
   }
 }
+
+.list_item {
+  & i {
+    display: none;
+    cursor: pointer;
+    color: #BEBEBE;
+
+    &:hover {
+      color: #D0011B;
+    }
+  }
+
+  &:hover {
+    & i {
+      display: inline-block;
+    }
+  }
+}
