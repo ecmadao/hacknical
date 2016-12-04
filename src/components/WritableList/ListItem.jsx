@@ -2,20 +2,21 @@ import React, { PropTypes } from 'react';
 
 class ListItem extends React.Component {
   render() {
+    const {item} = this.props;
     return (
-      <li></li>
+      <li>{item}</li>
     )
   }
 }
 
 ListItem.propTypes = {
-  value: PropTypes.array,
+  item: PropTypes.string,
   onDelete: PropTypes.func,
   onChange: PropTypes.func
 };
 
 ListItem.defaultProps = {
-  value: '',
+  item: '',
   onDelete: () => {},
   onChange: () => {}
 };

@@ -14,13 +14,20 @@ class Input extends React.Component {
   }
 
   render() {
-    const {value, placeholder, type, style} = this.props;
+    const {
+      value,
+      placeholder,
+      type,
+      style,
+      onKeyDown
+    } = this.props;
     return (
       <input
         type={type}
         value={value}
         className={`input ${style}`}
         onChange={this.onChange}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         ref={ref => this.input = ref}
       />
@@ -31,9 +38,10 @@ class Input extends React.Component {
 Input.propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
   type: PropTypes.string,
-  style: PropTypes.string
+  style: PropTypes.string,
+  onChange: PropTypes.func,
+  onKeyDown: PropTypes.func,
 };
 
 Input.defaultProps = {
@@ -41,7 +49,8 @@ Input.defaultProps = {
   placeholder: '',
   type: 'string',
   style: 'material',
-  onChange: () => {}
+  onChange: () => {},
+  onKeyDown: () => {}
 }
 
 export default Input;
