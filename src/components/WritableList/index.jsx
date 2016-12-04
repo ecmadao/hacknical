@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 
+import './writable_list.css';
 import ListItem from './ListItem';
 import Input from 'COMPONENTS/Input';
 
@@ -63,19 +64,18 @@ class WritableList extends React.Component {
   render() {
     const { value } = this.state;
     return (
-      <div>
-        <ul>
-          {this.renderListItems()}
-          <li>
-            <Input
-              value={value}
-              placeholder="新增项目描述"
-              onChange={this.handleInputChange}
-              onKeyDown={this.onKeyDown}
-            />
-          </li>
-        </ul>
-      </div>
+      <ul className="items_wrapper">
+        {this.renderListItems()}
+        <li>-&nbsp;&nbsp;
+          <Input
+            value={value}
+            style="borderless"
+            placeholder="新增项目描述"
+            onChange={this.handleInputChange}
+            onKeyDown={this.onKeyDown}
+          />
+        </li>
+      </ul>
     )
   }
 }

@@ -2,7 +2,7 @@
   outline: none;
   background-color: #fff;
   transition: all 0.2s;
-  font-size: 12px;
+  font-size: 14px;
   color: #4a4a4a;
   padding: 0 15px;
   flex: 1;
@@ -37,6 +37,18 @@
     height: 30px;
     line-height: 30px;
     border: 1px solid #CBCBCB;
+
+    &:focus {
+      border: 1px solid #4990E2;
+    }
+  }
+
+  &.borderless {
+    height: 24px;
+    line-height: 24px;
+    padding: 0 5px;
+    margin: 0;
+    border: 1px solid transparent;
 
     &:focus {
       border: 1px solid #4990E2;
