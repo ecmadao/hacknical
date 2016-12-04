@@ -53,7 +53,7 @@ class Education extends React.Component {
           <i className="fa fa-trash-o" aria-hidden="true"></i>
         </div>
         <div className="resume_title">
-          学历信息
+          教育经历
         </div>
         <div className="resume_wrapper">
           <Input

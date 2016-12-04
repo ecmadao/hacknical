@@ -121,7 +121,7 @@ class WorkExperience extends React.Component {
             onClick={addProject}>
             <i className="fa fa-plus-circle" aria-hidden="true"></i>
             &nbsp;&nbsp;&nbsp;
-            添加项目经历
+            添加参与的项目
           </div>
         </div>
       </div>
