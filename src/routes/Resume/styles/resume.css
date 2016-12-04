@@ -204,10 +204,6 @@
   flex-direction: column;
 }
 
-.project_container {
-  /*margin: 10px 0;*/
-}
-
 /*.project_title {
   color: #656565;
   font-size: 14px;
@@ -217,6 +213,29 @@
   line-height: 20px;
 }*/
 
+.project_container {
+  &:hover {
+    & .project_delete {
+      opacity: 1;
+    }
+  }
+}
+
 .project_name_wrapper {
   display: flex;
+  position: relative;
+}
+
+.project_delete {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: opacity 0.2s;
+
+  & i {
+    color: #D0011B;
+  }
 }

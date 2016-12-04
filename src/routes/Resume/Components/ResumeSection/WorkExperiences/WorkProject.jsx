@@ -42,7 +42,7 @@ class WorkProject extends React.Component {
   }
 
   render() {
-    const { project, onChange } = this.props;
+    const { project, onChange, onDelete } = this.props;
     return (
       <div className="project_container">
         <div className="project_name_wrapper">
@@ -51,6 +51,9 @@ class WorkProject extends React.Component {
             placeholder="项目名称"
             onChange={this.handleProjectChange('name')}
           />
+          <div className="project_delete" onClick={onDelete}>
+            <i className="fa fa-trash-o" aria-hidden="true"></i>
+          </div>
         </div>
         {/* <div className="project_title">
           {project.name}
