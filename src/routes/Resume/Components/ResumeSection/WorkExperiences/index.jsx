@@ -9,6 +9,9 @@ import WorkExperience from './WorkExperience';
 class WorkExperiences extends React.Component {
   constructor(props) {
     super(props);
+    this.addProject = this.addProject.bind(this);
+    this.deleteProject = this.deleteProject.bind(this);
+    this.handleProjectChange = this.handleProjectChange.bind(this);
     this.deleteExperience = this.deleteExperience.bind(this);
     this.handleExperienceChange = this.handleExperienceChange.bind(this);
   }
@@ -27,6 +30,41 @@ class WorkExperiences extends React.Component {
     }
   }
 
+  addProject(workIndex) {
+    const {actions} = this.props;
+    return () => {
+      actions.addWorkProject(workIndex);
+    }
+  }
+
+  deleteProject(workIndex) {
+    const {actions} = this.props;
+    return (projectIndex) => () => {
+      actions.deleteWorkProject(workIndex, projectIndex);
+    }
+  }
+
+  handleProjectChange(workIndex) {
+    const {actions} = this.props;
+    return (projectIndex) => (workProject) => {
+      actions.handleWorkProjectChange(workProject, workIndex, projectIndex);
+    }
+  }
+
+  // addDetail(workIndex) {
+  //   const {actions} = this.props;
+  //   return (projectIndex) => (value) => {
+  //     actions.deleteWorkProjectDetail(value, workIndex, projectIndex);
+  //   }
+  // }
+  //
+  // deleteDetail(workIndex) {
+  //   const {actions} = this.props;
+  //   return (projectIndex) => (detailIndex) => {
+  //     actions.deleteWorkProjectDetail(workIndex, projectIndex, detailIndex);
+  //   }
+  // }
+
   renderExperience() {
     const {workExperiences} = this.props;
     return workExperiences.map((workExperience, index) => {
@@ -37,6 +75,9 @@ class WorkExperiences extends React.Component {
           workExperience={workExperience}
           deleteExperience={this.deleteExperience(index)}
           handleExperienceChange={this.handleExperienceChange(index)}
+          addProject={this.addProject(index)}
+          deleteProject={this.deleteProject(index)}
+          handleProjectChange={this.handleProjectChange(index)}
         />
       )
     });

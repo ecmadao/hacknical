@@ -6,7 +6,7 @@ import moment from 'moment';
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import { EDUCATIONS } from '../../../helper/const_value';
-import WorkProjects from './WorkProjects';
+import WorkProject from './WorkProject';
 moment.locale('zh-cn');
 
 class WorkExperience extends React.Component {
@@ -38,13 +38,28 @@ class WorkExperience extends React.Component {
     }
   }
 
+  renderWorkProjects(projects) {
+    const { handleProjectChange, deleteProject } = this.props;
+    return projects.map((project, index) => {
+      return (
+        <WorkProject
+          key={index}
+          project={project}
+          onDelete={deleteProject(index)}
+          onChange={handleProjectChange(index)}
+        />
+      )
+    })
+  }
+
   render() {
     const {startOpen, endOpen} = this.state;
     const {
       index,
       workExperience,
       deleteExperience,
-      handleExperienceChange
+      handleExperienceChange,
+      addProject
     } = this.props;
     const {
       company,
@@ -96,9 +111,19 @@ class WorkExperience extends React.Component {
             onFocusChange={this.handleEndFocus}
           />
         </div>
-        <WorkProjects
-          projects={projects}
-        />
+        <div className="project_wrapper">
+          <div className="resume_title">
+            参与项目
+          </div>
+          {this.renderWorkProjects(projects)}
+          <div
+            className="resume_add"
+            onClick={addProject}>
+            <i className="fa fa-plus-circle" aria-hidden="true"></i>
+            &nbsp;&nbsp;&nbsp;
+            添加项目经历
+          </div>
+        </div>
       </div>
     )
   }
