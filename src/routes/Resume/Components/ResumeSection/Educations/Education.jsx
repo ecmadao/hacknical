@@ -58,6 +58,7 @@ class Education extends React.Component {
         <div className="resume_wrapper">
           <Input
             value={school}
+            style="flat"
             placeholder="学校名称"
             onChange={handleEduChange('school')}
           />
@@ -65,12 +66,14 @@ class Education extends React.Component {
         <div className="resume_wrapper">
           <Input
             value={major}
+            style="flat"
             placeholder="院系 & 专业"
             onChange={handleEduChange('major')}
           />
           <Selector
             value={education}
             options={EDUCATIONS}
+            style="flat"
             onChange={handleEduChange('education')}
           />
         </div>

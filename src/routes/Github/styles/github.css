@@ -83,7 +83,7 @@
     & .info_social {
       flex: 1;
       min-height: 90px;
-      transition: all 0.2s;
+      transition: color 0.2s, box-shadow 0.2s;
       display: block;
       text-decoration: none;
       text-align: center;
@@ -266,7 +266,7 @@
     border-radius: 20px;
     width: 100%;
     height: 100%;
-    transition: all 0.2s;
+    transition: opacity 0.2s, box-shadow 0.2s;
     cursor: pointer;
   }
 
@@ -277,7 +277,7 @@
     opacity: 1;
     z-index: 9;
     visibility: hidden;
-    transition: all 0.2s;
+    transition: opacity 0.2s;
   }
 
   & .tipso_container {
@@ -328,7 +328,7 @@
       width: 8px;
       border-radius: 3px;
       margin-right: 15px;
-      transition: all 0.2s;
+      /*transition: all 0.2s;*/
     }
 
     & .intro_info_wrapper {

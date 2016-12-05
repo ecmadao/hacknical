@@ -4,7 +4,6 @@ import 'react-dates/css/styles.scss';
 import moment from 'moment';
 
 import Input from 'COMPONENTS/Input';
-import Selector from 'COMPONENTS/Selector';
 import { EDUCATIONS } from '../../../helper/const_value';
 import WorkProject from './WorkProject';
 moment.locale('zh-cn');
@@ -80,11 +79,13 @@ class WorkExperience extends React.Component {
         <div className="resume_wrapper">
           <Input
             value={company}
+            style="flat"
             placeholder="公司名称"
             onChange={handleExperienceChange('company')}
           />
           <Input
             value={position}
+            style="flat"
             placeholder="所处职位"
             onChange={handleExperienceChange('position')}
           />

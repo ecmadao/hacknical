@@ -39,11 +39,13 @@ class Info extends React.Component {
           <Input
             value={name}
             placeholder="姓名"
+            style="flat"
             onChange={this.handleInfoChange('name')}
           />
           <Selector
             value={gender}
             options={GENDERS}
+            style="flat"
             onChange={this.handleInfoChange('gender')}
           />
         </div>
@@ -52,12 +54,14 @@ class Info extends React.Component {
             type="email"
             value={email}
             placeholder="邮箱"
+            style="flat"
             onChange={this.handleInfoChange('email')}
           />
           <Input
             type="phone"
             value={phone}
             placeholder="电话"
+            style="flat"
             onChange={this.handleInfoChange('phone')}
           />
         </div>
@@ -65,11 +69,13 @@ class Info extends React.Component {
           <Input
             value={intention}
             placeholder="意向职位"
+            style="flat"
             onChange={this.handleInfoChange('intention')}
           />
           <Input
             value={location}
             placeholder="坐标"
+            style="flat"
             onChange={this.handleInfoChange('location')}
           />
         </div>

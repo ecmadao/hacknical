@@ -45,7 +45,8 @@
   flex: 1;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.2s, color 0.2s;
 
   &:hover,
   & .app_tab_active {

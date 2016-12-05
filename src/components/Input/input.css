@@ -1,10 +1,9 @@
 .input {
   outline: none;
   background-color: #fff;
-  transition: all 0.2s;
   font-size: 14px;
   color: #4a4a4a;
-  padding: 0 15px;
+  padding: 3px 15px;
   flex: 1;
   border-radius: 2px;
   margin: 10px 5px;
@@ -26,6 +25,7 @@
     border: none;
     height: 35px;
     line-height: 35px;
+    transition: box-shadow 0.2s;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);
 
     &:focus {
@@ -36,6 +36,7 @@
   &.flat {
     height: 30px;
     line-height: 30px;
+    transition: border 0.2s;
     border: 1px solid #CBCBCB;
 
     &:focus {
@@ -49,6 +50,7 @@
     padding: 0 5px;
     margin: 0;
     width: 300px;
+    transition: border 0.2s;
     border: 1px solid transparent;
 
     &:focus {

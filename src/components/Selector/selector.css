@@ -1,15 +1,14 @@
 .selector_container {
   background-color: #FFF;
   color: #4a4a4a;
-  font-size: 12px;
+  font-size: 14px;
   /*border: 1px solid #CBCBCB;*/
   cursor: pointer;
   min-width: 4em;
   text-align: center;
-  transition: all 0.1s;
   border-radius: 2px;
   position: relative;
-  padding: 0 15px;
+  padding: 3px 15px;
   margin: 10px 5px;
 
   & svg {
@@ -27,9 +26,10 @@
     border: none;
     height: 35px;
     line-height: 35px;
+    transition: box-shadow 0.1s;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);
 
-    &:focus {
+    &:hover {
       box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.10), 0 0 2px 0 rgba(0, 0, 0, 0.08);
     }
   }
@@ -37,9 +37,10 @@
   &.flat {
     height: 30px;
     line-height: 30px;
+    transition: border 0.1s;
     border: 1px solid #CBCBCB;
 
-    &:focus {
+    &:hover {
       border: 1px solid #4990E2;
     }
   }

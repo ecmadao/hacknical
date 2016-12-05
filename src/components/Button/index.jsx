@@ -13,10 +13,10 @@ class Button extends React.Component {
   }
 
   render() {
-    const {value, className, leftIcon, rightIcon} = this.props;
+    const {value, className, leftIcon, rightIcon, style} = this.props;
     return (
       <div
-        className={`button ${className}`}
+        className={`button ${style} ${className}`}
         onClick={this.onClick}>
         {leftIcon}
         <span>
@@ -32,6 +32,7 @@ Button.propTypes = {
   value: PropTypes.string,
   onClick: PropTypes.func,
   className: PropTypes.string,
+  style: PropTypes.string,
   leftIcon: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,
@@ -47,6 +48,7 @@ Button.propTypes = {
 Button.defaultProps = {
   value: '',
   className: 'blue',
+  style: 'material',
   onClick: () => {},
   leftIcon: null,
   rightIcon: null

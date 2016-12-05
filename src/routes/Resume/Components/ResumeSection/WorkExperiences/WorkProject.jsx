@@ -49,6 +49,7 @@ class WorkProject extends React.Component {
           <Input
             value={project.name}
             placeholder="项目名称"
+            style="flat"
             onChange={this.handleProjectChange('name')}
           />
           <div className="project_delete" onClick={onDelete}>

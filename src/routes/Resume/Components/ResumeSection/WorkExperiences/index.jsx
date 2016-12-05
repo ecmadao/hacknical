@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import actions from '../../../redux/actions';
 import WorkExperience from './WorkExperience';
+import Button from 'COMPONENTS/Button';
 
 class WorkExperiences extends React.Component {
   constructor(props) {
@@ -90,13 +91,21 @@ class WorkExperiences extends React.Component {
         <div>
           {this.renderExperience()}
         </div>
-        <div
+        <Button
+          style="flat"
+          value="添加工作经历"
+          leftIcon={(
+            <i className="fa fa-plus-circle" aria-hidden="true"></i>
+          )}
+          onClick={actions.addWorkExperience}
+        />
+        {/* <div
           className="resume_add_button"
           onClick={actions.addWorkExperience}>
           <i className="fa fa-plus-circle" aria-hidden="true"></i>
           &nbsp;&nbsp;&nbsp;
           添加工作经历
-        </div>
+        </div> */}
       </div>
     )
   }
