@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
+// import 'wysiwyg.css';
 
 import Loading from '../../../components/Loading/index';
 import CHOSED_REPOS from 'MOCK/chosed_repos';
@@ -111,7 +112,7 @@ class UserReposCard extends React.Component {
 
   renderReposReadme(readme) {
     if (readme) {
-      return (<div className="readme_container" dangerouslySetInnerHTML={{__html: readme}} />);
+      return (<div className="readme_container wysiwyg" dangerouslySetInnerHTML={{__html: readme}} />);
     }
     return (
       <div className="readme_container">

@@ -1,8 +1,9 @@
+@import 'open-color/open-color.css';
+
 .selector_container {
-  background-color: #FFF;
-  color: #4a4a4a;
+  background-color: var(--oc-white);
+  color: var(--oc-gray-7);
   font-size: 14px;
-  /*border: 1px solid #CBCBCB;*/
   cursor: pointer;
   min-width: 4em;
   text-align: center;
@@ -12,13 +13,13 @@
   margin: 10px 5px;
 
   & svg {
-    fill: #4a4a4a;
+    fill: var(--oc-gray-7);
     transition: fill 0.1s;
   }
 
   &:hover {
     & svg {
-      fill: #4990E2;
+      fill: var(--oc-blue-5);
     }
   }
 
@@ -38,10 +39,10 @@
     height: 30px;
     line-height: 30px;
     transition: border 0.1s;
-    border: 1px solid #CBCBCB;
+    border: 1px solid var(--oc-gray-5);
 
     &:hover {
-      border: 1px solid #4990E2;
+      border: 1px solid var(--oc-blue-5);
     }
   }
 }

@@ -1,20 +1,4 @@
-/*table.highlighttable {
-  font-family: 'Edlo';
-  line-height: 1.5;
-
-  tbody {
-    td.linenos {
-      padding: 5px;
-    }
-
-    td.code {
-      border-left: 2px solid #fff;
-      padding-left: 15px;
-    }
-  }
-}*/
-
-article {
+/*article {
 
   & img[alt=emoji] {
     width: 20px;
@@ -115,4 +99,4 @@ article {
       color: #2980b9;
     }
   }
-}
+}*/

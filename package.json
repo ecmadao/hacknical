@@ -59,6 +59,8 @@
     "normalize.css": "^5.0.0",
     "nprogress": "^0.2.0",
     "object-assign": "^4.1.0",
-    "react-dates": "^4.1.0"
+    "open-color": "^1.4.0",
+    "react-dates": "^4.1.0",
+    "wysiwyg.css": "0.0.2"
   }
 }

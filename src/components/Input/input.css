@@ -1,8 +1,10 @@
+@import 'open-color/open-color.css';
+
 .input {
   outline: none;
-  background-color: #fff;
+  background-color: var(--oc-white);
   font-size: 14px;
-  color: #4a4a4a;
+  color: var(--oc-gray-7);
   padding: 3px 15px;
   flex: 1;
   border-radius: 2px;
@@ -10,15 +12,15 @@
   font-family: 'Lato', sans-serif;
 
   &::-moz-placeholder {
-    color: #BEBEBE;
+    color: var(--oc-gray-5);
   }
 
   &::-webkit-input-placeholder {
-    color: #BEBEBE;
+    color: var(--oc-gray-5);
   }
 
   &:-ms-input-placeholder {
-    color: #BEBEBE;
+    color: var(--oc-gray-5);
   }
 
   &.material {
@@ -37,10 +39,10 @@
     height: 30px;
     line-height: 30px;
     transition: border 0.2s;
-    border: 1px solid #CBCBCB;
+    border: 1px solid var(--oc-gray-5);
 
     &:focus {
-      border: 1px solid #4990E2;
+      border: 1px solid var(--oc-blue-5);
     }
   }
 
@@ -54,7 +56,7 @@
     border: 1px solid transparent;
 
     &:focus {
-      border: 1px solid #4990E2;
+      border: 1px solid var(--oc-blue-5);
     }
   }
 }

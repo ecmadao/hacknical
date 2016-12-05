@@ -44,7 +44,7 @@ class Selector extends React.Component {
     const {value, style} = this.props;
     return (
       <div className={`selector_container ${style}`}>
-        {this.currentText}&nbsp;&nbsp;&nbsp;<i className="fa fa-angle-down" aria-hidden="true"></i>
+        {this.currentText}&nbsp;&nbsp;&nbsp;<i className="fa fa-caret-down" aria-hidden="true"></i>
         <select
           value={value}
           onChange={this.onChange}

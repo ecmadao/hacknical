@@ -1,3 +1,5 @@
+@import 'open-color/open-color.css';
+
 /* main */
 .app {
   width: 100%;
@@ -10,18 +12,18 @@
 
 /* header & tab */
 .app_header {
-  background-color: #ffffff;
-  color: #4a4a4a;
+  background-color: var(--oc-white);
+  color: var(--oc-gray-7);
   height: 50px;
   line-height: 50px;
-  border-bottom: 1px solid #EBEEFA;
+  border-bottom: 1px solid var(--oc-gray-1);
 }
 
 .app_tabs {
   width: 100%;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-  background-color: #F7F8FD;
-  color: #4a4a4a;
+  background-color: var(--oc-gray-1);
+  color: var(--oc-gray-7);
 }
 
 .app_header_container {
@@ -50,21 +52,21 @@
 
   &:hover,
   & .app_tab_active {
-    color: #2196F3;
-    border-bottom: 2px solid #2196F3;
+    color: var(--oc-blue-5);
+    border-bottom: 2px solid var(--oc-blue-5);
 
     & i {
-      color: #2196F3;
+      color: var(--oc-blue-5);
     }
   }
 
   & a {
     display: block;
-    color: #4a4a4a;
+    color: var(--oc-gray-7);
     text-decoration: none;
 
     & i {
-      color: #4a4a4a;
+      color: var(--oc-gray-7);
     }
   }
 }

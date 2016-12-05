@@ -1,3 +1,5 @@
+@import 'open-color/open-color.css';
+
 .card {
   border-radius: 3px;
   transition: box-shadow 0.2s;
@@ -27,7 +29,7 @@
 
 .info_card_container {
   font-size: 16px;
-  color: #9B9B9B;
+  color: var(--oc-gray-7);
   margin: 10px 0 20px;
 
   & p:first-child {
@@ -37,7 +39,7 @@
   & .info_header {
     display: flex;
     padding: 15px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--oc-gray-3);
 
     & .info_avator {
       width: 80px;
@@ -57,11 +59,11 @@
         display: block;
         margin-bottom: 10px;
         text-decoration: none;
-        color: #4A4A4A;
+        color: var(--oc-gray-7);
         transition: color 0.2s;
 
         &:hover {
-          color: #4990E2;
+          color: var(--oc-blue-5);
         }
       }
 
@@ -71,7 +73,7 @@
 
       & blockquote {
         padding: 0 1em;
-        border-left: 0.25em solid #ddd;
+        border-left: 0.25em solid var(--oc-gray-5);
         margin: 15px 0;
       }
     }
@@ -99,14 +101,14 @@
       }
 
       &:hover {
-        color: rgba(255, 255, 255, 1);
+        color: var(--oc-white);
         box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.12), 0 0 10px 0 rgba(0, 0, 0, 0.08);
 
         & span {
-          color: rgba(255, 255, 255, 1);
+          color: var(--oc-white);
 
           &:first-child {
-            color: rgba(255, 255, 255, 1);
+            color: var(--oc-white);
           }
         }
       }
@@ -137,7 +139,7 @@
     padding: 15px 0;
     min-height: 80px;
     display: flex;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--oc-gray-3);
 
     & .repos_chart {
       flex: 1;
@@ -156,7 +158,7 @@
       padding-left: 10px;
       margin-left: 10px;
       font-size: 1.5em;
-      border-left: 3px solid #9B9B9B;
+      border-left: 3px solid var(--oc-gray-5);
       line-height: 40px;
     }
 
@@ -168,7 +170,7 @@
       transition: background-color 0.2s;
 
       &:hover {
-        background-color: #f0f0f0;
+        background-color: var(--oc-gray-3);
       }
 
       & .repos_info {
@@ -177,12 +179,12 @@
 
         & .repos_info_name {
           text-decoration: none;
-          color: #4a4a4a;
+          color: var(--oc-gray-7);
           line-height: 1.5em;
           font-size: 16px;
 
           &:hover {
-            color: #4990E2;
+            color: var(--oc-blue-5);
           }
         }
 
@@ -192,7 +194,8 @@
 
         & .repos_info_forked {
           display: inline-block;
-          background-color: #e4e4e4;
+          background-color: var(--oc-gray-5);
+          color: var(--oc-white);
           margin-left: 8px;
           padding: 3px 4px;
           border-radius: 2px;
@@ -206,7 +209,7 @@
         transform: translateY(-50%);
 
         &.active {
-          color: #4990E2;
+          color: var(--oc-blue-5);
         }
       }
     }
@@ -222,7 +225,7 @@
 
 .repos_dates {
   display: flex;
-  color: #9B9B9B;
+  color: var(--oc-gray-5);
   font-size: 12px;
 
   & .repos_date {
@@ -281,7 +284,7 @@
   }
 
   & .tipso_container {
-    background-color: #fff;
+    background-color: var(--oc-white);
     border-radius: 3px;
     border: 1px solid rgba(155, 155, 155, 0.3);
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
@@ -302,12 +305,12 @@
       top: 0;
       border-left: 17px solid transparent;
       border-right: 17px solid transparent;
-      border-bottom: 12px solid #cecece;
+      border-bottom: 12px solid var(--oc-gray-3);
     }
 
     & .tipso_title {
       font-size: 14px;
-      color: #4a4a4a;
+      color: var(--oc-gray-7);
     }
 
     & p {
@@ -345,13 +348,13 @@
 
       & .intro_title {
         font-size: 18px;
-        color: #4A4A4A;
+        color: var(--oc-gray-7);
         line-height: 1.5em;
       }
 
       &.with_readme {
         padding-bottom: 10px;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid var(--oc-gray-3);
       }
     }
 

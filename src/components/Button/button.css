@@ -1,3 +1,5 @@
+@import 'open-color/open-color.css';
+
 .button {
   text-align: center;
   cursor: pointer;
@@ -21,68 +23,83 @@
   }
 
   &.flat {
-    color: #4a4a4a;
     transition: background-color 0.2s, opacity 0.2s, color 0.2s;
 
-    & i {
-      color: #4a4a4a;
-    }
-
     &.blue {
-      border: 1px solid #4990E2;
+      border: 1px solid var(--oc-blue-5);
+      color: var(--oc-blue-5);
+
+      & i {
+        color: var(--oc-blue-4);
+      }
 
       &:hover {
-        background-color: #4990E2;
-        color: #fff;
+        background-color: var(--oc-blue-5);
+        color: var(--oc-white);
 
         & i {
-          color: #fff;
+          color: var(--oc-white);
         }
       }
     }
 
     &.red {
-      border: 1px solid #D0011B;
+      border: 1px solid var(--oc-red-5);
+      color: var(--oc-red-5);
+
+      & i {
+        color: var(--oc-red-5);
+      }
 
       &:hover {
-        background-color: #D0011B;
-        color: #fff;
+        background-color: var(--oc-red-5);
+        color: var(--oc-white);
 
         & i {
-          color: #fff;
+          color: var(--oc-white);
         }
       }
     }
 
     &.dark {
-      border: 1px solid #4A4A4A;
+      border: 1px solid var(--oc-gray-7);
+      color: var(--oc-gray-7);
+
+      & i {
+        color: var(--oc-gray-7);
+      }
 
       &:hover {
-        background-color: #4A4A4A;
-        color: #fff;
+        background-color: var(--oc-gray-7);
+        color: var(--oc-white);
 
         & i {
-          color: #fff;
+          color: var(--oc-white);
         }
       }
     }
 
     &.grey {
-      border: 1px solid #8F8F8F;
+      border: 1px solid var(--oc-gray-5);
+      color: var(--oc-gray-5);
+
+      & i {
+        color: var(--oc-gray-5);
+      }
 
       &:hover {
-        background-color: #8F8F8F;
-        color: #fff;
+        background-color: var(--oc-gray-5);
+        color: var(--oc-white);
 
         & i {
-          color: #fff;
+          color: var(--oc-white);
         }
       }
     }
   }
 
   &.material {
-    color: #fff;
+    color: var(--oc-white);
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.3);
     transition: opacity 0.2s, box-shadow 0.2s;
 
@@ -91,19 +108,19 @@
     }
 
     &.blue {
-      background-color: #4990E2;
+      background-color: var(--oc-blue-5);
     }
 
     &.red {
-      background-color: #D0011B;
+      background-color: var(--oc-red-5);
     }
 
     &.dark {
-      background-color: #4A4A4A;
+      background-color: var(--oc-gray-7);
     }
 
     &.grey {
-      background-color: #8F8F8F;
+      background-color: var(--oc-gray-5);
     }
   }
 }

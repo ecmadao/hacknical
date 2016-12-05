@@ -1,3 +1,5 @@
+@import 'open-color/open-color.css';
+
 .items_wrapper {
   font-size: 14px;
   list-style-type: none;
@@ -12,10 +14,10 @@
   & i {
     display: none;
     cursor: pointer;
-    color: #BEBEBE;
+    color: var(--oc-gray-5);
 
     &:hover {
-      color: #D0011B;
+      color: var(--oc-red-5);
     }
   }
 

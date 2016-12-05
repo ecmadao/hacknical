@@ -1,3 +1,5 @@
+@import 'open-color/open-color.css';
+
 .resume_container {
   position: relative;
 }
@@ -9,7 +11,7 @@
   transition: box-shadow 0.2s;
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 3px;
-  color: #7A7A7A;
+  color: var(--oc-gray-7);
   font-size: 12px;
   text-align: center;
   display: flex;
@@ -42,10 +44,10 @@
     transition: color 0.2s;
 
     &:hover {
-      color: #4990E2;
+      color: var(--oc-blue-5);
 
       &::before {
-        background-color: #4990E2;
+        background-color: var(--oc-blue-5);
       }
     }
 
@@ -66,10 +68,10 @@
   &.active {
     & .section_wrapper {
       cursor: default;
-      color: #4990E2;
+      color: var(--oc-blue-5);
 
       &::before {
-        background-color: #4990E2;
+        background-color: var(--oc-blue-5);
       }
     }
   }
@@ -79,13 +81,13 @@
     display: block;
     width: 1px;
     height: 40px;
-    background-color: #7A7A7A;
+    background-color: var(--oc-gray-5);
     margin: 7px auto;
   }
 }
 
 .resume_sections {
-  background-color: #fff;
+  background-color: var(--oc-white);
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   min-height: 200px;
@@ -101,9 +103,9 @@
 }
 
 .resume_title {
-  color: #4a4a4a;
+  color: var(--oc-gray-7);
   padding-left: 10px;
-  border-left: 3px solid #4a4a4a;
+  border-left: 3px solid var(--oc-gray-7);
   margin-left: 5px;
   font-size: 16px;
   margin-top: 10px;
@@ -111,7 +113,7 @@
 }
 
 .resume_add {
-  color: #4990E2;
+  color: var(--oc-blue-5);
   font-size: 14px;
   margin-bottom: 10px;
   margin-left: 5px;
@@ -120,12 +122,12 @@
   margin-top: 15px;
 
   & i {
-    color: #4990E2;
+    color: var(--oc-blue-5);
   }
 }
 
 .resume_add_button {
-  color: #fff;
+  color: var(--oc-white);
   font-size: 12px;
   margin-bottom: 10px;
   margin-left: 5px;
@@ -134,11 +136,11 @@
   opacity: 0.8;
   transition: opacity 0.2s, box-shadow 0.2s;
   border-radius: 2px;
-  background-color: #4A4A4A;
+  background-color: var(--oc-gray-7);
   padding: 10px 20px;
 
   & i {
-    color: #fff;
+    color: var(--oc-white);
   }
 
   &:hover {
@@ -154,7 +156,7 @@
 .SingleDatePickerInput {
   /*border: none !important;*/
   margin: 10px 5px;
-  border: 1px solid #CBCBCB;
+  border: 1px solid var(--oc-gray-5) !important;
   border-radius: 2px;
   /*box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);*/
 
@@ -172,7 +174,7 @@
   position: relative;
 
   &:not(:last-child) {
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid var(--oc-gray-3);
   }
 
   &:not(:first-child) {
@@ -193,7 +195,7 @@
     transition: opacity 0.2s;
 
     & i {
-      color: #D0011B;
+      color: var(--oc-red-5);
     }
   }
 
@@ -241,6 +243,6 @@
   transition: opacity 0.2s;
 
   & i {
-    color: #D0011B;
+    color: var(--oc-red-5);
   }
 }
