@@ -232,7 +232,7 @@ const reducers = handleActions({
 
   // personalProjects
   ADD_PERSONAL_PROJECT(state, action) {
-    const {personalProjects} = state;
+    const { personalProjects } = state;
     return ({
       ...state,
       personalProjects: [...personalProjects, objectAssign({}, PERSONAL_PROJECT)]

@@ -5,7 +5,6 @@ import './textarea.css';
 class Textarea extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' }
     this.onChange = this.onChange.bind(this);
   }
 
@@ -13,16 +12,16 @@ class Textarea extends React.Component {
     const value = this.textarea.value;
     const { onChange } = this.props;
     onChange && onChange(value);
-    this.setState({ value });
   }
 
   render() {
     const {
+      value,
       style,
       onKeyDown,
       placeholder
     } = this.props;
-    const { value } = this.state;
+
     return (
       <div className={`textarea_wrapper ${style}`}>
         <pre className="textarea_hidden">

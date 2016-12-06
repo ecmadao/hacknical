@@ -100,6 +100,11 @@
 
 .resume_wrapper {
   display: flex;
+  align-items: center;
+
+  &.large {
+    margin: 10px 0;
+  }
 }
 
 .resume_title {
@@ -172,6 +177,12 @@
 .resume_piece_container {
   padding-bottom: 15px;
   position: relative;
+
+  &.large {
+    &:not(:last-child) {
+      padding-bottom: 20px;
+    }
+  }
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--oc-gray-3);

@@ -4,19 +4,57 @@ import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import Textarea from 'COMPONENTS/Textarea';
 import Button from 'COMPONENTS/Button';
+import Input from 'COMPONENTS/Input';
 
 import actions from '../../redux/actions';
 
 class PersonalProjects extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleProjectChange = this.handleProjectChange.bind(this);
+  }
+
+  renderProjects() {
+    const { personalProjects } = this.props;
+    return personalProjects.map((personalProject, index) => {
+      const { url, desc, techs } = personalProject;
+      return (
+        <div className="resume_piece_container large" key={index}>
+          <div className="resume_wrapper large">
+            <i className="fa fa-link" aria-hidden="true"></i>
+            &nbsp;&nbsp;
+            <Input
+              value={url}
+              style="borderless"
+              placeholder="填写项目链接"
+              onChange={this.handleProjectChange(index)('url')}
+            />
+          </div>
+          <div className="resume_wrapper">
+            <Textarea
+              value={desc}
+              placeholder="填写项目描述"
+              onChange={this.handleProjectChange(index)('desc')}
+            />
+          </div>
+        </div>
+      )
+    })
+  }
+
+  handleProjectChange(index) {
+    const { actions } = this.props;
+    return (type) => (value) => {
+      actions.handlePersonalProjectChange({[type]: value}, index);
+    }
+  }
+
   render() {
+    const { actions } = this.props;
     return (
       <div>
         <div>
-          <div className="resume_piece_container">
-            <div className="resume_wrapper">
-              <Textarea />
-            </div>
-          </div>
+          {this.renderProjects()}
         </div>
         <Button
           style="flat"
@@ -24,7 +62,7 @@ class PersonalProjects extends React.Component {
           leftIcon={(
             <i className="fa fa-plus-circle" aria-hidden="true"></i>
           )}
-          onClick={() => {}}
+          onClick={actions.addPersonalProject}
         />
       </div>
     )
@@ -32,8 +70,8 @@ class PersonalProjects extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {personalProjects} = state.resume;
-  return {...personalProjects}
+  const { personalProjects } = state.resume;
+  return { personalProjects }
 }
 
 function mapDispatchToProps(dispatch) {
