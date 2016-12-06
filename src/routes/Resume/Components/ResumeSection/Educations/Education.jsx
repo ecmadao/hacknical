@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import Cleave from 'cleave.js';
 
+import FormatInput from 'COMPONENTS/FormatInput';
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import { EDUCATIONS } from '../../../helper/const_value';
@@ -15,17 +15,6 @@ class Education extends React.Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.handleEntranceFocus = this.handleEntranceFocus.bind(this);
     this.handleGraduationFocus = this.handleGraduationFocus.bind(this);
-  }
-
-  componentDidMount() {
-    new Cleave('.input-startTime', {
-      date: true,
-      datePattern: ['Y', 'm', 'd']
-    });
-    new Cleave('.input-endTime', {
-      date: true,
-      datePattern: ['Y', 'm', 'd']
-    });
   }
 
   handleEntranceFocus({ focused: entranceOpen }) {
@@ -86,18 +75,20 @@ class Education extends React.Component {
           />
         </div>
         <div className="resume_wrapper">
-          <Input
+          <FormatInput
             value={startTime}
             style="flat"
+            formatType="date"
             placeholder="入学时间 (YYYY/MM/DD)"
-            className="input-startTime"
+            className={`input-startTime-${index}`}
             onChange={handleEduChange('startTime')}
           />
-          <Input
+          <FormatInput
             value={endTime}
             style="flat"
+            formatType="date"
             placeholder="毕业时间 (YYYY/MM/DD)"
-            className="input-endTime"
+            className={`input-endTime-${index}`}
             onChange={handleEduChange('endTime')}
           />
         </div>

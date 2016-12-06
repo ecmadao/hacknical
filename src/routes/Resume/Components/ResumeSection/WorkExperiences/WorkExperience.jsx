@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import Cleave from 'cleave.js';
 
+import FormatInput from 'COMPONENTS/FormatInput';
 import Input from 'COMPONENTS/Input';
 import { EDUCATIONS } from '../../../helper/const_value';
 import WorkProject from './WorkProject';
@@ -15,17 +15,6 @@ class WorkExperience extends React.Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.handleStartFocus = this.handleStartFocus.bind(this);
     this.handleEndFocus = this.handleEndFocus.bind(this);
-  }
-
-  componentDidMount() {
-    new Cleave('.input-startTime', {
-      date: true,
-      datePattern: ['Y', 'm', 'd']
-    });
-    new Cleave('.input-endTime', {
-      date: true,
-      datePattern: ['Y', 'm', 'd']
-    });
   }
 
   handleStartFocus({ focused: startOpen }) {
@@ -98,18 +87,20 @@ class WorkExperience extends React.Component {
           />
         </div>
         <div className="resume_wrapper">
-          <Input
+          <FormatInput
             value={startTime}
             style="flat"
+            formatType="date"
             placeholder="入职时间 (YYYY/MM/DD)"
-            className="input-startTime"
+            className={`input-startTime-${index}`}
             onChange={handleExperienceChange('startTime')}
           />
-          <Input
+          <FormatInput
             value={endTime}
             style="flat"
+            formatType="date"
             placeholder="离职时间 (YYYY/MM/DD)"
-            className="input-endTime"
+            className={`input-endTime-${index}`}
             onChange={handleExperienceChange('endTime')}
           />
         </div>

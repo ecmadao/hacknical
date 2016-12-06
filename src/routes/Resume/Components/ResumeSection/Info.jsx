@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { bindActionCreators } from 'redux';
+
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
-
-import { bindActionCreators } from 'redux';
+import FormatInput from 'COMPONENTS/FormatInput';
 import actions from '../../redux/actions';
 import { GENDERS } from '../../helper/const_value';
 
@@ -57,11 +58,13 @@ class Info extends React.Component {
             style="flat"
             onChange={this.handleInfoChange('email')}
           />
-          <Input
+          <FormatInput
             type="phone"
             value={phone}
             placeholder="电话"
             style="flat"
+            formatType="phone"
+            className="input-phone"
             onChange={this.handleInfoChange('phone')}
           />
         </div>
