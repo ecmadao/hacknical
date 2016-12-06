@@ -7,7 +7,6 @@
   flex: 1;
   padding: 10px 0;
   border-radius: 2px;
-  margin: 10px 5px;
 
   &.flat {
     transition: border 0.2s;
