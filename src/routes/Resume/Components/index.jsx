@@ -90,7 +90,7 @@ class Resume extends React.Component {
           </div>
         </div>
         <div className="resume_sections">
-          <ResumeSection section={activeSection}/>
+          <ResumeSection section={activeSection} />
           <div className="resume_operations">
             <div className="operations_wrapper">
               {currentIndex > 0 && (

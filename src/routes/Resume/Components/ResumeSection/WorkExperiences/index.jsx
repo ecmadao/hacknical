@@ -52,20 +52,6 @@ class WorkExperiences extends React.Component {
     }
   }
 
-  // addDetail(workIndex) {
-  //   const {actions} = this.props;
-  //   return (projectIndex) => (value) => {
-  //     actions.deleteWorkProjectDetail(value, workIndex, projectIndex);
-  //   }
-  // }
-  //
-  // deleteDetail(workIndex) {
-  //   const {actions} = this.props;
-  //   return (projectIndex) => (detailIndex) => {
-  //     actions.deleteWorkProjectDetail(workIndex, projectIndex, detailIndex);
-  //   }
-  // }
-
   renderExperience() {
     const {workExperiences} = this.props;
     return workExperiences.map((workExperience, index) => {
@@ -85,7 +71,7 @@ class WorkExperiences extends React.Component {
   }
 
   render() {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (
       <div>
         <div>
@@ -99,21 +85,14 @@ class WorkExperiences extends React.Component {
           )}
           onClick={actions.addWorkExperience}
         />
-        {/* <div
-          className="resume_add_button"
-          onClick={actions.addWorkExperience}>
-          <i className="fa fa-plus-circle" aria-hidden="true"></i>
-          &nbsp;&nbsp;&nbsp;
-          添加工作经历
-        </div> */}
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  const {workExperiences} = state.resume;
-  return {workExperiences}
+  const { workExperiences } = state.resume;
+  return { workExperiences }
 }
 
 function mapDispatchToProps(dispatch) {

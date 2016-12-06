@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react';
-import { SingleDatePicker } from 'react-dates';
-import 'react-dates/css/styles.scss';
-import moment from 'moment';
+import Cleave from 'cleave.js';
 
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import { EDUCATIONS } from '../../../helper/const_value';
-moment.locale('zh-cn');
 
 class Education extends React.Component {
   constructor(props) {
@@ -18,6 +15,17 @@ class Education extends React.Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.handleEntranceFocus = this.handleEntranceFocus.bind(this);
     this.handleGraduationFocus = this.handleGraduationFocus.bind(this);
+  }
+
+  componentDidMount() {
+    new Cleave('.input-startTime', {
+      date: true,
+      datePattern: ['Y', 'm', 'd']
+    });
+    new Cleave('.input-endTime', {
+      date: true,
+      datePattern: ['Y', 'm', 'd']
+    });
   }
 
   handleEntranceFocus({ focused: entranceOpen }) {
@@ -78,25 +86,19 @@ class Education extends React.Component {
           />
         </div>
         <div className="resume_wrapper">
-          <SingleDatePicker
-            numberOfMonths={1}
-            id={`entrance_input_${index}`}
-            date={startTime ? moment(startTime) : null}
-            focused={entranceOpen}
-            placeholder="入学时间"
-            monthFormat="YYYY[年]MMMM"
-            onDateChange={this.onDateChange('startTime')}
-            onFocusChange={this.handleEntranceFocus}
+          <Input
+            value={startTime}
+            style="flat"
+            placeholder="入学时间 (YYYY/MM/DD)"
+            className="input-startTime"
+            onChange={handleEduChange('startTime')}
           />
-          <SingleDatePicker
-            numberOfMonths={1}
-            id={`graduation_input_${index}`}
-            date={endTime ? moment(endTime) : null}
-            focused={graduationOpen}
-            placeholder="毕业时间"
-            monthFormat="YYYY[年]MMMM"
-            onDateChange={this.onDateChange('endTime')}
-            onFocusChange={this.handleGraduationFocus}
+          <Input
+            value={endTime}
+            style="flat"
+            placeholder="毕业时间 (YYYY/MM/DD)"
+            className="input-endTime"
+            onChange={handleEduChange('endTime')}
           />
         </div>
       </div>

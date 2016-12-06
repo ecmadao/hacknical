@@ -1,15 +1,11 @@
 import React, { PropTypes } from 'react';
-import { SingleDatePicker } from 'react-dates';
-import 'react-dates/css/styles.scss';
-import moment from 'moment';
+import Cleave from 'cleave.js';
 
 import Input from 'COMPONENTS/Input';
 import { EDUCATIONS } from '../../../helper/const_value';
 import WorkProject from './WorkProject';
-moment.locale('zh-cn');
 
 class WorkExperience extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -19,6 +15,17 @@ class WorkExperience extends React.Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.handleStartFocus = this.handleStartFocus.bind(this);
     this.handleEndFocus = this.handleEndFocus.bind(this);
+  }
+
+  componentDidMount() {
+    new Cleave('.input-startTime', {
+      date: true,
+      datePattern: ['Y', 'm', 'd']
+    });
+    new Cleave('.input-endTime', {
+      date: true,
+      datePattern: ['Y', 'm', 'd']
+    });
   }
 
   handleStartFocus({ focused: startOpen }) {
@@ -91,25 +98,19 @@ class WorkExperience extends React.Component {
           />
         </div>
         <div className="resume_wrapper">
-          <SingleDatePicker
-            numberOfMonths={1}
-            id={`start_input_${index}`}
-            date={startTime ? moment(startTime) : null}
-            focused={startOpen}
-            placeholder="入职时间"
-            monthFormat="YYYY[年]MMMM"
-            onDateChange={this.onDateChange('startTime')}
-            onFocusChange={this.handleStartFocus}
+          <Input
+            value={startTime}
+            style="flat"
+            placeholder="入职时间 (YYYY/MM/DD)"
+            className="input-startTime"
+            onChange={handleExperienceChange('startTime')}
           />
-          <SingleDatePicker
-            numberOfMonths={1}
-            id={`end_input_${index}`}
-            date={endTime ? moment(endTime) : null}
-            focused={endOpen}
-            placeholder="离职时间"
-            monthFormat="YYYY[年]MMMM"
-            onDateChange={this.onDateChange('endTime')}
-            onFocusChange={this.handleEndFocus}
+          <Input
+            value={endTime}
+            style="flat"
+            placeholder="离职时间 (YYYY/MM/DD)"
+            className="input-endTime"
+            onChange={handleExperienceChange('endTime')}
           />
         </div>
         <div className="project_wrapper">
