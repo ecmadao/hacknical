@@ -31,8 +31,8 @@ class WritableList extends React.Component {
   }
 
   onKeyDown(e) {
-    if (e.keyCode === 13) {
-      const { value } = this.state;
+    const { value } = this.state;
+    if (e.keyCode === 13 && value) {
       const { onAdd } = this.props;
       onAdd && onAdd(value);
       this.clearInput();
@@ -48,7 +48,7 @@ class WritableList extends React.Component {
   }
 
   renderListItems() {
-    const {items, onDelete, onChange} = this.props;
+    const { items } = this.props;
     return items.map((item, index) => {
       return (
         <ListItem
@@ -69,7 +69,7 @@ class WritableList extends React.Component {
         <li>-&nbsp;&nbsp;
           <Input
             value={value}
-            style="borderless"
+            style="borderless underline"
             placeholder="新增项目描述"
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}

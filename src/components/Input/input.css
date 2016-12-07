@@ -58,5 +58,14 @@
     &:focus {
       border: 1px solid var(--oc-blue-5);
     }
+
+    &.underline {
+      border: none;
+      border-bottom: 1px solid transparent;
+
+      &:focus {
+        border-bottom: 1px solid var(--oc-blue-5);
+      }
+    }
   }
 }

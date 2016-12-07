@@ -2,16 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
+
 import Textarea from 'COMPONENTS/Textarea';
 import Button from 'COMPONENTS/Button';
 import Input from 'COMPONENTS/Input';
+import Labels from 'COMPONENTS/Labels';
 
 import actions from '../../redux/actions';
 
 class PersonalProjects extends React.Component {
   constructor(props) {
     super(props);
+    this.addTech = this.addTech.bind(this);
+    this.deleteProject = this.deleteProject.bind(this);
+    this.deleteTech = this.deleteTech.bind(this);
     this.handleProjectChange = this.handleProjectChange.bind(this);
+  }
+
+  deleteProject(index) {
+    return () => {
+      this.props.actions.deletePersonalProject(index);
+    }
   }
 
   renderProjects() {
@@ -20,6 +31,9 @@ class PersonalProjects extends React.Component {
       const { url, desc, techs } = personalProject;
       return (
         <div className="resume_piece_container large" key={index}>
+          <div className="resume_delete" onClick={this.deleteProject(index)}>
+            <i className="fa fa-trash-o" aria-hidden="true"></i>
+          </div>
           <div className="resume_wrapper large">
             <i className="fa fa-link" aria-hidden="true"></i>
             &nbsp;&nbsp;
@@ -37,9 +51,28 @@ class PersonalProjects extends React.Component {
               onChange={this.handleProjectChange(index)('desc')}
             />
           </div>
+          <div className="resume_wrapper">
+            <Labels
+              labels={techs}
+              onAdd={this.addTech(index)}
+              onDelete={this.deleteTech(index)}
+            />
+          </div>
         </div>
       )
     })
+  }
+
+  addTech(index) {
+    return (tech) => {
+      this.props.actions.addProjectTech(tech, index)
+    }
+  }
+
+  deleteTech(projectIndex) {
+    return (techIndex) => {
+      this.props.actions.deleteProjectTech(projectIndex, techIndex)
+    }
   }
 
   handleProjectChange(index) {

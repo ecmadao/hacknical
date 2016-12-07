@@ -287,7 +287,7 @@ const reducers = handleActions({
       ...state,
       personalProjects: [...personalProjects.slice(0, projectIndex),
         objectAssign({}, personalProject, {
-          techs: [...techs.slice(0, techIndex), techs.slice(techIndex + 1)]
+          techs: [...techs.slice(0, techIndex), ...techs.slice(techIndex + 1)]
         }),
         ...personalProjects.slice(projectIndex + 1)]
     });
