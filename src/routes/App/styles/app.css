@@ -46,28 +46,24 @@
 .app_tab {
   flex: 1;
   text-align: center;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
+  display: block;
+  text-decoration: none;
+  color: var(--oc-gray-7);
+  border-bottom: 3px solid transparent;
   transition: border-bottom 0.2s, color 0.2s;
 
   &:hover,
-  & .app_tab_active {
+  &.app_tab_active {
     color: var(--oc-blue-5);
-    border-bottom: 2px solid var(--oc-blue-5);
+    border-bottom: 3px solid var(--oc-blue-5);
 
     & i {
       color: var(--oc-blue-5);
     }
   }
 
-  & a {
-    display: block;
+  & i {
     color: var(--oc-gray-7);
-    text-decoration: none;
-
-    & i {
-      color: var(--oc-gray-7);
-    }
   }
 }
 

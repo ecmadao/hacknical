@@ -40,17 +40,17 @@ class TabBar extends React.Component {
     return TABS.map((tab, index) => {
       const {id, name, icon} = tab;
       return (
-        <div
+        <Link
           key={index}
+          to={`/${id}`}
           className="app_tab"
+          activeClassName="app_tab_active"
           onClick={() => {
             changeActiveTab && changeActiveTab(id);
           }}>
-          <Link to={`/${id}`} activeClassName="app_tab_active">
-            <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
-            {name}
-          </Link>
-        </div>
+          <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
+          {name}
+        </Link>
       )
     })
   }
