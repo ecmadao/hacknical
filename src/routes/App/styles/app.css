@@ -33,7 +33,7 @@
 }
 
 .app_tabs_container {
-  width: 60%;
+  width: 40%;
   margin: 0 30%;
   display: flex;
   min-width: 300px;
@@ -47,22 +47,22 @@
   text-align: center;
   display: block;
   text-decoration: none;
-  color: var(--oc-gray-6);
+  color: var(--oc-gray-7);
   border-bottom: 3px solid transparent;
   transition: border-bottom 0.2s, color 0.2s;
 
   &:hover,
   &.app_tab_active {
-    color: var(--oc-gray-8);
+    color: var(--oc-gray-9);
     border-bottom: 3px solid var(--oc-blue-5);
 
     & i {
-      color: var(--oc-gray-8);
+      color: var(--oc-gray-9);
     }
   }
 
   & i {
-    color: var(--oc-gray-6);
+    color: var(--oc-gray-7);
   }
 }
 
