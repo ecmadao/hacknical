@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Headroom from 'headroom.js';
 import { Link } from 'react-router';
 import AppAction from '../../redux/actions';
 
@@ -35,6 +36,12 @@ class TabBar extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    Headroom.options.offset = 50;
+    const headroom = new Headroom(this.headroom);
+    headroom.init();
+  }
+
   renderTab() {
     const {changeActiveTab} = this.props;
     return TABS.map((tab, index) => {
@@ -57,7 +64,7 @@ class TabBar extends React.Component {
 
   render() {
     return (
-      <div className="app_tabs">
+      <div className="app_tabs" ref={ref => this.headroom = ref}>
         <div className="app_tabs_container">
           {this.renderTab()}
         </div>

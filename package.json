@@ -55,6 +55,7 @@
     "cleave.js": "^0.7.14",
     "es6-promise": "^3.2.1",
     "github-calendar": "^1.1.10",
+    "headroom.js": "^0.9.3",
     "jquery": "^3.1.1",
     "moment": "^2.17.0",
     "normalize.css": "^5.0.0",

@@ -10,6 +10,10 @@
   width: 100%;
 }
 
+.app_content {
+  margin-top: 80px;
+}
+
 /* header & tab */
 .app_header {
   background-color: var(--oc-white);
@@ -64,6 +68,31 @@
       color: var(--oc-gray-9);
     }
   }
+}
+
+.headroom {
+  transition: transform 0.3s;
+  left: 0;
+  z-index: 9;
+}
+
+.headroom--pinned,
+.headroom--unpinned {
+  position: fixed;
+  top: 0;
+}
+
+.headroom--pinned {
+  transform: translateY(0);
+}
+
+.headroom--unpinned {
+  transform: translateY(-100%);
+}
+
+.headroom--top {
+  position: absolute;
+  top: 50px;
 }
 
 /* content */
