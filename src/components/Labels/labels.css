@@ -1,0 +1,61 @@
+@import 'open-color/open-color.css';
+
+.labels_wrapper {
+  flex: 1;
+  margin-top: 10px;
+}
+
+.label_input_wrapper {
+  display: line-block;
+}
+
+.label_wrapper {
+  border-radius: 2px;
+  display: inline-block;
+  padding: 8px 10px;
+  position: relative;
+  margin: 3px 5px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 300;
+  position: relative;
+  transition: box-shadow 0.3s;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:hover {
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.3);
+
+    & i {
+      opacity: 1;
+    }
+  }
+
+  & i {
+    color: var(--oc-red-7);
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  &.blue {
+    background-color: var(--oc-blue-5);
+  }
+
+  &.red {
+    background-color: var(--oc-red-5);
+  }
+
+  &.dark {
+    background-color: var(--oc-gray-7);
+  }
+
+  &.grey {
+    background-color: var(--oc-gray-5);
+  }
+}
