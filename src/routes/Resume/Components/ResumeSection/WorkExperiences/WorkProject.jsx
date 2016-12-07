@@ -56,10 +56,8 @@ class WorkProject extends React.Component {
             <i className="fa fa-trash-o" aria-hidden="true"></i>
           </div>
         </div>
-        {/* <div className="project_title">
-          {project.name}
-        </div> */}
         <WritableList
+          placeholder="新增项目描述"
           items={project.details}
           onAdd={this.addDetail}
           onDelete={this.deleteDetail}

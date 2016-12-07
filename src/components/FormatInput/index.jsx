@@ -11,6 +11,10 @@ const FORMAT_TYPES = {
   phone: {
     phone: true,
     phoneRegionCode: 'CN'
+  },
+  number: {
+    numeral: true,
+    numeralThousandsGroupStyle: 'thousand'
   }
 };
 

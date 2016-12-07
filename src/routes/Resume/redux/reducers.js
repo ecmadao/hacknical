@@ -53,10 +53,11 @@ const initialState = {
     }
   ],
   others: {
+    expectLocation: '北京',
     expectLocations: ['北京'],
     expectSalary: '20000',
     expectPosition: 'NodeJS全栈',
-    dream: '望能进入到一个活跃的、学习氛围很好的很极客的团队',
+    dream: '希望能进入到一个活跃的、学习氛围很好的很极客的团队',
     supplements: [
       '很强的学习能力和兴趣',
       '除去开发以外，对设计、交互、产品都有自己的见解和追求',
@@ -68,7 +69,7 @@ const initialState = {
 
 const reducers = handleActions({
   HANDLE_INFO_CHANGE(state, action) {
-    const {info} = state;
+    const { info } = state;
     return ({
       ...state,
       info: objectAssign({}, info, action.payload)
@@ -77,7 +78,7 @@ const reducers = handleActions({
 
   // educations
   ADD_EDUCATION(state, action) {
-    const {educations} = state;
+    const { educations } = state;
     return ({
       ...state,
       educations: [...educations, objectAssign({}, EDU)]
@@ -85,7 +86,7 @@ const reducers = handleActions({
   },
 
   DELETE_EDUCATION(state, action) {
-    const {educations} = state;
+    const { educations } = state;
     const index = action.payload;
     return ({
       ...state,
@@ -95,8 +96,8 @@ const reducers = handleActions({
   },
 
   HANDLE_EDU_CHANGE(state, action) {
-    const {educations} = state;
-    const {edu, index} = action.payload;
+    const { educations } = state;
+    const { edu, index } = action.payload;
     return ({
       ...state,
       educations: [...educations.slice(0, index),
@@ -107,7 +108,7 @@ const reducers = handleActions({
 
   // workExperiences
   ADD_WORK_EXPERIENCE(state, action) {
-    const {workExperiences} = state;
+    const { workExperiences } = state;
     return ({
       ...state,
       workExperiences: [...workExperiences, objectAssign({}, WORK_EXPERIENCE)]
@@ -115,7 +116,7 @@ const reducers = handleActions({
   },
 
   DELETE_WORK_EXPERIENCE(state, action) {
-    const {workExperiences} = state;
+    const { workExperiences } = state;
     const index = action.payload;
     return ({
       ...state,
@@ -125,7 +126,7 @@ const reducers = handleActions({
   },
 
   ADD_WORK_PROJECT(state, action) {
-    const {workExperiences} = state;
+    const { workExperiences } = state;
     const index = action.payload;
     const workExperience = workExperiences[index];
 
@@ -140,10 +141,10 @@ const reducers = handleActions({
   },
 
   DELETE_WORK_PROJECT(state, action) {
-    const {workExperiences} = state;
-    const {workIndex, projectIndex} = action.payload;
+    const { workExperiences } = state;
+    const { workIndex, projectIndex } = action.payload;
     const workExperience = workExperiences[workIndex];
-    const {projects} = workExperience;
+    const { projects } = workExperience;
 
     return ({
       ...state,
@@ -157,10 +158,10 @@ const reducers = handleActions({
   },
 
   ADD_WORK_PROJECT_DETAIL(state, action) {
-    const {workExperiences} = state;
-    const {detail, workIndex, projectIndex} = action.payload;
+    const { workExperiences } = state;
+    const { detail, workIndex, projectIndex } = action.payload;
     const workExperience = workExperiences[workIndex];
-    const {projects} = workExperience;
+    const { projects } = workExperience;
     const project = projects[projectIndex];
 
     return ({
@@ -178,10 +179,10 @@ const reducers = handleActions({
   },
 
   DELETE_WORK_PROJECT_DETAIL(state, action) {
-    const {workExperiences} = state;
-    const {detailIndex, workIndex, projectIndex} = action.payload;
+    const { workExperiences } = state;
+    const { detailIndex, workIndex, projectIndex } = action.payload;
     const workExperience = workExperiences[workIndex];
-    const {projects} = workExperience;
+    const { projects } = workExperience;
     const project = projects[projectIndex];
 
     return ({
@@ -200,10 +201,10 @@ const reducers = handleActions({
   },
 
   HANDLE_WORK_PROJECT_CHANGE(state, action) {
-    const {workExperiences} = state;
-    const {workProject, workIndex, projectIndex} = action.payload;
+    const { workExperiences } = state;
+    const { workProject, workIndex, projectIndex } = action.payload;
     const workExperience = workExperiences[workIndex];
-    const {projects} = workExperience;
+    const { projects } = workExperience;
     const project = projects[projectIndex];
 
     return ({
@@ -219,8 +220,8 @@ const reducers = handleActions({
   },
 
   HANDLE_WORK_EXPERIENCE_CHANGE(state, action) {
-    const {workExperiences} = state;
-    const {workExperience, index} = action.payload;
+    const { workExperiences } = state;
+    const { workExperience, index } = action.payload;
 
     return ({
       ...state,
@@ -240,7 +241,7 @@ const reducers = handleActions({
   },
 
   DELETE_PERSONAL_PROJECT(state, action) {
-    const {personalProjects} = state;
+    const { personalProjects } = state;
     const index = action.payload;
 
     return ({
@@ -251,8 +252,8 @@ const reducers = handleActions({
   },
 
   HANDLE_PERSONAL_PROJECT_CHANGE(state, action) {
-    const {personalProject, index} = action.payload;
-    const {personalProjects} = state;
+    const { personalProject, index } = action.payload;
+    const { personalProjects } = state;
 
     return ({
       ...state,
@@ -263,8 +264,8 @@ const reducers = handleActions({
   },
 
   ADD_PROJECT_TECH(state, action) {
-    const {tech, index} = action.payload;
-    const {personalProjects} = state;
+    const { tech, index } = action.payload;
+    const { personalProjects } = state;
     const personalProject = personalProjects[index];
 
     return ({
@@ -278,10 +279,10 @@ const reducers = handleActions({
   },
 
   DELETE_PROJECT_TECH(state, action) {
-    const {projectIndex, techIndex} = action.payload;
-    const {personalProjects} = state;
+    const { projectIndex, techIndex } = action.payload;
+    const { personalProjects } = state;
     const personalProject = personalProjects[projectIndex];
-    const {techs} = personalProject;
+    const { techs } = personalProject;
 
     return ({
       ...state,
@@ -295,7 +296,7 @@ const reducers = handleActions({
 
   // others
   HANDLE_OTHERS_INFO_CHANGE(state, action) {
-    const {others} = state;
+    const { others } = state;
     return ({
       ...state,
       others: objectAssign({}, others, action.payload)
@@ -303,8 +304,8 @@ const reducers = handleActions({
   },
 
   ADD_LOCATION(state, action) {
-    const {others} = state;
-    const {expectLocations} = others;
+    const { others } = state;
+    const { expectLocations } = others;
     return ({
       ...state,
       others: objectAssign({}, others, {
@@ -314,8 +315,8 @@ const reducers = handleActions({
   },
 
   DELETE_LOCATION(state, action) {
-    const {others} = state;
-    const {expectLocations} = others;
+    const { others } = state;
+    const { expectLocations } = others;
     const index = action.payload;
     return ({
       ...state,
@@ -326,9 +327,24 @@ const reducers = handleActions({
     });
   },
 
+  CHANGE_SUPPLEMENT(state, action) {
+    const { others } = state;
+    const { supplements } = others;
+    const { supplement, index } = action.payload;
+
+    return ({
+      ...state,
+      others: objectAssign({}, others, {
+        supplements: [...supplements.slice(0, index),
+          supplement,
+          ...supplements.slice(index + 1)]
+      })
+    });
+  },
+
   ADD_SUPPLEMENT(state, action) {
-    const {others} = state;
-    const {supplements} = others;
+    const { others } = state;
+    const { supplements } = others;
     return ({
       ...state,
       others: objectAssign({}, others, {
@@ -338,8 +354,8 @@ const reducers = handleActions({
   },
 
   DELETE_SUPPLEMENT(state, action) {
-    const {others} = state;
-    const {supplements} = others;
+    const { others } = state;
+    const { supplements } = others;
     const index = action.payload;
     return ({
       ...state,

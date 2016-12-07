@@ -13,7 +13,7 @@ const {
   addEducation,
   deleteEducation
 } = createActions({
-  HANDLE_EDU_CHANGE: (edu, index) => ({edu, index})
+  HANDLE_EDU_CHANGE: (edu, index) => ({ edu, index })
 }, 'ADD_EDUCATION', 'DELETE_EDUCATION');
 
 /**
@@ -29,11 +29,11 @@ const {
   deleteWorkExperience,
   addWorkProject
 } = createActions({
-  DELETE_WORK_PROJECT: (workIndex, projectIndex) => ({workIndex, projectIndex}),
-  ADD_WORK_PROJECT_DETAIL: (detail, workIndex, projectIndex) => ({detail, workIndex, projectIndex}),
-  DELETE_WORK_PROJECT_DETAIL: (workIndex, projectIndex, detailIndex) => ({workIndex, projectIndex, detailIndex}),
-  HANDLE_WORK_PROJECT_CHANGE: (workProject, workIndex, projectIndex) => ({workProject, workIndex, projectIndex}),
-  HANDLE_WORK_EXPERIENCE_CHANGE: (workExperience, index) => ({workExperience, index})
+  DELETE_WORK_PROJECT: (workIndex, projectIndex) => ({ workIndex, projectIndex }),
+  ADD_WORK_PROJECT_DETAIL: (detail, workIndex, projectIndex) => ({ detail, workIndex, projectIndex }),
+  DELETE_WORK_PROJECT_DETAIL: (workIndex, projectIndex, detailIndex) => ({ workIndex, projectIndex, detailIndex }),
+  HANDLE_WORK_PROJECT_CHANGE: (workProject, workIndex, projectIndex) => ({ workProject, workIndex, projectIndex }),
+  HANDLE_WORK_EXPERIENCE_CHANGE: (workExperience, index) => ({ workExperience, index })
 }, 'ADD_WORK_EXPERIENCE', 'DELETE_WORK_EXPERIENCE', 'ADD_WORK_PROJECT');
 
 /**
@@ -46,21 +46,25 @@ const {
   addPersonalProject,
   deletePersonalProject
 } = createActions({
-  HANDLE_PERSONAL_PROJECT_CHANGE: (personalProject, index) => ({personalProject, index}),
-  ADD_PROJECT_TECH: (tech, index) => ({tech, index}),
-  DELETE_PROJECT_TECH: (projectIndex, techIndex) => ({projectIndex, techIndex})
+  HANDLE_PERSONAL_PROJECT_CHANGE: (personalProject, index) => ({ personalProject, index }),
+  ADD_PROJECT_TECH: (tech, index) => ({ tech, index }),
+  DELETE_PROJECT_TECH: (projectIndex, techIndex) => ({ projectIndex, techIndex })
 }, 'ADD_PERSONAL_PROJECT', 'DELETE_PERSONAL_PROJECT');
 
 /**
  * others
  */
 const {
+  changeSupplement,
   handleOthersInfoChange,
   addLocation,
   deleteLocation,
   addSupplement,
   deleteSupplement
 } = createActions(
+  {
+    CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index })
+  },
   'HANDLE_OTHERS_INFO_CHANGE',
   'ADD_LOCATION',
   'DELETE_LOCATION',
@@ -91,6 +95,7 @@ export default {
   addProjectTech,
   deleteProjectTech,
   // others
+  changeSupplement,
   handleOthersInfoChange,
   addLocation,
   deleteLocation,

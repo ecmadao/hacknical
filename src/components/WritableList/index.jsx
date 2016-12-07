@@ -63,6 +63,7 @@ class WritableList extends React.Component {
 
   render() {
     const { value } = this.state;
+    const { placeholder } = this.props;
     return (
       <ul className="items_wrapper">
         {this.renderListItems()}
@@ -70,7 +71,7 @@ class WritableList extends React.Component {
           <Input
             value={value}
             style="borderless underline"
-            placeholder="新增项目描述"
+            placeholder={placeholder}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
           />
@@ -83,12 +84,14 @@ class WritableList extends React.Component {
 WritableList.propTypes = {
   items: PropTypes.array,
   onAdd: PropTypes.func,
+  placeholder: PropTypes.string,
   onDelete: PropTypes.func,
   onChange: PropTypes.func
 };
 
 WritableList.defaultProps = {
   items: [],
+  placeholder: '',
   onDelete: () => {},
   onAdd: () => {},
   onChange: () => {}
