@@ -7,7 +7,7 @@ import actions from '../../redux/actions';
 class Others extends React.Component {
   render() {
     return (
-      <div>
+      <div className="resume_piece_container">
         <div className="resume_title">
           其他补充
         </div>

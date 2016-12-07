@@ -47,9 +47,13 @@
   text-align: center;
   display: block;
   text-decoration: none;
-  color: var(--oc-gray-7);
+  color: var(--oc-gray-6);
   border-bottom: 3px solid transparent;
   transition: border-bottom 0.2s, color 0.2s;
+
+  & i {
+    color: var(--oc-gray-6);
+  }
 
   &:hover,
   &.app_tab_active {
@@ -59,10 +63,6 @@
     & i {
       color: var(--oc-gray-9);
     }
-  }
-
-  & i {
-    color: var(--oc-gray-7);
   }
 }
 

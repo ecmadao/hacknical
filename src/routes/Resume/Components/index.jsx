@@ -91,7 +91,7 @@ class Resume extends React.Component {
         </div>
         <div className="resume_sections">
           <ResumeSection section={activeSection} />
-          <div className="resume_operations">
+          <div className="resume_operations bottom">
             <div className="operations_wrapper">
               {currentIndex > 0 && (
                 <Button

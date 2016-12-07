@@ -27,6 +27,9 @@
 }
 
 .resume_operations {
+  &.bottom {
+    padding: 5px 50px 5px;
+  }
 
   &::after {
     content: '';
@@ -95,7 +98,8 @@
   border-radius: 3px;
   min-height: 200px;
   margin-left: 15px;
-  padding: 20px 50px;
+  /*padding: 20px 50px;*/
+  padding: 20px 0 0;
 
   &:hover {
     box-shadow: var(--shadow-4);
@@ -122,6 +126,10 @@
   font-size: 16px;
   margin-top: 10px;
   margin-bottom: 10px;
+
+  &.single_title {
+    margin: 10px 55px;
+  }
 }
 
 .resume_add {
@@ -181,18 +189,27 @@
   }
 }
 
+.resume_button_container {
+  padding: 0 50px;
+  border-bottom: 1px solid var(--bg-deep);
+}
+
 .resume_piece_container {
-  padding-bottom: 15px;
+  /*padding-bottom: 15px;*/
+  padding: 0 50px 15px;
   position: relative;
 
   &.large {
+    padding-left: 55px;
+    padding-right: 55px;
+
     &:not(:last-child) {
       padding-bottom: 20px;
     }
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--oc-gray-3);
+    border-bottom: 1px solid var(--bg-deep);
   }
 
   &:not(:first-child) {

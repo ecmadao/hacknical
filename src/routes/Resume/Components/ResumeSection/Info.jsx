@@ -35,7 +35,7 @@ class Info extends React.Component {
       avator
     } = this.props;
     return (
-      <div className="info_container">
+      <div className="resume_piece_container">
         <div className="resume_title">
           基本信息
         </div>

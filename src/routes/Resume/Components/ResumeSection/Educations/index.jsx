@@ -50,14 +50,16 @@ class Educations extends React.Component {
         <div>
           {this.renderEdu()}
         </div>
-        <Button
-          style="flat"
-          value="添加教育经历"
-          leftIcon={(
-            <i className="fa fa-plus-circle" aria-hidden="true"></i>
-          )}
-          onClick={actions.addEducation}
-        />
+        <div className="resume_button_container">
+          <Button
+            style="flat"
+            value="添加教育经历"
+            leftIcon={(
+              <i className="fa fa-plus-circle" aria-hidden="true"></i>
+            )}
+            onClick={actions.addEducation}
+          />
+        </div>
       </div>
     )
   }

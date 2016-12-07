@@ -1,6 +1,9 @@
 /*@import 'open-color/open-color.css';*/
 
 :root {
+  --bg: #F7F8F9;
+  --bg-deep: #eaeaea;
+
   --shadow-1: 1px 1px 2px 0 rgba(0, 0, 0, 0.1);
   --shadow-2: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
   --shadow-3: 1px 1px 8px 0 rgba(0, 0, 0, 0.1);

@@ -87,20 +87,22 @@ class PersonalProjects extends React.Component {
     const { actions } = this.props;
     return (
       <div>
-        <div className="resume_title">
+        <div className="resume_title single_title">
           个人项目
         </div>
         <div>
           {this.renderProjects()}
         </div>
-        <Button
-          style="flat"
-          value="添加个人项目"
-          leftIcon={(
-            <i className="fa fa-plus-circle" aria-hidden="true"></i>
-          )}
-          onClick={actions.addPersonalProject}
-        />
+        <div className="resume_button_container">
+          <Button
+            style="flat"
+            value="添加个人项目"
+            leftIcon={(
+              <i className="fa fa-plus-circle" aria-hidden="true"></i>
+            )}
+            onClick={actions.addPersonalProject}
+          />
+        </div>
       </div>
     )
   }

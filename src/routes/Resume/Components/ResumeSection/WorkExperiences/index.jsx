@@ -77,14 +77,16 @@ class WorkExperiences extends React.Component {
         <div>
           {this.renderExperience()}
         </div>
-        <Button
-          style="flat"
-          value="添加工作经历"
-          leftIcon={(
-            <i className="fa fa-plus-circle" aria-hidden="true"></i>
-          )}
-          onClick={actions.addWorkExperience}
-        />
+        <div className="resume_button_container">
+          <Button
+            style="flat"
+            value="添加工作经历"
+            leftIcon={(
+              <i className="fa fa-plus-circle" aria-hidden="true"></i>
+            )}
+            onClick={actions.addWorkExperience}
+          />
+        </div>
       </div>
     )
   }
