@@ -14,7 +14,7 @@ class ListItem extends React.Component {
           value={item}
           onChange={onChange}
           placeholder="项目描述"
-          style="borderless"
+          style="borderless underline"
         />&nbsp;&nbsp;&nbsp;
         <i
           className="fa fa-close"

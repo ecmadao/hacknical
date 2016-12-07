@@ -39,7 +39,7 @@ class PersonalProjects extends React.Component {
             &nbsp;&nbsp;
             <Input
               value={url}
-              style="borderless"
+              style="borderless underline"
               placeholder="填写项目链接"
               onChange={this.handleProjectChange(index)('url')}
             />
