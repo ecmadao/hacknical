@@ -8,7 +8,9 @@ class Others extends React.Component {
   render() {
     return (
       <div>
-        Others
+        <div className="resume_title">
+          其他补充
+        </div>
       </div>
     )
   }

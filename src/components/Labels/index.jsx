@@ -55,6 +55,7 @@ class Labels extends React.Component {
 
   render() {
     const { value } = this.state;
+    const { placeholder } = this.props;
     return (
       <div className="labels_wrapper">
         {this.renderLabels()}
@@ -62,7 +63,7 @@ class Labels extends React.Component {
           <Input
             value={value}
             style="borderless underline"
-            placeholder="添加使用的技术"
+            placeholder={placeholder}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
           />
@@ -74,6 +75,7 @@ class Labels extends React.Component {
 
 Labels.propTypes = {
   color: PropTypes.string,
+  placeholder: PropTypes.string,
   labels: PropTypes.array,
   onDelete: PropTypes.func,
   onAdd: PropTypes.func
@@ -82,6 +84,7 @@ Labels.propTypes = {
 Labels.defaultProps = {
   labels: [],
   color: 'grey',
+  placeholder: '',
   onDelete: () => {},
   onAdd: () => {}
 };

@@ -34,7 +34,7 @@ class PersonalProjects extends React.Component {
           <div className="resume_delete" onClick={this.deleteProject(index)}>
             <i className="fa fa-trash-o" aria-hidden="true"></i>
           </div>
-          <div className="resume_wrapper large">
+          <div className="resume_wrapper with_margin">
             <i className="fa fa-link" aria-hidden="true"></i>
             &nbsp;&nbsp;
             <Input
@@ -56,6 +56,7 @@ class PersonalProjects extends React.Component {
               labels={techs}
               onAdd={this.addTech(index)}
               onDelete={this.deleteTech(index)}
+              placeholder="+ 添加使用的技术"
             />
           </div>
         </div>
@@ -86,6 +87,9 @@ class PersonalProjects extends React.Component {
     const { actions } = this.props;
     return (
       <div>
+        <div className="resume_title">
+          个人项目
+        </div>
         <div>
           {this.renderProjects()}
         </div>

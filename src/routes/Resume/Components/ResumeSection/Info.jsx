@@ -36,6 +36,9 @@ class Info extends React.Component {
     } = this.props;
     return (
       <div className="info_container">
+        <div className="resume_title">
+          基本信息
+        </div>
         <div className="resume_wrapper">
           <Input
             value={name}

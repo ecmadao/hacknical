@@ -2,6 +2,7 @@
 
 .resume_container {
   position: relative;
+  margin-left: 90px;
 }
 
 .resume_navigation {
@@ -103,8 +104,8 @@
   display: flex;
   align-items: center;
 
-  &.large {
-    margin: 10px 5px;
+  &.with_margin {
+    margin: 10px 0;
   }
 }
 

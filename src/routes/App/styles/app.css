@@ -20,11 +20,9 @@
 
 .app_tabs {
   width: 100%;
-  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   background-color: #F7F8F9;
-  /*border-top: 1px solid #eaeaea;*/
   border-top: 1px solid var(--oc-gray-2);
-  color: var(--oc-gray-7);
 }
 
 .app_header_container {
@@ -35,12 +33,12 @@
 }
 
 .app_tabs_container {
-  width: 50%;
-  margin: 0 25%;
+  width: 60%;
+  margin: 0 30%;
   display: flex;
   min-width: 300px;
-  height: 60px;
-  line-height: 60px;
+  height: 65px;
+  line-height: 65px;
   font-size: 14px;
 }
 
@@ -49,22 +47,22 @@
   text-align: center;
   display: block;
   text-decoration: none;
-  color: var(--oc-gray-5);
+  color: var(--oc-gray-6);
   border-bottom: 3px solid transparent;
   transition: border-bottom 0.2s, color 0.2s;
 
   &:hover,
   &.app_tab_active {
-    color: var(--oc-gray-7);
+    color: var(--oc-gray-8);
     border-bottom: 3px solid var(--oc-blue-5);
 
     & i {
-      color: var(--oc-gray-7);
+      color: var(--oc-gray-8);
     }
   }
 
   & i {
-    color: var(--oc-gray-5);
+    color: var(--oc-gray-6);
   }
 }
 
