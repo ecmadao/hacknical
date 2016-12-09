@@ -71,7 +71,7 @@
 }
 
 .headroom {
-  transition: transform 0.3s;
+  transition: transform 0.5s;
   left: 0;
   z-index: 9;
 }

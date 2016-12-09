@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import 'rc-slider/assets/index.css'
+import Slider from 'rc-slider';
 
 import FormatInput from 'COMPONENTS/FormatInput';
 import Input from 'COMPONENTS/Input';
@@ -72,6 +74,10 @@ class Education extends React.Component {
             options={EDUCATIONS}
             style="flat"
             onChange={handleEduChange('education')}
+          />
+        </div>
+        <div className="resume_wrapper">
+          <Slider
           />
         </div>
         <div className="resume_wrapper">
