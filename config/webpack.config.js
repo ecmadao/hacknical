@@ -49,6 +49,10 @@ module.exports = {
         query: {
           presets: ["es2015"]
         }
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)\??.*$/,
+        loader: "url-loader?limit=8192&name=[name].[ext]"
       }
     ],
   },
@@ -59,7 +63,8 @@ module.exports = {
     alias: {
       COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
       MOCK: path.join(PATH.SOURCE_PATH, 'mock'),
-      UTILS: path.join(PATH.SOURCE_PATH, 'utils')
+      UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
+      IMAGES: path.join(PATH.SOURCE_PATH, 'style/images')
       // UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
       // MODULES: path.join(PATH.SOURCE_PATH, 'modules'),
     }

@@ -47,47 +47,60 @@ class Others extends React.Component {
     } = this.props;
 
     return (
-      <div className="resume_piece_container">
-        <div className="resume_title">
-          其他补充
+      <div>
+        <div className="resume_piece_container">
+          <div className="resume_title">
+            其他补充
+          </div>
+          <div className="resume_wrapper">
+            <FormatInput
+              value={expectSalary}
+              placeholder="期望薪资"
+              formatType="number"
+              style="flat"
+              className="input-expect-salary"
+              onChange={this.handleOthersChange('expectSalary')}
+            />
+            <Input
+              value={expectPosition}
+              placeholder="期望职位"
+              style="flat"
+              onChange={this.handleOthersChange('expectPosition')}
+            />
+            <Input
+              value={expectLocation}
+              placeholder="期望城市"
+              style="flat"
+              onChange={this.handleOthersChange('expectLocation')}
+            />
+          </div>
+          <div className="resume_wrapper">
+            <Input
+              value={dream}
+              placeholder="你的梦想？"
+              style="flat"
+              onChange={this.handleOthersChange('dream')}
+            />
+          </div>
+          <WritableList
+            items={supplements}
+            onAdd={this.addSupplement}
+            onDelete={this.deleteSupplement}
+            onChange={this.changeSupplement}
+            placeholder="新增个人介绍"
+          />
         </div>
-        <div className="resume_wrapper">
-          <FormatInput
-            value={expectSalary}
-            placeholder="期望薪资"
-            formatType="number"
-            style="flat"
-            className="input-expect-salary"
-            onChange={this.handleOthersChange('expectSalary')}
-          />
-          <Input
-            value={expectPosition}
-            placeholder="期望职位"
-            style="flat"
-            onChange={this.handleOthersChange('expectPosition')}
-          />
-          <Input
-            value={expectLocation}
-            placeholder="期望城市"
-            style="flat"
-            onChange={this.handleOthersChange('expectLocation')}
-          />
+        <div className="resume_piece_container">
+          <div className="resume_title">
+            链接其他账号
+          </div>
+          <div className="resume_wrapper">
+            <div className="resume_link github">
+              <img src={require('IMAGES/github.png')}/>
+            </div>
+          </div>
         </div>
-        <div className="resume_wrapper">
-          <Input
-            value={dream}
-            placeholder="你的梦想？"
-            style="flat"
-            onChange={this.handleOthersChange('dream')}
-          />
-        </div>
-        <WritableList
-          items={supplements}
-          onAdd={this.addSupplement}
-          onDelete={this.deleteSupplement}
-          onChange={this.changeSupplement}
-          placeholder="新增个人介绍"
-        />
+        <div/>
       </div>
     )
   }

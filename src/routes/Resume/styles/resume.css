@@ -281,3 +281,25 @@
     color: var(--oc-red-5);
   }
 }
+
+/* others account link */
+.resume_link {
+  width: 80px;
+  height: 80px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin: 5px;
+  border: 1px solid var(--oc-gray-3);
+  background-color: var(--oc-white);
+  transition: background-color 0.2s;
+
+  & img {
+    width: 50px;
+    height: 50px;
+    margin: 15px;
+  }
+
+  &:hover {
+    background-color: var(--oc-gray-3);
+  }
+}
