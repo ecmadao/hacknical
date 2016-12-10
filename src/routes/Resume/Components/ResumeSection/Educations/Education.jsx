@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
 import DateSlider from 'COMPONENTS/DateSlider'
-// import FormatInput from 'COMPONENTS/FormatInput';
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import { EDUCATIONS } from '../../../helper/const_value';
@@ -81,28 +80,11 @@ class Education extends React.Component {
             initialEnd={endTime}
             startText="入学时间"
             endText="毕业时间"
+            pushInterval="year"
             onStartChange={handleEduChange('startTime')}
             onEndChange={handleEduChange('endTime')}
           />
         </div>
-        {/* <div className="resume_wrapper">
-          <FormatInput
-          value={startTime}
-          style="flat"
-          formatType="date"
-          placeholder="入学时间 (YYYY/MM/DD)"
-          className={`input-startTime-${index}`}
-          onChange={handleEduChange('startTime')}
-          />
-          <FormatInput
-          value={endTime}
-          style="flat"
-          formatType="date"
-          placeholder="毕业时间 (YYYY/MM/DD)"
-          className={`input-endTime-${index}`}
-          onChange={handleEduChange('endTime')}
-          />
-        </div> */}
       </div>
     )
   }

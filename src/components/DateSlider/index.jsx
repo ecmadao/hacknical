@@ -38,6 +38,24 @@ class DateSlider extends React.Component {
     });
   }
 
+  get pushInterval() {
+    const { pushInterval } = this.props;
+    switch (pushInterval) {
+    case 'day':
+      return SECONDS_PER_DAY;
+    case 'month':
+      return SECONDS_PER_DAY * 30;
+    case 'halfYear':
+      return SECONDS_PER_DAY * 30 * 6;
+    case 'year':
+      return SECONDS_PER_DAY * 30 * 12;
+    case '2year':
+      return SECONDS_PER_DAY * 30 * 24;
+    default:
+      return SECONDS_PER_DAY * 30;
+    }
+  }
+
   render() {
     const {
       minDate,
@@ -55,7 +73,7 @@ class DateSlider extends React.Component {
       <div className="slider_container">
         <Slider
           range
-          pushable={SECONDS_PER_DAY * 30}
+          pushable={this.pushInterval}
           allowCross={false}
           min={getSecondsByDate(minDate)}
           max={getSecondsByDate(maxDate)}
@@ -75,12 +93,12 @@ class DateSlider extends React.Component {
           <div className="slider_tips">
             {startText}
             <span>
-              {startDate}
+              {startDate.split('-').slice(0, 2).join('-')}
             </span>
           </div>
           <div className="slider_tips">
             <span>
-              {endDate}
+              {endDate.split('-').slice(0, 2).join('-')}
             </span>
             {endText}
           </div>
@@ -91,6 +109,7 @@ class DateSlider extends React.Component {
 }
 
 DateSlider.propTypes = {
+  pushInterval: PropTypes.string,
   minDate: PropTypes.string,
   maxDate: PropTypes.string,
   startText: PropTypes.string,
@@ -102,6 +121,7 @@ DateSlider.propTypes = {
 };
 
 DateSlider.defaultProps = {
+  pushInterval: 'day',
   minDate: getDateBeforeYears(10),
   maxDate: getCurrentDate(),
   initialStart: getDateBeforeYears(2),
