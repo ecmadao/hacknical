@@ -61,7 +61,7 @@ class PersonalProjects extends React.Component {
           </div>
         </div>
       )
-    })
+    });
   }
 
   addTech(index) {
