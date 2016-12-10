@@ -21,9 +21,21 @@
 
   &:first-child {
     text-align: left;
+
+    & span {
+      padding-left: 10px;
+    }
   }
 
   &:last-child {
     text-align: right;
+
+    & span {
+      padding-right: 10px;
+    }
+  }
+
+  & span {
+    color: var(--oc-gray-7);
   }
 }

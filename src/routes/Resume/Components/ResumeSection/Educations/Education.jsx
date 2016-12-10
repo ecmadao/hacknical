@@ -77,28 +77,30 @@ class Education extends React.Component {
         </div>
         <div className="resume_wrapper">
           <DateSlider
+            initialStart={startTime}
+            initialEnd={endTime}
             onStartChange={handleEduChange('startTime')}
             onEndChange={handleEduChange('endTime')}
           />
         </div>
-        <div className="resume_wrapper">
+        {/* <div className="resume_wrapper">
           <FormatInput
-            value={startTime}
-            style="flat"
-            formatType="date"
-            placeholder="入学时间 (YYYY/MM/DD)"
-            className={`input-startTime-${index}`}
-            onChange={handleEduChange('startTime')}
+          value={startTime}
+          style="flat"
+          formatType="date"
+          placeholder="入学时间 (YYYY/MM/DD)"
+          className={`input-startTime-${index}`}
+          onChange={handleEduChange('startTime')}
           />
           <FormatInput
-            value={endTime}
-            style="flat"
-            formatType="date"
-            placeholder="毕业时间 (YYYY/MM/DD)"
-            className={`input-endTime-${index}`}
-            onChange={handleEduChange('endTime')}
+          value={endTime}
+          style="flat"
+          formatType="date"
+          placeholder="毕业时间 (YYYY/MM/DD)"
+          className={`input-endTime-${index}`}
+          onChange={handleEduChange('endTime')}
           />
-        </div>
+        </div> */}
       </div>
     )
   }

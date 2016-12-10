@@ -7,7 +7,6 @@ import './date_slider.css';
 import {
   getDateBeforeYears,
   getDateBySeconds,
-  // getCurrentSeconds,
   getCurrentDate,
   getSecondsByDate,
   getSecondsBeforeYears
@@ -18,34 +17,49 @@ const SECONDS_PER_DAY = 24 * 60 * 60;
 class DateSlider extends React.Component {
   constructor(props) {
     super(props);
+    const { initialStart, initialEnd } = this.props;
+    this.state = {
+      startDate: initialStart || getDateBeforeYears(2),
+      endDate: initialEnd || getDateBeforeYears(1)
+    }
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(seconds) {
     const { onStartChange, onEndChange } = this.props;
     const [startSeconds, endSeconds] = seconds;
-    onStartChange && onStartChange(getDateBySeconds(startSeconds));
-    onEndChange && onEndChange(getDateBySeconds(endSeconds));
+    const startDate = getDateBySeconds(startSeconds);
+    const endDate = getDateBySeconds(endSeconds);
+    onStartChange && onStartChange(startDate);
+    onEndChange && onEndChange(endDate);
+    this.setState({
+      startDate,
+      endDate
+    });
   }
 
   render() {
     const {
-      startDate,
-      endDate,
+      minDate,
+      maxDate,
       startText,
       endText
     } = this.props;
+    const {
+      startDate,
+      endDate
+    } = this.state;
 
     return (
       <div className="slider_container">
         <Slider
           range
           allowCross={false}
-          min={getSecondsByDate(startDate)}
-          max={getSecondsByDate(endDate)}
+          min={getSecondsByDate(minDate)}
+          max={getSecondsByDate(maxDate)}
           defaultValue={[
-            getSecondsBeforeYears(2),
-            getSecondsBeforeYears(1)
+            getSecondsByDate(startDate),
+            getSecondsByDate(endDate)
           ]}
           step={SECONDS_PER_DAY}
           tipFormatter={(data) => {
@@ -58,8 +72,14 @@ class DateSlider extends React.Component {
         <div className="slider_tips_container">
           <div className="slider_tips">
             {startText}
+            <span>
+              {startDate}
+            </span>
           </div>
           <div className="slider_tips">
+            <span>
+              {endDate}
+            </span>
             {endText}
           </div>
         </div>
@@ -69,17 +89,21 @@ class DateSlider extends React.Component {
 }
 
 DateSlider.propTypes = {
-  startDate: PropTypes.string,
-  endDate: PropTypes.string,
+  minDate: PropTypes.string,
+  maxDate: PropTypes.string,
   startText: PropTypes.string,
   endText: PropTypes.string,
+  initialStart: PropTypes.string,
+  initialEnd: PropTypes.string,
   onStartChange: PropTypes.func,
   onEndChange: PropTypes.func
 };
 
 DateSlider.defaultProps = {
-  startDate: getDateBeforeYears(10),
-  endDate: getCurrentDate(),
+  minDate: getDateBeforeYears(10),
+  maxDate: getCurrentDate(),
+  initialStart: getDateBeforeYears(2),
+  initialEnd: getDateBeforeYears(1),
   startText: '开始时间',
   endText: '结束时间',
   onStartChange: () => {},
