@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
-import 'rc-slider/assets/index.css'
-import Slider from 'rc-slider';
 
+import DateSlider from 'COMPONENTS/DateSlider'
 import FormatInput from 'COMPONENTS/FormatInput';
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
@@ -77,7 +76,9 @@ class Education extends React.Component {
           />
         </div>
         <div className="resume_wrapper">
-          <Slider
+          <DateSlider
+            onStartChange={handleEduChange('startTime')}
+            onEndChange={handleEduChange('endTime')}
           />
         </div>
         <div className="resume_wrapper">
