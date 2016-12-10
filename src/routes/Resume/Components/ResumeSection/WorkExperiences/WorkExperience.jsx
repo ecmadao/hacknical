@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import FormatInput from 'COMPONENTS/FormatInput';
+// import FormatInput from 'COMPONENTS/FormatInput';
+import DateSlider from 'COMPONENTS/DateSlider';
 import Input from 'COMPONENTS/Input';
 import { EDUCATIONS } from '../../../helper/const_value';
 import WorkProject from './WorkProject';
@@ -87,8 +88,18 @@ class WorkExperience extends React.Component {
           />
         </div>
         <div className="resume_wrapper">
+          <DateSlider
+            initialStart={startTime}
+            initialEnd={endTime}
+            startText="入职时间"
+            endText="离职时间"
+            onStartChange={handleExperienceChange('startTime')}
+            onEndChange={handleExperienceChange('endTime')}
+          />
+        </div>
+        {/* <div className="resume_wrapper">
           <FormatInput
-            value={startTime}
+          value={startTime}
             style="flat"
             formatType="date"
             placeholder="入职时间 (YYYY/MM/DD)"
@@ -103,7 +114,7 @@ class WorkExperience extends React.Component {
             className={`input-endTime-${index}`}
             onChange={handleExperienceChange('endTime')}
           />
-        </div>
+        </div> */}
         <div className="project_wrapper">
           <div className="resume_title">
             参与项目

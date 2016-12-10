@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import DateSlider from 'COMPONENTS/DateSlider'
-import FormatInput from 'COMPONENTS/FormatInput';
+// import FormatInput from 'COMPONENTS/FormatInput';
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import { EDUCATIONS } from '../../../helper/const_value';
@@ -79,6 +79,8 @@ class Education extends React.Component {
           <DateSlider
             initialStart={startTime}
             initialEnd={endTime}
+            startText="入学时间"
+            endText="毕业时间"
             onStartChange={handleEduChange('startTime')}
             onEndChange={handleEduChange('endTime')}
           />

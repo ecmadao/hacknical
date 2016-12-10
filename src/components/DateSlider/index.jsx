@@ -45,6 +45,7 @@ class DateSlider extends React.Component {
       startText,
       endText
     } = this.props;
+
     const {
       startDate,
       endDate
@@ -54,6 +55,7 @@ class DateSlider extends React.Component {
       <div className="slider_container">
         <Slider
           range
+          pushable={SECONDS_PER_DAY * 30}
           allowCross={false}
           min={getSecondsByDate(minDate)}
           max={getSecondsByDate(maxDate)}
