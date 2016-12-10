@@ -260,6 +260,10 @@
     position: relative;
 
     &:hover {
+      & .repos_timeline {
+        opacity: 1;
+      }
+
       & .repos_tipso {
         opacity: 1;
         visibility: visible;

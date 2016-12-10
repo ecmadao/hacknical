@@ -66,7 +66,7 @@ class PersonalProjects extends React.Component {
 
   addTech(index) {
     return (tech) => {
-      this.props.actions.addProjectTech(tech, index)
+      this.props.actions.addProjectTech(tech, index);
     }
   }
 

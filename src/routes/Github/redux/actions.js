@@ -1,4 +1,4 @@
-import { createAction } from 'redux-actions';
+import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 import USER from 'MOCK/user';
 import {
@@ -7,16 +7,28 @@ import {
 } from 'MOCK/repos';
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 
-const toggleLoading = createAction('TOGGLE_LOADING');
-
-const setGithubInfo = createAction('SET_GITHUB_INFO');
+const {
+  toggleLoading,
+  setGithubInfo,
+  setGithubRepos,
+  closeReposReadme,
+  setShowLanguage,
+  setShowedReposId,
+  setChosedRepos
+} = createActions(
+  'TOGGLE_LOADING',
+  'SET_GITHUB_INFO',
+  'SET_GITHUB_REPOS',
+  'CLOSE_REPOS_README',
+  'SET_SHOW_LANGUAGE',
+  'SET_SHOWED_REPOS_ID',
+  'SET_CHOSED_REPOS'
+);
 
 const getGithubInfo = () => (dispatch, getState) => {
   dispatch(setGithubInfo(USER));
   dispatch(toggleLoading(false));
 };
-
-const setGithubRepos = createAction('SET_GITHUB_REPOS');
 
 const getGithubRepos = () => (dispatch, getState) => {
   dispatch(setGithubRepos(ALL_REPOS));
@@ -51,15 +63,9 @@ const fetchReposReadme = (url, reposId) => (dispatch, getState) => {
   });
 };
 
-const setShowLanguage = createAction('SET_SHOW_LANGUAGE');
-
 const choseRepos = () => (dispatch, getState) => {
   dispatch(setChosedRepos(CHOSED_REPOS));
 };
-
-const setChosedRepos = createAction('SET_CHOSED_REPOS');
-
-const setShowedReposId = createAction('SET_SHOWED_REPOS_ID');
 
 export default {
   setGithubInfo,
@@ -72,5 +78,6 @@ export default {
   setShowLanguage,
   choseRepos,
   setChosedRepos,
-  setShowedReposId
+  setShowedReposId,
+  closeReposReadme
 }

@@ -40,6 +40,12 @@ const reducers = handleActions({
       chosedRepos: [...action.payload]
     });
   },
+  CLOSE_REPOS_README(state, action) {
+    return ({
+      ...state,
+      showedReposId: null
+    });
+  },
   SET_SHOWED_REPOS_ID(state, action) {
     return ({
       ...state,

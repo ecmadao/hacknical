@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
-// import 'wysiwyg.css';
 
 import Loading from '../../../components/Loading/index';
 import CHOSED_REPOS from 'MOCK/chosed_repos';
@@ -83,9 +82,11 @@ class UserReposCard extends React.Component {
       const left = offsetLeft(new Date(created_at));
       const right = offsetRight(new Date(pushed_at));
       repository.color = color || randomColor();
+      const isActive = showedReposId === id;
       const wrapperClass = classNames('repos_timeline_wrapper', {
-        'active': showedReposId === id
+        'active': isActive
       });
+      const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, id);
       return (
         <div
           key={index}
@@ -94,7 +95,7 @@ class UserReposCard extends React.Component {
           <div
             style={{backgroundColor: repository.color}}
             className="repos_timeline"
-            onClick={() => actions.showReposReadme(full_name, id)}>
+            onClick={handleClick}>
           </div>
           <div className="repos_tipso">
             <div className="tipso_container">
