@@ -10,7 +10,7 @@ import {
   getCurrentDate,
   getSecondsByDate,
   getSecondsBeforeYears
-} from '../../utils/date';
+} from 'UTILS/date';
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
 

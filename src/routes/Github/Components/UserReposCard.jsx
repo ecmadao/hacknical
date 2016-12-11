@@ -11,6 +11,7 @@ import {
   sortByDate
 } from '../helper/chosed_repos';
 import { hex2Rgba } from '../helper/color_helper';
+import { getRelativeTime } from 'UTILS/date';
 
 const getOffsetLeft = (start, end) => (left) => {
   const length = end - start;
@@ -155,8 +156,8 @@ class UserReposCard extends React.Component {
     return (
       <div className="repos_timeline_container">
         <div className="repos_dates">
-          <div className="repos_date">{this.minDate}</div>
-          <div className="repos_date">{this.maxDate}</div>
+          <div className="repos_date">{getRelativeTime(this.minDate)}</div>
+          <div className="repos_date">{getRelativeTime(this.maxDate)}</div>
         </div>
         <div className="repos_timelines">
           {this.renderTimeLine(sortedRepos)}
