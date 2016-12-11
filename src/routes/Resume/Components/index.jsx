@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 
 import Button from 'COMPONENTS/Button';
+import PortalModal from 'COMPONENTS/PortalModal';
 import '../styles/resume.css';
 import { RESUME_SECTIONS } from '../helper/const_value';
 import ResumeSection from './ResumeSection/index';
@@ -123,6 +124,9 @@ class Resume extends React.Component {
             </div>
           </div>
         </div>
+        <PortalModal
+          showModal={true}
+        />
       </div>
     )
   }
