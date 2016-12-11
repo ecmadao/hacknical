@@ -15,7 +15,7 @@ const url = value => validator.isURL(value);
 
 const string = value => validator.isByteLength(value, {
   min: 1,
-  max: 100
+  max: 200
 });
 
 const textarea = (value, max) => validator.isByteLength(value, {
