@@ -1,0 +1,11 @@
+@import 'open-color/open-color.css';
+@import "../../../style/base.css";
+
+.resume_modal_container {
+  background-color: var(--oc-white);
+  box-shadow: var(--shadow-4);
+  padding: 30px;
+  width: 80%;
+  margin-left: 10%;
+  border-radius: 2px;
+}

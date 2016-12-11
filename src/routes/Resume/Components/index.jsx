@@ -1,26 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { bindActionCreators } from 'redux';
 
 import Button from 'COMPONENTS/Button';
-import PortalModal from 'COMPONENTS/PortalModal';
 import '../styles/resume.css';
 import { RESUME_SECTIONS } from '../helper/const_value';
-import ResumeSection from './ResumeSection/index';
+import ResumeSection from './ResumeSection';
+import ResumeModal from './ResumeModal';
 
 class Resume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      openModal: false,
       activeSection: RESUME_SECTIONS[0].id
     };
+    this.handleModalStatus = this.handleModalStatus.bind(this);
     this.handleSectionChange = this.handleSectionChange.bind(this);
     this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this);
   }
 
+  handleModalStatus(openModal) {
+    this.setState({ openModal });
+  }
+
   handleSectionChange(id) {
-    const {activeSection} = this.state;
+    const { activeSection } = this.state;
     if (activeSection !== id) {
       this.setState({
         activeSection: id
@@ -29,9 +33,9 @@ class Resume extends React.Component {
   }
 
   renderNavigation() {
-    const {activeSection} = this.state;
+    const { activeSection } = this.state;
     return RESUME_SECTIONS.map((section, index) => {
-      const {id, text} = section;
+      const { id, text } = section;
       const sectionClass = classNames('resume_section', {
         'active': activeSection === id
       });
@@ -48,7 +52,7 @@ class Resume extends React.Component {
   }
 
   get currentIndex() {
-    const {activeSection} = this.state;
+    const { activeSection } = this.state;
     let currentIndex = 0;
     RESUME_SECTIONS.forEach((section, index) => {
       if (section.id === activeSection) {
@@ -64,7 +68,7 @@ class Resume extends React.Component {
   }
 
   render() {
-    const {activeSection} = this.state;
+    const { activeSection, openModal } = this.state;
     const currentIndex = this.currentIndex;
     const max = RESUME_SECTIONS.length;
 
@@ -78,6 +82,7 @@ class Resume extends React.Component {
             <Button
               value="预览"
               className="dark"
+              onClick={() => this.handleModalStatus(true)}
               leftIcon={(
                 <i className="fa fa-file-text-o" aria-hidden="true"></i>
               )}
@@ -124,12 +129,13 @@ class Resume extends React.Component {
             </div>
           </div>
         </div>
-        <PortalModal
-          showModal={true}
+        <ResumeModal
+          openModal={openModal}
+          onClose={() => this.handleModalStatus(false)}
         />
       </div>
     )
   }
 }
 
-export default connect()(Resume);
+export default Resume;

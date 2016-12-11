@@ -68,6 +68,7 @@ const initialState = {
 };
 
 const reducers = handleActions({
+  // info
   HANDLE_INFO_CHANGE(state, action) {
     const { info } = state;
     return ({
