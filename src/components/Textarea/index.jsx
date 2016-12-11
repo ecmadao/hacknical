@@ -1,17 +1,44 @@
 import React, { PropTypes } from 'react';
 
 import './textarea.css';
+import Validator from 'UTILS/validator';
 
 class Textarea extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      error: false,
+      focus: false
+    };
     this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this);
   }
 
   onChange() {
     const value = this.textarea.value;
     const { onChange } = this.props;
     onChange && onChange(value);
+    const { error } = this.state;
+    if (error) {
+      this.check();
+    }
+  }
+
+  onFocus() {
+    this.setState({ focus: true });
+  }
+
+  onBlur() {
+    this.setState({ focus: false });
+    this.check();
+  }
+
+  check(inputValue) {
+    const value = inputValue || this.textarea.value;
+    const { type, max } = this.props;
+    const error = !Validator[type](value, max) ? true : false;
+    this.setState({ error });
   }
 
   render() {
@@ -21,9 +48,10 @@ class Textarea extends React.Component {
       onKeyDown,
       placeholder
     } = this.props;
+    const { focus, error } = this.state;
 
     return (
-      <div className={`textarea_wrapper ${style}`}>
+      <div className={`textarea_wrapper ${style} ${focus && 'focus'} ${error && 'error'}`}>
         <pre className="textarea_hidden">
           <span>
             {value}
@@ -37,6 +65,8 @@ class Textarea extends React.Component {
           ref={ref => this.textarea = ref}
           className="textarea"
           onKeyDown={onKeyDown}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
         />
       </div>
     )

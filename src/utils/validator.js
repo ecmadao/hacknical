@@ -15,7 +15,12 @@ const url = value => validator.isURL(value);
 
 const string = value => validator.isByteLength(value, {
   min: 1,
-  max: 300
+  max: 100
+});
+
+const textarea = (value, max) => validator.isByteLength(value, {
+  min: 0,
+  max: parseInt(max)
 });
 
 export default {
@@ -23,5 +28,6 @@ export default {
   phone,
   url,
   string,
-  number
+  number,
+  textarea
 }

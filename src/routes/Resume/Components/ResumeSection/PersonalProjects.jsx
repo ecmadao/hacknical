@@ -47,8 +47,10 @@ class PersonalProjects extends React.Component {
           </div>
           <div className="resume_wrapper">
             <Textarea
+              max="200"
               value={desc}
               placeholder="填写项目描述"
+              type="textarea"
               onChange={this.handleProjectChange(index)('desc')}
             />
           </div>

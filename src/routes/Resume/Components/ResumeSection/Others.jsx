@@ -58,7 +58,6 @@ class Others extends React.Component {
               placeholder="期望月薪"
               formatType="number"
               style="flat"
-              type="number"
               className="input-expect-salary"
               onChange={this.handleOthersChange('expectSalary')}
             />

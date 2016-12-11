@@ -7,14 +7,18 @@
   flex: 1;
   padding: 10px 0;
   border-radius: 2px;
+  transition: border 0.2s;
 
   &.flat {
-    transition: border 0.2s;
     border: 1px solid var(--oc-gray-5);
+  }
 
-    &:focus {
-      border: 1px solid var(--oc-blue-5);
-    }
+  &.focus {
+    border: 1px solid var(--oc-blue-5);
+  }
+
+  &.error {
+    border: 1px solid var(--oc-red-5);
   }
 }
 
