@@ -14,7 +14,6 @@ class BaseModal extends React.Component {
       'modal_component',
       showModal && 'active'
     );
-    // const modalClass = showModal ? styles['modal-component-active'] : styles['modal-component'];
     return (
       <div className={modalClass}>
         <div className="modal_wrapper" onClick={this.onClose.bind(this)}></div>
