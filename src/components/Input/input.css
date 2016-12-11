@@ -70,4 +70,12 @@
       }
     }
   }
+
+  &.error {
+    border: 1px solid var(--oc-red-5);
+
+    &:focus {
+      border: 1px solid var(--oc-red-5);
+    }
+  }
 }

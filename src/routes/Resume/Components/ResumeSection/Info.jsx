@@ -61,7 +61,7 @@ class Info extends React.Component {
             style="flat"
             onChange={this.handleInfoChange('email')}
           />
-          <FormatInput
+          <Input
             type="phone"
             value={phone}
             placeholder="电话"

@@ -64,6 +64,7 @@
     "open-color": "^1.4.0",
     "rc-slider": "^5.4.0",
     "react-dates": "^4.1.0",
+    "validator": "^6.2.0",
     "wysiwyg.css": "0.0.2"
   }
 }

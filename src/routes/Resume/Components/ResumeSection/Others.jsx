@@ -55,9 +55,10 @@ class Others extends React.Component {
           <div className="resume_wrapper">
             <FormatInput
               value={expectSalary}
-              placeholder="期望薪资"
+              placeholder="期望月薪"
               formatType="number"
               style="flat"
+              type="number"
               className="input-expect-salary"
               onChange={this.handleOthersChange('expectSalary')}
             />
