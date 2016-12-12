@@ -26,3 +26,5 @@ export const getSecondsByDate = (date) => getSeconds(date);
 
 export const getCurrentDate = () => formatDate()('L');
 export const getCurrentSeconds = () => getSecondsByDate();
+
+export const sortByX = (key) => (thisObj, nextObj) => getSeconds(thisObj.key) - getSeconds(nextObj.key)

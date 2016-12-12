@@ -2,10 +2,56 @@
 @import "../../../style/base.css";
 
 .resume_modal_container {
-  background-color: var(--oc-white);
+  background-color: #F7F8F9;
+  /*background-color: var(--oc-white);*/
   box-shadow: var(--shadow-4);
   padding: 30px;
-  width: 80%;
-  margin-left: 10%;
+  width: 70%;
+  margin-left: 15%;
   border-radius: 2px;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.resume_info_wrapper {
+  color: var(--main-text);
+  padding: 15px;
+  background-color: var(--flat-card);
+  border-top: 1px solid var(--flat-card-border);
+  border-left: 1px solid var(--flat-card-border);
+  border-right: 1px solid var(--flat-card-border);
+
+  &:last-child {
+    border-bottom: 1px solid var(--flat-card-border);
+  }
+}
+
+.info_title {
+  font-size: 18px;
+  height: 20px;
+  line-height: 20px;
+  border-left: 2px solid var(--main-text);
+  padding: 0 20px;
+}
+
+.info_wrapper {
+  padding: 0 20px;
+}
+
+.info_header {
+  font-size: 16px;
+
+  & i {
+    font-size: 14px;
+  }
+}
+
+.info_text {
+  font-size: 14px;
+  height: 25px;
+  line-height: 25px;
+  color: var(--side-text);
+}
+
+.text_intro {
 }

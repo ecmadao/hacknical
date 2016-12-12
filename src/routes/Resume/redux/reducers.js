@@ -56,7 +56,7 @@ const initialState = {
     expectLocation: '北京',
     expectLocations: ['北京'],
     expectSalary: '20000',
-    expectPosition: 'NodeJS全栈',
+    // expectPosition: 'NodeJS全栈',
     dream: '希望能进入到一个活跃的、学习氛围很好的很极客的团队',
     supplements: [
       '很强的学习能力和兴趣',
