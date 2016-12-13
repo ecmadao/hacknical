@@ -16,8 +16,8 @@ class ResumeModal extends React.Component {
       const { school, major, education, startTime, endTime} = edu;
       return (
         <div key={index} className="resume_section_wrapper">
-          <div className="info_header">{school}, {education}</div>
-          <div className="info_text">{validateDate(startTime)} ~ {validateDate(endTime)}</div>
+          <div className="resume_info_header">{school}, {education}</div>
+          <div className="info_text">{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div className="info_text">{major}</div>
           <div className="section_dot"></div>
         </div>
@@ -32,8 +32,8 @@ class ResumeModal extends React.Component {
       const workProjects = this.renderProjects(projects);
       return (
         <div key={index} className="resume_section_wrapper">
-          <div className="info_header">{company}, {position}</div>
-          <div className="info_text">{validateDate(startTime)} ~ {validateDate(endTime)}</div>
+          <div className="resume_info_header">{company}, {position}</div>
+          <div className="info_text">{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div>{workProjects}</div>
           <div className="section_dot"></div>
         </div>
@@ -75,7 +75,7 @@ class ResumeModal extends React.Component {
       })
       return (
         <div key={index}>
-          <a target="_blank" href={url} className="info_header header_link">
+          <a target="_blank" href={url} className="resume_info_header header_link">
             <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
             {title}
           </a>
@@ -88,6 +88,23 @@ class ResumeModal extends React.Component {
         </div>
       )
     });
+  }
+
+  renderSupplements() {
+    const { others } = this.props.resume;
+    const { supplements } = others;
+    const personalSupplements = supplements.map((supplement, index) => {
+      return (
+        <li key={index}>
+          - {supplement}
+        </li>
+      )
+    });
+    return (
+      <ul className="info_intro">
+        {personalSupplements}
+      </ul>
+    )
   }
 
   render() {
@@ -111,7 +128,7 @@ class ResumeModal extends React.Component {
               </div>
               <br/>
               <div className="info_wrapper base_info">
-                <div className="info_header">
+                <div className="resume_info_header">
                   {info.name}
                   &nbsp;&nbsp;&nbsp;
                   <i className={`fa fa-${info.gender}`} aria-hidden="true"></i>
@@ -160,8 +177,8 @@ class ResumeModal extends React.Component {
               <div className="info_title">
                 <i className="fa fa-quote-left" aria-hidden="true"></i>自我评价
               </div><br/>
-              <div className="info_wrapper">
-
+              <div className="info_wrapper base_info">
+                {this.renderSupplements()}
               </div>
             </div>
           </div>
