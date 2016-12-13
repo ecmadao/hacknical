@@ -16,14 +16,14 @@
 .resume_info_wrapper {
   color: var(--main-text);
   padding: 15px;
-  background-color: var(--flat-card);
+  /*background-color: var(--flat-card);
   border-top: 1px solid var(--flat-card-border);
   border-left: 1px solid var(--flat-card-border);
   border-right: 1px solid var(--flat-card-border);
 
   &:last-child {
     border-bottom: 1px solid var(--flat-card-border);
-  }
+  }*/
 }
 
 .info_title {
@@ -35,23 +35,54 @@
   & i {
     margin-right: 10px;
   }
-  /*border-left: 2px solid var(--main-text);*/
-  /*padding: 0 20px;*/
 }
 
 .info_wrapper {
   padding: 0 30px;
-  border-left: 1px solid var(--oc-gray-4);
-}
+  position: relative;
+  margin-left: 6px;
 
-.base_info_wrapper {
-  /*border-left: 1px solid var(--oc-gray-4);*/
+  &.base_info::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 2px;
+    top: 8px;
+    bottom: 4px;
+    left: 0;
+    background-color: var(--oc-gray-4);
+  }
+
+  &.multi_info::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    left: -3px;
+    top: 5px;
+    position: absolute;
+    border: 2px solid var(--oc-gray-4);
+  }
+
+  &.multi_info::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    left: -3px;
+    bottom: 5px;
+    position: absolute;
+    border: 2px solid var(--oc-gray-4);
+  }
 }
 
 .info_header {
   font-size: 16px;
   height: 25px;
   line-height: 25px;
+  font-weight: 600;
 
   & i {
     font-size: 14px;
@@ -65,11 +96,39 @@
   color: var(--side-text);
 }
 
-.text_intro {
+.project_section {
+  margin: 15px 0;
 }
 
-.edu_wrapper {
+.info_section {
+}
+
+.info_intro {
+  list-style-type: none;
+  margin-top: 10px;
+  color: var(--oc-gray-6);
+  font-size: 14px;
+
+  & li {
+    line-height: 1.7em;
+  }
+}
+
+.resume_section_wrapper {
+  position: relative;
+
   &:not(:last-child) {
     padding-bottom: 20px;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: 2px;
+    top: 18px;
+    bottom: 18px;
+    left: -30px;
+    position: absolute;
+    background-color: var(--oc-gray-4);
   }
 }
