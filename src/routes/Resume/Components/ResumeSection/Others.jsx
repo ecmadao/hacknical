@@ -8,6 +8,7 @@ import WritableList from 'COMPONENTS/WritableList';
 import Labels from 'COMPONENTS/Labels';
 import Input from 'COMPONENTS/Input';
 import FormatInput from 'COMPONENTS/FormatInput';
+import { SOCIAL_LINKS } from '../../helper/const_value';
 
 class Others extends React.Component {
   constructor(props) {
@@ -35,6 +36,16 @@ class Others extends React.Component {
 
   changeSupplement(value, index) {
     this.props.actions.changeSupplement(value, index);
+  }
+
+  renderSocialLinks() {
+    return SOCIAL_LINKS.map((social, index) => {
+      return (
+        <div className="resume_link" key={index}>
+          <img src={require(`IMAGES/${social.icon}`)} alt={social.name}/>
+        </div>
+      )
+    })
   }
 
   render() {
@@ -95,9 +106,7 @@ class Others extends React.Component {
             链接其他账号
           </div>
           <div className="resume_wrapper">
-            <div className="resume_link github">
-              <img src={require('IMAGES/github.png')}/>
-            </div>
+            {this.renderSocialLinks()}
           </div>
         </div>
         <div/>

@@ -62,3 +62,26 @@ export const EDUCATIONS = [
     text: '其他'
   }
 ];
+
+export const SOCIAL_LINKS = [
+  {
+    name: 'github',
+    icon: 'github.png'
+  },
+  {
+    name: 'segmentfault',
+    icon: 'sg.jpg'
+  },
+  {
+    name: 'blog',
+    icon: 'blog.png'
+  },
+  {
+    name: 'stackoverflow',
+    icon: 'stackoverflow.png'
+  },
+  {
+    name: 'xitu',
+    icon: 'gold.jpeg'
+  }
+];

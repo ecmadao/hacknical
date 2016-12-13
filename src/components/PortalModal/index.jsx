@@ -8,7 +8,8 @@ class PortalModal extends React.Component {
     return (
       <Portal
         closeOnEsc={closeOnEsc}
-        isOpened={showModal}>
+        isOpened={showModal}
+        onClose={onClose}>
         <BaseModal showModal={true} onClose={onClose}>
           {children}
         </BaseModal>
