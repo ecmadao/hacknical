@@ -27,19 +27,23 @@
 }
 
 .info_title {
-  font-size: 18px;
+  font-size: 16px;
   height: 20px;
   line-height: 20px;
-  border-left: 2px solid var(--main-text);
-  padding: 0 20px;
+  /*border-left: 2px solid var(--main-text);*/
+  /*padding: 0 20px;*/
 }
 
 .info_wrapper {
   padding: 0 20px;
 }
 
+.base_info_wrapper {
+  border-left: 2px solid var(--oc-gray-4);
+}
+
 .info_header {
-  font-size: 16px;
+  font-size: 18px;
 
   & i {
     font-size: 14px;

@@ -11,15 +11,34 @@ import '../../styles/resume_modal.css';
 
 class ResumeModal extends React.Component {
   renderEdus() {
+    const { educations } = this.props.resume;
+    return educations.map((edu, index) => {
+      return (
+        <div key={index}>
 
+        </div>
+      )
+    });
   }
 
   renderWEs() {
+    const { workExperiences } = this.props.resume;
+    return workExperiences.map((experience, index) => {
+      return (
+        <div key={index}>
 
+        </div>
+      )
+    });
   }
 
   renderPPs() {
-
+    const { personalProjects } = this.props.resume;
+    return personalProjects.map((project, index) => {
+      return (
+        <div key={index}></div>
+      )
+    });
   }
 
   render() {
@@ -39,18 +58,19 @@ class ResumeModal extends React.Component {
           <div className="resume_modal_wrapper">
             <div className="resume_info_wrapper">
               <div className="info_title">
-                基本信息
+                <i className="fa fa-vcard-o" aria-hidden="true"></i>&nbsp;&nbsp;基本信息
               </div>
               <br/>
-              <div className="info_wrapper">
+              <div className="info_wrapper base_info_wrapper">
                 <div className="info_header">
                   {info.name}
                   &nbsp;&nbsp;&nbsp;
                   <i className={`fa fa-${info.gender}`} aria-hidden="true"></i>
                 </div><br/>
                 <div className="info_text">
-                  求职意向：{info.intention}&nbsp;&nbsp;&nbsp;
-                  <i className="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{info.location}
+                  <i className="fa fa-map-marker" aria-hidden="true"></i>
+                  &nbsp;&nbsp;{info.location}&nbsp;&nbsp;&nbsp;
+                  {info.intention}
                 </div>
                 <div className="info_text">
                   <i className="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;&nbsp;{info.email}
@@ -65,15 +85,34 @@ class ResumeModal extends React.Component {
             </div>
             <div className="resume_info_wrapper">
               <div className="info_title">
-                教育经历
+                <i className="fa fa-university" aria-hidden="true"></i>&nbsp;&nbsp;教育经历
               </div>
-              <div className="info_wrapper"></div>
+              <div className="info_wrapper">
+                {this.renderEdus()}
+              </div>
             </div>
             <div className="resume_info_wrapper">
               <div className="info_title">
-                工作经历
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;工作经历
               </div>
-              <div className="info_wrapper"></div>
+              <div className="info_wrapper">
+                {this.renderWEs()}
+              </div>
+            </div>
+            <div className="resume_info_wrapper">
+              <div className="info_title">
+                <i className="fa fa-code" aria-hidden="true"></i>&nbsp;&nbsp;个人项目
+              </div>
+              <div className="info_wrapper">
+                {this.renderPPs()}
+              </div>
+            </div>
+            <div className="resume_info_wrapper">
+              <div className="info_title">
+                <i className="fa fa-quote-left" aria-hidden="true"></i>&nbsp;&nbsp;自我评价
+              </div>
+              <div className="info_wrapper">
+              </div>
             </div>
           </div>
           { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
