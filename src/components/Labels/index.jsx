@@ -55,19 +55,21 @@ class Labels extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { placeholder } = this.props;
+    const { placeholder, max, labels } = this.props;
     return (
       <div className="labels_wrapper">
         {this.renderLabels()}
-        <div className="label_input_wrapper">
-          <Input
-            value={value}
-            style="borderless underline"
-            placeholder={placeholder}
-            onChange={this.handleInputChange}
-            onKeyDown={this.onKeyDown}
-          />
-        </div>
+        { labels.length < max ? (
+          <div className="label_input_wrapper">
+            <Input
+              value={value}
+              style="borderless underline"
+              placeholder={placeholder}
+              onChange={this.handleInputChange}
+              onKeyDown={this.onKeyDown}
+            />
+          </div>
+        ) : ''}
       </div>
     )
   }
@@ -78,11 +80,13 @@ Labels.propTypes = {
   placeholder: PropTypes.string,
   labels: PropTypes.array,
   onDelete: PropTypes.func,
-  onAdd: PropTypes.func
+  onAdd: PropTypes.func,
+  max: PropTypes.number
 };
 
 Labels.defaultProps = {
   labels: [],
+  max: 10,
   color: 'grey',
   placeholder: '',
   onDelete: () => {},

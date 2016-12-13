@@ -59,6 +59,7 @@ class PersonalProjects extends React.Component {
               labels={techs}
               onAdd={this.addTech(index)}
               onDelete={this.deleteTech(index)}
+              max={5}
               placeholder="+ 添加使用的技术"
             />
           </div>

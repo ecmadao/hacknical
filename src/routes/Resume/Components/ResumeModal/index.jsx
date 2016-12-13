@@ -19,6 +19,7 @@ class ResumeModal extends React.Component {
           <div className="info_header">{school}, {education}</div>
           <div className="info_text">{validateDate(startTime)} ~ {validateDate(endTime)}</div>
           <div className="info_text">{major}</div>
+          <div className="section_dot"></div>
         </div>
       )
     });
@@ -34,6 +35,7 @@ class ResumeModal extends React.Component {
           <div className="info_header">{company}, {position}</div>
           <div className="info_text">{validateDate(startTime)} ~ {validateDate(endTime)}</div>
           <div>{workProjects}</div>
+          <div className="section_dot"></div>
         </div>
       )
     });
@@ -63,8 +65,27 @@ class ResumeModal extends React.Component {
   renderPPs() {
     const { personalProjects } = this.props.resume;
     return personalProjects.map((project, index) => {
+      const { url, desc, techs, title } = project;
+      const projectTechs = techs.map((tech, index) => {
+        return (
+          <div key={index} className="info_label">
+            {tech}
+          </div>
+        );
+      })
       return (
-        <div key={index}></div>
+        <div key={index}>
+          <a target="_blank" href={url} className="info_header header_link">
+            <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
+            {title}
+          </a>
+          <div className="info_text">
+            {desc}
+          </div>
+          <div className="info_labels">
+            {projectTechs}
+          </div>
+        </div>
       )
     });
   }
@@ -131,7 +152,7 @@ class ResumeModal extends React.Component {
               <div className="info_title">
                 <i className="fa fa-code" aria-hidden="true"></i>个人项目
               </div><br/>
-              <div className="info_wrapper">
+              <div className="info_wrapper base_info">
                 {this.renderPPs()}
               </div>
             </div>
@@ -140,6 +161,7 @@ class ResumeModal extends React.Component {
                 <i className="fa fa-quote-left" aria-hidden="true"></i>自我评价
               </div><br/>
               <div className="info_wrapper">
+
               </div>
             </div>
           </div>

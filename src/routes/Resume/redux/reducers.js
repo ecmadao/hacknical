@@ -29,6 +29,13 @@ const initialState = {
       education: '本科',
       startTime: '2011-11-01',
       endTime: '2016-07-01'
+    },
+    {
+      school: '厦门大学',
+      major: '材料科学与工程',
+      education: '本科',
+      startTime: '2011-11-01',
+      endTime: '2016-07-01'
     }
   ],
   workExperiences: [
@@ -52,7 +59,8 @@ const initialState = {
   personalProjects: [
     {
       url: 'https://ecmadao.github.io/react-times',
-      desc: '基于React的时间选择器，没有jQuery依赖。已发布为NPM包',
+      title: 'React 时间选择器',
+      desc: '基于 React 的时间选择器，没有 jQuery 依赖。已发布为NPM包',
       techs: ['javascript', 'webpack', 'react']
     }
   ],
@@ -121,7 +129,8 @@ const reducers = handleActions({
       ...state,
       workExperiences: [...workExperiences, objectAssign({}, WORK_EXPERIENCE, {
         startTime: getDateBeforeYears(1),
-        endTime: getCurrentDate()
+        endTime: getCurrentDate(),
+        projects: []
       })]
     });
   },
@@ -145,10 +154,7 @@ const reducers = handleActions({
       ...state,
       workExperiences: [...workExperiences.slice(0, index),
         objectAssign({}, workExperience, {
-          projects: [...workExperience.projects, WORK_PROJECT, {
-            startTime: getDateBeforeYears(1),
-            endTime: getCurrentDate()
-          }]
+          projects: [...workExperience.projects, WORK_PROJECT]
         }),
         ...workExperiences.slice(index + 1)]
     });

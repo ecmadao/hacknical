@@ -24,5 +24,6 @@ export const WORK_PROJECT = {
 export const PERSONAL_PROJECT = {
   url: '',
   desc: '',
+  title: '',
   techs: []
 };
