@@ -1,6 +1,6 @@
 .modal_component {
-  /*position: fixed;*/
-  position: absolute;
+  position: fixed;
+  /*position: absolute;*/
   background-color: transparent;
   opacity: 0;
   top: 0;

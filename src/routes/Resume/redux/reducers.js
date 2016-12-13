@@ -7,6 +7,10 @@ import {
   WORK_PROJECT,
   PERSONAL_PROJECT
 } from './templates';
+import {
+  getDateBeforeYears,
+  getCurrentDate
+} from 'UTILS/date';
 
 const initialState = {
   info: {
@@ -82,7 +86,10 @@ const reducers = handleActions({
     const { educations } = state;
     return ({
       ...state,
-      educations: [...educations, objectAssign({}, EDU)]
+      educations: [...educations, objectAssign({}, EDU, {
+        startTime: getDateBeforeYears(1),
+        endTime: getCurrentDate()
+      })]
     });
   },
 
@@ -112,7 +119,10 @@ const reducers = handleActions({
     const { workExperiences } = state;
     return ({
       ...state,
-      workExperiences: [...workExperiences, objectAssign({}, WORK_EXPERIENCE)]
+      workExperiences: [...workExperiences, objectAssign({}, WORK_EXPERIENCE, {
+        startTime: getDateBeforeYears(1),
+        endTime: getCurrentDate()
+      })]
     });
   },
 
@@ -135,7 +145,10 @@ const reducers = handleActions({
       ...state,
       workExperiences: [...workExperiences.slice(0, index),
         objectAssign({}, workExperience, {
-          projects: [...workExperience.projects, WORK_PROJECT]
+          projects: [...workExperience.projects, WORK_PROJECT, {
+            startTime: getDateBeforeYears(1),
+            endTime: getCurrentDate()
+          }]
         }),
         ...workExperiences.slice(index + 1)]
     });

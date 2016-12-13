@@ -30,20 +30,28 @@
   font-size: 16px;
   height: 20px;
   line-height: 20px;
+  color: var(--oc-gray-9);
+
+  & i {
+    margin-right: 10px;
+  }
   /*border-left: 2px solid var(--main-text);*/
   /*padding: 0 20px;*/
 }
 
 .info_wrapper {
-  padding: 0 20px;
+  padding: 0 30px;
+  border-left: 1px solid var(--oc-gray-4);
 }
 
 .base_info_wrapper {
-  border-left: 2px solid var(--oc-gray-4);
+  /*border-left: 1px solid var(--oc-gray-4);*/
 }
 
 .info_header {
-  font-size: 18px;
+  font-size: 16px;
+  height: 25px;
+  line-height: 25px;
 
   & i {
     font-size: 14px;
@@ -58,4 +66,10 @@
 }
 
 .text_intro {
+}
+
+.edu_wrapper {
+  &:not(:last-child) {
+    padding-bottom: 20px;
+  }
 }

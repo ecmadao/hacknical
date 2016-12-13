@@ -5,6 +5,7 @@ import Slider from 'rc-slider';
 
 import './date_slider.css';
 import {
+  validateDate,
   getDateBeforeYears,
   getDateBySeconds,
   getCurrentDate,
@@ -84,7 +85,7 @@ class DateSlider extends React.Component {
           step={SECONDS_PER_DAY}
           tipFormatter={(data) => {
             const date = getDateBySeconds(data);
-            return date.split('-').slice(0, 2).join('-')
+            return validateDate(date);
           }}
           onChange={this.onChange}
           tipTransitionName="rc-slider-tooltip-zoom-down"
@@ -93,12 +94,12 @@ class DateSlider extends React.Component {
           <div className="slider_tips">
             {startText}
             <span>
-              {startDate.split('-').slice(0, 2).join('-')}
+              {validateDate(startDate)}
             </span>
           </div>
           <div className="slider_tips">
             <span>
-              {endDate.split('-').slice(0, 2).join('-')}
+              {validateDate(endDate)}
             </span>
             {endText}
           </div>

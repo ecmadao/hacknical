@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
 
-import { sortByX } from 'UTILS/date';
+import { sortByX, validateDate } from 'UTILS/date';
 const sortByDate = sortByX('startTime');
 
 import '../../styles/resume_modal.css';
@@ -12,10 +12,13 @@ import '../../styles/resume_modal.css';
 class ResumeModal extends React.Component {
   renderEdus() {
     const { educations } = this.props.resume;
-    return educations.map((edu, index) => {
+    return educations.sort(sortByDate).map((edu, index) => {
+      const { school, major, education, startTime, endTime} = edu;
       return (
-        <div key={index}>
-
+        <div key={index} className="edu_wrapper">
+          <div className="info_header">{school}, {education}</div>
+          <div className="info_text">{validateDate(startTime)} ~ {validateDate(endTime)}</div>
+          <div className="info_text">{major}</div>
         </div>
       )
     });
@@ -58,7 +61,7 @@ class ResumeModal extends React.Component {
           <div className="resume_modal_wrapper">
             <div className="resume_info_wrapper">
               <div className="info_title">
-                <i className="fa fa-vcard-o" aria-hidden="true"></i>&nbsp;&nbsp;基本信息
+                <i className="fa fa-vcard-o" aria-hidden="true"></i>基本信息
               </div>
               <br/>
               <div className="info_wrapper base_info_wrapper">
@@ -85,32 +88,32 @@ class ResumeModal extends React.Component {
             </div>
             <div className="resume_info_wrapper">
               <div className="info_title">
-                <i className="fa fa-university" aria-hidden="true"></i>&nbsp;&nbsp;教育经历
-              </div>
+                <i className="fa fa-university" aria-hidden="true"></i>教育经历
+              </div><br/>
               <div className="info_wrapper">
                 {this.renderEdus()}
               </div>
             </div>
             <div className="resume_info_wrapper">
               <div className="info_title">
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;&nbsp;工作经历
-              </div>
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>工作经历
+              </div><br/>
               <div className="info_wrapper">
                 {this.renderWEs()}
               </div>
             </div>
             <div className="resume_info_wrapper">
               <div className="info_title">
-                <i className="fa fa-code" aria-hidden="true"></i>&nbsp;&nbsp;个人项目
-              </div>
+                <i className="fa fa-code" aria-hidden="true"></i>个人项目
+              </div><br/>
               <div className="info_wrapper">
                 {this.renderPPs()}
               </div>
             </div>
             <div className="resume_info_wrapper">
               <div className="info_title">
-                <i className="fa fa-quote-left" aria-hidden="true"></i>&nbsp;&nbsp;自我评价
-              </div>
+                <i className="fa fa-quote-left" aria-hidden="true"></i>自我评价
+              </div><br/>
               <div className="info_wrapper">
               </div>
             </div>
