@@ -32,7 +32,7 @@ class ResumeModal extends React.Component {
       const workProjects = this.renderProjects(projects);
       return (
         <div key={index} className="resume_section_wrapper">
-          <a target="_blank" href={`//${url}`} className="resume_info_header header_link">
+          <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
             <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
             {company}, {position}
           </a>
@@ -78,7 +78,7 @@ class ResumeModal extends React.Component {
       })
       return (
         <div key={index}>
-          <a target="_blank" href={`//${url}`} className="resume_info_header header_link">
+          <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
             <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
             {title}
           </a>
