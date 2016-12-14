@@ -24,13 +24,13 @@
   }
 
   &::before {
-    bottom: -13px;
-    border-top: 12px solid rgba(212, 212, 212, 0.3);
+    bottom: -11px;
+    border-top: 10px solid rgba(212, 212, 212, 0.3);
   }
 
   &::after {
-    bottom: -11px;
-    border-top: 12px solid var(--oc-white);
+    bottom: -9px;
+    border-top: 10px solid var(--oc-white);
   }
 }
 

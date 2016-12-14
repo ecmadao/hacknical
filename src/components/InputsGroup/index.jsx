@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 
 import Input from 'COMPONENTS/Input';
 import Tipso from 'COMPONENTS/Tipso';
@@ -8,18 +9,39 @@ class InputsGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      focus: true
+      focus: false
     };
     this.onFocus = this.onFocus.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-  }
-
-  onBlur() {
-    this.setState({ focus: false });
+    this.onOutsideClick = this.onOutsideClick.bind(this);
   }
 
   onFocus() {
     this.setState({ focus: true });
+  }
+
+  componentDidMount() {
+    if (document.addEventListener) {
+      document.addEventListener('mousedown', this.onOutsideClick, true);
+    } else {
+      document.attachEvent('onmousedown', this.onOutsideClick);
+    }
+  }
+
+  componentWillUnmount() {
+    if (document.removeEventListener) {
+      document.removeEventListener('mousedown', this.onOutsideClick, true);
+    } else {
+      document.detachEvent('onmousedown', this.onOutsideClick);
+    }
+  }
+
+  onOutsideClick(e) {
+    e = e || window.event;
+    const mouseTarget = (typeof e.which !== "undefined") ? e.which : e.button;
+    const isDescendantOfRoot = ReactDOM.findDOMNode(this.tipso).contains(e.target);
+    if (!isDescendantOfRoot && mouseTarget === 1) {
+      this.setState({ focus: false });
+    }
   }
 
   render() {
@@ -28,11 +50,11 @@ class InputsGroup extends React.Component {
     } = this.props;
     const { focus } = this.state;
     return (
-      <div className="input_group_wrapper">
+      <div
+        ref={ref => this.tipso = ref}
+        className="input_group_wrapper">
         { focus ? (
-          <Tipso
-            onMouseOut={this.onBlur}
-            onMouseEnter={this.onFocus}>
+          <Tipso>
             {children}
           </Tipso>
         ) : ''}

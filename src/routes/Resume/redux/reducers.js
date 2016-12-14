@@ -41,6 +41,7 @@ const initialState = {
   workExperiences: [
     {
       company: '厦门市创艺社',
+      url: 'tshe.com',
       startTime: '2016-02-01',
       endTime: '2016-11-01',
       position: '前端工程师',

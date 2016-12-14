@@ -10,6 +10,7 @@ export const EDU = {
 
 export const WORK_EXPERIENCE = {
   company: '',
+  url: '',
   startTime: null,
   endTime: null,
   position: '',

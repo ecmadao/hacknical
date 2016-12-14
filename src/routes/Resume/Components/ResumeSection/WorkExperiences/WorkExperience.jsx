@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 
 import DateSlider from 'COMPONENTS/DateSlider';
 import Input from 'COMPONENTS/Input';
+import InputsGroup from 'COMPONENTS/InputsGroup';
 import { EDUCATIONS } from '../../../helper/const_value';
 import WorkProject from './WorkProject';
 
@@ -57,6 +58,7 @@ class WorkExperience extends React.Component {
       addProject
     } = this.props;
     const {
+      url,
       company,
       position,
       startTime,
@@ -73,12 +75,23 @@ class WorkExperience extends React.Component {
           公司信息
         </div>
         <div className="resume_wrapper">
-          <Input
+          <InputsGroup
             value={company}
             style="flat"
             placeholder="公司名称"
-            onChange={handleExperienceChange('company')}
-          />
+            onChange={handleExperienceChange('company')}>
+            <div className="project_link_wrapper">
+              <i className="fa fa-link" aria-hidden="true"></i>
+              &nbsp;&nbsp;
+              <Input
+                value={url}
+                type="url"
+                style="borderless underline"
+                placeholder="填写公司主页"
+                onChange={handleExperienceChange('url')}
+              />
+            </div>
+          </InputsGroup>
           <Input
             value={position}
             style="flat"

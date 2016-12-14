@@ -28,11 +28,14 @@ class ResumeModal extends React.Component {
   renderWEs() {
     const { workExperiences } = this.props.resume;
     return workExperiences.map((experience, index) => {
-      const { company, startTime, endTime, position, projects } = experience;
+      const { company, url, startTime, endTime, position, projects } = experience;
       const workProjects = this.renderProjects(projects);
       return (
         <div key={index} className="resume_section_wrapper">
-          <div className="resume_info_header">{company}, {position}</div>
+          <a target="_blank" href={`//${url}`} className="resume_info_header header_link">
+            <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
+            {company}, {position}
+          </a>
           <div className="info_text">{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div>{workProjects}</div>
           <div className="section_dot"></div>
@@ -75,7 +78,7 @@ class ResumeModal extends React.Component {
       })
       return (
         <div key={index}>
-          <a target="_blank" href={url} className="resume_info_header header_link">
+          <a target="_blank" href={`//${url}`} className="resume_info_header header_link">
             <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
             {title}
           </a>
