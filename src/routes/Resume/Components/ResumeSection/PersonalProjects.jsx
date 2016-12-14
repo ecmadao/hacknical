@@ -7,6 +7,7 @@ import Textarea from 'COMPONENTS/Textarea';
 import Button from 'COMPONENTS/Button';
 import Input from 'COMPONENTS/Input';
 import Labels from 'COMPONENTS/Labels';
+import InputsGroup from 'COMPONENTS/InputsGroup';
 
 import actions from '../../redux/actions';
 
@@ -28,22 +29,30 @@ class PersonalProjects extends React.Component {
   renderProjects() {
     const { personalProjects } = this.props;
     return personalProjects.map((personalProject, index) => {
-      const { url, desc, techs } = personalProject;
+      const { url, desc, techs, title } = personalProject;
       return (
-        <div className="resume_piece_container large" key={index}>
-          <div className="resume_delete" onClick={this.deleteProject(index)}>
+        <div className="resume_piece_container" key={index}>
+          <div className="resume_delete project_delete" onClick={this.deleteProject(index)}>
             <i className="fa fa-trash-o" aria-hidden="true"></i>
           </div>
           <div className="resume_wrapper with_margin">
-            <i className="fa fa-link" aria-hidden="true"></i>
-            &nbsp;&nbsp;
-            <Input
-              value={url}
-              type="url"
-              style="borderless underline"
-              placeholder="填写项目链接"
-              onChange={this.handleProjectChange(index)('url')}
-            />
+            <InputsGroup
+              value={title}
+              style="flat"
+              placeholder="填写项目名称"
+              onChange={this.handleProjectChange(index)('title')}>
+              <div className="project_link_wrapper">
+                <i className="fa fa-link" aria-hidden="true"></i>
+                &nbsp;&nbsp;
+                <Input
+                  value={url}
+                  type="url"
+                  style="borderless underline"
+                  placeholder="填写项目链接"
+                  onChange={this.handleProjectChange(index)('url')}
+                />
+              </div>
+            </InputsGroup>
           </div>
           <div className="resume_wrapper">
             <Textarea

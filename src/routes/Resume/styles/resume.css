@@ -217,6 +217,10 @@
 
     & .resume_delete {
       top: 33.5px;
+
+      &.project_delete {
+        top: 50px;
+      }
     }
   }
 
@@ -228,6 +232,10 @@
     top: 10px;
     transform: translateY(-50%);
     transition: opacity 0.2s;
+
+    &.project_delete {
+      top: 25px;
+    }
 
     & i {
       color: var(--oc-red-5);
@@ -302,4 +310,10 @@
   &:hover {
     background-color: var(--oc-gray-3);
   }
+}
+
+.project_link_wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

@@ -3,7 +3,7 @@
 
 .labels_wrapper {
   flex: 1;
-  margin-top: 10px;
+  margin: 10px 5px 0;
 }
 
 .label_input_wrapper {

@@ -24,6 +24,8 @@ class Input extends React.Component {
 
   onBlur() {
     this.check();
+    const { onBlur } = this.props;
+    onBlur && onBlur();
   }
 
   check(inputValue) {
@@ -40,6 +42,7 @@ class Input extends React.Component {
       placeholder,
       type,
       style,
+      onFocus,
       onKeyDown
     } = this.props;
     const { error } = this.state;
@@ -52,6 +55,7 @@ class Input extends React.Component {
         onChange={this.onChange}
         onKeyDown={onKeyDown}
         onBlur={this.onBlur}
+        onFocus={onFocus}
         placeholder={placeholder}
         ref={ref => this.input = ref}
       />
@@ -66,6 +70,8 @@ Input.propTypes = {
   type: PropTypes.string,
   style: PropTypes.string,
   onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  onFocus: PropTypes.func,
   onKeyDown: PropTypes.func,
 };
 
@@ -76,6 +82,8 @@ Input.defaultProps = {
   type: 'string',
   style: 'material',
   onChange: () => {},
+  onBlur: () => {},
+  onFocus: () => {},
   onKeyDown: () => {}
 }
 

@@ -8,6 +8,7 @@
   padding: 10px 0;
   border-radius: 2px;
   transition: border 0.2s;
+  margin: 0 5px;
 
   &.flat {
     border: 1px solid var(--oc-gray-5);
