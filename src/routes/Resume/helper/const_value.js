@@ -66,22 +66,27 @@ export const EDUCATIONS = [
 export const SOCIAL_LINKS = [
   {
     name: 'github',
-    icon: 'github.png'
+    icon: 'github.png',
+    url: ''
   },
   {
     name: 'segmentfault',
-    icon: 'sg.jpg'
+    icon: 'sg.jpg',
+    url: ''
   },
   {
     name: 'blog',
-    icon: 'blog.png'
+    icon: 'blog.png',
+    url: ''
   },
   {
     name: 'stackoverflow',
-    icon: 'stackoverflow.png'
+    icon: 'stackoverflow.png',
+    url: ''
   },
   {
     name: 'xitu',
-    icon: 'gold.jpeg'
+    icon: 'gold.jpeg',
+    url: ''
   }
 ];

@@ -8,7 +8,7 @@ import WritableList from 'COMPONENTS/WritableList';
 import Labels from 'COMPONENTS/Labels';
 import Input from 'COMPONENTS/Input';
 import FormatInput from 'COMPONENTS/FormatInput';
-import { SOCIAL_LINKS } from '../../helper/const_value';
+import SocialLink from './SocialLink';
 
 class Others extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class Others extends React.Component {
     this.deleteSupplement = this.deleteSupplement.bind(this);
     this.changeSupplement = this.changeSupplement.bind(this);
     this.handleOthersChange = this.handleOthersChange.bind(this);
+    this.changeSocialLink = this.changeSocialLink.bind(this);
   }
 
   handleOthersChange(key) {
@@ -38,14 +39,23 @@ class Others extends React.Component {
     this.props.actions.changeSupplement(value, index);
   }
 
+  changeSocialLink(index) {
+    return (value) => {
+      this.props.actions.changeSocialLink(value, index);
+    }
+  }
+
   renderSocialLinks() {
-    return SOCIAL_LINKS.map((social, index) => {
+    const { socialLinks } = this.props;
+    return socialLinks.map((social, index) => {
       return (
-        <div className="resume_link" key={index}>
-          <img src={require(`IMAGES/${social.icon}`)} alt={social.name}/>
-        </div>
-      )
-    })
+        <SocialLink
+          key={index}
+          social={social}
+          onChange={this.changeSocialLink(index)}
+        />
+      );
+    });
   }
 
   render() {

@@ -297,6 +297,7 @@
   border-radius: 2px;
   cursor: pointer;
   margin: 5px;
+  position: relative;
   border: 1px solid var(--oc-gray-3);
   background-color: var(--oc-white);
   transition: background-color 0.2s;
@@ -307,6 +308,7 @@
     margin: 15px;
   }
 
+  &.active,
   &:hover {
     background-color: var(--oc-gray-3);
   }

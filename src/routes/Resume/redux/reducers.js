@@ -7,6 +7,7 @@ import {
   WORK_PROJECT,
   PERSONAL_PROJECT
 } from './templates';
+import { SOCIAL_LINKS } from '../helper/const_value';
 import {
   getDateBeforeYears,
   getCurrentDate
@@ -77,7 +78,7 @@ const initialState = {
       '长期活跃于github，不断学习并贡献内容',
       '想成为一个优秀的全栈。但自己所理解的全栈并不仅仅是前后端开发，而是能够从产品、设计、开发等多角度切入，善于思考与创作产品的开发者'
     ],
-    socialLinks: []
+    socialLinks: [...SOCIAL_LINKS]
   }
 };
 
@@ -387,6 +388,20 @@ const reducers = handleActions({
       })
     });
   },
+
+  CHANGE_SOCIAL_LINK(state, action) {
+    const { others } = state;
+    const { socialLinks } = others;
+    const { url, index } = action.payload;
+    return ({
+      ...state,
+      others: objectAssign({}, others, {
+        socialLinks: [...socialLinks.slice(0, index),
+          objectAssign({}, socialLinks[index], { url }),
+          ...socialLinks.slice(index + 1)]
+      })
+    });
+  }
 }, initialState);
 
 export default reducers;

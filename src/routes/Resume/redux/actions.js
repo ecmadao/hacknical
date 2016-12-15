@@ -57,6 +57,7 @@ const {
  */
 const {
   changeSupplement,
+  changeSocialLink,
   handleOthersInfoChange,
   addLocation,
   deleteLocation,
@@ -64,7 +65,8 @@ const {
   deleteSupplement
 } = createActions(
   {
-    CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index })
+    CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index }),
+    CHANGE_SOCIAL_LINK: (url, index) => ({ url, index })
   },
   'HANDLE_OTHERS_INFO_CHANGE',
   'ADD_LOCATION',
@@ -97,6 +99,7 @@ export default {
   deleteProjectTech,
   // others
   changeSupplement,
+  changeSocialLink,
   handleOthersInfoChange,
   addLocation,
   deleteLocation,

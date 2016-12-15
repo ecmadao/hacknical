@@ -19,7 +19,7 @@ class ResumeModal extends React.Component {
       if (!school) { return }
       return (
         <div key={index} className="resume_section_wrapper">
-          <div className="resume_info_header">{school}, {education}</div>
+          <div className="resume_info_header">{school}{education ? `, ${education}` : ''}</div>
           <div className="info_text">{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div className="info_text">{major}</div>
           <div className="section_dot"></div>
