@@ -39,6 +39,14 @@ class DateSlider extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { initialStart, initialEnd } = nextProps;
+    this.setState({
+      startDate: initialStart,
+      endDate: initialEnd
+    });
+  }
+
   get pushInterval() {
     const { pushInterval } = this.props;
     switch (pushInterval) {
@@ -79,6 +87,10 @@ class DateSlider extends React.Component {
           min={getSecondsByDate(minDate)}
           max={getSecondsByDate(maxDate)}
           defaultValue={[
+            getSecondsByDate(startDate),
+            getSecondsByDate(endDate)
+          ]}
+          value={[
             getSecondsByDate(startDate),
             getSecondsByDate(endDate)
           ]}
