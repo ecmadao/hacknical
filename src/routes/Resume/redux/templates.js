@@ -1,4 +1,17 @@
-import { EDUCATIONS } from '../helper/const_value';
+import {
+  EDUCATIONS,
+  SOCIAL_LINKS
+} from '../helper/const_value';
+
+export const INFO = {
+  name: '',
+  email: '',
+  phone: '',
+  gender: 'male',
+  location: '',
+  avator: '',
+  intention: ''
+};
 
 export const EDU = {
   school: '',
@@ -27,4 +40,13 @@ export const PERSONAL_PROJECT = {
   desc: '',
   title: '',
   techs: []
+};
+
+export const OTHERS = {
+  expectLocation: '',
+  expectLocations: [],
+  expectSalary: '',
+  dream: '',
+  supplements: [],
+  socialLinks: [...SOCIAL_LINKS]
 };
