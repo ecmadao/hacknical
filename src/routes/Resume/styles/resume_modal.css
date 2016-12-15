@@ -52,30 +52,6 @@
     left: 0;
     background-color: var(--oc-gray-4);
   }
-
-  /*&.multi_info::before {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    left: -3px;
-    top: 5px;
-    position: absolute;
-    border: 2px solid var(--oc-gray-4);
-  }
-
-  &.multi_info::after {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    left: -3px;
-    bottom: 5px;
-    position: absolute;
-    border: 2px solid var(--oc-gray-4);
-  }*/
 }
 
 .resume_info_header {
@@ -83,13 +59,13 @@
   height: 25px;
   line-height: 25px;
   font-weight: 600;
+  display: inline-block;
 
   &.header_link {
     transition: color 0.3s;
     color: var(--oc-blue-5);
     text-decoration: none;
     margin-bottom: 5px;
-    display: block;
 
     &:hover {
       color: var(--oc-blue-7);

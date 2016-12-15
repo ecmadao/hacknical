@@ -5,15 +5,18 @@ import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
 
 import { sortByX, validateDate } from 'UTILS/date';
+import validator from 'UTILS/validator';
 const sortByDate = sortByX('startTime');
 
 import '../../styles/resume_modal.css';
 
 class ResumeModal extends React.Component {
-  renderEdus() {
+  renderEducations() {
     const { educations } = this.props.resume;
-    return educations.sort(sortByDate).map((edu, index) => {
+    if (!educations.length) { return }
+    const edus = educations.sort(sortByDate).map((edu, index) => {
       const { school, major, education, startTime, endTime} = edu;
+      if (!school) { return }
       return (
         <div key={index} className="resume_section_wrapper">
           <div className="resume_info_header">{school}, {education}</div>
@@ -23,30 +26,58 @@ class ResumeModal extends React.Component {
         </div>
       )
     });
+
+    return (
+      <div className="resume_info_wrapper">
+        <div className="info_title">
+          <i className="fa fa-university" aria-hidden="true"></i>教育经历
+        </div><br/>
+        <div className="info_wrapper multi_info">
+          {edus}
+        </div>
+      </div>
+    )
   }
 
-  renderWEs() {
+  renderWorkExperiences() {
     const { workExperiences } = this.props.resume;
-    return workExperiences.map((experience, index) => {
+    if (!workExperiences.length) { return }
+    const exps = workExperiences.map((experience, index) => {
       const { company, url, startTime, endTime, position, projects } = experience;
+      if (!company) { return }
       const workProjects = this.renderProjects(projects);
       return (
         <div key={index} className="resume_section_wrapper">
-          <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
-            <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
-            {company}, {position}
-          </a>
+          {validator.url(url) ? (
+            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
+              <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
+              {company}
+            </a>
+          ) : (<div className="resume_info_header">{company}</div>)}
+          {position ? `, ${position}` : ''}
           <div className="info_text">{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div>{workProjects}</div>
           <div className="section_dot"></div>
         </div>
       )
     });
+
+    return (
+      <div className="resume_info_wrapper">
+        <div className="info_title">
+          <i className="fa fa-file-text-o" aria-hidden="true"></i>工作经历
+        </div><br/>
+        <div className="info_wrapper multi_info">
+          {exps}
+        </div>
+      </div>
+    )
   }
 
   renderProjects(projects) {
     return projects.map((project, index) => {
       const { name, details } = project;
+      if (!name) { return }
       const projectDetails = details.map((detail, i) => {
         return (
           <li key={i}>
@@ -65,9 +96,10 @@ class ResumeModal extends React.Component {
     });
   }
 
-  renderPPs() {
+  renderPersonalProjects() {
     const { personalProjects } = this.props.resume;
-    return personalProjects.map((project, index) => {
+    if (!personalProjects.length) { return }
+    const projects = personalProjects.map((project, index) => {
       const { url, desc, techs, title } = project;
       const projectTechs = techs.map((tech, index) => {
         return (
@@ -78,10 +110,12 @@ class ResumeModal extends React.Component {
       })
       return (
         <div key={index}>
-          <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
-            <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
-            {title}
-          </a>
+          {validator.url(url) ? (
+            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
+              <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
+              {title}
+            </a>
+          ) : (<div className="resume_info_header">{title}</div>)}
           <div className="info_text">
             {desc}
           </div>
@@ -91,11 +125,23 @@ class ResumeModal extends React.Component {
         </div>
       )
     });
+
+    return (
+      <div className="resume_info_wrapper">
+        <div className="info_title">
+          <i className="fa fa-code" aria-hidden="true"></i>个人项目
+        </div><br/>
+        <div className="info_wrapper base_info">
+          {projects}
+        </div>
+      </div>
+    )
   }
 
   renderSupplements() {
     const { others } = this.props.resume;
     const { supplements } = others;
+    if (!supplements.length) { return }
     const personalSupplements = supplements.map((supplement, index) => {
       return (
         <li key={index}>
@@ -103,10 +149,18 @@ class ResumeModal extends React.Component {
         </li>
       )
     });
+
     return (
-      <ul className="info_intro">
-        {personalSupplements}
-      </ul>
+      <div className="resume_info_wrapper">
+        <div className="info_title">
+          <i className="fa fa-quote-left" aria-hidden="true"></i>自我评价
+        </div><br/>
+        <div className="info_wrapper base_info">
+          <ul className="info_intro">
+            {personalSupplements}
+          </ul>
+        </div>
+      </div>
     )
   }
 
@@ -152,38 +206,10 @@ class ResumeModal extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="resume_info_wrapper">
-              <div className="info_title">
-                <i className="fa fa-university" aria-hidden="true"></i>教育经历
-              </div><br/>
-              <div className="info_wrapper multi_info">
-                {this.renderEdus()}
-              </div>
-            </div>
-            <div className="resume_info_wrapper">
-              <div className="info_title">
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>工作经历
-              </div><br/>
-              <div className="info_wrapper multi_info">
-                {this.renderWEs()}
-              </div>
-            </div>
-            <div className="resume_info_wrapper">
-              <div className="info_title">
-                <i className="fa fa-code" aria-hidden="true"></i>个人项目
-              </div><br/>
-              <div className="info_wrapper base_info">
-                {this.renderPPs()}
-              </div>
-            </div>
-            <div className="resume_info_wrapper">
-              <div className="info_title">
-                <i className="fa fa-quote-left" aria-hidden="true"></i>自我评价
-              </div><br/>
-              <div className="info_wrapper base_info">
-                {this.renderSupplements()}
-              </div>
-            </div>
+            {this.renderEducations()}
+            {this.renderWorkExperiences()}
+            {this.renderPersonalProjects()}
+            {this.renderSupplements()}
           </div>
           { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
         </div>
