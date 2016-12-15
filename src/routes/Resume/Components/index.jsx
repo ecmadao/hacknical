@@ -19,6 +19,29 @@ class Resume extends React.Component {
     this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this);
   }
 
+  componentDidMount() {
+    const $navigation = $('.resume_navigation');
+    const navTop = $navigation.offset().top;
+    const $document = $(document);
+    $(window).scroll(() => {
+      const currentTop = $document.scrollTop();
+      if (currentTop + 80 + 65 >= navTop) {
+        const navLeft = $navigation.offset().left;
+        $navigation.css({
+          position: 'fixed',
+          left: navLeft,
+          top: 80
+        });
+      } else {
+        $navigation.css({
+          position: 'absolute',
+          left: -120,
+          top: 63
+        });
+      }
+    })
+  }
+
   handleModalStatus(openModal) {
     this.setState({ openModal });
   }

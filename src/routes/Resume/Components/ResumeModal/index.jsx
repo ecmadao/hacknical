@@ -232,10 +232,12 @@ class ResumeModal extends React.Component {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <i className="fa fa-mobile" aria-hidden="true"></i>&nbsp;&nbsp;{info.phone}
                 </div>
-                <div className="info_text">
-                  <i className="fa fa-quote-left" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-                  {others.dream}
-                </div>
+                {others.dream ? (
+                  <div className="info_text">
+                    <i className="fa fa-quote-left" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
+                    {others.dream}
+                  </div>
+                ) : ''}
               </div>
             </div>
             {this.renderEducations()}
