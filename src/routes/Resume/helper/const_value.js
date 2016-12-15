@@ -76,6 +76,7 @@ export const SOCIAL_LINKS = [
   },
   {
     name: 'blog',
+    text: '个人博客',
     icon: 'blog.png',
     url: ''
   },
@@ -86,6 +87,7 @@ export const SOCIAL_LINKS = [
   },
   {
     name: 'xitu',
+    text: '稀土掘金',
     icon: 'gold.jpeg',
     url: ''
   }

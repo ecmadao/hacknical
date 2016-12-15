@@ -164,6 +164,38 @@ class ResumeModal extends React.Component {
     )
   }
 
+  renderSocialLinks() {
+    const { others } = this.props.resume;
+    const { socialLinks } = others;
+    if (!socialLinks.some(social => validator.url(social.url))) { return }
+
+    const socials = socialLinks.map((social, index) => {
+      if (validator.url(social.url)) {
+        const { url, name, text } = social;
+        return (
+          <li key={index}>
+            {text || name}
+            &nbsp;:&nbsp;&nbsp;&nbsp;
+            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`}>{url}</a>
+          </li>
+        )
+      }
+    })
+
+    return (
+      <div className="resume_info_wrapper">
+        <div className="info_title">
+          <i className="fa fa-link" aria-hidden="true"></i>其他链接
+        </div><br/>
+        <div className="info_wrapper base_info">
+          <ul className="info_intro">
+            {socials}
+          </ul>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const { onClose, openModal, resume } = this.props;
     const {
@@ -210,6 +242,7 @@ class ResumeModal extends React.Component {
             {this.renderWorkExperiences()}
             {this.renderPersonalProjects()}
             {this.renderSupplements()}
+            {this.renderSocialLinks()}
           </div>
           { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
         </div>

@@ -46,7 +46,7 @@ class SocialLink extends React.Component {
   render() {
     const { onChange, social } = this.props;
     const { active } = this.state;
-    const { icon, name, url } = social;
+    const { icon, name, url, text } = social;
 
     return (
       <div
@@ -62,7 +62,7 @@ class SocialLink extends React.Component {
               value={url}
               type="url"
               style="borderless underline"
-              placeholder="填写链接地址"
+              placeholder={`填写 ${text || name} 地址`}
               onChange={onChange}
             />
           </div>
