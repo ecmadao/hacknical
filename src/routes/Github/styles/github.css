@@ -297,7 +297,7 @@
     transition: opacity 0.2s;
   }
 
-  & .tipso_container {
+  & .repos_tipso_container {
     background-color: var(--oc-white);
     border-radius: 3px;
     border: 1px solid rgba(155, 155, 155, 0.3);

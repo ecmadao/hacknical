@@ -7,10 +7,10 @@ class Tipso extends React.Component {
   }
 
   render() {
-    const { children, onMouseEnter, onMouseOut } = this.props;
+    const { children, show } = this.props;
     return (
       <div
-        className="tipso_container">
+        className={`tipso_container ${show ? 'active' : ''}`}>
         {children}
         <div className="tipso_angle_mock"></div>
       </div>
@@ -20,14 +20,12 @@ class Tipso extends React.Component {
 
 Tipso.propTypes = {
   show: PropTypes.bool,
-  children: PropTypes.element,
-  onMouseEnter: PropTypes.func
+  children: PropTypes.element
 };
 
 Tipso.defaultProps = {
   show: false,
-  children: (<div></div>),
-  onMouseEnter: () => {}
+  children: (<div></div>)
 };
 
 export default Tipso;

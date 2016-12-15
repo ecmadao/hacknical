@@ -54,7 +54,7 @@ class InputsGroup extends React.Component {
         ref={ref => this.tipso = ref}
         className="input_group_wrapper">
         { focus ? (
-          <Tipso>
+          <Tipso show={true}>
             {children}
           </Tipso>
         ) : ''}

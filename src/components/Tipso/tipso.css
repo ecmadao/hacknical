@@ -9,6 +9,11 @@
   left: 50%;
   bottom: 100%;
   transform: translateX(-50%);
+  visibility: hidden;
+
+  &.active {
+    visibility: visible;
+  }
 
   &::before,
   &::after {

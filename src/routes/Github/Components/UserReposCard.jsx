@@ -99,7 +99,7 @@ class UserReposCard extends React.Component {
             onClick={handleClick}>
           </div>
           <div className="repos_tipso">
-            <div className="tipso_container">
+            <div className="repos_tipso_container">
               <span className="tipso_title">{name}</span>&nbsp;&nbsp;{`<${language}>`}<br/>
               <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
               &nbsp;&nbsp;&nbsp;
