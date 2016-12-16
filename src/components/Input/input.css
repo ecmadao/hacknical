@@ -77,12 +77,28 @@
       border: 1px solid var(--oc-blue-5);
     }
 
+    &.error {
+      border: 1px solid var(--oc-red-5);
+
+      &:focus {
+        border: 1px solid var(--oc-red-5);
+      }
+    }
+
     &.underline {
       border: none;
       border-bottom: 1px solid transparent;
 
       &:focus {
         border-bottom: 1px solid var(--oc-blue-5);
+      }
+
+      &.error {
+        border-bottom: 1px solid var(--oc-red-5);
+
+        &:focus {
+          border-bottom: 1px solid var(--oc-red-5);
+        }
       }
     }
   }

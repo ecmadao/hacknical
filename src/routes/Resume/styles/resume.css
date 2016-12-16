@@ -96,9 +96,7 @@
   background-color: var(--oc-white);
   box-shadow: var(--shadow-1);
   border-radius: 3px;
-  min-height: 200px;
   margin-left: 15px;
-  /*padding: 20px 50px;*/
   padding: 20px 0 0;
 
   &:hover {

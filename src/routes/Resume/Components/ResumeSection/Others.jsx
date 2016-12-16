@@ -82,12 +82,6 @@ class Others extends React.Component {
               className="input-expect-salary"
               onChange={this.handleOthersChange('expectSalary')}
             />
-            {/* <Input
-              value={expectPosition}
-              placeholder="期望职位"
-              style="flat"
-              onChange={this.handleOthersChange('expectPosition')}
-            /> */}
             <Input
               value={expectLocation}
               placeholder="期望城市"
