@@ -40,7 +40,7 @@ class WritableList extends React.Component {
   }
 
   handleInputChange(value) {
-    value && this.setState({ value })
+    this.setState({ value })
   }
 
   clearInput() {
@@ -48,12 +48,13 @@ class WritableList extends React.Component {
   }
 
   renderListItems() {
-    const { items } = this.props;
+    const { items, placeholder } = this.props;
     return items.map((item, index) => {
       return (
         <ListItem
           key={index}
           item={item}
+          placeholder={placeholder}
           onDelete={this.onDelete(index)}
           onChange={this.onChange(index)}
         />
@@ -70,8 +71,9 @@ class WritableList extends React.Component {
         <li>-&nbsp;&nbsp;
           <Input
             value={value}
+            check={false}
             style="borderless underline"
-            placeholder={placeholder}
+            placeholder={`新增${placeholder}`}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
           />

@@ -102,7 +102,7 @@ class Others extends React.Component {
             onAdd={this.addSupplement}
             onDelete={this.deleteSupplement}
             onChange={this.changeSupplement}
-            placeholder="新增个人介绍"
+            placeholder="个人介绍"
           />
         </div>
         <div className="resume_piece_container">

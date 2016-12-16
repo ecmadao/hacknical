@@ -7,13 +7,13 @@ class ListItem extends React.Component {
   }
 
   render() {
-    const {item, onChange, onDelete} = this.props;
+    const { item, onChange, onDelete, placeholder } = this.props;
     return (
       <li className="list_item">-&nbsp;&nbsp;
         <Input
           value={item}
           onChange={onChange}
-          placeholder="项目描述"
+          placeholder={placeholder}
           style="borderless underline"
         />&nbsp;&nbsp;&nbsp;
         <i

@@ -97,7 +97,7 @@
   box-shadow: var(--shadow-1);
   border-radius: 3px;
   margin-left: 15px;
-  padding: 20px 0 0;
+  /*padding: 20px 0 0;*/
 
   &:hover {
     box-shadow: var(--shadow-4);
@@ -110,6 +110,10 @@
 .resume_wrapper {
   display: flex;
   align-items: center;
+
+  & i.fa-link {
+    color: var(--oc-gray-5);
+  }
 
   &.with_margin {
     margin: 10px 0;
@@ -192,10 +196,24 @@
   border-bottom: 1px solid var(--bg-deep);
 }
 
+.resume_personal_container {
+  padding-top: 20px;
+
+  & .resume_piece_container {
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+}
+
 .resume_piece_container {
   /*padding-bottom: 15px;*/
   padding: 0 50px 15px;
   position: relative;
+
+  &:first-child {
+    padding-top: 20px;
+  }
 
   &.large {
     padding-left: 55px;
@@ -227,7 +245,7 @@
     position: absolute;
     cursor: pointer;
     left: 30px;
-    top: 10px;
+    top: 40px;
     transform: translateY(-50%);
     transition: opacity 0.2s;
 

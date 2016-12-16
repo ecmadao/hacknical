@@ -86,6 +86,7 @@ class WorkExperience extends React.Component {
               <Input
                 value={url}
                 type="url"
+                check={false}
                 style="borderless underline"
                 placeholder="填写公司主页"
                 onChange={handleExperienceChange('url')}

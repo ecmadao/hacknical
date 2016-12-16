@@ -57,7 +57,7 @@ class WorkProject extends React.Component {
           </div>
         </div>
         <WritableList
-          placeholder="新增项目描述"
+          placeholder="项目描述"
           items={project.details}
           onAdd={this.addDetail}
           onDelete={this.deleteDetail}

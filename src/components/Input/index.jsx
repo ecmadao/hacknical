@@ -15,7 +15,7 @@ class Input extends React.Component {
 
   onChange() {
     const value = this.input.value;
-    const {onChange} = this.props;
+    const { onChange } = this.props;
     onChange && onChange(value);
     const { error } = this.state;
     if (error) {
@@ -36,8 +36,9 @@ class Input extends React.Component {
   }
 
   check(inputValue) {
+    const { type, check } = this.props;
+    if (!check) { return }
     const value = inputValue || this.input.value;
-    const { type } = this.props;
     const error = !Validator[type](value) ? true : false;
     this.setState({ error });
   }
@@ -72,6 +73,7 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
+  check: PropTypes.bool,
   value: PropTypes.string,
   className: PropTypes.string,
   placeholder: PropTypes.string,
@@ -86,6 +88,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   value: '',
+  check: true,
   className: '',
   placeholder: '',
   type: 'string',

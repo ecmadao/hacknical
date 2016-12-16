@@ -63,6 +63,7 @@ class Labels extends React.Component {
           <div className="label_input_wrapper">
             <Input
               value={value}
+              check={false}
               style="borderless underline"
               placeholder={placeholder}
               onChange={this.handleInputChange}

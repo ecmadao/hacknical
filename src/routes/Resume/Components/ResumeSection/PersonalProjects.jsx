@@ -47,6 +47,7 @@ class PersonalProjects extends React.Component {
                 <Input
                   value={url}
                   type="url"
+                  check={false}
                   style="borderless underline"
                   placeholder="填写项目链接"
                   onChange={this.handleProjectChange(index)('url')}
@@ -99,7 +100,7 @@ class PersonalProjects extends React.Component {
   render() {
     const { actions } = this.props;
     return (
-      <div>
+      <div className="resume_personal_container">
         <div className="resume_title single_title">
           个人项目
         </div>
