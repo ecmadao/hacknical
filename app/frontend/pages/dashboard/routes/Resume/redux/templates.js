@@ -17,15 +17,15 @@ export const EDU = {
   school: '',
   major: '',
   education: EDUCATIONS[0].id,
-  startTime: null,
-  endTime: null,
+  startTime: '',
+  endTime: '',
 };
 
 export const WORK_EXPERIENCE = {
   company: '',
   url: '',
-  startTime: null,
-  endTime: null,
+  startTime: '',
+  endTime: '',
   position: '',
   projects: []
 };

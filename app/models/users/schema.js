@@ -6,8 +6,10 @@ const UserSchema = new Schema({
   userName: String,
   passwordHash: String,
   passwordSalt: String,
-  // createdTime: Date,
-  lastLoginTime: Date,
+  lastLoginTime: {
+    type: Date,
+    default: Date.now
+  },
   email: String
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

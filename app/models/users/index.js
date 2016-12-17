@@ -40,16 +40,6 @@ const createUser = async (email, pwd) => {
     message: '注册成功',
     result: newUser
   });
-
-  // return new Promise((resolve, reject) => {
-  //   User.create({
-  //     userName: '',
-  //     lastLoginTime: new Date(),
-  //     email,
-  //     passwordSalt,
-  //     passwordHash
-  //   });
-  // });
 };
 
 const login = async (email, pwd) => {
@@ -85,8 +75,22 @@ const changePwd = () => {
 
 };
 
+const remove = async (userId) => {
+  const removeUser = await User.remove({ _id: userId });
+  return Promise.resolve({
+    success: true,
+    message: '删除成功',
+    result: removeUser
+  });
+};
+
+const removeAll = async () => {
+  await User.remove();
+};
+
 export default {
   createUser,
   login,
-  changePwd
+  changePwd,
+  removeAll
 }
