@@ -28,7 +28,8 @@ module.exports = {
   entry: entries,
   output: {
     filename: '[name].bundle.js',
-    path: PATH.BUILD_PATH
+    path: PATH.BUILD_PATH,
+    publicPath: PATH.SERVER_PATH
   },
   module: {
     loaders: [

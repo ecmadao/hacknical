@@ -1,0 +1,13 @@
+{
+  "production": false,
+  "port": "5000",
+  "appKey": "hawkeye",
+  "database": {
+    "url": "mongodb://localhost:27017/hawkeye"
+  },
+  "links": {
+    "github": "https://github.com/ecmadao/hawkeye",
+    "issue": "https://github.com/ecmadao/hawkeye/issues",
+    "homePage": "https://github.com/ecmadao/hawkeye"
+  }
+}
