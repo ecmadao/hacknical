@@ -1,0 +1,23 @@
+@import 'open-color/open-color.css';
+
+:root {
+  --bg: #F7F8F9;
+  --bg-deep: #eaeaea;
+
+  --shadow-1: 1px 1px 2px 0 rgba(0, 0, 0, 0.1);
+  --shadow-2: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
+  --shadow-3: 1px 1px 8px 0 rgba(0, 0, 0, 0.1);
+  --shadow-4: 2px 2px 8px 0 rgba(0, 0, 0, 0.1);
+  --shadow-5: 2px 2px 8px 0 rgba(0, 0, 0, 0.3);
+
+  --shadow-card: 0 8px 10px 0 rgba(0, 0, 0, 0.12), 0 0 10px 0 rgba(0, 0, 0, 0.08);
+
+  --shadow-input: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+  --shadow-input-hover: 0px 0px 2px 0 rgba(0, 0, 0, 0.10), 0 0 2px 0 rgba(0, 0, 0, 0.08);
+
+  --flat-card: #F4F4F4;
+  --flat-card-border: #D5D5D5;
+
+  --main-text: var(--oc-gray-7);
+  --side-text: var(--oc-gray-5);
+}

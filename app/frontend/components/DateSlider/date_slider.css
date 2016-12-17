@@ -1,0 +1,41 @@
+@import 'open-color/open-color.css';
+
+.slider_container {
+  flex: 1;
+  padding: 0 5px;
+  margin: 10px 0;
+}
+
+.slider_tips_container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.slider_tips {
+  flex: 1;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  color: var(--oc-gray-5);
+
+  &:first-child {
+    text-align: left;
+
+    & span {
+      padding-left: 10px;
+    }
+  }
+
+  &:last-child {
+    text-align: right;
+
+    & span {
+      padding-right: 10px;
+    }
+  }
+
+  & span {
+    color: var(--oc-gray-7);
+  }
+}

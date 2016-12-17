@@ -1,0 +1,127 @@
+@import 'open-color/open-color.css';
+@import "../../src/styles/base.css";
+
+.button {
+  text-align: center;
+  cursor: pointer;
+  padding: 10px 25px;
+  border-radius: 2px;
+  opacity: 0.8;
+  margin: 15px 5px;
+  font-size: 12px;
+  display: inline-block;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  & i:first-child {
+    margin-right: 10px;
+  }
+
+  & i:last-child {
+    margin-left: 10px;
+  }
+
+  &.flat {
+    transition: background-color 0.2s, opacity 0.2s, color 0.2s;
+
+    &.blue {
+      border: 1px solid var(--oc-blue-5);
+      color: var(--oc-blue-5);
+
+      & i {
+        color: var(--oc-blue-4);
+      }
+
+      &:hover {
+        background-color: var(--oc-blue-5);
+        color: var(--oc-white);
+
+        & i {
+          color: var(--oc-white);
+        }
+      }
+    }
+
+    &.red {
+      border: 1px solid var(--oc-red-5);
+      color: var(--oc-red-5);
+
+      & i {
+        color: var(--oc-red-5);
+      }
+
+      &:hover {
+        background-color: var(--oc-red-5);
+        color: var(--oc-white);
+
+        & i {
+          color: var(--oc-white);
+        }
+      }
+    }
+
+    &.dark {
+      border: 1px solid var(--oc-gray-7);
+      color: var(--oc-gray-7);
+
+      & i {
+        color: var(--oc-gray-7);
+      }
+
+      &:hover {
+        background-color: var(--oc-gray-7);
+        color: var(--oc-white);
+
+        & i {
+          color: var(--oc-white);
+        }
+      }
+    }
+
+    &.grey {
+      border: 1px solid var(--oc-gray-5);
+      color: var(--oc-gray-5);
+
+      & i {
+        color: var(--oc-gray-5);
+      }
+
+      &:hover {
+        background-color: var(--oc-gray-5);
+        color: var(--oc-white);
+
+        & i {
+          color: var(--oc-white);
+        }
+      }
+    }
+  }
+
+  &.material {
+    color: var(--oc-white);
+    box-shadow: var(--shadow-1);
+    transition: opacity 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      box-shadow: var(--shadow-5);
+    }
+
+    &.blue {
+      background-color: var(--oc-blue-5);
+    }
+
+    &.red {
+      background-color: var(--oc-red-5);
+    }
+
+    &.dark {
+      background-color: var(--oc-gray-7);
+    }
+
+    &.grey {
+      background-color: var(--oc-gray-5);
+    }
+  }
+}

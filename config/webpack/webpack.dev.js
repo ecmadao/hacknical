@@ -1,9 +1,9 @@
 const webpack = require('webpack');
-const DashboardPlugin = require('webpack-dashboard/plugin');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
 
 const config = require('./webpack.config');
 
-config.plugins.push(new DashboardPlugin());
+// config.plugins.push(new DashboardPlugin());
 config.debug = true;
 config.devtool = "cheap-module-eval-source-map";
 

@@ -1,0 +1,68 @@
+@import 'open-color/open-color.css';
+
+.textarea_wrapper {
+  min-height: 100px;
+  position: relative;
+  outline: none;
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 2px;
+  transition: border 0.2s;
+  margin: 0 5px;
+
+  &.flat {
+    border: 1px solid var(--oc-gray-5);
+  }
+
+  &.focus {
+    border: 1px solid var(--oc-blue-5);
+  }
+
+  &.error {
+    border: 1px solid var(--oc-red-5);
+  }
+}
+
+.textarea_hidden {
+  width: 94%;
+  margin-left: 3%;
+  display: block;
+  visibility: hidden;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: lighter;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Lato', sans-serif;
+  padding: 0;
+  overflow-x: auto;
+  border: none;
+  background-color: transparent;
+}
+
+.textarea {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 2%;
+  width: 96%;
+  resize: none;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 0;
+  font-weight: lighter;
+  outline: none !important;
+  border: none;
+  background-color: transparent;
+  font-family: 'Lato', sans-serif;
+
+  &::-webkit-scrollbar {
+    background: transparent;
+    width: 0;
+  }
+
+  &:hover::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+}

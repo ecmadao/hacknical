@@ -62,17 +62,16 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
-      MOCK: path.join(PATH.SOURCE_PATH, 'mock'),
+      MOCK: path.join(PATH.SOURCE_PATH, 'src/mock'),
       UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
-      IMAGES: path.join(PATH.SOURCE_PATH, 'style/images')
-      // UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
-      // MODULES: path.join(PATH.SOURCE_PATH, 'modules'),
+      IMAGES: path.join(PATH.SOURCE_PATH, 'src/images'),
+      PAGES: path.join(PATH.SOURCE_PATH, 'pages'),
     }
   },
   postcss: function() {
     return [
-      cssImport({addDependencyTo: webpack}),
-      cssnext({autoprefixer: {browsers: "ie >= 9, ..."}})
+      cssImport({ addDependencyTo: webpack }),
+      cssnext({ autoprefixer: {browsers: "ie >= 9, ..."} })
     ];
   },
   plugins: [
@@ -88,11 +87,11 @@ module.exports = {
       root: PATH.ROOT_PATH,
       verbose: true
     }),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.join(PATH.TEMPLATES_PATH, 'index.html'),
-      chunks: ['index']
-    })
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: path.join(PATH.TEMPLATES_PATH, 'index.html'),
+    //   chunks: ['index']
+    // })
   ],
   displayErrorDetails: true,
   outputPathinfo: true
