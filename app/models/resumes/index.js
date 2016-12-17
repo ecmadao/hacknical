@@ -30,7 +30,7 @@ const updateResume = async (userId, resume) => {
 };
 
 const getResume = async (userId) => {
-  const getResult = await Resume.findOne({ userId });
+  const getResult = await Resume.findOne({ userId: userId });
   if (!getResult) {
     return Promise.resolve({
       success: false,
@@ -41,7 +41,7 @@ const getResume = async (userId) => {
   return Promise.resolve({
     success: true,
     message: '',
-    result: getResult
+    result: getResult.resume
   });
 };
 

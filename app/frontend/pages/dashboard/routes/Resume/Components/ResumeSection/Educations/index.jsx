@@ -66,7 +66,7 @@ class Educations extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {educations} = state.resume;
+  const { educations } = state.resume;
   return { educations }
 }
 

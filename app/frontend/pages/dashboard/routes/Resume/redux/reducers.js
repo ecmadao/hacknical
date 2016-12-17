@@ -16,6 +16,7 @@ import {
 } from 'UTILS/date';
 
 const initialState = {
+  loading: true,
   info: objectAssign({}, INFO),
   educations: [],
   workExperiences: [],
@@ -92,13 +93,43 @@ const initialState = {
 //   }
 // };
 
+const objectassign = (baseObj, targetObj) => {
+  return objectAssign({}, baseObj, targetObj);
+};
+
 const reducers = handleActions({
+  // initial
+  INITIAL_RESUME(state, action) {
+    const {
+      info,
+      educations,
+      workExperiences,
+      personalProjects,
+      others
+    } = action.payload;
+    return ({
+      ...state,
+      loading: false,
+      info: objectassign(state.info, info),
+      educations: [...educations],
+      workExperiences: [...workExperiences],
+      personalProjects: [...personalProjects],
+      others: objectassign(state.others, others)
+    });
+  },
+  // loading
+  TOGGLE_LOADING(state, action) {
+    return ({
+      ...state,
+      loading: action.payload
+    });
+  },
   // info
   HANDLE_INFO_CHANGE(state, action) {
     const { info } = state;
     return ({
       ...state,
-      info: objectAssign({}, info, action.payload)
+      info: objectassign(info, action.payload)
     });
   },
 
@@ -107,7 +138,7 @@ const reducers = handleActions({
     const { educations } = state;
     return ({
       ...state,
-      educations: [...educations, objectAssign({}, EDU, {
+      educations: [...educations, objectassign(EDU, {
         startTime: getDateBeforeYears(1),
         endTime: getCurrentDate()
       })]
@@ -130,7 +161,7 @@ const reducers = handleActions({
     return ({
       ...state,
       educations: [...educations.slice(0, index),
-        objectAssign({}, educations[index], edu),
+        objectassign(educations[index], edu),
         ...educations.slice(index + 1)]
     });
   },
@@ -140,7 +171,7 @@ const reducers = handleActions({
     const { workExperiences } = state;
     return ({
       ...state,
-      workExperiences: [...workExperiences, objectAssign({}, WORK_EXPERIENCE, {
+      workExperiences: [...workExperiences, objectassign(WORK_EXPERIENCE, {
         startTime: getDateBeforeYears(1),
         endTime: getCurrentDate(),
         projects: []
@@ -166,7 +197,7 @@ const reducers = handleActions({
     return ({
       ...state,
       workExperiences: [...workExperiences.slice(0, index),
-        objectAssign({}, workExperience, {
+        objectassign(workExperience, {
           projects: [...workExperience.projects, WORK_PROJECT]
         }),
         ...workExperiences.slice(index + 1)]
@@ -182,7 +213,7 @@ const reducers = handleActions({
     return ({
       ...state,
       workExperiences: [...workExperiences.slice(0, workIndex),
-        objectAssign({}, workExperience, {
+        objectassign(workExperience, {
           projects: [...projects.slice(0, projectIndex),
             ...projects.slice(projectIndex + 1)]
         }),
@@ -200,9 +231,9 @@ const reducers = handleActions({
     return ({
       ...state,
       workExperiences: [...workExperiences.slice(0, workIndex),
-        objectAssign({}, workExperience, {
+        objectassign(workExperience, {
           projects: [...projects.slice(0, projectIndex),
-            objectAssign({}, project, {
+            objectassign(project, {
               details: [...project.details, detail]
             }),
             ...projects.slice(projectIndex + 1)]
@@ -221,9 +252,9 @@ const reducers = handleActions({
     return ({
       ...state,
       workExperiences: [...workExperiences.slice(0, workIndex),
-        objectAssign({}, workExperience, {
+        objectassign(workExperience, {
           projects: [...projects.slice(0, projectIndex),
-            objectAssign({}, project, {
+            objectassign(project, {
               details: [...project.details.slice(0, detailIndex),
                 ...project.details.slice(detailIndex + 1)]
             }),
@@ -243,9 +274,9 @@ const reducers = handleActions({
     return ({
       ...state,
       workExperiences: [...workExperiences.slice(0, workIndex),
-        objectAssign({}, workExperience, {
+        objectassign(workExperience, {
           projects: [...projects.slice(0, projectIndex),
-            objectAssign({}, project, workProject),
+            objectassign(project, workProject),
             ...projects.slice(projectIndex + 1)]
         }),
         ...workExperiences.slice(workIndex + 1)]
@@ -259,7 +290,7 @@ const reducers = handleActions({
     return ({
       ...state,
       workExperiences: [...workExperiences.slice(0, index),
-        objectAssign({}, workExperiences[index], workExperience),
+        objectassign(workExperiences[index], workExperience),
         ...workExperiences.slice(index + 1)]
     });
   },
@@ -269,7 +300,7 @@ const reducers = handleActions({
     const { personalProjects } = state;
     return ({
       ...state,
-      personalProjects: [...personalProjects, objectAssign({}, PERSONAL_PROJECT)]
+      personalProjects: [...personalProjects, objectassign({}, PERSONAL_PROJECT)]
     });
   },
 
@@ -291,7 +322,7 @@ const reducers = handleActions({
     return ({
       ...state,
       personalProjects: [...personalProjects.slice(0, index),
-        objectAssign({}, personalProjects[index], personalProject),
+        objectassign(personalProjects[index], personalProject),
         ...personalProjects.slice(index + 1)]
     });
   },
@@ -304,7 +335,7 @@ const reducers = handleActions({
     return ({
       ...state,
       personalProjects: [...personalProjects.slice(0, index),
-        objectAssign({}, personalProject, {
+        objectassign(personalProject, {
           techs: [...personalProject.techs, tech]
         }),
         ...personalProjects.slice(index + 1)]
@@ -320,7 +351,7 @@ const reducers = handleActions({
     return ({
       ...state,
       personalProjects: [...personalProjects.slice(0, projectIndex),
-        objectAssign({}, personalProject, {
+        objectassign(personalProject, {
           techs: [...techs.slice(0, techIndex), ...techs.slice(techIndex + 1)]
         }),
         ...personalProjects.slice(projectIndex + 1)]
@@ -332,7 +363,7 @@ const reducers = handleActions({
     const { others } = state;
     return ({
       ...state,
-      others: objectAssign({}, others, action.payload)
+      others: objectassign(others, action.payload)
     });
   },
 
@@ -341,7 +372,7 @@ const reducers = handleActions({
     const { expectLocations } = others;
     return ({
       ...state,
-      others: objectAssign({}, others, {
+      others: objectassign(others, {
         expectLocations: [...expectLocations, action.payload]
       })
     });
@@ -353,7 +384,7 @@ const reducers = handleActions({
     const index = action.payload;
     return ({
       ...state,
-      others: objectAssign({}, others, {
+      others: objectassign(others, {
         expectLocations: [...expectLocations.slice(0, index),
           ...expectLocations.slice(index + 1)]
       })
@@ -367,7 +398,7 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      others: objectAssign({}, others, {
+      others: objectassign(others, {
         supplements: [...supplements.slice(0, index),
           supplement,
           ...supplements.slice(index + 1)]
@@ -380,7 +411,7 @@ const reducers = handleActions({
     const { supplements } = others;
     return ({
       ...state,
-      others: objectAssign({}, others, {
+      others: objectassign(others, {
         supplements: [...supplements, action.payload]
       })
     });
@@ -392,7 +423,7 @@ const reducers = handleActions({
     const index = action.payload;
     return ({
       ...state,
-      others: objectAssign({}, others, {
+      others: objectassign(others, {
         supplements: [...supplements.slice(0, index),
           ...supplements.slice(index + 1)]
       })
@@ -405,9 +436,9 @@ const reducers = handleActions({
     const { url, index } = action.payload;
     return ({
       ...state,
-      others: objectAssign({}, others, {
+      others: objectassign(others, {
         socialLinks: [...socialLinks.slice(0, index),
-          objectAssign({}, socialLinks[index], { url }),
+          objectassign(socialLinks[index], { url }),
           ...socialLinks.slice(index + 1)]
       })
     });

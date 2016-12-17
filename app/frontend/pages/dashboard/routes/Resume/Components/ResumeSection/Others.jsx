@@ -120,8 +120,8 @@ class Others extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {others} = state.resume;
-  return {...others}
+  const { others } = state.resume;
+  return { ...others }
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,5 +1,20 @@
 import { createAction, createActions } from 'redux-actions';
+import Api from 'API/index';
 
+/**
+ * initial
+ */
+const initialResume = createAction('INITIAL_RESUME');
+const fetchResume = () => (dispatch, getState) => {
+  Api.resume.getResume().then((result) => {
+    dispatch(initialResume(result));
+  });
+};
+
+/**
+ * loading
+ */
+const toggleLoading = createAction('TOGGLE_LOADING');
 
 /**
  * info
@@ -76,6 +91,11 @@ const {
 );
 
 export default {
+  // initial
+  initialResume,
+  fetchResume,
+  // loading
+  toggleLoading,
   // info
   handleInfoChange,
   // edu

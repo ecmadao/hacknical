@@ -1,11 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
 import Button from 'COMPONENTS/Button';
 import '../styles/resume.css';
 import { RESUME_SECTIONS } from '../helper/const_value';
 import ResumeSection from './ResumeSection';
 import ResumeModal from './ResumeModal';
+import actions from '../redux/actions';
 
 class Resume extends React.Component {
   constructor(props) {
@@ -39,7 +41,8 @@ class Resume extends React.Component {
           top: 63
         });
       }
-    })
+    });
+    this.props.dispatch(actions.fetchResume());
   }
 
   handleModalStatus(openModal) {
@@ -161,4 +164,4 @@ class Resume extends React.Component {
   }
 }
 
-export default Resume;
+export default connect()(Resume);

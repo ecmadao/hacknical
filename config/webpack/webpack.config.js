@@ -67,6 +67,7 @@ module.exports = {
       UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
       IMAGES: path.join(PATH.SOURCE_PATH, 'src/images'),
       PAGES: path.join(PATH.SOURCE_PATH, 'pages'),
+      API: path.join(PATH.SOURCE_PATH, 'api'),
     }
   },
   postcss: function() {

@@ -48,6 +48,7 @@ const loginPage = async (ctx, next) => {
 // user dashboard
 
 const dashboard = async (ctx, next) => {
+  console.log(`userId: ${ctx.session.userId}`);
   await ctx.render('user/dashboard', {
     title: 'dashboard'
   });

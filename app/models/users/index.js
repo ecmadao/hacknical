@@ -15,9 +15,13 @@ const getHashPwd = (salt, password) => {
   return crypto.createHash('sha1').update(dst).digest('base64');
 };
 
+const findUser = async (email) => {
+  return await User.findOne({ email });
+};
+
 const createUser = async (email, pwd) => {
-  const findUser = await User.findOne({ email });
-  if (findUser) {
+  const findResult = await findUser(email);
+  if (findResult) {
     return Promise.resolve({
       success: false,
       message: '该邮箱已存在'
@@ -43,27 +47,27 @@ const createUser = async (email, pwd) => {
 };
 
 const login = async (email, pwd) => {
-  const findUser = await User.findOne({ email });
-  if (!findUser) {
+  const findResult = await findUser(email);
+  if (!findResult) {
     return Promise.resolve({
       success: false,
       message: '该邮箱尚未注册'
     });
   }
 
-  const { passwordSalt } = findUser;
+  const { passwordSalt } = findResult;
   const passwordHash = getHashPwd(passwordSalt, pwd);
-  if (passwordHash !== findUser.passwordHash) {
+  if (passwordHash !== findResult.passwordHash) {
     return Promise.resolve({
       success: false,
       message: '密码错误'
     });
   }
 
-  findUser.lastLoginTime = new Date();
-  await findUser.save();
+  findResult.lastLoginTime = new Date();
+  await findResult.save();
 
-  const userId = findUser._id;
+  const userId = findResult._id;
   return Promise.resolve({
     success: true,
     message: '登录成功',
@@ -89,6 +93,7 @@ const removeAll = async () => {
 };
 
 export default {
+  findUser,
   createUser,
   login,
   changePwd,

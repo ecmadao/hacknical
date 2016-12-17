@@ -91,8 +91,8 @@ class Info extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {info} = state.resume;
-  return {...info}
+  const { info } = state.resume;
+  return { ...info }
 }
 
 function mapDispatchToProps(dispatch) {
