@@ -97,6 +97,17 @@ const objectassign = (baseObj, targetObj) => {
   return objectAssign({}, baseObj, targetObj);
 };
 
+const validateSocialLinks = (socialLinks) => {
+  return SOCIAL_LINKS.map((social) => {
+    const targetSocial = socialLinks.filter(s => s.name === social.name);
+    if (targetSocial.length) {
+      return targetSocial[0];
+    } else {
+      return social;
+    }
+  });
+};
+
 const reducers = handleActions({
   // initial
   INITIAL_RESUME(state, action) {
@@ -114,7 +125,9 @@ const reducers = handleActions({
       educations: [...educations],
       workExperiences: [...workExperiences],
       personalProjects: [...personalProjects],
-      others: objectassign(state.others, others)
+      others: objectassign(state.others, objectassign(others, {
+        socialLinks: [...validateSocialLinks(others.socialLinks)]
+      }))
     });
   },
   // loading
