@@ -71,9 +71,9 @@ const setResume = async (ctx, next) => {
   const userId = ctx.session.userId;
 
   const setResult = await Resume.updateResume(userId, resumeObj);
-  const { message, success, result } = setResult;
+  const { success, result } = setResult;
   ctx.body = {
-    message,
+    message: '储存成功',
     success,
     result
   };

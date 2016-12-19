@@ -13,6 +13,13 @@ class Input extends React.Component {
     this.onKeyUp = this.onKeyUp.bind(this);
   }
 
+  componentDidUpdate(preProps) {
+    const { value } = this.props;
+    if (value && !preProps.value) {
+      this.check(value);
+    }
+  }
+
   onChange() {
     const value = this.input.value;
     const { onChange } = this.props;
