@@ -1,4 +1,5 @@
 import { createAction, createActions } from 'redux-actions';
+import objectAssign from 'object-assign';
 import Api from 'API/index';
 
 /**
@@ -8,6 +9,15 @@ const initialResume = createAction('INITIAL_RESUME');
 const fetchResume = () => (dispatch, getState) => {
   Api.resume.getResume().then((result) => {
     dispatch(initialResume(result));
+  });
+};
+
+const saveResume = () => (dispatch, getState) => {
+  const { resume } = getState();
+  const postResume = objectAssign({}, resume);
+  delete postResume.loading;
+  Api.resume.setResume(JSON.stringify(postResume)).then((result) => {
+    // dispatch(initialResume(result));
   });
 };
 
@@ -94,6 +104,8 @@ export default {
   // initial
   initialResume,
   fetchResume,
+  // resume operation
+  saveResume,
   // loading
   toggleLoading,
   // info

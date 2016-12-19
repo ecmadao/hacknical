@@ -5,7 +5,7 @@ const getResume = () => {
 };
 
 const setResume = (resume) => {
-  return postData('/user/resume', resume)
+  return postData('/user/resume', { resume })
 };
 
 export default {

@@ -3,7 +3,7 @@ import param from 'jquery-param';
 import 'isomorphic-fetch';
 
 polyfill();
-const rnoContent = /^(?:GET|HEAD)$/;
+const rnoContent = /^(?:GET|HEAD|POST)$/;
 
 const fetchApi = (url, method, data) => {
   const options = {
@@ -41,6 +41,7 @@ const fetchApi = (url, method, data) => {
 };
 
 export const postData = (url, data) => {
+  data['_csrf'] = document.getElementsByTagName('meta')['csrf-token'].content;
   return fetchApi(url, 'POST', data);
 };
 
@@ -49,5 +50,6 @@ export const getData = (url, data) => {
 };
 
 export const deleteData = (url, data) => {
+  data['_csrf'] = document.getElementsByTagName('meta')['csrf-token'].content;
   return fetchApi(url, 'DELETE', data);
 };

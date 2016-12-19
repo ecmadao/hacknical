@@ -66,9 +66,11 @@ const getResume = async (ctx, next) => {
 };
 
 const setResume = async (ctx, next) => {
-  const { resume } = ctx.request.body;
+  const { resume } = ctx.query;
+  const resumeObj = JSON.parse(resume);
   const userId = ctx.session.userId;
-  const setResult = await Resume.updateResume(userId, resume);
+
+  const setResult = await Resume.updateResume(userId, resumeObj);
   const { message, success, result } = setResult;
   ctx.body = {
     message,

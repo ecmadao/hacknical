@@ -95,6 +95,8 @@ class Resume extends React.Component {
 
   render() {
     const { activeSection, openModal } = this.state;
+    const { dispatch } = this.props;
+
     const currentIndex = this.currentIndex;
     const max = RESUME_SECTIONS.length;
 
@@ -118,6 +120,7 @@ class Resume extends React.Component {
               leftIcon={(
                 <i className="fa fa-save" aria-hidden="true"></i>
               )}
+              onClick={() => dispatch(actions.saveResume())}
             />
           </div>
         </div>
@@ -150,6 +153,7 @@ class Resume extends React.Component {
                   leftIcon={(
                     <i className="fa fa-save" aria-hidden="true"></i>
                   )}
+                  onClick={() => dispatch(actions.saveResume())}
                 />
               )}
             </div>
