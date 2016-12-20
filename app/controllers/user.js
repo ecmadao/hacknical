@@ -19,6 +19,8 @@ const login = async (ctx, next) => {
 
 const logout = async (ctx, next) => {
   ctx.session.userId = null;
+  ctx.session.token = null;
+  ctx.session.githubLogin = null;
   ctx.redirect('/');
 };
 
@@ -47,7 +49,7 @@ const loginPage = async (ctx, next) => {
 };
 
 const githubLogin = async (ctx, next) => {
-  const code = ctx.request.query.code;
+  const { code } = ctx.request.query;
   const result = await Github.getToken(code);
   try {
     const token = result.match(/^access_token=(\w+)&/)[1];
@@ -56,9 +58,13 @@ const githubLogin = async (ctx, next) => {
     const userInfo = await Github.getUser(token);
     if (userInfo) {
       ctx.session.token = token;
-      console.log(JSON.parse(userInfo));
-      ctx.session.user = JSON.parse(userInfo);
-      return ctx.redirect('/user/dashboard');
+      const githubUser = JSON.parse(userInfo);
+      ctx.session.githubLogin = githubUser.login;
+      const loginResult = await User.loginWithGithub(githubUser);
+      if (loginResult) {
+        ctx.session.userId = loginResult.result._id;
+        return ctx.redirect('/user/dashboard');
+      }
     }
     return ctx.redirect('/user/login');
   } catch (TypeError) {

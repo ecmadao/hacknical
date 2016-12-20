@@ -46,7 +46,7 @@ const createUser = async (email, pwd) => {
   });
 };
 
-const createUserByGithub = async (userInfo) => {
+const loginWithGithub = async (userInfo) => {
   const {
     id,
     login,
@@ -141,5 +141,5 @@ export default {
   login,
   changePwd,
   removeAll,
-  createUserByGithub
+  loginWithGithub
 }
