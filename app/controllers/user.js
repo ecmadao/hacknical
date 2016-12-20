@@ -1,5 +1,6 @@
 import User from '../models/users/index';
 import Resume from '../models/resumes/index';
+import Github from '../services/github';
 
 // user login/logout/signup
 
@@ -45,6 +46,26 @@ const loginPage = async (ctx, next) => {
   });
 };
 
+const githubLogin = async (ctx, next) => {
+  const code = ctx.request.query.code;
+  const result = await Github.getToken(code);
+  try {
+    const token = result.match(/^access_token=(\w+)&/)[1];
+    console.log('===== user token is =====');
+    console.log(token);
+    const userInfo = await Github.getUser(token);
+    if (userInfo) {
+      ctx.session.token = token;
+      console.log(JSON.parse(userInfo));
+      ctx.session.user = JSON.parse(userInfo);
+      return ctx.redirect('/user/dashboard');
+    }
+    return ctx.redirect('/user/login');
+  } catch (TypeError) {
+    return ctx.redirect('/user/login');
+  }
+};
+
 // user dashboard
 
 const dashboard = async (ctx, next) => {
@@ -85,6 +106,7 @@ export default {
   logout,
   signup,
   loginPage,
+  githubLogin,
   // dashboard
   dashboard,
   getResume,

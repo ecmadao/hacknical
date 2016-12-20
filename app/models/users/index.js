@@ -46,6 +46,49 @@ const createUser = async (email, pwd) => {
   });
 };
 
+const createUserByGithub = async (userInfo) => {
+  const {
+    id,
+    login,
+    name,
+    avatar_url,
+    company,
+    blog,
+    location,
+    email,
+    bio,
+    created_at,
+    updated_at
+  } = userInfo;
+  const newUser = await User.create({
+    email,
+    userName: name,
+    lastLoginTime: new Date(),
+    githubId: id,
+    githubInfo: {
+      login,
+      avatar_url,
+      company,
+      blog,
+      location,
+      email,
+      bio,
+      created_at,
+      updated_at
+    }
+  });
+  if (newUser) {
+    return Promise.resolve({
+      success: true,
+      result: newUser
+    });
+  }
+  return Promise.resolve({
+    success: false,
+    result: null
+  });
+};
+
 const login = async (email, pwd) => {
   const findResult = await findUser(email);
   if (!findResult) {
@@ -97,5 +140,6 @@ export default {
   createUser,
   login,
   changePwd,
-  removeAll
+  removeAll,
+  createUserByGithub
 }

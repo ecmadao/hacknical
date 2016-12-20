@@ -13,8 +13,10 @@ router.post('/resume', user.setResume);
 
 // user login/logout/signup
 router.get('/login', user.loginPage);
+router.get('/login/github', user.githubLogin);
 router.post('/login', user.login);
 router.post('/signup', user.signup);
 router.get('/logout', user.logout);
+
 
 module.exports = router;

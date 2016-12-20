@@ -30,12 +30,6 @@ const addResume = async (userId, resume = DEFAULT_RESUME) => {
 const updateResume = async (userId, resume) => {
   await Resume.remove({ userId });
   return await addResume(userId, resume);
-  // const updateResult = await Resume.update({ userId }, resume);
-  // return Promise.resolve({
-  //   success: true,
-  //   message: '简历更新成功',
-  //   result: updateResult
-  // });
 };
 
 const getResume = async (userId) => {
