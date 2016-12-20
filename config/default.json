@@ -9,5 +9,10 @@
     "github": "https://github.com/ecmadao/hawkeye",
     "issue": "https://github.com/ecmadao/hawkeye/issues",
     "homePage": "https://github.com/ecmadao/hawkeye"
+  },
+  "github": {
+    "clientId": "0bd2a10c678e09959631",
+    "clientSecret": "19f7b2b9d1a96330fae3c195a9bd8f88e7b85094",
+    "appName": "hawkeye-dev"
   }
 }
