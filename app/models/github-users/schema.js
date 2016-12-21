@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const GithubUsersSchema = new Schema({
   userId: String,
-  githubId: String,
   reposIds: Array
 });
 

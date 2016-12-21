@@ -41,8 +41,20 @@ const getUserRepos = (token) => {
 
 };
 
-const getRepos = () => {
-
+const getRepos = (login, token) => {
+  return new Promise((resolve, reject) => {
+    request.get(`${API_USER}s/${login}/repos?access_token=${token}`, {
+      headers: {
+        'User-Agent': appName
+      }
+    }, (err, httpResponse, body) => {
+      if (httpResponse.statusCode === 200 && body) {
+        resolve(JSON.parse(body));
+      } else {
+        reject(false);
+      }
+    });
+  });
 };
 
 export default {

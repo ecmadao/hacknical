@@ -1,25 +1,25 @@
 import GithubRepos from './schema';
 
-const findRepos = async (githubId, reposId) => {
+const findRepos = async (userId, reposId) => {
   return await GithubRepos.findOne({
-    githubId,
+    userId,
     reposId
   });
 };
 
-const removeRepos = async (githubId, reposId = null) => {
+const removeRepos = async (userId, reposId = null) => {
   if (reposId === null) {
     return await GithubRepos.remove({
-      githubId
+      userId
     });
   }
   return await GithubRepos.remove({
-    githubId,
+    userId,
     reposId
   });
 };
 
-const setRepository = async (githubId, repository) => {
+const setRepository = async (userId, repository) => {
   const {
     id,
     full_name,
@@ -40,9 +40,9 @@ const setRepository = async (githubId, repository) => {
   	watchers,
   	subscribers_count
   } = repository;
-  await GithubRepos.create({
+  return await GithubRepos.create({
     reposId: id,
-    githubId,
+    userId,
     full_name,
     name,
     html_url,
@@ -63,22 +63,28 @@ const setRepository = async (githubId, repository) => {
   });
 };
 
-const setRepos = async (githubId, repos) => {
+const setRepos = async (userId, repos) => {
+  const setResults = [];
   for(let i = 0; i < repos.length; i++) {
     const repository = repos[i];
-    const findResult = await findRepos(githubId, repository.id);
+    const findResult = await findRepos(userId, repository.id);
     if (!findResult) {
-      await setRepository(githubId, repository);
+      const result = await setRepository(userId, repository);
+      setResults.push(result);
     }
   }
+  return setResults;
 };
 
-const resetRepos = async (githubId, repos) => {
-  await removeRepos(githubId);
+const resetRepos = async (userId, repos) => {
+  const setResults = [];
+  await removeRepos(userId);
   for(let i = 0; i < repos.length; i++) {
     const repository = repos[i];
-    await setRepository(githubId, repository);
+    const result = await setRepository(userId, repository);
+    setResults.push(result);
   }
+  return setResults;
 };
 
 export default {

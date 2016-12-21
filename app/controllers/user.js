@@ -19,7 +19,7 @@ const login = async (ctx, next) => {
 
 const logout = async (ctx, next) => {
   ctx.session.userId = null;
-  ctx.session.token = null;
+  ctx.session.githubToken = null;
   ctx.session.githubLogin = null;
   ctx.redirect('/');
 };
@@ -52,12 +52,12 @@ const githubLogin = async (ctx, next) => {
   const { code } = ctx.request.query;
   const result = await Github.getToken(code);
   try {
-    const token = result.match(/^access_token=(\w+)&/)[1];
-    console.log('===== user token is =====');
-    console.log(token);
-    const userInfo = await Github.getUser(token);
+    const githubToken = result.match(/^access_token=(\w+)&/)[1];
+    console.log('===== user githubToken is =====');
+    console.log(githubToken);
+    const userInfo = await Github.getUser(githubToken);
     if (userInfo) {
-      ctx.session.token = token;
+      ctx.session.githubToken = githubToken;
       const githubUser = JSON.parse(userInfo);
       ctx.session.githubLogin = githubUser.login;
       const loginResult = await User.loginWithGithub(githubUser);

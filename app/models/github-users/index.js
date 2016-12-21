@@ -1,11 +1,11 @@
 import GithubUsers from './schema';
 
-const findGithubUsers = async (githubId) => {
-  return await GithubUsers.findOne({ githubId });
+const findGithubUsers = async (userId) => {
+  return await GithubUsers.findOne({ userId });
 };
 
-const setReposIds = async (githubId, reposIds) => {
-  const findResult = await findGithubUsers(githubId);
+const setReposIds = async (userId, reposIds) => {
+  const findResult = await findGithubUsers(userId);
   if (findResult) {
     findResult.reposIds = reposIds;
     await findResult.save();
@@ -19,8 +19,8 @@ const setReposIds = async (githubId, reposIds) => {
   });
 };
 
-const getReposIds = async (githubId) => {
-  const findResult = await findGithubUsers(githubId);
+const getReposIds = async (userId) => {
+  const findResult = await findGithubUsers(userId);
   if (findResult) {
     return Promise.resolve({
       success: true,

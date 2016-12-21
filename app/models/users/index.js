@@ -19,6 +19,10 @@ const findUser = async (email) => {
   return await User.findOne({ email });
 };
 
+const findUserById = async (userId) => {
+  return await User.findOne({ _id: userId });
+};
+
 const createUser = async (email, pwd) => {
   const findResult = await findUser(email);
   if (findResult) {
@@ -141,5 +145,6 @@ export default {
   login,
   changePwd,
   removeAll,
-  loginWithGithub
+  loginWithGithub,
+  findUserById
 }
