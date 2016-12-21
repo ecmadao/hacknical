@@ -1,22 +1,22 @@
 import koaRouter from 'koa-router';
-import user from '../controllers/user';
-import userHelper from '../middlewares/user_helper';
+import User from '../controllers/user';
+import user from '../controllers/helper/user';
 
 const router = koaRouter({
   prefix: '/user'
 });
 
 // dashboard
-router.get('/dashboard', user.dashboard);
-router.get('/resume', user.getResume);
-router.post('/resume', user.setResume);
+router.get('/dashboard', User.dashboard);
+router.get('/resume', User.getResume);
+router.post('/resume', User.setResume);
 
 // user login/logout/signup
-router.get('/login', user.loginPage);
-router.get('/login/github', user.githubLogin);
-router.post('/login', user.login);
-router.post('/signup', user.signup);
-router.get('/logout', user.logout);
+router.get('/login', User.loginPage);
+router.get('/login/github', User.githubLogin);
+router.post('/login', User.login);
+router.post('/signup', User.signup);
+router.get('/logout', User.logout);
 
 
 module.exports = router;

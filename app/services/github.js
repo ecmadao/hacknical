@@ -41,9 +41,9 @@ const getUserRepos = (token) => {
 
 };
 
-const getRepos = (login, token) => {
+const getRepos = (login, token, page = 1) => {
   return new Promise((resolve, reject) => {
-    request.get(`${API_USER}s/${login}/repos?access_token=${token}`, {
+    request.get(`${API_USER}s/${login}/repos?page=${page}&access_token=${token}`, {
       headers: {
         'User-Agent': appName
       }
@@ -57,9 +57,21 @@ const getRepos = (login, token) => {
   });
 };
 
+const getMultiRepos = (login, token, pages = 3) => {
+  const promiseList = new Array(pages).fill(0).map((item, index) => {
+    return getRepos(login, token, index + 1);
+  });
+  return Promise.all(promiseList).then((datas) => {
+    let results = [];
+    datas.forEach(data => results = [...results, ...data]);
+    return Promise.resolve(results);
+  });
+};
+
 export default {
   getToken,
   getUser,
   getUserRepos,
-  getRepos
+  getRepos,
+  getMultiRepos
 }

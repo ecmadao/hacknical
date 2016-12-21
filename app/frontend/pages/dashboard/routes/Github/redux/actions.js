@@ -3,7 +3,6 @@ import objectAssign from 'object-assign';
 import Api from 'API/index';
 import USER from 'MOCK/user';
 import {
-  ALL_REPOS,
   REPOS_README
 } from 'MOCK/repos';
 import CHOSED_REPOS from 'MOCK/chosed_repos';
@@ -34,8 +33,8 @@ const getGithubInfo = () => (dispatch, getState) => {
 const getGithubRepos = () => (dispatch, getState) => {
   Api.github.getRepos().then((result) => {
     console.log(result);
+    dispatch(setGithubRepos(result));
   });
-  dispatch(setGithubRepos(ALL_REPOS));
 };
 
 const showReposReadme = (url, reposId) => (dispatch, getState) => {

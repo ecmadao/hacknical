@@ -3,12 +3,12 @@ export const getCache = (key, params = []) => async (ctx, next) => {
   const userId = ctx.session.userId;
   const paramIds = params.map(param => ctx.query[param] || '').join('.');
   const cacheKey = `${key}.${userId}.${paramIds}`;
-  const results = await ctx.cache.get(cacheKey);
-  if (results) {
+  const result = await ctx.cache.get(cacheKey);
+  if (result) {
     console.log(`request: ${key} get datas from cache`);
     ctx.body = {
       success: true,
-      results
+      result
     };
     return;
   }

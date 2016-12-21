@@ -71,6 +71,8 @@ const setRepos = async (userId, repos) => {
     if (!findResult) {
       const result = await setRepository(userId, repository);
       setResults.push(result);
+    } else {
+      setResults.push(findResult);
     }
   }
   return setResults;

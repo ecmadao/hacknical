@@ -3,8 +3,8 @@ import Github from '../services/github';
 import GithubRepos from '../models/github-repos';
 
 export const getAndSetRepos = async (login, token, userId) => {
-  const repos = await Github.getRepos(login, token);
-  const setResults = await GithubRepos.setRepos(userId, repos);
+  const multiRepos = await Github.getMultiRepos(login, token);
+  const setResults = await GithubRepos.setRepos(userId, multiRepos);
   return setResults;
 };
 
@@ -15,14 +15,15 @@ const getRepos = async (ctx, next) => {
     success: true,
     result
   };
+  await next();
 };
 
 const getRepository = async (ctx, next) => {
-
+  await next();
 };
 
 const getReadme = async (ctx, next) => {
-
+  await next();
 };
 
 export default {
