@@ -1,0 +1,39 @@
+@import 'open-color/open-color.css';
+@import "../../pages/dashboard/style/base.css";
+
+.operations_container {
+  position: absolute;
+  left: -10px;
+  top: 5px;
+  transform: translateX(-100%);
+}
+
+.operations_more {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+
+  & i {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.active,
+  &:hover {
+    box-shadow: var(--shadow-2);
+    background-color: var(--oc-white);
+  }
+}
+
+.operations_menu {
+  position: absolute;
+}
+
+.operation_item {
+
+}
