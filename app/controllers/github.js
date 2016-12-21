@@ -10,13 +10,11 @@ export const getAndSetRepos = async (login, token, userId) => {
 
 const getUser = async (ctx, next) => {
   const { userId } = ctx.session;
-  const findResult = User.findUserById(userId);
+  const findResult = await User.findUserById(userId);
   if (findResult) {
-    delete findResult._id;
-    delete findResult.githubId;
     ctx.body = {
       success: true,
-      result: findResult
+      result: findResult.githubInfo || {}
     };
     return;
   }

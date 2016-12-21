@@ -13,6 +13,7 @@ const UserSchema = new Schema({
   email: String,
   githubId: { type: String, default: '' },
   githubInfo: {
+    name: String,
     login: String,
     avatar_url: String,
     company: String,

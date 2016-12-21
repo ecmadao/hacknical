@@ -62,7 +62,11 @@ const loginWithGithub = async (userInfo) => {
     email,
     bio,
     created_at,
-    updated_at
+    updated_at,
+    public_repos,
+    public_gists,
+    followers,
+    following
   } = userInfo;
   const newUser = await User.create({
     email,
@@ -71,6 +75,7 @@ const loginWithGithub = async (userInfo) => {
     githubId: id,
     githubInfo: {
       login,
+      name,
       avatar_url,
       company,
       blog,
@@ -78,7 +83,11 @@ const loginWithGithub = async (userInfo) => {
       email,
       bio,
       created_at,
-      updated_at
+      updated_at,
+      public_repos,
+      public_gists,
+      followers,
+      following
     }
   });
   if (newUser) {
