@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import OperationItem from './OperationItem';
 import cx from 'classnames';
 import './operations.css';
@@ -64,7 +65,11 @@ class Operations extends React.Component {
     const moreIconClass = cx(
       'operations_more',
       showOperations && 'active'
-    )
+    );
+    const menuClass = cx(
+      'operations_menu',
+      showOperations && 'active'
+    );
     return (
       <div className="operations_container">
         <div
@@ -75,7 +80,7 @@ class Operations extends React.Component {
             aria-hidden="true"></i>
         </div>
         <div
-          className="operations_menu"
+          className={menuClass}
           ref={ref => this.operationMenu = ref}>
           {this.renderMenus()}
         </div>

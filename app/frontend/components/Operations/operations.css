@@ -6,6 +6,7 @@
   left: -10px;
   top: 5px;
   transform: translateX(-100%);
+  z-index: 9;
 }
 
 .operations_more {
@@ -32,8 +33,37 @@
 
 .operations_menu {
   position: absolute;
+  box-shadow: var(--shadow-2);
+  border-radius: 2px;
+  background-color: var(--oc-white);
+  top: 100%;
+  transform: translateY(10px);
+  z-index: -9;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 14px;
+
+  &.active {
+    opacity: 1;
+    z-index: 1;
+  }
 }
 
 .operation_item {
+  padding: 10px 20px;
+  min-width: 100px;
+  transition: background-color 0.3s;
+  cursor: pointer;
 
+  &:hover {
+    background-color: var(--oc-gray-2);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--oc-gray-2);
+  }
+
+  & i {
+    margin-right: 7px;
+  }
 }

@@ -170,13 +170,29 @@ class UserReposCard extends React.Component {
     )
   }
 
+  get operationItems() {
+    return [
+      {
+        text: '更改仓库',
+        icon: 'gears',
+        onClick: () => {}
+      },
+      {
+        text: '不在简历中展示',
+        onClick: () => {}
+      }
+    ]
+  }
+
   render() {
     const {chosedRepos} = this.props;
     return (
       <div className="info_card_container repos_card_container">
         <p><i aria-hidden="true" className="fa fa-cubes"></i>&nbsp;&nbsp;仓库展示</p>
         <div className="info_card card">
-          <Operations />
+          <Operations
+            items={this.operationItems}
+          />
           {chosedRepos.length ? this.renderChosedRepos() : this.renderEmptyCard()}
         </div>
       </div>
