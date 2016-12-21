@@ -6,15 +6,19 @@ import bodyParser from 'koa-bodyparser';
 import onerror from 'koa-onerror';
 import csrf from 'koa-csrf';
 import json from 'koa-json';
-import session from 'koa-session';
+import redisStore from 'koa-redis';
+import session from 'koa-generic-session';
 import config from 'config';
 import nunjucks from 'nunjucks';
 import views from 'koa-views';
-import { assetsPath } from './middlewares/assets_helper';
+
+import assetsPath from './middlewares/assets_helper';
+import redisCache from './middlewares/cache_helper';
 import router from './routes/index';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
+const clientId = config.get('github.clientId');
 const app = new Koa();
 app.keys = [appKey];
 
@@ -26,15 +30,25 @@ app.use(bodyParser());
 app.use(convert(json()));
 // logger
 app.use(convert(logger()));
+
 // session
-app.use(convert(session(app)));
+app.use(convert(session({
+  store: redisStore({
+    url: config.get('redis')
+  })
+})));
+// catch
+app.use(redisCache({
+  url: config.get('redis')
+}));
 // csrf
 app.use(new csrf());
 // helper func
 app.use(async (ctx, next) => {
   ctx.state = {
     csrf: ctx.csrf,
-    assetsPath
+    assetsPath,
+    clientId
   };
   await next();
 });

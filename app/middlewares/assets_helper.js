@@ -12,8 +12,10 @@ import fs from 'fs';
 //   return manifest[asset];
 // }
 
-export const assetsPath = (assetsName) => {
+const assetsPath = (assetsName) => {
   const [filename, filetype] = assetsName.split('.');
   // const publicAsset = getAssetName(assetsName);
   return `/assets/${filename}.bundle.${filetype}`;
 };
+
+export default assetsPath;

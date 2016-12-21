@@ -2,6 +2,7 @@
   "production": false,
   "port": "5000",
   "appKey": "hawkeye",
+  "redis": "redis://localhost:6379/3",
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"
   },
@@ -11,8 +12,8 @@
     "homePage": "https://github.com/ecmadao/hawkeye"
   },
   "github": {
-    "clientId": "0bd2a10c678e09959631",
-    "clientSecret": "19f7b2b9d1a96330fae3c195a9bd8f88e7b85094",
-    "appName": "hawkeye-dev"
+    "clientId": "f02ab8772488f0b6ad3a",
+    "clientSecret": "4c9db0cbc9df0954558e3cd5990d4873d4bcfda9",
+    "appName": "hawkeye-test"
   }
 }
