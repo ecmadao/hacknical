@@ -1,8 +1,10 @@
 import { handleActions } from 'redux-actions';
+import objectAssign from 'object-assign';
+import USER from 'MOCK/user';
 
 const initialState = {
   loading: true,
-  user: null,
+  user: objectAssign({}, USER),
   repos: [],
   chosedRepos: [],
   showedReposId: null,

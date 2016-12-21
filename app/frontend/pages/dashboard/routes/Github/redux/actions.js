@@ -1,10 +1,7 @@
 import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 import Api from 'API/index';
-import USER from 'MOCK/user';
-import {
-  REPOS_README
-} from 'MOCK/repos';
+
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 
 const {
@@ -26,8 +23,10 @@ const {
 );
 
 const getGithubInfo = () => (dispatch, getState) => {
-  dispatch(setGithubInfo(USER));
-  dispatch(toggleLoading(false));
+  Api.github.getUser().then((result) => {
+    dispatch(setGithubInfo(result));
+    dispatch(toggleLoading(false));
+  });
 };
 
 const getGithubRepos = () => (dispatch, getState) => {

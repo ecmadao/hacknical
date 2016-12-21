@@ -21,7 +21,11 @@ const UserSchema = new Schema({
     email: String,
     bio: String,
     created_at: String,
-    updated_at: String
+    updated_at: String,
+    public_repos: String,
+    public_gists: String,
+    followers: String,
+    following: String
   }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

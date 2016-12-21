@@ -12,7 +12,12 @@ const getReadme = (reposName) => {
   return getData(`/github/${reposName}/readme`);
 };
 
+const getUser = () => {
+  return getData(`/github/user`);
+};
+
 export default {
+  getUser,
   getRepos,
   getRepository,
   getReadme

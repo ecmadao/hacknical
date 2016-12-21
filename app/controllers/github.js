@@ -8,6 +8,24 @@ export const getAndSetRepos = async (login, token, userId) => {
   return setResults;
 };
 
+const getUser = async (ctx, next) => {
+  const { userId } = ctx.session;
+  const findResult = User.findUserById(userId);
+  if (findResult) {
+    delete findResult._id;
+    delete findResult.githubId;
+    ctx.body = {
+      success: true,
+      result: findResult
+    };
+    return;
+  }
+  ctx.body = {
+    success: true,
+    message: '查找用户失败'
+  };
+};
+
 const getRepos = async (ctx, next) => {
   const { userId, githubLogin, githubToken } = ctx.session;
   const result = await getAndSetRepos(githubLogin, githubToken, userId);
@@ -27,6 +45,7 @@ const getReadme = async (ctx, next) => {
 };
 
 export default {
+  getUser,
   getRepos,
   getRepository,
   getReadme

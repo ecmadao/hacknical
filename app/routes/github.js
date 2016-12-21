@@ -25,6 +25,11 @@ router.get(
   user.checkSession(['userId', 'githubToken', 'githubLogin']),
   Github.getReadme
 );
+router.get(
+  '/user',
+  user.checkSession(['userId']),
+  Github.getUser
+)
 
 
 module.exports = router;
