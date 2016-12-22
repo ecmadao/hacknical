@@ -42,7 +42,7 @@ export const getReposStars = (repos) => {
 export const getLanguageDistribution = (repos) => {
   const reposLanguages = {};
   repos.forEach((repository) => {
-    const {language} = repository;
+    const { language } = repository;
     reposLanguages[language] = isNaN(reposLanguages[language]) ? 1 : reposLanguages[language] + 1;
   });
   return reposLanguages;
@@ -51,10 +51,20 @@ export const getLanguageDistribution = (repos) => {
 export const getLanguageSkill = (repos) => {
   const reposLanguages = {};
   repos.forEach((repository) => {
-    const {language, stargazersCount} = repository;
+    const { language, stargazersCount } = repository;
     reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazersCount) : reposLanguages[language] + parseInt(stargazersCount);
   });
   return reposLanguages;
+};
+
+export const getReposLanguages = (repos) => {
+  const languages = [];
+  repos.forEach((repository) => {
+    if (!languages.some(language => language === repository.language)) {
+      languages.push(repository.language);
+    }
+  });
+  return languages;
 };
 
 export const getReposByLanguage = (repos, language) => {

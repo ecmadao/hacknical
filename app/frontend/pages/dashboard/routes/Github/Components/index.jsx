@@ -20,7 +20,14 @@ class Github extends React.Component {
   }
 
   render() {
-    const { actions, user, repos, openModal } = this.props;
+    const {
+      user,
+      repos,
+      actions,
+      openModal,
+      chosedRepos,
+      reposLanguages
+    } = this.props;
     return (
       <div className="github_info_container">
         <div className="info_card_container">
@@ -37,6 +44,9 @@ class Github extends React.Component {
             openModal={openModal}
             onClose={() => actions.toggleModal(false)}
             onSave={() => {}}
+            repos={repos}
+            languages={reposLanguages}
+            selectedItems={chosedRepos}
           />
         ) : ''}
       </div>
@@ -46,15 +56,21 @@ class Github extends React.Component {
 
 function mapStateToProps(state) {
   const {
-    loading,
     user,
-    openModal
+    repos,
+    loading,
+    openModal,
+    chosedRepos,
+    reposLanguages
   } = state.github;
   return {
-    loading,
     user,
-    openModal
-  }
+    repos,
+    loading,
+    openModal,
+    chosedRepos,
+    reposLanguages
+  };
 }
 
 function mapDispatchToProps(dispatch) {

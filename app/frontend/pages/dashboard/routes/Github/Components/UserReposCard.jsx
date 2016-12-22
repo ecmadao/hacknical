@@ -5,11 +5,11 @@ import classNames from 'classnames';
 
 import Loading from 'COMPONENTS/Loading';
 import Operations from 'COMPONENTS/Operations'
-import CHOSED_REPOS from 'MOCK/chosed_repos';
 import githubActions from '../redux/actions';
 import {
   getMaxDate,
-  sortByDate
+  sortByDate,
+  getReposByIds
 } from '../helper/chosed_repos';
 import { hex2Rgba } from '../helper/color_helper';
 import { getRelativeTime } from 'UTILS/date';
@@ -186,7 +186,7 @@ class UserReposCard extends React.Component {
   }
 
   render() {
-    const {chosedRepos} = this.props;
+    const { chosedRepos } = this.props;
     return (
       <div className="info_card_container repos_card_container">
         <p><i aria-hidden="true" className="fa fa-cubes"></i>&nbsp;&nbsp;仓库展示</p>
@@ -202,8 +202,17 @@ class UserReposCard extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { chosedRepos, showedReposId } = state.github;
-  return { chosedRepos, showedReposId }
+  const {
+    repos,
+    chosedRepos,
+    showedReposId
+  } = state.github;
+  console.log(chosedRepos);
+  console.log(getReposByIds(repos, chosedRepos))
+  return {
+    chosedRepos: getReposByIds(repos, chosedRepos),
+    showedReposId
+  }
 }
 
 function mapDispatchToProps(dispatch) {

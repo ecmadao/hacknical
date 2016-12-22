@@ -1,7 +1,11 @@
 import React, { PropTypes } from 'react';
 import PortalModal from 'COMPONENTS/PortalModal';
+import Selector from 'COMPONENTS/Selector';
 import ReposItem from './ReposItem';
 import '../../styles/repos_modal.css';
+import {
+  getReposByLanguage
+} from '../../helper/repos';
 
 class ReposModal extends React.Component {
   constructor(props) {
@@ -13,8 +17,8 @@ class ReposModal extends React.Component {
   }
 
   renderRepos() {
-    const { items } = this.props;
-    return items.map((item, index) => {
+    const { repos } = this.props;
+    return repos.map((item, index) => {
       return (
         <ReposItem key={index} />
       )
@@ -28,7 +32,9 @@ class ReposModal extends React.Component {
         showModal={openModal}
         onClose={onClose}>
         <div className="repos_modal_container">
-          <div className="repos_modal_header"></div>
+          <div className="repos_modal_header">
+            已选择的仓库
+          </div>
           <div className="repos_modal_contents">
             {this.renderRepos()}
           </div>
@@ -43,7 +49,8 @@ ReposModal.propTypes = {
   onClose: PropTypes.func,
   onSave: PropTypes.func,
   selectedItems: PropTypes.array,
-  items: PropTypes.array,
+  repos: PropTypes.array,
+  languages: PropTypes.array
 };
 
 ReposModal.defaultProps = {
@@ -51,7 +58,8 @@ ReposModal.defaultProps = {
   onClose: () => {},
   onSave: () => {},
   selectedItems: [],
-  items: []
+  repos: [],
+  languages: []
 };
 
 export default ReposModal;

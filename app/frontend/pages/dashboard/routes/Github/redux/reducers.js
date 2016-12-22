@@ -1,15 +1,37 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 import USER from 'MOCK/user';
+import {
+  getReposLanguages
+} from '../helper/repos';
 
 const initialState = {
   loading: true,
   openModal: false,
   user: objectAssign({}, USER),
   repos: [],
+  reposLanguages: [],
   chosedRepos: [],
   showedReposId: null,
-  showLanguage: null
+  showLanguage: null,
+  sections: [
+    {
+      id: 'commitsPreview',
+      show: true
+    },
+    {
+      id: 'userPreview',
+      show: true
+    },
+    {
+      id: 'reposPreview',
+      show: true
+    },
+    {
+      id: 'reposShow',
+      show: true
+    }
+  ]
 };
 
 const reducers = handleActions({
@@ -32,9 +54,11 @@ const reducers = handleActions({
     });
   },
   SET_GITHUB_REPOS(state, action) {
+    const repos = action.payload;
     return ({
       ...state,
-      repos: [...action.payload]
+      repos: [...repos],
+      reposLanguages: [...getReposLanguages(repos)]
     });
   },
   SET_SHOW_LANGUAGE(state, action) {

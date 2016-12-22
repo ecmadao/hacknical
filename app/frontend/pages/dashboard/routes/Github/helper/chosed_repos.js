@@ -18,3 +18,7 @@ const sortRepos = (thisRepos, nextRepos) => {
 export const sortByDate = (repos) => {
   return repos.sort(sortRepos);
 };
+
+export const getReposByIds = (repos, ids) => {
+  return repos.filter(repository => ids.some(id => parseInt(id) === parseInt(repository.reposId)));
+};

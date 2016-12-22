@@ -33,7 +33,6 @@ const getGithubInfo = () => (dispatch, getState) => {
 
 const getGithubRepos = () => (dispatch, getState) => {
   Api.github.getRepos().then((result) => {
-    console.log(result);
     dispatch(setGithubRepos(result));
   });
 };
