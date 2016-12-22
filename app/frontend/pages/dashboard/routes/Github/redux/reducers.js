@@ -4,6 +4,7 @@ import USER from 'MOCK/user';
 
 const initialState = {
   loading: true,
+  openModal: false,
   user: objectAssign({}, USER),
   repos: [],
   chosedRepos: [],
@@ -16,6 +17,12 @@ const reducers = handleActions({
     return ({
       ...state,
       user: action.payload
+    });
+  },
+  TOGGLE_MODAL(state, action) {
+    return ({
+      ...state,
+      openModal: action.payload
     });
   },
   TOGGLE_LOADING(state, action) {

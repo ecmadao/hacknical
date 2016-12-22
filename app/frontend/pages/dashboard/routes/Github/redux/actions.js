@@ -5,6 +5,7 @@ import Api from 'API/index';
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 
 const {
+  toggleModal,
   toggleLoading,
   setGithubInfo,
   setGithubRepos,
@@ -13,6 +14,7 @@ const {
   setShowedReposId,
   setChosedRepos
 } = createActions(
+  'TOGGLE_MODAL',
   'TOGGLE_LOADING',
   'SET_GITHUB_INFO',
   'SET_GITHUB_REPOS',
@@ -72,6 +74,7 @@ const choseRepos = () => (dispatch, getState) => {
 export default {
   setGithubInfo,
   getGithubInfo,
+  toggleModal,
   toggleLoading,
   setGithubRepos,
   getGithubRepos,

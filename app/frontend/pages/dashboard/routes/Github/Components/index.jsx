@@ -6,6 +6,7 @@ import 'github-calendar/dist/github-calendar.css';
 
 import '../styles/github.css';
 import Loading from 'COMPONENTS/Loading';
+import ReposModal from './ReposModal';
 import githubActions from '../redux/actions';
 import UserInfoCard from './UserInfoCard';
 import UserChartCard from './UserChartCard';
@@ -19,7 +20,7 @@ class Github extends React.Component {
   }
 
   render() {
-    const { user, repos } = this.props;
+    const { actions, user, repos, openModal } = this.props;
     return (
       <div className="github_info_container">
         <div className="info_card_container">
@@ -31,6 +32,13 @@ class Github extends React.Component {
         <UserInfoCard user={user} />
         <UserChartCard />
         <UserReposCard />
+        {openModal ? (
+          <ReposModal
+            openModal={openModal}
+            onClose={() => actions.toggleModal(false)}
+            onSave={() => {}}
+          />
+        ) : ''}
       </div>
     )
   }
@@ -39,11 +47,13 @@ class Github extends React.Component {
 function mapStateToProps(state) {
   const {
     loading,
-    user
+    user,
+    openModal
   } = state.github;
   return {
     loading,
-    user
+    user,
+    openModal
   }
 }
 

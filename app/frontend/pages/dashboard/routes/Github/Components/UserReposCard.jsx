@@ -171,11 +171,12 @@ class UserReposCard extends React.Component {
   }
 
   get operationItems() {
+    const { actions } = this.props;
     return [
       {
         text: '更改仓库',
         icon: 'gears',
-        onClick: () => {}
+        onClick: () => actions.toggleModal(true)
       },
       {
         text: '不在简历中展示',
