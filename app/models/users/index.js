@@ -50,6 +50,10 @@ const createUser = async (email, pwd) => {
   });
 };
 
+const getUserByGithubId = async (githubId) => {
+  return await User.findOne({ githubId });
+};
+
 const loginWithGithub = async (userInfo) => {
   const {
     id,
@@ -68,6 +72,13 @@ const loginWithGithub = async (userInfo) => {
     followers,
     following
   } = userInfo;
+  const findUser = await getUserByGithubId(id);
+  if (findUser) {
+    return Promise.resolve({
+      success: true,
+      result: findUser
+    });
+  }
   const newUser = await User.create({
     email,
     userName: name,
@@ -155,5 +166,6 @@ export default {
   changePwd,
   removeAll,
   loginWithGithub,
+  getUserByGithubId,
   findUserById
 }
