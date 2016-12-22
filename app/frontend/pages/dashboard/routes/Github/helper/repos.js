@@ -60,8 +60,11 @@ export const getLanguageSkill = (repos) => {
 export const getReposLanguages = (repos) => {
   const languages = [];
   repos.forEach((repository) => {
-    if (!languages.some(language => language === repository.language)) {
-      languages.push(repository.language);
+    const { language } = repository;
+    if (!languages.some(item => item === language)) {
+      if (language) {
+        languages.push(language);
+      }
     }
   });
   return languages;

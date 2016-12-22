@@ -12,3 +12,40 @@
   overflow-y: auto;
   z-index: 1;
 }
+
+.selected_repos {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 25px;
+  border-radius: 3px;
+  border: 1px solid var(--oc-gray-3);
+  position: relative;
+  color: var(--oc-gray-5);
+  font-size: 14px;
+
+  &:first-child {
+    margin-left: 0px;
+  }
+
+  & i {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+    color: var(--oc-red-3);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--oc-red-5);
+    }
+  }
+
+  & span {
+    color: var(--oc-gray-3);
+    font-size: 12px;
+  }
+}
+
+.language_selector {
+  max-width: 300px;
+}

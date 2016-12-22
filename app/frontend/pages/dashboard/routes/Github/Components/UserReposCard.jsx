@@ -207,8 +207,6 @@ function mapStateToProps(state) {
     chosedRepos,
     showedReposId
   } = state.github;
-  console.log(chosedRepos);
-  console.log(getReposByIds(repos, chosedRepos))
   return {
     chosedRepos: getReposByIds(repos, chosedRepos),
     showedReposId
