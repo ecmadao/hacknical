@@ -1,6 +1,5 @@
 import config from 'config';
 import request from 'request';
-import { validateReposList } from '../utils/github';
 
 const clientId = config.get('github.clientId');
 const clientSecret = config.get('github.clientSecret');
@@ -14,7 +13,7 @@ const API_REPOS = 'https://api.github.com/repos';
 const getToken = (code) => {
   return new Promise((resolve, reject) => {
     console.log(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`);
-    resolve('access_token=a9f54655e93307655893bd6d93a86a2dfccafc32&scope=user%3Aemail&token_type=bearer');
+    resolve('access_token=1e1585a8a78b6977082fbfcb1e7bc8f611ce7702&scope=user%3Aemail&token_type=bearer');
     request.post(
       `${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
       (err, httpResponse, body) => {
@@ -95,21 +94,10 @@ const getReposYearlyCommits = (fullname, token) => {
 };
 
 const getAllReposYearlyCommits = (repos, token) => {
-  const reposList = validateReposList(repos);
-  const promiseList = reposList.map((item, index) => {
+  const promiseList = repos.map((item, index) => {
     return getReposYearlyCommits(item.fullname, token);
   });
-  return Promise.all(promiseList).then((datas) => {
-    const results = datas.map((data, index) => {
-      const repository = reposList[index];
-      return {
-        commits: data,
-        reposId: repository.reposId,
-        name: repository.name
-      }
-    });
-    return Promise.resolve(results);
-  });
+  return Promise.all(promiseList);
 };
 
 export default {

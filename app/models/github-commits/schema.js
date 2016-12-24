@@ -10,7 +10,9 @@ const GithubCommitsSchema = new Schema({
     days: Array,
     total: Number,
     week: Number
-  }]
+  }],
+  created_at: String,
+  updated_at: String
 });
 
 export default mongoose.model('GithubCommits', GithubCommitsSchema);

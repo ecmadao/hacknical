@@ -42,8 +42,8 @@ class UserCommitCard extends React.Component {
       data: {
         labels: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
         datasets: [{
-          data: dailyCommits,
-          label: '平均每日提交记录',
+          data: commits,
+          label: '每日总提交数',
           fill: true,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",

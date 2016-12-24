@@ -2,6 +2,7 @@ import User from '../models/users/index';
 import Github from '../services/github';
 import GithubRepos from '../models/github-repos';
 import GithubCommits from '../models/github-commits';
+import { validateReposList } from '../utils/github';
 
 /**
  * private
@@ -24,10 +25,22 @@ const getAndSetCommits = async (userId, token) => {
   if (findCommits.result.length) {
     return findCommits.result;
   }
-  const fintRepos = await GithubRepos.getRepos(userId);
-  const fetchResults = await Github.getAllReposYearlyCommits(fintRepos, token);
-  await GithubCommits.addUserCommits(userId, fetchResults);
-  return fetchResults;
+  const findRepos = await GithubRepos.getRepos(userId);
+  const reposList = validateReposList(findRepos);
+  const fetchCommits = await Github.getAllReposYearlyCommits(reposList, token);
+  const results = fetchCommits.map((commits, index) => {
+    const repository = reposList[index];
+    return {
+      commits,
+      reposId: repository.reposId,
+      name: repository.name,
+      created_at: repository.created_at,
+      updated_at: repository.updated_at
+    }
+  });
+
+  await GithubCommits.addUserCommits(userId, results);
+  return results;
 };
 
 /**
@@ -70,6 +83,7 @@ const getRepository = async (ctx, next) => {
 
 const getCommits = async (ctx, next) => {
   const { userId, githubToken } = ctx.session;
+
   const result = await getAndSetCommits(userId, githubToken);
   ctx.body = {
     success: true,
