@@ -11,6 +11,7 @@ import githubActions from '../redux/actions';
 import UserInfoCard from './UserInfoCard';
 import UserChartCard from './UserChartCard';
 import UserReposCard from './UserReposCard';
+import UserCommitCard from './UserCommitCard';
 
 class Github extends React.Component {
   componentDidMount() {
@@ -39,6 +40,7 @@ class Github extends React.Component {
         <UserInfoCard user={user} />
         <UserChartCard />
         <UserReposCard />
+        <UserCommitCard />
         {openModal ? (
           <ReposModal
             openModal={openModal}

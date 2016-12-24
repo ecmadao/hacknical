@@ -21,11 +21,6 @@ router.get(
   Github.getRepository
 );
 router.get(
-  '/repos/:reposName/readme',
-  user.checkSession(['userId', 'githubToken', 'githubLogin']),
-  Github.getReadme
-);
-router.get(
   '/user',
   user.checkSession(['userId']),
   Github.getUser
@@ -33,9 +28,9 @@ router.get(
 router.get(
   '/repos/commits',
   user.checkSession(['userId', 'githubToken', 'githubLogin']),
-  // cache.get('commits'),
+  cache.get('commits'),
   Github.getCommits,
-  // cache.set()
+  cache.set()
 );
 router.get(
   '/repos/:reposName/commits',

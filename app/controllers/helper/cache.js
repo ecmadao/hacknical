@@ -5,12 +5,12 @@ export const getCache = (key, params = []) => async (ctx, next) => {
   const cacheKey = `${key}.${userId}.${paramIds}`;
   const result = await ctx.cache.get(cacheKey);
   if (result) {
-    console.log(`request: ${key} get datas from cache`);
-    ctx.body = {
-      success: true,
-      result
-    };
-    return;
+    // console.log(`request: ${key} get datas from cache`);
+    // ctx.body = {
+    //   success: true,
+    //   result
+    // };
+    // return;
   }
   ctx.query.cacheKey = cacheKey;
   await next();

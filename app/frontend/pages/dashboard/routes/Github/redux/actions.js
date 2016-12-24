@@ -1,6 +1,7 @@
 import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 import Api from 'API/index';
+import github from 'UTILS/github';
 
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 
@@ -8,6 +9,7 @@ const {
   toggleModal,
   toggleLoading,
   setGithubInfo,
+  setGithubCommits,
   setGithubRepos,
   closeReposReadme,
   setShowLanguage,
@@ -17,6 +19,7 @@ const {
   'TOGGLE_MODAL',
   'TOGGLE_LOADING',
   'SET_GITHUB_INFO',
+  'SET_GITHUB_COMMITS',
   'SET_GITHUB_REPOS',
   'CLOSE_REPOS_README',
   'SET_SHOW_LANGUAGE',
@@ -35,7 +38,17 @@ const getGithubRepos = () => (dispatch, getState) => {
   Api.github.getRepos().then((result) => {
     dispatch(setGithubRepos(result));
   });
-  Api.github.getCommits();
+};
+
+const fetchGithubCommits = () => (dispatch, getState) => {
+  // TODO
+  // If user login in first, he may has bug that get no commits
+  Api.github.getCommits().then((result) => {
+    const commits = github.combineReposCommits(result);
+    console.log('commits');
+    console.log(commits);
+    dispatch(setGithubCommits(commits));
+  });
 };
 
 const showReposReadme = (url, reposId) => (dispatch, getState) => {
@@ -77,7 +90,9 @@ export default {
   toggleModal,
   toggleLoading,
   setGithubRepos,
+  setGithubCommits,
   getGithubRepos,
+  fetchGithubCommits,
   showReposReadme,
   fetchReposReadme,
   setShowLanguage,

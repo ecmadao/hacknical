@@ -8,8 +8,8 @@ import GithubCommits from '../models/github-commits';
  */
 const getAndSetRepos = async (login, token, userId) => {
   const findResult = await GithubRepos.getRepos(userId);
-  if (findResult.result.length) {
-    return findResult.result;
+  if (findResult) {
+    return findResult;
   }
   const multiRepos = await Github.getMultiRepos(login, token);
   const setResults = await GithubRepos.setRepos(userId, multiRepos);
@@ -68,10 +68,6 @@ const getRepository = async (ctx, next) => {
   await next();
 };
 
-const getReadme = async (ctx, next) => {
-  await next();
-};
-
 const getCommits = async (ctx, next) => {
   const { userId, githubToken } = ctx.session;
   const result = await getAndSetCommits(userId, githubToken);
@@ -90,7 +86,6 @@ export default {
   getUser,
   getRepos,
   getRepository,
-  getReadme,
   getCommits,
   getRepositoryCommits
 }

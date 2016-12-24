@@ -15,7 +15,6 @@ import {
 } from '../helper/repos';
 import githubActions from '../redux/actions';
 import { BLUE_COLORS } from 'UTILS/colors';
-
 const REPOS_BASE_URL = 'https://github.com';
 
 const getForkDatasets = (repos) => {
@@ -59,7 +58,7 @@ class UserChartCard extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, repos} = this.props;
+    const { actions, repos } = this.props;
     this.renderCharts();
     if (!repos.length) {
       actions.getGithubRepos();
@@ -143,7 +142,7 @@ class UserChartCard extends React.Component {
   }
 
   renderBarChart(flatRepos) {
-    const {username} = this.props;
+    const { username } = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',

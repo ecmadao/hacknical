@@ -14,6 +14,11 @@ const initialState = {
   chosedRepos: [],
   showedReposId: null,
   showLanguage: null,
+  commitDatas: {
+    commits: [],
+    total: 0,
+    dailyCommits: []
+  },
   sections: [
     {
       id: 'commitsPreview',
@@ -51,6 +56,12 @@ const reducers = handleActions({
     return ({
       ...state,
       loading: action.payload
+    });
+  },
+  SET_GITHUB_COMMITS(state, action) {
+    return ({
+      ...state,
+      commitDatas: action.payload
     });
   },
   SET_GITHUB_REPOS(state, action) {
