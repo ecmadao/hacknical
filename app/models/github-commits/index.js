@@ -5,9 +5,11 @@ const addUserCommits = async (userId, datas) => {
     const data = datas[i];
     const {
       reposId,
-      commits
+      commits,
+      name
     } = data;
     await GithubCommits.create({
+      name,
       userId,
       reposId,
       commits

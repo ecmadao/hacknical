@@ -104,7 +104,8 @@ const getAllReposYearlyCommits = (repos, token) => {
       const repository = reposList[index];
       return {
         commits: data,
-        reposId: repository.reposId
+        reposId: repository.reposId,
+        name: repository.name
       }
     });
     return Promise.resolve(results);

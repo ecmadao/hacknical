@@ -1,3 +1,5 @@
+import dateHelper from './date';
+
 const SPLIT_NUM = 15;
 
 /**
@@ -19,12 +21,19 @@ export const splitArray = (array, max = SPLIT_NUM) => {
   });
 };
 
+export const getReposInYears = (repos, years = 1) => {
+  const oneYearBefore = dateHelper.getDateBeforeYears(years);
+  const seconds = dateHelper.getSeconds(oneYearBefore);
+  return repos.filter(repository => dateHelper.getSeconds(repository.created_at) >= seconds);
+};
+
 export const validateReposList = (repos) => {
-  const reposList = repos.filter(repository => !repository.fork).map((repository) => {
-    const { full_name, reposId } = repository;
+  const reposList = getReposInYears(repos).filter(repository => !repository.fork).map((repository) => {
+    const { name, full_name, reposId } = repository;
     return {
+      name,
+      reposId,
       fullname: full_name,
-      reposId
     }
   });
   return reposList
