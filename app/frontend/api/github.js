@@ -16,9 +16,14 @@ const getUser = () => {
   return getData(`/github/user`);
 };
 
+const getCommits = () => {
+  return getData(`/github/repos/commits`);
+};
+
 export default {
   getUser,
   getRepos,
   getRepository,
-  getReadme
+  getReadme,
+  getCommits
 }

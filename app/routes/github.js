@@ -29,7 +29,19 @@ router.get(
   '/user',
   user.checkSession(['userId']),
   Github.getUser
-)
+);
+router.get(
+  '/repos/commits',
+  user.checkSession(['userId', 'githubToken', 'githubLogin']),
+  cache.get('commits'),
+  Github.getCommits,
+  cache.set()
+);
+router.get(
+  '/repos/:reposName/commits',
+  user.checkSession(['userId', 'githubToken', 'githubLogin']),
+  Github.getRepositoryCommits
+);
 
 
 module.exports = router;

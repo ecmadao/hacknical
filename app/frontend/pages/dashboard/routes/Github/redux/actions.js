@@ -35,6 +35,7 @@ const getGithubRepos = () => (dispatch, getState) => {
   Api.github.getRepos().then((result) => {
     dispatch(setGithubRepos(result));
   });
+  Api.github.getCommits();
 };
 
 const showReposReadme = (url, reposId) => (dispatch, getState) => {

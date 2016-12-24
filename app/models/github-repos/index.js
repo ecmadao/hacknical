@@ -78,6 +78,12 @@ const setRepos = async (userId, repos) => {
   return setResults;
 };
 
+const getRepos = async (userId) => {
+  return await GithubRepos.find({
+    userId
+  });
+};
+
 const resetRepos = async (userId, repos) => {
   const setResults = [];
   await removeRepos(userId);
@@ -94,5 +100,6 @@ export default {
   removeRepos,
   setRepository,
   setRepos,
+  getRepos,
   resetRepos
 }

@@ -12,8 +12,8 @@
     "homePage": "https://github.com/ecmadao/hawkeye"
   },
   "github": {
-    "clientId": "f02ab8772488f0b6ad3a",
-    "clientSecret": "4c9db0cbc9df0954558e3cd5990d4873d4bcfda9",
-    "appName": "hawkeye-test"
+    "clientId": "e7fa43f07a9c1cc07663",
+    "clientSecret": "1fff26cf75c66dcc02caa7e0eef7170a9940aa3c",
+    "appName": "hawkeye-dev"
   }
 }

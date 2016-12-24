@@ -1,29 +1,39 @@
 import config from 'config';
 import request from 'request';
+import { validateReposList } from '../utils/github';
 
 const clientId = config.get('github.clientId');
 const clientSecret = config.get('github.clientSecret');
 const appName = config.get('github.appName');
 
 const API_TOKEN = 'https://github.com/login/oauth/access_token';
-const API_USER = 'https://api.github.com/user';
-const API_REPOS = 'https://api.github.com/repos/';
+const API_GET_USER = 'https://api.github.com/user';
+const API_USERS = `${API_GET_USER}s`;
+const API_REPOS = 'https://api.github.com/repos';
 
 const getToken = (code) => {
   return new Promise((resolve, reject) => {
-    request.post(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`, (err, httpResponse, body) => {
-      if (httpResponse.statusCode === 200 && body) {
-        resolve(body);
-      } else {
-        reject(false);
+    console.log(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`);
+    resolve('access_token=a9f54655e93307655893bd6d93a86a2dfccafc32&scope=user%3Aemail&token_type=bearer');
+    request.post(
+      `${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
+      (err, httpResponse, body) => {
+        if (err) {
+          reject(false);
+        }
+        if (body) {
+          resolve(body);
+        } else {
+          reject(false);
+        }
       }
-    });
+    );
   });
 };
 
 const getUser = (token) => {
   return new Promise((resolve, reject) => {
-    request.get(`${API_USER}?access_token=${token}`, {
+    request.get(`${API_GET_USER}?access_token=${token}`, {
       headers: {
         'User-Agent': appName
       }
@@ -43,7 +53,7 @@ const getUserRepos = (token) => {
 
 const getRepos = (login, token, page = 1) => {
   return new Promise((resolve, reject) => {
-    request.get(`${API_USER}s/${login}/repos?page=${page}&access_token=${token}`, {
+    request.get(`${API_USERS}/${login}/repos?page=${page}&access_token=${token}`, {
       headers: {
         'User-Agent': appName
       }
@@ -68,10 +78,44 @@ const getMultiRepos = (login, token, pages = 3) => {
   });
 };
 
+const getReposYearlyCommits = (fullname, token) => {
+  return new Promise((resolve, reject) => {
+    request.get(`${API_REPOS}/${fullname}/stats/commit_activity?&access_token=${token}`, {
+      headers: {
+        'User-Agent': appName
+      }
+    }, (err, httpResponse, body) => {
+      if (httpResponse.statusCode === 200 && body) {
+        resolve(JSON.parse(body));
+      } else {
+        reject(false);
+      }
+    });
+  });
+};
+
+const getAllReposYearlyCommits = (repos, token) => {
+  const reposList = validateReposList(repos);
+  const promiseList = reposList.map((item, index) => {
+    return getReposYearlyCommits(item.fullname, token);
+  });
+  return Promise.all(promiseList).then((datas) => {
+    const results = datas.map((data, index) => {
+      const repository = reposList[index];
+      return {
+        commits: data,
+        reposId: repository.reposId
+      }
+    });
+    return Promise.resolve(results);
+  });
+};
+
 export default {
   getToken,
   getUser,
   getUserRepos,
   getRepos,
-  getMultiRepos
+  getMultiRepos,
+  getAllReposYearlyCommits
 }
