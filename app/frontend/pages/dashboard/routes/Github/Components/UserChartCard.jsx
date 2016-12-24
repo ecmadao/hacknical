@@ -205,7 +205,7 @@ class UserChartCard extends React.Component {
     return (
       <div className="info_card_container chart_card_container">
         <p><i aria-hidden="true" className="fa fa-bar-chart"></i>&nbsp;&nbsp;仓库概览</p>
-        <div className="info_card card">
+        <div className="info_card card chart_card">
           <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
           <div className="repos_chart_container">
             <div className="repos_chart">

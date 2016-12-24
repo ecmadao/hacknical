@@ -8,6 +8,8 @@ const getSeconds = (date) => parseInt(formatDate(date)('X'));
 export const getDateBeforeYears = (before) => moment().add(-parseInt(before), 'years').format('L')
 export const getDateAfterYears = (after) => moment().add(parseInt(after), 'years').format('L')
 
+export const getDateAfterDays = (after, date = null) => moment(date).add(parseInt(after), 'days').format('L')
+
 export const getSecondsBeforeYears = (before) => {
   const date = getDateBeforeYears(before);
   return getSeconds(date);
