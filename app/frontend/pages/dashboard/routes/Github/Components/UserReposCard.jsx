@@ -10,7 +10,7 @@ import {
   getMaxDate,
   sortByDate,
   getReposByIds,
-  sortByCommits
+  getReposInfo
 } from '../helper/chosed_repos';
 import { hex2Rgba } from '../helper/color_helper';
 import { getRelativeTime } from 'UTILS/date';
@@ -77,7 +77,7 @@ class UserReposCard extends React.Component {
         language,
         forks_count,
         stargazers_count,
-        id,
+        reposId,
         full_name,
         color
       } = repository;
@@ -85,11 +85,11 @@ class UserReposCard extends React.Component {
       const left = offsetLeft(new Date(created_at));
       const right = offsetRight(new Date(pushed_at));
       repository.color = color || randomColor();
-      const isActive = showedReposId === id;
+      const isActive = showedReposId === reposId;
       const wrapperClass = classNames('repos_timeline_wrapper', {
         'active': isActive
       });
-      const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, id);
+      const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
       return (
         <div
           key={index}
@@ -209,10 +209,13 @@ function mapStateToProps(state) {
     commitDatas,
     showedReposId
   } = state.github;
+
+  const reposCommitsByIds = getReposByIds(commitDatas, chosedRepos);
+  const reposInfo = getReposInfo(reposCommitsByIds, repos);
+
   return {
-    chosedRepos: getReposByIds(repos, chosedRepos),
-    showedReposId,
-    commitDatas: sortByCommits(commitDatas)
+    chosedRepos: reposInfo,
+    showedReposId
   }
 }
 

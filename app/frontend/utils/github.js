@@ -1,14 +1,11 @@
 
 
 const combineReposCommits = (reposCommits) => {
-  console.log('raw')
-  console.log(reposCommits);
   const result = {
     commits: [],
     total: 0,
     dailyCommits: [
       // from sunday to monday
-      0, 0, 0, 0, 0, 0, 0
     ]
   };
   reposCommits.forEach((repository, repositoryIndex) => {
@@ -24,7 +21,7 @@ const combineReposCommits = (reposCommits) => {
           week
         });
         days.forEach((day, i) => {
-          result.dailyCommits[i] += day;
+          result.dailyCommits[i] = day;
         });
         return;
       }

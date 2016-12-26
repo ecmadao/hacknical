@@ -40,3 +40,11 @@ export const validateReposList = (repos) => {
   });
   return reposList
 };
+
+const sortCommits = (thisRepos, nextRepos) => {
+  return nextRepos.totalCommits - thisRepos.totalCommits;
+};
+
+export const sortByCommits = (repos) => {
+  return repos.sort(sortCommits);
+};

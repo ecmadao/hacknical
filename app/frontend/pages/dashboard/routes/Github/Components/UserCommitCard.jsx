@@ -36,10 +36,10 @@ class UserCommitCard extends React.Component {
     const { commitDatas } = this.props;
     const { commits, dailyCommits } = commitDatas;
     if (dailyCommits.length) {
-      this.renderWeeklyChart(dailyCommits);
+      !this.commitsWeeklyReviewChart && this.renderWeeklyChart(dailyCommits);
     }
     if (commits.length) {
-      this.renderYearlyChart(commits);
+      !this.commitsYearlyReviewChart && this.renderYearlyChart(commits);
     }
   }
 

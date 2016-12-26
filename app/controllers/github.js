@@ -2,7 +2,10 @@ import User from '../models/users/index';
 import Github from '../services/github';
 import GithubRepos from '../models/github-repos';
 import GithubCommits from '../models/github-commits';
-import { validateReposList } from '../utils/github';
+import {
+  validateReposList,
+  sortByCommits
+} from '../utils/github';
 
 /**
  * private
@@ -43,8 +46,10 @@ const getAndSetCommits = async (userId, token) => {
     }
   });
 
-  await GithubCommits.addUserCommits(userId, results);
-  return results;
+  const sortResult = sortByCommits(results);
+
+  await GithubCommits.addUserCommits(userId, sortResult);
+  return sortResult;
 };
 
 /**
