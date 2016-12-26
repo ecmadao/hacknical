@@ -8,7 +8,8 @@ const addUserCommits = async (userId, datas) => {
       commits,
       name,
       created_at,
-      updated_at
+      pushed_at,
+      totalCommits
     } = data;
     await GithubCommits.create({
       name,
@@ -16,7 +17,8 @@ const addUserCommits = async (userId, datas) => {
       reposId,
       commits,
       created_at,
-      updated_at
+      pushed_at,
+      totalCommits
     });
   }
   return Promise.resolve({

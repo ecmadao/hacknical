@@ -11,8 +11,9 @@ const GithubCommitsSchema = new Schema({
     total: Number,
     week: Number
   }],
+  totalCommits: Number,
   created_at: String,
-  updated_at: String
+  pushed_at: String
 });
 
 export default mongoose.model('GithubCommits', GithubCommitsSchema);

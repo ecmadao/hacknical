@@ -30,12 +30,16 @@ const getAndSetCommits = async (userId, token) => {
   const fetchCommits = await Github.getAllReposYearlyCommits(reposList, token);
   const results = fetchCommits.map((commits, index) => {
     const repository = reposList[index];
+    const { reposId, name, created_at, pushed_at } = repository;
+    let totalCommits = 0;
+    commits.forEach(commit => totalCommits += commit.total);
     return {
       commits,
-      reposId: repository.reposId,
-      name: repository.name,
-      created_at: repository.created_at,
-      updated_at: repository.updated_at
+      totalCommits,
+      reposId,
+      name,
+      created_at,
+      pushed_at
     }
   });
 

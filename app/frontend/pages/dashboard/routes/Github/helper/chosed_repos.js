@@ -15,8 +15,16 @@ const sortRepos = (thisRepos, nextRepos) => {
   return new Date(thisRepos['created_at']) - new Date(nextRepos['created_at']);
 };
 
+const sortCommits = (thisRepos, nextRepos) => {
+  return nextRepos.totalCommits - thisRepos.totalCommits;
+};
+
 export const sortByDate = (repos) => {
   return repos.sort(sortRepos);
+};
+
+export const sortByCommits = (repos) => {
+  return repos.sort(sortCommits);
 };
 
 export const getReposByIds = (repos, ids) => {

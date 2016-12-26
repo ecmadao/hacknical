@@ -14,11 +14,7 @@ const initialState = {
   chosedRepos: [],
   showedReposId: null,
   showLanguage: null,
-  commitDatas: {
-    commits: [],
-    total: 0,
-    dailyCommits: []
-  },
+  commitDatas: [],
   sections: [
     {
       id: 'commitsPreview',

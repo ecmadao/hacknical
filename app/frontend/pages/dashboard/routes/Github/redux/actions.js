@@ -1,7 +1,6 @@
 import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 import Api from 'API/index';
-import github from 'UTILS/github';
 
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 
@@ -44,10 +43,7 @@ const fetchGithubCommits = () => (dispatch, getState) => {
   // TODO
   // If user login in first, he may has bug that get no commits
   Api.github.getCommits().then((result) => {
-    const commits = github.combineReposCommits(result);
-    console.log('commits');
-    console.log(commits);
-    dispatch(setGithubCommits(commits));
+    dispatch(setGithubCommits(result));
   });
 };
 

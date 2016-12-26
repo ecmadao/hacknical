@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Chart from 'chart.js';
+import github from 'UTILS/github';
 
 import { BLUE_COLORS } from 'UTILS/colors';
 import {
@@ -35,10 +36,10 @@ class UserCommitCard extends React.Component {
     const { commitDatas } = this.props;
     const { commits, dailyCommits } = commitDatas;
     if (dailyCommits.length) {
-      !this.commitsWeeklyReviewChart && this.renderWeeklyChart(dailyCommits);
+      this.renderWeeklyChart(dailyCommits);
     }
     if (commits.length) {
-      !this.commitsYearlyReviewChart && this.renderYearlyChart(commits);
+      this.renderYearlyChart(commits);
     }
   }
 
@@ -151,7 +152,7 @@ class UserCommitCard extends React.Component {
 function mapStateToProps(state) {
   const { commitDatas } = state.github;
   return {
-    commitDatas
+    commitDatas: github.combineReposCommits(commitDatas)
   }
 }
 

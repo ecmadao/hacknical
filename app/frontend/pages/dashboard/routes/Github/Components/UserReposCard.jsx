@@ -9,7 +9,8 @@ import githubActions from '../redux/actions';
 import {
   getMaxDate,
   sortByDate,
-  getReposByIds
+  getReposByIds,
+  sortByCommits
 } from '../helper/chosed_repos';
 import { hex2Rgba } from '../helper/color_helper';
 import { getRelativeTime } from 'UTILS/date';
@@ -164,7 +165,7 @@ class UserReposCard extends React.Component {
           {this.renderTimeLine(sortedRepos)}
         </div>
         <div className="repos_intros">
-          {this.renderReposIntros(sortedRepos)}
+          {/* {this.renderReposIntros(sortedRepos)} */}
         </div>
       </div>
     )
@@ -205,11 +206,13 @@ function mapStateToProps(state) {
   const {
     repos,
     chosedRepos,
+    commitDatas,
     showedReposId
   } = state.github;
   return {
     chosedRepos: getReposByIds(repos, chosedRepos),
-    showedReposId
+    showedReposId,
+    commitDatas: sortByCommits(commitDatas)
   }
 }
 
