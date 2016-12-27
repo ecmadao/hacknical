@@ -47,6 +47,6 @@ export const getFirstTarget = (array, target) => {
   return [result, index];
 };
 
-export const sortRepos = (key = 'stargazersCount') => (firstRepos, secRepos) => {
+export const sortRepos = (key = 'stargazers_count') => (firstRepos, secRepos) => {
   return parseInt(secRepos[key]) - parseInt(firstRepos[key]);
 };

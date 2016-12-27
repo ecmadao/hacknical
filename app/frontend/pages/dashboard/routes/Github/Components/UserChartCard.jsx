@@ -6,7 +6,6 @@ import Chart from 'chart.js';
 import cx from 'classnames';
 
 import {
-  getFlatReposInfos,
   getReposNames,
   getReposForks,
   getReposStars
@@ -20,7 +19,14 @@ import {
 import githubActions from '../redux/actions';
 import { BLUE_COLORS } from 'UTILS/colors';
 import { hex2Rgba } from '../helper/color_helper';
-import { getRelativeTime } from 'UTILS/date';
+import {
+  getRelativeTime,
+  getSecondsByDate,
+  getSecondsBeforeYears
+} from 'UTILS/date';
+import {
+  sortRepos
+} from 'UTILS/helper';
 import ChartInfo from './ChartInfo';
 
 const getOffsetLeft = (start, end) => (left) => {
@@ -58,8 +64,8 @@ const getTotalCount = (repos) => {
   let totalStar = 0;
   let totalFork = 0;
   repos.forEach((repository) => {
-    totalStar += repository.stargazersCount;
-    totalFork += repository.forksCount;
+    totalStar += repository['stargazers_count'];
+    totalFork += repository['forks_count'];
   });
   return [totalStar, totalFork]
 };
@@ -93,6 +99,17 @@ const getStarDatasets = (repos) => {
     borderColor: BLUE_COLORS[0],
     borderWidth: 1
   }
+};
+
+const getMaxObject = (array, callback) => {
+  let max = {};
+  array.forEach((item, index) => {
+    if (index === 0 || (index !== 0 && callback(item, max))) {
+      max = item;
+      max['persistTime'] = getSecondsByDate(item['pushed_at']) - getSecondsByDate(item['created_at']);
+    }
+  });
+  return max;
 };
 
 class UserChartCard extends React.Component {
@@ -161,20 +178,45 @@ class UserChartCard extends React.Component {
     const { flatRepos } = this.props;
     const [totalStar, totalFork] = getTotalCount(flatRepos);
     const maxStaredRepos = flatRepos[0];
+
+    const maxTimeRepos = getMaxObject(flatRepos, (currentRepos, maxRepos) => {
+      const currentPresist = getSecondsByDate(currentRepos['pushed_at']) - getSecondsByDate(currentRepos['created_at']);
+      return currentPresist > maxRepos.persistTime;
+    });
+    const startTime = maxTimeRepos['created_at'].split('T')[0];
+    const pushTime = maxTimeRepos['pushed_at'].split('T')[0];
+
+    const yearAgoSeconds = getSecondsBeforeYears(1);
+    const yearlyRepos = flatRepos.filter((repository) => {
+      return !repository.fork && getSecondsByDate(repository['created_at']) > yearAgoSeconds
+    });
+
     return (
-      <div className="chart_info_container">
-        <ChartInfo
-          mainText={totalStar}
-          subText="收获 star 数"
-        />
-        <ChartInfo
-          mainText={totalFork}
-          subText="收获 fork 数"
-        />
-        <ChartInfo
-          mainText={maxStaredRepos.name}
-          subText="最受欢迎的仓库"
-        />
+      <div>
+        <div className="chart_info_container">
+          <ChartInfo
+            mainText={totalStar}
+            subText="收获 star 数"
+          />
+          <ChartInfo
+            mainText={totalFork}
+            subText="收获 fork 数"
+          />
+          <ChartInfo
+            mainText={yearlyRepos.length}
+            subText="创建的仓库数"
+          />
+        </div>
+        <div className="chart_info_container">
+          <ChartInfo
+            mainText={maxStaredRepos.name}
+            subText="最受欢迎的仓库"
+          />
+          <ChartInfo
+            mainText={`${startTime.split('-').slice(1).join('/')}~${pushTime.split('-').slice(1).join('/')}`}
+            subText="贡献时间最久的仓库"
+          />
+        </div>
       </div>
     )
   }
@@ -321,7 +363,7 @@ function mapStateToProps(state) {
   return {
     showedReposId,
     chosedRepos: reposInfo,
-    flatRepos: getFlatReposInfos(repos),
+    flatRepos: repos.sort(sortRepos()),
     username: user && user.name
   }
 }

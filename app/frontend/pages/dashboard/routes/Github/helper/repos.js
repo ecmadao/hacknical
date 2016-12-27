@@ -1,42 +1,15 @@
 import { sortRepos } from 'UTILS/helper';
 
-export const getFlatReposInfos = (repos) => {
-  return repos.map((repository) => {
-    const {
-      name,
-      html_url,
-      fork,
-      stargazers_count,
-      watchers_count,
-      forks_count,
-      language,
-      created_at,
-      description
-    } = repository;
-    return {
-      name,
-      fork,
-      language,
-      description,
-      createdAt: created_at,
-      htmlUrl: html_url,
-      stargazersCount: stargazers_count,
-      watchersCount: watchers_count,
-      forksCount: forks_count
-    }
-  }).sort(sortRepos());
-}
-
 export const getReposNames = (repos) => {
   return repos.map(repository => repository.name);
 };
 
 export const getReposForks = (repos) => {
-  return repos.map(repository => repository.forksCount);
+  return repos.map(repository => repository['forks_count']);
 };
 
 export const getReposStars = (repos) => {
-  return repos.map(repository => repository.stargazersCount);
+  return repos.map(repository => repository['stargazers_count']);
 };
 
 export const getLanguageDistribution = (repos) => {
@@ -51,8 +24,8 @@ export const getLanguageDistribution = (repos) => {
 export const getLanguageSkill = (repos) => {
   const reposLanguages = {};
   repos.forEach((repository) => {
-    const { language, stargazersCount } = repository;
-    reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazersCount) : reposLanguages[language] + parseInt(stargazersCount);
+    const { language, stargazers_count } = repository;
+    reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazers_count) : reposLanguages[language] + parseInt(stargazers_count);
   });
   return reposLanguages;
 };

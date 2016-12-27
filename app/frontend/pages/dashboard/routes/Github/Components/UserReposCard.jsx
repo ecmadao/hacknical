@@ -8,7 +8,6 @@ import Loading from 'COMPONENTS/Loading';
 import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
 import {
-  getFlatReposInfos,
   getLanguageDistribution,
   getLanguageSkill,
   getReposByLanguage
@@ -125,12 +124,13 @@ class UserReposCard extends React.Component {
   renderShowRepos() {
     const { showLanguage, flatRepos } = this.props;
     const targetRepos = getReposByLanguage(flatRepos, showLanguage).map((repository, index) => {
+      const stargazersCount = repository['stargazers_count'];
       return (
         <div className="repos_show" key={index}>
           <div className="repos_info">
             <a
               target="_blank"
-              href={repository.htmlUrl}
+              href={repository['html_url']}
               className="repos_info_name">
               {repository.name}
             </a>{repository.fork ? (<span className="repos_info_forked">
@@ -140,8 +140,8 @@ class UserReposCard extends React.Component {
             </span>) : ''}<br/>
             <span>{repository.description}</span>
           </div>
-          <div className={`repos_star ${repository.stargazersCount > 0 ? 'active' : ''}`}>
-            <i className={`fa ${repository.stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{repository.stargazersCount}
+          <div className={`repos_star ${stargazersCount > 0 ? 'active' : ''}`}>
+            <i className={`fa ${stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{stargazersCount}
           </div>
         </div>
       )
@@ -188,7 +188,7 @@ function mapStateToProps(state) {
   return {
     showedReposId,
     showLanguage,
-    flatRepos: getFlatReposInfos(repos),
+    flatRepos: repos,
   }
 }
 
