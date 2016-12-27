@@ -20,7 +20,7 @@ import githubActions from '../redux/actions';
 import ChartInfo from './ChartInfo';
 
 
-class UserCommitCard extends React.Component {
+class CommitChart extends React.Component {
   constructor(props) {
     super(props);
     this.commitsWeeklyReviewChart = null;
@@ -240,4 +240,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserCommitCard);
+export default connect(mapStateToProps, mapDispatchToProps)(CommitChart);

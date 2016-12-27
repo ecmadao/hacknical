@@ -101,7 +101,7 @@ const getMaxObject = (array, callback) => {
   return max;
 };
 
-class UserChartCard extends React.Component {
+class ReposChart extends React.Component {
   constructor(props) {
     super(props);
     this.minDate = null;
@@ -261,7 +261,7 @@ class UserChartCard extends React.Component {
           {this.renderTimeLine(sortedRepos)}
         </div>
         <div className="repos_intros">
-          {/* {this.renderReposIntros(sortedRepos)} */}
+          {this.renderReposIntros(sortedRepos)}
         </div>
       </div>
     )
@@ -363,4 +363,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserChartCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ReposChart);

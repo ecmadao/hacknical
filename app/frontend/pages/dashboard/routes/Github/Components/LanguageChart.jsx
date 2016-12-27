@@ -14,7 +14,7 @@ import {
 } from 'UTILS/helper';
 import ChartInfo from './ChartInfo';
 
-class UserReposCard extends React.Component {
+class LanguageChart extends React.Component {
   constructor(props) {
     super(props);
     this.languageSkillChart = null;
@@ -231,4 +231,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserReposCard);
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageChart);
