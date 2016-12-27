@@ -13,7 +13,6 @@ const API_REPOS = 'https://api.github.com/repos';
 const getToken = (code) => {
   return new Promise((resolve, reject) => {
     console.log(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`);
-    resolve('access_token=576e16c1afbf29bd3c38fc234a56ad5765f47db9&scope=user%3Aemail&token_type=bearer');
     request.post(
       `${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
       (err, httpResponse, body) => {

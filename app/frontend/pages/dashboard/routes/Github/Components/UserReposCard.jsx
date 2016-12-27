@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
@@ -7,167 +8,102 @@ import Loading from 'COMPONENTS/Loading';
 import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
 import {
-  getMaxDate,
-  sortByDate,
-  getReposByIds,
-  getReposInfo
-} from '../helper/chosed_repos';
-import { hex2Rgba } from '../helper/color_helper';
-import { getRelativeTime } from 'UTILS/date';
-
-const getOffsetLeft = (start, end) => (left) => {
-  const length = end - start;
-  return `${(left - start) * 100 / length}%`;
-};
-
-const getOffsetRight = (start, end) => (right) => {
-  const length = end - start;
-  return `${(end - right) * 100 / length}%`;
-};
-
-const RANDOM_COLORS = [
-  '#4A90E2',
-  '#50E3C2',
-  '#9B9B9B',
-  '#00BCD4',
-  '#F44336',
-  '#FDD835',
-  '#FF9800',
-  '#78909C',
-  '#673AB7',
-  '#E91E63'
-];
-const MAX_OPACITY = 1;
-const MIN_OPACITY = 0.3;
-
-const randomColor = () => {
-  const index = Math.floor(Math.random() * RANDOM_COLORS.length);
-  return RANDOM_COLORS[index];
-};
+  getFlatReposInfos,
+  getLanguageDistribution,
+  getLanguageSkill,
+  getReposByLanguage
+} from '../helper/repos';
+import { BLUE_COLORS } from 'UTILS/colors';
 
 class UserReposCard extends React.Component {
   constructor(props) {
     super(props);
-    this.minDate = null;
-    this.maxDate = null;
+    this.languageSkillChart = null;
+    this.languageDistributionChart = null;
+    this.chartClickCallback = this.chartClickCallback.bind(this);
   }
 
   componentDidMount() {
-    const {actions} = this.props;
-    actions.choseRepos();
+    this.renderCharts();
+  }
+
+  componentDidUpdate() {
+    this.renderCharts();
+  }
+
+  renderCharts() {
+    const { flatRepos } = this.props;
+    if (flatRepos.length) {
+      !this.languageDistributionChart && this.renderPieChart(flatRepos);
+      !this.languageSkillChart && this.renderRadarChart(flatRepos);
+    }
+  }
+
+  chartClickCallback(ctx, data) {
+    if (!data[0]) { return }
+    const { actions } = this.props;
+    const language = data[0]['_model'].label;
+    actions.setShowLanguage(language);
+  }
+
+  renderPieChart(flatRepos) {
+    const languageDistributions = getLanguageDistribution(flatRepos);
+    const languages = Object.keys(languageDistributions);
+    const distribution = languages.map(language => languageDistributions[language]);
+    const languageDistribution = ReactDOM.findDOMNode(this.languageDistribution);
+    this.languageDistributionChart = new Chart(languageDistribution, {
+      type: 'doughnut',
+      data: {
+        labels: languages,
+        datasets: [{
+          data: distribution,
+          backgroundColor: BLUE_COLORS
+        }]
+      },
+      options: {
+        onClick: this.chartClickCallback,
+        title: {
+          display: true,
+          text: '仓库语言分布'
+        }
+      }
+    });
+  }
+
+  renderRadarChart(flatRepos) {
+    const languageSkills = getLanguageSkill(flatRepos);
+    const languages = Object.keys(languageSkills).filter(language => languageSkills[language]);
+    const skill = languages.map(language => languageSkills[language]);
+    const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
+    this.languageSkillChart = new Chart(languageSkill, {
+      type: 'radar',
+      data: {
+        labels: languages,
+        datasets: [{
+          data: skill,
+          label: '擅长语言',
+          fill: true,
+          backgroundColor: BLUE_COLORS[3],
+          borderColor: BLUE_COLORS[0],
+          pointBackgroundColor: BLUE_COLORS[0],
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: BLUE_COLORS[0]
+        }]
+      },
+      options: {
+        onClick: this.chartClickCallback,
+        title: {
+          display: true,
+          text: '擅长语言分析'
+        }
+      }
+    });
   }
 
   renderEmptyCard() {
     return (
       <div></div>
-    )
-  }
-
-  renderTimeLine(repos) {
-    const {actions, showedReposId} = this.props;
-    const minDate = new Date(this.minDate);
-    const maxDate = new Date(this.maxDate);
-    const offsetLeft = getOffsetLeft(minDate, maxDate);
-    const offsetRight = getOffsetRight(minDate, maxDate);
-    return repos.map((repository, index) => {
-      const {
-        created_at,
-        pushed_at,
-        name,
-        language,
-        forks_count,
-        stargazers_count,
-        reposId,
-        full_name,
-        color
-      } = repository;
-
-      const left = offsetLeft(new Date(created_at));
-      const right = offsetRight(new Date(pushed_at));
-      repository.color = color || randomColor();
-      const isActive = showedReposId === reposId;
-      const wrapperClass = classNames('repos_timeline_wrapper', {
-        'active': isActive
-      });
-      const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
-      return (
-        <div
-          key={index}
-          className={wrapperClass}
-          style={{marginLeft: left, marginRight: right}}>
-          <div
-            style={{backgroundColor: repository.color}}
-            className="repos_timeline"
-            onClick={handleClick}>
-          </div>
-          <div className="repos_tipso">
-            <div className="repos_tipso_container">
-              <span className="tipso_title">{name}</span>&nbsp;&nbsp;{`<${language}>`}<br/>
-              <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
-              &nbsp;&nbsp;&nbsp;
-              <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}<br/>
-              <p>{created_at.split('T')[0]} ~ {pushed_at.split('T')[0]}</p>
-            </div>
-          </div>
-        </div>
-      )
-    });
-  }
-
-  renderReposReadme(readme) {
-    if (readme) {
-      return (<div className="readme_container wysiwyg" dangerouslySetInnerHTML={{__html: readme}} />);
-    }
-    return (
-      <div className="readme_container">
-        <Loading />
-      </div>
-    )
-  }
-
-  renderReposIntros(repos) {
-    const { showedReposId } = this.props;
-    return repos.map((repository, index) => {
-      const {name, description, color, id, readme} = repository;
-      const rgb = hex2Rgba(color);
-      const isTarget = id === showedReposId;
-      const opacity = isTarget ? MIN_OPACITY : MAX_OPACITY;
-      const infoClass = isTarget ? 'intro_info with_readme' : 'intro_info';
-      return (
-        <div className="repos_intro" key={index}>
-          <div
-            className="intro_line"
-            style={{background: `linear-gradient(to bottom, ${rgb(MAX_OPACITY)}, ${rgb(opacity)})`}}></div>
-          <div className="intro_info_wrapper">
-            <div className={infoClass}>
-              <span className="intro_title">{name}</span><br/>
-              <span className="intro_desc">{description}</span>
-            </div>
-            {isTarget && this.renderReposReadme(readme)}
-          </div>
-        </div>
-      );
-    });
-  }
-
-  renderChosedRepos() {
-    const { chosedRepos } = this.props;
-    const sortedRepos = sortByDate(chosedRepos);
-    this.minDate = sortedRepos[0]['created_at'].split('T')[0];
-    this.maxDate = getMaxDate(sortedRepos);
-    return (
-      <div className="repos_timeline_container">
-        <div className="repos_dates">
-          <div className="repos_date">{getRelativeTime(this.minDate)}</div>
-          <div className="repos_date">{getRelativeTime(this.maxDate)}</div>
-        </div>
-        <div className="repos_timelines">
-          {this.renderTimeLine(sortedRepos)}
-        </div>
-        <div className="repos_intros">
-          {/* {this.renderReposIntros(sortedRepos)} */}
-        </div>
-      </div>
     )
   }
 
@@ -186,16 +122,56 @@ class UserReposCard extends React.Component {
     ]
   }
 
-  render() {
-    const { chosedRepos } = this.props;
+  renderShowRepos() {
+    const { showLanguage, flatRepos } = this.props;
+    const targetRepos = getReposByLanguage(flatRepos, showLanguage).map((repository, index) => {
+      return (
+        <div className="repos_show" key={index}>
+          <div className="repos_info">
+            <a
+              target="_blank"
+              href={repository.htmlUrl}
+              className="repos_info_name">
+              {repository.name}
+            </a>{repository.fork ? (<span className="repos_info_forked">
+              <i className="fa fa-code-fork" aria-hidden="true">
+              </i>&nbsp;
+              forked
+            </span>) : ''}<br/>
+            <span>{repository.description}</span>
+          </div>
+          <div className={`repos_star ${repository.stargazersCount > 0 ? 'active' : ''}`}>
+            <i className={`fa ${repository.stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{repository.stargazersCount}
+          </div>
+        </div>
+      )
+    });
     return (
-      <div className="info_card_container repos_card_container">
-        <p><i aria-hidden="true" className="fa fa-cubes"></i>&nbsp;&nbsp;仓库展示</p>
+      <div className="repos_show_container">
+        <p className="repos_show_title">{showLanguage}</p>
+        {targetRepos}
+      </div>
+    )
+  }
+
+  render() {
+    const { showLanguage } = this.props;
+    return (
+      <div className="info_card_container chart_card_container">
+        <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;编程语言</p>
         <div className="info_card card">
+          <div className="repos_chart_container">
+            <div className="repos_chart">
+              <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas>
+            </div>
+            <div className="repos_chart">
+              <canvas ref={ref => this.languageSkill = ref}></canvas>
+            </div>
+          </div>
+          { showLanguage ? this.renderShowRepos() : ''}
           <Operations
             items={this.operationItems}
           />
-          {chosedRepos.length ? this.renderChosedRepos() : this.renderEmptyCard()}
         </div>
       </div>
     )
@@ -205,17 +181,14 @@ class UserReposCard extends React.Component {
 function mapStateToProps(state) {
   const {
     repos,
-    chosedRepos,
-    commitDatas,
-    showedReposId
+    showedReposId,
+    showLanguage
   } = state.github;
 
-  const reposCommitsByIds = getReposByIds(commitDatas, chosedRepos);
-  const reposInfo = getReposInfo(reposCommitsByIds, repos);
-
   return {
-    chosedRepos: reposInfo,
-    showedReposId
+    showedReposId,
+    showLanguage,
+    flatRepos: getFlatReposInfos(repos),
   }
 }
 
