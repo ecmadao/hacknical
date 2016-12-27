@@ -4,12 +4,7 @@ import Selector from 'COMPONENTS/Selector';
 import ReposItem from './ReposItem';
 import SelectedRepos from './SelectedRepos';
 import '../../styles/repos_modal.css';
-import {
-  getReposByLanguage
-} from '../../helper/repos';
-import {
-  getReposByIds
-} from '../../helper/chosed_repos';
+import github from 'UTILS/github';
 
 class ReposModal extends React.Component {
   constructor(props) {
@@ -64,7 +59,7 @@ class ReposModal extends React.Component {
   get selectedRepos() {
     const { repos } = this.props;
     const { selectedItems } = this.state;
-    return getReposByIds(repos, selectedItems);
+    return github.getReposByIds(repos, selectedItems);
   }
 
   removeItem(id) {

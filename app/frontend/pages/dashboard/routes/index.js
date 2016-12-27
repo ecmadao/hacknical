@@ -14,7 +14,7 @@ export const createRoutes = (store) => {
     component: App,
     childRoutes: [
       Profile(store),
-      Resume(store),
+      // Resume(store),
       Github(store),
       Setting(store),
       {

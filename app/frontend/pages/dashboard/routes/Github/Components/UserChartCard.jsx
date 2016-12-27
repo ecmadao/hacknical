@@ -5,20 +5,9 @@ import { bindActionCreators } from 'redux';
 import Chart from 'chart.js';
 import cx from 'classnames';
 
-import {
-  getReposNames,
-  getReposForks,
-  getReposStars
-} from '../helper/repos';
-import {
-  getMaxDate,
-  sortByDate,
-  getReposByIds,
-  getReposInfo
-} from '../helper/chosed_repos';
 import githubActions from '../redux/actions';
-import { BLUE_COLORS } from 'UTILS/colors';
-import { hex2Rgba } from '../helper/color_helper';
+import github from 'UTILS/github';
+import { BLUE_COLORS, hex2Rgba } from 'UTILS/colors';
 import {
   getRelativeTime,
   getSecondsByDate,
@@ -73,7 +62,7 @@ const getTotalCount = (repos) => {
 const getForkDatasets = (repos) => {
   return {
     label: 'forks',
-    data: getReposForks(repos),
+    data: github.getReposForks(repos),
     backgroundColor: BLUE_COLORS[2],
     borderColor: BLUE_COLORS[1],
     borderWidth: 1
@@ -94,7 +83,7 @@ const chartClickCallback = (username) => {
 const getStarDatasets = (repos) => {
   return {
     label: 'stars',
-    data: getReposStars(repos),
+    data: github.getReposStars(repos),
     backgroundColor: BLUE_COLORS[1],
     borderColor: BLUE_COLORS[0],
     borderWidth: 1
@@ -146,7 +135,7 @@ class UserChartCard extends React.Component {
     this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',
       data: {
-        labels: getReposNames(flatRepos),
+        labels: github.getReposNames(flatRepos),
         datasets: [getStarDatasets(flatRepos), getForkDatasets(flatRepos)]
       },
       options: {
@@ -213,7 +202,7 @@ class UserChartCard extends React.Component {
             subText="最受欢迎的仓库"
           />
           <ChartInfo
-            mainText={`${startTime.split('-').slice(1).join('/')}~${pushTime.split('-').slice(1).join('/')}`}
+            mainText={`${startTime.split('-').join('/')}~${pushTime.split('-').join('/')}`}
             subText="贡献时间最久的仓库"
           />
         </div>
@@ -259,9 +248,9 @@ class UserChartCard extends React.Component {
 
   renderChosedRepos() {
     const { chosedRepos } = this.props;
-    const sortedRepos = sortByDate(chosedRepos);
+    const sortedRepos = github.sortByDate(chosedRepos);
     this.minDate = sortedRepos[0]['created_at'].split('T')[0];
-    this.maxDate = getMaxDate(sortedRepos);
+    this.maxDate = github.getMaxDate(sortedRepos);
     return (
       <div className="repos_timeline_container">
         <div className="repos_dates">
@@ -357,8 +346,8 @@ function mapStateToProps(state) {
     commitDatas,
     showedReposId
   } = state.github;
-  const reposCommitsByIds = getReposByIds(commitDatas, chosedRepos);
-  const reposInfo = getReposInfo(reposCommitsByIds, repos);
+  const reposCommitsByIds = github.getReposByIds(commitDatas, chosedRepos);
+  const reposInfo = github.getReposInfo(reposCommitsByIds, repos);
 
   return {
     showedReposId,

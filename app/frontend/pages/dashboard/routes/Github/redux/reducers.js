@@ -1,9 +1,7 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 import USER from 'MOCK/user';
-import {
-  getReposLanguages
-} from '../helper/repos';
+import github from 'UTILS/github';
 
 const initialState = {
   loading: true,
@@ -65,7 +63,7 @@ const reducers = handleActions({
     return ({
       ...state,
       repos: [...repos],
-      reposLanguages: [...getReposLanguages(repos)]
+      reposLanguages: [...github.getReposLanguages(repos)]
     });
   },
   SET_SHOW_LANGUAGE(state, action) {

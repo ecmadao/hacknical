@@ -10,11 +10,11 @@ const TABS = [
     name: '用户信息',
     icon: 'fa-user-circle'
   },
-  {
-    id: 'resume',
-    name: '简历',
-    icon: 'fa-file-text-o'
-  },
+  // {
+  //   id: 'resume',
+  //   name: '简历',
+  //   icon: 'fa-file-text-o'
+  // },
   {
     id: 'github',
     name: 'github',

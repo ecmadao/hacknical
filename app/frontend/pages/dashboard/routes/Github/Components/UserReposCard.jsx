@@ -7,11 +7,7 @@ import classNames from 'classnames';
 import Loading from 'COMPONENTS/Loading';
 import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
-import {
-  getLanguageDistribution,
-  getLanguageSkill,
-  getReposByLanguage
-} from '../helper/repos';
+import github from 'UTILS/github';
 import { BLUE_COLORS } from 'UTILS/colors';
 import {
   getMaxIndex
@@ -51,7 +47,7 @@ class UserReposCard extends React.Component {
 
   renderPieChart() {
     const { languageDistributions } = this.props;
-    const languages = Object.keys(languageDistributions);
+    const languages = Object.keys(languageDistributions).filter(language => language !== 'null');
     const distribution = languages.map(language => languageDistributions[language]);
     const languageDistribution = ReactDOM.findDOMNode(this.languageDistribution);
     this.languageDistributionChart = new Chart(languageDistribution, {
@@ -67,7 +63,7 @@ class UserReposCard extends React.Component {
         onClick: this.chartClickCallback,
         title: {
           display: true,
-          text: '仓库语言分布'
+          text: '各语言拥有的仓库数'
         }
       }
     });
@@ -75,7 +71,7 @@ class UserReposCard extends React.Component {
 
   renderRadarChart() {
     const { languageSkills } = this.props;
-    const languages = Object.keys(languageSkills).filter(language => languageSkills[language]);
+    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null');
     const skill = languages.map(language => languageSkills[language]);
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
     this.languageSkillChart = new Chart(languageSkill, {
@@ -99,6 +95,16 @@ class UserReposCard extends React.Component {
         title: {
           display: true,
           text: '擅长语言分析'
+        },
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          callbacks: {
+            label: (item, data) => {
+              return `收到 star 数：${item.yLabel}`
+            }
+          }
         }
       }
     });
@@ -127,7 +133,7 @@ class UserReposCard extends React.Component {
 
   renderShowRepos() {
     const { showLanguage, repos } = this.props;
-    const targetRepos = getReposByLanguage(repos, showLanguage).map((repository, index) => {
+    const targetRepos = github.getReposByLanguage(repos, showLanguage).map((repository, index) => {
       const stargazersCount = repository['stargazers_count'];
       return (
         <div className="repos_show" key={index}>
@@ -214,8 +220,8 @@ function mapStateToProps(state) {
     repos,
     showedReposId,
     showLanguage,
-    languageDistributions: getLanguageDistribution(repos),
-    languageSkills: getLanguageSkill(repos)
+    languageDistributions: github.getLanguageDistribution(repos),
+    languageSkills: github.getLanguageSkill(repos)
   }
 }
 
