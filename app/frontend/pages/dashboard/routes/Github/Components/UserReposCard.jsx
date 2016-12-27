@@ -13,6 +13,10 @@ import {
   getReposByLanguage
 } from '../helper/repos';
 import { BLUE_COLORS } from 'UTILS/colors';
+import {
+  getMaxIndex
+} from 'UTILS/helper';
+import ChartInfo from './ChartInfo';
 
 class UserReposCard extends React.Component {
   constructor(props) {
@@ -31,10 +35,10 @@ class UserReposCard extends React.Component {
   }
 
   renderCharts() {
-    const { flatRepos } = this.props;
-    if (flatRepos.length) {
-      !this.languageDistributionChart && this.renderPieChart(flatRepos);
-      !this.languageSkillChart && this.renderRadarChart(flatRepos);
+    const { repos } = this.props;
+    if (repos.length) {
+      !this.languageDistributionChart && this.renderPieChart();
+      !this.languageSkillChart && this.renderRadarChart();
     }
   }
 
@@ -45,8 +49,8 @@ class UserReposCard extends React.Component {
     actions.setShowLanguage(language);
   }
 
-  renderPieChart(flatRepos) {
-    const languageDistributions = getLanguageDistribution(flatRepos);
+  renderPieChart() {
+    const { languageDistributions } = this.props;
     const languages = Object.keys(languageDistributions);
     const distribution = languages.map(language => languageDistributions[language]);
     const languageDistribution = ReactDOM.findDOMNode(this.languageDistribution);
@@ -69,8 +73,8 @@ class UserReposCard extends React.Component {
     });
   }
 
-  renderRadarChart(flatRepos) {
-    const languageSkills = getLanguageSkill(flatRepos);
+  renderRadarChart() {
+    const { languageSkills } = this.props;
     const languages = Object.keys(languageSkills).filter(language => languageSkills[language]);
     const skill = languages.map(language => languageSkills[language]);
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
@@ -122,8 +126,8 @@ class UserReposCard extends React.Component {
   }
 
   renderShowRepos() {
-    const { showLanguage, flatRepos } = this.props;
-    const targetRepos = getReposByLanguage(flatRepos, showLanguage).map((repository, index) => {
+    const { showLanguage, repos } = this.props;
+    const targetRepos = getReposByLanguage(repos, showLanguage).map((repository, index) => {
       const stargazersCount = repository['stargazers_count'];
       return (
         <div className="repos_show" key={index}>
@@ -154,12 +158,33 @@ class UserReposCard extends React.Component {
     )
   }
 
+  renderChartInfo() {
+    const { languageDistributions, languageSkills } = this.props;
+    const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
+    const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
+    const maxReposCountIndex = getMaxIndex(reposCount);
+    const maxStarCountIndex = getMaxIndex(starCount);
+    return (
+      <div className="chart_info_container">
+        <ChartInfo
+          mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
+          subText="拥有最多的仓库"
+        />
+        <ChartInfo
+          mainText={Object.keys(languageSkills)[maxStarCountIndex]}
+          subText="拥有最多的 star"
+        />
+      </div>
+    )
+  }
+
   render() {
     const { showLanguage } = this.props;
     return (
       <div className="info_card_container chart_card_container">
         <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;编程语言</p>
         <div className="info_card card">
+          {this.renderChartInfo()}
           <div className="repos_chart_container">
             <div className="repos_chart">
               <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas>
@@ -186,9 +211,11 @@ function mapStateToProps(state) {
   } = state.github;
 
   return {
+    repos,
     showedReposId,
     showLanguage,
-    flatRepos: repos,
+    languageDistributions: getLanguageDistribution(repos),
+    languageSkills: getLanguageSkill(repos)
   }
 }
 
