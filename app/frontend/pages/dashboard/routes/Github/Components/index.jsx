@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import 'github-calendar/dist/github-calendar.css';
 
 import '../styles/github.css';
+import '../styles/chart.css';
 import Loading from 'COMPONENTS/Loading';
 import ReposModal from './ReposModal';
 import githubActions from '../redux/actions';

@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Chart from 'chart.js';
-import github from 'UTILS/github';
 
+import github from 'UTILS/github';
 import { BLUE_COLORS } from 'UTILS/colors';
 import {
   getDateBySeconds,
   getDateAfterDays
 } from 'UTILS/date';
+import { DAYS } from 'UTILS/const_value';
+import {
+  getMaxIndex,
+  getFirstTarget
+} from 'UTILS/helper';
 import githubActions from '../redux/actions';
+import ChartInfo from './ChartInfo';
 
 
 class UserCommitCard extends React.Component {
@@ -79,6 +85,18 @@ class UserCommitCard extends React.Component {
         }]
       },
       options: {
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display:false
+            }
+          }],
+          // yAxes: [{
+          //   gridLines: {
+          //     display:false
+          //   }
+          // }],
+        },
         tooltips: {
           callbacks: {
             title: (item, data) => {
@@ -96,11 +114,13 @@ class UserCommitCard extends React.Component {
   renderWeeklyChart(dailyCommits) {
     const commits = dailyCommits.slice(1);
     commits.push(dailyCommits[0]);
+    const days = DAYS.slice(1);
+    days.push(DAYS[0])
     const commitsChart = ReactDOM.findDOMNode(this.commitsWeeklyChart);
     this.commitsWeeklyReviewChart = new Chart(commitsChart, {
       type: 'line',
       data: {
-        labels: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+        labels: days,
         datasets: [{
           data: commits,
           label: '每日总提交数',
@@ -125,6 +145,18 @@ class UserCommitCard extends React.Component {
         }]
       },
       options: {
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display:false
+            }
+          }],
+          // yAxes: [{
+          //   gridLines: {
+          //     display:false
+          //   }
+          // }],
+        },
         tooltips: {
           callbacks: {
             label: (item, data) => {
@@ -136,11 +168,43 @@ class UserCommitCard extends React.Component {
     });
   }
 
+  renderChartInfo() {
+    const { commitDatas } = this.props;
+
+    const { commits, dailyCommits, total } = commitDatas;
+    const maxIndex = getMaxIndex(dailyCommits);
+    const dayName = DAYS[maxIndex];
+
+    const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commits, (item) => item.total);
+    const week = getDateBySeconds(firstCommitWeek.week);
+    const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
+    const firstCommitDate = getDateAfterDays(dayIndex, week);
+
+    return (
+      <div className="chart_info_container">
+        <ChartInfo
+          mainText={dayName}
+          subText="是你提交最多的日子"
+        />
+        <ChartInfo
+          mainText={parseInt(total / 52, 10)}
+          subText="平均每周提交次数"
+        />
+        <ChartInfo
+          mainText={firstCommitDate}
+          subText="2016年第一次提交"
+        />
+      </div>
+    )
+  }
+
   render() {
+    const { loaded } = this.props;
     return (
       <div className="info_card_container">
         <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
         <div className="info_card card chart_card">
+          {loaded ? this.renderChartInfo() : ''}
           <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
           <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
         </div>
@@ -152,7 +216,8 @@ class UserCommitCard extends React.Component {
 function mapStateToProps(state) {
   const { commitDatas } = state.github;
   return {
-    commitDatas: github.combineReposCommits(commitDatas)
+    commitDatas: github.combineReposCommits(commitDatas),
+    loaded: commitDatas.length > 0
   }
 }
 

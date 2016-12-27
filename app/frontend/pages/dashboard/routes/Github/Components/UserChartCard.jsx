@@ -157,12 +157,20 @@ class UserChartCard extends React.Component {
           text: '仓库 star/fork 数一览（取前十）'
         },
         scales: {
+          xAxes: [{
+            gridLines: {
+              display:false
+            }
+          }],
           yAxes: [{
+            // gridLines: {
+            //   display:false
+            // },
             ticks: {
               beginAtZero:true
             }
           }]
-        }
+        },
       }
     });
   }

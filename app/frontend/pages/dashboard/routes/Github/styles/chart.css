@@ -1,0 +1,35 @@
+@import 'open-color/open-color.css';
+
+.chart_info_container {
+  width: 100%;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--oc-gray-2);
+  display: flex;
+  flex-direction: row;
+}
+
+.chart_info {
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  &:not(:last-child) {
+    border-right: 1px solid var(--oc-gray-2);
+  }
+}
+
+.info_text {
+  text-align: center;
+
+  &.info_main_text {
+    font-size: 20px;
+    color: var(--oc-gray-7);
+  }
+
+  &.info_sub_text {
+    font-size: 14px;
+    color: var(--oc-gray-5);
+  }
+}

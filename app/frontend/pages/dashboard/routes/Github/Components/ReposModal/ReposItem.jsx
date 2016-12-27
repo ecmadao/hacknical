@@ -11,15 +11,22 @@ class ReposItem extends React.Component {
             href={repository['html_url']}
             className="repos_info_name">
             {repository.name}
-          </a>{repository.fork ? (<span className="repos_info_forked">
+          </a>&nbsp;&nbsp;
+          {repository['stargazers_count'] > 0 ? (
+            <span>
+              <i
+                className="fa fa-star"
+                aria-hidden="true"></i>
+              &nbsp;{repository['stargazers_count']}&nbsp;&nbsp;
+            </span>
+          ) : ''}
+          {repository.fork ? (<span className="repos_info_forked">
             <i className="fa fa-code-fork" aria-hidden="true">
             </i>&nbsp;
             forked
-          </span>) : ''}<br/>
+          </span>) : ''}
+          <br/>
           <span>{repository.description}</span>
-        </div>
-        <div className={`repos_star ${repository['stargazers_count'] > 0 ? 'active' : ''}`}>
-          <i className={`fa ${repository['stargazers_count'] > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{repository['stargazers_count']}
         </div>
       </div>
     )
