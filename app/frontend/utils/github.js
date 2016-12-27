@@ -113,12 +113,14 @@ const getReposInfo = (commits, repos) => {
       forks_count,
       language,
       stargazers_count,
-      html_url
+      html_url,
+      full_name
     } = targetRepos[0];
     commit['forks_count'] = forks_count;
     commit['language'] = language;
     commit['stargazers_count'] = stargazers_count;
     commit['html_url'] = html_url;
+    commit['full_name'] = full_name;
     return commit;
   });
 };

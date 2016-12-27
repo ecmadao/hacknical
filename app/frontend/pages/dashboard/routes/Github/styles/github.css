@@ -231,7 +231,7 @@
 .repos_timeline_container {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 20px;
 }
 
 .repos_dates {
@@ -348,7 +348,7 @@
   flex-direction: column;
 
   & .repos_intro {
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     display: flex;
 
     & .intro_line {
@@ -366,11 +366,11 @@
 
     & .intro_info {
       font-size: 14px;
-      color: rgba(74, 74, 74, 0.6);
+      color: var(--oc-gray-5);
       line-height: 1.7em;
 
       & .intro_title {
-        font-size: 18px;
+        /*font-size: 18px;*/
         color: var(--oc-gray-7);
         line-height: 1.5em;
       }

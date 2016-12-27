@@ -247,8 +247,8 @@ class ReposChart extends React.Component {
   }
 
   renderChosedRepos() {
-    const { chosedRepos } = this.props;
-    const sortedRepos = github.sortByDate(chosedRepos);
+    const { flatRepos } = this.props;
+    const sortedRepos = github.sortByDate(flatRepos.slice(0, 10));
     this.minDate = sortedRepos[0]['created_at'].split('T')[0];
     this.maxDate = github.getMaxDate(sortedRepos);
     return (
@@ -268,7 +268,7 @@ class ReposChart extends React.Component {
   }
 
   renderTimeLine(repos) {
-    const {actions, showedReposId} = this.props;
+    const { actions, showedReposId } = this.props;
     const minDate = new Date(this.minDate);
     const maxDate = new Date(this.maxDate);
     const offsetLeft = getOffsetLeft(minDate, maxDate);
@@ -319,7 +319,7 @@ class ReposChart extends React.Component {
   }
 
   render() {
-    const { flatRepos, chosedRepos } = this.props;
+    const { flatRepos } = this.props;
     if (!flatRepos || !flatRepos.length) { return (<div></div>) }
     return (
       <div className="info_card_container chart_card_container">
@@ -330,7 +330,7 @@ class ReposChart extends React.Component {
             <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
           </div>
           <div className="repos_timelines_wrapper">
-            {chosedRepos.length ? this.renderChosedRepos() : ''}
+            {this.renderChosedRepos()}
           </div>
         </div>
       </div>
@@ -342,16 +342,11 @@ function mapStateToProps(state) {
   const {
     repos,
     user,
-    chosedRepos,
-    commitDatas,
     showedReposId
   } = state.github;
-  const reposCommitsByIds = github.getReposByIds(commitDatas, chosedRepos);
-  const reposInfo = github.getReposInfo(reposCommitsByIds, repos);
 
   return {
     showedReposId,
-    chosedRepos: reposInfo,
     flatRepos: repos.sort(sortRepos()),
     username: user && user.name
   }
