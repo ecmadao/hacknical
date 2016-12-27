@@ -1,6 +1,4 @@
-export const sortRepos = (key = 'stargazersCount') => (firstRepos, secRepos) => {
-  return parseInt(secRepos[key]) - parseInt(firstRepos[key]);
-};
+import { sortRepos } from 'UTILS/helper';
 
 export const getFlatReposInfos = (repos) => {
   return repos.map((repository) => {
@@ -12,12 +10,14 @@ export const getFlatReposInfos = (repos) => {
       watchers_count,
       forks_count,
       language,
-      created_at
+      created_at,
+      description
     } = repository;
     return {
       name,
       fork,
       language,
+      description,
       createdAt: created_at,
       htmlUrl: html_url,
       stargazersCount: stargazers_count,

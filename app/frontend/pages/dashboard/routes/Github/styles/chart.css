@@ -1,5 +1,14 @@
 @import 'open-color/open-color.css';
 
+.canvas_container {
+  padding: 20px;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+  }
+}
+
 .chart_info_container {
   width: 100%;
   margin-bottom: 30px;

@@ -12,6 +12,7 @@ import {
 } from 'UTILS/date';
 import { DAYS } from 'UTILS/const_value';
 import {
+  sortRepos,
   getMaxIndex,
   getFirstTarget
 } from 'UTILS/helper';
@@ -91,11 +92,11 @@ class UserCommitCard extends React.Component {
               display:false
             }
           }],
-          // yAxes: [{
-          //   gridLines: {
-          //     display:false
-          //   }
-          // }],
+          yAxes: [{
+            gridLines: {
+              display:false
+            }
+          }],
         },
         tooltips: {
           callbacks: {
@@ -151,11 +152,11 @@ class UserCommitCard extends React.Component {
               display:false
             }
           }],
-          // yAxes: [{
-          //   gridLines: {
-          //     display:false
-          //   }
-          // }],
+          yAxes: [{
+            gridLines: {
+              display:false
+            }
+          }],
         },
         tooltips: {
           callbacks: {
@@ -169,16 +170,19 @@ class UserCommitCard extends React.Component {
   }
 
   renderChartInfo() {
-    const { commitDatas } = this.props;
-
+    const { commitDatas, reposCommits } = this.props;
     const { commits, dailyCommits, total } = commitDatas;
+    // day info
     const maxIndex = getMaxIndex(dailyCommits);
     const dayName = DAYS[maxIndex];
-
+    // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commits, (item) => item.total);
     const week = getDateBySeconds(firstCommitWeek.week);
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = getDateAfterDays(dayIndex, week);
+    // max commit repos
+    reposCommits.sort(sortRepos('totalCommits'));
+    const maxCommitRepos = reposCommits[0];
 
     return (
       <div className="chart_info_container">
@@ -194,6 +198,10 @@ class UserCommitCard extends React.Component {
           mainText={firstCommitDate}
           subText="2016年第一次提交"
         />
+        <ChartInfo
+          mainText={maxCommitRepos.name}
+          subText="提交次数最多的仓库"
+        />
       </div>
     )
   }
@@ -205,8 +213,12 @@ class UserCommitCard extends React.Component {
         <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
         <div className="info_card card chart_card">
           {loaded ? this.renderChartInfo() : ''}
-          <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
-          <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
+          <div className="canvas_container">
+            <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
+          </div>
+          <div className="canvas_container">
+            <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
+          </div>
         </div>
       </div>
     )
@@ -216,6 +228,7 @@ class UserCommitCard extends React.Component {
 function mapStateToProps(state) {
   const { commitDatas } = state.github;
   return {
+    reposCommits: commitDatas,
     commitDatas: github.combineReposCommits(commitDatas),
     loaded: commitDatas.length > 0
   }

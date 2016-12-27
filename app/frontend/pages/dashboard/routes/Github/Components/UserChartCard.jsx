@@ -58,9 +58,9 @@ class UserChartCard extends React.Component {
   }
 
   componentDidMount() {
-    const { actions, repos } = this.props;
+    const { actions, flatRepos } = this.props;
     this.renderCharts();
-    if (!repos.length) {
+    if (!flatRepos.length) {
       actions.getGithubRepos();
     }
   }
@@ -70,9 +70,8 @@ class UserChartCard extends React.Component {
   }
 
   renderCharts() {
-    const { repos } = this.props;
-    if (repos.length) {
-      const flatRepos = getFlatReposInfos(repos);
+    const { flatRepos } = this.props;
+    if (flatRepos.length) {
       !this.reposReviewChart && this.renderBarChart(flatRepos.slice(0, 10));
       !this.languageDistributionChart && this.renderPieChart(flatRepos);
       !this.languageSkillChart && this.renderRadarChart(flatRepos);
@@ -163,9 +162,9 @@ class UserChartCard extends React.Component {
             }
           }],
           yAxes: [{
-            // gridLines: {
-            //   display:false
-            // },
+            gridLines: {
+              display:false
+            },
             ticks: {
               beginAtZero:true
             }
@@ -176,14 +175,14 @@ class UserChartCard extends React.Component {
   }
 
   renderShowRepos() {
-    const { showLanguage, repos } = this.props;
-    const targetRepos = getReposByLanguage(repos, showLanguage).map((repository, index) => {
+    const { showLanguage, flatRepos } = this.props;
+    const targetRepos = getReposByLanguage(flatRepos, showLanguage).map((repository, index) => {
       return (
         <div className="repos_show" key={index}>
           <div className="repos_info">
             <a
               target="_blank"
-              href={repository['html_url']}
+              href={repository.htmlUrl}
               className="repos_info_name">
               {repository.name}
             </a>{repository.fork ? (<span className="repos_info_forked">
@@ -193,8 +192,8 @@ class UserChartCard extends React.Component {
             </span>) : ''}<br/>
             <span>{repository.description}</span>
           </div>
-          <div className={`repos_star ${repository['stargazers_count'] > 0 ? 'active' : ''}`}>
-            <i className={`fa ${repository['stargazers_count'] > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{repository['stargazers_count']}
+          <div className={`repos_star ${repository.stargazersCount > 0 ? 'active' : ''}`}>
+            <i className={`fa ${repository.stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{repository.stargazersCount}
           </div>
         </div>
       )
@@ -207,14 +206,24 @@ class UserChartCard extends React.Component {
     )
   }
 
+  renderChartInfo() {
+    const { flatRepos } = this.props;
+    console.log('flatRepos');
+    console.log(flatRepos);
+  }
+
   render() {
-    const { repos, showLanguage } = this.props;
-    if (!repos || !repos.length) { return (<div></div>) }
+    const { flatRepos, showLanguage } = this.props;
+    if (!flatRepos || !flatRepos.length) { return (<div></div>) }
+    this.renderChartInfo()
     return (
       <div className="info_card_container chart_card_container">
         <p><i aria-hidden="true" className="fa fa-bar-chart"></i>&nbsp;&nbsp;仓库概览</p>
-        <div className="info_card card chart_card">
-          <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
+        <div className="info_card card">
+          {/* {this.renderChartInfo()} */}
+          <div className="canvas_container">
+            <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
+          </div>
           <div className="repos_chart_container">
             <div className="repos_chart">
               <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas>
@@ -233,8 +242,8 @@ class UserChartCard extends React.Component {
 function mapStateToProps(state) {
   const { showLanguage, repos, user } = state.github;
   return {
-    repos,
     showLanguage,
+    flatRepos: getFlatReposInfos(repos),
     username: user && user.name
   }
 }

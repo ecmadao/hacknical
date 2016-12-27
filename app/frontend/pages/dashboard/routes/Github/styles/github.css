@@ -18,10 +18,6 @@
   position: relative;
 }
 
-.chart_card {
-  /*padding: 10px;*/
-}
-
 .github_info_container {
 }
 
@@ -148,7 +144,7 @@
     padding: 15px 0;
     min-height: 80px;
     display: flex;
-    border-top: 1px solid var(--bg-deep);
+    /*border-top: 1px solid var(--bg-deep);*/
 
     & .repos_chart {
       flex: 1;
