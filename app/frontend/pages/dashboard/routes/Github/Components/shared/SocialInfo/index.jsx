@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
 import './social_info.css';
@@ -19,7 +19,7 @@ const getUserCardColor = (user) => {
 };
 
 const SocialInfo = (props) => {
-  const { user } = props;
+  const { user, style } = props;
   const userCardColor = getUserCardColor(user);
 
   return (
@@ -27,29 +27,39 @@ const SocialInfo = (props) => {
       <a
         target="_blank"
         className="info_social"
-        style={{backgroundColor: userCardColor['public_repos']}}
+        style={style || {backgroundColor: userCardColor['public_repos']}}
         href={`${github.baseUrl}/${user.login}?tab=repositories`}>
-        <span>{user['public_repos']}</span>&nbsp;
-        <span>repositories</span>
+        <span style={style ? { color: style.color } : {}}>{user['public_repos']}</span>&nbsp;
+        <span style={style ? { color: style.color } : {}}>repositories</span>
       </a>
       <a
         target="_blank"
         className="info_social"
-        style={{backgroundColor: userCardColor['followers']}}
+        style={style || {backgroundColor: userCardColor['followers']}}
         href={`${github.baseUrl}/${user.login}?tab=followers`}>
-        <span>{user.followers}</span>&nbsp;
-        <span>followers</span>
+        <span style={style ? { color: style.color } : {}}>{user.followers}</span>&nbsp;
+        <span style={style ? { color: style.color } : {}}>followers</span>
       </a>
       <a
         target="_blank"
         className="info_social"
-        style={{backgroundColor: userCardColor['following']}}
+        style={style || {backgroundColor: userCardColor['following']}}
         href={`${github.baseUrl}/${user.login}?tab=following`}>
-        <span>{user.following}</span>&nbsp;
-        <span>following</span>
+        <span style={style ? { color: style.color } : {}}>{user.following}</span>&nbsp;
+        <span style={style ? { color: style.color } : {}}>following</span>
       </a>
     </div>
   )
+};
+
+SocialInfo.propTypes = {
+  user: PropTypes.object,
+  style: PropTypes.object,
+};
+
+SocialInfo.defaultProps = {
+  user: {},
+  style: null
 };
 
 export default SocialInfo;
