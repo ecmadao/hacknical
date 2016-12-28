@@ -1,0 +1,44 @@
+@import 'open-color/open-color.css';
+@import "../../pages/dashboard/style/base.css";
+
+.floating_action_button {
+  box-shadow: var(--shadow-4);
+  transition: box-shadow 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: fixed;
+  bottom: 30px;
+  right: 100px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: var(--oc-blue-5);
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  &:hover {
+    box-shadow: var(--shadow-5);
+
+    &::after {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  & i {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: var(--oc-white);
+    transform: translate(-50%, -50%);
+  }
+}

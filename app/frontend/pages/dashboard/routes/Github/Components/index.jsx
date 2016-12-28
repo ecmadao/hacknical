@@ -6,13 +6,17 @@ import 'github-calendar/dist/github-calendar.css';
 
 import '../styles/github.css';
 import '../styles/chart.css';
-import Loading from 'COMPONENTS/Loading';
-import ReposModal from './ReposModal';
 import githubActions from '../redux/actions';
+import Loading from 'COMPONENTS/Loading';
+import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
+
+import ReposModal from './ReposModal';
+import ShareModal from './ShareModal';
 import UserInfoCard from './UserInfoCard';
 import ReposChart from './ReposChart';
 import LanguageChart from './LanguageChart';
 import CommitChart from './CommitChart';
+import { GREEN_COLORS } from 'UTILS/colors';
 
 class Github extends React.Component {
   componentDidMount() {
@@ -27,6 +31,7 @@ class Github extends React.Component {
       repos,
       actions,
       openModal,
+      openShareModal,
       chosedRepos,
       reposLanguages
     } = this.props;
@@ -52,6 +57,20 @@ class Github extends React.Component {
           selectedItems={chosedRepos}
           />
         ) : ''} */}
+        {openShareModal ? (
+          <ShareModal
+            openModal={openShareModal}
+            onClose={() => actions.toggleShareModal(false)}
+          />
+        ) : ''}
+        <FloatingActionButton
+          icon="share-alt"
+          style={{
+            right: '20%',
+            backgroundColor: GREEN_COLORS[1]
+          }}
+          onClick={() => actions.toggleShareModal(true)}
+        />
       </div>
     )
   }
@@ -63,6 +82,7 @@ function mapStateToProps(state) {
     repos,
     loading,
     openModal,
+    openShareModal,
     chosedRepos,
     reposLanguages
   } = state.github;
@@ -71,6 +91,7 @@ function mapStateToProps(state) {
     repos,
     loading,
     openModal,
+    openShareModal,
     chosedRepos,
     reposLanguages
   };

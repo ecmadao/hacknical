@@ -6,6 +6,7 @@ import CHOSED_REPOS from 'MOCK/chosed_repos';
 
 const {
   toggleModal,
+  toggleShareModal,
   toggleLoading,
   setGithubInfo,
   setGithubCommits,
@@ -16,6 +17,7 @@ const {
   setChosedRepos
 } = createActions(
   'TOGGLE_MODAL',
+  'TOGGLE_SHARE_MODAL',
   'TOGGLE_LOADING',
   'SET_GITHUB_INFO',
   'SET_GITHUB_COMMITS',
@@ -84,6 +86,7 @@ export default {
   setGithubInfo,
   getGithubInfo,
   toggleModal,
+  toggleShareModal,
   toggleLoading,
   setGithubRepos,
   setGithubCommits,

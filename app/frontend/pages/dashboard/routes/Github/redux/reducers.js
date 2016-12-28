@@ -6,6 +6,7 @@ import github from 'UTILS/github';
 const initialState = {
   loading: true,
   openModal: false,
+  openShareModal: false,
   user: objectAssign({}, USER),
   repos: [],
   reposLanguages: [],
@@ -44,6 +45,12 @@ const reducers = handleActions({
     return ({
       ...state,
       openModal: action.payload
+    });
+  },
+  TOGGLE_SHARE_MODAL(state, action) {
+    return ({
+      ...state,
+      openShareModal: action.payload
     });
   },
   TOGGLE_LOADING(state, action) {
