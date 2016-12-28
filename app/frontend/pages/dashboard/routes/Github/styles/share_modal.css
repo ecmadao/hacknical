@@ -2,8 +2,8 @@
 @import "../../../style/base.css";
 
 .share_modal_container {
-  /*background-color: #F7F8F9;*/
   background-color: var(--oc-white);
+  color: var(--oc-gray-7);
   box-shadow: var(--shadow-4);
   padding: 30px;
   width: 50%;
@@ -11,4 +11,25 @@
   border-radius: 2px;
   overflow-y: auto;
   z-index: 1;
+}
+
+.share_info_section {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  align-items: center;
+}
+
+.share_user_info {
+  & img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+
+  & blockquote {
+    padding: 0 1em;
+    border-left: 0.25em solid var(--oc-gray-5);
+    margin: 15px 0;
+  }
 }

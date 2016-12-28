@@ -1,32 +1,37 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import PortalModal from 'COMPONENTS/PortalModal';
 import github from 'UTILS/github';
 
+import UserInfo from './UserInfo';
 import '../../styles/share_modal.css';
 
 class ShareModal extends React.Component {
   render() {
-    const { openModal, onClose } = this.props;
+    const { openModal, onClose, user } = this.props;
     return (
       <PortalModal
         showModal={openModal}
         onClose={onClose}>
-        <div className="share_modal_container"></div>
+        <div className="share_modal_container">
+          <UserInfo user={user} />
+        </div>
       </PortalModal>
     )
   }
 }
 
-ShareModal.propTypes = {
-  openModal: PropTypes.bool,
-  repos: PropTypes.array,
-  onClose: PropTypes.func,
-};
+function mapStateToProps(state) {
+  const {
+    user,
+    repos,
+    reposLanguages
+  } = state.github;
+  return {
+    user,
+    repos,
+    reposLanguages
+  };
+}
 
-ShareModal.defaultProps = {
-  openModal: false,
-  repos: [],
-  onClose: () => {},
-};
-
-export default ShareModal;
+export default connect(mapStateToProps)(ShareModal);
