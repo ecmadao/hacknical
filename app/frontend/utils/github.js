@@ -127,6 +127,16 @@ const getReposInfo = (commits, repos) => {
   });
 };
 
+const getReposCommits = (repos, commits) => {
+  return repos.map((repository) => {
+    const targetRepos = commits.filter(commit => commit.reposId === repository.reposId);
+    if (targetRepos.length) {
+      return targetRepos[0].totalCommits;
+    }
+    return 0;
+  });
+};
+
 export default {
   baseUrl,
   getReposNames,
@@ -141,5 +151,6 @@ export default {
   getMaxDate,
   sortByDate,
   getReposByIds,
-  getReposInfo
+  getReposInfo,
+  getReposCommits
 }

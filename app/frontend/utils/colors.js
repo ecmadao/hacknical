@@ -34,7 +34,8 @@ export const BLUE_COLORS = [
   'rgba(52, 143, 223, 0.8)',
   'rgba(52, 143, 223, 0.6)',
   'rgba(52, 143, 223, 0.4)',
-  'rgba(52, 143, 223, 0.2)'
+  'rgba(52, 143, 223, 0.2)',
+  'rgba(52, 143, 223, 0.1)'
 ];
 
 export const GREEN_COLORS = [
@@ -43,6 +44,7 @@ export const GREEN_COLORS = [
   'rgba(30, 104, 35, 0.6)',
   'rgba(30, 104, 35, 0.4)',
   'rgba(30, 104, 35, 0.2)',
+  'rgba(30, 104, 35, 0.1)',
 ];
 
 export const GITHUB_GREEN_COLORS = [

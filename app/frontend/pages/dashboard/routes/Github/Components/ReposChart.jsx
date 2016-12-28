@@ -4,32 +4,23 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Chart from 'chart.js';
 import cx from 'classnames';
+import objectAssign from 'object-assign';
 
 import githubActions from '../redux/actions';
+import ChartInfo from './ChartInfo';
 import github from 'UTILS/github';
-import { GREEN_COLORS, BLUE_COLORS, MD_COLORS, hex2Rgba } from 'UTILS/colors';
+import { LINECHART_CONFIG, OPACITY } from 'UTILS/const_value';
+import { GREEN_COLORS, MD_COLORS, hex2Rgba } from 'UTILS/colors';
 import {
   getRelativeTime,
   getSecondsByDate,
   getSecondsBeforeYears
 } from 'UTILS/date';
 import {
-  sortRepos
+  sortRepos,
+  getOffsetLeft,
+  getOffsetRight
 } from 'UTILS/helper';
-import ChartInfo from './ChartInfo';
-
-const getOffsetLeft = (start, end) => (left) => {
-  const length = end - start;
-  return `${(left - start) * 100 / length}%`;
-};
-
-const getOffsetRight = (start, end) => (right) => {
-  const length = end - start;
-  return `${(end - right) * 100 / length}%`;
-};
-
-const MAX_OPACITY = 1;
-const MIN_OPACITY = 0.3;
 
 const randomColor = () => {
   const index = Math.floor(Math.random() * MD_COLORS.length);
@@ -68,16 +59,12 @@ const getForkDatasets = (repos) => {
   }
 };
 
-const getCommitDatasets = (repos) => {
-  return {
+const getCommitDatasets = (repos, commits) => {
+  return objectAssign({}, LINECHART_CONFIG, {
     type: 'line',
     label: 'commits',
-    data: github.getReposStars(repos),
-    // backgroundColor: GREEN_COLORS[1],
-    borderColor: GREEN_COLORS[0],
-    borderWidth: 1,
-    fill: false,
-  }
+    data: github.getReposCommits(repos, commits),
+  });
 };
 
 const getMaxObject = (array, callback) => {
@@ -120,18 +107,22 @@ class ReposChart extends React.Component {
   }
 
   renderBarChart(flatRepos) {
-    const { username } = this.props;
+    const { username, commitDatas } = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',
       data: {
         labels: github.getReposNames(flatRepos),
-        datasets: [getCommitDatasets(flatRepos), getStarDatasets(flatRepos), getForkDatasets(flatRepos)]
+        datasets: [
+          getStarDatasets(flatRepos),
+          getForkDatasets(flatRepos),
+          getCommitDatasets(flatRepos, commitDatas)
+        ]
       },
       options: {
         title: {
           display: true,
-          text: '仓库 star/fork 数一览（取前十）'
+          text: '仓库 star/fork/commit 数一览（取前十）'
         },
         scales: {
           xAxes: [{
@@ -216,13 +207,13 @@ class ReposChart extends React.Component {
       const {name, description, color, id, readme} = repository;
       const rgb = hex2Rgba(color);
       const isTarget = id === showedReposId;
-      const opacity = isTarget ? MIN_OPACITY : MAX_OPACITY;
+      const opacity = isTarget ? OPACITY.min : OPACITY.max;
       const infoClass = isTarget ? 'intro_info with_readme' : 'intro_info';
       return (
         <div className="repos_intro" key={index}>
           <div
             className="intro_line"
-            style={{background: `linear-gradient(to bottom, ${rgb(MAX_OPACITY)}, ${rgb(opacity)})`}}></div>
+            style={{background: `linear-gradient(to bottom, ${rgb(OPACITY.max)}, ${rgb(opacity)})`}}></div>
           <div className="intro_info_wrapper">
             <div className={infoClass}>
               <span className="intro_title">{name}</span><br/>
@@ -337,6 +328,7 @@ function mapStateToProps(state) {
 
   return {
     showedReposId,
+    commitDatas,
     flatRepos: repos.sort(sortRepos()),
     username: user && user.name
   }

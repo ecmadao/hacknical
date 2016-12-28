@@ -50,3 +50,13 @@ export const getFirstTarget = (array, target) => {
 export const sortRepos = (key = 'stargazers_count') => (firstRepos, secRepos) => {
   return parseInt(secRepos[key]) - parseInt(firstRepos[key]);
 };
+
+export const getOffsetLeft = (start, end) => (left) => {
+  const length = end - start;
+  return `${(left - start) * 100 / length}%`;
+};
+
+export const getOffsetRight = (start, end) => (right) => {
+  const length = end - start;
+  return `${(end - right) * 100 / length}%`;
+};

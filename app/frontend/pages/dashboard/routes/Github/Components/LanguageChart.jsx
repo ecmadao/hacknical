@@ -82,7 +82,7 @@ class LanguageChart extends React.Component {
           data: skill,
           label: '擅长语言',
           fill: true,
-          backgroundColor: GREEN_COLORS[2],
+          backgroundColor: GREEN_COLORS[4],
           borderWidth: 1,
           borderColor: GREEN_COLORS[0],
           pointBackgroundColor: GREEN_COLORS[0],
