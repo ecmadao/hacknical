@@ -71,6 +71,7 @@ class CommitChart extends React.Component {
       options: {
         scales: {
           xAxes: [{
+            display: false,
             gridLines: {
               display:false
             }

@@ -109,6 +109,8 @@ class ReposChart extends React.Component {
   renderBarChart(flatRepos) {
     const { username, commitDatas } = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
+    console.log('getCommitDatasets(flatRepos, commitDatas)')
+    console.log(getCommitDatasets(flatRepos, commitDatas))
     this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',
       data: {

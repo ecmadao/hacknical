@@ -11,7 +11,7 @@ const TABS = [
     name: '用户信息',
     icon: 'fa-user-circle',
     activeStyle: {
-      color: BLUE_COLORS[0]
+      // color: BLUE_COLORS[0]
     }
   },
   // {
@@ -24,7 +24,7 @@ const TABS = [
     name: 'github',
     icon: 'fa-github',
     activeStyle: {
-      color: GREEN_COLORS[0],
+      // color: GREEN_COLORS[0],
       borderBottom: `3px solid ${GREEN_COLORS[0]}`
     }
   },
@@ -33,7 +33,7 @@ const TABS = [
     name: '设置',
     icon: 'fa-cog',
     activeStyle: {
-      color: BLUE_COLORS[0]
+      // color: BLUE_COLORS[0]
     }
   }
 ];

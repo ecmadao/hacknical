@@ -34,8 +34,9 @@ app.use(convert(logger()));
 // session
 app.use(convert(session({
   store: redisStore({
-    url: config.get('redis')
-  })
+    url: config.get('redis'),
+  }),
+  ttl: 24 * 60 * 60 * 1000
 })));
 // catch
 app.use(redisCache({

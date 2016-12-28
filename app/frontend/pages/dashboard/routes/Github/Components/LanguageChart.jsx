@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 
 import Loading from 'COMPONENTS/Loading';
-import Operations from 'COMPONENTS/Operations'
+// import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
@@ -201,9 +201,9 @@ class LanguageChart extends React.Component {
             </div>
           </div>
           { showLanguage ? this.renderShowRepos() : ''}
-          <Operations
+          {/* <Operations
             items={this.operationItems}
-          />
+          /> */}
         </div>
       </div>
     )

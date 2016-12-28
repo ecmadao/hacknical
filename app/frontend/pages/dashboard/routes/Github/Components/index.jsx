@@ -42,16 +42,16 @@ class Github extends React.Component {
         <ReposChart />
         <LanguageChart />
         <CommitChart />
-        {openModal ? (
+        {/* {openModal ? (
           <ReposModal
-            openModal={openModal}
-            onClose={() => actions.toggleModal(false)}
-            onSave={() => {}}
-            repos={repos}
-            languages={reposLanguages}
-            selectedItems={chosedRepos}
+          openModal={openModal}
+          onClose={() => actions.toggleModal(false)}
+          onSave={() => {}}
+          repos={repos}
+          languages={reposLanguages}
+          selectedItems={chosedRepos}
           />
-        ) : ''}
+        ) : ''} */}
       </div>
     )
   }

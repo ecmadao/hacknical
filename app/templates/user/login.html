@@ -1,14 +1,16 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <!-- <link href="{{ assetsPath("dashboard.css") }}" rel="stylesheet" type="text/css"> -->
+  <link href="{{ assetsPath("login.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
-<i class="fa fa-github" aria-hidden="true"></i>&nbsp;
-<a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">login with github</a>
+<div class="login_main">
+  <i class="fa fa-github" aria-hidden="true"></i>&nbsp;
+  <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">login with github</a>
+</div>
 {% endblock %}
 
 {% block js %}
-  <!-- <script src="{{ assetsPath("dashboard.js") }}"></script> -->
+  <script src="{{ assetsPath("login.js") }}"></script>
 {% endblock %}
