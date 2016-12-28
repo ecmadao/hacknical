@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Chart from 'chart.js';
+import objectAssign from 'object-assign';
 
 import github from 'UTILS/github';
-import { BLUE_COLORS } from 'UTILS/colors';
+import { BLUE_COLORS, GREEN_COLORS } from 'UTILS/colors';
 import {
   getDateBySeconds,
   getDateAfterDays
@@ -19,6 +20,29 @@ import {
 import githubActions from '../redux/actions';
 import ChartInfo from './ChartInfo';
 
+const LINECHART_CONFIG = {
+  data: [],
+  label: '',
+  fill: true,
+  lineTension: 0.1,
+  backgroundColor: GREEN_COLORS[2],
+  borderWidth: 1,
+  borderColor: GREEN_COLORS[0],
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: GREEN_COLORS[1],
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 2,
+  pointHoverRadius: 5,
+  pointHoverBackgroundColor: GREEN_COLORS[0],
+  pointHoverBorderColor: "rgba(220,220,220,1)",
+  pointHoverBorderWidth: 4,
+  pointRadius: 3,
+  pointHitRadius: 10,
+  spanGaps: false,
+};
 
 class CommitChart extends React.Component {
   constructor(props) {
@@ -62,28 +86,10 @@ class CommitChart extends React.Component {
       type: 'line',
       data: {
         labels: dateLabels,
-        datasets: [{
+        datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commitDates,
           label: '单周提交数',
-          fill: true,
-          lineTension: 0.1,
-          backgroundColor: BLUE_COLORS[3],
-          borderColor: BLUE_COLORS[0],
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: BLUE_COLORS[0],
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: BLUE_COLORS[0],
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          spanGaps: false,
-        }]
+        })]
       },
       options: {
         scales: {
@@ -122,28 +128,10 @@ class CommitChart extends React.Component {
       type: 'line',
       data: {
         labels: days,
-        datasets: [{
+        datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commits,
           label: '每日总提交数',
-          fill: true,
-          lineTension: 0.1,
-          backgroundColor: BLUE_COLORS[3],
-          borderColor: BLUE_COLORS[0],
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: BLUE_COLORS[0],
-          pointBackgroundColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: BLUE_COLORS[0],
-          pointHoverBorderColor: "rgba(220,220,220,1)",
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          spanGaps: false,
-        }]
+        })]
       },
       options: {
         scales: {

@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import Headroom from 'headroom.js';
 import { Link } from 'react-router';
 import AppAction from '../../redux/actions';
+import { GREEN_COLORS, BLUE_COLORS } from 'UTILS/colors';
 
 const TABS = [
   {
     id: 'profile',
     name: '用户信息',
-    icon: 'fa-user-circle'
+    icon: 'fa-user-circle',
+    activeStyle: {
+      color: BLUE_COLORS[0]
+    }
   },
   // {
   //   id: 'resume',
@@ -18,12 +22,19 @@ const TABS = [
   {
     id: 'github',
     name: 'github',
-    icon: 'fa-github'
+    icon: 'fa-github',
+    activeStyle: {
+      color: GREEN_COLORS[0],
+      borderBottom: `3px solid ${GREEN_COLORS[0]}`
+    }
   },
   {
     id: 'setting',
     name: '设置',
-    icon: 'fa-cog'
+    icon: 'fa-cog',
+    activeStyle: {
+      color: BLUE_COLORS[0]
+    }
   }
 ];
 
@@ -43,13 +54,16 @@ class TabBar extends React.Component {
   }
 
   renderTab() {
-    const {changeActiveTab} = this.props;
+    const { changeActiveTab, activeTab } = this.props;
+    // console.log(activeTab);
     return TABS.map((tab, index) => {
-      const {id, name, icon} = tab;
+      const { id, name, icon } = tab;
+      const style = activeTab === id ? (tab.activeStyle || {}) : {};
       return (
         <Link
           key={index}
           to={`/${id}`}
+          style={style}
           className="app_tab"
           activeClassName="app_tab_active"
           onClick={() => {
@@ -74,7 +88,7 @@ class TabBar extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {tabBarActive, activeTab} = state.app;
+  const { tabBarActive, activeTab } = state.app;
   return {
     tabBarActive,
     activeTab

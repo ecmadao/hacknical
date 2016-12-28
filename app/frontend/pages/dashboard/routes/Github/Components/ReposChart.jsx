@@ -7,7 +7,7 @@ import cx from 'classnames';
 
 import githubActions from '../redux/actions';
 import github from 'UTILS/github';
-import { BLUE_COLORS, hex2Rgba } from 'UTILS/colors';
+import { GREEN_COLORS, BLUE_COLORS, MD_COLORS, hex2Rgba } from 'UTILS/colors';
 import {
   getRelativeTime,
   getSecondsByDate,
@@ -28,25 +28,12 @@ const getOffsetRight = (start, end) => (right) => {
   return `${(end - right) * 100 / length}%`;
 };
 
-const REPOS_BASE_URL = 'https://github.com';
-const RANDOM_COLORS = [
-  '#4A90E2',
-  '#50E3C2',
-  '#9B9B9B',
-  '#00BCD4',
-  '#F44336',
-  '#FDD835',
-  '#FF9800',
-  '#78909C',
-  '#673AB7',
-  '#E91E63'
-];
 const MAX_OPACITY = 1;
 const MIN_OPACITY = 0.3;
 
 const randomColor = () => {
-  const index = Math.floor(Math.random() * RANDOM_COLORS.length);
-  return RANDOM_COLORS[index];
+  const index = Math.floor(Math.random() * MD_COLORS.length);
+  return MD_COLORS[index];
 };
 
 const getTotalCount = (repos) => {
@@ -59,34 +46,37 @@ const getTotalCount = (repos) => {
   return [totalStar, totalFork]
 };
 
-const getForkDatasets = (repos) => {
-  return {
-    label: 'forks',
-    data: github.getReposForks(repos),
-    backgroundColor: BLUE_COLORS[2],
-    borderColor: BLUE_COLORS[1],
-    borderWidth: 1
-  }
-};
-
-const chartClickCallback = (username) => {
-  return (ctx, data) => {
-    if (!data[0]) {
-      return;
-    }
-    window.location.target = "_blank";
-    const reposName = data[0]['_model'].label;
-    window.open(`${REPOS_BASE_URL}/${username}/${reposName}`);
-  }
-};
-
 const getStarDatasets = (repos) => {
   return {
+    type: 'bar',
     label: 'stars',
     data: github.getReposStars(repos),
-    backgroundColor: BLUE_COLORS[1],
-    borderColor: BLUE_COLORS[0],
+    backgroundColor: GREEN_COLORS[2],
+    borderColor: GREEN_COLORS[0],
     borderWidth: 1
+  }
+};
+
+const getForkDatasets = (repos) => {
+  return {
+    type: 'bar',
+    label: 'forks',
+    data: github.getReposForks(repos),
+    backgroundColor: GREEN_COLORS[3],
+    borderColor: GREEN_COLORS[1],
+    borderWidth: 1
+  }
+};
+
+const getCommitDatasets = (repos) => {
+  return {
+    type: 'line',
+    label: 'commits',
+    data: github.getReposStars(repos),
+    // backgroundColor: GREEN_COLORS[1],
+    borderColor: GREEN_COLORS[0],
+    borderWidth: 1,
+    fill: false,
   }
 };
 
@@ -136,10 +126,9 @@ class ReposChart extends React.Component {
       type: 'bar',
       data: {
         labels: github.getReposNames(flatRepos),
-        datasets: [getStarDatasets(flatRepos), getForkDatasets(flatRepos)]
+        datasets: [getCommitDatasets(flatRepos), getStarDatasets(flatRepos), getForkDatasets(flatRepos)]
       },
       options: {
-        onClick: chartClickCallback(username),
         title: {
           display: true,
           text: '仓库 star/fork 数一览（取前十）'
@@ -342,7 +331,8 @@ function mapStateToProps(state) {
   const {
     repos,
     user,
-    showedReposId
+    showedReposId,
+    commitDatas
   } = state.github;
 
   return {

@@ -6,6 +6,29 @@
 //   'rgba(41, 128, 185, 0.2)'
 // ];
 
+export const MD_COLORS = [
+  '#3498db',
+  '#2980b9',
+  '#2ecc71',
+  '#27ae60',
+  '#1abc9c',
+  '#16a085',
+  '#9b59b6',
+  '#8e44ad',
+  '#34495e',
+  '#2c3e50',
+  '#f1c40f',
+  '#f39c12',
+  '#e67e22',
+  '#d35400',
+  '#e74c3c',
+  '#c0392b',
+  '#ecf0f1',
+  '#bdc3c7',
+  '#95a5a6',
+  '#7f8c8d'
+];
+
 export const BLUE_COLORS = [
   'rgba(52, 143, 223, 1)',
   'rgba(52, 143, 223, 0.8)',
@@ -15,11 +38,11 @@ export const BLUE_COLORS = [
 ];
 
 export const GREEN_COLORS = [
-  'rgba(68, 163, 64, 1)',
-  'rgba(68, 163, 64, 0.8)',
-  'rgba(68, 163, 64, 0.6)',
-  'rgba(68, 163, 64, 0.4)',
-  'rgba(68, 163, 64, 0.2)'
+  'rgba(30, 104, 35, 1)',
+  'rgba(30, 104, 35, 0.8)',
+  'rgba(30, 104, 35, 0.6)',
+  'rgba(30, 104, 35, 0.4)',
+  'rgba(30, 104, 35, 0.2)',
 ];
 
 export const GITHUB_GREEN_COLORS = [

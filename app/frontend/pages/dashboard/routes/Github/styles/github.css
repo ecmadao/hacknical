@@ -68,7 +68,7 @@
         transition: color 0.2s;
 
         &:hover {
-          color: var(--oc-blue-5);
+          color: var(--oc-green-7);
         }
       }
 

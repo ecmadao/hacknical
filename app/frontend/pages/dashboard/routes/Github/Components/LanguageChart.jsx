@@ -8,7 +8,7 @@ import Loading from 'COMPONENTS/Loading';
 import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
 import github from 'UTILS/github';
-import { BLUE_COLORS } from 'UTILS/colors';
+import { GREEN_COLORS } from 'UTILS/colors';
 import {
   getMaxIndex
 } from 'UTILS/helper';
@@ -56,7 +56,7 @@ class LanguageChart extends React.Component {
         labels: languages,
         datasets: [{
           data: distribution,
-          backgroundColor: BLUE_COLORS
+          backgroundColor: GREEN_COLORS
         }]
       },
       options: {
@@ -82,12 +82,13 @@ class LanguageChart extends React.Component {
           data: skill,
           label: '擅长语言',
           fill: true,
-          backgroundColor: BLUE_COLORS[3],
-          borderColor: BLUE_COLORS[0],
-          pointBackgroundColor: BLUE_COLORS[0],
+          backgroundColor: GREEN_COLORS[2],
+          borderWidth: 1,
+          borderColor: GREEN_COLORS[0],
+          pointBackgroundColor: GREEN_COLORS[0],
           pointBorderColor: "#fff",
           pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: BLUE_COLORS[0]
+          pointHoverBorderColor: GREEN_COLORS[0]
         }]
       },
       options: {

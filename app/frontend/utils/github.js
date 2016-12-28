@@ -1,6 +1,8 @@
 import { sortRepos } from './helper';
 import { getValidateFullDate } from './date';
 
+const baseUrl = 'https://github.com';
+
 const combineReposCommits = (reposCommits) => {
   const result = {
     commits: [],
@@ -126,6 +128,7 @@ const getReposInfo = (commits, repos) => {
 };
 
 export default {
+  baseUrl,
   getReposNames,
   getReposForks,
   getReposStars,
