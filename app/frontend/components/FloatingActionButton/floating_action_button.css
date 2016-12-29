@@ -1,5 +1,5 @@
 @import 'open-color/open-color.css';
-@import "../../pages/dashboard/style/base.css";
+@import "../../src/styles/base.css";
 
 .floating_action_button {
   box-shadow: var(--shadow-4);

@@ -1,5 +1,5 @@
 @import 'open-color/open-color.css';
-@import "../../../style/base.css";
+@import "../../../../../src/styles/base.css";
 
 .card {
   border-radius: 3px;
