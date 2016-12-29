@@ -7,7 +7,7 @@ import cx from 'classnames';
 import objectAssign from 'object-assign';
 
 import githubActions from '../redux/actions';
-import ChartInfo from './ChartInfo';
+import ChartInfo from './shared/ChartInfo';
 import github from 'UTILS/github';
 import { LINECHART_CONFIG, OPACITY } from 'UTILS/const_value';
 import { GREEN_COLORS, MD_COLORS, hex2Rgba } from 'UTILS/colors';
@@ -164,24 +164,29 @@ class ReposChart extends React.Component {
       <div>
         <div className="chart_info_container">
           <ChartInfo
+            icon="star-o"
             mainText={totalStar}
             subText="收获 star 数"
           />
           <ChartInfo
+            icon="code-fork"
             mainText={totalFork}
             subText="收获 fork 数"
           />
           <ChartInfo
+            icon="cubes"
             mainText={yearlyRepos.length}
             subText="创建的仓库数"
           />
         </div>
         <div className="chart_info_container">
           <ChartInfo
+            icon="cube"
             mainText={maxStaredRepos.name}
             subText="最受欢迎的仓库"
           />
           <ChartInfo
+            icon="clock-o"
             mainText={`${startTime.split('-').join('/')}~${pushTime.split('-').join('/')}`}
             subText="贡献时间最久的仓库"
           />

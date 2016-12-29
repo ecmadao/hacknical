@@ -19,29 +19,3 @@
     margin-bottom: 30px;
   }
 }
-
-.chart_info {
-  padding: 10px 0;
-  margin: 10px 0;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-
-  &:not(:last-child) {
-    border-right: 1px solid var(--oc-gray-2);
-  }
-}
-
-.info_text {
-  text-align: center;
-
-  &.info_main_text {
-    font-size: 20px;
-    color: var(--oc-gray-7);
-  }
-
-  &.info_sub_text {
-    font-size: 14px;
-    color: var(--oc-gray-5);
-  }
-}

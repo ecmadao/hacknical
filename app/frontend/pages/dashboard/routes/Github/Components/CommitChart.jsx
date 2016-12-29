@@ -18,7 +18,7 @@ import {
   getFirstTarget
 } from 'UTILS/helper';
 import githubActions from '../redux/actions';
-import ChartInfo from './ChartInfo';
+import ChartInfo from './shared/ChartInfo';
 
 
 class CommitChart extends React.Component {

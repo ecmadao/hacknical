@@ -12,7 +12,7 @@ import { GREEN_COLORS } from 'UTILS/colors';
 import {
   getMaxIndex
 } from 'UTILS/helper';
-import ChartInfo from './ChartInfo';
+import ChartInfo from './shared/ChartInfo';
 
 class LanguageChart extends React.Component {
   constructor(props) {
