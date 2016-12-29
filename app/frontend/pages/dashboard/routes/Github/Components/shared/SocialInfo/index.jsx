@@ -19,7 +19,13 @@ const getUserCardColor = (user) => {
 };
 
 const SocialInfo = (props) => {
-  const { user, style } = props;
+  const {
+    user,
+    style,
+    showLink,
+    mainTextStyle,
+    sideTextStyle
+  } = props;
   const userCardColor = getUserCardColor(user);
 
   return (
@@ -27,26 +33,26 @@ const SocialInfo = (props) => {
       <a
         target="_blank"
         className="info_social"
-        style={style || {backgroundColor: userCardColor['public_repos']}}
-        href={`${github.baseUrl}/${user.login}?tab=repositories`}>
-        <span style={style ? { color: style.color } : {}}>{user['public_repos']}</span>&nbsp;
-        <span style={style ? { color: style.color } : {}}>repositories</span>
+        style={style || { backgroundColor: userCardColor['public_repos'] }}
+        href={showLink ? `${github.baseUrl}/${user.login}?tab=repositories` : 'javascript:void(0)'}>
+        <span style={mainTextStyle}>{user['public_repos']}</span>&nbsp;
+        <span style={sideTextStyle}>repositories</span>
       </a>
       <a
         target="_blank"
         className="info_social"
-        style={style || {backgroundColor: userCardColor['followers']}}
-        href={`${github.baseUrl}/${user.login}?tab=followers`}>
-        <span style={style ? { color: style.color } : {}}>{user.followers}</span>&nbsp;
-        <span style={style ? { color: style.color } : {}}>followers</span>
+        style={style || { backgroundColor: userCardColor['followers'] }}
+        href={showLink ? `${github.baseUrl}/${user.login}?tab=followers` : 'javascript:void(0)'}>
+        <span style={mainTextStyle}>{user.followers}</span>&nbsp;
+        <span style={sideTextStyle}>followers</span>
       </a>
       <a
         target="_blank"
         className="info_social"
-        style={style || {backgroundColor: userCardColor['following']}}
-        href={`${github.baseUrl}/${user.login}?tab=following`}>
-        <span style={style ? { color: style.color } : {}}>{user.following}</span>&nbsp;
-        <span style={style ? { color: style.color } : {}}>following</span>
+        style={style || { backgroundColor: userCardColor['following'] }}
+        href={showLink ? `${github.baseUrl}/${user.login}?tab=following`: 'javascript:void(0)'}>
+        <span style={mainTextStyle}>{user.following}</span>&nbsp;
+        <span style={sideTextStyle}>following</span>
       </a>
     </div>
   )
@@ -55,11 +61,17 @@ const SocialInfo = (props) => {
 SocialInfo.propTypes = {
   user: PropTypes.object,
   style: PropTypes.object,
+  mainTextStyle: PropTypes.object,
+  sideTextStyle: PropTypes.object,
+  showLink: PropTypes.bool
 };
 
 SocialInfo.defaultProps = {
   user: {},
-  style: null
+  style: null,
+  mainTextStyle: {},
+  sideTextStyle: {},
+  showLink: true
 };
 
 export default SocialInfo;

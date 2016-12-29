@@ -79,6 +79,9 @@ class CommitChart extends React.Component {
           yAxes: [{
             gridLines: {
               display:false
+            },
+            ticks: {
+              beginAtZero:true
             }
           }],
         },
@@ -121,6 +124,9 @@ class CommitChart extends React.Component {
           yAxes: [{
             gridLines: {
               display:false
+            },
+            ticks: {
+              beginAtZero:true
             }
           }],
         },

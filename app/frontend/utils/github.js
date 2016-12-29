@@ -1,5 +1,9 @@
 import { sortRepos } from './helper';
-import { getValidateFullDate } from './date';
+import {
+  getSecondsByDate,
+  getValidateFullDate,
+  getSecondsBeforeYears
+} from './date';
 
 const baseUrl = 'https://github.com';
 
@@ -137,6 +141,42 @@ const getReposCommits = (repos, commits) => {
   });
 };
 
+const getTotalCount = (repos) => {
+  let totalStar = 0;
+  let totalFork = 0;
+  repos.forEach((repository) => {
+    totalStar += repository['stargazers_count'];
+    totalFork += repository['forks_count'];
+  });
+  return [totalStar, totalFork]
+};
+
+const getYearlyRepos = (repos) => {
+  const yearAgoSeconds = getSecondsBeforeYears(1);
+  return repos.filter((repository) => {
+    return !repository.fork && getSecondsByDate(repository['created_at']) > yearAgoSeconds
+  });
+};
+
+// private
+const getMaxObject = (array, callback) => {
+  let max = {};
+  array.forEach((item, index) => {
+    if (index === 0 || (index !== 0 && callback(item, max))) {
+      max = item;
+      max['persistTime'] = getSecondsByDate(item['pushed_at']) - getSecondsByDate(item['created_at']);
+    }
+  });
+  return max;
+};
+
+const longestContributeRepos = (repos) => {
+  return getMaxObject(repos, (currentRepos, maxRepos) => {
+    const currentPresist = getSecondsByDate(currentRepos['pushed_at']) - getSecondsByDate(currentRepos['created_at']);
+    return currentPresist > maxRepos.persistTime;
+  });
+};
+
 export default {
   baseUrl,
   getReposNames,
@@ -152,5 +192,8 @@ export default {
   sortByDate,
   getReposByIds,
   getReposInfo,
-  getReposCommits
+  getReposCommits,
+  getTotalCount,
+  getYearlyRepos,
+  longestContributeRepos
 }

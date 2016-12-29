@@ -9,12 +9,11 @@ import objectAssign from 'object-assign';
 import githubActions from '../redux/actions';
 import ChartInfo from './shared/ChartInfo';
 import github from 'UTILS/github';
+import chart from 'UTILS/chart';
 import { LINECHART_CONFIG, OPACITY } from 'UTILS/const_value';
 import { GREEN_COLORS, MD_COLORS, hex2Rgba } from 'UTILS/colors';
 import {
-  getRelativeTime,
-  getSecondsByDate,
-  getSecondsBeforeYears
+  getRelativeTime
 } from 'UTILS/date';
 import {
   sortRepos,
@@ -25,57 +24,6 @@ import {
 const randomColor = () => {
   const index = Math.floor(Math.random() * MD_COLORS.length);
   return MD_COLORS[index];
-};
-
-const getTotalCount = (repos) => {
-  let totalStar = 0;
-  let totalFork = 0;
-  repos.forEach((repository) => {
-    totalStar += repository['stargazers_count'];
-    totalFork += repository['forks_count'];
-  });
-  return [totalStar, totalFork]
-};
-
-const getStarDatasets = (repos) => {
-  return {
-    type: 'bar',
-    label: 'stars',
-    data: github.getReposStars(repos),
-    backgroundColor: GREEN_COLORS[2],
-    borderColor: GREEN_COLORS[0],
-    borderWidth: 1
-  }
-};
-
-const getForkDatasets = (repos) => {
-  return {
-    type: 'bar',
-    label: 'forks',
-    data: github.getReposForks(repos),
-    backgroundColor: GREEN_COLORS[3],
-    borderColor: GREEN_COLORS[1],
-    borderWidth: 1
-  }
-};
-
-const getCommitDatasets = (repos, commits) => {
-  return objectAssign({}, LINECHART_CONFIG, {
-    type: 'line',
-    label: 'commits',
-    data: github.getReposCommits(repos, commits),
-  });
-};
-
-const getMaxObject = (array, callback) => {
-  let max = {};
-  array.forEach((item, index) => {
-    if (index === 0 || (index !== 0 && callback(item, max))) {
-      max = item;
-      max['persistTime'] = getSecondsByDate(item['pushed_at']) - getSecondsByDate(item['created_at']);
-    }
-  });
-  return max;
 };
 
 class ReposChart extends React.Component {
@@ -107,16 +55,16 @@ class ReposChart extends React.Component {
   }
 
   renderBarChart(flatRepos) {
-    const { username, commitDatas } = this.props;
+    const { commitDatas } = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',
       data: {
         labels: github.getReposNames(flatRepos),
         datasets: [
-          getStarDatasets(flatRepos),
-          getForkDatasets(flatRepos),
-          getCommitDatasets(flatRepos, commitDatas)
+          chart.getStarDatasets(flatRepos),
+          chart.getForkDatasets(flatRepos),
+          chart.getCommitDatasets(flatRepos, commitDatas)
         ]
       },
       options: {
@@ -145,20 +93,16 @@ class ReposChart extends React.Component {
 
   renderChartInfo() {
     const { flatRepos } = this.props;
-    const [totalStar, totalFork] = getTotalCount(flatRepos);
+
+    const [totalStar, totalFork] = github.getTotalCount(flatRepos);
+
     const maxStaredRepos = flatRepos[0];
 
-    const maxTimeRepos = getMaxObject(flatRepos, (currentRepos, maxRepos) => {
-      const currentPresist = getSecondsByDate(currentRepos['pushed_at']) - getSecondsByDate(currentRepos['created_at']);
-      return currentPresist > maxRepos.persistTime;
-    });
+    const maxTimeRepos = github.longestContributeRepos(flatRepos);
     const startTime = maxTimeRepos['created_at'].split('T')[0];
     const pushTime = maxTimeRepos['pushed_at'].split('T')[0];
 
-    const yearAgoSeconds = getSecondsBeforeYears(1);
-    const yearlyRepos = flatRepos.filter((repository) => {
-      return !repository.fork && getSecondsByDate(repository['created_at']) > yearAgoSeconds
-    });
+    const yearlyRepos = github.getYearlyRepos(flatRepos);
 
     return (
       <div>

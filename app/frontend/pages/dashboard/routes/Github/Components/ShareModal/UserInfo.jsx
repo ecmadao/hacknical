@@ -11,9 +11,18 @@ const UserInfo = (props) => {
       {user.bio ? <blockquote>{user.bio}</blockquote> : ''}
       <SocialInfo
         user={user}
+        showLink={false}
         style={{
+          border: '1px solid #adb5bd',
+          margin: '15px 15px'
+        }}
+        mainTextStyle={{
+          color: '#495057',
+          fontSize: '2em'
+        }}
+        sideTextStyle={{
           color: '#adb5bd',
-          border: `1px solid #adb5bd`
+          fontSize: '16px'
         }}
       />
     </div>

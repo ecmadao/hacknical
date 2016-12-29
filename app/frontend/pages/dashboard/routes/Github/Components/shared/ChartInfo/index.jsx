@@ -24,7 +24,10 @@ const ChartInfo = (props) => {
 };
 
 ChartInfo.propTypes = {
-  mainText: PropTypes.string,
+  mainText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   subText: PropTypes.string,
   style: PropTypes.string,
   icon: PropTypes.string,
