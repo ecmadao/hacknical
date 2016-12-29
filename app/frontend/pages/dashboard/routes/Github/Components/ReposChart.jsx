@@ -48,8 +48,8 @@ class ReposChart extends React.Component {
   }
 
   renderCharts() {
-    const { flatRepos } = this.props;
-    if (flatRepos.length) {
+    const { flatRepos, commitDatas } = this.props;
+    if (flatRepos.length && commitDatas.length) {
       !this.reposReviewChart && this.renderBarChart(flatRepos.slice(0, 10));
     }
   }

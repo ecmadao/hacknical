@@ -64,7 +64,7 @@ class Github extends React.Component {
           />
         ) : ''}
         <FloatingActionButton
-          icon="share-alt"
+          icon="eye"
           style={{
             right: '20%',
             backgroundColor: GREEN_COLORS[1]
