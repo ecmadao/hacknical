@@ -90,7 +90,6 @@
     "open-color": "^1.4.0",
     "pm2": "^1.1.3",
     "rc-slider": "^5.4.0",
-    "react-dates": "^4.1.0",
     "redis": "^2.6.3",
     "request": "^2.75.0",
     "validator": "^6.2.0",

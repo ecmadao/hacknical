@@ -27,10 +27,10 @@ router.get(
 );
 router.get(
   '/repos/commits',
-  user.checkSession(['userId', 'githubToken', 'githubLogin']),
-  cache.get('commits'),
+  // user.checkSession(['userId', 'githubToken', 'githubLogin']),
+  // cache.get('commits'),
   Github.getCommits,
-  cache.set()
+  // cache.set()
 );
 router.get(
   '/repos/:reposName/commits',
