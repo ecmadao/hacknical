@@ -23,6 +23,10 @@ const findUserById = async (userId) => {
   return await User.findOne({ _id: userId });
 };
 
+const findUserByLogin = async (login) => {
+  return await User.findOne({ userName: login });
+};
+
 const createUser = async (email, pwd) => {
   const findResult = await findUser(email);
   if (findResult) {
@@ -50,7 +54,7 @@ const createUser = async (email, pwd) => {
   });
 };
 
-const getUserByGithubId = async (githubId) => {
+const findUserByGithubId = async (githubId) => {
   return await User.findOne({ githubId });
 };
 
@@ -72,7 +76,7 @@ const loginWithGithub = async (userInfo) => {
     followers,
     following
   } = userInfo;
-  const findUser = await getUserByGithubId(id);
+  const findUser = await findUserByGithubId(id);
   if (findUser) {
     return Promise.resolve({
       success: true,
@@ -166,6 +170,7 @@ export default {
   changePwd,
   removeAll,
   loginWithGithub,
-  getUserByGithubId,
-  findUserById
+  findUserByGithubId,
+  findUserById,
+  findUserByLogin
 }

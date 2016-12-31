@@ -28,10 +28,7 @@ const addUserCommits = async (userId, datas) => {
 
 const getUserCommits = async (userId) => {
   const findResults = await GithubCommits.find({ userId });
-  return Promise.resolve({
-    success: true,
-    result: findResults
-  });
+  return findResults;
 };
 
 const getUserReposCommits = async (userId, reposId) => {

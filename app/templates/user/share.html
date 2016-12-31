@@ -1,0 +1,39 @@
+{% extends "layouts/base.html" %}
+
+{% block css %}
+  <link href="{{ assetsPath("share.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+  <div class="share">
+    <div class="share_header">
+      <img src="{{ user['avatar_url'] }}" /><br/>
+      <span>{{ user.name }}, 加入于 {{ user['created_at'] }}</span>
+      {% if user.bio %}
+        <blockquote>{{ user.bio }}</blockquote>
+      {% endif %}
+      <div class="social">
+        <div class="social_info">
+          <span>{{ user['public_repos'] }}</span><br/>
+          <span>repositories</span>
+        </div>
+        <div class="social_info">
+          <span>{{ user.followers }}</span><br/>
+          <span>followers</span>
+        </div>
+        <div class="social_info">
+          <span>{{ user.following }}</span><br/>
+          <span>following</span>
+        </div>
+      </div>
+    </div>
+    <div id="share_body"></div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script>
+    window.login = '{{ user.login }}';
+  </script>
+  <script src="{{ assetsPath("share.js") }}"></script>
+{% endblock %}

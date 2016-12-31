@@ -38,6 +38,14 @@ router.get(
   user.checkSession(session.requiredSessions),
   Github.getRepositoryCommits
 );
+router.get(
+  '/:login',
+  Github.sharePage
+)
+router.get(
+  '/:login/shareInfo',
+  Github.getStareInfo
+)
 
 
 module.exports = router;

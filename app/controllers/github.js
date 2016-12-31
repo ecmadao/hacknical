@@ -25,8 +25,8 @@ const getAndSetRepos = async (login, token, userId) => {
  */
 const getAndSetCommits = async (userId, token) => {
   const findCommits = await GithubCommits.getUserCommits(userId);
-  if (findCommits.result.length) {
-    return findCommits.result;
+  if (findCommits) {
+    return findCommits;
   }
   const findRepos = await GithubRepos.getRepos(userId);
   const reposList = validateReposList(findRepos);
@@ -102,11 +102,59 @@ const getCommits = async (ctx, next) => {
 };
 
 const getRepositoryCommits = async (ctx, next) => {
+  await next();
+};
 
+const getStareInfo = async (ctx, next) => {
+  const login = ctx.params.login;
+  const user = await User.findUserByLogin(login);
+  const { _id } = user;
+  const repos = await GithubRepos.getRepos(_id);
+  const commits = await GithubCommits.getUserCommits(_id);
+
+  ctx.body = {
+    success: true,
+    result: {
+      repos,
+      commitDatas: commits
+    }
+  }
+  await next();
+};
+
+const sharePage = async (ctx, next) => {
+  const login = ctx.params.login;
+  const user = await User.findUserByLogin(login);
+  const { githubInfo } = user;
+  const {
+    bio,
+    name,
+    created_at,
+    avatar_url,
+    public_repos,
+    followers,
+    following
+  } = githubInfo;
+
+  await ctx.render('user/share', {
+    user: {
+      bio,
+      name,
+      login,
+      avatar_url,
+      public_repos,
+      followers,
+      following,
+      created_at: created_at.split('T')[0]
+    },
+    title: `${githubInfo.name}的2016年github总结`
+  });
 };
 
 export default {
   getUser,
+  sharePage,
+  getStareInfo,
   getRepos,
   getRepository,
   getCommits,
