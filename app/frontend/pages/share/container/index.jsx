@@ -90,8 +90,8 @@ class Share extends React.Component {
           pointHoverRadius: 2,
           pointHoverBorderWidth: 2,
           pointHitRadius: 2,
-          pointBorderWidth: 1,
-          pointRadius: 2,
+          pointBorderWidth: 0,
+          pointRadius: 0,
         })]
       },
       options: {
@@ -231,10 +231,12 @@ class Share extends React.Component {
       <div>
         <div className="share_info">
           <ChartInfo
+            style="share_chart_info"
             mainText={parseInt(total / 52, 10)}
             subText="平均每周提交次数"
           />
           <ChartInfo
+            style="share_chart_info"
             mainText={firstCommitDate}
             subText="2016年第一次提交"
           />
@@ -262,33 +264,33 @@ class Share extends React.Component {
           <div>
             <div className="share_info">
               <ChartInfo
-                icon="star-o"
                 mainText={totalStar}
                 subText="收获 star 数"
+                style="share_chart_info"
               />
               <ChartInfo
-                icon="code-fork"
                 mainText={totalFork}
                 subText="收获 fork 数"
+                style="share_chart_info"
               />
               <ChartInfo
-                icon="cubes"
                 mainText={yearlyRepos.length}
                 subText="创建的仓库数"
+                style="share_chart_info"
               />
             </div>
-            <div className="share_info">
+            {/* <div className="share_info">
               <ChartInfo
-                icon="code"
-                mainText={totalCommits}
-                subText="单个仓库最多提交数"
+              icon="code"
+              mainText={totalCommits}
+              subText="单个仓库最多提交数"
               />
               <ChartInfo
-                icon="cube"
-                mainText={maxStaredRepos}
-                subText="最受欢迎的仓库"
+              icon="cube"
+              mainText={maxStaredRepos}
+              subText="最受欢迎的仓库"
               />
-            </div>
+            </div> */}
           </div>
           <div className="share_info_chart repos_chart">
             <canvas ref={ref => this.reposReview = ref}></canvas>
@@ -299,10 +301,12 @@ class Share extends React.Component {
           <div>
             <div className="share_info">
               <ChartInfo
+                style="share_chart_info"
                 mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
                 subText="拥有最多的仓库"
               />
               <ChartInfo
+                style="share_chart_info"
                 mainText={Object.keys(languageSkills)[maxStarCountIndex]}
                 subText="拥有最多的 star"
               />

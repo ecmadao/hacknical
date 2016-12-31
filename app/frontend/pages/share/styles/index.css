@@ -12,9 +12,9 @@
 
 .share_header {
   text-align: center;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
   margin-bottom: 30px;
-  border-bottom: 1px solid var(--oc-gray-5);
+  border-bottom: 1px solid var(--oc-gray-2);
 
   & img {
     width: 80px;
@@ -37,11 +37,15 @@
     & .social_info {
       flex: 1;
       border-radius: 3px;
-      margin: 7px 15px;
+      padding: 7px 15px;
+
+      &:not(:last-child) {
+        border-right: 1px solid var(--oc-gray-2);
+      }
 
       & span {
         &:first-child {
-          font-size: 2em;
+          font-size: 1.8em;
           color: var(--oc-green-7);
         }
 
@@ -67,6 +71,24 @@
     &:not(:last-child) {
       border-bottom: 1px solid var(--oc-gray-2);
     }
+  }
+}
+
+.share_chart_info {
+  & .info_main_text {
+    font-size: 1.8em;
+    color: var(--oc-green-7);
+  }
+
+  & .info_sub_text {
+    color: var(--oc-gray-5);
+  }
+}
+
+.share_section {
+  &:not(:last-child) {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--oc-gray-2);
   }
 }
 
