@@ -12,7 +12,7 @@ import {
  */
 const getAndSetRepos = async (login, token, userId) => {
   const findResult = await GithubRepos.getRepos(userId);
-  if (findResult) {
+  if (findResult.length) {
     return findResult;
   }
   const multiRepos = await Github.getMultiRepos(login, token);
@@ -25,8 +25,8 @@ const getAndSetRepos = async (login, token, userId) => {
  */
 const getAndSetCommits = async (userId, token) => {
   const findCommits = await GithubCommits.getUserCommits(userId);
-  if (findCommits) {
-    return findCommits;
+  if (findCommits.length) {
+    return sortByCommits(findCommits);
   }
   const findRepos = await GithubRepos.getRepos(userId);
   const reposList = validateReposList(findRepos);
@@ -116,7 +116,7 @@ const getStareInfo = async (ctx, next) => {
     success: true,
     result: {
       repos,
-      commitDatas: commits
+      commits: sortByCommits(commits)
     }
   }
   await next();

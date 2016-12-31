@@ -222,6 +222,9 @@ class ReposChart extends React.Component {
       const wrapperClass = cx('repos_timeline_wrapper', {
         'active': isActive
       });
+      const tipsoClass = cx('repos_tipso', {
+        'active': isActive
+      });
       const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
       return (
         <div
@@ -233,7 +236,7 @@ class ReposChart extends React.Component {
             className="repos_timeline"
             onClick={handleClick}>
           </div>
-          <div className="repos_tipso">
+          <div className={tipsoClass}>
             <div className="repos_tipso_container">
               <span className="tipso_title">{name}</span>&nbsp;&nbsp;{`<${language}>`}<br/>
               <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}

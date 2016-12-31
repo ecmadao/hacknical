@@ -249,6 +249,11 @@
     z-index: 9;
     visibility: hidden;
     transition: opacity 0.2s;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   & .repos_tipso_container {
