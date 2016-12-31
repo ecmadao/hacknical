@@ -7,7 +7,7 @@ import cx from 'classnames';
 import objectAssign from 'object-assign';
 
 import githubActions from '../redux/actions';
-import ChartInfo from './shared/ChartInfo';
+import ChartInfo from 'COMPONENTS/ChartInfo';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import { LINECHART_CONFIG, OPACITY } from 'UTILS/const_value';

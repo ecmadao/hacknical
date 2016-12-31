@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import Chart from 'chart.js';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
-import ChartInfo from '../shared/ChartInfo';
+import ChartInfo from 'COMPONENTS/ChartInfo';
+import './repos_info.css';
 
 class ReposInfo extends React.Component {
   constructor(props) {
@@ -72,6 +74,7 @@ class ReposInfo extends React.Component {
     // const startTime = maxTimeRepos['created_at'].split('T')[0];
     // const pushTime = maxTimeRepos['pushed_at'].split('T')[0];
     const yearlyRepos = github.getYearlyRepos(repos);
+    const totalCommits = commits[0] ? commits[0].totalCommits : 0;
 
     return (
       <div className="share_info_section">
@@ -96,7 +99,7 @@ class ReposInfo extends React.Component {
           />
           <ChartInfo
             icon="code"
-            mainText={commits[0].totalCommits}
+            mainText={totalCommits}
             subText="单个仓库最多提交数"
           />
         </div>

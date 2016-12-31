@@ -29,3 +29,20 @@
     color: var(--oc-gray-5);
   }
 }
+
+@media (max-width: 800px) {
+  .chart_info {
+    padding: 0;
+  }
+
+  .info_text {
+    &.info_main_text {
+      font-size: 16px;
+      line-height: 1.7em;
+    }
+
+    &.info_sub_text {
+      font-size: 12px;
+    }
+  }
+}

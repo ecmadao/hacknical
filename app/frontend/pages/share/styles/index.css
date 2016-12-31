@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   color: var(--oc-gray-7);
+  flex-direction: column;
 }
 
 .share_header {
@@ -49,6 +50,21 @@
   }
 }
 
+#share_body {
+  & .share_info_chart {
+    margin-bottom: 15px;
+  }
+
+  & .share_repos_info {
+    display: flex;
+    flex-direction: row;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--oc-gray-2);
+    }
+  }
+}
+
 @media (max-width: 800px) {
   .share {
     font-size: 14px;
@@ -62,6 +78,16 @@
 
     & blockquote {
       margin: 10px 0;
+    }
+  }
+
+  #share_body {
+    & .share_info_chart {
+      /*height: 100px;*/
+
+      /*& canvas {
+        height: 100px !important;
+      }*/
     }
   }
 }

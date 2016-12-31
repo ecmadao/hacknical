@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PortalModal from 'COMPONENTS/PortalModal';
+import ReposInfo from 'COMPONENTS/github/ReposInfo';
 import github from 'UTILS/github';
 import {
   sortRepos
 } from 'UTILS/helper';
 
 import UserInfo from './UserInfo';
-import ReposInfo from './ReposInfo';
 import '../../styles/share_modal.css';
 
 class ShareModal extends React.Component {

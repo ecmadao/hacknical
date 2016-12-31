@@ -1,32 +1,17 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import Api from 'API/index';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
-import Chart from 'chart.js';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 
-class Share extends React.Component {
+class ReposInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      repos: [],
-      commitDatas: [],
-      reposLanguages: []
-    };
     this.reposChart = null;
   }
 
   componentDidMount() {
-    const { login } = this.props;
-    Api.github.getShareInfo(login).then((result) => {
-      const { repos, commitDatas } = result;
-      this.setState({
-        repos,
-        commitDatas,
-        reposLanguages: [...github.getReposLanguages(repos)]
-      });
-    });
+    this.renderCharts();
   }
 
   componentDidUpdate() {
@@ -34,16 +19,14 @@ class Share extends React.Component {
   }
 
   renderCharts() {
-    const { repos } = this.state;
+    const { repos } = this.props;
     if (repos.length) {
       !this.reposChart && this.renderReposChart(repos.slice(0, 10));
     }
   }
 
-
-
   renderReposChart(repos) {
-    const { commitDatas } = this.state;
+    const { commits } = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     this.reposChart = new Chart(reposReview, {
       type: 'bar',
@@ -52,13 +35,13 @@ class Share extends React.Component {
         datasets: [
           chart.getStarDatasets(repos),
           chart.getForkDatasets(repos),
-          chart.getCommitDatasets(repos, commitDatas)
+          chart.getCommitDatasets(repos, commits)
         ]
       },
       options: {
         title: {
           display: true,
-          text: ''
+          text: '仓库 star/fork/commit 数一览（取前十）'
         },
         scales: {
           xAxes: [{
@@ -82,19 +65,16 @@ class Share extends React.Component {
   }
 
   render() {
-    const { repos, commitDatas } = this.state;
+    const { repos, commits } = this.props;
     const [totalStar, totalFork] = github.getTotalCount(repos);
-
-    const maxStaredRepos = repos[0] ? repos[0].name : '';
+    // const maxStaredRepos = repos[0];
     // const maxTimeRepos = github.longestContributeRepos(repos);
     // const startTime = maxTimeRepos['created_at'].split('T')[0];
     // const pushTime = maxTimeRepos['pushed_at'].split('T')[0];
-
     const yearlyRepos = github.getYearlyRepos(repos);
-    const totalCommits = commitDatas[0] ? commitDatas[0].totalCommits : 0;
 
     return (
-      <div>
+      <div className="share_info_section">
         <div className="share_info_chart">
           <canvas ref={ref => this.reposReview = ref}></canvas>
         </div>
@@ -114,17 +94,10 @@ class Share extends React.Component {
             mainText={yearlyRepos.length}
             subText="创建的仓库数"
           />
-        </div>
-        <div className="share_repos_info">
           <ChartInfo
             icon="code"
-            mainText={totalCommits}
+            mainText={commits[0].totalCommits}
             subText="单个仓库最多提交数"
-          />
-          <ChartInfo
-            icon="cube"
-            mainText={maxStaredRepos}
-            subText="最受欢迎的仓库"
           />
         </div>
       </div>
@@ -132,4 +105,4 @@ class Share extends React.Component {
   }
 }
 
-export default Share;
+export default ReposInfo;
