@@ -23,13 +23,8 @@ const getAndSetRepos = async (login, token, userId) => {
 /**
  * private
  */
-const getAndSetCommits = async (userId, token) => {
-  const findCommits = await GithubCommits.getUserCommits(userId);
-  if (findCommits.length) {
-    return sortByCommits(findCommits);
-  }
-  const findRepos = await GithubRepos.getRepos(userId);
-  const reposList = validateReposList(findRepos);
+const setCommits = async (repos, userId, token) => {
+  const reposList = validateReposList(repos);
   const fetchCommits = await Github.getAllReposYearlyCommits(reposList, token);
   const results = fetchCommits.map((commits, index) => {
     const repository = reposList[index];
@@ -45,11 +40,22 @@ const getAndSetCommits = async (userId, token) => {
       pushed_at
     }
   });
-
   const sortResult = sortByCommits(results);
-
   await GithubCommits.addUserCommits(userId, sortResult);
   return sortResult;
+};
+
+/**
+ * private
+ */
+const getAndSetCommits = async (userId, token) => {
+  const findCommits = await GithubCommits.getUserCommits(userId);
+  if (findCommits.length) {
+    return sortByCommits(findCommits);
+  }
+  const findRepos = await GithubRepos.getRepos(userId);
+  const result = await setCommits(findRepos, userId, token);
+  return result;
 };
 
 /**
@@ -78,10 +84,14 @@ const getUser = async (ctx, next) => {
 
 const getRepos = async (ctx, next) => {
   const { userId, githubLogin, githubToken } = ctx.session;
-  const result = await getAndSetRepos(githubLogin, githubToken, userId);
+  const repos = await getAndSetRepos(githubLogin, githubToken, userId);
+  const commits = await getAndSetCommits(userId, githubToken);
   ctx.body = {
     success: true,
-    result
+    result: {
+      repos,
+      commits
+    }
   };
   await next();
 };

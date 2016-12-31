@@ -37,15 +37,9 @@ const getGithubInfo = () => (dispatch, getState) => {
 
 const getGithubRepos = () => (dispatch, getState) => {
   Api.github.getRepos().then((result) => {
-    dispatch(setGithubRepos(result));
-  });
-};
-
-const fetchGithubCommits = () => (dispatch, getState) => {
-  // TODO
-  // If user login in first, he may has bug that get no commits
-  Api.github.getCommits().then((result) => {
-    dispatch(setGithubCommits(result));
+    const { repos, commits } = result;
+    dispatch(setGithubRepos(repos));
+    dispatch(setGithubCommits(commits));
   });
 };
 
@@ -91,7 +85,6 @@ export default {
   setGithubRepos,
   setGithubCommits,
   getGithubRepos,
-  fetchGithubCommits,
   showReposReadme,
   fetchReposReadme,
   setShowLanguage,

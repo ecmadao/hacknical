@@ -19,6 +19,7 @@ import {
 } from 'UTILS/helper';
 import githubActions from '../redux/actions';
 import ChartInfo from 'COMPONENTS/ChartInfo';
+import Loading from 'COMPONENTS/Loading';
 
 
 class CommitChart extends React.Component {
@@ -29,11 +30,11 @@ class CommitChart extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, commitDatas} = this.props;
+    // const {actions, commitDatas} = this.props;
     this.renderCharts();
-    if (!commitDatas.length) {
-      actions.fetchGithubCommits();
-    }
+    // if (!commitDatas.length) {
+    //   actions.fetchGithubCommits();
+    // }
   }
 
   componentDidUpdate(preProps) {
@@ -178,19 +179,29 @@ class CommitChart extends React.Component {
     )
   }
 
+  renderCommitsReview() {
+    return (
+      <div>
+        {this.renderChartInfo()}
+        <div className="canvas_container">
+          <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
+        </div>
+        <div className="canvas_container">
+          <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const { loaded } = this.props;
     return (
       <div className="info_card_container">
         <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
         <div className="info_card card chart_card">
-          {loaded ? this.renderChartInfo() : ''}
-          <div className="canvas_container">
-            <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
-          </div>
-          <div className="canvas_container">
-            <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
-          </div>
+          { !loaded ? (
+            <Loading />
+          ) : this.renderCommitsReview()}
         </div>
       </div>
     )

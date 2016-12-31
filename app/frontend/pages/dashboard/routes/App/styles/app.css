@@ -101,3 +101,18 @@
   margin: 30px auto;
   max-width: 750px;
 }
+
+/* header */
+.header_menus {
+  flex: 1;
+}
+.header_menu_icon {
+  cursor: pointer;
+  display: block;
+  color: var(--oc-gray-7);
+  text-decoration: none;
+
+  &.right {
+    float: right;
+  }
+}

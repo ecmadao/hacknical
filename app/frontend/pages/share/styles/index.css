@@ -24,8 +24,6 @@
   }
 
   & blockquote {
-    /*padding: 0 1em;*/
-    /*border-left: 0.25em solid var(--oc-gray-5);*/
     margin: 15px 0;
     color: var(--oc-gray-5);
   }
@@ -40,12 +38,12 @@
       padding: 7px 15px;
 
       &:not(:last-child) {
-        border-right: 1px solid var(--oc-gray-2);
+        /*border-right: 1px solid var(--oc-gray-2);*/
       }
 
       & span {
         &:first-child {
-          font-size: 1.8em;
+          font-size: 1.7em;
           color: var(--oc-green-7);
         }
 
@@ -60,8 +58,12 @@
 #share_body {
   & .share_info_chart {
     &.repos_chart {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
+  }
+
+  & .share_info_wrapper {
+    padding-bottom: 30px;
   }
 
   & .share_info {
@@ -76,7 +78,7 @@
 
 .share_chart_info {
   & .info_main_text {
-    font-size: 1.8em;
+    font-size: 1.7em;
     color: var(--oc-green-7);
   }
 

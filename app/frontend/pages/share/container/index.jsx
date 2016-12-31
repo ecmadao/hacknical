@@ -217,13 +217,15 @@ class Share extends React.Component {
   }
 
   renderCommitsInfo() {
-    const { commitDatas } = this.state;
-    const { commits, dailyCommits, total } = commitDatas;
+    const { commitDatas, commits } = this.state;
+    const { dailyCommits, total } = commitDatas;
+    // commits
+    const totalCommits = commits[0] ? commits[0].totalCommits : 0;
     // day info
     const maxIndex = getMaxIndex(dailyCommits);
     const dayName = DAYS[maxIndex];
     // first commit
-    const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commits, (item) => item.total);
+    const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commitDatas.commits, (item) => item.total);
     const week = getDateBySeconds(firstCommitWeek.week);
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = getDateAfterDays(dayIndex, week);
@@ -237,6 +239,18 @@ class Share extends React.Component {
           />
           <ChartInfo
             style="share_chart_info"
+            mainText={totalCommits}
+            subText="单个仓库最多提交数"
+          />
+        </div>
+        <div className="share_info">
+          <ChartInfo
+            mainText={dayName}
+            style="share_chart_info"
+            subText="是你提交最多的日子"
+          />
+          <ChartInfo
+            style="share_chart_info"
             mainText={firstCommitDate}
             subText="2016年第一次提交"
           />
@@ -246,12 +260,11 @@ class Share extends React.Component {
   }
 
   render() {
-    const { repos, commits, loaded, languageSkills, languageDistributions } = this.state;
+    const { repos, loaded, languageSkills, languageDistributions } = this.state;
     const [totalStar, totalFork] = github.getTotalCount(repos);
 
     const maxStaredRepos = repos[0] ? repos[0].name : '';
     const yearlyRepos = github.getYearlyRepos(repos);
-    const totalCommits = commits[0] ? commits[0].totalCommits : 0;
 
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
     const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
@@ -261,7 +274,10 @@ class Share extends React.Component {
     return (
       <div>
         <div className="share_section">
-          <div>
+          <div className="share_info_chart repos_chart">
+            <canvas ref={ref => this.reposReview = ref}></canvas>
+          </div>
+          <div className="share_info_wrapper">
             <div className="share_info">
               <ChartInfo
                 mainText={totalStar}
@@ -281,19 +297,11 @@ class Share extends React.Component {
             </div>
             {/* <div className="share_info">
               <ChartInfo
-              icon="code"
-              mainText={totalCommits}
-              subText="单个仓库最多提交数"
-              />
-              <ChartInfo
               icon="cube"
               mainText={maxStaredRepos}
               subText="最受欢迎的仓库"
               />
             </div> */}
-          </div>
-          <div className="share_info_chart repos_chart">
-            <canvas ref={ref => this.reposReview = ref}></canvas>
           </div>
         </div>
 

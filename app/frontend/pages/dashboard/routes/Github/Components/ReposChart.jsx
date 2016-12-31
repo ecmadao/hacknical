@@ -8,6 +8,7 @@ import objectAssign from 'object-assign';
 
 import githubActions from '../redux/actions';
 import ChartInfo from 'COMPONENTS/ChartInfo';
+import Loading from 'COMPONENTS/Loading';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import { LINECHART_CONFIG, OPACITY } from 'UTILS/const_value';
@@ -250,20 +251,29 @@ class ReposChart extends React.Component {
     });
   }
 
+  renderReposReview() {
+    return (
+      <div>
+        {this.renderChartInfo()}
+        <div className="canvas_container">
+          <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
+        </div>
+        <div className="repos_timelines_wrapper">
+          {this.renderChosedRepos()}
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const { flatRepos } = this.props;
-    if (!flatRepos || !flatRepos.length) { return (<div></div>) }
     return (
       <div className="info_card_container chart_card_container">
         <p><i aria-hidden="true" className="fa fa-bar-chart"></i>&nbsp;&nbsp;仓库概览</p>
         <div className="info_card card">
-          {this.renderChartInfo()}
-          <div className="canvas_container">
-            <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
-          </div>
-          <div className="repos_timelines_wrapper">
-            {this.renderChosedRepos()}
-          </div>
+          {!flatRepos || !flatRepos.length ? (
+            <Loading />
+          ) : this.renderReposReview()}
         </div>
       </div>
     )

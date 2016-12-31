@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 
+import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 // import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
@@ -12,7 +13,7 @@ import { GREEN_COLORS } from 'UTILS/colors';
 import {
   getMaxIndex
 } from 'UTILS/helper';
-import ChartInfo from 'COMPONENTS/ChartInfo';
+
 
 class LanguageChart extends React.Component {
   constructor(props) {
@@ -185,25 +186,36 @@ class LanguageChart extends React.Component {
     )
   }
 
-  render() {
+  renderLanguageReview() {
     const { showLanguage } = this.props;
+    return (
+      <div>
+        {this.renderChartInfo()}
+        <div className="repos_chart_container">
+          <div className="repos_chart">
+            <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas>
+          </div>
+          <div className="repos_chart">
+            <canvas ref={ref => this.languageSkill = ref}></canvas>
+          </div>
+        </div>
+        { showLanguage ? this.renderShowRepos() : ''}
+        {/* <Operations
+          items={this.operationItems}
+        /> */}
+      </div>
+    )
+  }
+
+  render() {
+    const { repos } = this.props;
     return (
       <div className="info_card_container chart_card_container">
         <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;编程语言</p>
         <div className="info_card card">
-          {this.renderChartInfo()}
-          <div className="repos_chart_container">
-            <div className="repos_chart">
-              <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas>
-            </div>
-            <div className="repos_chart">
-              <canvas ref={ref => this.languageSkill = ref}></canvas>
-            </div>
-          </div>
-          { showLanguage ? this.renderShowRepos() : ''}
-          {/* <Operations
-            items={this.operationItems}
-          /> */}
+          { !repos.length ? (
+            <Loading />
+          ) : this.renderLanguageReview()}
         </div>
       </div>
     )

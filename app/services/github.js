@@ -17,6 +17,7 @@ const getToken = (code) => {
       `${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
       (err, httpResponse, body) => {
         if (err) {
+          console.log(err);
           reject(false);
         }
         if (body) {
