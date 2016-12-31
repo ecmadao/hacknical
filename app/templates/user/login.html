@@ -6,8 +6,10 @@
 
 {% block body %}
 <div class="login_main">
-  <i class="fa fa-github" aria-hidden="true"></i>&nbsp;
-  <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">login with github</a>
+  <div class="login-pannel">
+    <i class="fa fa-github fa-6" aria-hidden="true"></i><br/>
+    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">login with github</a>
+  </div>
 </div>
 {% endblock %}
 

@@ -1,6 +1,6 @@
 {
   "production": false,
-  "port": "5000",
+  "port": "3000",
   "appKey": "hawkeye",
   "redis": "redis://localhost:6379/3",
   "database": {

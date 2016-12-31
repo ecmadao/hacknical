@@ -3,4 +3,32 @@
   height: 100%;
   background: url('../images/bg.jpg') no-repeat center;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-pannel {
+  text-align: center;
+  color: #fff;
+
+  & i {
+    font-size: 3em;
+  }
+
+  & a {
+    color: #fff;
+    display: block;
+    text-decoration: none;
+    border-radius: 3px;
+    margin-top: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: rgba(255,255,255,0.2);
+
+    &:hover {
+      background-color: rgba(255,255,255,0.5);
+    }
+  }
 }

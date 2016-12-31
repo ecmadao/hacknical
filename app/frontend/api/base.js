@@ -28,9 +28,9 @@ const fetchApi = (url, method, data) => {
       if (!json.success) {
         throw new Error('Request Server Error');
       }
-      // if (json.url) {
-      //   window.location = json.url;
-      // }
+      if (json.url) {
+        window.location = json.url;
+      }
       // if (json.message) {
       //   Message.show(json.message, 1500);
       // }

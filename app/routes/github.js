@@ -2,6 +2,7 @@ import koaRouter from 'koa-router';
 import Github from '../controllers/github';
 import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
+import session from '../controllers/helper/session';
 
 const router = koaRouter({
   prefix: '/github'
@@ -10,14 +11,14 @@ const router = koaRouter({
 // repos
 router.get(
   '/repos',
-  user.checkSession(['userId', 'githubToken', 'githubLogin']),
+  user.checkSession(session.requiredSessions),
   cache.get('repos'),
   Github.getRepos,
   cache.set()
 );
 router.get(
   '/repos/:reposName',
-  user.checkSession(['userId', 'githubToken', 'githubLogin']),
+  user.checkSession(session.requiredSessions),
   Github.getRepository
 );
 router.get(
@@ -27,14 +28,14 @@ router.get(
 );
 router.get(
   '/repos/commits',
-  // user.checkSession(['userId', 'githubToken', 'githubLogin']),
-  // cache.get('commits'),
+  user.checkSession(session.requiredSessions),
+  cache.get('commits'),
   Github.getCommits,
-  // cache.set()
+  cache.set()
 );
 router.get(
   '/repos/:reposName/commits',
-  user.checkSession(['userId', 'githubToken', 'githubLogin']),
+  user.checkSession(session.requiredSessions),
   Github.getRepositoryCommits
 );
 
