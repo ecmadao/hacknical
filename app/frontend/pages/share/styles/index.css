@@ -1,8 +1,7 @@
 @import 'open-color/open-color.css';
+@import "../../base/styles/base.css";
 
 .share {
-  width: 96%;
-  margin: 0 2%;
   padding: 20px 0;
   display: flex;
   justify-content: center;
@@ -63,7 +62,18 @@
   }
 
   & .share_info_wrapper {
-    padding-bottom: 30px;
+    padding-bottom: 20px;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      background: transparent;
+      width: 0;
+    }
+
+    &:hover::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
   }
 
   & .share_info {
@@ -74,12 +84,64 @@
       border-bottom: 1px solid var(--oc-gray-2);
     }
   }
+
+  & canvas {
+    margin: 0 auto;
+    max-width: 280px;
+
+    &.max_canvas {
+      max-width: none;
+      width: 100% !important;
+    }
+  }
+}
+
+.chart_info_container {
+  min-width: 600px;
+
+  & .chart_info_card {
+    border-radius: 2px;
+    box-shadow: var(--shadow-2);
+    padding: 5px 15px 10px;
+    display: inline-block;
+    margin: 10px 0 10px 15px;
+    background-color: rgba(30, 104, 35, 1);
+
+    & i {
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-right: 10px;
+    }
+
+    &:nth-child(2) {
+      background-color: rgba(30, 104, 35, 0.8);
+    }
+
+    &:nth-child(3) {
+      background-color: rgba(30, 104, 35, 0.6);
+    }
+
+    &:nth-child(4) {
+      background-color: rgba(30, 104, 35, 0.4);
+    }
+
+    & .info_main_text {
+      font-size: 1.7em;
+      color: var(--oc-white);
+    }
+
+    & .info_sub_text {
+      color: var(--oc-gray-1);
+    }
+  }
 }
 
 .share_chart_info {
   & .info_main_text {
     font-size: 1.7em;
-    color: var(--oc-green-7);
+    color: var(--oc-green-8);
   }
 
   & .info_sub_text {

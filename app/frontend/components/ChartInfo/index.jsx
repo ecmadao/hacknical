@@ -3,9 +3,9 @@ import cx from 'classnames';
 import './chart_info.css';
 
 const ChartInfo = (props) => {
-  const { mainText, subText, style, icon } = props;
+  const { custom, mainText, subText, style, icon } = props;
   const infoClass = cx(
-    "chart_info",
+    !custom && "chart_info",
     style
   );
   return (
@@ -31,13 +31,15 @@ ChartInfo.propTypes = {
   subText: PropTypes.string,
   style: PropTypes.string,
   icon: PropTypes.string,
+  custom: PropTypes.bool
 };
 
 ChartInfo.defaultProps = {
   mainText: '',
   subText: '',
   style: '',
-  icon: null
+  icon: null,
+  custom: false
 };
 
 export default ChartInfo;

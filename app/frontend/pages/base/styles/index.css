@@ -11,3 +11,13 @@ body,html {
   font-family: 'Lato', sans-serif;
   background-color: var(--bg);
 }
+
+::-webkit-scrollbar {
+  background: transparent;
+  width: 0;
+}
+
+:hover::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}

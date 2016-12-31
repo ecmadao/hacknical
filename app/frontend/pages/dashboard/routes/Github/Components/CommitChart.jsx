@@ -30,11 +30,7 @@ class CommitChart extends React.Component {
   }
 
   componentDidMount() {
-    // const {actions, commitDatas} = this.props;
     this.renderCharts();
-    // if (!commitDatas.length) {
-    //   actions.fetchGithubCommits();
-    // }
   }
 
   componentDidUpdate(preProps) {

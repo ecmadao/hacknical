@@ -115,7 +115,7 @@ class Share extends React.Component {
               display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true,
             }
           }],
         },
@@ -275,33 +275,41 @@ class Share extends React.Component {
       <div>
         <div className="share_section">
           <div className="share_info_chart repos_chart">
-            <canvas ref={ref => this.reposReview = ref}></canvas>
+            <canvas
+              className="max_canvas"
+              ref={ref => this.reposReview = ref}></canvas>
           </div>
           <div className="share_info_wrapper">
-            <div className="share_info">
+            <div className="chart_info_container">
               <ChartInfo
+                custom
+                icon="star-o"
                 mainText={totalStar}
                 subText="收获 star 数"
-                style="share_chart_info"
+                style="chart_info_card"
               />
               <ChartInfo
+                custom
+                icon="code-fork"
                 mainText={totalFork}
                 subText="收获 fork 数"
-                style="share_chart_info"
+                style="chart_info_card"
               />
               <ChartInfo
+                custom
+                icon="cubes"
                 mainText={yearlyRepos.length}
                 subText="创建的仓库数"
-                style="share_chart_info"
+                style="chart_info_card"
+              />
+              <ChartInfo
+                custom
+                icon="cube"
+                mainText={maxStaredRepos}
+                subText="最受欢迎的仓库"
+                style="chart_info_card"
               />
             </div>
-            {/* <div className="share_info">
-              <ChartInfo
-              icon="cube"
-              mainText={maxStaredRepos}
-              subText="最受欢迎的仓库"
-              />
-            </div> */}
           </div>
         </div>
 
@@ -328,7 +336,9 @@ class Share extends React.Component {
         <div className="share_section">
           { loaded ? this.renderCommitsInfo() : ''}
           <div className="share_info_chart">
-            <canvas ref={ref => this.commitsYearlyChart = ref}></canvas>
+            <canvas
+              className="max_canvas"
+              ref={ref => this.commitsYearlyChart = ref}></canvas>
           </div>
         </div>
       </div>
