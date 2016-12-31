@@ -12,6 +12,9 @@
 
 .share_header {
   text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--oc-gray-5);
 
   & img {
     width: 80px;
@@ -52,10 +55,12 @@
 
 #share_body {
   & .share_info_chart {
-    margin-bottom: 15px;
+    &.repos_chart {
+      margin-bottom: 40px;
+    }
   }
 
-  & .share_repos_info {
+  & .share_info {
     display: flex;
     flex-direction: row;
 
@@ -78,16 +83,6 @@
 
     & blockquote {
       margin: 10px 0;
-    }
-  }
-
-  #share_body {
-    & .share_info_chart {
-      /*height: 100px;*/
-
-      /*& canvas {
-        height: 100px !important;
-      }*/
     }
   }
 }
