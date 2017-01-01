@@ -67,3 +67,8 @@ export const hex2Rgba = (hex) => (opacity) => {
   const rgb = hex2Rgb(hex);
   return `rgba(${rgb}, ${opacity})`;
 };
+
+export const randomColor = () => {
+  const index = Math.floor(Math.random() * MD_COLORS.length);
+  return MD_COLORS[index];
+};

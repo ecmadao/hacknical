@@ -61,21 +61,6 @@
     }
   }
 
-  & .share_info_wrapper {
-    padding-bottom: 20px;
-    /*overflow-x: auto;*/
-
-    &::-webkit-scrollbar {
-      background: transparent;
-      width: 0;
-    }
-
-    &:hover::-webkit-scrollbar {
-      width: 0;
-      background: transparent;
-    }
-  }
-
   & .share_info {
     display: flex;
     flex-direction: row;
@@ -115,26 +100,10 @@
     border-radius: 2px;
     box-shadow: var(--shadow-2);
     padding: 15px 20px 5px;
-    background-color: rgba(30, 104, 35, 1);
+    background-color: rgba(30, 104, 35, 0.7);
 
     & i {
       margin-right: 10px;
-    }
-
-    &:last-child {
-      /*margin-right: 10px;*/
-    }
-
-    &:nth-child(2) {
-      background-color: rgba(30, 104, 35, 0.8);
-    }
-
-    &:nth-child(3) {
-      background-color: rgba(30, 104, 35, 0.6);
-    }
-
-    &:nth-child(4) {
-      background-color: rgba(30, 104, 35, 0.4);
     }
 
     & .info_main_text {
@@ -157,8 +126,12 @@
   }
 }
 
-.commits_info_wrapper {
+.info_wrapper {
   padding: 0 15px;
+
+  &.share_info_wrapper {
+    padding-bottom: 20px;
+  }
 }
 
 .share_chart_info {
@@ -176,6 +149,34 @@
   &:not(:last-child) {
     margin-bottom: 20px;
     border-bottom: 1px solid var(--oc-gray-2);
+  }
+}
+
+.repos_wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+
+  & .repos_item {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+
+    & .item_data {
+      flex: 1;
+      padding: 0 10px;
+    }
+
+    & .item_chart {
+      height: 15px;
+
+      & .commit_bar {
+        height: 100%;
+        width: 100%;
+        border-radius: 0 7px 7px 0;
+      }
+    }
   }
 }
 

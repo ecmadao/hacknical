@@ -12,7 +12,11 @@ import Loading from 'COMPONENTS/Loading';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import { LINECHART_CONFIG, OPACITY } from 'UTILS/const_value';
-import { GREEN_COLORS, MD_COLORS, hex2Rgba } from 'UTILS/colors';
+import {
+  GREEN_COLORS,
+  randomColor,
+  hex2Rgba
+} from 'UTILS/colors';
 import {
   getRelativeTime
 } from 'UTILS/date';
@@ -21,11 +25,6 @@ import {
   getOffsetLeft,
   getOffsetRight
 } from 'UTILS/helper';
-
-const randomColor = () => {
-  const index = Math.floor(Math.random() * MD_COLORS.length);
-  return MD_COLORS[index];
-};
 
 class ReposChart extends React.Component {
   constructor(props) {

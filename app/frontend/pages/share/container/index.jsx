@@ -9,7 +9,11 @@ import ScrollReveal from 'scrollreveal';
 import Api from 'API/index';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
-import { GREEN_COLORS } from 'UTILS/colors';
+import {
+  MD_COLORS,
+  randomColor,
+  GREEN_COLORS
+} from 'UTILS/colors';
 import {
   sortRepos,
   getMaxIndex,
@@ -80,8 +84,7 @@ class Share extends React.Component {
     const sr = ScrollReveal({ reset: true });
     sr.reveal('.share_header');
     sr.reveal('.share_info_chart');
-    sr.reveal('.share_info_wrapper');
-    sr.reveal('.share_info');
+    sr.reveal('.info_wrapper');
   }
 
   initialSlick() {
@@ -271,7 +274,7 @@ class Share extends React.Component {
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = getDateAfterDays(dayIndex, week);
     return (
-      <div className="commits_info_wrapper">
+      <div className="info_wrapper">
         <div className="share_info">
           <ChartInfo
             style="share_chart_info"
@@ -308,7 +311,7 @@ class Share extends React.Component {
     const yearlyRepos = github.getYearlyRepos(repos);
 
     return (
-      <div className="share_info_wrapper">
+      <div className="info_wrapper share_info_wrapper">
         <div className="chart_info_container">
           <div className="chart_info_wrapper">
             <ReposInfo
@@ -347,6 +350,45 @@ class Share extends React.Component {
     )
   }
 
+  renderReposDetailInfo() {
+    const { repos, commits } = this.state;
+    const color = randomColor();
+    const targetRepos = repos.slice(0, 10);
+    const targetCommits = commits.filter(commitObj => targetRepos.some(repos => repos.reposId === commitObj.reposId));
+
+    const reposCount = targetRepos.length;
+    const maxCommitsIndex = getMaxIndex(targetCommits, 'totalCommits');
+    const maxCommits = targetCommits[maxCommitsIndex].totalCommits;
+    const MAX_BAR_WIDTH = 0.8;
+
+    return targetRepos.map((repository, index) => {
+      const { reposId, stargazers_count, name } = repository;
+      const filterCommits = targetCommits.filter(commitObj => commitObj.reposId === reposId);
+      const totalCommits = filterCommits.length ? filterCommits[0].totalCommits : 0;
+      const style = {
+        backgroundColor: color,
+        opacity: `${(reposCount - index) / reposCount}`,
+      };
+      const barStyle = {
+        width: `${(totalCommits / maxCommits) * MAX_BAR_WIDTH * 100}%`
+      };
+      return (
+        <div className="repos_item" key={index}>
+          <div
+            style={barStyle}
+            className="item_chart">
+            <div
+              style={style}
+              className="commit_bar"></div>
+          </div>
+          <div className="item_data">
+            {totalCommits}
+          </div>
+        </div>
+      )
+    });
+  }
+
   render() {
     const { loaded, languageSkills, languageDistributions } = this.state;
 
@@ -367,7 +409,13 @@ class Share extends React.Component {
         </div>
 
         <div className="share_section">
-          <div>
+          <div className="repos_wrapper">
+            {loaded ? this.renderReposDetailInfo() : ''}
+          </div>
+        </div>
+
+        <div className="share_section">
+          <div className="info_wrapper">
             <div className="share_info">
               <ChartInfo
                 style="share_chart_info"
