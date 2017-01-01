@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import objectAssign from 'object-assign';
 import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.min';
+import ScrollReveal from 'scrollreveal';
 
 import Api from 'API/index';
 import github from 'UTILS/github';
@@ -73,22 +73,27 @@ class Share extends React.Component {
       });
     });
     this.initialSlick();
+    this.initialScrollReveal();
+  }
+
+  initialScrollReveal() {
+    const sr = ScrollReveal({ reset: true });
+    sr.reveal('.share_header');
+    sr.reveal('.share_info_chart');
+    sr.reveal('.share_info_wrapper');
+    sr.reveal('.share_info');
   }
 
   initialSlick() {
     $('.chart_info_container').slick({
       accessibility: false,
       arrows: false,
-      // centerMode: true,
       slidesToShow: 2,
       mobileFirst: true,
       swipeToSlide: true,
       infinite: false,
       slidesToScroll: 1,
       variableWidth: true
-      // adaptiveHeight: true,
-      // rows: 1,
-      // slidesPerRow: 4
     });
   }
 
@@ -312,12 +317,6 @@ class Share extends React.Component {
               subText="收获 star 数"
               style="chart_info_card"
             />
-            {/* <ChartInfo
-              custom
-              mainText={totalStar}
-              subText="收获 star 数"
-              style="chart_info_card"
-            /> */}
           </div>
           <div className="chart_info_wrapper">
             <ReposInfo
@@ -326,12 +325,6 @@ class Share extends React.Component {
               subText="收获 fork 数"
               style="chart_info_card"
             />
-            {/* <ChartInfo
-              custom
-              mainText={totalFork}
-              subText="收获 fork 数"
-              style="chart_info_card"
-            /> */}
           </div>
           <div className="chart_info_wrapper">
             <ReposInfo
@@ -340,12 +333,6 @@ class Share extends React.Component {
               subText="创建的仓库数"
               style="chart_info_card"
             />
-            {/* <ChartInfo
-              custom
-              mainText={yearlyRepos.length}
-              subText="创建的仓库数"
-              style="chart_info_card"
-            /> */}
           </div>
           <div className="chart_info_wrapper">
             <ReposInfo
@@ -354,12 +341,6 @@ class Share extends React.Component {
               subText="最受欢迎的仓库"
               style="chart_info_card"
             />
-            {/* <ChartInfo
-              custom
-              mainText={maxStaredRepos}
-              subText="最受欢迎的仓库"
-              style="chart_info_card"
-            /> */}
           </div>
         </div>
       </div>
