@@ -59,12 +59,13 @@ class Github extends React.Component {
         ) : ''} */}
         {openShareModal ? (
           <ShareModal
+            login={user.login}
             openModal={openShareModal}
             onClose={() => actions.toggleShareModal(false)}
           />
         ) : ''}
         <FloatingActionButton
-          icon="eye"
+          icon="share-alt"
           style={{
             right: '20%',
             backgroundColor: GREEN_COLORS[1]

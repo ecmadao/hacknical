@@ -53,6 +53,7 @@ class Input extends React.Component {
   render() {
     const {
       value,
+      disabled,
       className,
       placeholder,
       type,
@@ -64,6 +65,7 @@ class Input extends React.Component {
 
     return (
       <input
+        disabled={disabled}
         type={type}
         value={value}
         className={`input ${style} ${className} ${error && 'error'}`}
@@ -80,6 +82,7 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
+  disabled: PropTypes.bool,
   check: PropTypes.bool,
   value: PropTypes.string,
   className: PropTypes.string,
@@ -94,6 +97,7 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  disabled: false,
   value: '',
   check: true,
   className: '',

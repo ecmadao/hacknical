@@ -42,7 +42,7 @@
 
       & span {
         &:first-child {
-          font-size: 1.7em;
+          font-size: 1.6em;
           color: var(--oc-green-8);
         }
 
@@ -136,7 +136,7 @@
 
 .share_chart_info {
   & .info_main_text {
-    font-size: 1.7em;
+    font-size: 1.6em;
     color: var(--oc-green-8);
   }
 
@@ -204,7 +204,7 @@
       max-width: 2px;
       flex: 1;
       margin-left: 10px;
-      margin-right: 17px;
+      margin-right: 25px;
       background-color: var(--oc-gray-4);
       position: relative;
 
