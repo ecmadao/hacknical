@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import objectAssign from 'object-assign';
+import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.min';
 
 import Api from 'API/index';
 import github from 'UTILS/github';
@@ -18,6 +21,21 @@ import {
 } from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import ChartInfo from 'COMPONENTS/ChartInfo';
+
+const ReposInfo = (props) => {
+  const { mainText, subText, style, icon } = props;
+  return (
+    <div className={style}>
+      <div className="info_text info_sub_text">
+        {subText}
+      </div>
+      <div className="info_text info_main_text">
+        <i className={`fa fa-${icon}`} aria-hidden="true"></i>
+        {mainText}
+      </div>
+    </div>
+  )
+};
 
 class Share extends React.Component {
   constructor(props) {
@@ -53,6 +71,24 @@ class Share extends React.Component {
         languageSkills: github.getLanguageSkill(repos),
         reposLanguages: [...github.getReposLanguages(repos)]
       });
+    });
+    this.initialSlick();
+  }
+
+  initialSlick() {
+    $('.chart_info_container').slick({
+      accessibility: false,
+      arrows: false,
+      // centerMode: true,
+      slidesToShow: 2,
+      mobileFirst: true,
+      swipeToSlide: true,
+      infinite: false,
+      slidesToScroll: 1,
+      variableWidth: true
+      // adaptiveHeight: true,
+      // rows: 1,
+      // slidesPerRow: 4
     });
   }
 
@@ -230,7 +266,7 @@ class Share extends React.Component {
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = getDateAfterDays(dayIndex, week);
     return (
-      <div>
+      <div className="commits_info_wrapper">
         <div className="share_info">
           <ChartInfo
             style="share_chart_info"
@@ -259,12 +295,79 @@ class Share extends React.Component {
     )
   }
 
-  render() {
-    const { repos, loaded, languageSkills, languageDistributions } = this.state;
+  renderReposInfo() {
+    const { repos } = this.state;
     const [totalStar, totalFork] = github.getTotalCount(repos);
 
     const maxStaredRepos = repos[0] ? repos[0].name : '';
     const yearlyRepos = github.getYearlyRepos(repos);
+
+    return (
+      <div className="share_info_wrapper">
+        <div className="chart_info_container">
+          <div className="chart_info_wrapper">
+            <ReposInfo
+              icon="star-o"
+              mainText={totalStar}
+              subText="收获 star 数"
+              style="chart_info_card"
+            />
+            {/* <ChartInfo
+              custom
+              mainText={totalStar}
+              subText="收获 star 数"
+              style="chart_info_card"
+            /> */}
+          </div>
+          <div className="chart_info_wrapper">
+            <ReposInfo
+              icon="code-fork"
+              mainText={totalFork}
+              subText="收获 fork 数"
+              style="chart_info_card"
+            />
+            {/* <ChartInfo
+              custom
+              mainText={totalFork}
+              subText="收获 fork 数"
+              style="chart_info_card"
+            /> */}
+          </div>
+          <div className="chart_info_wrapper">
+            <ReposInfo
+              icon="cubes"
+              mainText={yearlyRepos.length}
+              subText="创建的仓库数"
+              style="chart_info_card"
+            />
+            {/* <ChartInfo
+              custom
+              mainText={yearlyRepos.length}
+              subText="创建的仓库数"
+              style="chart_info_card"
+            /> */}
+          </div>
+          <div className="chart_info_wrapper">
+            <ReposInfo
+              icon="cube"
+              mainText={maxStaredRepos}
+              subText="最受欢迎的仓库"
+              style="chart_info_card"
+            />
+            {/* <ChartInfo
+              custom
+              mainText={maxStaredRepos}
+              subText="最受欢迎的仓库"
+              style="chart_info_card"
+            /> */}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    const { loaded, languageSkills, languageDistributions } = this.state;
 
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
     const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
@@ -279,38 +382,7 @@ class Share extends React.Component {
               className="max_canvas"
               ref={ref => this.reposReview = ref}></canvas>
           </div>
-          <div className="share_info_wrapper">
-            <div className="chart_info_container">
-              <ChartInfo
-                custom
-                icon="star-o"
-                mainText={totalStar}
-                subText="收获 star 数"
-                style="chart_info_card"
-              />
-              <ChartInfo
-                custom
-                icon="code-fork"
-                mainText={totalFork}
-                subText="收获 fork 数"
-                style="chart_info_card"
-              />
-              <ChartInfo
-                custom
-                icon="cubes"
-                mainText={yearlyRepos.length}
-                subText="创建的仓库数"
-                style="chart_info_card"
-              />
-              <ChartInfo
-                custom
-                icon="cube"
-                mainText={maxStaredRepos}
-                subText="最受欢迎的仓库"
-                style="chart_info_card"
-              />
-            </div>
-          </div>
+          {this.renderReposInfo()}
         </div>
 
         <div className="share_section">

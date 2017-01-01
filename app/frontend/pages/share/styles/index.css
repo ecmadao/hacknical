@@ -2,7 +2,7 @@
 @import "../../base/styles/base.css";
 
 .share {
-  padding: 20px 0;
+  padding: 20px 0 0;
   display: flex;
   justify-content: center;
   color: var(--oc-gray-7);
@@ -43,7 +43,7 @@
       & span {
         &:first-child {
           font-size: 1.7em;
-          color: var(--oc-green-7);
+          color: var(--oc-green-8);
         }
 
         &:last-child {
@@ -63,7 +63,7 @@
 
   & .share_info_wrapper {
     padding-bottom: 20px;
-    overflow-x: auto;
+    /*overflow-x: auto;*/
 
     &::-webkit-scrollbar {
       background: transparent;
@@ -97,14 +97,24 @@
 }
 
 .chart_info_container {
-  min-width: 600px;
+  & .chart_info_wrapper {
+    padding: 10px 0px 10px 15px;
+
+    &:last-child {
+      & .chart_info_card {
+        width: 150px;
+        padding-right: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
 
   & .chart_info_card {
     border-radius: 2px;
     box-shadow: var(--shadow-2);
-    padding: 5px 15px 10px;
-    display: inline-block;
-    margin: 10px 0 10px 15px;
+    padding: 15px 20px 5px;
     background-color: rgba(30, 104, 35, 1);
 
     & i {
@@ -112,7 +122,7 @@
     }
 
     &:last-child {
-      margin-right: 10px;
+      /*margin-right: 10px;*/
     }
 
     &:nth-child(2) {
@@ -128,14 +138,27 @@
     }
 
     & .info_main_text {
-      font-size: 1.7em;
+      font-size: 1.6em;
       color: var(--oc-white);
+      text-align: left;
+
+      & i {
+        opacity: 0.5;
+        font-size: 0.9em;
+      }
     }
 
     & .info_sub_text {
+      font-size: 12px;
+      opacity: 0.5;
+      text-align: left;
       color: var(--oc-gray-1);
     }
   }
+}
+
+.commits_info_wrapper {
+  padding: 0 15px;
 }
 
 .share_chart_info {

@@ -92,6 +92,7 @@
     "rc-slider": "^5.4.0",
     "redis": "^2.6.3",
     "request": "^2.75.0",
+    "slick-carousel": "^1.6.0",
     "validator": "^6.2.0",
     "wysiwyg.css": "0.0.2"
   }
