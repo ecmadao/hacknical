@@ -410,7 +410,17 @@ class Share extends React.Component {
 
         <div className="share_section">
           <div className="repos_wrapper">
-            {loaded ? this.renderReposDetailInfo() : ''}
+            <div className="repos_xAxes">
+              <div className="xAxes_text">提交次数</div>
+            </div>
+            <div className="repos_contents_wrapper">
+              <div className="repos_contents">
+                {loaded ? this.renderReposDetailInfo() : ''}
+              </div>
+              <div className="repos_yAxes">
+                <div className="yAxes_text">被星标数</div>
+              </div>
+            </div>
           </div>
         </div>
 

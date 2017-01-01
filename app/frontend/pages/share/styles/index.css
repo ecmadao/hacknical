@@ -156,6 +156,82 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+  padding-top: 15px;
+
+  & .repos_xAxes {
+    height: 2px;
+    width: 90%;
+    background-color: var(--oc-gray-4);
+    margin-bottom: 10px;
+    position: relative;
+
+    & .xAxes_text {
+      position: absolute;
+      font-size: 12px;
+      color: var(--oc-gray-4);
+      left: 50%;
+      top: -15px;
+      transform: translateX(-50%);
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-left: 10px solid var(--oc-gray-4);
+      border-bottom: 5px solid transparent;
+      right: -2px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  & .repos_contents_wrapper {
+    display: flex;
+    flex-direction: row;
+
+    & .repos_contents {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    & .repos_yAxes {
+      width: 2px;
+      max-width: 2px;
+      flex: 1;
+      margin-left: 10px;
+      margin-right: 17px;
+      background-color: var(--oc-gray-4);
+      position: relative;
+
+      & .yAxes_text {
+        position: absolute;
+        font-size: 12px;
+        color: var(--oc-gray-4);
+        top: 50%;
+        left: 3px;
+        transform: translateY(-50%);
+      }
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 10px solid var(--oc-gray-4);
+        top: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
 
   & .repos_item {
     flex: 1;
@@ -166,6 +242,7 @@
     & .item_data {
       flex: 1;
       padding: 0 10px;
+      color: var(--oc-gray-5);
     }
 
     & .item_chart {
