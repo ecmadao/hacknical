@@ -10,7 +10,6 @@ export const createRoutes = (store) => {
   injectReducer(store, { key: 'app', reducer });
 
   return {
-    path: '/',
     component: App,
     childRoutes: [
       // Profile(store),

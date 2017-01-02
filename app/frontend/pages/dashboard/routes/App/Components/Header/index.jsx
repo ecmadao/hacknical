@@ -5,9 +5,9 @@ class Header extends React.Component {
     return (
       <div className="app_header">
         <div className="app_header_container">
-          <div className="header_menu_icon">
+          {/* <div className="header_menu_icon">
             <i className="fa fa-navicon" aria-hidden="true"></i>
-          </div>
+          </div> */}
           <div className="header_menus">
             <a
               href="/user/logout"
