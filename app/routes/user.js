@@ -1,5 +1,6 @@
 import koaRouter from 'koa-router';
 import User from '../controllers/user';
+import platform from '../controllers/helper/platform';
 import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
 
@@ -9,6 +10,7 @@ const router = koaRouter({
 
 // dashboard
 router.get('/dashboard',
+  platform.checkPlatform,
   user.checkIfLogin(),
   User.dashboard
 );
@@ -20,6 +22,7 @@ router.post('/resume', User.setResume);
 
 // user login/logout/signup
 router.get('/login',
+  platform.checkPlatform,
   user.checkIfNotLogin(),
   User.loginPage
 );

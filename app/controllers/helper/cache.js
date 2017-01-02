@@ -1,5 +1,5 @@
 
-export const getCache = (key, params = []) => async (ctx, next) => {
+const getCache = (key, params = []) => async (ctx, next) => {
   const userId = ctx.session.userId;
   const paramIds = params.map(param => ctx.query[param] || '').join('.');
   const cacheKey = `${key}.${userId}.${paramIds}`;
@@ -16,7 +16,7 @@ export const getCache = (key, params = []) => async (ctx, next) => {
   await next();
 };
 
-export const setCache = (options = {}) => async (ctx, next) => {
+const setCache = (options = {}) => async (ctx, next) => {
   const { cacheKey } = ctx.query;
   const { result } = ctx.body;
   const expire = options.expire || 86400; // one day

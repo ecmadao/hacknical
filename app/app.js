@@ -11,6 +11,7 @@ import session from 'koa-generic-session';
 import config from 'config';
 import nunjucks from 'nunjucks';
 import views from 'koa-views';
+import userAgent from 'koa-useragent';
 
 import assetsPath from './middlewares/assets_helper';
 import redisCache from './middlewares/cache_helper';
@@ -48,11 +49,15 @@ app.use(new csrf());
 app.use(async (ctx, next) => {
   ctx.state = {
     csrf: ctx.csrf,
+    isMobile: false,
     assetsPath,
     clientId
   };
   await next();
 });
+// user-agent
+app.use(convert(userAgent()));
+
 // 配置nunjucks模板文件所在的路径，否则模板继承时无法使用相对路径
 nunjucks.configure(path.join(__dirname, './templates'), { autoescape: true });
 // frontend static file

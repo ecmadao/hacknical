@@ -1,3 +1,4 @@
+
 import User from '../models/users/index';
 
 const index = async (ctx, next) => {

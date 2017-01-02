@@ -76,6 +76,15 @@ const githubLogin = async (ctx, next) => {
 
 const dashboard = async (ctx, next) => {
   console.log(`userId: ${ctx.session.userId}`);
+  if (ctx.state.isMobile) {
+    const userId = ctx.session.userId;
+    const findResult = await User.findUserById(userId);
+    const login = findResult.githubInfo.login;
+    console.log(`login as ${login}`)
+    ctx.redirect(`/github/${login}`);
+  }
+
+  // ctx.state.isMobile
   await ctx.render('user/dashboard', {
     title: 'dashboard'
   });
