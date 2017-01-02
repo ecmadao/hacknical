@@ -1,10 +1,11 @@
 import { handleActions } from 'redux-actions';
+import { TABS } from '../shared/data';
 
 const initialState = {
   loading: true,
   userId: null,
   tabBarActive: true,
-  activeTab: 'profile'
+  activeTab: 'github'
 };
 
 const reducers = handleActions({

@@ -1,40 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import cx from 'classnames';
 import Headroom from 'headroom.js';
 import { Link } from 'react-router';
 import AppAction from '../../redux/actions';
-import { GREEN_COLORS, BLUE_COLORS } from 'UTILS/colors';
-
-const TABS = [
-  {
-    id: 'profile',
-    name: '用户信息',
-    icon: 'fa-user-circle',
-    activeStyle: {
-    }
-  },
-  // {
-  //   id: 'resume',
-  //   name: '简历',
-  //   icon: 'fa-file-text-o'
-  // },
-  {
-    id: 'github',
-    name: 'github',
-    icon: 'fa-github',
-    activeStyle: {
-      // color: GREEN_COLORS[0],
-      borderBottom: `3px solid ${GREEN_COLORS[0]}`
-    }
-  },
-  {
-    id: 'setting',
-    name: '设置',
-    icon: 'fa-cog',
-    activeStyle: {
-    }
-  }
-];
+import { TABS } from '../../shared/data';
 
 /**
  * TODO: Add animation
@@ -43,6 +13,7 @@ const TABS = [
 class TabBar extends React.Component {
   constructor(props) {
     super(props);
+    this.changeActiveTab = this.changeActiveTab.bind(this);
   }
 
   componentDidMount() {
@@ -51,22 +22,34 @@ class TabBar extends React.Component {
     headroom.init();
   }
 
+  changeActiveTab(e, id, enable) {
+    const { changeActiveTab } = this.props;
+    if (!enable) {
+      e.stopPropagation();
+      e.preventDefault();
+      return false;
+    }
+    changeActiveTab && changeActiveTab(id);
+  }
+
   renderTab() {
     const { changeActiveTab, activeTab } = this.props;
-    // console.log(activeTab);
+
     return TABS.map((tab, index) => {
-      const { id, name, icon } = tab;
+      const { id, name, icon, enable } = tab;
       const style = activeTab === id ? (tab.activeStyle || {}) : {};
+      const tabClass = cx(
+        "app_tab",
+        enable && "enable"
+      );
       return (
         <Link
           key={index}
           to={`/${id}`}
           style={style}
-          className="app_tab"
+          className={tabClass}
           activeClassName="app_tab_active"
-          onClick={() => {
-            changeActiveTab && changeActiveTab(id);
-          }}>
+          onClick={(e) => this.changeActiveTab(e, id, enable)}>
           <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
           {name}
         </Link>

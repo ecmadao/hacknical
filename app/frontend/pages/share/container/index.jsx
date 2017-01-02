@@ -82,8 +82,8 @@ class Share extends React.Component {
 
   initialScrollReveal() {
     const sr = ScrollReveal({ reset: true });
-    sr.reveal('.share_info_chart');
-    sr.reveal('.info_wrapper');
+    sr.reveal('.share_info_chart', { duration: 100 });
+    sr.reveal('.info_wrapper', { duration: 100 });
   }
 
   initialSlick() {

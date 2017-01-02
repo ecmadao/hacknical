@@ -43,20 +43,3 @@ class ShareModal extends React.Component {
 }
 
 export default ShareModal;
-
-// function mapStateToProps(state) {
-//   const {
-//     user,
-//     repos,
-//     commitDatas,
-//     reposLanguages
-//   } = state.github;
-//   return {
-//     user,
-//     reposLanguages,
-//     commitDatas,
-//     repos: repos.sort(sortRepos()),
-//   };
-// }
-//
-// export default connect(mapStateToProps)(ShareModal);
