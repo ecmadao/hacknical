@@ -25,6 +25,7 @@ import {
 } from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import ChartInfo from 'COMPONENTS/ChartInfo';
+import Loading from 'COMPONENTS/Loading';
 
 const ReposInfo = (props) => {
   const { mainText, subText, style, icon } = props;
@@ -58,6 +59,7 @@ class Share extends React.Component {
       languageSkills: []
     };
     this.reposChart = null;
+    this.slickInitialed = false;
     this.languageSkillChart = null;
     this.commitsYearlyReviewChart = null;
   }
@@ -76,17 +78,23 @@ class Share extends React.Component {
         reposLanguages: [...github.getReposLanguages(repos)]
       });
     });
-    this.initialSlick();
-    this.initialScrollReveal();
+  }
+
+  componentDidUpdate() {
+    this.renderCharts();
+    const { loaded } = this.state;
+    loaded && this.initialSlick();
+    loaded && this.initialScrollReveal();
   }
 
   initialScrollReveal() {
     const sr = ScrollReveal({ reset: true });
-    sr.reveal('.share_info_chart', { duration: 100 });
-    sr.reveal('.info_wrapper', { duration: 100 });
+    sr.reveal('.share_info_chart', { duration: 150 });
+    sr.reveal('.info_wrapper', { duration: 150 });
   }
 
   initialSlick() {
+    if (this.slickInitialed) { return }
     $('.chart_info_container').slick({
       accessibility: false,
       arrows: false,
@@ -97,10 +105,7 @@ class Share extends React.Component {
       slidesToScroll: 1,
       variableWidth: true
     });
-  }
-
-  componentDidUpdate() {
-    this.renderCharts();
+    this.slickInitialed = true;
   }
 
   renderCharts() {
@@ -358,7 +363,7 @@ class Share extends React.Component {
     const reposCount = targetRepos.length;
     const maxCommitsIndex = getMaxIndex(targetCommits, 'totalCommits');
     const maxCommits = targetCommits[maxCommitsIndex].totalCommits;
-    const MAX_BAR_WIDTH = 0.8;
+    const MAX_BAR_WIDTH = 0.75;
 
     return targetRepos.map((repository, index) => {
       const { reposId, stargazers_count, name } = repository;
@@ -381,7 +386,7 @@ class Share extends React.Component {
               className="commit_bar"></div>
           </div>
           <div className="item_data">
-            {totalCommits}
+            {totalCommits} commits
           </div>
         </div>
       )
@@ -390,6 +395,14 @@ class Share extends React.Component {
 
   render() {
     const { loaded, languageSkills, languageDistributions } = this.state;
+
+    if (!loaded) {
+      return (
+        <div className="loading_container">
+          <Loading />
+        </div>
+      )
+    }
 
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
     const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);

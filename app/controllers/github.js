@@ -119,8 +119,9 @@ const getStareInfo = async (ctx, next) => {
   const login = ctx.params.login;
   const user = await User.findUserByLogin(login);
   const { _id } = user;
-  const repos = await GithubRepos.getRepos(_id);
-  const commits = await GithubCommits.getUserCommits(_id);
+  const { githubToken } = ctx.session;
+  const repos = await getAndSetRepos(login, githubToken, _id);
+  const commits = await getAndSetCommits(_id, githubToken);
 
   ctx.body = {
     success: true,
