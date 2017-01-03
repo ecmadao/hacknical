@@ -16,6 +16,8 @@ const getAndSetRepos = async (login, token, userId) => {
     return findResult;
   }
   const multiRepos = await Github.getMultiRepos(login, token);
+  const reposLanguages = await Github.getAllReposLanguages(multiRepos, token);
+  multiRepos.forEach((repository, index) => repository.languages = reposLanguages[index]);
   const setResults = await GithubRepos.setRepos(userId, multiRepos);
   return setResults;
 };

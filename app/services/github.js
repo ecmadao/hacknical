@@ -79,7 +79,7 @@ const getMultiRepos = (login, token, pages = 3) => {
 
 const getReposYearlyCommits = (fullname, token) => {
   return new Promise((resolve, reject) => {
-    request.get(`${API_REPOS}/${fullname}/stats/commit_activity?&access_token=${token}`, {
+    request.get(`${API_REPOS}/${fullname}/stats/commit_activity?access_token=${token}`, {
       headers: {
         'User-Agent': appName
       }
@@ -95,7 +95,35 @@ const getReposYearlyCommits = (fullname, token) => {
 
 const getAllReposYearlyCommits = (repos, token) => {
   const promiseList = repos.map((item, index) => {
-    return getReposYearlyCommits(item.fullname, token);
+    return getReposYearlyCommits(item.fullname || item.full_name, token);
+  });
+  return Promise.all(promiseList);
+};
+
+const getReposLanguages = (fullname, token) => {
+  return new Promise((resolve, reject) => {
+    request.get(`${API_REPOS}/${fullname}/languages?access_token=${token}`, {
+      headers: {
+        'User-Agent': appName
+      }
+    }, (err, httpResponse, body) => {
+      if (httpResponse.statusCode === 200 && body) {
+        const languages = JSON.parse(body);
+        let total = 0;
+        let result = {};
+        Object.keys(languages).forEach(key => total += languages[key]);
+        Object.keys(languages).forEach(key => result[key] = languages[key] / total);
+        resolve(result);
+      } else {
+        resolve({});
+      }
+    });
+  });
+};
+
+const getAllReposLanguages = (repos, token) => {
+  const promiseList = repos.map((item, index) => {
+    return getReposLanguages(item.fullname || item.full_name, token);
   });
   return Promise.all(promiseList);
 };
@@ -106,5 +134,7 @@ export default {
   getUserRepos,
   getRepos,
   getMultiRepos,
-  getAllReposYearlyCommits
+  getAllReposYearlyCommits,
+  getReposLanguages,
+  getAllReposLanguages
 }

@@ -18,6 +18,7 @@ const GithubReposSchema = new Schema({
 	stargazers_count: Number,
 	watchers_count: Number,
 	language: String,
+  languages: Object,
 	forks_count: Number,
 	forks: Number,
 	watchers: Number,
