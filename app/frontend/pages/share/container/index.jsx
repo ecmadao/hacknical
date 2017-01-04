@@ -17,7 +17,8 @@ import {
 import {
   sortRepos,
   getMaxIndex,
-  getFirstTarget
+  getFirstTarget,
+  sortLanguages
 } from 'UTILS/helper';
 import {
   getDateBySeconds,
@@ -55,8 +56,9 @@ class Share extends React.Component {
         commits: []
       },
       reposLanguages: [],
-      languageDistributions: [],
-      languageSkills: []
+      languageDistributions: {},
+      languageSkills: [],
+      languageUsed: {}
     };
     this.reposChart = null;
     this.slickInitialed = false;
@@ -75,7 +77,8 @@ class Share extends React.Component {
         commitDatas: github.combineReposCommits(commits),
         languageDistributions: github.getLanguageDistribution(repos),
         languageSkills: github.getLanguageSkill(repos),
-        reposLanguages: [...github.getReposLanguages(repos)]
+        reposLanguages: [...github.getReposLanguages(repos)],
+        languageUsed: github.getLanguageUsed(repos)
       });
     });
   }
@@ -354,6 +357,38 @@ class Share extends React.Component {
     )
   }
 
+  renderLanguageLines() {
+    const { languageUsed } = this.state;
+    const color = randomColor();
+    // let total = 0;
+    const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed));
+    const maxUsedCounts = languageUsed[languages[0]];
+    // languages.forEach(key => total += languageUsed[key]);
+
+    return languages.map((language, index) => {
+      const style = {
+        backgroundColor: color
+      };
+      const barStyle = {
+        width: `${(languageUsed[language] * 100 / maxUsedCounts).toFixed(2)}%`
+      };
+      return (
+        <div className="repos_item" key={index}>
+          <div
+            style={barStyle}
+            className="item_chart">
+            <div
+              style={style}
+              className="commit_bar"></div>
+          </div>
+          <div className="item_data">
+            {language}
+          </div>
+        </div>
+      );
+    });
+  }
+
   renderReposDetailInfo() {
     const { repos, commits } = this.state;
     const color = randomColor();
@@ -422,15 +457,16 @@ class Share extends React.Component {
 
         <div className="share_section">
           <div className="repos_wrapper">
-            <div className="repos_xAxes">
+            {/* <div className="repos_xAxes">
               <div className="xAxes_text">提交次数</div>
-            </div>
+            </div> */}
             <div className="repos_contents_wrapper">
               <div className="repos_contents">
-                {loaded ? this.renderReposDetailInfo() : ''}
+                {loaded ? this.renderLanguageLines() : ''}
+                {/* {loaded ? this.renderReposDetailInfo() : ''} */}
               </div>
               <div className="repos_yAxes">
-                <div className="yAxes_text">被星标数</div>
+                <div className="yAxes_text">使用频次</div>
               </div>
             </div>
           </div>
