@@ -51,6 +51,10 @@ export const sortRepos = (key = 'stargazers_count') => (firstRepos, secRepos) =>
   return parseInt(secRepos[key]) - parseInt(firstRepos[key]);
 };
 
+export const sortLanguages = (obj) => (firstLanguage, secLanguage) => {
+  return obj[secLanguage] - obj[firstLanguage];
+};
+
 export const getOffsetLeft = (start, end) => (left) => {
   const length = end - start;
   return `${(left - start) * 100 / length}%`;

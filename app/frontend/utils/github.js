@@ -73,6 +73,22 @@ const getLanguageSkill = (repos) => {
   return reposLanguages;
 };
 
+const getLanguageUsed = (repos) => {
+  const result = {};
+  repos.forEach(repository => {
+    const { languages } = repository;
+    if (!languages) { return }
+    Object.keys(languages).forEach(language => {
+      if (result[language]) {
+        result[language] += languages[language];
+      } else {
+        result[language] = languages[language];
+      }
+    });
+  });
+  return result;
+};
+
 const getReposLanguages = (repos) => {
   const languages = [];
   repos.forEach((repository) => {
@@ -184,6 +200,7 @@ export default {
   getReposStars,
   getLanguageDistribution,
   getLanguageSkill,
+  getLanguageUsed,
   getReposLanguages,
   getReposByLanguage,
   combineReposCommits,

@@ -9,9 +9,10 @@ import Loading from 'COMPONENTS/Loading';
 // import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
 import github from 'UTILS/github';
-import { GREEN_COLORS } from 'UTILS/colors';
+import { GREEN_COLORS, randomColor } from 'UTILS/colors';
 import {
-  getMaxIndex
+  getMaxIndex,
+  sortLanguages
 } from 'UTILS/helper';
 
 
@@ -71,7 +72,9 @@ class LanguageChart extends React.Component {
   }
 
   renderRadarChart() {
-    const { languageSkills } = this.props;
+    const { languageSkills, languageUsed } = this.props;
+    console.log('languageUsed')
+    console.log(languageUsed)
     const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null');
     const skill = languages.map(language => languageSkills[language]);
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
@@ -167,16 +170,21 @@ class LanguageChart extends React.Component {
   }
 
   renderChartInfo() {
-    const { languageDistributions, languageSkills } = this.props;
+    const { languageDistributions, languageSkills, languageUsed } = this.props;
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
     const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
     const maxReposCountIndex = getMaxIndex(reposCount);
     const maxStarCountIndex = getMaxIndex(starCount);
+    const maxUsedLanguage = Object.keys(languageUsed).sort(sortLanguages(languageUsed))[0];
     return (
       <div className="chart_info_container">
         <ChartInfo
           mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
           subText="拥有最多的仓库"
+        />
+        <ChartInfo
+          mainText={maxUsedLanguage}
+          subText="最长编写的语言"
         />
         <ChartInfo
           mainText={Object.keys(languageSkills)[maxStarCountIndex]}
@@ -186,11 +194,37 @@ class LanguageChart extends React.Component {
     )
   }
 
+  renderLanguagesLabel() {
+    const { languageUsed } = this.props;
+    // let total = 0;
+    // Object.keys(languageUsed).forEach(key => total += languageUsed[key]);
+    const color = randomColor();
+    const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).map((language, index) => {
+      // const percentage = languageUsed[language] / total;
+      return (
+        <div
+          style={{
+            backgroundColor: color
+          }}
+          key={index}
+          className="language_label">
+          {language}
+        </div>
+      )
+    });
+    return (
+      <div className="language_label_wrapper">
+        {languages}
+      </div>
+    )
+  }
+
   renderLanguageReview() {
     const { showLanguage } = this.props;
     return (
       <div>
         {this.renderChartInfo()}
+        {this.renderLanguagesLabel()}
         <div className="repos_chart_container">
           <div className="repos_chart">
             <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas>
@@ -234,6 +268,7 @@ function mapStateToProps(state) {
     showedReposId,
     showLanguage,
     languageDistributions: github.getLanguageDistribution(repos),
+    languageUsed: github.getLanguageUsed(repos),
     languageSkills: github.getLanguageSkill(repos)
   }
 }
