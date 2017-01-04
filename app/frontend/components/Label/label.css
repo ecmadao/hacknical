@@ -1,0 +1,48 @@
+@import 'open-color/open-color.css';
+@import "../../src/styles/base.css";
+
+.label {
+  display: inline-block;
+  border-radius: 2px;
+  padding: 5px 7px;
+  color: var(--oc-white);
+  margin: 5px;
+  font-size: 12px;
+  position: relative;
+
+  &.clickable {
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+
+    &:hover {
+      box-shadow: var(--shadow-5);
+
+      &::after {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  &.active {
+    cursor: pointer;
+    box-shadow: var(--shadow-5);
+
+    &::after {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: transparent;
+    transition: background-color 0.2s;
+  }
+}

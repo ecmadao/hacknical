@@ -83,15 +83,6 @@ const getLanguageSkill = (repos) => {
   return reposLanguages;
 }
 
-// const getLanguageSkill = (repos) => {
-//   const reposLanguages = {};
-//   repos.forEach((repository) => {
-//     const { language, stargazers_count } = repository;
-//     reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazers_count) : reposLanguages[language] + parseInt(stargazers_count);
-//   });
-//   return reposLanguages;
-// };
-
 const getLanguageUsed = (repos) => {
   const result = {};
   repos.forEach(repository => {
@@ -121,8 +112,14 @@ const getReposLanguages = (repos) => {
   return languages;
 };
 
-const getReposByLanguage = (repos, language) => {
-  return repos.filter(repository => repository.language === language).sort(sortRepos('stargazers_count'));
+const getReposByLanguage = (repos, targetLanguage) => {
+  return repos.filter((repository) => {
+    const { languages, language } = repository;
+    if (!languages) {
+      return language === targetLanguage;
+    }
+    return Object.keys(languages).some(key => key === targetLanguage);
+  }).sort(sortRepos('stargazers_count'));
 };
 
 const getMinDate = (repos) => {

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
+import Label from 'COMPONENTS/Label';
 // import Operations from 'COMPONENTS/Operations'
 import githubActions from '../redux/actions';
 import github from 'UTILS/github';
@@ -19,10 +20,10 @@ import {
 class LanguageChart extends React.Component {
   constructor(props) {
     super(props);
+    this.labelColor = randomColor();
     this.languageSkillChart = null;
     this.languageUsedChart = null;
-    // this.languageDistributionChart = null;
-    // this.chartClickCallback = this.chartClickCallback.bind(this);
+    this.setShowLanguage = this.setShowLanguage.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +38,6 @@ class LanguageChart extends React.Component {
     const { loaded } = this.props;
     if (loaded) {
       !this.languageUsedChart && this.renderLanguageUsedChart();
-      // !this.languageDistributionChart && this.renderPieChart();
       !this.languageSkillChart && this.renderLanguageSkillsChart();
     }
   }
@@ -70,7 +70,7 @@ class LanguageChart extends React.Component {
       options: {
         title: {
           display: true,
-          text: '语言使用频率'
+          text: '语言使用频次'
         },
         legend: {
           display: false,
@@ -85,37 +85,6 @@ class LanguageChart extends React.Component {
       }
     });
   }
-
-  // chartClickCallback(ctx, data) {
-  //   if (!data[0]) { return }
-  //   const { actions } = this.props;
-  //   const language = data[0]['_model'].label;
-  //   actions.setShowLanguage(language);
-  // }
-
-  // renderPieChart() {
-  //   const { languageDistributions } = this.props;
-  //   const languages = Object.keys(languageDistributions).filter(language => language !== 'null');
-  //   const distribution = languages.map(language => languageDistributions[language]);
-  //   const languageDistribution = ReactDOM.findDOMNode(this.languageDistribution);
-  //   this.languageDistributionChart = new Chart(languageDistribution, {
-  //     type: 'doughnut',
-  //     data: {
-  //       labels: languages,
-  //       datasets: [{
-  //         data: distribution,
-  //         backgroundColor: GREEN_COLORS
-  //       }]
-  //     },
-  //     options: {
-  //       onClick: this.chartClickCallback,
-  //       title: {
-  //         display: true,
-  //         text: '各语言拥有的仓库数'
-  //       }
-  //     }
-  //   });
-  // }
 
   renderLanguageSkillsChart() {
     const { languageSkills } = this.props;
@@ -179,38 +148,38 @@ class LanguageChart extends React.Component {
     ]
   }
 
-  // renderShowRepos() {
-  //   const { showLanguage, repos } = this.props;
-  //   const targetRepos = github.getReposByLanguage(repos, showLanguage).map((repository, index) => {
-  //     const stargazersCount = repository['stargazers_count'];
-  //     return (
-  //       <div className="repos_show" key={index}>
-  //         <div className="repos_info">
-  //           <a
-  //             target="_blank"
-  //             href={repository['html_url']}
-  //             className="repos_info_name">
-  //             {repository.name}
-  //           </a>{repository.fork ? (<span className="repos_info_forked">
-  //             <i className="fa fa-code-fork" aria-hidden="true">
-  //             </i>&nbsp;
-  //             forked
-  //           </span>) : ''}<br/>
-  //           <span>{repository.description}</span>
-  //         </div>
-  //         <div className={`repos_star ${stargazersCount > 0 ? 'active' : ''}`}>
-  //           <i className={`fa ${stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{stargazersCount}
-  //         </div>
-  //       </div>
-  //     )
-  //   });
-  //   return (
-  //     <div className="repos_show_container">
-  //       <p className="repos_show_title">{showLanguage}</p>
-  //       {targetRepos}
-  //     </div>
-  //   )
-  // }
+  renderShowRepos() {
+    const { showLanguage, repos } = this.props;
+    const targetRepos = github.getReposByLanguage(repos, showLanguage).map((repository, index) => {
+      const stargazersCount = repository['stargazers_count'];
+      return (
+        <div className="repos_show" key={index}>
+          <div className="repos_info">
+            <a
+              target="_blank"
+              href={repository['html_url']}
+              className="repos_info_name">
+              {repository.name}
+            </a>{repository.fork ? (<span className="repos_info_forked">
+              <i className="fa fa-code-fork" aria-hidden="true">
+              </i>&nbsp;
+              forked
+            </span>) : ''}<br/>
+            <span>{repository.description}</span>
+          </div>
+          <div className={`repos_star ${stargazersCount > 0 ? 'active' : ''}`}>
+            <i className={`fa ${stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{stargazersCount}
+          </div>
+        </div>
+      )
+    });
+    return (
+      <div className="repos_show_container">
+        <p className="repos_show_title">{showLanguage}</p>
+        {targetRepos}
+      </div>
+    )
+  }
 
   renderChartInfo() {
     const { languageDistributions, languageSkills, languageUsed } = this.props;
@@ -237,19 +206,26 @@ class LanguageChart extends React.Component {
     )
   }
 
+  setShowLanguage(language) {
+    const { actions, showLanguage } = this.props;
+    const value = showLanguage === language ? null : language;
+    actions.setShowLanguage(value);
+  }
+
   renderLanguagesLabel() {
-    const { languageUsed } = this.props;
-    const color = randomColor();
+    const { languageUsed, actions, showLanguage } = this.props;
     const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).map((language, index) => {
       return (
-        <div
-          style={{
-            backgroundColor: color
-          }}
+        <Label
           key={index}
-          className="language_label">
-          {language}
-        </div>
+          style={{
+            backgroundColor: this.labelColor
+          }}
+          text={language}
+          id={language}
+          onClick={this.setShowLanguage}
+          active={language === showLanguage}
+        />
       )
     });
     return (
@@ -267,14 +243,13 @@ class LanguageChart extends React.Component {
         {this.renderLanguagesLabel()}
         <div className="repos_chart_container">
           <div className="repos_chart">
-            {/* <canvas id="repos_chart" ref={ref => this.languageDistribution = ref}></canvas> */}
-            <canvas id="repos_chart" ref={ref => this.languageUsed = ref}></canvas>
+            <canvas ref={ref => this.languageUsed = ref}></canvas>
           </div>
           <div className="repos_chart">
             <canvas ref={ref => this.languageSkill = ref}></canvas>
           </div>
         </div>
-        {/* { showLanguage ? this.renderShowRepos() : ''} */}
+        { showLanguage ? this.renderShowRepos() : ''}
         {/* <Operations
           items={this.operationItems}
         /> */}
@@ -305,6 +280,7 @@ function mapStateToProps(state) {
   } = state.github;
 
   return {
+    repos,
     loaded: repos.length > 0,
     showedReposId,
     showLanguage,

@@ -346,17 +346,4 @@
 /* languages */
 .language_label_wrapper {
   padding: 15px 20px;
-  font-size: 12px;
-
-  & .language_label {
-    display: inline-block;
-    border-radius: 2px;
-    padding: 5px 7px;
-    color: var(--oc-white);
-    margin: 5px;
-
-    &:first-child {
-      margin-left: 0;
-    }
-  }
 }
