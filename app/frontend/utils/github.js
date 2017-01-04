@@ -67,11 +67,30 @@ const getLanguageDistribution = (repos) => {
 const getLanguageSkill = (repos) => {
   const reposLanguages = {};
   repos.forEach((repository) => {
-    const { language, stargazers_count } = repository;
-    reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazers_count) : reposLanguages[language] + parseInt(stargazers_count);
+    const { language, languages, stargazers_count } = repository;
+    if (!languages) {
+      reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazers_count) : reposLanguages[language] + parseInt(stargazers_count);
+      return;
+    }
+    Object.keys(languages).forEach((language) => {
+      if (reposLanguages[language]) {
+        reposLanguages[language] += parseInt(stargazers_count);
+      } else {
+        reposLanguages[language] = parseInt(stargazers_count);
+      }
+    });
   });
   return reposLanguages;
-};
+}
+
+// const getLanguageSkill = (repos) => {
+//   const reposLanguages = {};
+//   repos.forEach((repository) => {
+//     const { language, stargazers_count } = repository;
+//     reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazers_count) : reposLanguages[language] + parseInt(stargazers_count);
+//   });
+//   return reposLanguages;
+// };
 
 const getLanguageUsed = (repos) => {
   const result = {};

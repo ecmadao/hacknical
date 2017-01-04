@@ -360,14 +360,14 @@ class Share extends React.Component {
   renderLanguageLines() {
     const { languageUsed } = this.state;
     const color = randomColor();
-    // let total = 0;
     const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed));
     const maxUsedCounts = languageUsed[languages[0]];
-    // languages.forEach(key => total += languageUsed[key]);
+    const languagesCount = languages.length;
 
     return languages.map((language, index) => {
       const style = {
-        backgroundColor: color
+        backgroundColor: color,
+        opacity: `${(languagesCount - index) / languagesCount}`,
       };
       const barStyle = {
         width: `${(languageUsed[language] * 100 / maxUsedCounts).toFixed(2)}%`

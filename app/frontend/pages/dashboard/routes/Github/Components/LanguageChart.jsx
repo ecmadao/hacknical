@@ -56,7 +56,7 @@ class LanguageChart extends React.Component {
         labels: languages,
         datasets: [{
           data: languagePercentage,
-          label: '语言使用频率',
+          label: '',
           fill: true,
           backgroundColor: GREEN_COLORS[4],
           borderWidth: 1,
@@ -128,7 +128,7 @@ class LanguageChart extends React.Component {
         labels: languages,
         datasets: [{
           data: skill,
-          label: '擅长语言',
+          label: '',
           fill: true,
           backgroundColor: GREEN_COLORS[4],
           borderWidth: 1,
@@ -140,7 +140,6 @@ class LanguageChart extends React.Component {
         }]
       },
       options: {
-        // onClick: this.chartClickCallback,
         title: {
           display: true,
           text: '擅长语言分析'
@@ -151,7 +150,7 @@ class LanguageChart extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `收到 star 数：${item.yLabel}`
+              return `与该语言相关 star 数：${item.yLabel}`
             }
           }
         }
@@ -228,7 +227,7 @@ class LanguageChart extends React.Component {
         />
         <ChartInfo
           mainText={maxUsedLanguage}
-          subText="最长编写的语言"
+          subText="最常使用的语言"
         />
         <ChartInfo
           mainText={Object.keys(languageSkills)[maxStarCountIndex]}

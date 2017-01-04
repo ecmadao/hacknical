@@ -97,15 +97,9 @@
     padding: 15px 0;
     min-height: 80px;
     display: flex;
-    /*border-top: 1px solid var(--bg-deep);*/
 
     & .repos_chart {
       flex: 1;
-
-      & #repos_chart {
-        width: 300px !important;
-        height: 300px !important;
-      }
     }
   }
 
