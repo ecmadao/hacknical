@@ -328,7 +328,6 @@
       line-height: 1.7em;
 
       & .intro_title {
-        /*font-size: 18px;*/
         color: var(--oc-gray-7);
         line-height: 1.5em;
       }
