@@ -17,8 +17,8 @@
     &:hover {
       box-shadow: var(--shadow-5);
 
-      &::after {
-        background-color: rgba(0, 0, 0, 0.3);
+      &::before {
+        background-color: rgba(0, 0, 0, 0.2);
       }
     }
   }
@@ -27,8 +27,8 @@
     cursor: pointer;
     box-shadow: var(--shadow-5);
 
-    &::after {
-      background-color: rgba(0, 0, 0, 0.3);
+    &::before {
+      background-color: rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -37,6 +37,8 @@
   }
 
   &::before {
+    content: '';
+    display: block;
     position: absolute;
     left: 0;
     right: 0;

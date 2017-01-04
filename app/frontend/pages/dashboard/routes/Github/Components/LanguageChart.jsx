@@ -240,7 +240,6 @@ class LanguageChart extends React.Component {
     return (
       <div>
         {this.renderChartInfo()}
-        {this.renderLanguagesLabel()}
         <div className="repos_chart_container">
           <div className="repos_chart">
             <canvas ref={ref => this.languageUsed = ref}></canvas>
@@ -249,6 +248,7 @@ class LanguageChart extends React.Component {
             <canvas ref={ref => this.languageSkill = ref}></canvas>
           </div>
         </div>
+        {this.renderLanguagesLabel()}
         { showLanguage ? this.renderShowRepos() : ''}
         {/* <Operations
           items={this.operationItems}
