@@ -209,17 +209,13 @@ class Share extends React.Component {
       options: {
         title: {
           display: true,
-          text: ''
+          text: '语言 & 获得 star 数'
         },
         legend: {
           display: false,
         },
         tooltips: {
-          callbacks: {
-            label: (item, data) => {
-              return `收到 star 数：${item.yLabel}`
-            }
-          }
+          enabled: false,
         }
       }
     });
@@ -315,6 +311,7 @@ class Share extends React.Component {
     const [totalStar, totalFork] = github.getTotalCount(repos);
 
     const maxStaredRepos = repos[0] ? repos[0].name : '';
+    const maxStaredPerRepos = repos[0] ? repos[0]['stargazers_count'] : 0;
     const yearlyRepos = github.getYearlyRepos(repos);
 
     return (
@@ -349,6 +346,14 @@ class Share extends React.Component {
               icon="cube"
               mainText={maxStaredRepos}
               subText="最受欢迎的仓库"
+              style="chart_info_card"
+            />
+          </div>
+          <div className="chart_info_wrapper">
+            <ReposInfo
+              icon="star"
+              mainText={maxStaredPerRepos}
+              subText="单个仓库最多 star 数"
               style="chart_info_card"
             />
           </div>
@@ -487,7 +492,7 @@ class Share extends React.Component {
               />
             </div>
           </div>
-          <div className="share_info_chart">
+          <div className="share_info_chart" style={{ marginTop: '15px' }}>
             <canvas ref={ref => this.languageSkill = ref}></canvas>
           </div>
         </div>

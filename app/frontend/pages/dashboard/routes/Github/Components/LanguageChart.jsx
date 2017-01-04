@@ -111,7 +111,7 @@ class LanguageChart extends React.Component {
       options: {
         title: {
           display: true,
-          text: '擅长语言分析'
+          text: '语言 & 获得 star'
         },
         legend: {
           display: false,
