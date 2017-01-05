@@ -8,7 +8,6 @@ import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 import Label from 'COMPONENTS/Label';
 // import Operations from 'COMPONENTS/Operations'
-import githubActions from '../redux/actions';
 import github from 'UTILS/github';
 import { GREEN_COLORS, randomColor } from 'UTILS/colors';
 import {
@@ -20,6 +19,9 @@ import {
 class LanguageChart extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showLanguage: null
+    };
     this.labelColor = randomColor();
     this.languageSkillChart = null;
     this.languageUsedChart = null;
@@ -133,23 +135,24 @@ class LanguageChart extends React.Component {
     )
   }
 
-  get operationItems() {
-    const { actions } = this.props;
-    return [
-      {
-        text: '更改仓库',
-        icon: 'gears',
-        onClick: () => actions.toggleModal(true)
-      },
-      {
-        text: '不在简历中展示',
-        onClick: () => {}
-      }
-    ]
-  }
+  // get operationItems() {
+  //   const { actions } = this.props;
+  //   return [
+  //     {
+  //       text: '更改仓库',
+  //       icon: 'gears',
+  //       onClick: () => actions.toggleModal(true)
+  //     },
+  //     {
+  //       text: '不在简历中展示',
+  //       onClick: () => {}
+  //     }
+  //   ]
+  // }
 
   renderShowRepos() {
-    const { showLanguage, repos } = this.props;
+    const { repos } = this.props;
+    const { showLanguage } = this.state;
     const targetRepos = github.getReposByLanguage(repos, showLanguage).map((repository, index) => {
       const stargazersCount = repository['stargazers_count'];
       return (
@@ -207,13 +210,14 @@ class LanguageChart extends React.Component {
   }
 
   setShowLanguage(language) {
-    const { actions, showLanguage } = this.props;
+    const { showLanguage } = this.state;
     const value = showLanguage === language ? null : language;
-    actions.setShowLanguage(value);
+    this.setState({ showLanguage: value });
   }
 
   renderLanguagesLabel() {
-    const { languageUsed, actions, showLanguage } = this.props;
+    const { languageUsed } = this.props;
+    const { showLanguage } = this.state;
     const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).map((language, index) => {
       return (
         <Label
@@ -236,7 +240,7 @@ class LanguageChart extends React.Component {
   }
 
   renderLanguageReview() {
-    const { showLanguage } = this.props;
+    const { showLanguage } = this.state;
     return (
       <div>
         {this.renderChartInfo()}
@@ -275,25 +279,17 @@ class LanguageChart extends React.Component {
 function mapStateToProps(state) {
   const {
     repos,
-    showedReposId,
-    showLanguage
+    showedReposId
   } = state.github;
 
   return {
     repos,
     loaded: repos.length > 0,
     showedReposId,
-    showLanguage,
     languageDistributions: github.getLanguageDistribution(repos),
     languageUsed: github.getLanguageUsed(repos),
     languageSkills: github.getLanguageSkill(repos)
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(githubActions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LanguageChart);
+export default connect(mapStateToProps)(LanguageChart);

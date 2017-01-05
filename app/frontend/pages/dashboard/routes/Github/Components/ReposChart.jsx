@@ -6,7 +6,6 @@ import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
 
-import githubActions from '../redux/actions';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 import github from 'UTILS/github';
@@ -35,12 +34,7 @@ class ReposChart extends React.Component {
   }
 
   componentDidMount() {
-    const { actions, flatRepos } = this.props;
     this.renderCharts();
-    if (!flatRepos.length) {
-      actions.getGithubRepos();
-    }
-    actions.choseRepos();
   }
 
   componentDidUpdate(preProps) {
@@ -197,7 +191,7 @@ class ReposChart extends React.Component {
   }
 
   renderTimeLine(repos) {
-    const { actions, showedReposId } = this.props;
+    const { showedReposId } = this.props;
     const minDate = new Date(this.minDate);
     const maxDate = new Date(this.maxDate);
     const offsetLeft = getOffsetLeft(minDate, maxDate);
@@ -225,7 +219,8 @@ class ReposChart extends React.Component {
       const tipsoClass = cx('repos_tipso', {
         'active': isActive
       });
-      const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
+      // const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
+      const handleClick = () => {};
       return (
         <div
           key={index}
@@ -295,10 +290,4 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(githubActions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReposChart);
+export default connect(mapStateToProps)(ReposChart);

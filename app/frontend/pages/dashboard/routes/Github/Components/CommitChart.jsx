@@ -17,7 +17,6 @@ import {
   getMaxIndex,
   getFirstTarget
 } from 'UTILS/helper';
-import githubActions from '../redux/actions';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 
@@ -213,10 +212,4 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(githubActions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommitChart);
+export default connect(mapStateToProps)(CommitChart);

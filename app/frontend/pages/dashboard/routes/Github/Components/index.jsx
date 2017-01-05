@@ -10,7 +10,7 @@ import githubActions from '../redux/actions';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 
-import ReposModal from './ReposModal';
+// import ReposModal from './ReposModal';
 import ShareModal from './ShareModal';
 import UserInfoCard from './UserInfoCard';
 import ReposChart from './ReposChart';
@@ -20,9 +20,12 @@ import { GREEN_COLORS } from 'UTILS/colors';
 
 class Github extends React.Component {
   componentDidMount() {
-    const { actions } = this.props;
+    const { actions, repos } = this.props;
     actions.getGithubInfo();
     GitHubCalendar(".calendar", "ecmadao");
+    if (!repos.length) {
+      actions.getGithubRepos();
+    }
   }
 
   render() {
@@ -32,7 +35,6 @@ class Github extends React.Component {
       actions,
       openModal,
       openShareModal,
-      chosedRepos,
       reposLanguages
     } = this.props;
     return (
@@ -47,16 +49,6 @@ class Github extends React.Component {
         <ReposChart />
         <LanguageChart />
         <CommitChart />
-        {/* {openModal ? (
-          <ReposModal
-          openModal={openModal}
-          onClose={() => actions.toggleModal(false)}
-          onSave={() => {}}
-          repos={repos}
-          languages={reposLanguages}
-          selectedItems={chosedRepos}
-          />
-        ) : ''} */}
         {openShareModal ? (
           <ShareModal
             login={user.login}
@@ -84,7 +76,6 @@ function mapStateToProps(state) {
     loading,
     openModal,
     openShareModal,
-    chosedRepos,
     reposLanguages
   } = state.github;
   return {
@@ -93,7 +84,6 @@ function mapStateToProps(state) {
     loading,
     openModal,
     openShareModal,
-    chosedRepos,
     reposLanguages
   };
 }

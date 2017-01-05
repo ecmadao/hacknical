@@ -12,7 +12,6 @@ const initialState = {
   reposLanguages: [],
   chosedRepos: [],
   showedReposId: null,
-  showLanguage: null,
   commitDatas: [],
   sections: [
     {
@@ -71,12 +70,6 @@ const reducers = handleActions({
       ...state,
       repos: [...repos],
       reposLanguages: [...github.getReposLanguages(repos)]
-    });
-  },
-  SET_SHOW_LANGUAGE(state, action) {
-    return ({
-      ...state,
-      showLanguage: action.payload
     });
   },
   SET_CHOSED_REPOS(state, action) {

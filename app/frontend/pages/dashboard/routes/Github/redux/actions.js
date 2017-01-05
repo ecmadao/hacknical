@@ -12,7 +12,6 @@ const {
   setGithubCommits,
   setGithubRepos,
   closeReposReadme,
-  setShowLanguage,
   setShowedReposId,
   setChosedRepos
 } = createActions(
@@ -23,7 +22,6 @@ const {
   'SET_GITHUB_COMMITS',
   'SET_GITHUB_REPOS',
   'CLOSE_REPOS_README',
-  'SET_SHOW_LANGUAGE',
   'SET_SHOWED_REPOS_ID',
   'SET_CHOSED_REPOS'
 );
@@ -87,7 +85,6 @@ export default {
   getGithubRepos,
   showReposReadme,
   fetchReposReadme,
-  setShowLanguage,
   choseRepos,
   setChosedRepos,
   setShowedReposId,
