@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import './floating_action_button.css';
+import styles from './floating_action_button.css';
 
 class FloatingActionButton extends React.Component {
   render() {
@@ -14,7 +14,7 @@ class FloatingActionButton extends React.Component {
       <div
         style={style}
         onClick={onClick}
-        className="floating_action_button">
+        className={styles["floating_action_button"]}>
         <i className={`fa fa-${icon}`} aria-hidden="true"></i>
       </div>
     )

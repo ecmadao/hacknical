@@ -2,11 +2,10 @@ import React from 'react';
 import GitHubCalendar from 'github-calendar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import cx from 'classnames';
 import 'github-calendar/dist/github-calendar.css';
 
-import '../styles/github.css';
-import '../styles/chart.css';
-import githubActions from '../redux/actions';
+import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import CommitInfo from 'COMPONENTS/Github/CommitInfo';
@@ -15,13 +14,15 @@ import ReposInfo from 'COMPONENTS/Github/ReposInfo';
 import UserInfo from 'COMPONENTS/Github/UserInfo';
 
 import ShareModal from './ShareModal';
-import { GREEN_COLORS } from 'UTILS/colors';
+import styles '../styles/github.css';
+import githubActions from '../redux/actions';
+
 
 class Github extends React.Component {
   componentDidMount() {
     const { actions, repos } = this.props;
     actions.getGithubInfo();
-    GitHubCalendar(".calendar", "ecmadao");
+    GitHubCalendar("#calendar", "ecmadao");
     if (!repos.length) {
       actions.getGithubRepos();
     }
@@ -36,11 +37,15 @@ class Github extends React.Component {
       openShareModal,
       reposLanguages
     } = this.props;
+    const calendarClass = cx(
+      styles["github_calendar"],
+      styles["card"]
+    );
     return (
-      <div className="github_info_container">
-        <div className="info_card_container">
+      <div className={styles["github_info_container"]}>
+        <div className={styles["info_card_container"]}>
           <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
-          <div className="calendar github_calendar card">
+          <div id="calendar" className={calendarClass}>
             <Loading />
           </div>
         </div>

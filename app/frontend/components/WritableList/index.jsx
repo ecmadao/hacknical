@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import './writable_list.css';
+import styles from './writable_list.css';
 import ListItem from './ListItem';
 import Input from 'COMPONENTS/Input';
 
@@ -66,7 +66,7 @@ class WritableList extends React.Component {
     const { value } = this.state;
     const { placeholder } = this.props;
     return (
-      <ul className="items_wrapper">
+      <ul className={styles["items_wrapper"]}>
         {this.renderListItems()}
         <li>-&nbsp;&nbsp;
           <Input

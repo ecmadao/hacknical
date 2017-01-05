@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import './tipso.css';
+import cx from 'classnames';
+import styles from './tipso.css';
 
 class Tipso extends React.Component {
   constructor(props) {
@@ -8,11 +9,15 @@ class Tipso extends React.Component {
 
   render() {
     const { children, show } = this.props;
+    const containerClass = cx(
+      styles["tipso_container"],
+      show && styles["active"]
+    );
     return (
       <div
-        className={`tipso_container ${show ? 'active' : ''}`}>
+        className={containerClass}>
         {children}
-        <div className="tipso_angle_mock"></div>
+        <div className={styles["tipso_angle_mock"]}></div>
       </div>
     )
   }

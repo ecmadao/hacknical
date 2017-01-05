@@ -8,6 +8,8 @@ const cssnext = require("postcss-cssnext");
 const PATH = require('./path');
 const path = require('path');
 const fs = require('fs');
+const styleVariables = require('../../app/frontend/src/styles/variables');
+
 const entryFiles = fs.readdirSync(PATH.ENTRY_PATH);
 
 const files = [];
@@ -23,6 +25,34 @@ entryFiles
     entries[filename] = filepath;
 });
 
+const cssLoaderString = [
+  'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+  'postcss-loader'
+];
+cssLoaderString[0] = `${cssLoaderString[0]}&sourceMap`;
+const cssLoader = ExtractTextPlugin.extract(
+  'style-loader',
+  cssLoaderString.join('!'),
+);
+
+const postcssPlugin = function(_webpack) {
+  return [
+    cssImport({
+      addDependencyTo: _webpack
+    }),
+    cssnext({
+      autoprefixer: {
+        browsers: "ie >= 9, ..."
+      },
+      features: {
+        customProperties: {
+          variables: styleVariables
+        }
+      }
+    })
+  ];
+}
+
 module.exports = {
   context: PATH.ROOT_PATH,
   entry: entries,
@@ -33,15 +63,17 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: require.resolve("jquery"), loader: "expose?jQuery"},
-      {test: require.resolve("jquery"), loader: "expose?$"},
+      { test: require.resolve("jquery"), loader: "expose?jQuery" },
+      { test: require.resolve("jquery"), loader: "expose?$" },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style", "css!postcss")
+        include: PATH.SOURCE_PATH,
+        loader: cssLoader,
       },
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("css!postcss!sass")
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style", "css"),
+        exclude: PATH.SOURCE_PATH
       },
       {
         test: /\.jsx?$/,
@@ -70,12 +102,7 @@ module.exports = {
       API: path.join(PATH.SOURCE_PATH, 'api'),
     }
   },
-  postcss: function() {
-    return [
-      cssImport({ addDependencyTo: webpack }),
-      cssnext({ autoprefixer: {browsers: "ie >= 9, ..."} })
-    ];
-  },
+  postcss: postcssPlugin,
   plugins: [
     new ExtractTextPlugin("[name].bundle.css", {
       allChunks: true
@@ -88,12 +115,7 @@ module.exports = {
     new CleanPlugin(PATH.BUILD_PATH, {
       root: PATH.ROOT_PATH,
       verbose: true
-    }),
-    // new HtmlWebpackPlugin({
-    //   filename: 'index.html',
-    //   template: path.join(PATH.TEMPLATES_PATH, 'index.html'),
-    //   chunks: ['index']
-    // })
+    })
   ],
   displayErrorDetails: true,
   outputPathinfo: true

@@ -20,6 +20,8 @@ import {
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 
+import chartStyles from '../styles/chart.css';
+
 
 class CommitInfo extends React.Component {
   constructor(props) {
@@ -153,7 +155,7 @@ class CommitInfo extends React.Component {
     const maxCommitRepos = reposCommits[0];
 
     return (
-      <div className="chart_info_container">
+      <div className={chartStyles["chart_info_container"]}>
         <ChartInfo
           mainText={dayName}
           subText="是你提交最多的日子"
@@ -178,10 +180,10 @@ class CommitInfo extends React.Component {
     return (
       <div>
         {this.renderChartInfo()}
-        <div className="canvas_container">
+        <div className={chartStyles["canvas_container"]}>
           <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
         </div>
-        <div className="canvas_container">
+        <div className={chartStyles["canvas_container"]}>
           <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
         </div>
       </div>

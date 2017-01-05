@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-
-import './textarea.css';
+import cx from 'classnames';
+import styles from './textarea.css';
 import Validator from 'UTILS/validator';
 
 class Textarea extends React.Component {
@@ -50,9 +50,16 @@ class Textarea extends React.Component {
     } = this.props;
     const { focus, error } = this.state;
 
+    const wrapperClass = cx(
+      styles["textarea_wrapper"],
+      styles[style],
+      focus && styles["focus"],
+      error && styles["error"]
+    );
+
     return (
-      <div className={`textarea_wrapper ${style} ${focus && 'focus'} ${error && 'error'}`}>
-        <pre className="textarea_hidden">
+      <div className={wrapperClass}>
+        <pre className={styles["textarea_hidden"]}>
           <span>
             {value}
           </span>
@@ -63,7 +70,7 @@ class Textarea extends React.Component {
           placeholder={placeholder}
           onChange={this.onChange}
           ref={ref => this.textarea = ref}
-          className="textarea"
+          className={styles["textarea"]}
           onKeyDown={onKeyDown}
           onBlur={this.onBlur}
           onFocus={this.onFocus}

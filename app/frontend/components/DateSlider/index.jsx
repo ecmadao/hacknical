@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'rc-slider/assets/index.css'
 import Slider from 'rc-slider';
 
-import './date_slider.css';
+import styles from './date_slider.css';
 import {
   validateDate,
   getDateBeforeYears,
@@ -79,7 +79,7 @@ class DateSlider extends React.Component {
     } = this.state;
 
     return (
-      <div className="slider_container">
+      <div className={styles["slider_container"]}>
         <Slider
           range
           pushable={this.pushInterval}
@@ -102,14 +102,14 @@ class DateSlider extends React.Component {
           onChange={this.onChange}
           tipTransitionName="rc-slider-tooltip-zoom-down"
         />
-        <div className="slider_tips_container">
-          <div className="slider_tips">
+        <div className={styles["slider_tips_container"]}>
+          <div className={styles["slider_tips"]}>
             {startText}
             <span>
               {validateDate(startDate)}
             </span>
           </div>
-          <div className="slider_tips">
+          <div className={styles["slider_tips"]}>
             <span>
               {validateDate(endDate)}
             </span>

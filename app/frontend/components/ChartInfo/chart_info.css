@@ -18,16 +18,18 @@
 
 .info_text {
   text-align: center;
+}
 
-  &.info_main_text {
-    font-size: 20px;
-    color: var(--oc-gray-7);
-  }
+.info_main_text {
+  composes: info_text;
+  font-size: 20px;
+  color: var(--oc-gray-7);
+}
 
-  &.info_sub_text {
-    font-size: 14px;
-    color: var(--oc-gray-5);
-  }
+.info_sub_text {
+  composes: info_text;
+  font-size: 14px;
+  color: var(--oc-gray-5);
 }
 
 @media (max-width: 800px) {
@@ -35,14 +37,12 @@
     padding: 0;
   }
 
-  .info_text {
-    &.info_main_text {
-      font-size: 16px;
-      line-height: 1.7em;
-    }
+  .info_main_text {
+    font-size: 16px;
+    line-height: 1.7em;
+  }
 
-    &.info_sub_text {
-      font-size: 12px;
-    }
+  .info_sub_text {
+    font-size: 12px;
   }
 }

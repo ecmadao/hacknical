@@ -1,5 +1,4 @@
 @import 'open-color/open-color.css';
-@import "../../src/styles/base.css";
 
 .label {
   display: inline-block;
@@ -15,7 +14,7 @@
     transition: box-shadow 0.2s;
 
     &:hover {
-      box-shadow: var(--shadow-5);
+      box-shadow: var(--shadow5);
 
       &::before {
         background-color: rgba(0, 0, 0, 0.2);
@@ -25,7 +24,7 @@
 
   &.active {
     cursor: pointer;
-    box-shadow: var(--shadow-5);
+    box-shadow: var(--shadow5);
 
     &::before {
       background-color: rgba(0, 0, 0, 0.2);

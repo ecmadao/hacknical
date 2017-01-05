@@ -107,13 +107,15 @@
 .header_menus {
   flex: 1;
 }
+
 .header_menu_icon {
   cursor: pointer;
   display: block;
   color: var(--oc-gray-7);
   text-decoration: none;
+}
 
-  &.right {
-    float: right;
-  }
+.header_menu_icon_right {
+  composes: header_menu_icon;
+  float: right;
 }

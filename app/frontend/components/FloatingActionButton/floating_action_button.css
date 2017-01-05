@@ -2,7 +2,7 @@
 @import "../../src/styles/base.css";
 
 .floating_action_button {
-  box-shadow: var(--shadow-5);
+  box-shadow: var(--shadow5);
   transition: box-shadow 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
   position: fixed;
   bottom: 30px;
@@ -27,7 +27,7 @@
   }
 
   &:hover {
-    box-shadow: var(--shadow-6);
+    box-shadow: var(--shadow6);
 
     &::after {
       background-color: rgba(0, 0, 0, 0.1);

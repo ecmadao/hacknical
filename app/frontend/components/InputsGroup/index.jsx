@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Input from 'COMPONENTS/Input';
 import Tipso from 'COMPONENTS/Tipso';
-import './inputs_group.css';
+import styles from './inputs_group.css';
 
 class InputsGroup extends React.Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class InputsGroup extends React.Component {
     return (
       <div
         ref={ref => this.tipso = ref}
-        className="input_group_wrapper">
+        className={styles["input_group_wrapper"]}>
         { focus ? (
           <Tipso show={true}>
             {children}

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Portal from 'react-portal';
-import './tipso_modal.css';
+import styles from './tipso_modal.css';
 
 class TipsoModal extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class TipsoModal extends React.Component {
         isOpened={show}>
         <div
           ref={ref => this.tipsoModal = ref}
-          className="tipso_modal_wrapper">
+          className={styles["tipso_modal_wrapper"]}>
           {text}
         </div>
       </Portal>

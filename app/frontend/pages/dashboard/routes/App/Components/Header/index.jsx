@@ -1,17 +1,18 @@
 import React, { PropTypes } from 'react';
+import styles from '../../styles/app.css';
 
 class Header extends React.Component {
   render() {
     return (
-      <div className="app_header">
-        <div className="app_header_container">
+      <div className={styles["app_header"]}>
+        <div className={styles["app_header_container"]}>
           {/* <div className="header_menu_icon">
             <i className="fa fa-navicon" aria-hidden="true"></i>
           </div> */}
-          <div className="header_menus">
+          <div className={styles["header_menus"]}>
             <a
               href="/user/logout"
-              className="header_menu_icon right">
+              className={styles["header_menu_icon_right"]}>
               <i className="fa fa-sign-out" aria-hidden="true"></i>
             </a>
           </div>

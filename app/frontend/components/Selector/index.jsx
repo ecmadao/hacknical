@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import './selector.css';
+import cx from 'classnames';
+import styles from './selector.css';
 
 const ARROW_DOWN = (
 <svg width="11px" height="7px" viewBox="712 206 11 7" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -42,13 +43,17 @@ class Selector extends React.Component {
 
   render() {
     const {value, style} = this.props;
+    const containerClass = cx(
+      styles["selector_container"],
+      styles[style]
+    );
     return (
-      <div className={`selector_container ${style}`}>
+      <div className={containerClass}>
         {this.currentText}&nbsp;&nbsp;&nbsp;<i className="fa fa-caret-down" aria-hidden="true"></i>
         <select
           value={value}
           onChange={this.onChange}
-          className="selector"
+          className={styles["selector"]}
           ref={ref => this.selector = ref}>
           {this.renderOptions()}
         </select>

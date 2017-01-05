@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import styles from './operations.css';
 
 class OperationItem extends React.Component {
   render() {
@@ -6,7 +7,7 @@ class OperationItem extends React.Component {
     const { text, icon, onClick } = item;
     return (
       <div
-        className="operation_item"
+        className={styles["operation_item"]}
         onClick={onClick}>
         { icon ? (
           <i

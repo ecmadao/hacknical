@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import './label.css';
+import styles from './label.css';
 
 class Label extends React.Component {
   render() {
     const { style, text, onClick, id, clickable, active } = this.props;
     const labelClass = cx(
-      "label",
-      !active && clickable && "clickable",
-      active && "active"
+      styles["label"],
+      !active && clickable && styles["clickable"],
+      active && styles["active"]
     );
     return (
       <div

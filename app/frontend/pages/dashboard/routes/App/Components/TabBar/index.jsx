@@ -5,6 +5,7 @@ import Headroom from 'headroom.js';
 import { Link } from 'react-router';
 import AppAction from '../../redux/actions';
 import { TABS } from '../../shared/data';
+import styles from '../../styles/app.css';
 
 /**
  * TODO: Add animation
@@ -39,8 +40,8 @@ class TabBar extends React.Component {
       const { id, name, icon, enable } = tab;
       const style = activeTab === id ? (tab.activeStyle || {}) : {};
       const tabClass = cx(
-        "app_tab",
-        enable && "enable"
+        styles["app_tab"],
+        enable && styles["enable"]
       );
       return (
         <Link
@@ -48,7 +49,7 @@ class TabBar extends React.Component {
           to={`/${id}`}
           style={style}
           className={tabClass}
-          activeClassName="app_tab_active"
+          activeClassName={styles["app_tab_active"]}
           onClick={(e) => this.changeActiveTab(e, id, enable)}>
           <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
           {name}
@@ -59,8 +60,8 @@ class TabBar extends React.Component {
 
   render() {
     return (
-      <div className="app_tabs" ref={ref => this.headroom = ref}>
-        <div className="app_tabs_container">
+      <div className={styles["app_tabs"]} ref={ref => this.headroom = ref}>
+        <div className={styles["app_tabs_container"]}>
           {this.renderTab()}
         </div>
       </div>

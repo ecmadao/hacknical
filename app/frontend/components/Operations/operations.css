@@ -1,5 +1,4 @@
 @import 'open-color/open-color.css';
-@import "../../src/styles/base.css";
 
 .operations_container {
   position: absolute;
@@ -26,14 +25,14 @@
 
   &.active,
   &:hover {
-    box-shadow: var(--shadow-2);
+    box-shadow: var(--shadow2);
     background-color: var(--oc-white);
   }
 }
 
 .operations_menu {
   position: absolute;
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow2);
   border-radius: 2px;
   background-color: var(--oc-white);
   top: 100%;

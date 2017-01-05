@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Input from 'COMPONENTS/Input';
+import styles from './writable_list.css';
 
 class ListItem extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class ListItem extends React.Component {
   render() {
     const { item, onChange, onDelete, placeholder } = this.props;
     return (
-      <li className="list_item">-&nbsp;&nbsp;
+      <li className={styles["list_item"]}>-&nbsp;&nbsp;
         <Input
           value={item}
           onChange={onChange}

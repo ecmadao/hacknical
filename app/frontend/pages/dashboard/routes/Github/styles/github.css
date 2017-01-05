@@ -1,14 +1,13 @@
 @import 'open-color/open-color.css';
-@import "../../../../../src/styles/base.css";
 
 .card {
   border-radius: 3px;
   transition: box-shadow 0.2s;
-  box-shadow: var(--shadow-1);
+  box-shadow: var(--shadow1);
 
 
   &:hover {
-    box-shadow: var(--shadow-4);
+    box-shadow: var(--shadow4);
   }
 }
 
@@ -44,7 +43,7 @@
   & .info_header {
     display: flex;
     padding: 15px;
-    border-bottom: 1px solid var(--bg-deep);
+    border-bottom: 1px solid var(--bgDeep);
 
     & .info_avator {
       width: 80px;
@@ -221,7 +220,7 @@
     &.active {
       & .repos_timeline {
         opacity: 1;
-        box-shadow: var(--shadow-card);
+        box-shadow: var(--shadowCard);
       }
     }
   }
