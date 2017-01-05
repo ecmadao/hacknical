@@ -24,6 +24,7 @@
   composes: info_text;
   font-size: 20px;
   color: var(--oc-gray-7);
+  margin-bottom: 5px;
 }
 
 .info_sub_text {

@@ -106,6 +106,7 @@ module.exports = {
       IMAGES: path.join(PATH.SOURCE_PATH, 'src/images'),
       PAGES: path.join(PATH.SOURCE_PATH, 'pages'),
       API: path.join(PATH.SOURCE_PATH, 'api'),
+      VENDOR: path.join(PATH.SOURCE_PATH, 'src/vendor')
     }
   },
   postcss: postcssPlugin,

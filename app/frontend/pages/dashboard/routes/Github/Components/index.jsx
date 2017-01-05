@@ -42,7 +42,7 @@ class Github extends React.Component {
       styles["card"]
     );
     return (
-      <div className={styles["github_info_container"]}>
+      <div>
         <div className={styles["info_card_container"]}>
           <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
           <div id="calendar" className={calendarClass}>
