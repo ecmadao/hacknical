@@ -1,5 +1,5 @@
 @import 'open-color/open-color.css';
-@import "../../../../../../../src/styles/base.css";
+@import "../../../pages/base/styles/base.css";
 
 .info_content {
   display: flex;

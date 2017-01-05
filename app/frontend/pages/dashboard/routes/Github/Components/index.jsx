@@ -12,9 +12,9 @@ import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import CommitInfo from 'COMPONENTS/Github/CommitInfo';
 import LanguageInfo from 'COMPONENTS/Github/LanguageInfo';
 import ReposInfo from 'COMPONENTS/Github/ReposInfo';
+import UserInfo from 'COMPONENTS/Github/UserInfo';
 
 import ShareModal from './ShareModal';
-import UserInfoCard from './UserInfoCard';
 import { GREEN_COLORS } from 'UTILS/colors';
 
 class Github extends React.Component {
@@ -44,7 +44,7 @@ class Github extends React.Component {
             <Loading />
           </div>
         </div>
-        <UserInfoCard user={user} />
+        <UserInfo user={user} />
         <ReposInfo />
         <LanguageInfo />
         <CommitInfo />

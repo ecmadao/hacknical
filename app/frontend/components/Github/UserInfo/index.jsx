@@ -1,8 +1,8 @@
 import React from 'react';
 import github from 'UTILS/github';
-import SocialInfo from './shared/SocialInfo';
+import SocialInfo from 'COMPONENTS/Github/SocialInfo';
 
-const UserInfoCard = (props) => {
+const UserInfo = (props) => {
   const { user } = props;
   if (!user) { return (<div></div>) }
   return (
@@ -25,4 +25,4 @@ const UserInfoCard = (props) => {
   )
 };
 
-export default UserInfoCard;
+export default UserInfo;
