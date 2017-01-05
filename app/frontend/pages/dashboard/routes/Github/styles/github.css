@@ -20,12 +20,12 @@
   border-color: transparent;
   background-color: var(--oc-white);
   text-align: center;
-  padding-top: 10px;
 
   & h2:first-child {
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: 300;
+    padding-top: 10px;
   }
 }
 
