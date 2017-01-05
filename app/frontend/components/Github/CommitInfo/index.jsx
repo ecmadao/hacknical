@@ -21,7 +21,7 @@ import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 
 
-class CommitChart extends React.Component {
+class CommitInfo extends React.Component {
   constructor(props) {
     super(props);
     this.commitsWeeklyReviewChart = null;
@@ -212,4 +212,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(CommitChart);
+export default connect(mapStateToProps)(CommitInfo);

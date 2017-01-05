@@ -9,13 +9,12 @@ import '../styles/chart.css';
 import githubActions from '../redux/actions';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
+import CommitInfo from 'COMPONENTS/Github/CommitInfo';
+import LanguageInfo from 'COMPONENTS/Github/LanguageInfo';
+import ReposInfo from 'COMPONENTS/Github/ReposInfo';
 
-// import ReposModal from './ReposModal';
 import ShareModal from './ShareModal';
 import UserInfoCard from './UserInfoCard';
-import ReposChart from './ReposChart';
-import LanguageChart from './LanguageChart';
-import CommitChart from './CommitChart';
 import { GREEN_COLORS } from 'UTILS/colors';
 
 class Github extends React.Component {
@@ -46,9 +45,9 @@ class Github extends React.Component {
           </div>
         </div>
         <UserInfoCard user={user} />
-        <ReposChart />
-        <LanguageChart />
-        <CommitChart />
+        <ReposInfo />
+        <LanguageInfo />
+        <CommitInfo />
         {openShareModal ? (
           <ShareModal
             login={user.login}

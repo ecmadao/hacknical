@@ -16,7 +16,7 @@ import {
 } from 'UTILS/helper';
 
 
-class LanguageChart extends React.Component {
+class LanguageInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -292,4 +292,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(LanguageChart);
+export default connect(mapStateToProps)(LanguageInfo);
