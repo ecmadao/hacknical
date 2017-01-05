@@ -32,7 +32,7 @@ const cssLoaderString = [
 cssLoaderString[0] = `${cssLoaderString[0]}&sourceMap`;
 const cssLoader = ExtractTextPlugin.extract(
   'style-loader',
-  cssLoaderString.join('!'),
+  cssLoaderString.join('!')
 );
 
 const postcssPlugin = function(_webpack) {
@@ -68,12 +68,18 @@ module.exports = {
       {
         test: /\.css$/,
         include: PATH.SOURCE_PATH,
+        exclude: path.join(PATH.SOURCE_PATH, 'src/vendor'),
         loader: cssLoader,
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style", "css"),
+        loader: ExtractTextPlugin.extract("style", "css!postcss"),
         exclude: PATH.SOURCE_PATH
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style", "css!postcss"),
+        include: path.join(PATH.SOURCE_PATH, 'src/vendor')
       },
       {
         test: /\.jsx?$/,

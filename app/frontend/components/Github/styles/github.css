@@ -1,0 +1,263 @@
+@import 'open-color/open-color.css';
+
+.repos_intros {
+  display: flex;
+  flex-direction: column;
+
+  & .repos_intro {
+    margin-bottom: 5px;
+    display: flex;
+
+    & .intro_line {
+      width: 8px;
+      border-radius: 3px;
+      margin-right: 15px;
+    }
+
+    & .intro_info_wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      max-width: 90%;
+    }
+
+    & .intro_info {
+      font-size: 14px;
+      color: var(--oc-gray-5);
+      line-height: 1.7em;
+
+      & .intro_title {
+        color: var(--oc-gray-7);
+        line-height: 1.5em;
+      }
+
+      &.with_readme {
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--oc-gray-3);
+      }
+    }
+
+    & .readme_container {
+      padding: 10px 20px;
+      min-height: 100px;
+      max-height: 300px;
+      margin-top: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+}
+
+.language_label_wrapper {
+  padding: 15px 20px;
+}
+
+/* chosed repos */
+.repos_timeline_container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.repos_dates {
+  display: flex;
+  color: var(--oc-gray-5);
+  font-size: 12px;
+
+  & .repos_date {
+    flex: 1;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.repos_timelines {
+  display: flex;
+  flex-direction: column;
+
+  & .repos_timeline_wrapper {
+    height: 25px;
+    margin-bottom: 15px;
+    position: relative;
+
+    &:hover {
+      & .repos_timeline {
+        opacity: 1;
+      }
+
+      & .repos_tipso {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &.active {
+      & .repos_timeline {
+        opacity: 1;
+        box-shadow: var(--shadowCard);
+      }
+    }
+  }
+
+  & .repos_timeline {
+    opacity: 0.6;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  & .repos_tipso {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    opacity: 1;
+    z-index: 9;
+    visibility: hidden;
+    transition: opacity 0.2s;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  & .repos_tipso_container {
+    background-color: var(--oc-white);
+    border-radius: 3px;
+    border: 1px solid rgba(155, 155, 155, 0.3);
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    font-size: 12px;
+    color: rgba(74, 74, 74, 0.6);
+    line-height: 1.5em;
+    min-width: 200px;
+    margin-top: 12px;
+
+    &::before,
+    &::after {
+      width: 0;
+      height: 0;
+      content: '';
+      display: block;
+      position: absolute;
+      left: 10px;
+      border-left: 13px solid transparent;
+      border-right: 13px solid transparent;
+    }
+
+    &::before {
+      top: 0;
+      border-bottom: 12px solid rgba(155, 155, 155, 0.3);
+    }
+
+    &::after {
+      top: 1px;
+      border-bottom: 12px solid var(--oc-white);
+    }
+
+    & .tipso_title {
+      font-size: 14px;
+      color: var(--oc-gray-7);
+    }
+
+    & p {
+      line-height: 2em;
+    }
+  }
+}
+
+.chart_card_container {
+  & .repos_review {
+    width: 100%;
+  }
+
+  & .repos_show_container,
+  & .repos_chart_container {
+    width: 95%;
+    margin-left: 2.5%;
+    padding: 15px 0;
+    min-height: 80px;
+    display: flex;
+
+    & .repos_chart {
+      flex: 1;
+    }
+  }
+
+  & .repos_chart_container {
+    width: auto;
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  & .repos_show_container {
+    display: block;
+
+    & .repos_show_title {
+      padding-left: 10px;
+      margin-left: 10px;
+      font-size: 1.5em;
+      border-left: 3px solid var(--oc-gray-5);
+      line-height: 40px;
+    }
+
+    & .repos_show {
+      display: flex;
+      padding: 10px;
+      border-radius: 3px;
+      position: relative;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: var(--oc-gray-3);
+      }
+
+      & .repos_info {
+        padding-right: 50px;
+        width: 100%;
+
+        & .repos_info_name {
+          text-decoration: none;
+          color: var(--oc-gray-7);
+          line-height: 1.5em;
+          font-size: 16px;
+
+          &:hover {
+            color: var(--oc-blue-5);
+          }
+        }
+
+        & span {
+          font-size: 14px;
+        }
+
+        & .repos_info_forked {
+          display: inline-block;
+          background-color: var(--oc-gray-5);
+          color: var(--oc-white);
+          margin-left: 8px;
+          padding: 3px 4px;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+}
+
+.repos_star {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &.active {
+    color: var(--oc-blue-5);
+  }
+}

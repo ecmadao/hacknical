@@ -5,7 +5,6 @@
   transition: box-shadow 0.2s;
   box-shadow: var(--shadow1);
 
-
   &:hover {
     box-shadow: var(--shadow4);
   }
@@ -84,7 +83,7 @@
   }
 }
 
-.chart_card_container {
+/*.chart_card_container {
   & #repos_review {
     width: 100%;
   }
@@ -171,10 +170,10 @@
       }
     }
   }
-}
+}*/
 
 /* chosed repos */
-.repos_timeline_container {
+/*.repos_timeline_container {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -292,9 +291,9 @@
       line-height: 2em;
     }
   }
-}
+}*/
 
-.repos_intros {
+/*.repos_intros {
   display: flex;
   flex-direction: column;
 
@@ -342,7 +341,6 @@
   }
 }
 
-/* languages */
 .language_label_wrapper {
   padding: 15px 20px;
-}
+}*/

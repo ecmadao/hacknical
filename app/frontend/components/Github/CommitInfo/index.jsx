@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import cx from 'classnames';
 import Chart from 'chart.js';
 import objectAssign from 'object-assign';
 
@@ -21,7 +22,7 @@ import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 
 import chartStyles from '../styles/chart.css';
-
+import cardStyles from '../styles/info_card.css';
 
 class CommitInfo extends React.Component {
   constructor(props) {
@@ -193,9 +194,9 @@ class CommitInfo extends React.Component {
   render() {
     const { loaded } = this.props;
     return (
-      <div className="info_card_container">
+      <div className={cardStyles["info_card_container"]}>
         <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
-        <div className="info_card card chart_card">
+        <div className={cx(cardStyles["info_card"], cardStyles["card"])}>
           { !loaded ? (
             <Loading />
           ) : this.renderCommitsReview()}

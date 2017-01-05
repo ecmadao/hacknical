@@ -1,4 +1,4 @@
-#login_main {
+.login_main {
   width: 100%;
   height: 100%;
   background: url('../images/bg.jpg') no-repeat center;
@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-#login-pannel {
+.login-pannel {
   text-align: center;
   color: #fff;
 

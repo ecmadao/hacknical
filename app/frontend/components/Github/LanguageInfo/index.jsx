@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import classNames from 'classnames';
+import cx from 'classnames';
 
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
@@ -14,6 +14,10 @@ import {
   getMaxIndex,
   sortLanguages
 } from 'UTILS/helper';
+
+import githubStyles from '../styles/github.css';
+import chartStyles from '../styles/chart.css';
+import cardStyles from '../styles/info_card.css';
 
 
 class LanguageInfo extends React.Component {
@@ -155,30 +159,34 @@ class LanguageInfo extends React.Component {
     const { showLanguage } = this.state;
     const targetRepos = github.getReposByLanguage(repos, showLanguage).map((repository, index) => {
       const stargazersCount = repository['stargazers_count'];
+      const starClass = cx(
+        githubStyles["repos_star"],
+        stargazersCount > 0 && githubStyles["active"]
+      );
       return (
-        <div className="repos_show" key={index}>
-          <div className="repos_info">
+        <div className={githubStyles["repos_show"]} key={index}>
+          <div className={githubStyles["repos_info"]}>
             <a
               target="_blank"
               href={repository['html_url']}
-              className="repos_info_name">
+              className={githubStyles["repos_info_name"]}>
               {repository.name}
-            </a>{repository.fork ? (<span className="repos_info_forked">
+            </a>{repository.fork ? (<span className={githubStyles["repos_info_forked"]}>
               <i className="fa fa-code-fork" aria-hidden="true">
               </i>&nbsp;
               forked
             </span>) : ''}<br/>
             <span>{repository.description}</span>
           </div>
-          <div className={`repos_star ${stargazersCount > 0 ? 'active' : ''}`}>
+          <div className={starClass}>
             <i className={`fa ${stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{stargazersCount}
           </div>
         </div>
       )
     });
     return (
-      <div className="repos_show_container">
-        <p className="repos_show_title">{showLanguage}</p>
+      <div className={githubStyles["repos_show_container"]}>
+        <p className={githubStyles["repos_show_title"]}>{showLanguage}</p>
         {targetRepos}
       </div>
     )
@@ -192,7 +200,7 @@ class LanguageInfo extends React.Component {
     const maxStarCountIndex = getMaxIndex(starCount);
     const maxUsedLanguage = Object.keys(languageUsed).sort(sortLanguages(languageUsed))[0];
     return (
-      <div className="chart_info_container">
+      <div className={chartStyles["chart_info_container"]}>
         <ChartInfo
           mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
           subText="拥有最多的仓库"
@@ -233,7 +241,7 @@ class LanguageInfo extends React.Component {
       )
     });
     return (
-      <div className="language_label_wrapper">
+      <div className={githubStyles["language_label_wrapper"]}>
         {languages}
       </div>
     )
@@ -244,11 +252,11 @@ class LanguageInfo extends React.Component {
     return (
       <div>
         {this.renderChartInfo()}
-        <div className="repos_chart_container">
-          <div className="repos_chart">
+        <div className={githubStyles["repos_chart_container"]}>
+          <div className={githubStyles["repos_chart"]}>
             <canvas ref={ref => this.languageUsed = ref}></canvas>
           </div>
-          <div className="repos_chart">
+          <div className={githubStyles["repos_chart"]}>
             <canvas ref={ref => this.languageSkill = ref}></canvas>
           </div>
         </div>
@@ -264,9 +272,9 @@ class LanguageInfo extends React.Component {
   render() {
     const { loaded } = this.props;
     return (
-      <div className="info_card_container chart_card_container">
+      <div className={cx(cardStyles["info_card_container"], githubStyles["chart_card_container"])}>
         <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;编程语言</p>
-        <div className="info_card card">
+        <div className={cx(cardStyles["info_card"], cardStyles["card"])}>
           { !loaded ? (
             <Loading />
           ) : this.renderLanguageReview()}

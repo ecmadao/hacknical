@@ -14,7 +14,7 @@ import ReposInfo from 'COMPONENTS/Github/ReposInfo';
 import UserInfo from 'COMPONENTS/Github/UserInfo';
 
 import ShareModal from './ShareModal';
-import styles '../styles/github.css';
+import styles from '../styles/github.css';
 import githubActions from '../redux/actions';
 
 
