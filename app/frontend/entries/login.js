@@ -1,4 +1,4 @@
-import '../src/vendor/login';
+import 'VENDOR/login';
 
 $(() => {
 
