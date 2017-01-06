@@ -1,5 +1,4 @@
 @import 'open-color/open-color.css';
-@import "../../src/styles/base.css";
 
 .button {
   text-align: center;
@@ -101,11 +100,11 @@
 
   &.material {
     color: var(--oc-white);
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow1);
     transition: opacity 0.2s, box-shadow 0.2s;
 
     &:hover {
-      box-shadow: var(--shadow-5);
+      box-shadow: var(--shadow5);
     }
 
     &.blue {

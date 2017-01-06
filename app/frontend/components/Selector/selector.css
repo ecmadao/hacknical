@@ -1,5 +1,4 @@
 @import 'open-color/open-color.css';
-@import "../../src/styles/base.css";
 
 .selector_container {
   background-color: var(--oc-white);
@@ -29,10 +28,10 @@
     height: 35px;
     line-height: 35px;
     transition: box-shadow 0.1s;
-    box-shadow: var(--shadow-input);
+    box-shadow: var(--shadowInput);
 
     &:hover {
-      box-shadow: var(--shadow-input-hover);
+      box-shadow: var(--shadowInputHover);
     }
   }
 

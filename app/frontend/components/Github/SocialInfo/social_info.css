@@ -1,5 +1,4 @@
 @import 'open-color/open-color.css';
-@import "../../../pages/base/styles/base.css";
 
 .info_content {
   display: flex;
@@ -25,7 +24,7 @@
 
     &:hover {
       color: var(--oc-white);
-      box-shadow: var(--shadow-card);
+      box-shadow: var(--shadowCard);
 
       & span {
         color: var(--oc-white);

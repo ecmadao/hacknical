@@ -2,8 +2,18 @@ import { getData } from './base';
 
 const fetchInfo = (url) => getData(`/github${url}`);
 
-const getRepos = () => {
-  return fetchInfo('/repos');
+/* get user repos info */
+const getBaseRepos = () => {
+  return fetchInfo(`/repos`);
+};
+const getSharedRepos = (login) => {
+  return fetchInfo(`/${login}/shareInfo`);
+}
+const getRepos = (login) => {
+  if (login) {
+    return getSharedRepos(login)
+  }
+  return getBaseRepos();
 };
 
 const getRepository = (reposName) => {
@@ -14,8 +24,18 @@ const getReadme = (reposName) => {
   return fetchInfo(`/${reposName}/readme`);
 };
 
-const getUser = () => {
+/* get user info */
+const getBaseUser = () => {
   return fetchInfo(`/user`);
+};
+const getShareUser = (login) => {
+  return fetchInfo(`/${login}/share`);
+};
+const getUser = (login = '') => {
+  if (login) {
+    return getShareUser(login);
+  }
+  return getBaseUser();
 };
 
 const getCommits = () => {

@@ -118,7 +118,7 @@ const getRepositoryCommits = async (ctx, next) => {
 };
 
 const getStareInfo = async (ctx, next) => {
-  const login = ctx.params.login;
+  const { login } = ctx.params;
   const user = await User.findUserByLogin(login);
   const { _id } = user;
   const { githubToken } = ctx.session;
@@ -135,10 +135,37 @@ const getStareInfo = async (ctx, next) => {
   await next();
 };
 
+const getSharedUser = async (ctx, next) => {
+  const { login } = ctx.params;
+  const user = await User.findUserByLogin(login);
+  if (user) {
+    ctx.body = {
+      success: true,
+      result: user.githubInfo || {}
+    };
+    return;
+  }
+  ctx.body = {
+    success: true,
+    message: '查找用户失败'
+  };
+};
+
 const sharePage = async (ctx, next) => {
-  const login = ctx.params.login;
+  const { login } = ctx.params;
   const user = await User.findUserByLogin(login);
   const { githubInfo } = user;
+
+  if (!ctx.state.isMobile) {
+    await ctx.render('user/share', {
+      user: {
+        login
+      },
+      title: `${githubInfo.name}的2016年github总结`
+    });
+    return;
+  }
+
   const {
     bio,
     name,
@@ -148,8 +175,7 @@ const sharePage = async (ctx, next) => {
     followers,
     following
   } = githubInfo;
-
-  await ctx.render('user/share', {
+  await ctx.render('user/share_mobile', {
     user: {
       bio,
       name,
@@ -160,12 +186,13 @@ const sharePage = async (ctx, next) => {
       following,
       created_at: created_at.split('T')[0]
     },
-    title: `${githubInfo.name}的2016年github总结`
+    title: `${name}的2016年github总结`
   });
 };
 
 export default {
   getUser,
+  getSharedUser,
   sharePage,
   getStareInfo,
   getRepos,

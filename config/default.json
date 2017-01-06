@@ -1,7 +1,7 @@
 {
   "production": false,
   "port": "3000",
-  "appKey": "hawkeye",
+  "appKey": "hawkeye-dev",
   "redis": "redis://localhost:6379/3",
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"

@@ -1,9 +1,8 @@
 @import 'open-color/open-color.css';
-@import "../../../../../src/styles/base.css";
 
 .share_modal_container {
   background-color: var(--oc-white);
-  box-shadow: var(--shadow-4);
+  box-shadow: var(--shadow4);
   width: 500px;
   margin: 0 auto;
   height: 180px;

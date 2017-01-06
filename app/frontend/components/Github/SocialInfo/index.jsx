@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
-import './social_info.css';
+import styles from './social_info.css';
 
 const getUserCardColor = (user) => {
   const {public_repos, followers, following} = user;
@@ -29,10 +29,10 @@ const SocialInfo = (props) => {
   const userCardColor = getUserCardColor(user);
 
   return (
-    <div className="info_content">
+    <div className={styles["info_content"]}>
       <a
         target="_blank"
-        className="info_social"
+        className={styles["info_social"]}
         style={style || { backgroundColor: userCardColor['public_repos'] }}
         href={showLink ? `${github.baseUrl}/${user.login}?tab=repositories` : 'javascript:void(0)'}>
         <span style={mainTextStyle}>{user['public_repos']}</span>&nbsp;
@@ -40,7 +40,7 @@ const SocialInfo = (props) => {
       </a>
       <a
         target="_blank"
-        className="info_social"
+        className={styles["info_social"]}
         style={style || { backgroundColor: userCardColor['followers'] }}
         href={showLink ? `${github.baseUrl}/${user.login}?tab=followers` : 'javascript:void(0)'}>
         <span style={mainTextStyle}>{user.followers}</span>&nbsp;
@@ -48,7 +48,7 @@ const SocialInfo = (props) => {
       </a>
       <a
         target="_blank"
-        className="info_social"
+        className={styles["info_social"]}
         style={style || { backgroundColor: userCardColor['following'] }}
         href={showLink ? `${github.baseUrl}/${user.login}?tab=following`: 'javascript:void(0)'}>
         <span style={mainTextStyle}>{user.following}</span>&nbsp;

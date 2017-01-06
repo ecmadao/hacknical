@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PortalModal from 'COMPONENTS/PortalModal';
 import Input from 'COMPONENTS/Input';
 import { GITHUB_GREEN_COLORS } from 'UTILS/colors';
-import '../../styles/share_modal.css';
+import styles from '../../styles/share_modal.css';
 
 class ShareModal extends React.Component {
   componentDidMount() {
@@ -24,11 +24,11 @@ class ShareModal extends React.Component {
       <PortalModal
         showModal={openModal}
         onClose={onClose}>
-        <div className="share_modal_container">
-          <div className="share_qrcode">
+        <div className={styles["share_modal_container"]}>
+          <div className={styles["share_qrcode"]}>
             <div id="qrcode"></div>
           </div>
-          <div className="share_info">
+          <div className={styles["share_info"]}>
             <blockquote>扫描二维码分享你的 github 总结<br/>或者复制下面的链接转发</blockquote>
             <Input
               style="flat"

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import './input.css';
+import cx from 'classnames';
+import styles from './input.css';
 import Validator from 'UTILS/validator';
 
 class Input extends React.Component {
@@ -62,13 +63,19 @@ class Input extends React.Component {
       onKeyDown
     } = this.props;
     const { error } = this.state;
+    const inputClass = cx(
+      styles["input"],
+      styles[style],
+      styles[className],
+      error && styles["error"]
+    );
 
     return (
       <input
         disabled={disabled}
         type={type}
         value={value}
-        className={`input ${style} ${className} ${error && 'error'}`}
+        className={inputClass}
         onChange={this.onChange}
         onKeyDown={onKeyDown}
         onBlur={this.onBlur}

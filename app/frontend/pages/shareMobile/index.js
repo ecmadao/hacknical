@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './styles/index.css';
-import Share from './container';
+import ShareMobile from './container';
 
 const renderApp = (domId) => {
   const DOM = document.getElementById(domId);
   ReactDOM.render(
-    <Share login={window.login} />,
+    <ShareMobile login={window.login} />,
     DOM
   )
 };

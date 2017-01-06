@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Label from './Label';
-import './labels.css';
+import styles from './labels.css';
 import Input from 'COMPONENTS/Input';
 
 class Labels extends React.Component {
@@ -57,10 +57,10 @@ class Labels extends React.Component {
     const { value } = this.state;
     const { placeholder, max, labels } = this.props;
     return (
-      <div className="labels_wrapper">
+      <div className={styles["labels_wrapper"]}>
         {this.renderLabels()}
         { labels.length < max ? (
-          <div className="label_input_wrapper">
+          <div className={styles["label_input_wrapper"]}>
             <Input
               value={value}
               check={false}

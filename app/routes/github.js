@@ -3,6 +3,7 @@ import Github from '../controllers/github';
 import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
 import session from '../controllers/helper/session';
+import query from '../controllers/helper/query';
 
 const router = koaRouter({
   prefix: '/github'
@@ -41,7 +42,11 @@ router.get(
 router.get(
   '/:login',
   Github.sharePage
-)
+);
+router.get(
+  '/:login/share',
+  Github.getSharedUser
+);
 router.get(
   '/:login/shareInfo',
   Github.getStareInfo

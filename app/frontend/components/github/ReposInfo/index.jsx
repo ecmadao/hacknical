@@ -25,6 +25,10 @@ import {
   getOffsetRight
 } from 'UTILS/helper';
 
+import chartStyles from '../styles/chart.css';
+import cardStyles from '../styles/info_card.css';
+import githubStyles from '../styles/github.css';
+
 class ReposInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -100,7 +104,7 @@ class ReposInfo extends React.Component {
 
     return (
       <div>
-        <div className="chart_info_container">
+        <div className={chartStyles["chart_info_container"]}>
           <ChartInfo
             icon="star-o"
             mainText={totalStar}
@@ -117,7 +121,7 @@ class ReposInfo extends React.Component {
             subText="创建的仓库数"
           />
         </div>
-        <div className="chart_info_container">
+        <div className={chartStyles["chart_info_container"]}>
           <ChartInfo
             icon="cube"
             mainText={maxStaredRepos.name}
@@ -151,16 +155,16 @@ class ReposInfo extends React.Component {
       const rgb = hex2Rgba(color);
       const isTarget = id === showedReposId;
       const opacity = isTarget ? OPACITY.min : OPACITY.max;
-      const infoClass = isTarget ? 'intro_info with_readme' : 'intro_info';
+      const infoClass = isTarget ? cx(githubStyles["intro_info"], githubStyles["with_readme"]) : cx(githubStyles["intro_info"]);
       return (
-        <div className="repos_intro" key={index}>
+        <div className={githubStyles["repos_intro"]} key={index}>
           <div
-            className="intro_line"
+            className={githubStyles["intro_line"]}
             style={{background: `linear-gradient(to bottom, ${rgb(OPACITY.max)}, ${rgb(opacity)})`}}></div>
-          <div className="intro_info_wrapper">
+          <div className={githubStyles["intro_info_wrapper"]}>
             <div className={infoClass}>
-              <span className="intro_title">{name}</span><br/>
-              <span className="intro_desc">{description}</span>
+              <span className={githubStyles["intro_title"]}>{name}</span><br/>
+              <span className={githubStyles["intro_desc"]}>{description}</span>
             </div>
             {isTarget && this.renderReposReadme(readme)}
           </div>
@@ -175,15 +179,15 @@ class ReposInfo extends React.Component {
     this.minDate = sortedRepos[0]['created_at'].split('T')[0];
     this.maxDate = github.getMaxDate(sortedRepos);
     return (
-      <div className="repos_timeline_container">
-        <div className="repos_dates">
-          <div className="repos_date">{getRelativeTime(this.minDate)}</div>
-          <div className="repos_date">{getRelativeTime(this.maxDate)}</div>
+      <div className={githubStyles["repos_timeline_container"]}>
+        <div className={githubStyles["repos_dates"]}>
+          <div className={githubStyles["repos_date"]}>{getRelativeTime(this.minDate)}</div>
+          <div className={githubStyles["repos_date"]}>{getRelativeTime(this.maxDate)}</div>
         </div>
-        <div className="repos_timelines">
+        <div className={githubStyles["repos_timelines"]}>
           {this.renderTimeLine(sortedRepos)}
         </div>
-        <div className="repos_intros">
+        <div className={githubStyles["repos_intros"]}>
           {this.renderReposIntros(sortedRepos)}
         </div>
       </div>
@@ -213,12 +217,14 @@ class ReposInfo extends React.Component {
       const right = offsetRight(new Date(pushed_at));
       repository.color = color || randomColor();
       const isActive = showedReposId === reposId;
-      const wrapperClass = cx('repos_timeline_wrapper', {
-        'active': isActive
-      });
-      const tipsoClass = cx('repos_tipso', {
-        'active': isActive
-      });
+      const wrapperClass = cx(
+        githubStyles["repos_timeline_wrapper"],
+        isActive && githubStyles["active"]
+      );
+      const tipsoClass = cx(
+        githubStyles["repos_tipso"],
+        isActive && githubStyles["active"]
+      );
       // const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
       const handleClick = () => {};
       return (
@@ -228,12 +234,12 @@ class ReposInfo extends React.Component {
           style={{marginLeft: left, marginRight: right}}>
           <div
             style={{backgroundColor: repository.color}}
-            className="repos_timeline"
+            className={githubStyles["repos_timeline"]}
             onClick={handleClick}>
           </div>
           <div className={tipsoClass}>
-            <div className="repos_tipso_container">
-              <span className="tipso_title">{name}</span>&nbsp;&nbsp;{`<${language}>`}<br/>
+            <div className={githubStyles["repos_tipso_container"]}>
+              <span className={githubStyles["tipso_title"]}>{name}</span>&nbsp;&nbsp;{`<${language}>`}<br/>
               <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
               &nbsp;&nbsp;&nbsp;
               <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}<br/>
@@ -249,10 +255,10 @@ class ReposInfo extends React.Component {
     return (
       <div>
         {this.renderChartInfo()}
-        <div className="canvas_container">
-          <canvas id="repos_review" ref={ref => this.reposReview = ref}></canvas>
+        <div className={chartStyles["canvas_container"]}>
+          <canvas className={githubStyles["repos_review"]} ref={ref => this.reposReview = ref}></canvas>
         </div>
-        <div className="repos_timelines_wrapper">
+        <div>
           {this.renderChosedRepos()}
         </div>
       </div>
@@ -262,9 +268,9 @@ class ReposInfo extends React.Component {
   render() {
     const { flatRepos } = this.props;
     return (
-      <div className="info_card_container chart_card_container">
+      <div className={cx(cardStyles["info_card_container"], githubStyles["chart_card_container"])}>
         <p><i aria-hidden="true" className="fa fa-bar-chart"></i>&nbsp;&nbsp;仓库概览</p>
-        <div className="info_card card">
+        <div className={cx(cardStyles["info_card"], cardStyles["card"])}>
           {!flatRepos || !flatRepos.length ? (
             <Loading />
           ) : this.renderReposReview()}

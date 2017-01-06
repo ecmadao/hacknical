@@ -2,11 +2,10 @@ import React from 'react';
 import GitHubCalendar from 'github-calendar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import cx from 'classnames';
 import 'github-calendar/dist/github-calendar.css';
 
-import '../styles/github.css';
-import '../styles/chart.css';
-import githubActions from '../redux/actions';
+import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import CommitInfo from 'COMPONENTS/Github/CommitInfo';
@@ -15,15 +14,17 @@ import ReposInfo from 'COMPONENTS/Github/ReposInfo';
 import UserInfo from 'COMPONENTS/Github/UserInfo';
 
 import ShareModal from './ShareModal';
-import { GREEN_COLORS } from 'UTILS/colors';
+import styles from '../styles/github.css';
+import githubActions from '../redux/actions';
+
 
 class Github extends React.Component {
   componentDidMount() {
-    const { actions, repos } = this.props;
-    actions.getGithubInfo();
-    GitHubCalendar(".calendar", "ecmadao");
+    const { actions, repos, login } = this.props;
+    actions.getGithubInfo(login);
+    GitHubCalendar("#calendar", "ecmadao");
     if (!repos.length) {
-      actions.getGithubRepos();
+      actions.getGithubRepos(login);
     }
   }
 
@@ -33,14 +34,19 @@ class Github extends React.Component {
       repos,
       actions,
       openModal,
+      isShare,
       openShareModal,
       reposLanguages
     } = this.props;
+    const calendarClass = cx(
+      styles["github_calendar"],
+      styles["card"]
+    );
     return (
-      <div className="github_info_container">
-        <div className="info_card_container">
+      <div>
+        <div className={styles["info_card_container"]}>
           <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
-          <div className="calendar github_calendar card">
+          <div id="calendar" className={calendarClass}>
             <Loading />
           </div>
         </div>
@@ -55,14 +61,16 @@ class Github extends React.Component {
             onClose={() => actions.toggleShareModal(false)}
           />
         ) : ''}
-        <FloatingActionButton
-          icon="share-alt"
-          style={{
-            right: '20%',
-            backgroundColor: GREEN_COLORS[1]
-          }}
-          onClick={() => actions.toggleShareModal(true)}
-        />
+        {!isShare ? (
+          <FloatingActionButton
+            icon="share-alt"
+            style={{
+              right: '20%',
+              backgroundColor: GREEN_COLORS[1]
+            }}
+            onClick={() => actions.toggleShareModal(true)}
+          />
+        ) : ''}
       </div>
     )
   }

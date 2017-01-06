@@ -5,6 +5,7 @@ import Headroom from 'headroom.js';
 import { Link } from 'react-router';
 import AppAction from '../../redux/actions';
 import { TABS } from '../../shared/data';
+import styles from 'VENDOR/tabBar/index.css';
 
 /**
  * TODO: Add animation

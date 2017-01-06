@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import OperationItem from './OperationItem';
 import cx from 'classnames';
-import './operations.css';
+import styles from './operations.css';
 
 class Operations extends React.Component {
   constructor(props) {
@@ -63,15 +63,15 @@ class Operations extends React.Component {
   render() {
     const { showOperations } = this.state;
     const moreIconClass = cx(
-      'operations_more',
-      showOperations && 'active'
+      styles["operations_more"],
+      showOperations && styles["active"]
     );
     const menuClass = cx(
-      'operations_menu',
-      showOperations && 'active'
+      styles["operations_menu"],
+      showOperations && styles["active"]
     );
     return (
-      <div className="operations_container">
+      <div className={styles["operations_container"]}>
         <div
           className={moreIconClass}
           onClick={this.showOperationMenu}>

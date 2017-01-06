@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import './button.css';
+import cx from 'classnames';
+import styles from './button.css';
 
 class Button extends React.Component {
   constructor(props) {
@@ -14,9 +15,14 @@ class Button extends React.Component {
 
   render() {
     const {value, className, leftIcon, rightIcon, style} = this.props;
+    const buttonClass = cx(
+      styles["button"],
+      styles[style],
+      styles[className]
+    )
     return (
       <div
-        className={`button ${style} ${className}`}
+        className={buttonClass}
         onClick={this.onClick}>
         {leftIcon}
         <span>

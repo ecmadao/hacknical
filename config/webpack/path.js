@@ -12,6 +12,7 @@ const ENTRY_PATH = path.join(ROOT_PATH, './app/frontend/entries'); // webpack入
 module.exports = {
   ROOT_PATH,
   BUILD_PATH,
+  MODULES_PATH,
   SERVER_PATH,
   CURRENT_PATH,
   ENTRY_PATH,

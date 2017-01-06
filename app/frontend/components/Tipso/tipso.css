@@ -1,9 +1,9 @@
-@import "../../src/styles/base.css";
+@import 'open-color/open-color.css';
 
 .tipso_container {
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: var(--shadow-4);
+  box-shadow: var(--shadow4);
   padding: 10px 20px;
   position: absolute;
   left: 50%;

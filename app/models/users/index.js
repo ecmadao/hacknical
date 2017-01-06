@@ -76,8 +76,27 @@ const loginWithGithub = async (userInfo) => {
     followers,
     following
   } = userInfo;
+  const newGithubInfo = {
+    login,
+    name,
+    avatar_url,
+    company,
+    blog,
+    location,
+    email,
+    bio,
+    created_at,
+    updated_at,
+    public_repos,
+    public_gists,
+    followers,
+    following
+  };
   const findUser = await findUserByGithubId(id);
   if (findUser) {
+    findUser.githubInfo = newGithubInfo;
+    findUser.lastLoginTime = new Date();
+    await findUser.save();
     return Promise.resolve({
       success: true,
       result: findUser
@@ -88,22 +107,7 @@ const loginWithGithub = async (userInfo) => {
     userName: name,
     lastLoginTime: new Date(),
     githubId: id,
-    githubInfo: {
-      login,
-      name,
-      avatar_url,
-      company,
-      blog,
-      location,
-      email,
-      bio,
-      created_at,
-      updated_at,
-      public_repos,
-      public_gists,
-      followers,
-      following
-    }
+    githubInfo: newGithubInfo
   });
   if (newUser) {
     return Promise.resolve({

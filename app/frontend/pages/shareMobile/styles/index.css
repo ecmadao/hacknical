@@ -1,5 +1,4 @@
 @import 'open-color/open-color.css';
-@import "../../base/styles/base.css";
 
 .loading_container {
   width: 100%;
@@ -7,83 +6,28 @@
   min-height: 300px;
 }
 
-.share {
-  padding: 20px 0 0;
+.share_info_chart {
+  &.repos_chart {
+    margin-bottom: 20px;
+  }
+}
+
+.share_info {
   display: flex;
-  justify-content: center;
-  color: var(--oc-gray-7);
-  flex-direction: column;
-}
+  flex-direction: row;
 
-.share_header {
-  text-align: center;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
-  border-bottom: 1px solid var(--oc-gray-2);
-
-  & img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-
-  & blockquote {
-    margin: 15px 0;
-    color: var(--oc-gray-5);
-  }
-
-  & .social {
-    display: flex;
-    flex-direction: row;
-
-    & .social_info {
-      flex: 1;
-      border-radius: 3px;
-      padding: 7px 15px;
-
-      &:not(:last-child) {
-        /*border-right: 1px solid var(--oc-gray-2);*/
-      }
-
-      & span {
-        &:first-child {
-          font-size: 1.6em;
-          color: var(--oc-green-8);
-        }
-
-        &:last-child {
-          color: var(--oc-gray-5);
-        }
-      }
-    }
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--oc-gray-2);
   }
 }
 
-#share_body {
-  & .share_info_chart {
-    &.repos_chart {
-      margin-bottom: 20px;
-    }
-  }
+canvas {
+  margin: 0 auto;
+  max-width: 280px;
 
-  & .share_info {
-    display: flex;
-    flex-direction: row;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid var(--oc-gray-2);
-    }
-  }
-
-  & canvas {
-    margin: 0 auto;
-    max-width: 280px;
-
-    &.max_canvas {
-      max-width: none;
-      width: 100% !important;
-    }
+  &.max_canvas {
+    max-width: none;
+    width: 100% !important;
   }
 }
 
@@ -104,8 +48,8 @@
 
   & .chart_info_card {
     border-radius: 2px;
-    box-shadow: var(--shadow-2);
-    padding: 15px 25px 7px;
+    box-shadow: var(--shadow2);
+    padding: 10px 25px 7px;
     background-color: rgba(30, 104, 35, 0.7);
 
     & i {
@@ -128,6 +72,7 @@
       opacity: 0.5;
       text-align: left;
       color: var(--oc-gray-1);
+      margin-bottom: 3px;
     }
   }
 }
@@ -259,23 +204,6 @@
         width: 100%;
         border-radius: 0 7px 7px 0;
       }
-    }
-  }
-}
-
-@media (max-width: 800px) {
-  .share {
-    font-size: 14px;
-  }
-
-  .share_header {
-    & img {
-      width: 60px;
-      height: 60px;
-    }
-
-    & blockquote {
-      margin: 10px 0;
     }
   }
 }

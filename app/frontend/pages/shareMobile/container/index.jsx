@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
+import cx from 'classnames';
 import objectAssign from 'object-assign';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick.min';
@@ -27,15 +28,16 @@ import {
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
+import styles from '../styles/index.css';
 
 const ReposInfo = (props) => {
   const { mainText, subText, style, icon } = props;
   return (
     <div className={style}>
-      <div className="info_text info_sub_text">
+      <div className={styles["info_sub_text"]}>
         {subText}
       </div>
-      <div className="info_text info_main_text">
+      <div className={styles["info_main_text"]}>
         <i className={`fa fa-${icon}`} aria-hidden="true"></i>
         {mainText}
       </div>
@@ -43,7 +45,7 @@ const ReposInfo = (props) => {
   )
 };
 
-class Share extends React.Component {
+class ShareMobile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,13 +94,21 @@ class Share extends React.Component {
 
   initialScrollReveal() {
     const sr = ScrollReveal({ reset: true });
-    sr.reveal('.share_info_chart', { duration: 150 });
-    sr.reveal('.info_wrapper', { duration: 150 });
+    sr.reveal('#repos_chart', { duration: 150 });
+    sr.reveal('#skill_chart', { duration: 150 });
+    sr.reveal('#commits_chart', { duration: 150 });
+
+    sr.reveal('#commits_wrapper', { duration: 150 });
+    sr.reveal('#repos_wrapper', { duration: 150 });
+    sr.reveal('#language_wrapper', { duration: 150 });
+
+    // sr.reveal('.share_info_chart', { duration: 150 });
+    // sr.reveal('.info_wrapper', { duration: 150 });
   }
 
   initialSlick() {
     if (this.slickInitialed) { return }
-    $('.chart_info_container').slick({
+    $('#chart_info_container').slick({
       accessibility: false,
       arrows: false,
       slidesToShow: 2,
@@ -277,27 +287,29 @@ class Share extends React.Component {
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = getDateAfterDays(dayIndex, week);
     return (
-      <div className="info_wrapper">
-        <div className="share_info">
+      <div
+        id="commits_wrapper"
+        className={styles["info_wrapper"]}>
+        <div className={styles["share_info"]}>
           <ChartInfo
-            style="share_chart_info"
+            style={styles["share_chart_info"]}
             mainText={parseInt(total / 52, 10)}
             subText="平均每周提交次数"
           />
           <ChartInfo
-            style="share_chart_info"
+            style={styles["share_chart_info"]}
             mainText={totalCommits}
             subText="单个仓库最多提交数"
           />
         </div>
-        <div className="share_info">
+        <div className={styles["share_info"]}>
           <ChartInfo
             mainText={dayName}
-            style="share_chart_info"
+            style={styles["share_chart_info"]}
             subText="是你提交最多的日子"
           />
           <ChartInfo
-            style="share_chart_info"
+            style={styles["share_chart_info"]}
             mainText={firstCommitDate}
             subText="2016年第一次提交"
           />
@@ -315,46 +327,50 @@ class Share extends React.Component {
     const yearlyRepos = github.getYearlyRepos(repos);
 
     return (
-      <div className="info_wrapper share_info_wrapper">
-        <div className="chart_info_container">
-          <div className="chart_info_wrapper">
+      <div
+        id="repos_wrapper"
+        className={cx(styles["info_wrapper"], styles["share_info_wrapper"])}>
+        <div
+          id="chart_info_container"
+          className={styles["chart_info_container"]}>
+          <div className={styles["chart_info_wrapper"]}>
             <ReposInfo
               icon="star-o"
               mainText={totalStar}
               subText="收获 star 数"
-              style="chart_info_card"
+              style={styles["chart_info_card"]}
             />
           </div>
-          <div className="chart_info_wrapper">
+          <div className={styles["chart_info_wrapper"]}>
             <ReposInfo
               icon="code-fork"
               mainText={totalFork}
               subText="收获 fork 数"
-              style="chart_info_card"
+              style={styles["chart_info_card"]}
             />
           </div>
-          <div className="chart_info_wrapper">
+          <div className={styles["chart_info_wrapper"]}>
             <ReposInfo
               icon="cubes"
               mainText={yearlyRepos.length}
               subText="创建的仓库数"
-              style="chart_info_card"
+              style={styles["chart_info_card"]}
             />
           </div>
-          <div className="chart_info_wrapper">
+          <div className={styles["chart_info_wrapper"]}>
             <ReposInfo
               icon="cube"
               mainText={maxStaredRepos}
               subText="最受欢迎的仓库"
-              style="chart_info_card"
+              style={styles["chart_info_card"]}
             />
           </div>
-          <div className="chart_info_wrapper">
+          <div className={styles["chart_info_wrapper"]}>
             <ReposInfo
               icon="star"
               mainText={maxStaredPerRepos}
               subText="单个仓库最多 star 数"
-              style="chart_info_card"
+              style={styles["chart_info_card"]}
             />
           </div>
         </div>
@@ -378,15 +394,15 @@ class Share extends React.Component {
         width: `${(languageUsed[language] * 100 / maxUsedCounts).toFixed(2)}%`
       };
       return (
-        <div className="repos_item" key={index}>
+        <div className={styles["repos_item"]} key={index}>
           <div
             style={barStyle}
-            className="item_chart">
+            className={styles["item_chart"]}>
             <div
               style={style}
-              className="commit_bar"></div>
+              className={styles["commit_bar"]}></div>
           </div>
-          <div className="item_data">
+          <div className={styles["item_data"]}>
             {language}
           </div>
         </div>
@@ -417,15 +433,15 @@ class Share extends React.Component {
         width: `${(totalCommits / maxCommits) * MAX_BAR_WIDTH * 100}%`
       };
       return (
-        <div className="repos_item" key={index}>
+        <div className={styles["repos_item"]} key={index}>
           <div
             style={barStyle}
-            className="item_chart">
+            className={styles["item_chart"]}>
             <div
               style={style}
-              className="commit_bar"></div>
+              className={styles["commit_bar"]}></div>
           </div>
-          <div className="item_data">
+          <div className={styles["item_data"]}>
             {totalCommits} commits
           </div>
         </div>
@@ -438,7 +454,7 @@ class Share extends React.Component {
 
     if (!loaded) {
       return (
-        <div className="loading_container">
+        <div className={styles["loading_container"]}>
           <Loading />
         </div>
       )
@@ -451,57 +467,65 @@ class Share extends React.Component {
 
     return (
       <div>
-        <div className="share_section">
-          <div className="share_info_chart repos_chart">
+        <div className={styles["share_section"]}>
+          <div
+            id="repos_chart"
+            className={cx(styles["share_info_chart"], styles["repos_chart"])}>
             <canvas
-              className="max_canvas"
+              className={styles["max_canvas"]}
               ref={ref => this.reposReview = ref}></canvas>
           </div>
           {this.renderReposInfo()}
         </div>
 
-        <div className="share_section">
-          <div className="repos_wrapper">
+        <div className={styles["share_section"]}>
+          <div className={styles["repos_wrapper"]}>
             {/* <div className="repos_xAxes">
               <div className="xAxes_text">提交次数</div>
             </div> */}
-            <div className="repos_contents_wrapper">
-              <div className="repos_contents">
+            <div className={styles["repos_contents_wrapper"]}>
+              <div className={styles["repos_contents"]}>
                 {loaded ? this.renderLanguageLines() : ''}
                 {/* {loaded ? this.renderReposDetailInfo() : ''} */}
               </div>
-              <div className="repos_yAxes">
-                <div className="yAxes_text">使用频次</div>
+              <div className={styles["repos_yAxes"]}>
+                <div className={styles["yAxes_text"]}>使用频次</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="share_section">
-          <div className="info_wrapper">
-            <div className="share_info">
+        <div className={styles["share_section"]}>
+          <div
+            id="language_wrapper"
+            className={styles["info_wrapper"]}>
+            <div className={styles["share_info"]}>
               <ChartInfo
-                style="share_chart_info"
+                style={styles["share_chart_info"]}
                 mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
                 subText="拥有最多的仓库"
               />
               <ChartInfo
-                style="share_chart_info"
+                style={styles["share_chart_info"]}
                 mainText={Object.keys(languageSkills)[maxStarCountIndex]}
                 subText="拥有最多的 star"
               />
             </div>
           </div>
-          <div className="share_info_chart" style={{ marginTop: '15px' }}>
+          <div
+            id="skill_chart"
+            className={styles["share_info_chart"]} style={{ marginTop: '15px' }}>
             <canvas ref={ref => this.languageSkill = ref}></canvas>
           </div>
         </div>
 
-        <div className="share_section">
+        <div className={styles["share_section"]}>
           { loaded ? this.renderCommitsInfo() : ''}
-          <div className="share_info_chart">
+          <div
+            id="commits_chart"
+            className={styles["share_info_chart"]}>
             <canvas
-              className="max_canvas"
+              className={styles["max_canvas"]}
               ref={ref => this.commitsYearlyChart = ref}></canvas>
           </div>
         </div>
@@ -510,4 +534,4 @@ class Share extends React.Component {
   }
 }
 
-export default Share;
+export default ShareMobile;

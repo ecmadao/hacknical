@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import cx from 'classnames';
 import Chart from 'chart.js';
 import objectAssign from 'object-assign';
 
@@ -20,6 +21,8 @@ import {
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 
+import chartStyles from '../styles/chart.css';
+import cardStyles from '../styles/info_card.css';
 
 class CommitInfo extends React.Component {
   constructor(props) {
@@ -153,7 +156,7 @@ class CommitInfo extends React.Component {
     const maxCommitRepos = reposCommits[0];
 
     return (
-      <div className="chart_info_container">
+      <div className={chartStyles["chart_info_container"]}>
         <ChartInfo
           mainText={dayName}
           subText="是你提交最多的日子"
@@ -178,10 +181,10 @@ class CommitInfo extends React.Component {
     return (
       <div>
         {this.renderChartInfo()}
-        <div className="canvas_container">
+        <div className={chartStyles["canvas_container"]}>
           <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
         </div>
-        <div className="canvas_container">
+        <div className={chartStyles["canvas_container"]}>
           <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
         </div>
       </div>
@@ -191,9 +194,9 @@ class CommitInfo extends React.Component {
   render() {
     const { loaded } = this.props;
     return (
-      <div className="info_card_container">
+      <div className={cardStyles["info_card_container"]}>
         <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
-        <div className="info_card card chart_card">
+        <div className={cx(cardStyles["info_card"], cardStyles["card"])}>
           { !loaded ? (
             <Loading />
           ) : this.renderCommitsReview()}

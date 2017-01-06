@@ -1,12 +1,12 @@
 import React from 'react';
-import './loading.css';
+import styles from './loading.css';
 
 const Loading = (props) => {
   return (
-    <div className="loading_container">
-      <div className="bounce_wrapper">
-        <div className="loading_bounce"></div>
-        <div className="loading_bounce"></div>
+    <div className={styles["loading_container"]}>
+      <div className={styles["bounce_wrapper"]}>
+        <div className={styles["loading_bounce"]}></div>
+        <div className={styles["loading_bounce"]}></div>
       </div>
     </div>
   )
