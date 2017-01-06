@@ -1,5 +1,5 @@
 import { injectReducer } from '../../redux/reducer/index';
-import reducer from './redux/reducers';
+import reducer from 'SHAREDPAGE/Github/redux/reducers';
 
 export default store => ({
   path: 'github',
