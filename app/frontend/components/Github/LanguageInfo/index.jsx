@@ -50,7 +50,7 @@ class LanguageInfo extends React.Component {
 
   renderLanguageUsedChart() {
     const { languageUsed } = this.props;
-    const languages = Object.keys(languageUsed);
+    const languages = this.sortedLanguages;
     let total = 0;
     languages.forEach(key => total += languageUsed[key]);
     const languagePercentage = languages.map(language => languageUsed[language] / total);
@@ -193,12 +193,12 @@ class LanguageInfo extends React.Component {
   }
 
   renderChartInfo() {
-    const { languageDistributions, languageSkills, languageUsed } = this.props;
+    const { languageDistributions, languageSkills } = this.props;
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
     const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
     const maxReposCountIndex = getMaxIndex(reposCount);
     const maxStarCountIndex = getMaxIndex(starCount);
-    const maxUsedLanguage = Object.keys(languageUsed).sort(sortLanguages(languageUsed))[0];
+    const maxUsedLanguage = this.sortedLanguages[0];
     return (
       <div className={chartStyles["chart_info_container"]}>
         <ChartInfo
@@ -223,10 +223,14 @@ class LanguageInfo extends React.Component {
     this.setState({ showLanguage: value });
   }
 
-  renderLanguagesLabel() {
+  get sortedLanguages() {
     const { languageUsed } = this.props;
+    return Object.keys(languageUsed).sort(sortLanguages(languageUsed));
+  }
+
+  renderLanguagesLabel() {
     const { showLanguage } = this.state;
-    const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).map((language, index) => {
+    const languages = this.sortedLanguages.map((language, index) => {
       return (
         <Label
           key={index}

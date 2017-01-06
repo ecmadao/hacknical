@@ -1,5 +1,5 @@
 import renderApp from 'PAGES/shareMobile/index';
-import 'VENDOR/shareMobile/index.css';
+import 'VENDOR/share/share_mobile.css';
 
 $(() => {
   renderApp('share_body');

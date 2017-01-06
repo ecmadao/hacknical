@@ -106,7 +106,8 @@ module.exports = {
       IMAGES: path.join(PATH.SOURCE_PATH, 'src/images'),
       PAGES: path.join(PATH.SOURCE_PATH, 'pages'),
       API: path.join(PATH.SOURCE_PATH, 'api'),
-      VENDOR: path.join(PATH.SOURCE_PATH, 'src/vendor')
+      VENDOR: path.join(PATH.SOURCE_PATH, 'src/vendor'),
+      SHAREDPAGE: path.join(PATH.SOURCE_PATH, 'pages/shared'),
     }
   },
   postcss: postcssPlugin,

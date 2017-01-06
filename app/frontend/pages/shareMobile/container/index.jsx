@@ -45,7 +45,7 @@ const ReposInfo = (props) => {
   )
 };
 
-class Share extends React.Component {
+class ShareMobile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -534,4 +534,4 @@ class Share extends React.Component {
   }
 }
 
-export default Share;
+export default ShareMobile;

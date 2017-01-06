@@ -23,8 +23,6 @@ export const MD_COLORS = [
   '#d35400',
   '#e74c3c',
   '#c0392b',
-  '#ecf0f1',
-  '#bdc3c7',
   '#95a5a6',
   '#7f8c8d'
 ];

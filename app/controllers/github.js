@@ -139,6 +139,17 @@ const sharePage = async (ctx, next) => {
   const login = ctx.params.login;
   const user = await User.findUserByLogin(login);
   const { githubInfo } = user;
+
+  if (!ctx.state.isMobile) {
+    await ctx.render('user/share', {
+      user: {
+        login
+      },
+      title: `${githubInfo.name}的2016年github总结`
+    });
+    return;
+  }
+
   const {
     bio,
     name,
@@ -148,7 +159,6 @@ const sharePage = async (ctx, next) => {
     followers,
     following
   } = githubInfo;
-
   await ctx.render('user/share_mobile', {
     user: {
       bio,
@@ -160,7 +170,7 @@ const sharePage = async (ctx, next) => {
       following,
       created_at: created_at.split('T')[0]
     },
-    title: `${githubInfo.name}的2016年github总结`
+    title: `${name}的2016年github总结`
   });
 };
 

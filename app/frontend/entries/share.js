@@ -1,6 +1,6 @@
-// import renderApp from 'PAGES/share/index';
+import renderApp from 'PAGES/sharePage/index';
 // import 'VENDOR/share/index.css';
 
 $(() => {
-  // renderApp('share_body');
+  renderApp('share');
 });

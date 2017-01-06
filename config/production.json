@@ -1,8 +1,8 @@
 {
-  "production": false,
+  "production": true,
   "port": "3000",
-  "appKey": "hawkeye-dev",
-  "redis": "redis://localhost:6379/3",
+  "appKey": "hawkeye",
+  "redis": "redis://localhost:6379/1",
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"
   },
@@ -14,6 +14,6 @@
   "github": {
     "clientId": "e7fa43f07a9c1cc07663",
     "clientSecret": "1fff26cf75c66dcc02caa7e0eef7170a9940aa3c",
-    "appName": "hawkeye-dev"
+    "appName": "hawkeye"
   }
 }

@@ -1,14 +1,24 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
+  <style>
+    #share {
+      width: 80%;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+  </style>
   <link href="{{ assetsPath("share.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
+  <div id="share">
+  </div>
 {% endblock %}
 
 {% block js %}
   <script>
+    window.isShare = true;
     window.login = '{{ user.login }}';
   </script>
   <script src="{{ assetsPath("share.js") }}"></script>

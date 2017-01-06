@@ -6,7 +6,7 @@ export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'github', reducer });
-      cb(null, require('./Components/index').default)
+      cb(null, require('SHAREDPAGE/Github').default)
     });
   }
 })
