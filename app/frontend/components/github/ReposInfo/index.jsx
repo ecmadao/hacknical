@@ -73,15 +73,15 @@ class ReposInfo extends React.Component {
         scales: {
           xAxes: [{
             gridLines: {
-              display:false
+              display: false
             }
           }],
           yAxes: [{
             gridLines: {
-              display:false
+              display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }]
         },
@@ -151,7 +151,7 @@ class ReposInfo extends React.Component {
   renderReposIntros(repos) {
     const { showedReposId } = this.props;
     return repos.map((repository, index) => {
-      const {name, description, color, id, readme} = repository;
+      const { name, description, color, id, readme } = repository;
       const rgb = hex2Rgba(color);
       const isTarget = id === showedReposId;
       const opacity = isTarget ? OPACITY.min : OPACITY.max;
@@ -164,7 +164,7 @@ class ReposInfo extends React.Component {
           <div className={githubStyles["intro_info_wrapper"]}>
             <div className={infoClass}>
               <span className={githubStyles["intro_title"]}>{name}</span><br/>
-              <span className={githubStyles["intro_desc"]}>{description}</span>
+              <span>{description}</span>
             </div>
             {isTarget && this.renderReposReadme(readme)}
           </div>
