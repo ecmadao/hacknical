@@ -26,15 +26,15 @@ const {
   'SET_CHOSED_REPOS'
 );
 
-const getGithubInfo = () => (dispatch, getState) => {
-  Api.github.getUser().then((result) => {
+const getGithubInfo = (login = '') => (dispatch, getState) => {
+  Api.github.getUser(login).then((result) => {
     dispatch(setGithubInfo(result));
     dispatch(toggleLoading(false));
   });
 };
 
-const getGithubRepos = () => (dispatch, getState) => {
-  Api.github.getRepos().then((result) => {
+const getGithubRepos = (login = '') => (dispatch, getState) => {
+  Api.github.getRepos(login).then((result) => {
     const { repos, commits } = result;
     dispatch(setGithubRepos(repos));
     dispatch(setGithubCommits(commits));
