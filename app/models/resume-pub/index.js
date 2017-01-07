@@ -26,7 +26,7 @@ const resumeValidation = (timestamp) => {
   return true;
 };
 
-const findPubResume = async (userId, resumeHash) => {
+const findPublicResume = async (userId, resumeHash) => {
   return await ResumePub.findOne({
     userId,
     resumeHash
@@ -69,7 +69,7 @@ const addPubResume = async (userId, options) => {
 };
 
 const updatePubResume = async (userId, resumeHash, options) => {
-  const findResult = await findPubResume(userId, resumeHash);
+  const findResult = await findPublicResume(userId, resumeHash);
   if (!findResult) {
     return Promise.resolve({
       success: false,
@@ -88,7 +88,7 @@ const updatePubResume = async (userId, resumeHash, options) => {
 };
 
 const findPubResume = async (userId, resumeHash) => {
-  const findResult = await findPubResume(userId, resumeHash);
+  const findResult = await findPublicResume(userId, resumeHash);
   if (!findResult) {
     return Promise.resolve({
       success: false,

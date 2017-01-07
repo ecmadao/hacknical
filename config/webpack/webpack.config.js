@@ -9,7 +9,7 @@ const cssnext = require("postcss-cssnext");
 const PATH = require('./path');
 const path = require('path');
 const fs = require('fs');
-const styleVariables = require('../../app/frontend/src/styles/variables');
+const styleVariables = require(path.join(PATH.SOURCE_PATH, 'src/styles/variables'));
 
 const entryFiles = fs.readdirSync(PATH.ENTRY_PATH);
 

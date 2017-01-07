@@ -1,1 +1,3 @@
 /config/production.json
+/dist
+/node_modules
