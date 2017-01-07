@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import objectAssign from 'object-assign';

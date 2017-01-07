@@ -10,7 +10,8 @@ import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import CommitInfo from 'COMPONENTS/Github/CommitInfo';
 import LanguageInfo from 'COMPONENTS/Github/LanguageInfo';
-import ReposInfo from 'COMPONENTS/Github/ReposInfo';
+// import ReposInfo from 'COMPONENTS/Github/ReposInfo/index';
+import RepositoryInfo from 'COMPONENTS/Github/RepositoryInfo';
 import UserInfo from 'COMPONENTS/Github/UserInfo';
 
 import ShareModal from './ShareModal';
@@ -51,7 +52,7 @@ class Github extends React.Component {
           </div>
         </div>
         <UserInfo user={user} />
-        <ReposInfo />
+        <RepositoryInfo />
         <LanguageInfo />
         <CommitInfo />
         {openShareModal ? (

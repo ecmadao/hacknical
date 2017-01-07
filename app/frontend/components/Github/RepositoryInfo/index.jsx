@@ -28,7 +28,7 @@ import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
 
 
-class ReposInfo extends React.Component {
+class RepositoryInfo extends React.Component {
   constructor(props) {
     super(props);
     this.minDate = null;
@@ -292,4 +292,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(ReposInfo);
+export default connect(mapStateToProps)(RepositoryInfo);
