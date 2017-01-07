@@ -154,6 +154,10 @@ const getSharedUser = async (ctx, next) => {
 const sharePage = async (ctx, next) => {
   const { login } = ctx.params;
   const user = await User.findUserByLogin(login);
+  if (!user) {
+    ctx.redirect('/404');
+    return;
+  }
   const { githubInfo } = user;
 
   if (!ctx.state.isMobile) {

@@ -57,7 +57,7 @@ canvas {
     }
 
     & .info_main_text {
-      font-size: 1.6em;
+      font-size: 1.7em;
       color: var(--oc-white);
       text-align: left;
 
@@ -87,7 +87,7 @@ canvas {
 
 .share_chart_info {
   & .info_main_text {
-    font-size: 1.6em;
+    font-size: 1.7em;
     color: var(--oc-green-8);
   }
 

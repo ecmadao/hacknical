@@ -16,5 +16,6 @@ fs.readdirSync(__dirname)
   });
 
 router.get('/', home.index);
+router.get('/404', home.handle404);
 
 export default router;

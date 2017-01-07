@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block css %}
+  <link href="{{ assetsPath("404.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+  <div class="error_container">
+    <img src="/vendor/images/github_404.png" />
+    <h2>阿西吧!</h2>
+    <h4>你进入了未知区域</h4>
+    <br/>
+    <div class="time_count">
+      <span class="count">5</span>秒后跳转到首页
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{{ assetsPath("404.js") }}"></script>
+{% endblock %}

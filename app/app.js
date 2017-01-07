@@ -15,6 +15,7 @@ import userAgent from 'koa-useragent';
 
 import assetsPath from './middlewares/assets_helper';
 import redisCache from './middlewares/cache_helper';
+import catch404 from './middlewares/404_helper';
 import router from './routes/index';
 
 const appKey = config.get('appKey');
@@ -31,7 +32,8 @@ app.use(bodyParser());
 app.use(convert(json()));
 // logger
 app.use(convert(logger()));
-
+// catch 404
+app.use(catch404());
 // session
 app.use(convert(session({
   store: redisStore({
@@ -39,7 +41,7 @@ app.use(convert(session({
   }),
   ttl: 24 * 60 * 60 * 1000
 })));
-// catch
+// cache
 app.use(redisCache({
   url: config.get('redis')
 }));
