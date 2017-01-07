@@ -33,7 +33,7 @@ class ShareModal extends React.Component {
             <Input
               style="flat"
               disabled={true}
-              value={`http://192.168.1.7:3000/github/${login}`}
+              value={`${window.location.origin}/github/${login}`}
             />
           </div>
         </div>

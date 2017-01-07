@@ -4,6 +4,7 @@ import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
 import session from '../controllers/helper/session';
 import query from '../controllers/helper/query';
+import platform from '../controllers/helper/platform';
 
 const router = koaRouter({
   prefix: '/github'
@@ -43,6 +44,7 @@ router.get(
 );
 router.get(
   '/:login',
+  platform.checkPlatform,
   Github.sharePage
 );
 router.get(
