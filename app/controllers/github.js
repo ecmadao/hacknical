@@ -165,7 +165,7 @@ const sharePage = async (ctx, next) => {
       user: {
         login
       },
-      title: `${githubInfo.name}的2016年github总结`
+      title: `${githubInfo.name || githubInfo.login}的2016年github总结`
     });
     return;
   }
@@ -190,7 +190,7 @@ const sharePage = async (ctx, next) => {
       following,
       created_at: created_at.split('T')[0]
     },
-    title: `${name}的2016年github总结`
+    title: `${name || login}的2016年github总结`
   });
 };
 

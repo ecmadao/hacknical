@@ -1,8 +1,18 @@
 
 const getCache = (key, params = []) => async (ctx, next) => {
-  const userId = ctx.session.userId;
+  const { login } = ctx.params;
+  const { userId } = ctx.session;
   const paramIds = params.map(param => ctx.query[param] || '').join('.');
-  const cacheKey = `${key}.${userId}.${paramIds}`;
+  let cacheKey = key;
+  if (login) {
+    cacheKey = `${cacheKey}.${login}`;
+  }
+  if (userId) {
+    cacheKey = `${cacheKey}.${userId}`;
+  }
+  if (paramIds) {
+    cacheKey = `${cacheKey}.${paramIds}`;
+  }
   const result = await ctx.cache.get(cacheKey);
   if (result) {
     console.log(`request: ${key} get datas from cache`);
