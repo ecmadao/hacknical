@@ -5,6 +5,7 @@ import github from 'UTILS/github';
 
 const initialState = {
   loading: true,
+  loaded: false,
   openModal: false,
   openShareModal: false,
   user: objectAssign({}, USER),
@@ -68,6 +69,7 @@ const reducers = handleActions({
     const repos = action.payload;
     return ({
       ...state,
+      loaded: true,
       repos: [...repos],
       reposLanguages: [...github.getReposLanguages(repos)]
     });

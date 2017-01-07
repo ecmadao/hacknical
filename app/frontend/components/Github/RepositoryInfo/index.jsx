@@ -15,6 +15,7 @@ import {
   hex2Rgba
 } from 'UTILS/colors';
 import {
+  getSecondsByDate,
   getRelativeTime
 } from 'UTILS/date';
 import {
@@ -175,7 +176,7 @@ class RepositoryInfo extends React.Component {
   renderChosedRepos() {
     const { flatRepos } = this.props;
     const sortedRepos = github.sortByDate(flatRepos.slice(0, 10));
-    this.minDate = sortedRepos[0]['created_at'].split('T')[0];
+    this.minDate = sortedRepos[0]['created_at'];
     this.maxDate = github.getMaxDate(sortedRepos);
     return (
       <div className={githubStyles["repos_timeline_container"]}>
@@ -195,8 +196,9 @@ class RepositoryInfo extends React.Component {
 
   renderTimeLine(repos) {
     const { showedReposId } = this.props;
-    const minDate = new Date(this.minDate);
-    const maxDate = new Date(this.maxDate);
+    const minDate = getSecondsByDate(this.minDate);
+    const maxDate = getSecondsByDate(this.maxDate);
+
     const offsetLeft = getOffsetLeft(minDate, maxDate);
     const offsetRight = getOffsetRight(minDate, maxDate);
     return repos.map((repository, index) => {
@@ -211,8 +213,8 @@ class RepositoryInfo extends React.Component {
         full_name
       } = repository;
 
-      const left = offsetLeft(new Date(created_at));
-      const right = offsetRight(new Date(pushed_at));
+      const left = offsetLeft(getSecondsByDate(created_at));
+      const right = offsetRight(getSecondsByDate(pushed_at));
       const color = randomColor();
       repository.color = color;
 
@@ -250,12 +252,15 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposReview() {
+    const { flatRepos, commitDatas } = this.props;
     return (
       <div>
         {this.renderChartInfo()}
-        <div className={chartStyles["canvas_container"]}>
-          <canvas className={githubStyles["repos_review"]} ref={ref => this.reposReview = ref}></canvas>
-        </div>
+        {flatRepos.length && commitDatas.length ? (
+          <div className={chartStyles["canvas_container"]}>
+            <canvas className={githubStyles["repos_review"]} ref={ref => this.reposReview = ref}></canvas>
+          </div>
+        ) : ''}
         <div>
           {this.renderChosedRepos()}
         </div>

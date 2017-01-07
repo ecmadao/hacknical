@@ -19,12 +19,24 @@ import githubActions from '../redux/actions';
 
 
 class Github extends React.Component {
+  constructor(props) {
+    super(props);
+    this.githubCalendar = false;
+  }
+
   componentDidMount() {
     const { actions, repos, login } = this.props;
     actions.getGithubInfo(login);
-    GitHubCalendar("#calendar", "ecmadao");
     if (!repos.length) {
       actions.getGithubRepos(login);
+    }
+  }
+
+  componentDidUpdate() {
+    const { user } = this.props;
+    if (!this.githubCalendar && user.login) {
+      this.githubCalendar = true;
+      GitHubCalendar("#calendar", user.login);
     }
   }
 

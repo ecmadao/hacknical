@@ -42,8 +42,8 @@ class LanguageInfo extends React.Component {
   renderCharts() {
     const { loaded } = this.props;
     if (loaded) {
-      !this.languageUsedChart && this.renderLanguageUsedChart();
-      !this.languageSkillChart && this.renderLanguageSkillsChart();
+      !this.languageUsedChart && ReactDOM.findDOMNode(this.languageUsed) && this.renderLanguageUsedChart();
+      !this.languageSkillChart && ReactDOM.findDOMNode(this.languageSkill) && this.renderLanguageSkillsChart();
     }
   }
 
@@ -252,16 +252,27 @@ class LanguageInfo extends React.Component {
 
   renderLanguageReview() {
     const { showLanguage } = this.state;
+    const { languageSkills } = this.props;
+    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null');
+    const sortedLanguages = this.sortedLanguages;
+    const chartContainer = cx(
+      githubStyles["repos_chart_container"],
+      (languages.length || sortedLanguages.length) && githubStyles["with_chart"]
+    );
     return (
       <div>
         {this.renderChartInfo()}
-        <div className={githubStyles["repos_chart_container"]}>
-          <div className={githubStyles["repos_chart"]}>
-            <canvas ref={ref => this.languageUsed = ref}></canvas>
-          </div>
-          <div className={githubStyles["repos_chart"]}>
-            <canvas ref={ref => this.languageSkill = ref}></canvas>
-          </div>
+        <div className={chartContainer}>
+          {sortedLanguages.length ? (
+            <div className={githubStyles["repos_chart"]}>
+              <canvas ref={ref => this.languageUsed = ref}></canvas>
+            </div>
+          ) : ''}
+          {languages.length ? (
+            <div className={githubStyles["repos_chart"]}>
+              <canvas ref={ref => this.languageSkill = ref}></canvas>
+            </div>
+          ) : ''}
         </div>
         {this.renderLanguagesLabel()}
         { showLanguage ? this.renderShowRepos() : ''}

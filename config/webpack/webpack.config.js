@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const cssImport = require("postcss-import");
 const cssnext = require("postcss-cssnext");
 
@@ -112,9 +113,6 @@ module.exports = {
   },
   postcss: postcssPlugin,
   plugins: [
-    new ExtractTextPlugin("[name].bundle.css", {
-      allChunks: true
-    }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
@@ -123,6 +121,9 @@ module.exports = {
     new CleanPlugin(PATH.BUILD_PATH, {
       root: PATH.ROOT_PATH,
       verbose: true
+    }),
+    new ManifestPlugin({
+      fileName: 'webpack_manifest.json'
     })
   ],
   displayErrorDetails: true,

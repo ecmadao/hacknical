@@ -103,6 +103,7 @@
     "scrollreveal": "^3.3.2",
     "slick-carousel": "^1.6.0",
     "validator": "^6.2.0",
+    "webpack-manifest-plugin": "^1.1.0",
     "wysiwyg.css": "0.0.2"
   }
 }

@@ -191,12 +191,15 @@ class CommitInfo extends React.Component {
   }
 
   render() {
-    const { loaded } = this.props;
+    const { hasCommits, loaded } = this.props;
+    if (loaded && !hasCommits) {
+      return (<div></div>)
+    }
     return (
       <div className={cardStyles["info_card_container"]}>
         <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
         <div className={cx(cardStyles["info_card"], cardStyles["card"])}>
-          { !loaded ? (
+          { !hasCommits ? (
             <Loading />
           ) : this.renderCommitsReview()}
         </div>
@@ -206,11 +209,13 @@ class CommitInfo extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { commitDatas } = state.github;
+  const { commitDatas, loaded } = state.github;
+
   return {
+    loaded,
     reposCommits: commitDatas,
     commitDatas: github.combineReposCommits(commitDatas),
-    loaded: commitDatas.length > 0
+    hasCommits: commitDatas.length > 0,
   }
 }
 

@@ -178,23 +178,33 @@
     width: 100%;
   }
 
-  & .repos_show_container,
-  & .repos_chart_container {
+  & .repos_show_container {
     width: 95%;
     margin-left: 2.5%;
     padding: 15px 0;
     min-height: 80px;
     display: flex;
+    justify-content: center;
+  }
 
+  & .repos_show_container,
+  & .repos_chart_container {
     & .repos_chart {
       flex: 1;
+      max-width: 50%;
     }
   }
 
   & .repos_chart_container {
     width: auto;
     margin-left: 0;
-    padding: 15px;
+    display: flex;
+    justify-content: center;
+
+    &.with_chart {
+      padding: 15px 0;
+      min-height: 80px;
+    }
   }
 
   & .repos_show_container {

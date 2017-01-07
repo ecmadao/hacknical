@@ -8,10 +8,10 @@ import appReducer from '../reducer/index';
 
 export const createAppStore = (initialState = {}) => {
 
-  // const logger = createLogger();
+  const logger = createLogger();
   const router = routerMiddleware(hashHistory);
 
-  const AppStore = createStore(appReducer, initialState, applyMiddleware(router, thunk));
+  const AppStore = createStore(appReducer, initialState, applyMiddleware(logger, router, thunk));
   // const AppStore = compose(
   //     applyMiddleware(logger)
   //   )(createStore)(appReducer, initialState);
