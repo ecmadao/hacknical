@@ -2,7 +2,7 @@
   "name": "hawkeye",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "babel app -d dist --copy-files",
     "start-dev": "./node_modules/.bin/nodemon app/index.js & npm run watch-dev",
