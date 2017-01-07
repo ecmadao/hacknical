@@ -9,7 +9,7 @@ class ShareModal extends React.Component {
   componentDidMount() {
     const { login } = this.props;
     const qrcode = new QRCode(document.getElementById("qrcode"), {
-      text: `http://192.168.1.7:3000/github/${login}`,
+      text: `${window.location.origin}/github/${login}`,
       width: 100,
       height: 100,
       colorDark : GITHUB_GREEN_COLORS[1],

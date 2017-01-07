@@ -5,10 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start-dev": "./node_modules/.bin/nodemon index.js & npm run watch-dev",
-    "start": "NODE_ENV=production ./node_modules/.bin/nodemon index.js & npm run watch-dev",
+    "start": "NODE_ENV=production npm run build-pro && ./node_modules/.bin/nodemon index.js",
     "dev": "./node_modules/webpack-dashboard/bin/webpack-dashboard.js -- ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config config/webpack/webpack.dev.js",
     "watch-dev": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dev.js --watch",
-    "build-dev": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.config.js -p --progress --colors"
+    "build-pro": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.production.js -p",
+    "build-dev": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.config.js -p --progress --colors",
+    "deploy": "git pull origin master && npm run build-pro && npm run pm2",
+    "pm2": "NODE_ENV=production ./node_modules/.bin/pm2 start index.js -i 2 --name \"hawkeye\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
+    "pm2:restart": "NODE_ENV=production ./node_modules/.bin/pm2 restart \"hawkeye\"",
+    "pm2:stop": "NODE_ENV=production ./node_modules/.bin/pm2 stop \"hawkeye\"",
+    "pm2:logs": "NODE_ENV=production ./node_modules/.bin/pm2 logs \"hawkeye\""
   },
   "author": "ecmadao",
   "license": "ISC",
