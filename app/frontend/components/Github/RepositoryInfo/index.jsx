@@ -214,6 +214,8 @@ class RepositoryInfo extends React.Component {
       const left = offsetLeft(new Date(created_at));
       const right = offsetRight(new Date(pushed_at));
       const color = randomColor();
+      repository.color = color;
+
       const isActive = showedReposId === reposId;
       const wrapperClass = cx(
         githubStyles["repos_timeline_wrapper"],

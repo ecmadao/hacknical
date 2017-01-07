@@ -25,7 +25,9 @@ router.get(
 router.get(
   '/user',
   user.checkSession(['userId']),
-  Github.getUser
+  cache.get('user'),
+  Github.getUser,
+  cache.set()
 );
 router.get(
   '/repos/commits',
@@ -45,11 +47,15 @@ router.get(
 );
 router.get(
   '/:login/share',
-  Github.getSharedUser
+  cache.get('sharedUser'),
+  Github.getSharedUser,
+  cache.set()
 );
 router.get(
   '/:login/shareInfo',
-  Github.getStareInfo
+  cache.get('sharedInfo'),
+  Github.getStareInfo,
+  cache.set()
 )
 
 
