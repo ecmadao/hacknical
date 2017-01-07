@@ -152,7 +152,6 @@ class RepositoryInfo extends React.Component {
     const { showedReposId } = this.props;
     return repos.map((repository, index) => {
       const { name, description, color, id, readme, html_url } = repository;
-      console.log(repository);
       const rgb = hex2Rgba(color);
       const isTarget = id === showedReposId;
       const opacity = isTarget ? OPACITY.min : OPACITY.max;

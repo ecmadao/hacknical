@@ -53,6 +53,26 @@
   }
 }
 
+#share_body {
+  padding-bottom: 40px;
+}
+
+.share_banner {
+  position: fixed;
+  font-size: 12px;
+  text-align: center;
+  color: var(--oc-gray-6);
+  background-color: var(--oc-white);
+  height: 40px;
+  line-height: 40px;
+  bottom: 0;
+  left: 0;
+  display: block;
+  text-decoration: none;
+  width: 100%;
+  box-shadow: 0 -1px 1px 1px rgba(0,0,0,0.05);
+}
+
 @media (max-width: 800px) {
   .share {
     font-size: 14px;

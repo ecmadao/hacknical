@@ -1,0 +1,33 @@
+@import 'open-color/open-color.css';
+
+#share {
+  padding-bottom: 90px;
+}
+
+.share_banner_wrapper {
+  position: fixed;
+  padding: 10px 0;
+  background-color: var(--oc-white);
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 -1px 1px 1px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.share_banner {
+  /*flex: 1;*/
+  text-align: center;
+  font-size: 14px;
+  color: var(--oc-gray-6);
+  line-height: 40px;
+  display: block;
+  text-decoration: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--oc-blue-6);
+  }
+}
