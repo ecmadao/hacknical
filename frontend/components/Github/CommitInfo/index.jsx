@@ -131,7 +131,7 @@ class CommitInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `总提交数 ${item.yLabel}，平均每周${item.xLabel.slice(-1)}提交 ${parseInt(item.yLabel / 52)} 次`
+              return `总提交数 ${item.yLabel}，平均每周${item.xLabel.slice(-1)}提交 ${(item.yLabel / 52).toFixed(2)} 次`
             }
           }
         }
@@ -161,7 +161,7 @@ class CommitInfo extends React.Component {
           subText="是你提交最多的日子"
         />
         <ChartInfo
-          mainText={parseInt(total / 52, 10)}
+          mainText={(total / 52).toFixed(2)}
           subText="平均每周提交次数"
         />
         <ChartInfo

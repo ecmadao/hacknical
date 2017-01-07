@@ -182,7 +182,7 @@ const sharePage = async (ctx, next) => {
   await ctx.render('user/share_mobile', {
     user: {
       bio,
-      name,
+      name: name || login,
       login,
       avatar_url,
       public_repos,

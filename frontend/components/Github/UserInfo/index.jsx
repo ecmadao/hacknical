@@ -16,7 +16,7 @@ const UserInfo = (props) => {
             <img src={user['avatar_url']} />
           </div>
           <div className={styles["info_user"]}>
-            <a href={`${github.baseUrl}/${user.login}`} target="_blank">{user.name}</a>
+            <a href={`${github.baseUrl}/${user.login}`} target="_blank">{user.name || user.login}</a>
             <span>加入时间：{user['created_at'].split('T')[0]}</span>
             {user.bio ? <blockquote>{user.bio}</blockquote> : ''}
           </div>

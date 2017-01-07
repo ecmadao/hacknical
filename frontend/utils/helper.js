@@ -57,10 +57,10 @@ export const sortLanguages = (obj) => (firstLanguage, secLanguage) => {
 
 export const getOffsetLeft = (start, end) => (left) => {
   const length = end - start;
-  return `${(left - start) * 100 / length}%`;
+  return `${Math.floor((left - start) * 100 / length)}%`;
 };
 
 export const getOffsetRight = (start, end) => (right) => {
   const length = end - start;
-  return `${(end - right) * 100 / length}%`;
+  return `${Math.floor((end - right) * 100 / length)}%`;
 };

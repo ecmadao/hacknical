@@ -151,7 +151,8 @@ class RepositoryInfo extends React.Component {
   renderReposIntros(repos) {
     const { showedReposId } = this.props;
     return repos.map((repository, index) => {
-      const { name, description, color, id, readme } = repository;
+      const { name, description, color, id, readme, html_url } = repository;
+      console.log(repository);
       const rgb = hex2Rgba(color);
       const isTarget = id === showedReposId;
       const opacity = isTarget ? OPACITY.min : OPACITY.max;
@@ -163,7 +164,9 @@ class RepositoryInfo extends React.Component {
             style={{background: `linear-gradient(to bottom, ${rgb(OPACITY.max)}, ${rgb(opacity)})`}}></div>
           <div className={githubStyles["intro_info_wrapper"]}>
             <div className={infoClass}>
-              <span className={githubStyles["intro_title"]}>{name}</span><br/>
+              <a className={githubStyles["intro_title"]} href={html_url} target="_blank">
+                {name}
+              </a><br/>
               <span>{description}</span>
             </div>
             {/* {isTarget && this.renderReposReadme(readme)} */}
@@ -294,7 +297,7 @@ function mapStateToProps(state) {
   return {
     showedReposId,
     commitDatas,
-    flatRepos: repos.sort(sortRepos()),
+    flatRepos: repos.filter(repository => !repository.fork).sort(sortRepos()),
     username: user && user.name
   }
 }
