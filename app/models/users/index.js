@@ -24,7 +24,7 @@ const findUserById = async (userId) => {
 };
 
 const findUserByLogin = async (login) => {
-  return await User.findOne({ githubInfo: { login } });
+  return await User.findOne({ 'githubInfo.login': login });
 };
 
 const createUser = async (email, pwd) => {
