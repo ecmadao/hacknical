@@ -85,15 +85,9 @@ canvas {
   }
 }
 
-.share_chart_info {
-  & .info_main_text {
-    font-size: 1.7em;
-    color: var(--oc-green-8);
-  }
-
-  & .info_sub_text {
-    color: var(--oc-gray-5);
-  }
+.share_chart_main_text {
+  font-size: 1.7em;
+  color: var(--oc-green-8);
 }
 
 .share_section {

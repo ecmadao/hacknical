@@ -292,26 +292,26 @@ class ShareMobile extends React.Component {
         className={styles["info_wrapper"]}>
         <div className={styles["share_info"]}>
           <ChartInfo
-            style={styles["share_chart_info"]}
             mainText={parseInt(total / 52, 10)}
             subText="平均每周提交次数"
+            mainTextStyle={styles["share_chart_main_text"]}
           />
           <ChartInfo
-            style={styles["share_chart_info"]}
             mainText={totalCommits}
             subText="单个仓库最多提交数"
+            mainTextStyle={styles["share_chart_main_text"]}
           />
         </div>
         <div className={styles["share_info"]}>
           <ChartInfo
             mainText={dayName}
-            style={styles["share_chart_info"]}
             subText="是你提交最多的日子"
+            mainTextStyle={styles["share_chart_main_text"]}
           />
           <ChartInfo
-            style={styles["share_chart_info"]}
             mainText={firstCommitDate}
             subText="2016年第一次提交"
+            mainTextStyle={styles["share_chart_main_text"]}
           />
         </div>
       </div>
@@ -501,12 +501,12 @@ class ShareMobile extends React.Component {
             className={styles["info_wrapper"]}>
             <div className={styles["share_info"]}>
               <ChartInfo
-                style={styles["share_chart_info"]}
+                mainTextStyle={styles["share_chart_main_text"]}
                 mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
                 subText="拥有最多的仓库"
               />
               <ChartInfo
-                style={styles["share_chart_info"]}
+                mainTextStyle={styles["share_chart_main_text"]}
                 mainText={Object.keys(languageSkills)[maxStarCountIndex]}
                 subText="拥有最多的 star"
               />
