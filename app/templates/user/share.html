@@ -1,24 +1,26 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <style>
-    #share {
-      width: 80%;
-      max-width: 750px;
-      margin: 0 auto;
-    }
-  </style>
+  {% if not user.isAdmin %}
+    <style>
+      #share {
+        padding-bottom: 90px;
+      }
+    </style>
+  {% endif %}
   <link href="{{ assetsPath("share.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
   <div id="share">
   </div>
-  <div class="share_banner_wrapper">
-    <a class="share_banner" href="/" target="_blank">
-      <i class="fa fa-code" aria-hidden="true"></i>&nbsp;&nbsp;想知道自己在2016年里致力于哪些编程语言？戳我查看2016年 github 总结
-    </a>
-  </div>
+  {% if not user.isAdmin %}
+    <div class="share_banner_wrapper">
+      <a class="share_banner" href="/" target="_blank">
+        <i class="fa fa-code" aria-hidden="true"></i>&nbsp;&nbsp;想知道自己在2016年里致力于哪些编程语言？戳我查看2016年 github 总结
+      </a>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block js %}

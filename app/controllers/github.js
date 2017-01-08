@@ -153,6 +153,7 @@ const getSharedUser = async (ctx, next) => {
 
 const sharePage = async (ctx, next) => {
   const { login } = ctx.params;
+  const { githubLogin } = ctx.session;
   const user = await User.findUserByLogin(login);
   if (!user) {
     ctx.redirect('/404');
@@ -163,7 +164,8 @@ const sharePage = async (ctx, next) => {
   if (!ctx.state.isMobile) {
     await ctx.render('user/share', {
       user: {
-        login
+        login,
+        isAdmin: login === githubLogin
       },
       title: `${githubInfo.name || githubInfo.login}的2016年github总结`
     });
@@ -188,6 +190,7 @@ const sharePage = async (ctx, next) => {
       public_repos,
       followers,
       following,
+      isAdmin: login === githubLogin,
       created_at: created_at.split('T')[0]
     },
     title: `${name || login}的2016年github总结`
