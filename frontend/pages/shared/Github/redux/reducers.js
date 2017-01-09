@@ -66,11 +66,12 @@ const reducers = handleActions({
     });
   },
   SET_GITHUB_REPOS(state, action) {
-    const repos = action.payload;
+    const { repos, commits } = action.payload;
     return ({
       ...state,
       loaded: true,
       repos: [...repos],
+      commitDatas: [...commits],
       reposLanguages: [...github.getReposLanguages(repos)]
     });
   },

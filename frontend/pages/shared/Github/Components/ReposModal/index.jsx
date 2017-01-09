@@ -65,7 +65,6 @@ class ReposModal extends React.Component {
   removeItem(id) {
     const { selectedItems } = this.state;
     const filterResult = selectedItems.filter(item => parseInt(id) !== parseInt(item));
-    // console.log(filterResult)
     this.setState({
       selectedItems: [...filterResult]
     });

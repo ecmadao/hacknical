@@ -5,22 +5,23 @@ import Api from 'API/index';
 import CHOSED_REPOS from 'MOCK/chosed_repos';
 
 const {
+  setGithubRepos,
   toggleModal,
   toggleShareModal,
   toggleLoading,
   setGithubInfo,
   setGithubCommits,
-  setGithubRepos,
   closeReposReadme,
   setShowedReposId,
   setChosedRepos
-} = createActions(
+} = createActions({
+  SET_GITHUB_REPOS: (repos, commits) => ({ repos, commits })
+},
   'TOGGLE_MODAL',
   'TOGGLE_SHARE_MODAL',
   'TOGGLE_LOADING',
   'SET_GITHUB_INFO',
   'SET_GITHUB_COMMITS',
-  'SET_GITHUB_REPOS',
   'CLOSE_REPOS_README',
   'SET_SHOWED_REPOS_ID',
   'SET_CHOSED_REPOS'
@@ -36,8 +37,7 @@ const getGithubInfo = (login = '') => (dispatch, getState) => {
 const getGithubRepos = (login = '') => (dispatch, getState) => {
   Api.github.getRepos(login).then((result) => {
     const { repos, commits } = result;
-    dispatch(setGithubRepos(repos));
-    dispatch(setGithubCommits(commits));
+    dispatch(setGithubRepos(repos, commits));
   });
 };
 
