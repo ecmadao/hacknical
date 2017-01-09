@@ -53,3 +53,20 @@
   composes: header_menu_icon;
   float: right;
 }
+
+/* tipso */
+.tipso {
+  bottom: -90% !important;
+
+  &::before {
+    top: -11px;
+    border-top: none !important;
+    border-bottom: 10px solid rgba(212, 212, 212, 0.3);
+  }
+
+  &::after {
+    top: -9px;
+    border-top: none !important;
+    border-bottom: 10px solid var(--oc-white);
+  }
+}

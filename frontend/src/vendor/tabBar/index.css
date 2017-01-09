@@ -25,6 +25,7 @@
   color: var(--oc-gray-6);
   border-bottom: 3px solid transparent;
   transition: border-bottom 0.2s, color 0.2s;
+  position: relative;
 
   & i {
     color: var(--oc-gray-6);

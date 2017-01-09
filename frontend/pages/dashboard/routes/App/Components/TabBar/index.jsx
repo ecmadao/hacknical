@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import cx from 'classnames';
 import Headroom from 'headroom.js';
-import { Link } from 'react-router';
 import AppAction from '../../redux/actions';
 import { TABS } from '../../shared/data';
 import styles from 'VENDOR/tabBar/index.css';
+import Tab from './Tab';
 
 /**
  * TODO: Add animation
@@ -37,23 +36,14 @@ class TabBar extends React.Component {
     const { changeActiveTab, activeTab } = this.props;
 
     return TABS.map((tab, index) => {
-      const { id, name, icon, enable } = tab;
-      const style = activeTab === id ? (tab.activeStyle || {}) : {};
-      const tabClass = cx(
-        "app_tab",
-        enable && "enable"
-      );
+      const style = activeTab === tab.id ? (tab.activeStyle || {}) : {};
       return (
-        <Link
+        <Tab
           key={index}
-          to={`/${id}`}
+          tab={tab}
           style={style}
-          className={tabClass}
-          activeClassName="app_tab_active"
-          onClick={(e) => this.changeActiveTab(e, id, enable)}>
-          <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
-          {name}
-        </Link>
+          onChange={this.changeActiveTab}
+        />
       )
     })
   }
