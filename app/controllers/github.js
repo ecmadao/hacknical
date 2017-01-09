@@ -57,7 +57,6 @@ const setCommits = async (repos, userId, token) => {
  * private
  */
 const getAndSetCommits = async (userId, token) => {
-  return [];
   const findCommits = await GithubCommits.getUserCommits(userId);
   if (findCommits.length) {
     return sortByCommits(findCommits);
