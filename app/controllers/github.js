@@ -16,8 +16,10 @@ const getAndSetRepos = async (login, token, userId) => {
     return findResult;
   }
   const multiRepos = await Github.getMultiRepos(login, token);
-  const reposLanguages = await Github.getAllReposLanguages(multiRepos, token);
-  multiRepos.forEach((repository, index) => repository.languages = reposLanguages[index]);
+  try {
+    const reposLanguages = await Github.getAllReposLanguages(multiRepos, token);
+    multiRepos.forEach((repository, index) => repository.languages = reposLanguages[index]);
+  } catch (err) {}
   const setResults = await GithubRepos.setRepos(userId, multiRepos);
   return setResults;
 };
@@ -27,30 +29,35 @@ const getAndSetRepos = async (login, token, userId) => {
  */
 const setCommits = async (repos, userId, token) => {
   const reposList = validateReposList(repos);
-  const fetchCommits = await Github.getAllReposYearlyCommits(reposList, token);
-  const results = fetchCommits.map((commits, index) => {
-    const repository = reposList[index];
-    const { reposId, name, created_at, pushed_at } = repository;
-    let totalCommits = 0;
-    commits.forEach(commit => totalCommits += commit.total);
-    return {
-      commits,
-      totalCommits,
-      reposId,
-      name,
-      created_at,
-      pushed_at
-    }
-  });
-  const sortResult = sortByCommits(results);
-  await GithubCommits.addUserCommits(userId, sortResult);
-  return sortResult;
+  try {
+    const fetchCommits = await Github.getAllReposYearlyCommits(reposList, token);
+    const results = fetchCommits.map((commits, index) => {
+      const repository = reposList[index];
+      const { reposId, name, created_at, pushed_at } = repository;
+      let totalCommits = 0;
+      commits.forEach(commit => totalCommits += commit.total);
+      return {
+        commits,
+        totalCommits,
+        reposId,
+        name,
+        created_at,
+        pushed_at
+      }
+    });
+    const sortResult = sortByCommits(results);
+    await GithubCommits.addUserCommits(userId, sortResult);
+    return sortResult;
+  } catch (err) {
+    return [];
+  }
 };
 
 /**
  * private
  */
 const getAndSetCommits = async (userId, token) => {
+  return [];
   const findCommits = await GithubCommits.getUserCommits(userId);
   if (findCommits.length) {
     return sortByCommits(findCommits);

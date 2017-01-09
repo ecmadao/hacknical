@@ -47,7 +47,7 @@ class RepositoryInfo extends React.Component {
 
   renderCharts() {
     const { flatRepos, commitDatas } = this.props;
-    if (flatRepos.length && commitDatas.length) {
+    if (flatRepos.length) {
       !this.reposReviewChart && this.renderBarChart(flatRepos.slice(0, 10));
     }
   }
@@ -55,15 +55,20 @@ class RepositoryInfo extends React.Component {
   renderBarChart(flatRepos) {
     const { commitDatas } = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
+    const datasets = [
+      chart.getStarDatasets(flatRepos),
+      chart.getForkDatasets(flatRepos)
+    ];
+    if (commitDatas.length) {
+      datasets.push(
+        chart.getCommitDatasets(flatRepos, commitDatas)
+      )
+    }
     this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',
       data: {
-        labels: github.getReposNames(flatRepos),
-        datasets: [
-          chart.getStarDatasets(flatRepos),
-          chart.getForkDatasets(flatRepos),
-          chart.getCommitDatasets(flatRepos, commitDatas)
-        ]
+        datasets,
+        labels: github.getReposNames(flatRepos)
       },
       options: {
         title: {
@@ -258,7 +263,7 @@ class RepositoryInfo extends React.Component {
     return (
       <div>
         {this.renderChartInfo()}
-        {flatRepos.length && commitDatas.length ? (
+        {flatRepos.length ? (
           <div className={chartStyles["canvas_container"]}>
             <canvas className={githubStyles["repos_review"]} ref={ref => this.reposReview = ref}></canvas>
           </div>

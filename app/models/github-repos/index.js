@@ -57,7 +57,7 @@ const setRepository = async (userId, repository) => {
   	stargazers_count,
   	watchers_count,
   	language,
-    languages,
+    languages: languages || {},
   	forks_count,
   	forks,
   	watchers,
