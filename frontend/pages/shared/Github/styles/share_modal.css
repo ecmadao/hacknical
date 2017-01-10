@@ -17,6 +17,7 @@
     font-size: 14px;
     line-height: 1.5em;
     margin-left: 5px;
+    margin-bottom: 10px;
     color: var(--oc-gray-5);
     border-left: 0.25em solid var(--oc-gray-5);
   }

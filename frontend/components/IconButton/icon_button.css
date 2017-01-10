@@ -1,0 +1,27 @@
+@import 'open-color/open-color.css';
+
+.container {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 2px;
+
+  & i {
+    color: var(--oc-grey-5);
+  }
+}
+
+.pressed {
+  &:not(.disabled) {
+    background-color: var(--oc-gray-2);
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+}

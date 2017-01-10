@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import Clipboard from 'clipboard';
 
 import PortalModal from 'COMPONENTS/PortalModal';
+import IconButton from 'COMPONENTS/IconButton';
 import Input from 'COMPONENTS/Input';
+
 import { GITHUB_GREEN_COLORS } from 'UTILS/colors';
 import styles from '../../styles/share_modal.css';
 
@@ -18,8 +20,9 @@ class ShareModal extends React.Component {
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H
     });
-    new Clipboard('#copyButton');
-    // $('#copyButton').click();
+    new Clipboard('#copyButton', {
+      text: () => $("#shareUrl").val()
+    });
   }
 
   copyUrl() {
@@ -44,13 +47,18 @@ class ShareModal extends React.Component {
                 style="flat"
                 value={`${window.location.origin}/github/${login}`}
               />
-              <div
+              <IconButton
+                icon="clipboard"
+                id="copyButton"
+                onClick={this.copyUrl.bind(this)}
+              />
+              {/* <div
                 id="copyButton"
                 data-clipboard-target="#shareUrl"
                 className={styles["copy_button"]}
                 onClick={this.copyUrl.bind(this)}>
                 <i className="fa fa-clipboard" aria-hidden="true"></i>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
