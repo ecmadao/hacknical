@@ -70,6 +70,7 @@
     "babel-runtime": "^6.11.6",
     "chart.js": "^2.4.0",
     "cleave.js": "^0.7.14",
+    "clipboard": "^1.5.16",
     "co-redis": "^2.1.1",
     "config": "^1.21.0",
     "crypto": "0.0.3",

@@ -55,6 +55,7 @@ class Input extends React.Component {
     const {
       value,
       disabled,
+      id,
       className,
       placeholder,
       type,
@@ -72,6 +73,7 @@ class Input extends React.Component {
 
     return (
       <input
+        id={id}
         disabled={disabled}
         type={type}
         value={value}
@@ -93,6 +95,7 @@ Input.propTypes = {
   check: PropTypes.bool,
   value: PropTypes.string,
   className: PropTypes.string,
+  id: PropTypes.string,
   placeholder: PropTypes.string,
   type: PropTypes.string,
   style: PropTypes.string,
@@ -108,6 +111,7 @@ Input.defaultProps = {
   value: '',
   check: true,
   className: '',
+  id: '',
   placeholder: '',
   type: 'string',
   style: 'material',
