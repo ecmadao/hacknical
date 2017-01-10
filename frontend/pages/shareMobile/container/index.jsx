@@ -233,16 +233,21 @@ class ShareMobile extends React.Component {
 
   renderReposChart(repos) {
     const { commits } = this.state;
+    const datasets = [
+      chart.getStarDatasets(repos),
+      chart.getForkDatasets(repos)
+    ];
+    if (commits.length) {
+      datasets.push(
+        chart.getCommitDatasets(repos, commits)
+      )
+    }
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     this.reposChart = new Chart(reposReview, {
       type: 'bar',
       data: {
-        labels: github.getReposNames(repos),
-        datasets: [
-          chart.getStarDatasets(repos),
-          chart.getForkDatasets(repos),
-          chart.getCommitDatasets(repos, commits)
-        ]
+        datasets,
+        labels: github.getReposNames(repos)
       },
       options: {
         title: {
@@ -450,7 +455,7 @@ class ShareMobile extends React.Component {
   }
 
   render() {
-    const { loaded, languageSkills, languageDistributions } = this.state;
+    const { loaded, languageSkills, languageDistributions, commits } = this.state;
 
     if (!loaded) {
       return (
@@ -520,7 +525,7 @@ class ShareMobile extends React.Component {
         </div>
 
         <div className={styles["share_section"]}>
-          { loaded ? this.renderCommitsInfo() : ''}
+          { loaded && commits.length ? this.renderCommitsInfo() : ''}
           <div
             id="commits_chart"
             className={styles["share_info_chart"]}>
