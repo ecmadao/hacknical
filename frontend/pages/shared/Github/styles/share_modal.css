@@ -5,27 +5,42 @@
   box-shadow: var(--shadow4);
   width: 500px;
   margin: 0 auto;
-  height: 180px;
+  height: 200px;
   border-radius: 2px;
   overflow-y: auto;
   z-index: 1;
   display: flex;
   flex-direction: row;
+  position: relative;
 
   & blockquote {
     padding: 0 1em;
     font-size: 14px;
-    line-height: 1.5em;
+    line-height: 1.2em;
     margin-left: 5px;
     margin-bottom: 10px;
     color: var(--oc-gray-5);
     border-left: 0.25em solid var(--oc-gray-5);
   }
+
+  &.disabled {
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 2px;
+      content: '';
+      display: block;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
 }
 
 .share_qrcode {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   padding: 40px;
   border-right: 1px dashed var(--oc-gray-5);
 }
@@ -36,6 +51,19 @@
   padding-left: 20px;
   display: flex;
   flex-direction: column;
+}
+
+.share_controller {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.share_status {
+  flex: 1;
+  padding: 0 10px;
 }
 
 .share_container {

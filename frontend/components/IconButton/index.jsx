@@ -40,6 +40,8 @@ class IconButton extends React.Component {
         className={containerClass}
         onClick={onClick}
         onMouseUp={this.onMouseUp}
+        onMouseLeave={this.onMouseUp}
+        onMouseEnter={this.onMouseDown}
         onMouseDown={this.onMouseDown}>
         <i className={`fa fa-${icon}`} aria-hidden="true"></i>
       </div>
