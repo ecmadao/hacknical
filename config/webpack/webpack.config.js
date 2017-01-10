@@ -124,6 +124,14 @@ module.exports = {
     }),
     new ManifestPlugin({
       fileName: 'webpack_manifest.json'
+    }),
+    new webpack.DllReferencePlugin({
+      context: PATH.ROOT_PATH,
+      manifest: require(path.join(PATH.DLL_PATH, 'react-manifest.json'))
+    }),
+    new webpack.DllReferencePlugin({
+      context: PATH.ROOT_PATH,
+      manifest: require(path.join(PATH.DLL_PATH, 'runtime-manifest.json'))
     })
   ],
   displayErrorDetails: true,

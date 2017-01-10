@@ -13,10 +13,11 @@ function getAssetName(asset) {
 }
 
 const assetsPath = (assetsName) => {
-  // const [filename, filetype] = assetsName.split('.');
   const publicAsset = getAssetName(assetsName);
+  if (!publicAsset) {
+    return `/dll/${assetsName}`;
+  }
   return `/assets/${publicAsset}`;
-  // return `/assets/${filename}.bundle.${filetype}`;
 };
 
 export default assetsPath;
