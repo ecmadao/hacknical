@@ -11,6 +11,7 @@ const UserSchema = new Schema({
     default: Date.now
   },
   email: String,
+  openShare: { type: Boolean, default: true },
   githubId: { type: String, default: '' },
   githubInfo: {
     name: String,

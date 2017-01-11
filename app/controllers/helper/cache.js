@@ -23,15 +23,16 @@ const getCache = (key, params = []) => async (ctx, next) => {
     return;
   }
   ctx.query.cacheKey = cacheKey;
+  ctx.query.shouldCache = true;
   await next();
 };
 
 const setCache = (options = {}) => async (ctx, next) => {
-  const { cacheKey } = ctx.query;
+  const { cacheKey, shouldCache } = ctx.query;
   const { result } = ctx.body;
   const expire = options.expire || 86400; // one day
 
-  if (cacheKey && result) {
+  if (cacheKey && result && shouldCache) {
     console.log(`set cache of ${cacheKey}`);
     await ctx.cache.set(cacheKey, result, { expire });
   }

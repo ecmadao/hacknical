@@ -94,6 +94,9 @@ const getRepos = async (ctx, next) => {
   const { userId, githubLogin, githubToken } = ctx.session;
   const repos = await getAndSetRepos(githubLogin, githubToken, userId);
   const commits = await getAndSetCommits(userId, githubToken);
+  if (!commits.length || !repos.length) {
+    ctx.query.shouldCache = false;
+  }
   ctx.body = {
     success: true,
     result: {
@@ -130,6 +133,9 @@ const getStareInfo = async (ctx, next) => {
   const { githubToken } = ctx.session;
   const repos = await getAndSetRepos(login, githubToken, _id);
   const commits = await getAndSetCommits(_id, githubToken);
+  if (!commits.length || !repos.length) {
+    ctx.query.shouldCache = false;
+  }
 
   ctx.body = {
     success: true,
