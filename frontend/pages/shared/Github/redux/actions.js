@@ -13,7 +13,8 @@ const {
   setGithubCommits,
   closeReposReadme,
   setShowedReposId,
-  setChosedRepos
+  setChosedRepos,
+  toggleShare
 } = createActions({
   SET_GITHUB_REPOS: (repos, commits) => ({ repos, commits })
 },
@@ -24,7 +25,8 @@ const {
   'SET_GITHUB_COMMITS',
   'CLOSE_REPOS_README',
   'SET_SHOWED_REPOS_ID',
-  'SET_CHOSED_REPOS'
+  'SET_CHOSED_REPOS',
+  'TOGGLE_SHARE'
 );
 
 const getGithubInfo = (login = '') => (dispatch, getState) => {
@@ -88,5 +90,6 @@ export default {
   choseRepos,
   setChosedRepos,
   setShowedReposId,
-  closeReposReadme
+  closeReposReadme,
+  toggleShare
 }

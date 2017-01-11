@@ -32,11 +32,12 @@ class ShareModal extends React.Component {
   }
 
   render() {
-    const { openModal, onClose, login } = this.props;
+    const { openModal, onClose, login, openShare, toggleShare } = this.props;
     const modalClass = cx(
       styles["share_modal_container"],
-      styles["disabled"]
+      !openShare && styles["disabled"]
     );
+    const statusText = openShare ? '已开启分享' : '已关闭分享';
     return (
       <PortalModal
         showModal={openModal}
@@ -47,8 +48,12 @@ class ShareModal extends React.Component {
           </div>
           <div className={styles["share_info"]}>
             <div className={styles["share_controller"]}>
-              <Switcher id="switch" />
-              <div className={styles["share_status"]}>已开启分享</div>
+              <Switcher
+                id="switch"
+                onChange={toggleShare}
+                checked={openShare}
+              />
+              <div className={styles["share_status"]}>{statusText}</div>
             </div>
             <blockquote>扫描二维码/复制链接<br/>分享你的 2016 github 总结</blockquote>
             <div className={styles["share_container"]}>

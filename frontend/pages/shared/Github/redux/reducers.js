@@ -35,6 +35,15 @@ const initialState = {
 };
 
 const reducers = handleActions({
+  TOGGLE_SHARE(state, action) {
+    const { user } = state;
+    return ({
+      ...state,
+      user: objectAssign({}, user, {
+        openShare: action.payload
+      })
+    });
+  },
   SET_GITHUB_INFO(state, action) {
     return ({
       ...state,

@@ -4,19 +4,25 @@ import Switchery from 'switchery';
 
 class Switcher extends React.Component {
   componentDidMount() {
-    const { id } = this.props;
-    var elem = document.querySelector(`#${id}`);
-    new Switchery(elem);
+    const checkbox = this.checkbox;
+    new Switchery(checkbox);
+    $('.switchery').on('click', this.onChange.bind(this));
+  }
+
+  onChange() {
+    const { checked, onChange } = this.props;
+    onChange && onChange(!checked);
   }
 
   render() {
-    const { id, checked } = this.props;
+    const { id, checked, onChange } = this.props;
     return (
       <div>
         <input
           id={id}
           type="checkbox"
-          checked={checked}
+          defaultChecked={checked}
+          ref={ref => this.checkbox = ref}
         />
       </div>
     )
@@ -25,12 +31,14 @@ class Switcher extends React.Component {
 
 Switcher.propTypes = {
   id: PropTypes.string,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
+  onChange: PropTypes.func
 };
 
 Switcher.defaultProps = {
   id: '',
-  checked: false
+  checked: false,
+  onChange: () => {}
 };
 
 export default Switcher;
