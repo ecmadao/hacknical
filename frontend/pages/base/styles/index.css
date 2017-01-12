@@ -1,21 +1,8 @@
+
+
 * {
   margin: 0;
   padding: 0;
-}
-
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url('SRC/styles/fonts/latin-ext.woff2') format('woff2');
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url('SRC/styles/fonts/latin.woff2') format('woff2');
 }
 
 body,html {
