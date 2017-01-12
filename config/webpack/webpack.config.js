@@ -91,6 +91,10 @@ module.exports = {
         }
       },
       {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        loader: "url-loader?limit=8192&name=[name].[ext]"
+      },
+      {
         test: /\.(jpe?g|png|gif|svg)\??.*$/,
         loader: "url-loader?limit=8192&name=[name].[ext]"
       }
@@ -102,12 +106,10 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
-      MOCK: path.join(PATH.SOURCE_PATH, 'src/mock'),
+      SRC: path.join(PATH.SOURCE_PATH, 'src'),
       UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
-      IMAGES: path.join(PATH.SOURCE_PATH, 'src/images'),
       PAGES: path.join(PATH.SOURCE_PATH, 'pages'),
       API: path.join(PATH.SOURCE_PATH, 'api'),
-      VENDOR: path.join(PATH.SOURCE_PATH, 'src/vendor'),
       SHAREDPAGE: path.join(PATH.SOURCE_PATH, 'pages/shared'),
     }
   },

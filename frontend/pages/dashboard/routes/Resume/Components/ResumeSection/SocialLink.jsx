@@ -53,7 +53,7 @@ class SocialLink extends React.Component {
         onClick={this.onActive}
         ref={ref => this.socialLink = ref}
         className={`resume_link ${validator.url(url) ? 'active' : ''}`}>
-        <img src={require(`IMAGES/${icon}`)} alt={name}/>
+        <img src={require(`SRC/images/${icon}`)} alt={name}/>
         <Tipso show={active}>
           <div className="project_link_wrapper">
             <i className="fa fa-link" aria-hidden="true"></i>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Headroom from 'headroom.js';
 import AppAction from '../../redux/actions';
 import { TABS } from '../../shared/data';
-import styles from 'VENDOR/tabBar/index.css';
+import styles from 'SRC/vendor/tabBar/index.css';
 import Tab from './Tab';
 
 /**

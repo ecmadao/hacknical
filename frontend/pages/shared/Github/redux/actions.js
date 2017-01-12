@@ -2,7 +2,7 @@ import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'object-assign';
 import Api from 'API/index';
 
-import CHOSED_REPOS from 'MOCK/chosed_repos';
+import CHOSED_REPOS from 'SRC/mock/chosed_repos';
 
 const {
   setGithubRepos,

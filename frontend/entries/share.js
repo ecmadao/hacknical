@@ -1,5 +1,5 @@
 import renderApp from 'PAGES/sharePage/index';
-import 'VENDOR/share/share.css';
+import 'SRC/vendor/share/share.css';
 
 $(() => {
   renderApp('share');

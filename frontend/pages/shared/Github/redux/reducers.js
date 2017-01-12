@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'object-assign';
-import USER from 'MOCK/user';
+import USER from 'SRC/mock/user';
 import github from 'UTILS/github';
 
 const initialState = {
