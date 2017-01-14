@@ -5,12 +5,29 @@ import styles from './button.css';
 class Button extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      pressDown: false
+    };
     this.onClick = this.onClick.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
   }
 
   onClick(e) {
     const {onClick} = this.props;
     onClick && onClick();
+  }
+
+  onMouseDown() {
+    this.setState({
+      pressDown: true
+    });
+  }
+
+  onMouseUp() {
+    this.setState({
+      pressDown: false
+    });
   }
 
   render() {
@@ -20,17 +37,25 @@ class Button extends React.Component {
       leftIcon,
       rightIcon,
       style,
-      color
+      color,
+      disabled
     } = this.props;
+    const { pressDown } = this.state;
     const buttonClass = cx(
       styles["button"],
       styles[style],
       styles[color],
-      className,
+      pressDown && styles["pressDown"],
+      disabled && styles["disabled"],
+      className
     )
     return (
       <div
         className={buttonClass}
+        onMouseDown={this.onMouseDown}
+        onMouseOut={this.onMouseUp}
+        onMouseLeave={this.onMouseUp}
+        onMouseUp={this.onMouseUp}
         onClick={this.onClick}>
         {leftIcon}
         <span>
@@ -48,6 +73,7 @@ Button.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.string,
+  disabled: PropTypes.bool,
   leftIcon: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,
@@ -67,7 +93,8 @@ Button.defaultProps = {
   onClick: () => {},
   leftIcon: null,
   rightIcon: null,
-  className: ''
+  className: '',
+  disabled: false
 }
 
 export default Button;

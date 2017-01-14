@@ -1,11 +1,15 @@
 import { polyfill } from 'es6-promise';
 import param from 'jquery-param';
 import 'isomorphic-fetch';
+import NProgress from 'nprogress';
+require('nprogress/nprogress.css');
 
 polyfill();
 const rnoContent = /^(?:GET|HEAD|POST)$/;
 
 const fetchApi = (url, method, data) => {
+  NProgress.start();
+  NProgress.set(0.4);
   const options = {
     method,
     credentials: 'same-origin',
@@ -31,11 +35,13 @@ const fetchApi = (url, method, data) => {
       if (json.url) {
         window.location = json.url;
       }
+      NProgress.done();
       // if (json.message) {
       //   Message.show(json.message, 1500);
       // }
       return json.result || false;
     }).catch((ex) => {
+      NProgress.done();
       throw new Error('Request Parsing Error', ex);
     });
 };

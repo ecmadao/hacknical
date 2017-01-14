@@ -22,7 +22,7 @@ const TABS = [
     enable: true,
     activeStyle: {
       // color: GREEN_COLORS[0],
-      borderBottom: `3px solid ${GREEN_COLORS[0]}`
+      // borderBottom: `3px solid ${GREEN_COLORS[0]}`
     }
   },
   {

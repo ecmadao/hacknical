@@ -11,6 +11,7 @@
   position: relative;
   padding: 3px 15px;
   margin: 10px 5px;
+  user-select: none;
 
   & svg {
     fill: var(--oc-gray-7);

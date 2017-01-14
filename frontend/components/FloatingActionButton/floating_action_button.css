@@ -11,6 +11,7 @@
   border-radius: 50%;
   cursor: pointer;
   background-color: var(--oc-blue-5);
+  user-select: none;
 
   &::after {
     content: '';

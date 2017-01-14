@@ -6,6 +6,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  user-select: none;
 
   &:not(:last-child) {
     border-right: 1px solid var(--oc-gray-2);
