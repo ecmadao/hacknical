@@ -5,15 +5,20 @@
 {% endblock %}
 
 {% block body %}
-<div class="login_main">
+<div id="login" class="login_main">
   <div class="login-pannel">
-    <i class="fa fa-github fa-6" aria-hidden="true"></i><br/>
+    <i class="fa fa-github fa-6" aria-hidden="true"></i>
     <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">login with github</a>
+    <br/>
+    <span>
+      登录以查看自己 2016 年在 github 的战绩
+    </span>
   </div>
 </div>
 {% endblock %}
 
 {% block js %}
+  <script src="http://obpykithy.bkt.clouddn.com/hawkeye/js/jquery.particleground.min.js"></script>
   <!-- <script src="http://obpykithy.bkt.clouddn.com/hawkeye/js/particles.min.js"></script> -->
   <script src="{{ assetsPath("login.js") }}"></script>
 {% endblock %}
