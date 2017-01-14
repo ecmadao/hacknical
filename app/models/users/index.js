@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import User from './schema';
+import ShareAnalyse from '../share-analyse';
 
 /**
  * private
@@ -58,6 +59,10 @@ const findUserByGithubId = async (githubId) => {
   return await User.findOne({ githubId });
 };
 
+const createUserShare = async (options) => {
+  await ShareAnalyse.createShare(options);
+};
+
 const loginWithGithub = async (userInfo) => {
   const {
     id,
@@ -92,8 +97,16 @@ const loginWithGithub = async (userInfo) => {
     followers,
     following
   };
+  const shareInfo = {
+    login,
+    url: `github/${login}`
+  };
+
   const findUser = await findUserByGithubId(id);
   if (findUser) {
+    shareInfo.userId = findUser._id;
+    await createUserShare(shareInfo);
+
     findUser.githubInfo = newGithubInfo;
     findUser.lastLoginTime = new Date();
     await findUser.save();
@@ -110,6 +123,9 @@ const loginWithGithub = async (userInfo) => {
     githubInfo: newGithubInfo
   });
   if (newUser) {
+    shareInfo.userId = newUser._id;
+    await createUserShare(shareInfo);
+
     return Promise.resolve({
       success: true,
       result: newUser
@@ -150,7 +166,7 @@ const login = async (email, pwd) => {
   });
 };
 
-const changePwd = () => {
+const changePwd = async () => {
 
 };
 

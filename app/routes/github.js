@@ -30,6 +30,11 @@ router.get(
   Github.getUser,
   cache.set()
 );
+router.post(
+  '/user/toggleShare',
+  user.checkSession(['userId', 'githubLogin']),
+  Github.toggleShare,
+);
 router.get(
   '/repos/commits',
   user.checkSession(session.requiredSessions),

@@ -1,5 +1,6 @@
-import User from '../models/users/index';
-import Resume from '../models/resumes/index';
+import User from '../models/users';
+import Resume from '../models/resumes';
+import ShareAnalyse from '../models/share-analyse';
 import Github from '../services/github';
 
 // user login/logout/signup
@@ -44,7 +45,7 @@ const signup = async (ctx, next) => {
 
 const loginPage = async (ctx, next) => {
   await ctx.render('user/login', {
-    title: '登录'
+    title: '登录 - 查看 github 年度总结'
   });
 };
 
@@ -84,7 +85,7 @@ const dashboard = async (ctx, next) => {
 
   // ctx.state.isMobile
   await ctx.render('user/dashboard', {
-    title: 'dashboard'
+    title: '用户主页'
   });
 };
 

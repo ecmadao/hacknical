@@ -1,6 +1,7 @@
-import { getData } from './base';
+import { getData, postData } from './base';
 
 const fetchInfo = (url) => getData(`/github${url}`);
+const postInfo = (url, data) => postData(`/github${url}`, data);
 
 /* get user repos info */
 const getBaseRepos = () => {
@@ -44,7 +45,12 @@ const getCommits = () => {
 
 const getShareInfo = (login) => {
   return fetchInfo(`/${login}/shareInfo`);
-}
+};
+
+/* toggle user github share */
+const toggleShare = (enable) => {
+  return postInfo('/user/toggleShare', { enable });
+};
 
 export default {
   getUser,
@@ -52,5 +58,6 @@ export default {
   getRepository,
   getReadme,
   getCommits,
-  getShareInfo
+  getShareInfo,
+  toggleShare
 }

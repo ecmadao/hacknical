@@ -2,6 +2,7 @@ import User from '../models/users/index';
 import Github from '../services/github';
 import GithubRepos from '../models/github-repos';
 import GithubCommits from '../models/github-commits';
+import ShareAnalyse from '../models/share-analyse';
 import {
   validateReposList,
   sortByCommits
@@ -73,14 +74,58 @@ const getAndSetCommits = async (userId, token) => {
 //
 // }
 
+const toggleShare = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+  const { enable } = ctx.query;
+  await ShareAnalyse.changeShareStatus({
+    enable,
+    login: githubLogin,
+    url: `github/${githubLogin}`
+  });
+  ctx.body = {
+    success: true
+  };
+};
 
 const getUser = async (ctx, next) => {
   const { userId } = ctx.session;
   const findResult = await User.findUserById(userId);
   if (findResult) {
+    const { githubInfo } = findResult;
+    const { login } = githubInfo;
+    const shareAnalyse = await ShareAnalyse.findShare({ login, url: `github/${login}` });
+    const {
+      bio,
+      url,
+      name,
+      blog,
+      email,
+      avatar_url,
+      html_url,
+      company,
+      location,
+      followers,
+      following,
+      created_at
+    } = githubInfo;
     ctx.body = {
       success: true,
-      result: findResult.githubInfo || {}
+      result: {
+        bio,
+        url,
+        name,
+        blog,
+        login,
+        email,
+        avatar_url,
+        html_url,
+        company,
+        location,
+        followers,
+        following,
+        created_at,
+        openShare: shareAnalyse.enable
+      }
     };
     return;
   }
@@ -149,6 +194,17 @@ const getStareInfo = async (ctx, next) => {
 
 const getSharedUser = async (ctx, next) => {
   const { login } = ctx.params;
+  const url = `github/${login}`;
+
+  const updateResult = await ShareAnalyse.updateShare(login, url);
+  if (!updateResult.success) {
+    ctx.body = {
+      success: true,
+      message: updateResult.message || ''
+    };
+    return;
+  }
+
   const user = await User.findUserByLogin(login);
   if (user) {
     ctx.body = {
@@ -217,5 +273,6 @@ export default {
   getRepos,
   getRepository,
   getCommits,
-  getRepositoryCommits
+  getRepositoryCommits,
+  toggleShare
 }

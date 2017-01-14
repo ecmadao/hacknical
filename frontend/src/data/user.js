@@ -11,7 +11,7 @@ const USER = {
 	"location": "",
 	"email": "",
 	"hireable": null,
-	"openShare": false,
+	"openShare": true,
 	"bio": "",
 	"public_repos": '',
 	"public_gists": '',

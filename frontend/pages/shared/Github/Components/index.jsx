@@ -71,7 +71,7 @@ class Github extends React.Component {
             login={user.login}
             openModal={openShareModal}
             openShare={user.openShare}
-            toggleShare={actions.toggleShare}
+            toggleShare={actions.changeShareStatus}
             onClose={() => actions.toggleShareModal(false)}
           />
         ) : ''}

@@ -6,6 +6,8 @@ const getSeconds = (date) => parseInt(formatDate(date)('X'));
 
 export default {
   getSeconds,
+  getDateNow: () => formatDate()('l'),
+  getHourNow: () => formatDate()('H'),
   getDateAfterDays: (days) => moment().add(parseInt(days), 'days').format('L'),
   getDateBeforeYears: (years) => moment().add(-parseInt(years), 'years').format('L')
 }

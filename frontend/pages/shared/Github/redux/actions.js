@@ -29,6 +29,14 @@ const {
   'TOGGLE_SHARE'
 );
 
+const changeShareStatus = () => (dispatch, getState) => {
+  const { user } = getState().github;
+  const { openShare } = user;
+  Api.github.toggleShare(!openShare).then((result) => {
+    dispatch(toggleShare());
+  });
+};
+
 const getGithubInfo = (login = '') => (dispatch, getState) => {
   Api.github.getUser(login).then((result) => {
     dispatch(setGithubInfo(result));
@@ -91,5 +99,6 @@ export default {
   setChosedRepos,
   setShowedReposId,
   closeReposReadme,
-  toggleShare
+  toggleShare,
+  changeShareStatus
 }
