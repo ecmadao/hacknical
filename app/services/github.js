@@ -87,7 +87,7 @@ const getReposYearlyCommits = (fullname, token) => {
       if (httpResponse.statusCode === 200 && body) {
         resolve(JSON.parse(body));
       } else {
-        reject(false);
+        resolve([]);
       }
     });
   });
