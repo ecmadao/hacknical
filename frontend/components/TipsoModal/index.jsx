@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Portal from 'react-portal';
+import cx from 'classnames';
 import styles from './tipso_modal.css';
 
 class TipsoModal extends React.Component {
@@ -32,12 +33,16 @@ class TipsoModal extends React.Component {
   render() {
     const { show } = this.state;
     const { text } = this.props;
+    const tipsoClass = cx(
+      styles["tipso_modal_wrapper"],
+      show && styles["active"]
+    );
     return (
       <Portal
         isOpened={show}>
         <div
           ref={ref => this.tipsoModal = ref}
-          className={styles["tipso_modal_wrapper"]}>
+          className={tipsoClass}>
           {text}
         </div>
       </Portal>
