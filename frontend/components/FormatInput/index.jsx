@@ -20,8 +20,8 @@ const FORMAT_TYPES = {
 
 class FormatInput extends React.Component {
   componentDidMount() {
-    const { className, formatType } = this.props;
-    new Cleave(`.${className}`, FORMAT_TYPES[formatType]);
+    const { id, formatType } = this.props;
+    new Cleave(`#${id}`, FORMAT_TYPES[formatType]);
   }
 
   render() {

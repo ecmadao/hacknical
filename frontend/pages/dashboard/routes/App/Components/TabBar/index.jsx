@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Headroom from 'headroom.js';
 import AppAction from '../../redux/actions';
-import { TABS } from '../../shared/data';
+import TABS from 'SRC/data/tab';
 import styles from 'SRC/vendor/tabBar/index.css';
 import Tab from './Tab';
 

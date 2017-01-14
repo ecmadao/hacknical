@@ -9,6 +9,7 @@ import Labels from 'COMPONENTS/Labels';
 import Input from 'COMPONENTS/Input';
 import FormatInput from 'COMPONENTS/FormatInput';
 import SocialLink from './SocialLink';
+import styles from '../../styles/resume.css';
 
 class Others extends React.Component {
   constructor(props) {
@@ -69,17 +70,17 @@ class Others extends React.Component {
 
     return (
       <div>
-        <div className="resume_piece_container">
-          <div className="resume_title">
+        <div className={styles["resume_piece_container"]}>
+          <div className={styles["resume_title"]}>
             其他补充
           </div>
-          <div className="resume_wrapper">
+          <div className={styles["resume_wrapper"]}>
             <FormatInput
               value={expectSalary}
               placeholder="期望月薪"
               formatType="number"
               style="flat"
-              className="input-expect-salary"
+              id="input-expect-salary"
               onChange={this.handleOthersChange('expectSalary')}
             />
             <Input
@@ -89,7 +90,7 @@ class Others extends React.Component {
               onChange={this.handleOthersChange('expectLocation')}
             />
           </div>
-          <div className="resume_wrapper">
+          <div className={styles["resume_wrapper"]}>
             <Input
               value={dream}
               placeholder="你的梦想？"
@@ -105,11 +106,11 @@ class Others extends React.Component {
             placeholder="个人介绍"
           />
         </div>
-        <div className="resume_piece_container">
-          <div className="resume_title">
+        <div className={styles["resume_piece_container"]}>
+          <div className={styles["resume_title"]}>
             链接其他账号
           </div>
-          <div className="resume_wrapper">
+          <div className={styles["resume_wrapper"]}>
             {this.renderSocialLinks()}
           </div>
         </div>

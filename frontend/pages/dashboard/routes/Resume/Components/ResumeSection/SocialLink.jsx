@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import cx from 'classnames';
 import Tipso from 'COMPONENTS/Tipso';
 import Input from 'COMPONENTS/Input';
 import validator from 'UTILS/validator';
+import styles from '../../styles/resume.css';
 
 class SocialLink extends React.Component {
   constructor(props) {
@@ -47,21 +49,25 @@ class SocialLink extends React.Component {
     const { onChange, social } = this.props;
     const { active } = this.state;
     const { icon, name, url, text } = social;
-
+    const containerClass = cx(
+      styles["resume_link"],
+      validator.url(url) && styles["active"]
+    );
     return (
       <div
         onClick={this.onActive}
         ref={ref => this.socialLink = ref}
-        className={`resume_link ${validator.url(url) ? 'active' : ''}`}>
+        className={containerClass}>
         <img src={require(`SRC/images/${icon}`)} alt={name}/>
         <Tipso show={active}>
-          <div className="project_link_wrapper">
+          <div className={styles["project_link_wrapper"]}>
             <i className="fa fa-link" aria-hidden="true"></i>
             &nbsp;&nbsp;
             <Input
               value={url}
               type="url"
-              style="borderless underline"
+              style="borderless"
+              className="underline"
               placeholder={`填写 ${text || name} 地址`}
               onChange={onChange}
             />

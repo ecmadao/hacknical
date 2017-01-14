@@ -5,6 +5,7 @@ import Input from 'COMPONENTS/Input';
 import InputsGroup from 'COMPONENTS/InputsGroup';
 import { EDUCATIONS } from '../../../helper/const_value';
 import WorkProject from './WorkProject';
+import styles from '../../../styles/resume.css';
 
 class WorkExperience extends React.Component {
   constructor(props) {
@@ -67,27 +68,28 @@ class WorkExperience extends React.Component {
     } = workExperience;
 
     return (
-      <div className="resume_piece_container">
-        <div className="resume_delete" onClick={deleteExperience}>
+      <div className={styles["resume_piece_container"]}>
+        <div className={styles["resume_delete"]} onClick={deleteExperience}>
           <i className="fa fa-trash-o" aria-hidden="true"></i>
         </div>
-        <div className="resume_title">
+        <div className={styles["resume_title"]}>
           公司信息
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <InputsGroup
             value={company}
             style="flat"
             placeholder="公司名称"
             onChange={handleExperienceChange('company')}>
-            <div className="project_link_wrapper">
+            <div className={styles["project_link_wrapper"]}>
               <i className="fa fa-link" aria-hidden="true"></i>
               &nbsp;&nbsp;
               <Input
                 value={url}
                 type="url"
                 check={false}
-                style="borderless underline"
+                style="borderless"
+                className="underline"
                 placeholder="填写公司主页"
                 onChange={handleExperienceChange('url')}
               />
@@ -100,7 +102,7 @@ class WorkExperience extends React.Component {
             onChange={handleExperienceChange('position')}
           />
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <DateSlider
             initialStart={startTime}
             initialEnd={endTime}
@@ -110,13 +112,13 @@ class WorkExperience extends React.Component {
             onEndChange={handleExperienceChange('endTime')}
           />
         </div>
-        <div className="project_wrapper">
-          <div className="resume_title">
+        <div className={styles["project_wrapper"]}>
+          <div className={styles["resume_title"]}>
             参与项目
           </div>
           {this.renderWorkProjects(projects)}
           <div
-            className="resume_add"
+            className={styles["resume_add"]}
             onClick={addProject}>
             <i className="fa fa-plus-circle" aria-hidden="true"></i>
             &nbsp;&nbsp;&nbsp;

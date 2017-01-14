@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
-import FormatInput from 'COMPONENTS/FormatInput';
 import actions from '../../redux/actions';
 import { GENDERS } from '../../helper/const_value';
+import styles from '../../styles/resume.css';
 
 class Info extends React.Component {
   constructor(props) {
@@ -35,11 +35,11 @@ class Info extends React.Component {
       avator
     } = this.props;
     return (
-      <div className="resume_piece_container">
-        <div className="resume_title">
+      <div className={styles["resume_piece_container"]}>
+        <div className={styles["resume_title"]}>
           基本信息
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <Input
             value={name}
             placeholder="姓名"
@@ -53,7 +53,7 @@ class Info extends React.Component {
             onChange={this.handleInfoChange('gender')}
           />
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <Input
             type="email"
             value={email}
@@ -67,11 +67,10 @@ class Info extends React.Component {
             placeholder="电话"
             style="flat"
             formatType="phone"
-            className="input-phone"
             onChange={this.handleInfoChange('phone')}
           />
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <Input
             value={intention}
             placeholder="意向职位"

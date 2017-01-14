@@ -14,11 +14,19 @@ class Button extends React.Component {
   }
 
   render() {
-    const {value, className, leftIcon, rightIcon, style} = this.props;
+    const {
+      value,
+      className,
+      leftIcon,
+      rightIcon,
+      style,
+      color
+    } = this.props;
     const buttonClass = cx(
       styles["button"],
       styles[style],
-      styles[className]
+      styles[color],
+      className,
     )
     return (
       <div
@@ -37,6 +45,7 @@ class Button extends React.Component {
 Button.propTypes = {
   value: PropTypes.string,
   onClick: PropTypes.func,
+  color: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.string,
   leftIcon: PropTypes.oneOfType([
@@ -53,11 +62,12 @@ Button.propTypes = {
 
 Button.defaultProps = {
   value: '',
-  className: 'blue',
+  color: 'blue',
   style: 'material',
   onClick: () => {},
   leftIcon: null,
-  rightIcon: null
+  rightIcon: null,
+  className: ''
 }
 
 export default Button;

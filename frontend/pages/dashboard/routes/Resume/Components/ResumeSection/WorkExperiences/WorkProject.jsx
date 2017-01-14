@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import WritableList from 'COMPONENTS/WritableList';
 import Input from 'COMPONENTS/Input';
+import styles from '../../../styles/resume.css';
 
 class WorkProject extends React.Component {
   constructor(props) {
@@ -44,15 +45,15 @@ class WorkProject extends React.Component {
   render() {
     const { project, onChange, onDelete } = this.props;
     return (
-      <div className="project_container">
-        <div className="project_name_wrapper">
+      <div className={styles["project_container"]}>
+        <div className={styles["project_name_wrapper"]}>
           <Input
             value={project.name}
             placeholder="项目名称"
             style="flat"
             onChange={this.handleProjectChange('name')}
           />
-          <div className="project_delete" onClick={onDelete}>
+          <div className={styles["project_delete"]} onClick={onDelete}>
             <i className="fa fa-trash-o" aria-hidden="true"></i>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { GREEN_COLORS, BLUE_COLORS } from 'UTILS/colors';
 
-export const TABS = [
+const TABS = [
   {
     id: 'profile',
     name: '用户信息',
@@ -9,12 +9,12 @@ export const TABS = [
     activeStyle: {
     }
   },
-  // {
-  //   id: 'resume',
-  //   name: '简历',
-  //   enable: false,
-  //   icon: 'fa-file-text-o'
-  // },
+  {
+    id: 'resume',
+    name: '简历',
+    enable: true,
+    icon: 'fa-file-text-o'
+  },
   {
     id: 'github',
     name: 'github',
@@ -34,3 +34,5 @@ export const TABS = [
     }
   }
 ];
+
+export default TABS;

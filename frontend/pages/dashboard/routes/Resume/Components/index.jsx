@@ -1,9 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
+import cx from 'classnames';
 import { connect } from 'react-redux';
 
 import Button from 'COMPONENTS/Button';
-import '../styles/resume.css';
+import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from '../helper/const_value';
 import ResumeSection from './ResumeSection';
 import ResumeModal from './ResumeModal';
@@ -22,7 +22,7 @@ class Resume extends React.Component {
   }
 
   componentDidMount() {
-    const $navigation = $('.resume_navigation');
+    const $navigation = $('#resume_navigation');
     const navTop = $navigation.offset().top;
     const $document = $(document);
     $(window).scroll(() => {
@@ -62,13 +62,14 @@ class Resume extends React.Component {
     const { activeSection } = this.state;
     return RESUME_SECTIONS.map((section, index) => {
       const { id, text } = section;
-      const sectionClass = classNames('resume_section', {
-        'active': activeSection === id
-      });
+      const sectionClass = cx(
+        styles["resume_section"],
+        activeSection === id && styles["active"]
+      );
       return (
         <div className={sectionClass} key={index}>
           <div
-            className="section_wrapper"
+            className={styles["section_wrapper"]}
             onClick={() => this.handleSectionChange(id)}>
             {text}
           </div>
@@ -101,15 +102,15 @@ class Resume extends React.Component {
     const max = RESUME_SECTIONS.length;
 
     return (
-      <div className="resume_container">
-        <div className="resume_navigation">
+      <div className={styles["resume_container"]}>
+        <div id="resume_navigation" className={styles["resume_navigation"]}>
           {this.renderNavigation()}
         </div>
-        <div className="resume_operations">
-          <div className="operations_wrapper">
+        <div className={styles["resume_operations"]}>
+          <div className={styles["operations_wrapper"]}>
             <Button
               value="预览"
-              className="dark"
+              color="dark"
               onClick={() => this.handleModalStatus(true)}
               leftIcon={(
                 <i className="fa fa-file-text-o" aria-hidden="true"></i>
@@ -124,14 +125,14 @@ class Resume extends React.Component {
             />
           </div>
         </div>
-        <div className="resume_sections">
+        <div className={styles["resume_sections"]}>
           <ResumeSection section={activeSection} />
-          <div className="resume_operations bottom">
-            <div className="operations_wrapper">
+          <div className={cx(styles["resume_operations"], styles["bottom"])}>
+            <div className={styles["operations_wrapper"]}>
               {currentIndex > 0 && (
                 <Button
                   value="上一步"
-                  className="dark"
+                  color={"dark"}
                   leftIcon={(
                     <i className="fa fa-angle-left" aria-hidden="true"></i>
                   )}

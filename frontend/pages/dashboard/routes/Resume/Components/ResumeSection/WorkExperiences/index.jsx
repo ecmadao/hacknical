@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import actions from '../../../redux/actions';
 import WorkExperience from './WorkExperience';
 import Button from 'COMPONENTS/Button';
+import styles from '../../../styles/resume.css';
+
 
 class WorkExperiences extends React.Component {
   constructor(props) {
@@ -77,7 +79,7 @@ class WorkExperiences extends React.Component {
         <div>
           {this.renderExperience()}
         </div>
-        <div className="resume_button_container">
+        <div className={styles["resume_button_container"]}>
           <Button
             style="flat"
             value="添加工作经历"

@@ -15,7 +15,8 @@ class ListItem extends React.Component {
           value={item}
           onChange={onChange}
           placeholder={placeholder}
-          style="borderless underline"
+          style="borderless"
+          className="underline"
         />&nbsp;&nbsp;&nbsp;
         <i
           className="fa fa-close"

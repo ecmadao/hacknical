@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 
 import actions from '../../../redux/actions';
 import Education from './Education';
 import Button from 'COMPONENTS/Button';
+
+import styles from '../../../styles/resume.css';
 
 class Educations extends React.Component {
   constructor(props) {
@@ -50,7 +52,7 @@ class Educations extends React.Component {
         <div>
           {this.renderEdu()}
         </div>
-        <div className="resume_button_container">
+        <div className={styles["resume_button_container"]}>
           <Button
             style="flat"
             value="添加教育经历"

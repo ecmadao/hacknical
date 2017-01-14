@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 
 import Textarea from 'COMPONENTS/Textarea';
@@ -9,6 +9,7 @@ import Input from 'COMPONENTS/Input';
 import Labels from 'COMPONENTS/Labels';
 import InputsGroup from 'COMPONENTS/InputsGroup';
 
+import styles from '../../styles/resume.css';
 import actions from '../../redux/actions';
 
 class PersonalProjects extends React.Component {
@@ -31,31 +32,32 @@ class PersonalProjects extends React.Component {
     return personalProjects.map((personalProject, index) => {
       const { url, desc, techs, title } = personalProject;
       return (
-        <div className="resume_piece_container" key={index}>
-          <div className="resume_delete project_delete" onClick={this.deleteProject(index)}>
+        <div className={styles["resume_piece_container"]} key={index}>
+          <div className={cx(styles["resume_delete"], styles["project_delete"])} onClick={this.deleteProject(index)}>
             <i className="fa fa-trash-o" aria-hidden="true"></i>
           </div>
-          <div className="resume_wrapper with_margin">
+          <div className={cx(styles["resume_wrapper"], styles["with_margin"])}>
             <InputsGroup
               value={title}
               style="flat"
               placeholder="填写项目名称"
               onChange={this.handleProjectChange(index)('title')}>
-              <div className="project_link_wrapper">
+              <div className={styles["project_link_wrapper"]}>
                 <i className="fa fa-link" aria-hidden="true"></i>
                 &nbsp;&nbsp;
                 <Input
                   value={url}
                   type="url"
                   check={false}
-                  style="borderless underline"
+                  style="borderless"
+                  className="underline"
                   placeholder="填写项目链接"
                   onChange={this.handleProjectChange(index)('url')}
                 />
               </div>
             </InputsGroup>
           </div>
-          <div className="resume_wrapper">
+          <div className={styles["resume_wrapper"]}>
             <Textarea
               max="200"
               value={desc}
@@ -64,7 +66,7 @@ class PersonalProjects extends React.Component {
               onChange={this.handleProjectChange(index)('desc')}
             />
           </div>
-          <div className="resume_wrapper">
+          <div className={styles["resume_wrapper"]}>
             <Labels
               labels={techs}
               onAdd={this.addTech(index)}
@@ -100,14 +102,14 @@ class PersonalProjects extends React.Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className="resume_personal_container">
-        <div className="resume_title single_title">
+      <div className={styles["resume_personal_container"]}>
+        <div className={cx(styles["resume_title"], styles["single_title"])}>
           个人项目
         </div>
         <div>
           {this.renderProjects()}
         </div>
-        <div className="resume_button_container">
+        <div className={styles["resume_button_container"]}>
           <Button
             style="flat"
             value="添加个人项目"

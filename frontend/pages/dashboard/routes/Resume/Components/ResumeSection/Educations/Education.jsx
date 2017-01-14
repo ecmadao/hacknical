@@ -4,6 +4,7 @@ import DateSlider from 'COMPONENTS/DateSlider'
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import { EDUCATIONS } from '../../../helper/const_value';
+import styles from '../../../styles/resume.css';
 
 class Education extends React.Component {
   constructor(props) {
@@ -45,14 +46,14 @@ class Education extends React.Component {
     } = edu;
 
     return (
-      <div className="resume_piece_container">
-        <div className="resume_delete" onClick={deleteEdu}>
+      <div className={styles["resume_piece_container"]}>
+        <div className={styles["resume_delete"]} onClick={deleteEdu}>
           <i className="fa fa-trash-o" aria-hidden="true"></i>
         </div>
-        <div className="resume_title">
+        <div className={styles["resume_title"]}>
           教育经历
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <Input
             value={school}
             style="flat"
@@ -60,7 +61,7 @@ class Education extends React.Component {
             onChange={handleEduChange('school')}
           />
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <Input
             value={major}
             style="flat"
@@ -74,7 +75,7 @@ class Education extends React.Component {
             onChange={handleEduChange('education')}
           />
         </div>
-        <div className="resume_wrapper">
+        <div className={styles["resume_wrapper"]}>
           <DateSlider
             initialStart={startTime}
             initialEnd={endTime}

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PortalModal from 'COMPONENTS/PortalModal';
@@ -8,7 +9,7 @@ import { sortByX, validateDate } from 'UTILS/date';
 import validator from 'UTILS/validator';
 const sortByDate = sortByX('startTime');
 
-import '../../styles/resume_modal.css';
+import styles from '../../styles/resume_modal.css';
 
 class ResumeModal extends React.Component {
   renderEducations() {
@@ -18,21 +19,21 @@ class ResumeModal extends React.Component {
       const { school, major, education, startTime, endTime} = edu;
       if (!school) { return }
       return (
-        <div key={index} className="resume_section_wrapper">
-          <div className="resume_info_header">{school}{education ? `, ${education}` : ''}</div>
-          <div className="info_text">{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
-          <div className="info_text">{major}</div>
-          <div className="section_dot"></div>
+        <div key={index} className={styles["resume_section_wrapper"]}>
+          <div className={styles["resume_info_header"]}>{school}{education ? `, ${education}` : ''}</div>
+          <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
+          <div className={styles["info_text"]}>{major}</div>
+          <div className={styles["section_dot"]}></div>
         </div>
       )
     });
 
     return (
-      <div className="resume_info_wrapper">
-        <div className="info_title">
+      <div className={styles["resume_info_wrapper"]}>
+        <div className={styles["info_title"]}>
           <i className="fa fa-university" aria-hidden="true"></i>教育经历
         </div><br/>
-        <div className="info_wrapper multi_info">
+      <div className={cx(styles["info_wrapper"], styles["multi_info"])}>
           {edus}
         </div>
       </div>
@@ -47,27 +48,27 @@ class ResumeModal extends React.Component {
       if (!company) { return }
       const workProjects = this.renderProjects(projects);
       return (
-        <div key={index} className="resume_section_wrapper">
+        <div key={index} className={styles["resume_section_wrapper"]}>
           {validator.url(url) ? (
-            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
+            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["resume_info_header"], styles["header_link"])}>
               <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
               {company}
             </a>
-          ) : (<div className="resume_info_header">{company}</div>)}
+          ) : (<div className={styles["resume_info_header"]}>{company}</div>)}
           {position ? `, ${position}` : ''}
-          <div className="info_text">{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
+          <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div>{workProjects}</div>
-          <div className="section_dot"></div>
+          <div className={styles["section_dot"]}></div>
         </div>
       )
     });
 
     return (
-      <div className="resume_info_wrapper">
-        <div className="info_title">
+      <div className={styles["resume_info_wrapper"]}>
+        <div className={styles["info_title"]}>
           <i className="fa fa-file-text-o" aria-hidden="true"></i>工作经历
         </div><br/>
-        <div className="info_wrapper multi_info">
+      <div className={cx(styles["info_wrapper"], styles["multi_info"])}>
           {exps}
         </div>
       </div>
@@ -86,9 +87,9 @@ class ResumeModal extends React.Component {
         );
       });
       return (
-        <div key={index} className="project_section">
-          <div className="info_section">{name}</div>
-          <ul className="info_intro">
+        <div key={index} className={styles["project_section"]}>
+          <div className={styles["info_section"]}>{name}</div>
+          <ul className={styles["info_intro"]}>
             {projectDetails}
           </ul>
         </div>
@@ -103,7 +104,7 @@ class ResumeModal extends React.Component {
       const { url, desc, techs, title } = project;
       const projectTechs = techs.map((tech, index) => {
         return (
-          <div key={index} className="info_label">
+          <div key={index} className={styles["info_label"]}>
             {tech}
           </div>
         );
@@ -111,15 +112,15 @@ class ResumeModal extends React.Component {
       return (
         <div key={index}>
           {validator.url(url) ? (
-            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className="resume_info_header header_link">
+            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["resume_info_header"], styles["header_link"])}>
               <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
               {title}
             </a>
-          ) : (<div className="resume_info_header">{title}</div>)}
-          <div className="info_text">
+          ) : (<div className={styles["resume_info_header"]}>{title}</div>)}
+          <div className={styles["info_text"]}>
             {desc}
           </div>
-          <div className="info_labels">
+          <div className={styles["info_labels"]}>
             {projectTechs}
           </div>
         </div>
@@ -127,11 +128,11 @@ class ResumeModal extends React.Component {
     });
 
     return (
-      <div className="resume_info_wrapper">
-        <div className="info_title">
+      <div className={styles["resume_info_wrapper"]}>
+        <div className={styles["info_title"]}>
           <i className="fa fa-code" aria-hidden="true"></i>个人项目
         </div><br/>
-        <div className="info_wrapper base_info">
+        <div className={cx(styles["info_wrapper"], styles["base_info"])}>
           {projects}
         </div>
       </div>
@@ -151,12 +152,12 @@ class ResumeModal extends React.Component {
     });
 
     return (
-      <div className="resume_info_wrapper">
-        <div className="info_title">
+      <div className={styles["resume_info_wrapper"]}>
+        <div className={styles["info_title"]}>
           <i className="fa fa-quote-left" aria-hidden="true"></i>自我评价
         </div><br/>
-        <div className="info_wrapper base_info">
-          <ul className="info_intro">
+        <div className={cx(styles["info_wrapper"], styles["base_info"])}>
+          <ul className={styles["info_intro"]}>
             {personalSupplements}
           </ul>
         </div>
@@ -183,12 +184,12 @@ class ResumeModal extends React.Component {
     })
 
     return (
-      <div className="resume_info_wrapper">
-        <div className="info_title">
+      <div className={styles["resume_info_wrapper"]}>
+        <div className={styles["info_title"]}>
           <i className="fa fa-link" aria-hidden="true"></i>其他链接
         </div><br/>
-        <div className="info_wrapper base_info">
-          <ul className="info_intro">
+        <div className={cx(styles["info_wrapper"], styles["base_info"])}>
+          <ul className={styles["info_intro"]}>
             {socials}
           </ul>
         </div>
@@ -209,31 +210,31 @@ class ResumeModal extends React.Component {
       <PortalModal
         showModal={openModal}
         onClose={onClose}>
-        <div className="resume_modal_container">
-          <div className="resume_modal_wrapper">
-            <div className="resume_info_wrapper">
-              <div className="info_title">
+        <div className={styles["resume_modal_container"]}>
+          <div className={styles["resume_modal_wrapper"]}>
+            <div className={styles["resume_info_wrapper"]}>
+              <div className={styles["info_title"]}>
                 <i className="fa fa-vcard-o" aria-hidden="true"></i>基本信息
               </div>
               <br/>
-              <div className="info_wrapper base_info">
-                <div className="resume_info_header">
+              <div className={cx(styles["info_wrapper"], styles["base_info"])}>
+                <div className={styles["resume_info_header"]}>
                   {info.name}
                   &nbsp;&nbsp;&nbsp;
                   <i className={`fa fa-${info.gender}`} aria-hidden="true"></i>
                 </div><br/>
-                <div className="info_text">
+                <div className={styles["info_text"]}>
                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                   &nbsp;&nbsp;{info.location}&nbsp;&nbsp;&nbsp;
                   {info.intention}
                 </div>
-                <div className="info_text">
+                <div className={styles["info_text"]}>
                   <i className="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;&nbsp;{info.email}
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <i className="fa fa-mobile" aria-hidden="true"></i>&nbsp;&nbsp;{info.phone}
                 </div>
                 {others.dream ? (
-                  <div className="info_text">
+                  <div className={styles["info_text"]}>
                     <i className="fa fa-quote-left" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
                     {others.dream}
                   </div>
