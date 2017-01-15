@@ -24,10 +24,19 @@
     <link href="http://obpykithy.bkt.clouddn.com/hawkeye/styles/fonts.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ assetsPath("base.css") }}" rel="stylesheet" type="text/css">
+    <style>
+      #wechat-image {
+        position: absolute;
+        z-index: -222;
+        width: 0;
+        height: 0;
+      }
+    </style>
     {% block css %}
     {% endblock %}
   </head>
   <body>
+    <img id="wechat-image" src="/vendor/images/github.png"/>
     {% block body %}
     {% endblock %}
   </body>

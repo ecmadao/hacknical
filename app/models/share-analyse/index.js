@@ -52,6 +52,36 @@ const checkShareEnable = async (options) => {
   });
 };
 
+const updateViewData = async (options) => {
+  const { login, url, platform, from, browser } = options;
+  const analyse = await findShare({ login, url });
+  const { viewDevices, viewSources } = analyse;
+  const targetDevices = viewDevices.filter(device => device.platform === platform);
+  if (!targetDevices.length) {
+    viewDevices.push({
+      platform,
+      count: 1
+    });
+  } else {
+    targetDevices[0].count += 1;
+  }
+
+  const targetSources = viewSources.filter(source => source.browser === browser && source.from === from);
+  if (!targetSources.length) {
+    viewSources.push({
+      from,
+      browser,
+      count: 1
+    });
+  } else {
+    targetSources[0].count += 1;
+  }
+  await analyse.save();
+  return Promise.resolve({
+    success: true
+  });
+};
+
 const updateShare = async (login, url) => {
   const analyse = await findShare({ login, url });
   if (!analyse) {
@@ -68,15 +98,15 @@ const updateShare = async (login, url) => {
   const { pageViews } = analyse;
   const dateNow = dateHelper.getDateNow();
   const hourNow = dateHelper.getHourNow();
-  const viewDate = `${dateNow} ${hourNow}:00`;
-  const targetPageViews = pageViews.filter(pageView => pageView.viewDate === viewDate);
+  const date = `${dateNow} ${hourNow}:00`;
+  const targetPageViews = pageViews.filter(pageView => pageView.date === date);
   if (!targetPageViews.length) {
     analyse.pageViews.push({
-      viewDate,
-      viewCount: 1
+      date,
+      count: 1
     });
   } else {
-    targetPageViews[0].viewCount += 1;
+    targetPageViews[0].count += 1;
   }
   await analyse.save();
   return Promise.resolve({
@@ -90,6 +120,7 @@ export default {
   enableShare,
   createShare,
   updateShare,
+  updateViewData,
   checkShareEnable,
   changeShareStatus
 }

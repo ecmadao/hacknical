@@ -11,8 +11,17 @@ const ShareAnalyseSchema = new Schema({
     default: true
   },
   pageViews: [{
-    viewCount: Number,
-    viewDate: String
+    count: Number,
+    date: String
+  }],
+  viewDevices: [{
+    platform: String,
+    count: Number
+  }],
+  viewSources: [{
+    browser: String,
+    from: String,
+    count: Number
   }]
 }, {
   timestamps: { createdAt: 'created_at' }
