@@ -5,7 +5,7 @@ const TABS = [
     id: 'profile',
     name: '用户信息',
     icon: 'fa-user-circle',
-    enable: false,
+    enable: true,
     activeStyle: {
     }
   },

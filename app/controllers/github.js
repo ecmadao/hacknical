@@ -258,6 +258,23 @@ const sharePage = async (ctx, next) => {
   });
 };
 
+const getStareData = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+  const url = `github/${githubLogin}`;
+  const shareAnalyse = await ShareAnalyse.findShare({ login: githubLogin, url });
+  const { viewDevices, viewSources, pageViews, enable } = shareAnalyse;
+  ctx.body = {
+    success: true,
+    result: {
+      url,
+      enable,
+      viewDevices,
+      viewSources,
+      pageViews
+    }
+  };
+};
+
 export default {
   getUser,
   getSharedUser,
@@ -267,5 +284,6 @@ export default {
   getRepository,
   getCommits,
   getRepositoryCommits,
-  toggleShare
+  toggleShare,
+  getStareData
 }

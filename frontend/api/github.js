@@ -52,6 +52,11 @@ const toggleShare = (enable) => {
   return postInfo('/user/toggleShare', { enable });
 };
 
+/* get github share datas */
+const getShareData = () => {
+  return fetchInfo(`/shareData`);
+};
+
 export default {
   getUser,
   getRepos,
@@ -59,5 +64,6 @@ export default {
   getReadme,
   getCommits,
   getShareInfo,
-  toggleShare
+  toggleShare,
+  getShareData
 }

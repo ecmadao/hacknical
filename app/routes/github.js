@@ -20,6 +20,11 @@ router.get(
   cache.set()
 );
 router.get(
+  '/shareData',
+  user.checkSession(['userId', 'githubLogin']),
+  Github.getStareData
+);
+router.get(
   '/repos/:reposName',
   user.checkSession(session.requiredSessions),
   Github.getRepository
@@ -65,7 +70,7 @@ router.get(
   cache.get('sharedInfo'),
   Github.getStareInfo,
   cache.set()
-)
+);
 
 
 module.exports = router;
