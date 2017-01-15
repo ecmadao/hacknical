@@ -33,7 +33,7 @@ const changeShareStatus = () => (dispatch, getState) => {
   const { user } = getState().github;
   const { openShare } = user;
   Api.github.toggleShare(!openShare).then((result) => {
-    dispatch(toggleShare());
+    dispatch(toggleShare(!openShare));
   });
 };
 

@@ -9,12 +9,12 @@ const TABS = [
     activeStyle: {
     }
   },
-  {
-    id: 'resume',
-    name: '简历',
-    enable: true,
-    icon: 'fa-file-text-o'
-  },
+  // {
+  //   id: 'resume',
+  //   name: '简历',
+  //   enable: true,
+  //   icon: 'fa-file-text-o'
+  // },
   {
     id: 'github',
     name: 'github',

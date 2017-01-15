@@ -106,6 +106,7 @@ const getUser = async (ctx, next) => {
       location,
       followers,
       following,
+      public_repos,
       created_at
     } = githubInfo;
     ctx.body = {
@@ -123,6 +124,7 @@ const getUser = async (ctx, next) => {
         location,
         followers,
         following,
+        public_repos,
         created_at,
         openShare: shareAnalyse.enable
       }
@@ -194,16 +196,6 @@ const getStareInfo = async (ctx, next) => {
 
 const getSharedUser = async (ctx, next) => {
   const { login } = ctx.params;
-  const url = `github/${login}`;
-
-  const updateResult = await ShareAnalyse.updateShare(login, url);
-  if (!updateResult.success) {
-    ctx.body = {
-      success: true,
-      message: updateResult.message || ''
-    };
-    return;
-  }
 
   const user = await User.findUserByLogin(login);
   if (user) {
@@ -221,6 +213,12 @@ const getSharedUser = async (ctx, next) => {
 
 const sharePage = async (ctx, next) => {
   const { login } = ctx.params;
+  const updateResult = await ShareAnalyse.updateShare(login, `github/${login}`);
+  if (!updateResult.success) {
+    ctx.redirect('/404');
+    return;
+  }
+
   const { githubLogin } = ctx.session;
   const user = await User.findUserByLogin(login);
   if (!user) {
@@ -228,6 +226,7 @@ const sharePage = async (ctx, next) => {
     return;
   }
   const { githubInfo } = user;
+  const title = `${githubInfo.name || githubInfo.login}的2016年github总结`;
 
   if (!ctx.state.isMobile) {
     await ctx.render('user/share', {
@@ -235,7 +234,7 @@ const sharePage = async (ctx, next) => {
         login,
         isAdmin: login === githubLogin
       },
-      title: `${githubInfo.name || githubInfo.login}的2016年github总结`
+      title
     });
     return;
   }
@@ -261,7 +260,7 @@ const sharePage = async (ctx, next) => {
       isAdmin: login === githubLogin,
       created_at: created_at.split('T')[0]
     },
-    title: `${name || login}的2016年github总结`
+    title
   });
 };
 

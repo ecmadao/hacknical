@@ -8,23 +8,41 @@ import IconButton from 'COMPONENTS/IconButton';
 import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 
-import { GITHUB_GREEN_COLORS } from 'UTILS/colors';
+import { GITHUB_GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
 import styles from '../../styles/share_modal.css';
+
+const DARK_COLORS = MD_COLORS.slice(-2);
 
 class ShareModal extends React.Component {
   componentDidMount() {
     const { login } = this.props;
-    const qrcode = new QRCode(document.getElementById("qrcode"), {
-      text: `${window.location.origin}/github/${login}`,
-      width: 120,
-      height: 120,
-      colorDark : GITHUB_GREEN_COLORS[1],
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
+    this.renderQrcode();
     new Clipboard('#copyButton', {
       text: () => $("#shareUrl").val()
     });
+  }
+
+  renderQrcode() {
+    const { login, openShare } = this.props;
+    const origin = window.location.origin;
+    const text = openShare ? `${origin}/github/${login}` : origin;
+    const colorDark = openShare ? GITHUB_GREEN_COLORS[1] : DARK_COLORS[1];
+    $('#qrcode').empty();
+    const qrcode = new QRCode(document.getElementById("qrcode"), {
+      text,
+      width: 120,
+      height: 120,
+      colorDark,
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  }
+
+  componentDidUpdate(preProps) {
+    const { openShare } = this.props;
+    if ((!openShare && preProps.openShare) || (openShare && !preProps.openShare)) {
+      this.renderQrcode();
+    }
   }
 
   copyUrl() {
@@ -38,6 +56,10 @@ class ShareModal extends React.Component {
       !openShare && styles["disabled"]
     );
     const statusText = openShare ? '已开启分享' : '已关闭分享';
+    const statusClass = cx(
+      styles["share_status"],
+      !openShare && styles["not_open"]
+    );
     return (
       <PortalModal
         showModal={openModal}
@@ -53,7 +75,7 @@ class ShareModal extends React.Component {
                 onChange={toggleShare}
                 checked={openShare}
               />
-              <div className={styles["share_status"]}>{statusText}</div>
+              <div className={statusClass}>{statusText}</div>
             </div>
             <blockquote>扫描二维码/复制链接<br/>分享你的 2016 github 总结</blockquote>
             <div className={styles["share_container"]}>
