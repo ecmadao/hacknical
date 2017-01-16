@@ -15,8 +15,11 @@ import Input from 'COMPONENTS/Input';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
+import WECHAT from 'SRC/data/wechat';
 
 import styles from '../styles/profile.css';
+
+const WECHAT_FROM = Object.keys(WECHAT);
 
 class Profile extends React.Component {
   constructor(props) {
@@ -148,10 +151,8 @@ class Profile extends React.Component {
     const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
     const labels = viewSources.map((viewSource) => {
       const { browser, from } = viewSource;
-      if (browser !== "unknown") { return browser }
-      if (from) {
-        return "wechat"
-      }
+      if (WECHAT_FROM.some(wechatFrom => wechatFrom === from)) { return "wechat" }
+      return browser
     });
     const datas = viewSources.map(viewSource => viewSource.count);
 
@@ -201,9 +202,9 @@ class Profile extends React.Component {
     const browsers = viewSources
       .filter(viewSource => viewSource.count === maxBrowserCount)
       .map((viewSource) => {
-        const { browser } = viewSource;
-        if (browser !== "unknown") { return browser }
-        return "wechat";
+        const { browser, from } = viewSource;
+        if (WECHAT_FROM.some(wechatFrom => wechatFrom === from)) { return "wechat" }
+        return browser
       });
 
     return (

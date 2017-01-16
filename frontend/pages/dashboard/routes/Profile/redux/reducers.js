@@ -1,6 +1,8 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'object-assign';
+import WECHAT from 'SRC/data/wechat';
 
+const WECHAT_FROM = Object.keys(WECHAT);
 const initialState = {
   loading: true,
   userInfo: {
@@ -42,7 +44,7 @@ const reducers = handleActions({
       loading: false,
       userInfo: objectAssign({}, userInfo, { url, openShare }),
       viewDevices: [...viewDevices],
-      viewSources: [...viewSources],
+      viewSources: viewSources.filter(viewSource => viewSource.browser !== "unknown" || WECHAT_FROM.some(wechatFrom => wechatFrom === viewSource.from)),
       pageViews: pageViews.filter(pageView => !isNaN(pageView.count)),
     });
   },
