@@ -28,7 +28,7 @@ class Profile extends React.Component {
   }
 
   copyUrl() {
-    document.querySelector("#shareLink").select();
+    document.querySelector("#shareGithubUrl").select();
   }
 
   renderShareController() {
@@ -43,7 +43,7 @@ class Profile extends React.Component {
         />
         <div className={styles["share_container"]}>
           <Input
-            id="shareLink"
+            id="shareGithubUrl"
             style="flat"
             value={`${window.location.origin}/${url}`}
           />
@@ -97,7 +97,7 @@ class Profile extends React.Component {
     actions.fetchGithubShareData();
     // this.renderQrcode();
     new Clipboard('#copyLinkButton', {
-      text: () => $("#shareLink").val()
+      text: () => $("#shareGithubUrl").val()
     });
   }
 
