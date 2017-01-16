@@ -6,7 +6,6 @@ import Chart from 'chart.js';
 import objectAssign from 'object-assign';
 
 import github from 'UTILS/github';
-import { BLUE_COLORS, GREEN_COLORS } from 'UTILS/colors';
 import {
   getDateBySeconds,
   getDateAfterDays
