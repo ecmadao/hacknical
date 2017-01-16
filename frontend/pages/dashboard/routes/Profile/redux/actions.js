@@ -14,14 +14,22 @@ const {
 
 const fetchGithubShareData = () => (dispatch, getState) => {
   Api.github.getShareData().then((result) => {
-    console.log(result);
     dispatch(initialGithubShareData(result));
   });
 };
 
+const postShareStatus = () => (dispatch, getState) => {
+  const { userInfo } = getState().profile;
+  const { openShare } = userInfo;
+  Api.github.toggleShare(!openShare).then((result) => {
+    dispatch(toggleShareStatus(!openShare));
+  });
+}
+
 export default {
   toggleLoading,
   toggleShareStatus,
+  postShareStatus,
   initialGithubShareData,
   fetchGithubShareData
 }

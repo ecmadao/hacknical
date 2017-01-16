@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import Switchery from 'switchery';
+import styles from './switcher.css';
 
 class Switcher extends React.Component {
   componentDidMount() {
@@ -17,7 +18,7 @@ class Switcher extends React.Component {
   render() {
     const { id, checked, onChange } = this.props;
     return (
-      <div>
+      <div className={styles["switchery"]}>
         <input
           id={id}
           type="checkbox"

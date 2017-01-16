@@ -14,6 +14,21 @@
   composes: card;
   padding: 15px;
   margin-bottom: 10px;
+
+  &.disabled {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      bottom: 0;
+      border-radius: 3px;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+  }
 }
 
 .info_container {
@@ -29,6 +44,7 @@
   height: 50px;
   width: 100%;
   justify-content: flex-start;
+  position: relative;
 }
 
 .share_container {

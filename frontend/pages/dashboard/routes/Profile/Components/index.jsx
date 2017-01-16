@@ -38,7 +38,7 @@ class Profile extends React.Component {
       <div className={styles["share_controller"]}>
         <Switcher
           id="share_switch"
-          onChange={actions.toggleShareStatus}
+          onChange={actions.postShareStatus}
           checked={openShare}
         />
         <div className={styles["share_container"]}>
@@ -221,30 +221,34 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { actions, loading } = this.props;
+    const { actions, loading, userInfo } = this.props;
+    const controllerClass = cx(
+      styles["share_controller_card"],
+      !userInfo.openShare && styles["disabled"]
+    );
     return (
       <div>
         <div className={styles["card_container"]}>
           <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 分享数据</p>
-          <div className={styles["share_controller_card"]}>
-            {loading ? (
-              <Loading />
-            ) : this.renderShareController()}
+          <div className={controllerClass}>
+            {loading ? '' : this.renderShareController()}
           </div>
-          <div className={styles["card"]}>
-            {this.renderChartInfo()}
-            <div className={styles["chart_container"]}>
-              <div className={styles["radar_chart"]}>
-                <canvas ref={ref => this.viewDevices = ref}></canvas>
+          {loading ? (<Loading />) : (
+            <div className={styles["card"]}>
+              {this.renderChartInfo()}
+              <div className={styles["chart_container"]}>
+                <div className={styles["radar_chart"]}>
+                  <canvas ref={ref => this.viewDevices = ref}></canvas>
+                </div>
+                <div className={styles["radar_chart"]}>
+                  <canvas ref={ref => this.viewSources = ref}></canvas>
+                </div>
               </div>
-              <div className={styles["radar_chart"]}>
-                <canvas ref={ref => this.viewSources = ref}></canvas>
+              <div className={styles["chart_container"]}>
+                <canvas ref={ref => this.pageViews = ref}/>
               </div>
             </div>
-            <div className={styles["chart_container"]}>
-              <canvas ref={ref => this.pageViews = ref}/>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     )
