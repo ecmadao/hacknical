@@ -45,7 +45,7 @@
 .headroom {
   left: 0;
   transition: transform 0.5s;
-  composes: tipso-z-index from 'STYLES/common.css';
+  z-index: var(--zIndex99);
 }
 
 .headroom--pinned,

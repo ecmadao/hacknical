@@ -20,29 +20,6 @@
     visibility: visible;
   }
 
-  /*&::before,
-  &::after {
-    width: 0;
-    height: 0;
-    content: '';
-    display: block;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 13px solid transparent;
-    border-right: 13px solid transparent;
-  }
-
-  &::before {
-    bottom: -11px;
-    border-top: 10px solid rgba(212, 212, 212, 0.3);
-  }
-
-  &::after {
-    bottom: -9px;
-    border-top: 10px solid var(--oc-white);
-  }*/
-
   &::before,
   &::after {
     content: '';
@@ -55,18 +32,18 @@
     border-left: 13px solid transparent;
     border-right: 13px solid transparent;
   }
+}
 
-  &::after {
-    bottom: -10px;
-    composes: common-z-index from 'STYLES/common.css';
-    border-top: 10px solid var(--oc-white);
-  }
+.tipso_container::after {
+  bottom: -10px;
+  z-index: var(--zIndex1);
+  border-top: 10px solid var(--oc-white);
+}
 
-  &::before {
-    bottom: -11px;
-    composes: hidden-z-index from 'STYLES/common.css';
-    border-top: 10px solid rgba(212, 212, 212, 0.3);
-  }
+.tipso_container::before {
+  bottom: -11px;
+  z-index: var(--zIndexHidden);
+  border-top: 10px solid rgba(212, 212, 212, 0.3);
 }
 
 /*.tipso_angle_mock {

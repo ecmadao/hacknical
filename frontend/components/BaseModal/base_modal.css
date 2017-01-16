@@ -10,12 +10,6 @@
   composes: hidden-z-index from 'STYLES/common.css';
   transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
 
-  &.active {
-    opacity: 1;
-    composes: modal-z-index from 'STYLES/common.css';
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-
   & .modal_wrapper {
     position: absolute;
     top: 0;
@@ -32,4 +26,10 @@
     align-items: center;
     flex-direction: column;
   }
+}
+
+.active {
+  opacity: 1;
+  composes: modal-z-index from 'STYLES/common.css';
+  background-color: rgba(0, 0, 0, 0.2);
 }

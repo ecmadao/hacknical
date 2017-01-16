@@ -83,7 +83,7 @@ const dashboard = async (ctx, next) => {
 
   // ctx.state.isMobile
   await ctx.render('user/dashboard', {
-    title: `${githubLogin} - 用户主页`
+    title: `${githubLogin} - 个人主页`
   });
 };
 

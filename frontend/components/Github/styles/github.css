@@ -113,21 +113,6 @@
     cursor: pointer;
   }
 
-  & .repos_tipso {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    opacity: 1;
-    visibility: hidden;
-    transition: opacity 0.2s;
-    composes: tipso-z-index from 'STYLES/common.css';
-
-    &.active {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
   & .repos_tipso_container {
     background-color: var(--oc-white);
     border-radius: 3px;
@@ -170,6 +155,21 @@
     & p {
       line-height: 2em;
     }
+  }
+}
+
+.repos_tipso {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  opacity: 1;
+  visibility: hidden;
+  transition: opacity 0.2s;
+  composes: tipso-z-index from 'STYLES/common.css';
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
   }
 }
 
