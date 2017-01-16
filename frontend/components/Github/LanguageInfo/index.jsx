@@ -288,7 +288,7 @@ class LanguageInfo extends React.Component {
     return (
       <div className={cx(cardStyles["info_card_container"], githubStyles["chart_card_container"])}>
         <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;编程语言</p>
-        <div className={cx(cardStyles["info_card"], cardStyles["card"])}>
+        <div className={cardStyles["info_card"]}>
           { !loaded ? (
             <Loading />
           ) : this.renderLanguageReview()}

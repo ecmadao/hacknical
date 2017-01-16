@@ -10,7 +10,7 @@ const UserInfo = (props) => {
   return (
     <div className={styles["info_card_container"]}>
       <p><i aria-hidden="true" className="fa fa-vcard-o"></i>&nbsp;&nbsp;基本信息</p>
-      <div className={cx(styles["info_card"], styles["card"])}>
+      <div className={styles["info_card"]}>
         <div className={styles["info_header"]}>
           <div className={styles["info_avator"]}>
             <img src={user['avatar_url']} />

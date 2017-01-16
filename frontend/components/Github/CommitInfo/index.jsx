@@ -198,7 +198,7 @@ class CommitInfo extends React.Component {
     return (
       <div className={cardStyles["info_card_container"]}>
         <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
-        <div className={cx(cardStyles["info_card"], cardStyles["card"])}>
+        <div className={cardStyles["info_card"]}>
           { !hasCommits ? (
             <Loading />
           ) : this.renderCommitsReview()}

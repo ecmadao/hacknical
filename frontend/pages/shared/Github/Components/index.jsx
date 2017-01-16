@@ -50,15 +50,12 @@ class Github extends React.Component {
       openShareModal,
       reposLanguages
     } = this.props;
-    const calendarClass = cx(
-      styles["github_calendar"],
-      styles["card"]
-    );
+
     return (
       <div>
         <div className={styles["info_card_container"]}>
           <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
-          <div id="calendar" className={calendarClass}>
+          <div id="calendar" className={styles["github_calendar"]}>
             <Loading />
           </div>
         </div>
