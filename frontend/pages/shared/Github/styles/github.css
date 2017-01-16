@@ -15,6 +15,7 @@
 }
 
 .github_calendar {
+  composes: card from 'STYLES/common.css';
   border-color: transparent;
   background-color: var(--oc-white);
   text-align: center;
