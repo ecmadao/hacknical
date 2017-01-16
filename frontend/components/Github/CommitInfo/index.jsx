@@ -116,12 +116,12 @@ class CommitInfo extends React.Component {
         scales: {
           xAxes: [{
             gridLines: {
-              display:false
+              display: false
             }
           }],
           yAxes: [{
             gridLines: {
-              display:false
+              display: false
             },
             ticks: {
               beginAtZero:true

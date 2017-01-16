@@ -1,20 +1,26 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import actions from '../redux/actions';
 import cx from 'classnames';
+import Chart from 'chart.js';
 import Clipboard from 'clipboard';
 import { bindActionCreators } from 'redux';
+import objectAssign from 'object-assign';
 
 import Loading from 'COMPONENTS/Loading';
 import IconButton from 'COMPONENTS/IconButton';
 import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
+import ChartInfo from 'COMPONENTS/ChartInfo';
+import { LINECHART_CONFIG } from 'UTILS/const_value';
 
 import styles from '../styles/profile.css';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
+    this.pageViewsChart = null;
     this.copyUrl = this.copyUrl.bind(this);
   }
 
@@ -48,12 +54,40 @@ class Profile extends React.Component {
     )
   }
 
-  // componentDidUpdate(preProps) {
-  //   const { loading } = this.props;
-  //   if (!loading && preProps.loading) {
-  //
-  //   }
-  // }
+  renderViewsChart() {
+    const { pageViews } = this.props;
+    const viewsChart = ReactDOM.findDOMNode(this.pageViews);
+    const dateLabels = pageViews.map(pageView => pageView.date);
+    const viewDates = pageViews.map(pageView => pageView.count);
+    this.pageViewsChart = new Chart(viewsChart, {
+      type: 'line',
+      data: {
+        labels: dateLabels,
+        datasets: [objectAssign({}, LINECHART_CONFIG, {
+          data: viewDates,
+          label: '每小时浏览量',
+        })]
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            // display: false,
+            gridLines: {
+              display: false
+            }
+          }],
+          yAxes: [{
+            gridLines: {
+              display: false
+            },
+            ticks: {
+              beginAtZero:true
+            }
+          }],
+        }
+      }
+    })
+  }
 
   componentDidMount() {
     const { actions } = this.props;
@@ -64,16 +98,64 @@ class Profile extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    const { loading } = this.props;
+    if (loading) { return }
+    !this.pageViewsChart && this.renderViewsChart()
+  }
+
+  renderChartInfo() {
+    const { pageViews, viewDevices, viewSources } = this.props;
+    const viewCount = pageViews.reduce((prev, current, index) => {
+      if (index === 0) {
+        return current.count;
+      }
+      return current.count + prev;
+    }, '');
+    const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count));
+    const platforms = viewDevices
+      .filter(viewDevice => viewDevice.count === maxPlatformCount)
+      .map(viewDevice => viewDevice.platform);
+
+    const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
+    const browsers = viewSources
+      .filter(viewSource => viewSource.count === maxBrowserCount)
+      .map(viewSource => viewSource.browser);
+
+    return (
+      <div className={styles["chart_info_container"]}>
+        <ChartInfo
+          mainText={viewCount}
+          subText="总 PV"
+        />
+        <ChartInfo
+          mainText={platforms.join(',')}
+          subText="使用最多的平台"
+        />
+        <ChartInfo
+          mainText={browsers.join(',')}
+          subText="使用最多的浏览器"
+        />
+      </div>
+    )
+  }
+
   render() {
     const { actions, loading } = this.props;
     return (
       <div>
         <div className={styles["card_container"]}>
           <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 分享数据</p>
-          <div className={styles["card"]}>
+          <div className={styles["share_controller_card"]}>
             {loading ? (
               <Loading />
             ) : this.renderShareController()}
+          </div>
+          <div className={styles["card"]}>
+            {this.renderChartInfo()}
+            <div className={styles["chart_container"]}>
+              <canvas ref={ref => this.pageViews = ref}/>
+            </div>
           </div>
         </div>
       </div>
