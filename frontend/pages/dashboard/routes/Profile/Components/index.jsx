@@ -149,11 +149,7 @@ class Profile extends React.Component {
   renderSourcesChart() {
     const { viewSources } = this.props;
     const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
-    const labels = viewSources.map((viewSource) => {
-      const { browser, from } = viewSource;
-      if (WECHAT_FROM.some(wechatFrom => wechatFrom === from)) { return "wechat" }
-      return browser
-    });
+    const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
 
     this.viewSourcesChart = new Chart(viewSourcesChart, {
@@ -201,11 +197,7 @@ class Profile extends React.Component {
     const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
     const browsers = viewSources
       .filter(viewSource => viewSource.count === maxBrowserCount)
-      .map((viewSource) => {
-        const { browser, from } = viewSource;
-        if (WECHAT_FROM.some(wechatFrom => wechatFrom === from)) { return "wechat" }
-        return browser
-      });
+      .map(viewSource => viewSource.browser);
 
     return (
       <div className={styles["chart_info_container"]}>
