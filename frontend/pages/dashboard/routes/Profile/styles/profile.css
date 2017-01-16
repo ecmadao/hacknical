@@ -83,6 +83,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 
   & span {
     line-height: 25px;

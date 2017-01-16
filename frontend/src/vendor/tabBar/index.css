@@ -33,11 +33,11 @@
 
   &.enable:hover,
   &.app_tab_active {
-    color: var(--oc-gray-9);
-    border-bottom: 3px solid var(--oc-blue-5);
+    color: var(--oc-green-7);
+    border-bottom: 3px solid var(--oc-green-7);
 
     & i {
-      color: var(--oc-gray-9);
+      color: var(--oc-green-7);
     }
   }
 }

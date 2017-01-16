@@ -25,7 +25,7 @@ class Tab extends React.Component {
 
   render() {
     const { showTipso } = this.state;
-    const { onChange, style, tab } = this.props;
+    const { onChange, tab } = this.props;
     const { id, name, icon, enable } = tab;
     const tabClass = cx(
       "app_tab",
@@ -34,7 +34,6 @@ class Tab extends React.Component {
     return (
       <Link
         to={`/${id}`}
-        style={style}
         className={tabClass}
         activeClassName="app_tab_active"
         onMouseOver={this.onMouseEnter}

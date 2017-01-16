@@ -1,4 +1,3 @@
-import { GREEN_COLORS, BLUE_COLORS } from 'UTILS/colors';
 
 const TABS = [
   {
@@ -6,8 +5,6 @@ const TABS = [
     name: '用户信息',
     icon: 'fa-user-circle',
     enable: true,
-    activeStyle: {
-    }
   },
   // {
   //   id: 'resume',
@@ -19,19 +16,13 @@ const TABS = [
     id: 'github',
     name: 'github',
     icon: 'fa-github',
-    enable: true,
-    activeStyle: {
-      // color: GREEN_COLORS[0],
-      // borderBottom: `3px solid ${GREEN_COLORS[0]}`
-    }
+    enable: true
   },
   {
     id: 'setting',
     name: '设置',
     icon: 'fa-cog',
-    enable: false,
-    activeStyle: {
-    }
+    enable: false
   }
 ];
 

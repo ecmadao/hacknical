@@ -36,12 +36,10 @@ class TabBar extends React.Component {
     const { changeActiveTab, activeTab } = this.props;
 
     return TABS.map((tab, index) => {
-      const style = activeTab === tab.id ? (tab.activeStyle || {}) : {};
       return (
         <Tab
           key={index}
           tab={tab}
-          style={style}
           onChange={this.changeActiveTab}
         />
       )
