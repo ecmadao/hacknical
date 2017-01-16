@@ -76,16 +76,14 @@ const githubLogin = async (ctx, next) => {
 // user dashboard
 
 const dashboard = async (ctx, next) => {
+  const { userId, githubLogin } = ctx.session;
   if (ctx.state.isMobile) {
-    const userId = ctx.session.userId;
-    const findResult = await User.findUserById(userId);
-    const login = findResult.githubInfo.login;
-    ctx.redirect(`/github/${login}`);
+    ctx.redirect(`/github/${githubLogin}`);
   }
 
   // ctx.state.isMobile
   await ctx.render('user/dashboard', {
-    title: '用户主页'
+    title: `${githubLogin} - 用户主页`
   });
 };
 

@@ -8,7 +8,7 @@
   height: 200px;
   border-radius: 2px;
   overflow-y: auto;
-  z-index: 1;
+  composes: common-z-index from 'STYLES/common.css';
   display: flex;
   flex-direction: row;
   position: relative;

@@ -118,9 +118,9 @@
     left: 0;
     top: 100%;
     opacity: 1;
-    z-index: 9;
     visibility: hidden;
     transition: opacity 0.2s;
+    composes: tipso-z-index from 'STYLES/common.css';
 
     &.active {
       opacity: 1;

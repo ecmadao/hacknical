@@ -5,7 +5,7 @@
   left: -10px;
   top: 5px;
   transform: translateX(-100%);
-  z-index: 9;
+  composes: tipso-z-index from 'STYLES/common.css';
 }
 
 .operations_more {
@@ -37,14 +37,14 @@
   background-color: var(--oc-white);
   top: 100%;
   transform: translateY(10px);
-  z-index: -9;
   opacity: 0;
   transition: opacity 0.3s;
   font-size: 14px;
+  composes: hidden-z-index from 'STYLES/common.css';
 
   &.active {
     opacity: 1;
-    z-index: 1;
+    composes: common-z-index from 'STYLES/common.css';
   }
 }
 

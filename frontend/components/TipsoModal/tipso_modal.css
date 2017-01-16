@@ -9,8 +9,8 @@
   padding: 23px 30px;
   color: #fff;
   font-size: 16px;
-  z-index: 999;
   opacity: 0;
+  composes: max-z-index from 'STYLES/common.css';
 
   &.active {
     opacity: 1;

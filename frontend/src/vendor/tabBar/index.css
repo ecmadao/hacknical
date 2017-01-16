@@ -43,9 +43,9 @@
 }
 
 .headroom {
-  transition: transform 0.5s;
   left: 0;
-  z-index: 9;
+  transition: transform 0.5s;
+  composes: tipso-z-index from 'STYLES/common.css';
 }
 
 .headroom--pinned,

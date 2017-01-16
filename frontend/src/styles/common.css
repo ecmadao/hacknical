@@ -42,3 +42,25 @@
     margin-bottom: 30px;
   }
 }
+
+/* z-index */
+
+.common-z-index {
+  z-index: var(--zIndex1);
+}
+
+.tipso-z-index {
+  z-index: var(--zIndex9);
+}
+
+.modal-z-index {
+  z-index: var(--zIndex99);
+}
+
+.hidden-z-index {
+  z-index: var(--zIndexHidden);
+}
+
+.max-z-index {
+  z-index: var(--zIndex999);
+}

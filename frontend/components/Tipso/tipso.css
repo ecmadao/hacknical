@@ -58,13 +58,13 @@
 
   &::after {
     bottom: -10px;
-    z-index: 1;
+    composes: common-z-index from 'STYLES/common.css';
     border-top: 10px solid var(--oc-white);
   }
 
   &::before {
-    z-index: -1;
     bottom: -11px;
+    composes: hidden-z-index from 'STYLES/common.css';
     border-top: 10px solid rgba(212, 212, 212, 0.3);
   }
 }

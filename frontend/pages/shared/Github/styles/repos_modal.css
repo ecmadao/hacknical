@@ -2,7 +2,6 @@
 
 
 .repos_modal_container {
-  /*background-color: #F7F8F9;*/
   background-color: var(--oc-white);
   box-shadow: var(--shadow4);
   padding: 30px;
@@ -10,7 +9,7 @@
   margin-left: 25%;
   border-radius: 2px;
   overflow-y: auto;
-  z-index: 1;
+  composes: common-z-index from 'STYLES/common.css';
 }
 
 .repos_modal_header {

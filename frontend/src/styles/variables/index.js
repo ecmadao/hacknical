@@ -17,4 +17,12 @@ module.exports = {
   bgDeep: '#eaeaea',
   flatCard: '#F4F4F4',
   flatCardBorder: '#D5D5D5',
+
+  /* ===== zIndex ===== */
+  zIndexHidden: '-9',
+  zIndex0: '-1',
+  zIndex1: '1',
+  zIndex9: '9',
+  zIndex99: '99',
+  zIndex999: '999'
 };
