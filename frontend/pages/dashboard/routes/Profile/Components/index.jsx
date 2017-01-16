@@ -200,7 +200,11 @@ class Profile extends React.Component {
     const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
     const browsers = viewSources
       .filter(viewSource => viewSource.count === maxBrowserCount)
-      .map(viewSource => viewSource.browser);
+      .map((viewSource) => {
+        const { browser } = viewSource;
+        if (browser !== "unknown") { return browser }
+        return "wechat";
+      });
 
     return (
       <div className={styles["chart_info_container"]}>

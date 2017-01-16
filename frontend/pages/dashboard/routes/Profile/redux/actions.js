@@ -14,6 +14,7 @@ const {
 
 const fetchGithubShareData = () => (dispatch, getState) => {
   Api.github.getShareData().then((result) => {
+    console.log(result)
     dispatch(initialGithubShareData(result));
   });
 };

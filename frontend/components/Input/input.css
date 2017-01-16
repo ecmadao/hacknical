@@ -11,6 +11,7 @@
   margin: 10px 5px;
   min-width: 60px;
   font-family: 'Lato', sans-serif;
+  display: block !important;
 
   &::-moz-placeholder {
     color: var(--oc-gray-5);

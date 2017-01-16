@@ -43,7 +43,7 @@ const reducers = handleActions({
       userInfo: objectAssign({}, userInfo, { url, openShare }),
       viewDevices: [...viewDevices],
       viewSources: [...viewSources],
-      pageViews: [...pageViews],
+      pageViews: pageViews.filter(pageView => !isNaN(pageView.count)),
     });
   },
 }, initialState);
