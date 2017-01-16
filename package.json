@@ -15,7 +15,7 @@
     "build-dll-pro": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors -p",
     "build-src": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.production.js -p",
     "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run pm2",
-    "pm2": "NODE_ENV=production ./node_modules/.bin/pm2 start dist/index.js -i 2 --name \"hawkeye\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
+    "pm2": "NODE_ENV=production ./node_modules/.bin/pm2 start dist/index.js -i max --name \"hawkeye\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
     "pm2:restart": "NODE_ENV=production ./node_modules/.bin/pm2 restart \"hawkeye\"",
     "pm2:stop": "NODE_ENV=production ./node_modules/.bin/pm2 stop \"hawkeye\"",
     "pm2:logs": "NODE_ENV=production ./node_modules/.bin/pm2 logs \"hawkeye\""
