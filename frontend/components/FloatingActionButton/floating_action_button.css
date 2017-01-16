@@ -12,6 +12,9 @@
   cursor: pointer;
   background-color: var(--oc-blue-5);
   user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &::after {
     content: '';
@@ -35,10 +38,14 @@
   }
 
   & i {
-    position: absolute;
-    left: 50%;
-    top: 50%;
     color: var(--oc-white);
-    transform: translate(-50%, -50%);
+  }
+
+  &.pressDown {
+    box-shadow: var(--shadow5);
+
+    & i {
+      transform: translateY(1px);
+    }
   }
 }

@@ -1,7 +1,25 @@
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 import styles from './floating_action_button.css';
 
 class FloatingActionButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pressDown: false
+    };
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+  }
+
+  onMouseDown() {
+    this.setState({ pressDown: true });
+  }
+
+  onMouseUp() {
+    this.setState({ pressDown: false });
+  }
+
   render() {
     const {
       icon,
@@ -9,12 +27,21 @@ class FloatingActionButton extends React.Component {
       onClick,
       backgroundColor
     } = this.props;
+    const { pressDown } = this.state;
     style['backgroundColor'] = backgroundColor ? backgroundColor : style['backgroundColor'];
+    const buttonClass = cx(
+      styles["floating_action_button"],
+      pressDown && styles["pressDown"]
+    );
     return (
       <div
         style={style}
         onClick={onClick}
-        className={styles["floating_action_button"]}>
+        onMouseDown={this.onMouseDown}
+        onMouseOut={this.onMouseUp}
+        onMouseLeave={this.onMouseUp}
+        onMouseUp={this.onMouseUp}
+        className={buttonClass}>
         <i className={`fa fa-${icon}`} aria-hidden="true"></i>
       </div>
     )

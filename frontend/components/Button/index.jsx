@@ -19,15 +19,11 @@ class Button extends React.Component {
   }
 
   onMouseDown() {
-    this.setState({
-      pressDown: true
-    });
+    this.setState({ pressDown: true });
   }
 
   onMouseUp() {
-    this.setState({
-      pressDown: false
-    });
+    this.setState({ pressDown: false });
   }
 
   render() {
@@ -57,11 +53,13 @@ class Button extends React.Component {
         onMouseLeave={this.onMouseUp}
         onMouseUp={this.onMouseUp}
         onClick={this.onClick}>
-        {leftIcon}
-        <span>
-          {value}
-        </span>
-        {rightIcon}
+        <div className={styles["wrapper"]}>
+          {leftIcon}
+          <span>
+            {value}
+          </span>
+          {rightIcon}
+        </div>
       </div>
     )
   }

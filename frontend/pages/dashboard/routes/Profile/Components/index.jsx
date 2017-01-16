@@ -77,7 +77,7 @@ class Profile extends React.Component {
       options: {
         scales: {
           xAxes: [{
-            // display: false,
+            display: false,
             gridLines: {
               display: false
             }
@@ -90,6 +90,16 @@ class Profile extends React.Component {
               beginAtZero:true
             }
           }],
+        },
+        tooltips: {
+          callbacks: {
+            title: (item, data) => {
+              return item[0].xLabel
+            },
+            label: (item, data) => {
+              return `浏览量：${item.yLabel} PV`
+            }
+          }
         }
       }
     })
@@ -227,9 +237,11 @@ class Profile extends React.Component {
       <div>
         <div className={styles["card_container"]}>
           <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 分享数据</p>
-          <div className={controllerClass}>
-            {loading ? '' : this.renderShareController()}
-          </div>
+          {loading ? '' : (
+            <div className={controllerClass}>
+              {this.renderShareController()}
+            </div>
+          )}
           {loading ? (<Loading />) : (
             <div className={styles["card"]}>
               {this.renderChartInfo()}

@@ -130,6 +130,10 @@
   &.material {
     box-shadow: var(--shadow1);
   }
+
+  & .wrapper {
+    transform: translateY(1px);
+  }
 }
 
 .disabled {
