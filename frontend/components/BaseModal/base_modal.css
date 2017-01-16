@@ -26,10 +26,11 @@
     align-items: center;
     flex-direction: column;
   }
-}
 
-.active {
-  opacity: 1;
-  composes: modal-z-index from 'STYLES/common.css';
-  background-color: rgba(0, 0, 0, 0.2);
+  &.active {
+    opacity: 1;
+    z-index: var(--zIndex99);
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
 }
