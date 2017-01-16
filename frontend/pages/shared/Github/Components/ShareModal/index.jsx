@@ -15,7 +15,6 @@ const DARK_COLORS = MD_COLORS.slice(-2);
 
 class ShareModal extends React.Component {
   componentDidMount() {
-    const { login } = this.props;
     this.renderQrcode();
     new Clipboard('#copyButton', {
       text: () => $("#shareUrl").val()

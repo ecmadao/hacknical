@@ -11,19 +11,11 @@
 }
 
 .info_card {
-  border: 1px solid transparent;
-  background-color: var(--oc-white);
-  position: relative;
+  composes: card from 'STYLES/common.css';
 }
 
 .info_card_container {
-  font-size: 16px;
-  color: var(--oc-gray-5);
-  margin: 10px 0 20px;
-
-  & p:first-child {
-    line-height: 50px;
-  }
+  composes: card_container from 'STYLES/common.css';
 }
 
 .info_header {

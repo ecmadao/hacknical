@@ -267,7 +267,7 @@ const getStareData = async (ctx, next) => {
     success: true,
     result: {
       url,
-      enable,
+      openShare: enable,
       viewDevices,
       viewSources,
       pageViews

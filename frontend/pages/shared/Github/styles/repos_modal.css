@@ -1,10 +1,10 @@
 @import 'open-color/open-color.css';
-@import "../../../../../src/styles/base.css";
+
 
 .repos_modal_container {
   /*background-color: #F7F8F9;*/
   background-color: var(--oc-white);
-  box-shadow: var(--shadow-4);
+  box-shadow: var(--shadow4);
   padding: 30px;
   width: 50%;
   margin-left: 25%;

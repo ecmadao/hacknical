@@ -107,6 +107,7 @@ module.exports = {
     alias: {
       COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
       SRC: path.join(PATH.SOURCE_PATH, 'src'),
+      STYLES: path.join(PATH.SOURCE_PATH, 'src/styles'),
       UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
       PAGES: path.join(PATH.SOURCE_PATH, 'pages'),
       API: path.join(PATH.SOURCE_PATH, 'api'),

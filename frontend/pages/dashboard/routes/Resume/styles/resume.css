@@ -1,5 +1,4 @@
 @import 'open-color/open-color.css';
-@import "../../../../../src/styles/base.css";
 
 .resume_container {
   position: relative;
@@ -11,7 +10,7 @@
   left: -120px;
   top: 63px;
   transition: box-shadow 0.2s;
-  box-shadow: var(--shadow-1);
+  box-shadow: var(--shadow1);
   border-radius: 3px;
   background-color: var(--oc-white);
   color: var(--oc-gray-7);
@@ -23,7 +22,7 @@
   user-select: none;
 
   &:hover {
-    box-shadow: var(--shadow-4);
+    box-shadow: var(--shadow4);
   }
 }
 
@@ -65,7 +64,7 @@
       height: 16px;
       border-radius: 50%;
       transition: background-color 0.2s;
-      background-color: var(--bg-deep);
+      background-color: var(--bgDeep);
       margin-bottom: 10px;
       margin-left: auto;
       margin-right: auto;
@@ -88,20 +87,20 @@
     display: block;
     width: 1px;
     height: 40px;
-    background-color: var(--bg-deep);
+    background-color: var(--bgDeep);
     margin: 7px auto;
   }
 }
 
 .resume_sections {
   background-color: var(--oc-white);
-  box-shadow: var(--shadow-1);
+  box-shadow: var(--shadow1);
   border-radius: 3px;
   margin-left: 15px;
   /*padding: 20px 0 0;*/
 
   &:hover {
-    box-shadow: var(--shadow-4);
+    box-shadow: var(--shadow4);
   }
 }
 
@@ -168,7 +167,7 @@
 
   &:hover {
     opacity: 1;
-    box-shadow: var(--shadow-4);
+    box-shadow: var(--shadow4);
   }
 }
 
@@ -194,7 +193,7 @@
 
 .resume_button_container {
   padding: 0 50px;
-  border-bottom: 1px solid var(--bg-deep);
+  border-bottom: 1px solid var(--bgDeep);
 }
 
 .resume_personal_container {
@@ -226,7 +225,7 @@
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--bg-deep);
+    border-bottom: 1px solid var(--bgDeep);
   }
 
   &:not(:first-child) {
