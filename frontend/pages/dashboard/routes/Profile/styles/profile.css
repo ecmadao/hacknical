@@ -43,9 +43,20 @@
 .chart_container {
   composes: info_container;
   width: 100%;
+  margin-bottom: 15px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 15px;
+  }
 }
 
 .chart_info_container {
   composes: chart_info_container from 'STYLES/common.css';
   margin-bottom: 15px;
+}
+
+.radar_chart {
+  flex: 1;
+  max-width: 45%;
 }

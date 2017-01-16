@@ -14,6 +14,7 @@ import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import { LINECHART_CONFIG } from 'UTILS/const_value';
+import { GREEN_COLORS } from 'UTILS/colors';
 
 import styles from '../styles/profile.css';
 
@@ -21,6 +22,8 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.pageViewsChart = null;
+    this.viewDevicesChart = null;
+    this.viewSourcesChart = null;
     this.copyUrl = this.copyUrl.bind(this);
   }
 
@@ -101,7 +104,84 @@ class Profile extends React.Component {
   componentDidUpdate() {
     const { loading } = this.props;
     if (loading) { return }
-    !this.pageViewsChart && this.renderViewsChart()
+    !this.pageViewsChart && this.renderViewsChart();
+    !this.viewDevicesChart && this.renderDevicesChart();
+    !this.viewSourcesChart && this.renderSourcesChart();
+  }
+
+  renderDevicesChart() {
+    const { viewDevices } = this.props;
+    const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
+    const labels = viewDevices.map(viewDevice => viewDevice.platform);
+    const datas = viewDevices.map(viewDevice => viewDevice.count);
+    this.viewDevicesChart = new Chart(viewDevicesChart, {
+      type: 'radar',
+      data: {
+        labels,
+        datasets: [{
+          data: datas,
+          label: '',
+          fill: true,
+          backgroundColor: GREEN_COLORS[4],
+          borderWidth: 1,
+          borderColor: GREEN_COLORS[0],
+          pointBackgroundColor: GREEN_COLORS[0],
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: GREEN_COLORS[0]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: '浏览量来源平台'
+        },
+        legend: {
+          display: false,
+        }
+      }
+    });
+  }
+
+  renderSourcesChart() {
+    const { viewSources } = this.props;
+    const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
+    const labels = viewSources.map((viewSource) => {
+      const { browser, from } = viewSource;
+      if (browser !== "unknown") { return browser }
+      if (from) {
+        return "wechat"
+      }
+    });
+    const datas = viewSources.map(viewSource => viewSource.count);
+
+    this.viewSourcesChart = new Chart(viewSourcesChart, {
+      type: 'radar',
+      data: {
+        labels,
+        datasets: [{
+          data: datas,
+          label: '',
+          fill: true,
+          backgroundColor: GREEN_COLORS[4],
+          borderWidth: 1,
+          borderColor: GREEN_COLORS[0],
+          pointBackgroundColor: GREEN_COLORS[0],
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: GREEN_COLORS[0]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: '浏览器分布'
+        },
+        legend: {
+          display: false,
+        }
+      }
+    });
   }
 
   renderChartInfo() {
@@ -153,6 +233,14 @@ class Profile extends React.Component {
           </div>
           <div className={styles["card"]}>
             {this.renderChartInfo()}
+            <div className={styles["chart_container"]}>
+              <div className={styles["radar_chart"]}>
+                <canvas ref={ref => this.viewDevices = ref}></canvas>
+              </div>
+              <div className={styles["radar_chart"]}>
+                <canvas ref={ref => this.viewSources = ref}></canvas>
+              </div>
+            </div>
             <div className={styles["chart_container"]}>
               <canvas ref={ref => this.pageViews = ref}/>
             </div>
