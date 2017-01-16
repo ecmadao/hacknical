@@ -8,13 +8,16 @@ import Clipboard from 'clipboard';
 import { bindActionCreators } from 'redux';
 import objectAssign from 'object-assign';
 
+
 import Loading from 'COMPONENTS/Loading';
 import IconButton from 'COMPONENTS/IconButton';
 import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 import ChartInfo from 'COMPONENTS/ChartInfo';
+import Tipso from 'COMPONENTS/Tipso';
+
 import { LINECHART_CONFIG } from 'UTILS/const_value';
-import { GREEN_COLORS } from 'UTILS/colors';
+import { GREEN_COLORS, GITHUB_GREEN_COLORS } from 'UTILS/colors';
 import WECHAT from 'SRC/data/wechat';
 
 import styles from '../styles/profile.css';
@@ -24,10 +27,24 @@ const WECHAT_FROM = Object.keys(WECHAT);
 class Profile extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showQrcodeModal: false
+    };
+    this.qrcode = null;
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
     this.copyUrl = this.copyUrl.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+  }
+
+  onMouseOut() {
+    this.setState({ showQrcodeModal: false });
+  }
+
+  onMouseOver() {
+    this.setState({ showQrcodeModal: true });
   }
 
   copyUrl() {
@@ -35,6 +52,7 @@ class Profile extends React.Component {
   }
 
   renderShareController() {
+    const { showQrcodeModal } = this.state;
     const { actions, userInfo } = this.props;
     const { openShare, url } = userInfo;
     return (
@@ -44,7 +62,19 @@ class Profile extends React.Component {
           onChange={actions.postShareStatus}
           checked={openShare}
         />
-        <div className={styles["share_container"]}>
+        <div
+          onMouseEnter={this.onMouseOver}
+          onMouseLeave={this.onMouseOut}
+          onMouseOver={this.onMouseOver}
+          onMouseOut={this.onMouseOut}
+          className={styles["share_container"]}>
+          <Tipso
+            show={showQrcodeModal}>
+            <div className={styles["qrcode_container"]}>
+              <div id="qrcode"></div>
+              <span>扫码分享 github 报告</span>
+            </div>
+          </Tipso>
           <Input
             id="shareGithubUrl"
             style="flat"
@@ -108,9 +138,22 @@ class Profile extends React.Component {
   componentDidMount() {
     const { actions } = this.props;
     actions.fetchGithubShareData();
-    // this.renderQrcode();
     new Clipboard('#copyLinkButton', {
       text: () => $("#shareGithubUrl").val()
+    });
+  }
+
+  renderQrcode() {
+    const { userInfo } = this.props;
+    const { url } = userInfo;
+    $('#qrcode').empty();
+    this.qrcode = new QRCode(document.getElementById("qrcode"), {
+      text: `${window.location.origin}/${url}`,
+      width: 120,
+      height: 120,
+      colorDark: GITHUB_GREEN_COLORS[1],
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
     });
   }
 
@@ -120,6 +163,7 @@ class Profile extends React.Component {
     !this.pageViewsChart && this.renderViewsChart();
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
+    !this.qrcode && this.renderQrcode();
   }
 
   renderDevicesChart() {

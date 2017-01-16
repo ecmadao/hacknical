@@ -15,9 +15,12 @@
   visibility: hidden;
   line-height: 1em;
   min-width: 100px;
+  composes: hidden-z-index from 'STYLES/common.css';
 
   &.active {
     visibility: visible;
+    z-index: var(--zIndex99);
+    /*composes: tipso-z-index from 'STYLES/common.css';*/
   }
 
   &::before,
