@@ -13,7 +13,7 @@ const getUserCardColor = (user) => {
   Object.keys(obj).sort((thisKey, nextKey) => {
     return parseInt(obj[nextKey]) - parseInt(obj[thisKey]);
   }).forEach((key, index) => {
-    obj[key] = GREEN_COLORS[index];
+    obj[key] = GREEN_COLORS[index] || GREEN_COLORS.slice(-1)[0];
   });
   return obj;
 };

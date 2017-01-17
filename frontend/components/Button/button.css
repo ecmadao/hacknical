@@ -27,16 +27,16 @@
 .flat {
   transition: background-color 0.2s, opacity 0.2s, color 0.2s;
 
-  &.blue {
-    border: 1px solid var(--oc-blue-5);
-    color: var(--oc-blue-5);
+  &.green {
+    border: 1px solid var(--oc-green-7);
+    color: var(--oc-green-7);
 
     & i {
-      color: var(--oc-blue-4);
+      color: var(--oc-green-4);
     }
 
     &:hover {
-      background-color: var(--oc-blue-5);
+      background-color: var(--oc-green-7);
       color: var(--oc-white);
 
       & i {
@@ -81,7 +81,7 @@
     }
   }
 
-  &.grey {
+  &.gray {
     border: 1px solid var(--oc-gray-5);
     color: var(--oc-gray-5);
 
@@ -109,8 +109,8 @@
     box-shadow: var(--shadow5);
   }
 
-  &.blue {
-    background-color: var(--oc-blue-5);
+  &.green {
+    background-color: var(--oc-green-7);
   }
 
   &.red {
@@ -121,7 +121,7 @@
     background-color: var(--oc-gray-7);
   }
 
-  &.grey {
+  &.gray {
     background-color: var(--oc-gray-5);
   }
 }

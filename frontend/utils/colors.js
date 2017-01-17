@@ -19,30 +19,13 @@ export const MD_COLORS = [
   '#7f8c8d'
 ];
 
-export const BLUE_COLORS = [
-  'rgba(52, 143, 223, 1)',
-  'rgba(52, 143, 223, 0.8)',
-  'rgba(52, 143, 223, 0.6)',
-  'rgba(52, 143, 223, 0.4)',
-  'rgba(52, 143, 223, 0.2)',
-  'rgba(52, 143, 223, 0.1)'
-];
-
 export const GREEN_COLORS = [
-  'rgba(30, 104, 35, 1)',
-  'rgba(30, 104, 35, 0.8)',
-  'rgba(30, 104, 35, 0.6)',
-  'rgba(30, 104, 35, 0.4)',
-  'rgba(30, 104, 35, 0.2)',
-  'rgba(30, 104, 35, 0.1)',
-];
-
-export const GITHUB_GREEN_COLORS = [
-  '#1e6823',
-  '#44a340',
-  '#8cc665',
-  '#d6e685',
-  '#eee'
+  'rgba(55, 178, 77, 1)',
+  'rgba(55, 178, 77, 0.8)',
+  'rgba(55, 178, 77, 0.6)',
+  'rgba(55, 178, 77, 0.4)',
+  'rgba(55, 178, 77, 0.2)',
+  'rgba(55, 178, 77, 0.1)',
 ];
 
 export const hex2Rgb = (hex) => {

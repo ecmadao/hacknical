@@ -86,7 +86,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   value: '',
-  color: 'blue',
+  color: 'green',
   style: 'material',
   onClick: () => {},
   leftIcon: null,

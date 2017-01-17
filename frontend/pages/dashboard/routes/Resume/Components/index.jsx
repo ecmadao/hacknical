@@ -110,7 +110,7 @@ class Resume extends React.Component {
           <div className={styles["operations_wrapper"]}>
             <Button
               value="预览"
-              color="dark"
+              color="gray"
               onClick={() => this.handleModalStatus(true)}
               leftIcon={(
                 <i className="fa fa-file-text-o" aria-hidden="true"></i>
@@ -132,7 +132,7 @@ class Resume extends React.Component {
               {currentIndex > 0 && (
                 <Button
                   value="上一步"
-                  color={"dark"}
+                  color="gray"
                   leftIcon={(
                     <i className="fa fa-angle-left" aria-hidden="true"></i>
                   )}

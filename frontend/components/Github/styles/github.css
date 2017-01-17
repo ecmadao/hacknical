@@ -240,7 +240,7 @@
           font-size: 16px;
 
           &:hover {
-            color: var(--oc-blue-5);
+            color: var(--oc-green-5);
           }
         }
 
@@ -268,6 +268,6 @@
   transform: translateY(-50%);
 
   &.active {
-    color: var(--oc-blue-5);
+    color: var(--oc-green-5);
   }
 }

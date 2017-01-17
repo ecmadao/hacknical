@@ -17,7 +17,7 @@ import ChartInfo from 'COMPONENTS/ChartInfo';
 import Tipso from 'COMPONENTS/Tipso';
 
 import { LINECHART_CONFIG } from 'UTILS/const_value';
-import { GREEN_COLORS, GITHUB_GREEN_COLORS } from 'UTILS/colors';
+import { GREEN_COLORS } from 'UTILS/colors';
 import WECHAT from 'SRC/data/wechat';
 
 import styles from '../styles/profile.css';
@@ -151,7 +151,7 @@ class Profile extends React.Component {
       text: `${window.location.origin}/${url}`,
       width: 120,
       height: 120,
-      colorDark: GITHUB_GREEN_COLORS[1],
+      colorDark: GREEN_COLORS[1],
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H
     });

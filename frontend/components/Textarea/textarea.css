@@ -15,7 +15,7 @@
   }
 
   &.focus {
-    border: 1px solid var(--oc-blue-5);
+    border: 1px solid var(--oc-green-5);
   }
 
   &.error {

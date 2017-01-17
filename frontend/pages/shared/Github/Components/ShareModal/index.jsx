@@ -8,7 +8,7 @@ import IconButton from 'COMPONENTS/IconButton';
 import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 
-import { GITHUB_GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
+import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
 import styles from '../../styles/share_modal.css';
 
 const DARK_COLORS = MD_COLORS.slice(-2);
@@ -25,7 +25,7 @@ class ShareModal extends React.Component {
     const { login, openShare } = this.props;
     const origin = window.location.origin;
     const text = openShare ? `${origin}/github/${login}` : origin;
-    const colorDark = openShare ? GITHUB_GREEN_COLORS[1] : DARK_COLORS[1];
+    const colorDark = openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
     $('#qrcode').empty();
     const qrcode = new QRCode(document.getElementById("qrcode"), {
       text,

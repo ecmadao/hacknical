@@ -20,7 +20,7 @@
 
   &:hover {
     & svg {
-      fill: var(--oc-blue-5);
+      fill: var(--oc-green-5);
     }
   }
 
@@ -43,7 +43,7 @@
     border: 1px solid var(--oc-gray-5);
 
     &:hover {
-      border: 1px solid var(--oc-blue-5);
+      border: 1px solid var(--oc-green-5);
     }
   }
 }

@@ -61,12 +61,12 @@
 
   &.header_link {
     transition: color 0.3s;
-    color: var(--oc-blue-5);
+    color: var(--oc-green-5);
     text-decoration: none;
     margin-bottom: 5px;
 
     &:hover {
-      color: var(--oc-blue-7);
+      color: var(--oc-green-7);
     }
   }
 
