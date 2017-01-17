@@ -25,10 +25,12 @@ class Github extends React.Component {
   }
 
   componentDidMount() {
-    const { actions, repos, login } = this.props;
-    actions.getGithubInfo(login);
-    if (!repos.length) {
-      actions.getGithubRepos(login);
+    const { actions, repos, login, loaded } = this.props;
+    if (!loaded) {
+      actions.getGithubInfo(login);
+      if (!repos.length) {
+        actions.getGithubRepos(login);
+      }
     }
   }
 
@@ -91,7 +93,7 @@ function mapStateToProps(state) {
   const {
     user,
     repos,
-    loading,
+    loaded,
     openModal,
     openShareModal,
     reposLanguages
@@ -99,7 +101,7 @@ function mapStateToProps(state) {
   return {
     user,
     repos,
-    loading,
+    loaded,
     openModal,
     openShareModal,
     reposLanguages

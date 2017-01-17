@@ -136,8 +136,8 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    const { actions } = this.props;
-    actions.fetchGithubShareData();
+    const { actions, loading } = this.props;
+    loading && actions.fetchGithubShareData();
     new Clipboard('#copyLinkButton', {
       text: () => $("#shareGithubUrl").val()
     });
@@ -260,7 +260,7 @@ class Profile extends React.Component {
           subText="总 PV"
         />
         <ChartInfo
-          mainText={platforms.join(',')}
+          mainText={platforms.slice(0, 2).join(',')}
           subText="使用最多的平台"
         />
         <ChartInfo
