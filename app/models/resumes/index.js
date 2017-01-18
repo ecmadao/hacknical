@@ -38,7 +38,7 @@ const getResume = async (userId) => {
     return Promise.resolve({
       success: false,
       message: '没有查询到结果',
-      result: {}
+      result: null
     });
   }
   return Promise.resolve({

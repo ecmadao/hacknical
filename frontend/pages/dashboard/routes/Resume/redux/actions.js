@@ -8,7 +8,7 @@ import Api from 'API/index';
 const initialResume = createAction('INITIAL_RESUME');
 const fetchResume = () => (dispatch, getState) => {
   Api.resume.getResume().then((result) => {
-    dispatch(initialResume(result));
+    result && dispatch(initialResume(result));
   });
 };
 

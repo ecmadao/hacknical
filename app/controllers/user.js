@@ -90,10 +90,10 @@ const dashboard = async (ctx, next) => {
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
   const getResult = await Resume.getResume(userId);
-  const { message, success, result } = getResult;
+  const { message, result } = getResult;
   ctx.body = {
     message,
-    success,
+    success: true,
     result
   };
 };
