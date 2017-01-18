@@ -1,5 +1,5 @@
 import ShareAnalyse from './schema';
-import dateHelper from '../../utils/date';
+import dateHelper, { getValidateDate } from '../../utils/date';
 
 const findShare = async (options) => {
   return await ShareAnalyse.findOne(options);
@@ -99,11 +99,11 @@ const updateShare = async (login, url) => {
   const dateNow = dateHelper.getDateNow();
   const hourNow = dateHelper.getHourNow();
   const date = `${dateNow} ${hourNow}:00`;
-  const targetPageViews = pageViews.filter(pageView => pageView.date === date);
+  const targetPageViews = pageViews.filter(pageView => getValidateDate(pageView.date) === date);
   if (!targetPageViews.length) {
     analyse.pageViews.push({
-      date,
-      count: 1
+      count: 1,
+      date: dateHelper.getFormatData()
     });
   } else {
     targetPageViews[0].count += 1;
