@@ -99,7 +99,8 @@ const updateShare = async (login, url) => {
   const dateNow = dateHelper.getDateNow();
   const hourNow = dateHelper.getHourNow();
   const date = `${dateNow} ${hourNow}:00`;
-  const targetPageViews = pageViews.filter(pageView => getValidateDate(pageView.date) === date);
+  console.log(pageViews);
+  const targetPageViews = pageViews.filter(pageView => getValidateDate(pageView.date || pageView.viewDate) === date);
   if (!targetPageViews.length) {
     analyse.pageViews.push({
       count: 1,
