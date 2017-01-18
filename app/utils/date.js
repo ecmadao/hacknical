@@ -11,8 +11,10 @@ const getSeconds = (date) => parseInt(formatDate(date)('X'));
  * @return {[string]}                   [2017-01-18 09:00]
  */
 export const getValidateDate = (formatDate) => {
-  // const formatDate = formatDate()();
   const [date, time] = formatDate.split('T');
+  if (!time) {
+    return date
+  }
   return `${date} ${time.split(':').slice(0, 1)[0]}:00`;
 };
 

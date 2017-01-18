@@ -2,8 +2,7 @@
 
 .resume_modal_container {
   background-color: #F7F8F9;
-  /*background-color: var(--oc-white);*/
-  box-shadow: var(--shadow-4);
+  box-shadow: var(--shadow4);
   padding: 30px;
   width: 70%;
   border-radius: 2px;
@@ -12,7 +11,7 @@
 }
 
 .resume_info_wrapper {
-  color: var(--main-text);
+  color: var(--oc-gray-7);
   padding: 15px;
   /*background-color: var(--flat-card);
   border-top: 1px solid var(--flat-card-border);
@@ -79,7 +78,7 @@
   font-size: 14px;
   height: 25px;
   line-height: 25px;
-  color: var(--side-text);
+  color: var(--oc-gray-5);
 }
 
 .project_section {
@@ -95,9 +94,9 @@
 
 .info_label {
   font-size: 12px;
-  color: var(--side-text);
+  color: var(--oc-gray-5);
   padding: 5px 7px;
-  border: 1px solid var(--side-text);
+  border: 1px solid var(--oc-gray-5);
   border-radius: 2px;
   display: inline-block;
   margin-bottom: 5px;
