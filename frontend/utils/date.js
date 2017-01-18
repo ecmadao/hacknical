@@ -22,6 +22,7 @@ export const getSecondsAfterYears = (after) => {
 export const getRelativeTime = (date) => moment(date).startOf('hour').fromNow();
 
 export const getValidateFullDate = (date) => formatDate(date)('L');
+export const getValidateHour = (date) => formatDate(date)('HH');
 
 export const getDateBySeconds = (seconds) => moment.unix(seconds).format('L')
 export const getSecondsByDate = (date) => getSeconds(date);

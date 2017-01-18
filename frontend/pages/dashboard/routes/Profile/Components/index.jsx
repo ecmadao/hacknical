@@ -18,6 +18,7 @@ import Tipso from 'COMPONENTS/Tipso';
 
 import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
+import { getValidateFullDate, getValidateHour } from 'UTILS/date';
 import WECHAT from 'SRC/data/wechat';
 
 import styles from '../styles/profile.css';
@@ -93,7 +94,10 @@ class Profile extends React.Component {
   renderViewsChart() {
     const { pageViews } = this.props;
     const viewsChart = ReactDOM.findDOMNode(this.pageViews);
-    const dateLabels = pageViews.map(pageView => pageView.date);
+    const dateLabels = pageViews.map((pageView) => {
+      const { date } = pageView;
+      return `${getValidateFullDate(date)} ${getValidateHour(date)}:00`;
+    });
     const viewDates = pageViews.map(pageView => pageView.count);
     this.pageViewsChart = new Chart(viewsChart, {
       type: 'line',
