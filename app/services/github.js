@@ -17,14 +17,12 @@ const getToken = (code) => {
       `${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
       (err, httpResponse, body) => {
         if (err) {
-          console.log(err);
           reject(false);
         }
         if (body) {
           resolve(body);
-        } else {
-          reject(false);
         }
+        reject(false);
       }
     );
   });
@@ -37,11 +35,13 @@ const getUser = (token) => {
         'User-Agent': appName
       }
     }, (err, httpResponse, body) => {
-      if (httpResponse.statusCode === 200 && body) {
-        resolve(body);
-      } else {
+      if (err) {
         reject(false);
       }
+      if (body) {
+        resolve(body);
+      }
+      reject(false);
     });
   });
 };
@@ -57,11 +57,13 @@ const getRepos = (login, token, page = 1) => {
         'User-Agent': appName
       }
     }, (err, httpResponse, body) => {
-      if (httpResponse.statusCode === 200 && body) {
-        resolve(JSON.parse(body));
-      } else {
+      if (err) {
         reject(false);
       }
+      if (body) {
+        resolve(JSON.parse(body));
+      }
+      reject(false);
     });
   });
 };
@@ -84,11 +86,13 @@ const getReposYearlyCommits = (fullname, token) => {
         'User-Agent': appName
       }
     }, (err, httpResponse, body) => {
-      if (httpResponse.statusCode === 200 && body) {
-        resolve(JSON.parse(body));
-      } else {
+      if (err) {
         resolve([]);
       }
+      if (body) {
+        resolve(JSON.parse(body));
+      }
+      resolve([]);
     });
   });
 };
@@ -107,16 +111,18 @@ const getReposLanguages = (fullname, token) => {
         'User-Agent': appName
       }
     }, (err, httpResponse, body) => {
-      if (httpResponse.statusCode === 200 && body) {
+      if (err) {
+        resolve({});
+      }
+      if (body) {
         const languages = JSON.parse(body);
         let total = 0;
         let result = {};
         Object.keys(languages).forEach(key => total += languages[key]);
         Object.keys(languages).forEach(key => result[key] = languages[key] / total);
         resolve(result);
-      } else {
-        resolve({});
       }
+      resolve({});
     });
   });
 };
