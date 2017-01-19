@@ -4,3 +4,5 @@ const CDN = config.get('cdn');
 const vendorPath = (vendorName) => {
   return `${CDN}/vendor/${vendorName}`;
 };
+
+export default vendorPath;
