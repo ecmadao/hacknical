@@ -8,11 +8,11 @@ class Tipso extends React.Component {
   }
 
   render() {
-    const { children, show, style } = this.props;
+    const { children, show, className } = this.props;
     const containerClass = cx(
       styles["tipso_container"],
       show && styles["active"],
-      style
+      className
     );
     return (
       <div
@@ -27,13 +27,13 @@ class Tipso extends React.Component {
 Tipso.propTypes = {
   show: PropTypes.bool,
   children: PropTypes.element,
-  style: PropTypes.string
+  className: PropTypes.string
 };
 
 Tipso.defaultProps = {
   show: false,
   children: (<div></div>),
-  style: ''
+  className: ''
 };
 
 export default Tipso;

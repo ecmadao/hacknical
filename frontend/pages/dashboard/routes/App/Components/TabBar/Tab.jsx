@@ -46,7 +46,7 @@ class Tab extends React.Component {
         {name}
         {!enable && showTipso ? (
           <Tipso
-            style={appStyles["tipso"]}
+            className={appStyles["tipso"]}
             show={true}>
             <span>功能暂未开放</span>
           </Tipso>

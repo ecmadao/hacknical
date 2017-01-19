@@ -40,6 +40,8 @@
 /* header */
 .header_menus {
   flex: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .header_menu_icon {
@@ -51,12 +53,16 @@
 
 .header_menu_icon_right {
   composes: header_menu_icon;
-  float: right;
+  position: relative;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
 }
 
 /* tipso */
 .tipso {
-  bottom: -90% !important;
+  bottom: -80% !important;
 
   &::before {
     top: -11px;
@@ -69,4 +75,10 @@
     border-top: none !important;
     border-bottom: 10px solid var(--oc-white);
   }
+}
+
+.menu_tipso {
+  composes: tipso;
+  z-index: var(--zIndex999) !important;
+  font-size: 12px;
 }
