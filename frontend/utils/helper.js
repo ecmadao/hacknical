@@ -47,8 +47,8 @@ export const getFirstTarget = (array, target) => {
   return [result, index];
 };
 
-export const sortRepos = (key = 'stargazers_count') => (firstRepos, secRepos) => {
-  return parseInt(secRepos[key]) - parseInt(firstRepos[key]);
+export const sortRepos = (key = 'stargazers_count', func = parseInt) => (firstRepos, secRepos) => {
+  return func(secRepos[key]) - func(firstRepos[key]);
 };
 
 export const sortLanguages = (obj) => (firstLanguage, secLanguage) => {

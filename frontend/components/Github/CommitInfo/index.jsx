@@ -209,7 +209,6 @@ class CommitInfo extends React.Component {
 
 function mapStateToProps(state) {
   const { commitDatas, loaded } = state.github;
-
   return {
     loaded,
     reposCommits: commitDatas,

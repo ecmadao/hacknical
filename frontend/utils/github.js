@@ -133,7 +133,7 @@ const getMaxDate = (repos) => {
 };
 
 const sortByDate = (repos) => {
-  return repos.sort(sortRepos('created_at'));
+  return repos.sort(sortRepos('created_at', getSecondsByDate)).reverse();
 };
 
 const getReposByIds = (repos, ids) => {

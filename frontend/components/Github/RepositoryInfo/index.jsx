@@ -183,7 +183,7 @@ class RepositoryInfo extends React.Component {
   renderChosedRepos() {
     const { flatRepos } = this.props;
     const sortedRepos = github.sortByDate(flatRepos.slice(0, 10));
-    this.minDate = sortedRepos[0]['created_at'];
+    this.minDate = sortedRepos[0]['created_at'].split('T')[0];
     this.maxDate = github.getMaxDate(sortedRepos);
     return (
       <div className={githubStyles["repos_timeline_container"]}>

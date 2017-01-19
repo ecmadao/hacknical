@@ -43,8 +43,6 @@ const deployCdn = () => {
     const fullpath = files[i];
     const file = fullpath.replace(PATH.PUBLIC_PATH, '');
     const key = `${appName}${file}`;
-    // console.log(fullpath);
-    // console.log(file);
     const token = uptoken(BucketName, key);
     uploadFile(token, key, fullpath);
   }
