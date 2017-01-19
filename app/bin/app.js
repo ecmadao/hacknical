@@ -14,6 +14,7 @@ import views from 'koa-views';
 import userAgent from 'koa-useragent';
 
 import assetsPath from '../middlewares/assets_helper';
+import vendorPath from '../middlewares/vendor_helper';
 import redisCache from '../middlewares/cache_helper';
 import catch404 from '../middlewares/404_helper';
 import router from '../routes/index';
@@ -53,6 +54,7 @@ app.use(async (ctx, next) => {
     csrf: ctx.csrf,
     isMobile: false,
     assetsPath,
+    vendorPath,
     clientId
   };
   await next();

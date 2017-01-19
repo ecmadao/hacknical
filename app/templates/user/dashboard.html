@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block js %}
-  <script src="/vendor/qrcode.min.js"></script>
+  <!-- <script src="/vendor/qrcode.min.js"></script> -->
+  <script src="{{ vendorPath("qrcode.min.js") }}"></script>
   <script src="{{ assetsPath("dashboard.js") }}"></script>
 {% endblock %}
