@@ -27,6 +27,8 @@ export const getValidateHour = (date) => formatDate(date)('HH');
 export const getDateBySeconds = (seconds) => moment.unix(seconds).format('L')
 export const getSecondsByDate = (date) => getSeconds(date);
 
+export const getFullDate = (date) => formatDate(date)();
+export const getFillDateBySecond = (seconds) => moment.unix(seconds).format();
 export const getCurrentDate = () => formatDate()('L');
 export const getCurrentSeconds = () => getSecondsByDate();
 

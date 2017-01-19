@@ -15,6 +15,7 @@ import {
   hex2Rgba
 } from 'UTILS/colors';
 import {
+  getFullDate,
   getSecondsByDate,
   getRelativeTime
 } from 'UTILS/date';
@@ -183,7 +184,7 @@ class RepositoryInfo extends React.Component {
   renderChosedRepos() {
     const { flatRepos } = this.props;
     const sortedRepos = github.sortByDate(flatRepos.slice(0, 10));
-    this.minDate = sortedRepos[0]['created_at'].split('T')[0];
+    this.minDate = getFullDate(sortedRepos[0]['created_at']);
     this.maxDate = github.getMaxDate(sortedRepos);
     return (
       <div className={githubStyles["repos_timeline_container"]}>

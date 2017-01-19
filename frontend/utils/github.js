@@ -1,5 +1,6 @@
 import { sortRepos } from './helper';
 import {
+  getFillDateBySecond,
   getSecondsByDate,
   getValidateFullDate,
   getSecondsBeforeYears
@@ -123,13 +124,13 @@ const getReposByLanguage = (repos, targetLanguage) => {
 };
 
 const getMinDate = (repos) => {
-  const createDates = repos.map(repository => new Date(repository['created_at']));
-  return getValidateFullDate(Math.min(...createDates));
+  const createDates = repos.map(repository => getSecondsByDate(repository['created_at']));
+  return getFillDateBySecond(Math.min(...createDates));
 };
 
 const getMaxDate = (repos) => {
-  const pushDates = repos.map(repository => new Date(repository['pushed_at']));
-  return getValidateFullDate(Math.max(...pushDates));
+  const pushDates = repos.map(repository => getSecondsByDate(repository['pushed_at']));
+  return getFillDateBySecond(Math.max(...pushDates));
 };
 
 const sortByDate = (repos) => {
