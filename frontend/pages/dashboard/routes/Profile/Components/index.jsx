@@ -94,11 +94,24 @@ class Profile extends React.Component {
   renderViewsChart() {
     const { pageViews } = this.props;
     const viewsChart = ReactDOM.findDOMNode(this.pageViews);
-    const dateLabels = pageViews.map((pageView) => {
+    const validatePageViews = [];
+    pageViews.forEach((pageView) => {
+      const { count, date } = pageView;
+      const filterPageViews = validatePageViews.filter(validatePageView => validatePageView.date === date);
+      if(filterPageViews.length) {
+        filterPageViews[0].count += count;
+      } else {
+        validatePageViews.push({
+          count,
+          date
+        });
+      }
+    });
+    const dateLabels = validatePageViews.map((pageView) => {
       const { date } = pageView;
       return `${getValidateFullDate(date)} ${getValidateHour(date)}:00`;
     });
-    const viewDates = pageViews.map(pageView => pageView.count);
+    const viewDates = validatePageViews.map(pageView => pageView.count);
     this.pageViewsChart = new Chart(viewsChart, {
       type: 'line',
       data: {

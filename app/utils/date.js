@@ -1,5 +1,5 @@
 import moment from 'moment';
-// moment.locale('zh-cn');
+moment.locale('zh-cn');
 
 const formatDate = (date) => (format) => moment(date).format(format);
 const getSeconds = (date) => parseInt(formatDate(new Date(date))('X'));
@@ -21,8 +21,8 @@ export const getValidateDate = (formatDate) => {
 export default {
   getSeconds,
   getFormatData: () => formatDate()(),
-  getDateNow: () => formatDate()('l'),
-  getHourNow: () => formatDate()('H'),
+  getDateNow: () => formatDate()('YYYY-MM-DD'),
+  getHourNow: () => formatDate()('HH'),
   getDateAfterDays: (days) => moment().add(parseInt(days), 'days').format('L'),
   getDateBeforeYears: (years) => moment().add(-parseInt(years), 'years').format('L')
 }
