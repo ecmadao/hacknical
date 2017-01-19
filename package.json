@@ -19,7 +19,7 @@
     "pm2:restart": "NODE_ENV=production pm2 restart \"hawkeye\"",
     "pm2:stop": "NODE_ENV=production pm2 stop \"hawkeye\"",
     "pm2:logs": "NODE_ENV=production pm2 logs \"hawkeye\"",
-    "deploy-cdn": "node ./scripts/deploy-cdn.js"
+    "deploy-cdn": "NODE_ENV=production node ./scripts/deploy-cdn.js"
   },
   "author": "ecmadao",
   "license": "ISC",
