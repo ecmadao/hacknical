@@ -4,6 +4,7 @@ import App from './App/index';
 import Github from './Github/index';
 import Profile from './Profile/index';
 import Resume from './Resume/index';
+import PATH from './shared/path';
 // import Setting from './Setting/index';
 
 export const createRoutes = (store) => {
@@ -17,11 +18,17 @@ export const createRoutes = (store) => {
       Github(store),
       // Setting(store),
       {
-        path: '/',
+        path: `${PATH.BASE_PATH}/`,
         onEnter: (nextState, replace) => {
-          replace('/github');
+          replace('github');
         }
-      }
+      },
+      {
+        path: PATH.RAW_PATH,
+        onEnter: (nextState, replace) => {
+          replace(`${PATH.BASE_PATH}/`);
+        }
+      },
     ]
   }
 }

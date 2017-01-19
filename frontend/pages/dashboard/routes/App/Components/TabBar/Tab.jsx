@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import appStyles from '../../styles/app.css';
 import Tipso from 'COMPONENTS/Tipso';
+import PATH from '../../../shared/path';
 
 class Tab extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Tab extends React.Component {
     );
     return (
       <Link
-        to={`/${id}`}
+        to={`${PATH.BASE_PATH}/${id}`}
         className={tabClass}
         activeClassName="app_tab_active"
         onMouseOver={this.onMouseEnter}
