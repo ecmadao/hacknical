@@ -14,6 +14,7 @@ const initialState = {
   chosedRepos: [],
   showedReposId: null,
   commitDatas: [],
+  commitInfos: [],
   sections: [
     {
       id: 'commitsPreview',
@@ -81,6 +82,7 @@ const reducers = handleActions({
       loaded: true,
       repos: [...repos],
       commitDatas: [...commits],
+      commitInfos: github.combineReposCommits([...commits]),
       reposLanguages: [...github.getReposLanguages(repos)]
     });
   },

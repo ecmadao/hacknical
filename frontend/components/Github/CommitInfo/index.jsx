@@ -38,8 +38,9 @@ class CommitInfo extends React.Component {
   }
 
   renderCharts() {
-    const { commitDatas } = this.props;
-    const { commits, dailyCommits } = commitDatas;
+    const { loaded, commitInfos } = this.props;
+    if (!loaded) { return }
+    const { commits, dailyCommits } = commitInfos;
     if (dailyCommits.length) {
       !this.commitsWeeklyReviewChart && this.renderWeeklyChart(dailyCommits);
     }
@@ -97,7 +98,7 @@ class CommitInfo extends React.Component {
   }
 
   renderWeeklyChart(dailyCommits) {
-    const commits = dailyCommits.slice(1);
+    const commits = [...dailyCommits.slice(1)];
     commits.push(dailyCommits[0]);
     const days = DAYS.slice(1);
     days.push(DAYS[0])
@@ -139,8 +140,9 @@ class CommitInfo extends React.Component {
   }
 
   renderChartInfo() {
-    const { commitDatas, reposCommits } = this.props;
-    const { commits, dailyCommits, total } = commitDatas;
+    const { commitDatas, commitInfos } = this.props;
+    // const commitInfo = this.commitInfo;
+    const { commits, dailyCommits, total } = commitInfos;
     // day info
     const maxIndex = getMaxIndex(dailyCommits);
     const dayName = DAYS[maxIndex];
@@ -150,8 +152,8 @@ class CommitInfo extends React.Component {
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = getDateAfterDays(dayIndex, week);
     // max commit repos
-    reposCommits.sort(sortRepos('totalCommits'));
-    const maxCommitRepos = reposCommits[0];
+    commitDatas.sort(sortRepos('totalCommits'));
+    const maxCommitRepos = commitDatas[0];
 
     return (
       <div className={chartStyles["chart_info_container"]}>
@@ -208,11 +210,11 @@ class CommitInfo extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { commitDatas, loaded } = state.github;
+  const { commitDatas, commitInfos, loaded } = state.github;
   return {
     loaded,
-    reposCommits: commitDatas,
-    commitDatas: github.combineReposCommits(commitDatas),
+    commitDatas,
+    commitInfos,
     hasCommits: commitDatas.length > 0,
   }
 }
