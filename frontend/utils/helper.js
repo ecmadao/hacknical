@@ -1,3 +1,7 @@
+import dateHelper from './date';
+
+const getSeconds = dateHelper.seconds.getByDate;
+
 export const getMaxIndex = (array, key = null) => {
   let max = 0;
   let maxIndex = 0;
@@ -64,3 +68,5 @@ export const getOffsetRight = (start, end) => (right) => {
   const length = end - start;
   return `${Math.floor((end - right) * 100 / length)}%`;
 };
+
+export const sortByX = (key) => (thisObj, nextObj) => getSeconds(thisObj[key]) - getSeconds(nextObj[key]);

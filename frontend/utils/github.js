@@ -1,11 +1,8 @@
 import { sortRepos } from './helper';
-import {
-  getFillDateBySecond,
-  getSecondsByDate,
-  getValidateFullDate,
-  getSecondsBeforeYears
-} from './date';
+import dateHelper from './date';
 
+const getFullDateBySecond = dateHelper.validator.fullDateBySeconds;
+const getSecondsByDate = dateHelper.seconds.getByDate;
 const baseUrl = 'https://github.com';
 
 const combineReposCommits = (reposCommits) => {
@@ -125,12 +122,12 @@ const getReposByLanguage = (repos, targetLanguage) => {
 
 const getMinDate = (repos) => {
   const createDates = repos.map(repository => getSecondsByDate(repository['created_at']));
-  return getFillDateBySecond(Math.min(...createDates));
+  return getFullDateBySecond(Math.min(...createDates));
 };
 
 const getMaxDate = (repos) => {
   const pushDates = repos.map(repository => getSecondsByDate(repository['pushed_at']));
-  return getFillDateBySecond(Math.max(...pushDates));
+  return getFullDateBySecond(Math.max(...pushDates));
 };
 
 const sortByDate = (repos) => {
@@ -185,7 +182,7 @@ const getTotalCount = (repos) => {
 };
 
 const getYearlyRepos = (repos) => {
-  const yearAgoSeconds = getSecondsBeforeYears(1);
+  const yearAgoSeconds = dateHelper.seconds.beforeYears(1);
   return repos.filter((repository) => {
     return !repository.fork && getSecondsByDate(repository['created_at']) > yearAgoSeconds
   });

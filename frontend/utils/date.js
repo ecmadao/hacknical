@@ -1,37 +1,38 @@
 import moment from 'moment';
 moment.locale('zh-cn');
 
-// const formatDate = (format) => (date) => moment(date).format(format);
 const formatDate = (date) => (format) => moment(date).format(format);
 const getSeconds = (date) => parseInt(formatDate(date)('X'));
+const getDateBeforeYears = (before) => moment().add(-parseInt(before), 'years').format('L')
+const getDateAfterYears = (after) => moment().add(parseInt(after), 'years').format('L')
 
-export const getDateBeforeYears = (before) => moment().add(-parseInt(before), 'years').format('L')
-export const getDateAfterYears = (after) => moment().add(parseInt(after), 'years').format('L')
-
-export const getDateAfterDays = (after, date = null) => moment(date).add(parseInt(after), 'days').format('L')
-
-export const getSecondsBeforeYears = (before) => {
-  const date = getDateBeforeYears(before);
-  return getSeconds(date);
-};
-export const getSecondsAfterYears = (after) => {
-  const date = getDateAfterYears(after);
-  return getSeconds(date);
-};
-
-export const getRelativeTime = (date) => moment(date).startOf('hour').fromNow();
-
-export const getValidateFullDate = (date) => formatDate(date)('L');
-export const getValidateHour = (date) => formatDate(date)('HH');
-
-export const getDateBySeconds = (seconds) => moment.unix(seconds).format('L')
-export const getSecondsByDate = (date) => getSeconds(date);
-
-export const getFullDate = (date) => formatDate(date)();
-export const getFillDateBySecond = (seconds) => moment.unix(seconds).format();
-export const getCurrentDate = () => formatDate()('L');
-export const getCurrentSeconds = () => getSecondsByDate();
-
-export const sortByX = (key) => (thisObj, nextObj) => getSeconds(thisObj.key) - getSeconds(nextObj.key);
-
-export const validateDate = (date) => getValidateFullDate(date).split('-').slice(0, 2).join('-');
+export default {
+  validator: {
+    full: (date) => formatDate(date)(), // 2017-01-21T22:23:56+08:00
+    fullDate: (date) => formatDate(date)('L'), // 2017-01-21
+    fullDateBySeconds: (seconds) => moment.unix(seconds).format(),
+    date: (date) => formatDate(date)('YYYY-MM'), // 2017-01
+    hour: (date) => formatDate(date)('HH') // 22
+  },
+  seconds: {
+    beforeYears: (before) => {
+      const date = getDateBeforeYears(before);
+      return getSeconds(date);
+    },
+    afterYears: (after) => {
+      const date = getDateAfterYears(after);
+      return getSeconds(date);
+    },
+    getByDate: (date) => getSeconds(date),
+    getCurrent: () => getSeconds()
+  },
+  date: {
+    beforeYears: getDateBeforeYears,
+    afterYears: getDateAfterYears,
+    afterDays: (after, date = null) => moment(date).add(parseInt(after), 'days').format('L'),
+    bySeconds: (seconds) => moment.unix(seconds).format('L')
+  },
+  relative: {
+    hoursBefore: (date) => moment(date).startOf('hour').fromNow()
+  }
+}

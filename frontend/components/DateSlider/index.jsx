@@ -4,15 +4,11 @@ import 'rc-slider/assets/index.css'
 import Slider from 'rc-slider';
 
 import styles from './date_slider.css';
-import {
-  validateDate,
-  getDateBeforeYears,
-  getDateBySeconds,
-  getCurrentDate,
-  getSecondsByDate,
-  getSecondsBeforeYears
-} from 'UTILS/date';
+import dateHelper from 'UTILS/date';
 
+const getDateBySeconds = dateHelper.date.bySeconds;
+const getDateBeforeYears = dateHelper.date.beforeYears;
+const getSecondsByDate = dateHelper.seconds.getByDate;
 const SECONDS_PER_DAY = 24 * 60 * 60;
 
 class DateSlider extends React.Component {
@@ -97,7 +93,7 @@ class DateSlider extends React.Component {
           step={SECONDS_PER_DAY}
           tipFormatter={(data) => {
             const date = getDateBySeconds(data);
-            return validateDate(date);
+            return dateHelper.validator.date(date);
           }}
           onChange={this.onChange}
           tipTransitionName="rc-slider-tooltip-zoom-down"
@@ -106,12 +102,12 @@ class DateSlider extends React.Component {
           <div className={styles["slider_tips"]}>
             {startText}
             <span>
-              {validateDate(startDate)}
+              {dateHelper.validator.date(startDate)}
             </span>
           </div>
           <div className={styles["slider_tips"]}>
             <span>
-              {validateDate(endDate)}
+              {dateHelper.validator.date(endDate)}
             </span>
             {endText}
           </div>
@@ -136,7 +132,7 @@ DateSlider.propTypes = {
 DateSlider.defaultProps = {
   pushInterval: 'day',
   minDate: getDateBeforeYears(10),
-  maxDate: getCurrentDate(),
+  maxDate: dateHelper.validator.fullDate(),
   initialStart: getDateBeforeYears(2),
   initialEnd: getDateBeforeYears(1),
   startText: '开始时间',

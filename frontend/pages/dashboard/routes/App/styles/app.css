@@ -35,6 +35,7 @@
   width: 80%;
   margin: 30px auto;
   max-width: 750px;
+  min-width: 675px;
 }
 
 /* header */

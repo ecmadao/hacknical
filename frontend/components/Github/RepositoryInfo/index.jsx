@@ -14,11 +14,7 @@ import {
   randomColor,
   hex2Rgba
 } from 'UTILS/colors';
-import {
-  getFullDate,
-  getSecondsByDate,
-  getRelativeTime
-} from 'UTILS/date';
+import dateHelper from 'UTILS/date';
 import {
   sortRepos,
   getOffsetLeft,
@@ -29,6 +25,8 @@ import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
 
+const getSecondsByDate = dateHelper.seconds.getByDate;
+const getRelativeTime = dateHelper.relative.hoursBefore;
 
 class RepositoryInfo extends React.Component {
   constructor(props) {
@@ -184,7 +182,7 @@ class RepositoryInfo extends React.Component {
   renderChosedRepos() {
     const { flatRepos } = this.props;
     const sortedRepos = github.sortByDate(flatRepos.slice(0, 10));
-    this.minDate = getFullDate(sortedRepos[0]['created_at']);
+    this.minDate = dateHelper.validator.full(sortedRepos[0]['created_at']);
     this.maxDate = github.getMaxDate(sortedRepos);
     return (
       <div className={githubStyles["repos_timeline_container"]}>

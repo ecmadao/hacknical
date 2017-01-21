@@ -6,10 +6,7 @@ import Chart from 'chart.js';
 import objectAssign from 'object-assign';
 
 import github from 'UTILS/github';
-import {
-  getDateBySeconds,
-  getDateAfterDays
-} from 'UTILS/date';
+import dateHelper from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import {
   sortRepos,
@@ -55,7 +52,7 @@ class CommitInfo extends React.Component {
     const dateLabels = [];
     commits.forEach((item) => {
       commitDates.push(item.total);
-      dateLabels.push(getDateBySeconds(item.week));
+      dateLabels.push(dateHelper.date.bySeconds(item.week));
     });
     this.commitsYearlyReviewChart = new Chart(commitsChart, {
       type: 'line',
@@ -86,7 +83,7 @@ class CommitInfo extends React.Component {
         tooltips: {
           callbacks: {
             title: (item, data) => {
-              return `${item[0].xLabel} ~ ${getDateAfterDays(7, item[0].xLabel)}`
+              return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
             },
             label: (item, data) => {
               return `当周提交数：${item.yLabel}`
@@ -148,9 +145,9 @@ class CommitInfo extends React.Component {
     const dayName = DAYS[maxIndex];
     // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commits, (item) => item.total);
-    const week = getDateBySeconds(firstCommitWeek.week);
+    const week = dateHelper.date.bySeconds(firstCommitWeek.week);
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = getDateAfterDays(dayIndex, week);
+    const firstCommitDate = dateHelper.date.afterDays(dayIndex, week);
     // max commit repos
     commitDatas.sort(sortRepos('totalCommits'));
     const maxCommitRepos = commitDatas[0];

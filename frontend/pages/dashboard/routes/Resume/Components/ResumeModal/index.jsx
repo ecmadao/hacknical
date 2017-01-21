@@ -5,11 +5,13 @@ import { bindActionCreators } from 'redux';
 import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
 
-import { sortByX, validateDate } from 'UTILS/date';
+import dateHelper from 'UTILS/date';
+import { sortByX } from 'UTILS/helper';
 import validator from 'UTILS/validator';
-const sortByDate = sortByX('startTime');
-
 import styles from '../../styles/resume_modal.css';
+
+const sortByDate = sortByX('startTime');
+const validateDate = dateHelper.validator.date;
 
 class ResumeModal extends React.Component {
   renderEducations() {

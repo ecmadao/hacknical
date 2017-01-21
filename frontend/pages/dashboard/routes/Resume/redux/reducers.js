@@ -10,11 +10,10 @@ import {
   PERSONAL_PROJECT
 } from './templates';
 import { SOCIAL_LINKS } from '../helper/const_value';
-import {
-  getDateBeforeYears,
-  getCurrentDate
-} from 'UTILS/date';
+import dateHelper from 'UTILS/date';
 
+const getDateBeforeYears = dateHelper.date.beforeYears;
+const getCurrentDate = dateHelper.validator.fullDate;
 const initialState = {
   loading: true,
   info: objectAssign({}, INFO),

@@ -21,10 +21,7 @@ import {
   getFirstTarget,
   sortLanguages
 } from 'UTILS/helper';
-import {
-  getDateBySeconds,
-  getDateAfterDays
-} from 'UTILS/date';
+import dateHelper from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
@@ -139,7 +136,7 @@ class ShareMobile extends React.Component {
     const dateLabels = [];
     commits.forEach((item) => {
       commitDates.push(item.total);
-      dateLabels.push(getDateBySeconds(item.week));
+      dateLabels.push(dateHelper.date.bySeconds(item.week));
     });
     this.commitsYearlyReviewChart = new Chart(commitsChart, {
       type: 'line',
@@ -183,7 +180,7 @@ class ShareMobile extends React.Component {
         tooltips: {
           callbacks: {
             title: (item, data) => {
-              return `${item[0].xLabel} ~ ${getDateAfterDays(7, item[0].xLabel)}`
+              return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
             },
             label: (item, data) => {
               return `当周提交数：${item.yLabel}`
@@ -288,9 +285,9 @@ class ShareMobile extends React.Component {
     const dayName = DAYS[maxIndex];
     // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commitDatas.commits, (item) => item.total);
-    const week = getDateBySeconds(firstCommitWeek.week);
+    const week = dateHelper.date.bySeconds(firstCommitWeek.week);
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = getDateAfterDays(dayIndex, week);
+    const firstCommitDate = dateHelper.date.afterDays(dayIndex, week);
     return (
       <div
         id="commits_wrapper"
