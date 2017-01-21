@@ -164,7 +164,7 @@ class CommitInfo extends React.Component {
         />
         <ChartInfo
           mainText={firstCommitDate}
-          subText="2016年第一次提交"
+          subText="第一次提交代码"
         />
         <ChartInfo
           mainText={maxCommitRepos.name}

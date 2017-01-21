@@ -76,7 +76,7 @@ class ShareModal extends React.Component {
               />
               <div className={statusClass}>{statusText}</div>
             </div>
-            <blockquote>扫描二维码/复制链接<br/>分享你的 2016 github 总结</blockquote>
+            <blockquote>扫描二维码/复制链接<br/>分享你的 github 总结</blockquote>
             <div className={styles["share_container"]}>
               <Input
                 id="shareUrl"

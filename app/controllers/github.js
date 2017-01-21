@@ -220,7 +220,7 @@ const sharePage = async (ctx, next) => {
     return;
   }
   const { githubInfo } = user;
-  const title = `${githubInfo.name || githubInfo.login}的2016年github总结`;
+  const title = `${githubInfo.name || githubInfo.login}的 github 总结`;
 
   if (!ctx.state.isMobile) {
     await ctx.render('user/share', {

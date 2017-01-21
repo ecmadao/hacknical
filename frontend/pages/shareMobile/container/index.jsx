@@ -312,7 +312,7 @@ class ShareMobile extends React.Component {
           />
           <ChartInfo
             mainText={firstCommitDate}
-            subText="2016年第一次提交"
+            subText="第一次提交代码"
             mainTextStyle={styles["share_chart_main_text"]}
           />
         </div>

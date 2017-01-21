@@ -14,7 +14,7 @@ module.exports = {
 
   /* ===== color ===== */
   bg: '#F7F8F9',
-  bgDark: '#414141',
+  bgDark: '#252525',
   bgDeep: '#eaeaea',
   flatCard: '#F4F4F4',
   flatCardBorder: '#D5D5D5',
