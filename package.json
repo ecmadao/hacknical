@@ -107,6 +107,7 @@
     "nunjucks": "^2.5.2",
     "object-assign": "^4.1.0",
     "open-color": "^1.4.0",
+    "particles.js": "^2.0.0",
     "qiniu": "^6.1.13",
     "rc-slider": "^5.4.0",
     "redis": "^2.6.3",
