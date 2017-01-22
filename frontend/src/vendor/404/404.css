@@ -1,5 +1,9 @@
 @import 'open-color/open-color.css';
 
+* {
+  font-family: 'Press Start 2P', cursive;
+}
+
 .error_container {
   text-align: center;
   display: flex;

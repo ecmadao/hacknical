@@ -1,3 +1,4 @@
+import 'STYLES/fonts-404.css';
 import 'SRC/vendor/404/404.css';
 
 $(() => {
