@@ -81,7 +81,6 @@ const dashboard = async (ctx, next) => {
     ctx.redirect(`/github/${githubLogin}`);
   }
 
-  // ctx.state.isMobile
   await ctx.render('user/dashboard', {
     title: `${githubLogin} - 个人主页`
   });

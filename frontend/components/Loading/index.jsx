@@ -4,10 +4,14 @@ import styles from './loading.css';
 const Loading = (props) => {
   return (
     <div className={styles["loading_container"]}>
-      <div className={styles["bounce_wrapper"]}>
-        <div className={styles["loading_bounce"]}></div>
-        <div className={styles["loading_bounce"]}></div>
+      <div className={styles["ball-clip-rotate-multiple"]}>
+        <div></div>
+        <div></div>
       </div>
+      {/* <div className={styles["bounce_wrapper"]}>
+        <div className={styles["loading_bounce"]}></div>
+        <div className={styles["loading_bounce"]}></div>
+      </div> */}
     </div>
   )
 }
