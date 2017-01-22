@@ -67,6 +67,11 @@
   }
 }
 
+.pageview_chart_container {
+  margin: 0 3% 15px 3%;
+  width: 94%;
+}
+
 .chart_info_container {
   composes: chart_info_container from 'STYLES/common.css';
   margin-bottom: 15px;

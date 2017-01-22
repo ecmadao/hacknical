@@ -314,7 +314,7 @@ class Profile extends React.Component {
                   <canvas ref={ref => this.viewSources = ref}></canvas>
                 </div>
               </div>
-              <div className={styles["chart_container"]}>
+              <div className={cx(styles["chart_container"], styles["pageview_chart_container"])}>
                 <canvas ref={ref => this.pageViews = ref}/>
               </div>
             </div>

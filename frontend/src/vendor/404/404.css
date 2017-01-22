@@ -18,3 +18,23 @@
 .time_count {
   color: var(--oc-gray-5);
 }
+
+@media (max-width: 500px) {
+  h2 {
+    font-size: 1.3em;
+  }
+
+  h4 {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 300px) {
+  h2 {
+    font-size: 1.1em;
+  }
+
+  h4 {
+    font-size: 0.8em;
+  }
+}
