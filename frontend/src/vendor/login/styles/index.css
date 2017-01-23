@@ -39,6 +39,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     background-color: rgba(0,0,0,0.4);
+    margin-bottom: 20px;
 
     &:hover {
       background-color: rgba(0,0,0,0.7);
