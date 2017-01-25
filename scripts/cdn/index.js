@@ -8,6 +8,7 @@ const appName = config.get('appName');
 const BucketName = config.get('qiniu.BucketName');
 const AccessKey = config.get('qiniu.AccessKey');
 const SecretKey = config.get('qiniu.SecretKey');
+const appVersion = process.env.APP_VERSION;
 
 qiniu.conf.ACCESS_KEY = AccessKey;
 qiniu.conf.SECRET_KEY = SecretKey;
@@ -42,7 +43,7 @@ const deployCdn = () => {
   for (let i = 0; i < files.length; i++) {
     const fullpath = files[i];
     const file = fullpath.replace(PATH.PUBLIC_PATH, '');
-    const key = `${appName}${file}`;
+    const key = appVersion ? `${appName}/${appVersion}${file}` : `${appName}${file}`;
     const token = uptoken(BucketName, key);
     uploadFile(token, key, fullpath);
   }

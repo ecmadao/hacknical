@@ -1,29 +1,68 @@
 {
   "name": "hacknical",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build-app": "babel app -d dist --copy-files",
     "build-static": "npm run build-dll-pro && npm run build-src",
+    "build-static-dev": "npm run build-dll-pro && npm run build-src-dev",
+    "build-src": "APP_VERSION=$npm_package_version bnr pro:build:src",
+    "build-src-dev": "bnr dev:build:src",
+    "build-dll": "bnr local:build:dll",
+    "build-dll-pro": "bnr pro:build:dll",
+    "deploy-cdn": "APP_VERSION=$npm_package_version NODE_ENV=production node ./scripts/deploy-cdn.js",
+    "deploy-cdn-dev": "NODE_ENV=development node ./scripts/deploy-cdn.js",
     "start-dev": "npm run build-dll && npm run start-app",
-    "start-app": "NODE_ENV=localdev ./node_modules/.bin/nodemon app/index.js & npm run watch-dev",
-    "start": "NODE_ENV=production npm run build-src && ./node_modules/.bin/nodemon app/index.js",
-    "dev": "./node_modules/webpack-dashboard/bin/webpack-dashboard.js -- ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config config/webpack/webpack.dev.js",
-    "watch-dev": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dev.js --watch",
-    "build-dll": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors",
-    "build-dll-pro": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors -p",
-    "build-src": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.production.js -p",
+    "start-app": "NODE_ENV=localdev ./node_modules/.bin/nodemon app/index.js & bnr local:build:src",
     "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run pm2:restart",
-    "deploy-dev": "git checkout master && git pull gitlab master && npm i && npm run build-app && npm run build-static && npm run deploy-dev-cdn && npm run pm2-dev:restart",
-    "pm2": "NODE_ENV=production pm2 start dist/index.js -i 3 --name \"hacknical\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
-    "pm2-dev": "NODE_ENV=development pm2 start dist/index.js -i 3 --name \"hacknical\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
+    "deploy-dev": "git checkout master && git pull gitlab master && npm i && npm run build-app && npm run build-static-dev && npm run deploy-cdn-dev && npm run pm2-dev:restart",
+    "pm2": "APP_VERSION=$npm_package_version bnr pro:start:app",
+    "pm2-dev": "bnr dev:start:app",
     "pm2:restart": "NODE_ENV=production pm2 restart \"hacknical\"",
-    "pm2-dev:restart": "NODE_ENV=development pm2 restart \"hacknical\"",
+    "pm2-dev:restart": "NODE_ENV=development pm2 restart \"hacknical-dev\"",
     "pm2:stop": "NODE_ENV=production pm2 stop \"hacknical\"",
+    "pm2-dev:stop": "NODE_ENV=production pm2 stop \"hacknical-dev\"",
     "pm2:logs": "NODE_ENV=production pm2 logs \"hacknical\"",
-    "deploy-cdn": "NODE_ENV=production node ./scripts/deploy-cdn.js",
-    "deploy-dev-cdn": "NODE_ENV=development node ./scripts/deploy-cdn.js"
+    "pm2-dev:logs": "NODE_ENV=production pm2 logs \"hacknical-dev\""
+  },
+  "betterScripts": {
+    "dev:build:src": {
+      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.production.js -p",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "pro:build:src": {
+      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.production.js -p",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "local:build:src": {
+      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dev.js --watch"
+    },
+    "pro:build:dll": {
+      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors -p",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "local:build:dll": {
+      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors"
+    },
+    "dev:start:app": {
+      "command": "pm2 start dist/index.js -i 3 --name \"hacknical-dev\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/development.log\"",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "pro:start:app": {
+      "command": "pm2 start dist/index.js -i 3 --name \"hacknical\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
   },
   "author": "ecmadao",
   "license": "ISC",
@@ -33,6 +72,7 @@
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-react": "^6.16.0",
+    "better-npm-run": "0.0.13",
     "classnames": "^2.2.5",
     "clean-webpack-plugin": "^0.1.10",
     "compression-webpack-plugin": "^0.3.2",

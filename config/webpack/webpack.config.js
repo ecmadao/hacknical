@@ -126,7 +126,8 @@ module.exports = {
       verbose: true
     }),
     new ManifestPlugin({
-      fileName: 'webpack_manifest.json'
+      fileName: 'webpack_manifest.json',
+      publicPath: PATH.SERVER_PATH
     }),
     new webpack.DllReferencePlugin({
       context: PATH.ROOT_PATH,
@@ -135,6 +136,9 @@ module.exports = {
     new webpack.DllReferencePlugin({
       context: PATH.ROOT_PATH,
       manifest: require(path.join(PATH.DLL_PATH, 'runtime-manifest.json'))
+    }),
+    new webpack.DefinePlugin({
+      'process.env.APP_VERSION': JSON.stringify(process.env.APP_VERSION || '')
     })
   ],
   displayErrorDetails: true,
