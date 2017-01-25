@@ -2,6 +2,10 @@
 
 #login {
   background-color: var(--bgDark);
+
+  & canvas {
+    user-select: none;
+  }
 }
 
 .login_main {
@@ -24,12 +28,14 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  pointer-events: none;
 
   & i {
     font-size: 3em;
   }
 
   & a {
+    user-select: none;
     color: var(--oc-white);
     display: block;
     text-decoration: none;
@@ -40,6 +46,7 @@
     transition: background-color 0.3s;
     background-color: rgba(0,0,0,0.4);
     margin-bottom: 20px;
+    pointer-events: auto;
 
     &:hover {
       background-color: rgba(0,0,0,0.7);
