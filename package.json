@@ -7,7 +7,7 @@
     "build-app": "babel app -d dist --copy-files",
     "build-static": "npm run build-dll-pro && npm run build-src",
     "start-dev": "npm run build-dll && npm run start-app",
-    "start-app": "./node_modules/.bin/nodemon app/index.js & npm run watch-dev",
+    "start-app": "NODE_ENV=localdev ./node_modules/.bin/nodemon app/index.js & npm run watch-dev",
     "start": "NODE_ENV=production npm run build-src && ./node_modules/.bin/nodemon app/index.js",
     "dev": "./node_modules/webpack-dashboard/bin/webpack-dashboard.js -- ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config config/webpack/webpack.dev.js",
     "watch-dev": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dev.js --watch",

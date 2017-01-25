@@ -1,4 +1,5 @@
 /config/production.json
+/config/development.json
 /dist
 /node_modules
 /public/dll
