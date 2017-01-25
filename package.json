@@ -15,8 +15,11 @@
     "build-dll-pro": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors -p",
     "build-src": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.production.js -p",
     "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run pm2:restart",
+    "deploy-dev": "git checkout master && git pull gitlab master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run pm2-dev:restart",
     "pm2": "NODE_ENV=production pm2 start dist/index.js -i 3 --name \"hacknical\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
+    "pm2-dev": "NODE_ENV=development pm2 start dist/index.js -i 3 --name \"hacknical\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
     "pm2:restart": "NODE_ENV=production pm2 restart \"hacknical\"",
+    "pm2-dev:restart": "NODE_ENV=development pm2 restart \"hacknical\"",
     "pm2:stop": "NODE_ENV=production pm2 stop \"hacknical\"",
     "pm2:logs": "NODE_ENV=production pm2 logs \"hacknical\"",
     "deploy-cdn": "NODE_ENV=production node ./scripts/deploy-cdn.js"
