@@ -26,11 +26,9 @@ class Github extends React.Component {
 
   componentDidMount() {
     const { actions, repos, login, loaded } = this.props;
-    if (!loaded) {
-      actions.getGithubInfo(login);
-      if (!repos.length) {
-        actions.getGithubRepos(login);
-      }
+    actions.getGithubInfo(login);
+    if (!repos.length) {
+      actions.getGithubRepos(login);
     }
   }
 
