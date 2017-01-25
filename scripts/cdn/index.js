@@ -43,7 +43,8 @@ const deployCdn = () => {
   for (let i = 0; i < files.length; i++) {
     const fullpath = files[i];
     const file = fullpath.replace(PATH.PUBLIC_PATH, '');
-    const key = appVersion ? `${appName}/${appVersion}${file}` : `${appName}${file}`;
+    const isAssets = new RegExp('assets').test(file);
+    const key = appVersion && isAssets ? `${appName}/${appVersion}${file}` : `${appName}${file}`;
     const token = uptoken(BucketName, key);
     uploadFile(token, key, fullpath);
   }
