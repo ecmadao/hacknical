@@ -34,6 +34,8 @@ export default {
     bySeconds: (seconds) => moment.unix(seconds).format('L')
   },
   relative: {
-    hoursBefore: (date) => moment(date).startOf('hour').fromNow()
+    hoursBefore: (date) => moment(date).startOf('hour').fromNow(),
+    minutesBefore: (date) => moment(date).startOf('minute').fromNow(),
+    secondsBefore: (date) => moment(date).startOf('second').fromNow(),
   }
 }

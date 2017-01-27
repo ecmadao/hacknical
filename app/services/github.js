@@ -50,9 +50,9 @@ const getUserRepos = (token) => {
 
 };
 
-const getRepos = (login, token, page = 1) => {
+const getRepos = (login, token, page = 5) => {
   return new Promise((resolve, reject) => {
-    request.get(`${API_USERS}/${login}/repos?page=${page}&access_token=${token}`, {
+    request.get(`${API_USERS}/${login}/repos?per_page=50&page=${page}&access_token=${token}`, {
       headers: {
         'User-Agent': appName
       }

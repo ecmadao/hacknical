@@ -300,13 +300,10 @@ const getUpdateTime = async (ctx, next) => {
 const refreshDatas = async (ctx, next) => {
   const { githubToken, githubLogin, userId } = ctx.session;
   try {
-    console.log('updating user info');
     const userInfo = await fetchGithubInfo(githubToken);
     const githubUser = JSON.parse(userInfo);
     const updateUserResult = await User.updateUser(githubUser);
-    console.log('updating user repos');
     const repos = await fetchRepos(githubLogin, githubToken, userId);
-    console.log('updaing user commits');
     await fetchCommits(repos, userId, githubToken);
     ctx.body = {
       success: true,

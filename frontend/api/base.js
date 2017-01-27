@@ -32,13 +32,13 @@ const fetchApi = (url, method, data) => {
       if (!json.success) {
         throw new Error('Request Server Error');
       }
+      // if (json.message) {
+      //   Message.show(json.message, 1500);
+      // }
       if (json.url) {
         window.location = json.url;
       }
       NProgress.done();
-      // if (json.message) {
-      //   Message.show(json.message, 1500);
-      // }
       return json.result || false;
     }).catch((ex) => {
       NProgress.done();

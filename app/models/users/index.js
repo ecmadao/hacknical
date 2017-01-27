@@ -36,8 +36,7 @@ const getGithubInfo = (userInfo) => {
     public_repos,
     public_gists,
     followers,
-    following,
-    lastUpdateTime: new Date()
+    following
   };
   return newGithubInfo;
 };
@@ -102,22 +101,25 @@ const createUserShare = async (options) => {
 
 const updateUser = async (userInfo) => {
   const newGithubInfo = getGithubInfo(userInfo);
+  const lastUpdateTime = new Date();
+  newGithubInfo.lastUpdateTime = lastUpdateTime;
   const findUser = await findUserByGithubId(userInfo.id);
   findUser.githubInfo = newGithubInfo;
   await findUser.save();
   return Promise.resolve({
     success: true,
-    result: newGithubInfo.lastUpdateTime
+    result: lastUpdateTime
   });
 };
 
 const loginWithGithub = async (userInfo) => {
   const newGithubInfo = getGithubInfo(userInfo);
+  const { email, login, id } = userInfo;
   const shareInfo = {
     login,
     url: `github/${login}`
   };
-  const findUser = await findUserByGithubId(userInfo.id);
+  const findUser = await findUserByGithubId(id);
   if (findUser) {
     shareInfo.userId = findUser._id;
     await createUserShare(shareInfo);

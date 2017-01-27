@@ -19,7 +19,7 @@ const reducers = handleActions({
     return ({
       ...state,
       loading: false,
-      updateTime: dateHelper.validator.fullFormat(action.payload)
+      updateTime: dateHelper.relative.secondsBefore(action.payload)
     });
   }
 }, initialState)

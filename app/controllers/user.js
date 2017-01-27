@@ -62,7 +62,7 @@ const githubLogin = async (ctx, next) => {
       const githubUser = JSON.parse(userInfo);
       ctx.session.githubLogin = githubUser.login;
       const loginResult = await User.loginWithGithub(githubUser);
-      if (loginResult) {
+      if (loginResult.success) {
         ctx.session.userId = loginResult.result._id;
         return ctx.redirect('/user/dashboard');
       }
