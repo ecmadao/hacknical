@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import actions from '../redux/actions';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import Clipboard from 'clipboard';
 import { bindActionCreators } from 'redux';
 import objectAssign from 'object-assign';
-
 
 import Loading from 'COMPONENTS/Loading';
 import IconButton from 'COMPONENTS/IconButton';
@@ -20,7 +18,7 @@ import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
 import dateHelper from 'UTILS/date';
 import WECHAT from 'SRC/data/wechat';
-
+import actions from '../redux/actions';
 import styles from '../styles/profile.css';
 
 const WECHAT_FROM = Object.keys(WECHAT);
@@ -38,6 +36,23 @@ class Profile extends React.Component {
     this.copyUrl = this.copyUrl.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
+  }
+
+  componentDidMount() {
+    const { actions, loading } = this.props;
+    loading && actions.fetchGithubShareData();
+    new Clipboard('#copyLinkButton', {
+      text: () => $("#shareGithubUrl").val()
+    });
+  }
+
+  componentDidUpdate() {
+    const { loading } = this.props;
+    if (loading) { return }
+    !this.pageViewsChart && this.renderViewsChart();
+    !this.viewDevicesChart && this.renderDevicesChart();
+    !this.viewSourcesChart && this.renderSourcesChart();
+    !this.qrcode && this.renderQrcode();
   }
 
   onMouseOut() {
@@ -152,14 +167,6 @@ class Profile extends React.Component {
     })
   }
 
-  componentDidMount() {
-    const { actions, loading } = this.props;
-    loading && actions.fetchGithubShareData();
-    new Clipboard('#copyLinkButton', {
-      text: () => $("#shareGithubUrl").val()
-    });
-  }
-
   renderQrcode() {
     const { userInfo } = this.props;
     const { url } = userInfo;
@@ -172,15 +179,6 @@ class Profile extends React.Component {
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H
     });
-  }
-
-  componentDidUpdate() {
-    const { loading } = this.props;
-    if (loading) { return }
-    !this.pageViewsChart && this.renderViewsChart();
-    !this.viewDevicesChart && this.renderDevicesChart();
-    !this.viewSourcesChart && this.renderSourcesChart();
-    !this.qrcode && this.renderQrcode();
   }
 
   renderDevicesChart() {

@@ -4,12 +4,8 @@ const fetchInfo = (url) => getData(`/github${url}`);
 const postInfo = (url, data) => postData(`/github${url}`, data);
 
 /* get user repos info */
-const getBaseRepos = () => {
-  return fetchInfo(`/repos`);
-};
-const getSharedRepos = (login) => {
-  return fetchInfo(`/${login}/shareInfo`);
-}
+const getBaseRepos = () => fetchInfo(`/repos`);
+const getSharedRepos = (login) => fetchInfo(`/${login}/shareInfo`);
 const getRepos = (login) => {
   if (login) {
     return getSharedRepos(login)
@@ -17,21 +13,13 @@ const getRepos = (login) => {
   return getBaseRepos();
 };
 
-const getRepository = (reposName) => {
-  return fetchInfo(`/${reposName}`);
-};
+const getRepository = (reposName) => fetchInfo(`/${reposName}`);
 
-const getReadme = (reposName) => {
-  return fetchInfo(`/${reposName}/readme`);
-};
+const getReadme = (reposName) => fetchInfo(`/${reposName}/readme`);
 
 /* get user info */
-const getBaseUser = () => {
-  return fetchInfo(`/user`);
-};
-const getShareUser = (login) => {
-  return fetchInfo(`/${login}/share`);
-};
+const getBaseUser = () => fetchInfo(`/user`);;
+const getShareUser = (login) => fetchInfo(`/${login}/share`);
 const getUser = (login = '') => {
   if (login) {
     return getShareUser(login);
@@ -39,23 +27,17 @@ const getUser = (login = '') => {
   return getBaseUser();
 };
 
-const getCommits = () => {
-  return fetchInfo(`/repos/commits`);
-};
+const getCommits = () => fetchInfo(`/repos/commits`);
 
-const getShareInfo = (login) => {
-  return fetchInfo(`/${login}/shareInfo`);
-};
+const getShareInfo = (login) => fetchInfo(`/${login}/shareInfo`);
 
 /* toggle user github share */
-const toggleShare = (enable) => {
-  return postInfo('/user/toggleShare', { enable });
-};
+const toggleShare = (enable) => postInfo('/user/toggleShare', { enable });
 
 /* get github share datas */
-const getShareData = () => {
-  return fetchInfo(`/shareData`);
-};
+const getShareData = () => fetchInfo(`/shareData`);
+
+const getUpdateTime = () => fetchInfo('/updateTime');
 
 export default {
   getUser,
@@ -65,5 +47,6 @@ export default {
   getCommits,
   getShareInfo,
   toggleShare,
-  getShareData
+  getShareData,
+  getUpdateTime
 }

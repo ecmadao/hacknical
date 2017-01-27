@@ -275,6 +275,23 @@ const getStareData = async (ctx, next) => {
   };
 };
 
+const getUpdateTime = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+  const findResult = await User.findUserByLogin(githubLogin);
+  if (findResult) {
+    const { githubInfo } = findResult;
+    ctx.body = {
+      success: true,
+      result: githubInfo.lastUpdateTime || findResult['created_at']
+    };
+    return;
+  }
+  ctx.body = {
+    success: true,
+    message: '查找用户失败'
+  };
+};
+
 export default {
   getUser,
   getSharedUser,
@@ -285,5 +302,6 @@ export default {
   getCommits,
   getRepositoryCommits,
   toggleShare,
-  getStareData
+  getStareData,
+  getUpdateTime
 }

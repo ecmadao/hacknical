@@ -28,7 +28,11 @@ const UserSchema = new Schema({
     public_gists: String,
     followers: String,
     following: String,
-    html_url: String
+    html_url: String,
+    lastUpdateTime: {
+      type: Date,
+      default: Date.now
+    }
   }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

@@ -5,7 +5,7 @@ import Github from './Github/index';
 import Profile from './Profile/index';
 // import Resume from './Resume/index';
 import PATH from './shared/path';
-// import Setting from './Setting/index';
+import Setting from './Setting/index';
 
 export const createRoutes = (store) => {
   injectReducer(store, { key: 'app', reducer });
@@ -16,7 +16,7 @@ export const createRoutes = (store) => {
       Profile(store),
       // Resume(store),
       Github(store),
-      // Setting(store),
+      Setting(store),
       {
         path: `${PATH.BASE_PATH}/`,
         onEnter: (nextState, replace) => {

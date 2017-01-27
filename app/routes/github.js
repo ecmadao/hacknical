@@ -25,6 +25,11 @@ router.get(
   Github.getStareData
 );
 router.get(
+  '/updateTime',
+  user.checkSession(['userId', 'githubLogin']),
+  Github.getUpdateTime
+);
+router.get(
   '/repos/:reposName',
   user.checkSession(session.requiredSessions),
   Github.getRepository

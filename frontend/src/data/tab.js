@@ -22,7 +22,7 @@ const TABS = [
     id: 'setting',
     name: '设置',
     icon: 'fa-cog',
-    enable: false
+    enable: true
   }
 ];
 

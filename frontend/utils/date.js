@@ -9,6 +9,7 @@ const getDateAfterYears = (after) => moment().add(parseInt(after), 'years').form
 export default {
   validator: {
     full: (date) => formatDate(date)(), // 2017-01-21T22:23:56+08:00
+    fullFormat: (date) => formatDate(date)('YYYY-MM-DD HH:mm:ss'), // 2017-01-21 22:23:56
     fullDate: (date) => formatDate(date)('L'), // 2017-01-21
     fullDateBySeconds: (seconds) => moment.unix(seconds).format(),
     date: (date) => formatDate(date)('YYYY-MM'), // 2017-01

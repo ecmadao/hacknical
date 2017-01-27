@@ -1,12 +1,18 @@
 const path = require('path');
-const PATH = require('./path');
 const webpack = require('webpack');
+const CleanPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
+
+const PATH = require('./path');
 
 const plugins = [
   new webpack.DllPlugin({
     path: path.join(PATH.DLL_PATH, '[name]-manifest.json'),
     name: '[name]_library'
+  }),
+  new CleanPlugin(PATH.DLL_PATH, {
+    root: PATH.ROOT_PATH,
+    verbose: true
   })
 ];
 
