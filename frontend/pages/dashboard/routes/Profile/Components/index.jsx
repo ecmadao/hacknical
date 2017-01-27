@@ -127,14 +127,19 @@ class Profile extends React.Component {
       return `${dateHelper.validator.fullDate(date)} ${dateHelper.validator.hour(date)}:00`;
     });
     const viewDates = validatePageViews.map(pageView => pageView.count);
+    const datasetsConfig = {
+      data: viewDates,
+      label: '每小时浏览量'
+    };
+    if (viewDates.length >= 20) {
+      datasetsConfig.pointBorderWidth = 0;
+      datasetsConfig.pointRadius = 0;
+    }
     this.pageViewsChart = new Chart(viewsChart, {
       type: 'line',
       data: {
         labels: dateLabels,
-        datasets: [objectAssign({}, LINECHART_CONFIG, {
-          data: viewDates,
-          label: '每小时浏览量',
-        })]
+        datasets: [objectAssign({}, LINECHART_CONFIG, datasetsConfig)]
       },
       options: {
         scales: {

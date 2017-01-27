@@ -72,7 +72,7 @@ class RepositoryInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: '仓库 star/fork/commit 数一览（取前十）'
+          text: '仓库 star/fork/一年内commit 数一览（取前十）'
         },
         scales: {
           xAxes: [{

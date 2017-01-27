@@ -60,7 +60,7 @@ class CommitInfo extends React.Component {
         labels: dateLabels,
         datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commitDates,
-          label: '单周提交数',
+          label: '过去一年单周提交数',
         })]
       },
       options: {
@@ -106,7 +106,7 @@ class CommitInfo extends React.Component {
         labels: days,
         datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commits,
-          label: '每日总提交数',
+          label: '过去一年每日总提交数',
         })]
       },
       options: {
@@ -164,7 +164,7 @@ class CommitInfo extends React.Component {
         />
         <ChartInfo
           mainText={firstCommitDate}
-          subText="第一次提交代码"
+          subText="过去一年第一次提交代码"
         />
         <ChartInfo
           mainText={maxCommitRepos.name}

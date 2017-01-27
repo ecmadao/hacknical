@@ -98,9 +98,6 @@ class ShareMobile extends React.Component {
     sr.reveal('#commits_wrapper', { duration: 150 });
     sr.reveal('#repos_wrapper', { duration: 150 });
     sr.reveal('#language_wrapper', { duration: 150 });
-
-    // sr.reveal('.share_info_chart', { duration: 150 });
-    // sr.reveal('.info_wrapper', { duration: 150 });
   }
 
   initialSlick() {
@@ -312,7 +309,7 @@ class ShareMobile extends React.Component {
           />
           <ChartInfo
             mainText={firstCommitDate}
-            subText="第一次提交代码"
+            subText="过去一年第一次提交代码"
             mainTextStyle={styles["share_chart_main_text"]}
           />
         </div>
