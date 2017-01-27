@@ -1,8 +1,8 @@
 {
   "production": false,
   "port": "4000",
-  "appKey": "hacknical-dev",
-  "appName": "hacknical",
+  "appKey": "hacknical-local-dev",
+  "appName": "hacknical-local-dev",
   "redis": "redis://localhost:6379/3",
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"
@@ -15,7 +15,7 @@
   "github": {
     "clientId": "e7fa43f07a9c1cc07663",
     "clientSecret": "1fff26cf75c66dcc02caa7e0eef7170a9940aa3c",
-    "appName": "hacknical-dev"
+    "appName": "hacknical-local-dev"
   },
   "qiniu": {
     "BucketName": "",

@@ -14,11 +14,11 @@
     "deploy-cdn": "APP_VERSION=$npm_package_version NODE_ENV=production node ./scripts/deploy-cdn.js",
     "deploy-cdn-dev": "NODE_ENV=development node ./scripts/deploy-cdn.js",
     "start-dev": "npm run build-dll && npm run start-app",
-    "start-app": "NODE_ENV=localdev ./node_modules/.bin/nodemon app/index.js & bnr local:build:src",
+    "start-app": "bnr local:app:start & bnr local:build:src",
     "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run pm2:restart",
     "deploy-dev": "git checkout master && git pull gitlab master && npm i && npm run build-app && npm run build-static-dev && npm run deploy-cdn-dev && npm run pm2-dev:restart",
-    "pm2": "APP_VERSION=$npm_package_version bnr pro:start:app",
-    "pm2-dev": "bnr dev:start:app",
+    "pm2": "APP_VERSION=$npm_package_version bnr pro:app:start",
+    "pm2-dev": "bnr dev:app:start",
     "pm2:restart": "NODE_ENV=production pm2 restart \"hacknical\"",
     "pm2-dev:restart": "NODE_ENV=development pm2 restart \"hacknical-dev\"",
     "pm2:stop": "NODE_ENV=production pm2 stop \"hacknical\"",
@@ -40,7 +40,10 @@
       }
     },
     "local:build:src": {
-      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dev.js --watch"
+      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dev.js --watch",
+      "env": {
+        "NODE_ENV": "localdev"
+      }
     },
     "pro:build:dll": {
       "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors -p",
@@ -49,18 +52,27 @@
       }
     },
     "local:build:dll": {
-      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors"
+      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dll.js --progress --colors",
+      "env": {
+        "NODE_ENV": "localdev"
+      }
     },
-    "dev:start:app": {
+    "dev:app:start": {
       "command": "pm2 start dist/index.js -i 3 --name \"hacknical-dev\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/development.log\"",
       "env": {
         "NODE_ENV": "development"
       }
     },
-    "pro:start:app": {
+    "pro:app:start": {
       "command": "pm2 start dist/index.js -i 3 --name \"hacknical\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
       "env": {
         "NODE_ENV": "production"
+      }
+    },
+    "local:app:start": {
+      "command": "./node_modules/.bin/nodemon app/index.js",
+      "env": {
+        "NODE_ENV": "localdev"
       }
     }
   },
