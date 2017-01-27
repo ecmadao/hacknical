@@ -21,13 +21,16 @@ class Setting extends React.Component {
         <div className={styles["card_container"]}>
           <p><i aria-hidden="true" className="fa fa-refresh"></i>&nbsp;&nbsp;github 数据更新</p>
           <div className={styles["card"]}>
+            {loading ? (
+              <Loading className={styles["info_loading"]} />
+            ) : ''}
             <div className={styles["info_container"]}>
               <div className={styles["info"]}>
                 最近更新时间：{updateTime}
               </div>
               <Button
                 style="flat"
-                value="刷新数据"
+                value="更新数据"
                 onClick={actions.refreshGithubDatas}
               />
             </div>

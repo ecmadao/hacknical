@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   padding: 5px 15px;
+  position: relative;
 }
 
 .info_container {
@@ -21,4 +22,11 @@
   flex: 1;
   display: flex;
   align-items: center;
+}
+
+.info_loading {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-height: auto;
 }
