@@ -312,6 +312,7 @@ const refreshDatas = async (ctx, next) => {
   } catch (err) {
     ctx.body = {
       success: true,
+      result: new Date(),
       message: '数据更新失败'
     };
   }
