@@ -33,7 +33,8 @@ router.get(
 router.get(
   '/refresh',
   user.checkSession(['userId', 'githubLogin']),
-  Github.refreshDatas
+  Github.refreshDatas,
+  cache.del()
 );
 router.get(
   '/repos/:reposName',

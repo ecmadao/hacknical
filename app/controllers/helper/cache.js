@@ -1,18 +1,7 @@
+import getCacheKey from './cacheKey';
 
 const getCache = (key, params = []) => async (ctx, next) => {
-  const { login } = ctx.params;
-  const { userId } = ctx.session;
-  const paramIds = params.map(param => ctx.query[param] || '').join('.');
-  let cacheKey = key;
-  if (login) {
-    cacheKey = `${cacheKey}.${login}`;
-  }
-  if (userId) {
-    cacheKey = `${cacheKey}.${userId}`;
-  }
-  if (paramIds) {
-    cacheKey = `${cacheKey}.${paramIds}`;
-  }
+  const cacheKey = getCacheKey(ctx)(key, params);
   const result = await ctx.cache.get(cacheKey);
   if (result) {
     console.log(`request: ${key} get datas from cache`);
@@ -38,7 +27,16 @@ const setCache = (options = {}) => async (ctx, next) => {
   }
 };
 
+const removeCache = (keys = []) => async (ctx, next) => {
+  console.log('remove cache');
+  const targetKeys = ctx.query.deleteKeys || keys;
+  for(let i = 0; i < targetKeys.length; i++) {
+    await ctx.cache.del(targetKeys[i]);
+  }
+};
+
 export default {
   get: getCache,
-  set: setCache
+  set: setCache,
+  del: removeCache
 }

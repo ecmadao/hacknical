@@ -38,10 +38,18 @@ const redisCache = (redisUrl, options = {}) => {
     return JSON.parse(data.toString())
   };
 
+  const removeCache = async (key) => {
+    if (!redisAvailable) {
+      return;
+    }
+    await redisClient.del(`${prefix}${key}`);
+  };
+
   const cacheMiddleware = async function(ctx, next) {
     ctx.cache = {
       get: getCache,
-      set: setCache
+      set: setCache,
+      del: removeCache
     };
     await next();
   };

@@ -7,6 +7,7 @@ import {
   validateReposList,
   sortByCommits
 } from '../utils/github';
+import getCacheKey from './helper/cacheKey';
 
 /* ================== private helper ================== */
 
@@ -305,6 +306,15 @@ const refreshDatas = async (ctx, next) => {
     const updateUserResult = await User.updateUser(githubUser);
     const repos = await fetchRepos(githubLogin, githubToken, userId);
     await fetchCommits(repos, userId, githubToken);
+
+    const cacheKey = getCacheKey(ctx);
+    ctx.query.deleteKeys = [
+      cacheKey('repos'),
+      cacheKey('user'),
+      cacheKey('sharedUser'),
+      cacheKey('sharedInfo')
+    ];
+
     ctx.body = {
       success: true,
       result: updateUserResult.result
@@ -316,6 +326,7 @@ const refreshDatas = async (ctx, next) => {
       message: '数据更新失败'
     };
   }
+  await next();
 };
 
 export default {
