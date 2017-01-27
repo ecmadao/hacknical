@@ -29,10 +29,7 @@ const UserSchema = new Schema({
     followers: String,
     following: String,
     html_url: String,
-    lastUpdateTime: {
-      type: Date,
-      default: Date.now
-    }
+    lastUpdateTime: Date
   }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

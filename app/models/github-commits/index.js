@@ -1,6 +1,13 @@
 import GithubCommits from './schema';
 
-const addUserCommits = async (userId, datas) => {
+const clearUserCommits = async (userId) => {
+  return await GithubCommits.remove({
+    userId
+  });
+};
+
+const setCommits = async (userId, datas) => {
+  await clearUserCommits(userId);
   for(let i = 0; i < datas.length; i++) {
     const data = datas[i];
     const {
@@ -26,12 +33,12 @@ const addUserCommits = async (userId, datas) => {
   });
 };
 
-const getUserCommits = async (userId) => {
+const getCommits = async (userId) => {
   const findResults = await GithubCommits.find({ userId });
   return findResults;
 };
 
-const getUserReposCommits = async (userId, reposId) => {
+const getReposCommits = async (userId, reposId) => {
   const findResult = await GithubCommits.findOne({
     userId,
     reposId
@@ -43,7 +50,7 @@ const getUserReposCommits = async (userId, reposId) => {
 };
 
 export default {
-  addUserCommits,
-  getUserCommits,
-  getUserReposCommits
+  setCommits,
+  getCommits,
+  getReposCommits
 }

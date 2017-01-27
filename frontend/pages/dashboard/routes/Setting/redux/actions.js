@@ -16,8 +16,16 @@ const fetchGithubUpdateTime = () => (dispatch, getState) => {
   });
 };
 
+const refreshGithubDatas = () => (dispatch, getState) => {
+  dispatch(toggleSettingLoading(true));
+  Api.github.refresh().then((result) => {
+    dispatch(setUpdateTime(result));
+  });
+};
+
 export default {
   toggleSettingLoading,
   setUpdateTime,
-  fetchGithubUpdateTime
+  fetchGithubUpdateTime,
+  refreshGithubDatas
 }

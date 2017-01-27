@@ -8,14 +8,12 @@ import {
   sortByCommits
 } from '../utils/github';
 
+/* ================== private helper ================== */
+
 /**
- * private
+ * repos
  */
-const getAndSetRepos = async (login, token, userId) => {
-  const findResult = await GithubRepos.getRepos(userId);
-  if (findResult.length) {
-    return findResult;
-  }
+const fetchRepos = async (login, token, userId) => {
   const multiRepos = await Github.getMultiRepos(login, token);
   try {
     const reposLanguages = await Github.getAllReposLanguages(multiRepos, token);
@@ -25,14 +23,22 @@ const getAndSetRepos = async (login, token, userId) => {
   return setResults;
 };
 
+const getRepos = async (login, token, userId) => {
+  const findResult = await GithubRepos.getRepos(userId);
+  if (findResult.length) {
+    return findResult;
+  }
+  return await fetchRepos(login, token, userId);
+};
+
 /**
- * private
+ * commits
  */
-const setCommits = async (repos, userId, token) => {
+const fetchCommits = async (repos, userId, token) => {
   const reposList = validateReposList(repos);
   try {
-    const fetchCommits = await Github.getAllReposYearlyCommits(reposList, token);
-    const results = fetchCommits.map((commits, index) => {
+    const fetchedCommits = await Github.getAllReposYearlyCommits(reposList, token);
+    const results = fetchedCommits.map((commits, index) => {
       const repository = reposList[index];
       const { reposId, name, created_at, pushed_at } = repository;
       let totalCommits = 0;
@@ -47,32 +53,31 @@ const setCommits = async (repos, userId, token) => {
       }
     });
     const sortResult = sortByCommits(results);
-    await GithubCommits.addUserCommits(userId, sortResult);
+    await GithubCommits.setCommits(userId, sortResult);
     return sortResult;
   } catch (err) {
     return [];
   }
 };
 
-/**
- * private
- */
-const getAndSetCommits = async (userId, token) => {
-  const findCommits = await GithubCommits.getUserCommits(userId);
+const getCommits = async (userId, token) => {
+  const findCommits = await GithubCommits.getCommits(userId);
   if (findCommits.length) {
     return sortByCommits(findCommits);
   }
   const findRepos = await GithubRepos.getRepos(userId);
-  const result = await setCommits(findRepos, userId, token);
-  return result;
+  return await fetchCommits(findRepos, userId, token);
 };
 
 /**
- * private
+ * github info
  */
-// const getAndSetRepositoryCommits = async (userId, token) => {
-//
-// }
+const fetchGithubInfo = async (githubToken) => {
+  return await Github.getUser(githubToken);
+};
+
+
+/* ================== router handler ================== */
 
 const toggleShare = async (ctx, next) => {
   const { githubLogin } = ctx.session;
@@ -137,10 +142,10 @@ const getUser = async (ctx, next) => {
   };
 };
 
-const getRepos = async (ctx, next) => {
+const getUserRepos = async (ctx, next) => {
   const { userId, githubLogin, githubToken } = ctx.session;
-  const repos = await getAndSetRepos(githubLogin, githubToken, userId);
-  const commits = await getAndSetCommits(userId, githubToken);
+  const repos = await getRepos(githubLogin, githubToken, userId);
+  const commits = await getCommits(userId, githubToken);
   if (!commits.length || !repos.length) {
     ctx.query.shouldCache = false;
   }
@@ -158,10 +163,10 @@ const getRepository = async (ctx, next) => {
   await next();
 };
 
-const getCommits = async (ctx, next) => {
+const getReposCommits = async (ctx, next) => {
   const { userId, githubToken } = ctx.session;
 
-  const result = await getAndSetCommits(userId, githubToken);
+  const result = await getCommits(userId, githubToken);
   ctx.body = {
     success: true,
     result
@@ -178,8 +183,8 @@ const getStareInfo = async (ctx, next) => {
   const user = await User.findUserByLogin(login);
   const { _id } = user;
   const { githubToken } = ctx.session;
-  const repos = await getAndSetRepos(login, githubToken, _id);
-  const commits = await getAndSetCommits(_id, githubToken);
+  const repos = await getRepos(login, githubToken, _id);
+  const commits = await getCommits(_id, githubToken);
   if (!commits.length || !repos.length) {
     ctx.query.shouldCache = false;
   }
@@ -292,16 +297,40 @@ const getUpdateTime = async (ctx, next) => {
   };
 };
 
+const refreshDatas = async (ctx, next) => {
+  const { githubToken, githubLogin, userId } = ctx.session;
+  try {
+    console.log('updating user info');
+    const userInfo = await fetchGithubInfo(githubToken);
+    const githubUser = JSON.parse(userInfo);
+    const updateUserResult = await User.updateUser(githubUser);
+    console.log('updating user repos');
+    const repos = await fetchRepos(githubLogin, githubToken, userId);
+    console.log('updaing user commits');
+    await fetchCommits(repos, userId, githubToken);
+    ctx.body = {
+      success: true,
+      result: updateUserResult.result
+    };
+  } catch (err) {
+    ctx.body = {
+      success: true,
+      message: '数据更新失败'
+    };
+  }
+};
+
 export default {
   getUser,
   getSharedUser,
   sharePage,
   getStareInfo,
-  getRepos,
+  getUserRepos,
   getRepository,
-  getCommits,
+  getReposCommits,
   getRepositoryCommits,
   toggleShare,
   getStareData,
-  getUpdateTime
+  getUpdateTime,
+  refreshDatas
 }

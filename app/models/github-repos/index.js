@@ -1,17 +1,25 @@
 import GithubRepos from './schema';
 
-const findRepos = async (userId, reposId) => {
+const findRepository = async (userId, reposId) => {
   return await GithubRepos.findOne({
     userId,
     reposId
   });
 };
 
+const findRepos = async (userId) => {
+  return await GithubRepos.find({ userId });
+};
+
+const clearRepos = async (userId) => {
+  return await GithubRepos.remove({
+    userId
+  });
+};
+
 const removeRepos = async (userId, reposId = null) => {
   if (reposId === null) {
-    return await GithubRepos.remove({
-      userId
-    });
+    return await clearRepos(userId);
   }
   return await GithubRepos.remove({
     userId,
@@ -67,9 +75,10 @@ const setRepository = async (userId, repository) => {
 
 const setRepos = async (userId, repos) => {
   const setResults = [];
+  await removeRepos(userId);
   for(let i = 0; i < repos.length; i++) {
     const repository = repos[i];
-    const findResult = await findRepos(userId, repository.id);
+    const findResult = await findRepository(userId, repository.id);
     if (!findResult) {
       const result = await setRepository(userId, repository);
       setResults.push(result);
@@ -98,7 +107,6 @@ const resetRepos = async (userId, repos) => {
 };
 
 export default {
-  findRepos,
   removeRepos,
   setRepository,
   setRepos,

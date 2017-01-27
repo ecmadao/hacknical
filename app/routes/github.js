@@ -16,7 +16,7 @@ router.get(
   '/repos',
   user.checkSession(session.requiredSessions),
   cache.get('repos'),
-  Github.getRepos,
+  Github.getUserRepos,
   cache.set()
 );
 router.get(
@@ -28,6 +28,12 @@ router.get(
   '/updateTime',
   user.checkSession(['userId', 'githubLogin']),
   Github.getUpdateTime
+);
+// refresh github datas
+router.get(
+  '/refresh',
+  user.checkSession(['userId', 'githubLogin']),
+  Github.refreshDatas
 );
 router.get(
   '/repos/:reposName',
@@ -50,7 +56,7 @@ router.get(
   '/repos/commits',
   user.checkSession(session.requiredSessions),
   cache.get('commits'),
-  Github.getCommits,
+  Github.getReposCommits,
   cache.set()
 );
 router.get(

@@ -15,7 +15,7 @@ class Setting extends React.Component {
   }
 
   render() {
-    const { loading, updateTime } = this.props;
+    const { loading, updateTime, actions } = this.props;
     return (
       <div>
         <div className={styles["card_container"]}>
@@ -28,6 +28,7 @@ class Setting extends React.Component {
               <Button
                 style="flat"
                 value="刷新数据"
+                onClick={actions.refreshGithubDatas}
               />
             </div>
           </div>

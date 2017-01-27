@@ -5,6 +5,43 @@ import ShareAnalyse from '../share-analyse';
 /**
  * private
  */
+const getGithubInfo = (userInfo) => {
+  const {
+    login,
+    name,
+    avatar_url,
+    company,
+    blog,
+    location,
+    email,
+    bio,
+    created_at,
+    updated_at,
+    public_repos,
+    public_gists,
+    followers,
+    following
+  } = userInfo;
+  const newGithubInfo = {
+    login,
+    name,
+    avatar_url,
+    company,
+    blog,
+    location,
+    email,
+    bio,
+    created_at,
+    updated_at,
+    public_repos,
+    public_gists,
+    followers,
+    following,
+    lastUpdateTime: new Date()
+  };
+  return newGithubInfo;
+};
+
 const getHashPwd = (salt, password) => {
   const bytes = new Buffer(password || '', 'utf16le');
   const src = new Buffer(salt || '', 'base64');
@@ -63,46 +100,24 @@ const createUserShare = async (options) => {
   await ShareAnalyse.createShare(options);
 };
 
+const updateUser = async (userInfo) => {
+  const newGithubInfo = getGithubInfo(userInfo);
+  const findUser = await findUserByGithubId(userInfo.id);
+  findUser.githubInfo = newGithubInfo;
+  await findUser.save();
+  return Promise.resolve({
+    success: true,
+    result: newGithubInfo.lastUpdateTime
+  });
+};
+
 const loginWithGithub = async (userInfo) => {
-  const {
-    id,
-    login,
-    name,
-    avatar_url,
-    company,
-    blog,
-    location,
-    email,
-    bio,
-    created_at,
-    updated_at,
-    public_repos,
-    public_gists,
-    followers,
-    following
-  } = userInfo;
-  const newGithubInfo = {
-    login,
-    name,
-    avatar_url,
-    company,
-    blog,
-    location,
-    email,
-    bio,
-    created_at,
-    updated_at,
-    public_repos,
-    public_gists,
-    followers,
-    following
-  };
+  const newGithubInfo = getGithubInfo(userInfo);
   const shareInfo = {
     login,
     url: `github/${login}`
   };
-
-  const findUser = await findUserByGithubId(id);
+  const findUser = await findUserByGithubId(userInfo.id);
   if (findUser) {
     shareInfo.userId = findUser._id;
     await createUserShare(shareInfo);
@@ -179,18 +194,14 @@ const remove = async (userId) => {
   });
 };
 
-const removeAll = async () => {
-  await User.remove();
-};
-
 export default {
   findUser,
   createUser,
   login,
   changePwd,
-  removeAll,
   loginWithGithub,
   findUserByGithubId,
   findUserById,
-  findUserByLogin
+  findUserByLogin,
+  updateUser
 }

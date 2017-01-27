@@ -18,6 +18,7 @@ const reducers = handleActions({
   SET_UPDATE_TIME(state, action) {
     return ({
       ...state,
+      loading: false,
       updateTime: dateHelper.validator.fullFormat(action.payload)
     });
   }

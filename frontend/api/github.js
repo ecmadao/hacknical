@@ -39,6 +39,8 @@ const getShareData = () => fetchInfo(`/shareData`);
 
 const getUpdateTime = () => fetchInfo('/updateTime');
 
+const refresh = () => fetchInfo('/refresh');
+
 export default {
   getUser,
   getRepos,
@@ -48,5 +50,6 @@ export default {
   getShareInfo,
   toggleShare,
   getShareData,
-  getUpdateTime
+  getUpdateTime,
+  refresh
 }
