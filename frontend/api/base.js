@@ -3,9 +3,11 @@ import param from 'jquery-param';
 import 'isomorphic-fetch';
 import NProgress from 'nprogress';
 require('nprogress/nprogress.css');
+import Message from 'COMPONENTS/Message';
 
 polyfill();
 const rnoContent = /^(?:GET|HEAD|POST)$/;
+const message = Message();
 
 const fetchApi = (url, method, data) => {
   NProgress.start();
@@ -33,6 +35,7 @@ const fetchApi = (url, method, data) => {
         throw new Error('Request Server Error');
       }
       if (json.message) {
+        message.error(json.message);
         // Message.show(json.message, 1500);
       }
       if (json.url) {
