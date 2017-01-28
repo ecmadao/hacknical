@@ -16,10 +16,12 @@ const reducers = handleActions({
   },
 
   SET_UPDATE_TIME(state, action) {
+    const updateRawTime = action.payload;
+    const updateTime = updateRawTime ? dateHelper.relative.secondsBefore(updateRawTime) : state.updateTime;
     return ({
       ...state,
-      loading: false,
-      updateTime: dateHelper.relative.secondsBefore(action.payload)
+      updateTime,
+      loading: false
     });
   }
 }, initialState)

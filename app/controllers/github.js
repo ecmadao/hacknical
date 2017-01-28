@@ -7,7 +7,10 @@ import {
   validateReposList,
   sortByCommits
 } from '../utils/github';
+import dateHelper from '../utils/date';
 import getCacheKey from './helper/cacheKey';
+
+const HALF_AN_HOUR = 30 * 60;
 
 /* ================== private helper ================== */
 
@@ -300,6 +303,18 @@ const getUpdateTime = async (ctx, next) => {
 
 const refreshDatas = async (ctx, next) => {
   const { githubToken, githubLogin, userId } = ctx.session;
+
+  // check update frequency
+  const user = await User.findUserById(userId);
+  const { githubInfo } = user;
+  const timeInterval = dateHelper.getSeconds(new Date()) - dateHelper.getSeconds(githubInfo.lastUpdateTime);
+  if (timeInterval <= HALF_AN_HOUR) {
+    return ctx.body = {
+      success: true,
+      message: `更新过于频繁，请在${parseInt((HALF_AN_HOUR - timeInterval) / 60, 10)}分钟后重试`
+    };
+  }
+
   try {
     const userInfo = await fetchGithubInfo(githubToken);
     const githubUser = JSON.parse(userInfo);
@@ -327,6 +342,7 @@ const refreshDatas = async (ctx, next) => {
       message: '数据更新失败'
     };
   }
+
   await next();
 };
 

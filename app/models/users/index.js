@@ -124,7 +124,7 @@ const loginWithGithub = async (userInfo) => {
     shareInfo.userId = findUser._id;
     await createUserShare(shareInfo);
 
-    findUser.githubInfo = newGithubInfo;
+    findUser.githubInfo = Object.assign({}, findUser.githubInfo, newGithubInfo);
     findUser.lastLoginTime = new Date();
     await findUser.save();
     return Promise.resolve({
