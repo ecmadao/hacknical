@@ -307,12 +307,13 @@ const refreshDatas = async (ctx, next) => {
     const repos = await fetchRepos(githubLogin, githubToken, userId);
     await fetchCommits(repos, userId, githubToken);
 
+    // set cache keys to remove
     const cacheKey = getCacheKey(ctx);
     ctx.query.deleteKeys = [
       cacheKey('repos'),
       cacheKey('user'),
-      cacheKey('sharedUser'),
-      cacheKey('sharedInfo')
+      cacheKey(`sharedUser.${githubLogin}`),
+      cacheKey(`sharedInfo.${githubLogin}`)
     ];
 
     ctx.body = {

@@ -4,7 +4,7 @@ const getCache = (key, params = []) => async (ctx, next) => {
   const cacheKey = getCacheKey(ctx)(key, params);
   const result = await ctx.cache.get(cacheKey);
   if (result) {
-    console.log(`request: ${key} get datas from cache`);
+    console.log(`request: ${cacheKey} get datas from cache`);
     ctx.body = {
       success: true,
       result
