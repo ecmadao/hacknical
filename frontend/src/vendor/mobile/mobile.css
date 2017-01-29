@@ -31,7 +31,7 @@
 .mobile_menu {
   left: -100%;
   top: 0;
-  width: 80px;
+  width: 100px;
   bottom: 0;
   padding: 20px 10px;
   position: absolute;
@@ -48,12 +48,21 @@
 
 .menu {
   cursor: pointer;
-  font-size: 1.8em;
+  font-size: 14px;
   margin: 10px 0;
   color: var(--oc-gray-5);
   text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &.active {
     color: var(--oc-gray-7);
+  }
+
+  & i {
+    font-size: 1.8em;
+    margin-bottom: 8px;
   }
 }

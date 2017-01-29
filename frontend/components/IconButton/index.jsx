@@ -53,14 +53,16 @@ IconButton.propTypes = {
   icon: PropTypes.string,
   className: PropTypes.string,
   id: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 IconButton.defaultProps = {
   icon: 'hand-spock-o',
   onClick: () => {},
   className: '',
-  id: ''
+  id: '',
+  disabled: false
 };
 
 export default IconButton;
