@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 .chart_info {
-  padding: 10px 0;
+  padding: 10px;
   margin: 10px 0;
   display: flex;
   flex: 1;
@@ -26,6 +26,9 @@
   font-size: 20px;
   color: var(--oc-gray-7);
   margin-bottom: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .info_sub_text {
@@ -36,7 +39,8 @@
 
 @media (max-width: 800px) {
   .chart_info {
-    padding: 0;
+    /*padding: 0;*/
+    padding: 0 10px;
   }
 
   .info_main_text {
