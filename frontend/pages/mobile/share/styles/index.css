@@ -1,36 +1,5 @@
 @import 'open-color/open-color.css';
 
-.loading_container {
-  width: 100%;
-  height: 100%;
-  min-height: 300px;
-}
-
-.share_info_chart {
-  &.repos_chart {
-    margin-bottom: 20px;
-  }
-}
-
-.share_info {
-  display: flex;
-  flex-direction: row;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--oc-gray-2);
-  }
-}
-
-canvas {
-  margin: 0 auto;
-  max-width: 280px;
-
-  &.max_canvas {
-    max-width: none;
-    width: 100% !important;
-  }
-}
-
 .chart_info_container {
   & .chart_info_wrapper {
     padding: 10px 0px 10px 15px;
@@ -74,26 +43,6 @@ canvas {
       color: var(--oc-gray-1);
       margin-bottom: 3px;
     }
-  }
-}
-
-.info_wrapper {
-  padding: 0 15px;
-
-  &.share_info_wrapper {
-    padding-bottom: 20px;
-  }
-}
-
-.share_chart_main_text {
-  font-size: 1.7em;
-  color: var(--oc-green-8);
-}
-
-.share_section {
-  &:not(:last-child) {
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--oc-gray-2);
   }
 }
 

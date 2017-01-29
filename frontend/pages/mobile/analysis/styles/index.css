@@ -1,0 +1,22 @@
+@import 'open-color/open-color.css';
+
+.analysis {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  color: var(--oc-gray-7);
+  flex-direction: column;
+}
+
+.share_info_chart {
+  width: 80%;
+  margin-left: 10%;
+
+  &:not(:last-child) {
+    margin-bottom: 30px;
+  }
+}
+
+.info_wrapper {
+  margin-bottom: 15px;
+}
