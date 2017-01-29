@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import Switchery from 'switchery';
+import Switchery from 'SRC/vendor/Switchery';
 import styles from './switcher.css';
 
 class Switcher extends React.Component {
   componentDidMount() {
+    const { size } = this.props;
     const checkbox = this.checkbox;
-    new Switchery(checkbox);
+    new Switchery(checkbox, { size });
     $('.switchery').on('click', this.onChange.bind(this));
   }
 
@@ -33,13 +34,15 @@ class Switcher extends React.Component {
 Switcher.propTypes = {
   id: PropTypes.string,
   checked: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  size: PropTypes.string,
 };
 
 Switcher.defaultProps = {
   id: '',
   checked: false,
-  onChange: () => {}
+  onChange: () => {},
+  size: 'default'
 };
 
 export default Switcher;

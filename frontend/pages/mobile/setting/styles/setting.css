@@ -1,0 +1,35 @@
+@import 'open-color/open-color.css';
+
+.setting {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  color: var(--oc-gray-7);
+  flex-direction: column;
+}
+
+.setting_section {
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--oc-gray-2);
+  }
+}
+
+.update_container {
+  flex: 1;
+
+  & span {
+    font-size: 12px;
+    color: var(--oc-gray-5);
+  }
+}
+
+.icon_button {
+  border: 1px solid var(--oc-gray-4);
+  border-radius: 2px;
+}

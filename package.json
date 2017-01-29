@@ -170,7 +170,6 @@
     "request": "^2.75.0",
     "scrollreveal": "^3.3.2",
     "slick-carousel": "^1.6.0",
-    "switchery": "0.0.2",
     "validator": "^6.2.0",
     "webpack-manifest-plugin": "^1.1.0",
     "wysiwyg.css": "0.0.2"

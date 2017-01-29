@@ -1,0 +1,13 @@
+{% extends "layouts/mobile.html" %}
+
+{% block pageCSS %}
+  <link href="{{ assetsPath("mobile_analysis.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+  <div id="analysis"></div>
+{% endblock %}
+
+{% block pageJS %}
+  <script src="{{ assetsPath("mobile_analysis.js") }}"></script>
+{% endblock %}

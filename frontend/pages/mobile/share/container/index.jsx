@@ -25,7 +25,8 @@ import dateHelper from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
-import styles from '../styles/index.css';
+import styles from '../styles/share.css';
+import sharedStyles from '../../shared/styles/index.css';
 
 const ReposInfo = (props) => {
   const { mainText, subText, style, icon } = props;
@@ -42,7 +43,7 @@ const ReposInfo = (props) => {
   )
 };
 
-class ShareMobile extends React.Component {
+class MobileShare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -288,29 +289,29 @@ class ShareMobile extends React.Component {
     return (
       <div
         id="commits_wrapper"
-        className={styles["info_wrapper"]}>
-        <div className={styles["share_info"]}>
+        className={sharedStyles["info_wrapper"]}>
+        <div className={sharedStyles["share_info"]}>
           <ChartInfo
             mainText={parseInt(total / 52, 10)}
             subText="平均每周提交次数"
-            mainTextStyle={styles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["share_chart_main_text"]}
           />
           <ChartInfo
             mainText={totalCommits}
             subText="单个仓库最多提交数"
-            mainTextStyle={styles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["share_chart_main_text"]}
           />
         </div>
-        <div className={styles["share_info"]}>
+        <div className={sharedStyles["share_info"]}>
           <ChartInfo
             mainText={dayName}
             subText="是你提交最多的日子"
-            mainTextStyle={styles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["share_chart_main_text"]}
           />
           <ChartInfo
             mainText={firstCommitDate}
             subText="过去一年第一次提交代码"
-            mainTextStyle={styles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["share_chart_main_text"]}
           />
         </div>
       </div>
@@ -328,7 +329,7 @@ class ShareMobile extends React.Component {
     return (
       <div
         id="repos_wrapper"
-        className={cx(styles["info_wrapper"], styles["share_info_wrapper"])}>
+        className={sharedStyles["share_info_wrapper"]}>
         <div
           id="chart_info_container"
           className={styles["chart_info_container"]}>
@@ -453,7 +454,7 @@ class ShareMobile extends React.Component {
 
     if (!loaded) {
       return (
-        <div className={styles["loading_container"]}>
+        <div className={sharedStyles["loading_container"]}>
           <Loading />
         </div>
       )
@@ -466,10 +467,10 @@ class ShareMobile extends React.Component {
 
     return (
       <div>
-        <div className={styles["share_section"]}>
+        <div className={sharedStyles["share_section"]}>
           <div
             id="repos_chart"
-            className={cx(styles["share_info_chart"], styles["repos_chart"])}>
+            className={cx(sharedStyles["share_info_chart"], styles["repos_chart"])}>
             <canvas
               className={styles["max_canvas"]}
               ref={ref => this.reposReview = ref}></canvas>
@@ -477,7 +478,7 @@ class ShareMobile extends React.Component {
           {this.renderReposInfo()}
         </div>
 
-        <div className={styles["share_section"]}>
+        <div className={sharedStyles["share_section"]}>
           <div className={styles["repos_wrapper"]}>
             {/* <div className="repos_xAxes">
               <div className="xAxes_text">提交次数</div>
@@ -494,18 +495,18 @@ class ShareMobile extends React.Component {
           </div>
         </div>
 
-        <div className={styles["share_section"]}>
+        <div className={sharedStyles["share_section"]}>
           <div
             id="language_wrapper"
-            className={styles["info_wrapper"]}>
-            <div className={styles["share_info"]}>
+            className={sharedStyles["info_wrapper"]}>
+            <div className={sharedStyles["share_info"]}>
               <ChartInfo
-                mainTextStyle={styles["share_chart_main_text"]}
+                mainTextStyle={sharedStyles["share_chart_main_text"]}
                 mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
                 subText="拥有最多的仓库"
               />
               <ChartInfo
-                mainTextStyle={styles["share_chart_main_text"]}
+                mainTextStyle={sharedStyles["share_chart_main_text"]}
                 mainText={Object.keys(languageSkills)[maxStarCountIndex]}
                 subText="拥有最多的 star"
               />
@@ -513,18 +514,18 @@ class ShareMobile extends React.Component {
           </div>
           <div
             id="skill_chart"
-            className={styles["share_info_chart"]} style={{ marginTop: '15px' }}>
+            className={sharedStyles["share_info_chart"]} style={{ marginTop: '15px' }}>
             <canvas ref={ref => this.languageSkill = ref}></canvas>
           </div>
         </div>
 
-        <div className={styles["share_section"]}>
+        <div className={sharedStyles["share_section"]}>
           { loaded && commits.length ? this.renderCommitsInfo() : ''}
           <div
             id="commits_chart"
-            className={styles["share_info_chart"]}>
+            className={sharedStyles["share_info_chart"]}>
             <canvas
-              className={styles["max_canvas"]}
+              className={sharedStyles["max_canvas"]}
               ref={ref => this.commitsYearlyChart = ref}></canvas>
           </div>
         </div>
@@ -533,4 +534,4 @@ class ShareMobile extends React.Component {
   }
 }
 
-export default ShareMobile;
+export default MobileShare;

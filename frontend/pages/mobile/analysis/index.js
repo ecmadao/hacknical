@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ShareMobile from './container';
+import MobileAnalysis from './container';
 
 const renderApp = (domId) => {
   const DOM = document.getElementById(domId);
   ReactDOM.render(
-    <ShareMobile login={window.login} />,
+    <MobileAnalysis login={window.login} />,
     DOM
   )
 };
