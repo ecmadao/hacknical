@@ -11,6 +11,9 @@ import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
+import Switcher from 'COMPONENTS/Switcher';
+import Input from 'COMPONENTS/Input';
+import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/index.css';
 import sharedStyles from '../../shared/styles/index.css';
 
@@ -30,6 +33,9 @@ class MobileAnalysis extends React.Component {
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
+
+    this.copyUrl = this.copyUrl.bind(this);
+    this.postShareStatus = this.postShareStatus.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +49,14 @@ class MobileAnalysis extends React.Component {
     const { loading } = this.state;
     if (loading) { return }
     this.renderCharts();
+  }
+
+  copyUrl() {
+    document.querySelector("#shareGithubUrl").select();
+  }
+
+  postShareStatus() {
+
   }
 
   renderCharts() {
@@ -211,6 +225,35 @@ class MobileAnalysis extends React.Component {
     });
   }
 
+  renderShareController() {
+    const { actions, userInfo } = this.state;
+    const { openShare, url } = userInfo;
+    return (
+      <div className={styles["share_controller"]}>
+        <Switcher
+          id="share_switch"
+          size="small"
+          onChange={this.postShareStatus}
+          checked={openShare}
+        />
+        <div
+          className={styles["share_container"]}>
+          <Input
+            id="shareGithubUrl"
+            style="flat"
+            value={`${window.location.origin}/${url}`}
+            customStyle={styles["share_link_input"]}
+          />
+          <IconButton
+            icon="clipboard"
+            id="copyLinkButton"
+            onClick={this.copyUrl.bind(this)}
+          />
+        </div>
+      </div>
+    )
+  }
+
   renderChartInfo() {
     const { pageViews, viewDevices, viewSources } = this.state;
     const viewCount = pageViews.reduce((prev, current, index) => {
@@ -260,6 +303,7 @@ class MobileAnalysis extends React.Component {
 
     return (
       <div className={styles["analysis"]}>
+        {loading ? '' : this.renderShareController()}
         {loading ? (
           <Loading />
         ) : this.renderChartInfo()}
