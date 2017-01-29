@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 .analysis {
-  padding-top: 50px;
+  padding-top: 20px;
   display: flex;
   justify-content: center;
   color: var(--oc-gray-7);

@@ -158,7 +158,7 @@ class MobileAnalysis extends React.Component {
           label: '',
           fill: true,
           backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
+          borderWidth: 2,
           borderColor: GREEN_COLORS[0],
           pointBackgroundColor: GREEN_COLORS[0],
           pointBorderColor: "#fff",
@@ -193,7 +193,7 @@ class MobileAnalysis extends React.Component {
           label: '',
           fill: true,
           backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
+          borderWidth: 2,
           borderColor: GREEN_COLORS[0],
           pointBackgroundColor: GREEN_COLORS[0],
           pointBorderColor: "#fff",
@@ -310,9 +310,7 @@ class MobileAnalysis extends React.Component {
     return (
       <div className={styles["analysis"]}>
         {loading ? '' : this.renderShareController()}
-        {loading ? (
-          <Loading />
-        ) : this.renderChartInfo()}
+        {loading ? '' : this.renderChartInfo()}
         <div className={sharedStyles["share_section"]}>
           <div
             className={styles["share_info_chart"]}>

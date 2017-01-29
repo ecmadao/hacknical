@@ -21,3 +21,7 @@ body,html {
   width: 0;
   background: transparent;
 }
+
+input[type="text"] {
+  -webkit-appearance: none;
+}
