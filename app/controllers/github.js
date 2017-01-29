@@ -251,7 +251,7 @@ const sharePage = async (ctx, next) => {
     followers,
     following
   } = githubInfo;
-  await ctx.render('user/share_mobile', {
+  await ctx.render('user/mobile/share', {
     user: {
       bio,
       name: name || login,

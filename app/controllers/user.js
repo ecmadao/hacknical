@@ -74,7 +74,6 @@ const githubLogin = async (ctx, next) => {
 };
 
 // user dashboard
-
 const dashboard = async (ctx, next) => {
   const { userId, githubLogin } = ctx.session;
   if (ctx.state.isMobile) {
@@ -83,6 +82,25 @@ const dashboard = async (ctx, next) => {
 
   await ctx.render('user/dashboard', {
     title: `${githubLogin} - 个人主页`
+  });
+};
+
+// user analysis mobile
+const mobileAnalysis = async (ctx, next) => {
+  await ctx.render('user/mobile/analysis', {
+    title: '数据来源分析',
+    user: {
+      isAdmin: true
+    },
+  });
+};
+
+const mobileSetting = async (ctx, next) => {
+  await ctx.render('user/mobile/setting', {
+    title: '设置',
+    user: {
+      isAdmin: true
+    },
   });
 };
 
@@ -121,5 +139,8 @@ export default {
   // dashboard
   dashboard,
   getResume,
-  setResume
+  setResume,
+  // mobile
+  mobileAnalysis,
+  mobileSetting
 }

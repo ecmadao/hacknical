@@ -1,6 +1,6 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/mobile.html" %}
 
-{% block css %}
+{% block pageCSS %}
   {% if not user.isAdmin %}
     <style>
       #share_body {
@@ -8,10 +8,10 @@
       }
     </style>
   {% endif %}
-  <link href="{{ assetsPath("share_mobile.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("mobile_share.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block body %}
+{% block content %}
   <div class="share">
     <div class="share_header">
       <img src="{{ user['avatar_url'] }}" /><br/>
@@ -43,9 +43,9 @@
   {% endif %}
 {% endblock %}
 
-{% block js %}
+{% block pageJS %}
   <script>
     window.login = '{{ user.login }}';
   </script>
-  <script src="{{ assetsPath("share_mobile.js") }}"></script>
+  <script src="{{ assetsPath("mobile_share.js") }}"></script>
 {% endblock %}

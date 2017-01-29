@@ -14,6 +14,18 @@ router.get('/dashboard',
   user.checkIfLogin(),
   User.dashboard
 );
+// mobile dashboard
+router.get('/analysis',
+  platform.checkPlatform,
+  user.checkIfLogin(),
+  User.mobileAnalysis
+);
+router.get('/setting',
+  platform.checkPlatform,
+  user.checkIfLogin(),
+  User.mobileSetting
+);
+
 router.get('/resume',
   user.checkSession(session.requiredSessions),
   User.getResume
