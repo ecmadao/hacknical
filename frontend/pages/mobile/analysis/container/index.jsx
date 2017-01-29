@@ -56,7 +56,13 @@ class MobileAnalysis extends React.Component {
   }
 
   postShareStatus() {
-
+    const { userInfo } = this.state;
+    const { openShare } = userInfo;
+    Api.github.toggleShare(!openShare).then((result) => {
+      this.setState({
+        userInfo: objectAssign({}, userInfo, { openShare: !openShare })
+      });
+    });
   }
 
   renderCharts() {
@@ -299,7 +305,7 @@ class MobileAnalysis extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, userInfo } = this.state;
 
     return (
       <div className={styles["analysis"]}>
