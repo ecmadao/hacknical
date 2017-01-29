@@ -288,15 +288,15 @@ class MobileAnalysis extends React.Component {
             mainTextStyle={sharedStyles["share_chart_main_text"]}
           />
           <ChartInfo
-            mainText={platforms.slice(0, 2).join(',')}
-            subText="使用最多的平台"
+            mainText={browsers.join(',')}
+            subText="使用最多的浏览器"
             mainTextStyle={sharedStyles["share_chart_main_text"]}
           />
         </div>
         <div className={sharedStyles["share_info"]}>
           <ChartInfo
-            mainText={browsers.join(',')}
-            subText="使用最多的浏览器"
+            mainText={platforms.slice(0, 2).join(',')}
+            subText="使用最多的平台"
             mainTextStyle={sharedStyles["share_chart_main_text"]}
           />
         </div>

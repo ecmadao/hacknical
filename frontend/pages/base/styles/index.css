@@ -22,6 +22,6 @@ body,html {
   background: transparent;
 }
 
-input[type="text"] {
+input, textarea {
   -webkit-appearance: none;
 }
