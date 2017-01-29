@@ -515,7 +515,7 @@ class MobileShare extends React.Component {
           <div
             id="skill_chart"
             className={sharedStyles["share_info_chart"]} style={{ marginTop: '15px' }}>
-            <canvas ref={ref => this.languageSkill = ref}></canvas>
+            <canvas ref={ref => this.languageSkill = ref} className={sharedStyles["min_canvas"]}></canvas>
           </div>
         </div>
 

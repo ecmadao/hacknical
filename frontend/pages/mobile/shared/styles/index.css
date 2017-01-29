@@ -23,7 +23,10 @@
 
 canvas {
   margin: 0 auto;
-  max-width: 280px;
+
+  &.min_canvas {
+    max-width: 280px;
+  }
 
   &.max_canvas {
     max-width: none;

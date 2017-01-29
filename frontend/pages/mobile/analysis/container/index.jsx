@@ -236,26 +236,26 @@ class MobileAnalysis extends React.Component {
     const { openShare, url } = userInfo;
     return (
       <div className={styles["share_controller"]}>
-        <Switcher
-          id="share_switch"
-          size="small"
-          onChange={this.postShareStatus}
-          checked={openShare}
-        />
         <div
           className={styles["share_container"]}>
+          <IconButton
+            icon="clipboard"
+            id="copyLinkButton"
+            onClick={this.copyUrl.bind(this)}
+          />
           <Input
             id="shareGithubUrl"
             style="flat"
             value={`${window.location.origin}/${url}`}
             customStyle={styles["share_link_input"]}
           />
-          <IconButton
-            icon="clipboard"
-            id="copyLinkButton"
-            onClick={this.copyUrl.bind(this)}
-          />
         </div>
+        <Switcher
+          id="share_switch"
+          size="small"
+          onChange={this.postShareStatus}
+          checked={openShare}
+        />
       </div>
     )
   }
@@ -315,11 +315,13 @@ class MobileAnalysis extends React.Component {
           <div
             className={styles["share_info_chart"]}>
             <canvas
+              className={sharedStyles["min_canvas"]}
               ref={ref => this.viewDevices = ref}></canvas>
           </div>
           <div
             className={styles["share_info_chart"]}>
             <canvas
+              className={sharedStyles["min_canvas"]}
               ref={ref => this.viewSources = ref}></canvas>
           </div>
         </div>
