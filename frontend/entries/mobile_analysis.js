@@ -1,4 +1,4 @@
-import renderApp from 'PAGES/mobile/analysis/index';
+import renderApp from 'PAGES/mobile/analysis';
 
 $(() => {
   renderApp('analysis');

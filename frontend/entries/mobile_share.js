@@ -1,4 +1,4 @@
-import renderApp from 'PAGES/mobile/share/index';
+import renderApp from 'PAGES/mobile/share';
 import 'SRC/vendor/share/share_mobile.css';
 
 $(() => {

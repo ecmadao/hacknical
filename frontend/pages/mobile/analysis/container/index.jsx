@@ -14,7 +14,7 @@ import Loading from 'COMPONENTS/Loading';
 import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 import IconButton from 'COMPONENTS/IconButton';
-import styles from '../styles/index.css';
+import styles from '../styles/analysis.css';
 import sharedStyles from '../../shared/styles/index.css';
 
 class MobileAnalysis extends React.Component {

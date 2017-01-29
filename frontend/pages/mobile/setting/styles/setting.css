@@ -1,0 +1,9 @@
+@import 'open-color/open-color.css';
+
+.setting {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  color: var(--oc-gray-7);
+  flex-direction: column;
+}

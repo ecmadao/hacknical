@@ -25,7 +25,7 @@ import dateHelper from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
-import styles from '../styles/index.css';
+import styles from '../styles/share.css';
 import sharedStyles from '../../shared/styles/index.css';
 
 const ReposInfo = (props) => {
