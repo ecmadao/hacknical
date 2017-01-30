@@ -9,7 +9,8 @@ const redisCache = (redisUrl, options = {}) => {
   let redisAvailable = false;
 
   const redisClient = wrapper(Redis.createClient(redisUrl, {
-    prefix
+    prefix,
+    parser: 'hiredis'
   }));
   redisClient.on('error', (err)=> { redisAvailable = false; });
   redisClient.on('end', () => { redisAvailable = false; });

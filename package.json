@@ -139,6 +139,7 @@
     "fs-extra": "^2.0.0",
     "github-calendar": "^1.1.10",
     "headroom.js": "^0.9.3",
+    "hiredis": "^0.5.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1",
     "jquery-param": "^0.2.0",
