@@ -4,6 +4,11 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 
+if (process.env.NODE_ENV !== 'production') {
+  const { whyDidYouUpdate } = require('why-did-you-update')
+  whyDidYouUpdate(React);
+}
+
 import Github from 'SHAREDPAGE/Github';
 import reducers from 'SHAREDPAGE/Github/redux/reducers';
 

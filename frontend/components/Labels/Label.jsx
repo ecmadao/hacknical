@@ -3,6 +3,10 @@ import cx from 'classnames';
 import styles from './labels.css';
 
 class Label extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { value, onDelete, color } = this.props;
     const labelClass = cx(

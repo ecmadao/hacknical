@@ -39,7 +39,6 @@ class MobileAnalysis extends React.Component {
   }
 
   componentDidMount() {
-    console.log('getShareData');
     Api.github.getShareData().then((result) => {
       this.initialState(result);
     });

@@ -20,6 +20,10 @@ class FloatingActionButton extends React.Component {
     this.setState({ pressDown: false });
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const {
       icon,

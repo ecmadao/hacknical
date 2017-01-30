@@ -88,7 +88,7 @@ const dashboard = async (ctx, next) => {
 // user analysis mobile
 const mobileAnalysis = async (ctx, next) => {
   await ctx.render('user/mobile/analysis', {
-    title: '数据来源分析',
+    title: '数据记录',
     user: {
       isAdmin: true
     },
@@ -97,7 +97,7 @@ const mobileAnalysis = async (ctx, next) => {
 
 const mobileSetting = async (ctx, next) => {
   await ctx.render('user/mobile/setting', {
-    title: '设置',
+    title: '数据更新',
     user: {
       isAdmin: true
     },

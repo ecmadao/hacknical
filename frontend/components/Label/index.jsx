@@ -3,6 +3,11 @@ import cx from 'classnames';
 import styles from './label.css';
 
 class Label extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    const { active, clickable } = this.props;
+    return active !== nextProps.active || clickable !== nextProps.clickable;
+  }
+
   render() {
     const { style, text, onClick, id, clickable, active } = this.props;
     const labelClass = cx(

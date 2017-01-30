@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 
 import actions from '../../redux/actions';
 import WritableList from 'COMPONENTS/WritableList';
-import Labels from 'COMPONENTS/Labels';
 import Input from 'COMPONENTS/Input';
 import FormatInput from 'COMPONENTS/FormatInput';
 import SocialLink from './SocialLink';
