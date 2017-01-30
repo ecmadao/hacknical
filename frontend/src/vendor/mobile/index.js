@@ -20,11 +20,9 @@ $(() => {
 
   $menuIcon.on('click', () => {
     $menuWrapper.addClass('active');
-    changeOverflow('hidden');
   });
 
   $menuWrapper.on('click', () => {
     $menuWrapper.removeClass('active');
-    changeOverflow('auto');
   });
 });
