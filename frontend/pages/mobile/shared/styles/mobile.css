@@ -9,7 +9,7 @@
   margin: 5px 0;
   padding: 15px;
   background-color: var(--oc-white);
-  box-shadow: var(--shadow2);
+  box-shadow: var(--shadow1);
 }
 
 .info_wrapper {

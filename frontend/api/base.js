@@ -38,7 +38,7 @@ const fetchApi = (url, method, data) => {
         message.notice(json.message);
       }
       if (json.error) {
-        message.error(json.message);
+        message.error(json.error);
       }
       if (json.url) {
         window.location = json.url;

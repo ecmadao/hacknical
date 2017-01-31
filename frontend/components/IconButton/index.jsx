@@ -34,11 +34,12 @@ class IconButton extends React.Component {
       disabled && styles["disabled"],
       className
     );
+    const handleClick = disabled ? () => {} : onClick;
     return (
       <div
         id={id}
         className={containerClass}
-        onClick={onClick}
+        onClick={handleClick}
         onMouseUp={this.onMouseUp}
         onMouseLeave={this.onMouseUp}
         onMouseEnter={this.onMouseDown}
