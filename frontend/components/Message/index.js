@@ -48,7 +48,7 @@ class MessageComponent {
 
   showMessage() {
     this.$message.addClass('active');
-    // this.autoHideMessage();
+    this.autoHideMessage();
   }
 
   autoHideMessage() {
