@@ -1,5 +1,27 @@
 @import 'open-color/open-color.css';
 
+.not_admin {
+  & .mobile_card_full {
+    background-color: transparent !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border-top: 1px solid var(--oc-gray-2);
+  }
+}
+
+.mobile_card_full {
+  padding: 15px 0 !important;
+  margin: 15px 0 !important;
+}
+
+.mobile_card_no_bottom {
+  padding-bottom: 0 !important;
+}
+
+.languages_line {
+  padding: 20px 0 !important;
+}
+
 .share_section {
   &:not(:last-child) {
     margin-bottom: 20px;
@@ -7,12 +29,13 @@
   }
 }
 
-.info_wrapper {
-  padding: 0 15px;
+.repos_chart {
+  width: 100%;
 }
+
 .share_info_wrapper {
-  composes: info_wrapper;
-  padding: 20px 0;
+  padding: 15px 0 0;
+  width: 100%;
 }
 
 .chart_info_container {
@@ -61,11 +84,16 @@
   }
 }
 
+.info_with_chart_wrapper {
+  width: 100%;
+}
+
 .repos_wrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
-  padding-top: 15px;
+  /*margin-bottom: 15px;*/
+  /*padding-top: 15px;*/
 
   & .repos_xAxes {
     height: 2px;

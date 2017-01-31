@@ -3,8 +3,18 @@
 {% block pageCSS %}
   {% if not user.isAdmin %}
     <style>
+      .share {
+        padding-top: 20px !important;
+      }
       #share_body {
         padding-bottom: 50px;
+      }
+      .share_header {
+        background-color: transparent !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
       }
     </style>
   {% endif %}
@@ -45,6 +55,7 @@
 
 {% block pageJS %}
   <script>
+    window.isAdmin = '{{ user.isAdmin }}';
     window.login = '{{ user.login }}';
   </script>
   <script src="{{ assetsPath("mobile_share.js") }}"></script>

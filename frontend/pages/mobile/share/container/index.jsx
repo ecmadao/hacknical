@@ -288,8 +288,9 @@ class MobileShare extends React.Component {
     const firstCommitDate = dateHelper.date.afterDays(dayIndex, week);
     return (
       <div
+        className={styles["info_with_chart_wrapper"]}
         id="commits_wrapper">
-        <div className={sharedStyles["info_wrapper"]}>
+        <div className={sharedStyles["info_with_chart"]}>
           <ChartInfo
             mainText={parseInt(total / 52, 10)}
             subText="平均每周提交次数"
@@ -464,9 +465,13 @@ class MobileShare extends React.Component {
     const maxReposCountIndex = getMaxIndex(reposCount);
     const maxStarCountIndex = getMaxIndex(starCount);
 
+    const containerClass = cx(
+      window.isAdmin !== 'true' && styles["not_admin"]
+    );
+
     return (
-      <div>
-        <div className={styles["share_section"]}>
+      <div className={containerClass}>
+        <div className={cx(sharedStyles["mobile_card"], styles["mobile_card_full"])}>
           <div
             id="repos_chart"
             className={cx(sharedStyles["info_chart"], styles["repos_chart"])}>
@@ -477,7 +482,13 @@ class MobileShare extends React.Component {
           {this.renderReposInfo()}
         </div>
 
-        <div className={styles["share_section"]}>
+        <div className={
+          cx(
+            sharedStyles["mobile_card"],
+            styles["mobile_card_full"],
+            styles["languages_line"]
+          )
+        }>
           <div className={styles["repos_wrapper"]}>
             {/* <div className="repos_xAxes">
               <div className="xAxes_text">提交次数</div>
@@ -494,8 +505,8 @@ class MobileShare extends React.Component {
           </div>
         </div>
 
-        <div className={styles["share_section"]}>
-          <div id="language_wrapper" className={sharedStyles["info_wrapper"]}>
+        <div className={cx(sharedStyles["mobile_card"], styles["mobile_card_full"])}>
+          <div id="language_wrapper" className={sharedStyles["info_with_chart"]}>
             <ChartInfo
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
@@ -514,7 +525,7 @@ class MobileShare extends React.Component {
           </div>
         </div>
 
-        <div className={styles["share_section"]}>
+        <div className={cx(sharedStyles["mobile_card"], styles["mobile_card_full"], styles["mobile_card_no_bottom"])}>
           { loaded && commits.length ? this.renderCommitsInfo() : ''}
           <div
             id="commits_chart"
