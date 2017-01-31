@@ -6,7 +6,7 @@ $(() => {
   setInterval(() => {
     const count = parseInt($count.html());
     if (count === 0) {
-      window.location.href = '/user/dashboard';
+      window.location.href = '/';
     } else {
       $count.html(count - 1);
     }
