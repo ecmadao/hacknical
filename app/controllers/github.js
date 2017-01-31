@@ -91,8 +91,10 @@ const toggleShare = async (ctx, next) => {
     login: githubLogin,
     url: `github/${githubLogin}`
   });
+  const text = enable === 'true' ? '开启' : '关闭';
   ctx.body = {
-    success: true
+    success: true,
+    message: `分享链接已${text}`
   };
 };
 
@@ -142,7 +144,7 @@ const getUser = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    message: '查找用户失败'
+    error: '查找用户失败'
   };
 };
 
@@ -216,7 +218,7 @@ const getSharedUser = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    message: '查找用户失败'
+    error: '查找用户失败'
   };
 };
 
@@ -297,7 +299,7 @@ const getUpdateTime = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    message: '查找用户失败'
+    error: '查找用户失败'
   };
 };
 
@@ -311,7 +313,7 @@ const refreshDatas = async (ctx, next) => {
   if (timeInterval <= HALF_AN_HOUR) {
     return ctx.body = {
       success: true,
-      message: `更新过于频繁，请在${parseInt((HALF_AN_HOUR - timeInterval) / 60, 10)}分钟后重试`
+      error: `更新过于频繁，请在${parseInt((HALF_AN_HOUR - timeInterval) / 60, 10)}分钟后重试`
     };
   }
 
@@ -339,7 +341,7 @@ const refreshDatas = async (ctx, next) => {
     ctx.body = {
       success: true,
       result: new Date(),
-      message: '数据更新失败'
+      error: '数据更新失败'
     };
   }
 

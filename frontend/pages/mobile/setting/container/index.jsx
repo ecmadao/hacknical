@@ -1,9 +1,11 @@
 import React from 'react';
+import cx from 'classnames';
 
 import IconButton from 'COMPONENTS/IconButton';
 import Api from 'API/index';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
+import sharedStyles from '../../shared/styles/mobile.css';
 
 class MobileSetting extends React.Component {
   constructor(props) {
@@ -45,7 +47,7 @@ class MobileSetting extends React.Component {
     const { loading, updateTime } = this.state;
     return (
       <div className={styles["setting"]}>
-        <div className={styles["setting_section"]}>
+        <div className={cx(sharedStyles["mobile_card"], styles["setting_section"])}>
           <div className={styles["update_container"]}>
             {updateTime}<br/>
             <span>

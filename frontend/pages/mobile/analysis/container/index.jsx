@@ -15,7 +15,7 @@ import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/analysis.css';
-import sharedStyles from '../../shared/styles/index.css';
+import sharedStyles from '../../shared/styles/mobile.css';
 
 class MobileAnalysis extends React.Component {
   constructor(props) {
@@ -65,7 +65,7 @@ class MobileAnalysis extends React.Component {
   }
 
   renderCharts() {
-    !this.pageViewsChart && this.renderViewsChart();
+    // !this.pageViewsChart && this.renderViewsChart();
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
   }
@@ -234,7 +234,7 @@ class MobileAnalysis extends React.Component {
     const { actions, userInfo } = this.state;
     const { openShare, url } = userInfo;
     return (
-      <div className={styles["share_controller"]}>
+      <div className={cx(sharedStyles["mobile_card"], styles["share_controller"])}>
         <div
           className={styles["share_container"]}>
           <IconButton
@@ -261,44 +261,65 @@ class MobileAnalysis extends React.Component {
 
   renderChartInfo() {
     const { pageViews, viewDevices, viewSources } = this.state;
-    const viewCount = pageViews.reduce((prev, current, index) => {
-      if (index === 0) {
-        return current.count;
-      }
-      return current.count + prev;
-    }, '');
-    const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count));
-    const platforms = viewDevices
-      .filter(viewDevice => viewDevice.count === maxPlatformCount)
-      .map(viewDevice => viewDevice.platform);
+    const pageViewCounts = pageViews.map(item => item.count);
+
+    const viewCount = pageViewCounts.reduce((prev, current, index) => {
+      return current + prev
+    }, 0);
+    const maxViewPerHour = Math.max(...pageViewCounts);
+
+    return (
+      <div
+        className={sharedStyles["mobile_card"]}>
+        <div className={sharedStyles["info_wrapper"]}>
+          <ChartInfo
+            mainText={viewCount}
+            subText="总 PV"
+            mainTextStyle={sharedStyles["main_text"]}
+          />
+          <ChartInfo
+            mainText={maxViewPerHour}
+            subText="一小时内最大 PV"
+            mainTextStyle={sharedStyles["main_text"]}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  renderBrowserInfo() {
+    const { viewSources } = this.state;
 
     const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
     const browsers = viewSources
       .filter(viewSource => viewSource.count === maxBrowserCount)
       .map(viewSource => viewSource.browser);
+    return (
+      <div className={sharedStyles["info_with_chart"]}>
+        <ChartInfo
+          mainText={browsers.join(',')}
+          subText="使用最多的浏览器"
+          mainTextStyle={sharedStyles["main_text"]}
+        />
+      </div>
+    )
+  }
+
+  renderPlatformInfo() {
+    const { viewDevices } = this.state;
+
+    const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count));
+    const platforms = viewDevices
+      .filter(viewDevice => viewDevice.count === maxPlatformCount)
+      .map(viewDevice => viewDevice.platform);
 
     return (
-      <div
-        className={cx(sharedStyles["info_wrapper"], styles["info_wrapper"])}>
-        <div className={sharedStyles["share_info"]}>
-          <ChartInfo
-            mainText={viewCount}
-            subText="总 PV"
-            mainTextStyle={sharedStyles["share_chart_main_text"]}
-          />
-          <ChartInfo
-            mainText={browsers.join(',')}
-            subText="使用最多的浏览器"
-            mainTextStyle={sharedStyles["share_chart_main_text"]}
-          />
-        </div>
-        <div className={sharedStyles["share_info"]}>
-          <ChartInfo
-            mainText={platforms.slice(0, 2).join(',')}
-            subText="使用最多的平台"
-            mainTextStyle={sharedStyles["share_chart_main_text"]}
-          />
-        </div>
+      <div className={sharedStyles["info_with_chart"]}>
+        <ChartInfo
+          mainText={platforms.slice(0, 2).join(',')}
+          subText="使用最多的平台"
+          mainTextStyle={sharedStyles["main_text"]}
+        />
       </div>
     )
   }
@@ -310,13 +331,19 @@ class MobileAnalysis extends React.Component {
       <div className={styles["analysis"]}>
         {loading ? '' : this.renderShareController()}
         {loading ? '' : this.renderChartInfo()}
-        <div className={sharedStyles["share_section"]}>
+
+        <div className={sharedStyles["mobile_card"]}>
+          {loading ? '' : this.renderPlatformInfo()}
           <div
             className={styles["share_info_chart"]}>
             <canvas
               className={sharedStyles["min_canvas"]}
               ref={ref => this.viewDevices = ref}></canvas>
           </div>
+        </div>
+
+        <div className={sharedStyles["mobile_card"]}>
+          {loading ? '' : this.renderBrowserInfo()}
           <div
             className={styles["share_info_chart"]}>
             <canvas
@@ -324,14 +351,15 @@ class MobileAnalysis extends React.Component {
               ref={ref => this.viewSources = ref}></canvas>
           </div>
         </div>
-        <div className={sharedStyles["share_section"]}>
+
+        {/* <div className={sharedStyles["share_section"]}>
           <div
             className={sharedStyles["share_info_chart"]}>
             <canvas
               className={sharedStyles["max_canvas"]}
               ref={ref => this.pageViews = ref}></canvas>
           </div>
-        </div>
+        </div> */}
       </div>
     )
   }

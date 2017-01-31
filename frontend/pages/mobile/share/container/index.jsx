@@ -26,7 +26,7 @@ import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 import styles from '../styles/share.css';
-import sharedStyles from '../../shared/styles/index.css';
+import sharedStyles from '../../shared/styles/mobile.css';
 
 const ReposInfo = (props) => {
   const { mainText, subText, style, icon } = props;
@@ -288,30 +288,29 @@ class MobileShare extends React.Component {
     const firstCommitDate = dateHelper.date.afterDays(dayIndex, week);
     return (
       <div
-        id="commits_wrapper"
-        className={sharedStyles["info_wrapper"]}>
-        <div className={sharedStyles["share_info"]}>
+        id="commits_wrapper">
+        <div className={sharedStyles["info_wrapper"]}>
           <ChartInfo
             mainText={parseInt(total / 52, 10)}
             subText="平均每周提交次数"
-            mainTextStyle={sharedStyles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["main_text"]}
           />
           <ChartInfo
             mainText={totalCommits}
             subText="单个仓库最多提交数"
-            mainTextStyle={sharedStyles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["main_text"]}
           />
         </div>
-        <div className={sharedStyles["share_info"]}>
+        <div className={sharedStyles["info_wrapper"]}>
           <ChartInfo
             mainText={dayName}
             subText="是你提交最多的日子"
-            mainTextStyle={sharedStyles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["main_text"]}
           />
           <ChartInfo
             mainText={firstCommitDate}
             subText="过去一年第一次提交代码"
-            mainTextStyle={sharedStyles["share_chart_main_text"]}
+            mainTextStyle={sharedStyles["main_text"]}
           />
         </div>
       </div>
@@ -329,7 +328,7 @@ class MobileShare extends React.Component {
     return (
       <div
         id="repos_wrapper"
-        className={sharedStyles["share_info_wrapper"]}>
+        className={styles["share_info_wrapper"]}>
         <div
           id="chart_info_container"
           className={styles["chart_info_container"]}>
@@ -467,10 +466,10 @@ class MobileShare extends React.Component {
 
     return (
       <div>
-        <div className={sharedStyles["share_section"]}>
+        <div className={styles["share_section"]}>
           <div
             id="repos_chart"
-            className={cx(sharedStyles["share_info_chart"], styles["repos_chart"])}>
+            className={cx(sharedStyles["info_chart"], styles["repos_chart"])}>
             <canvas
               className={styles["max_canvas"]}
               ref={ref => this.reposReview = ref}></canvas>
@@ -478,7 +477,7 @@ class MobileShare extends React.Component {
           {this.renderReposInfo()}
         </div>
 
-        <div className={sharedStyles["share_section"]}>
+        <div className={styles["share_section"]}>
           <div className={styles["repos_wrapper"]}>
             {/* <div className="repos_xAxes">
               <div className="xAxes_text">提交次数</div>
@@ -495,35 +494,31 @@ class MobileShare extends React.Component {
           </div>
         </div>
 
-        <div className={sharedStyles["share_section"]}>
-          <div
-            id="language_wrapper"
-            className={sharedStyles["info_wrapper"]}>
-            <div className={sharedStyles["share_info"]}>
-              <ChartInfo
-                mainTextStyle={sharedStyles["share_chart_main_text"]}
-                mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
-                subText="拥有最多的仓库"
-              />
-              <ChartInfo
-                mainTextStyle={sharedStyles["share_chart_main_text"]}
-                mainText={Object.keys(languageSkills)[maxStarCountIndex]}
-                subText="拥有最多的 star"
-              />
-            </div>
+        <div className={styles["share_section"]}>
+          <div id="language_wrapper" className={sharedStyles["info_wrapper"]}>
+            <ChartInfo
+              mainTextStyle={sharedStyles["main_text"]}
+              mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
+              subText="拥有最多的仓库"
+            />
+            <ChartInfo
+              mainTextStyle={sharedStyles["main_text"]}
+              mainText={Object.keys(languageSkills)[maxStarCountIndex]}
+              subText="拥有最多的 star"
+            />
           </div>
           <div
             id="skill_chart"
-            className={sharedStyles["share_info_chart"]} style={{ marginTop: '15px' }}>
+            className={sharedStyles["info_chart"]} style={{ marginTop: '15px' }}>
             <canvas ref={ref => this.languageSkill = ref} className={sharedStyles["min_canvas"]}></canvas>
           </div>
         </div>
 
-        <div className={sharedStyles["share_section"]}>
+        <div className={styles["share_section"]}>
           { loaded && commits.length ? this.renderCommitsInfo() : ''}
           <div
             id="commits_chart"
-            className={sharedStyles["share_info_chart"]}>
+            className={sharedStyles["info_chart"]}>
             <canvas
               className={sharedStyles["max_canvas"]}
               ref={ref => this.commitsYearlyChart = ref}></canvas>
