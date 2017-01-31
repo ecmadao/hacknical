@@ -35,8 +35,10 @@ const fetchApi = (url, method, data) => {
         throw new Error('Request Server Error');
       }
       if (json.message) {
-        message.error(json.message);
-        // Message.show(json.message, 1500);
+        message.notice(json.message);
+      }
+      if (json.error) {
+        message.error(json.error);
       }
       if (json.url) {
         window.location = json.url;

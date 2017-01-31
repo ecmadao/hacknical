@@ -44,7 +44,8 @@ class Button extends React.Component {
       pressDown && styles["pressDown"],
       disabled && styles["disabled"],
       className
-    )
+    );
+    const onClick = disabled ? () => {} : this.onClick;
     return (
       <div
         className={buttonClass}
@@ -52,7 +53,7 @@ class Button extends React.Component {
         onMouseOut={this.onMouseUp}
         onMouseLeave={this.onMouseUp}
         onMouseUp={this.onMouseUp}
-        onClick={this.onClick}>
+        onClick={onClick}>
         <div className={styles["wrapper"]}>
           {leftIcon}
           <span>

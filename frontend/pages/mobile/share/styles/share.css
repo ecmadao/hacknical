@@ -1,5 +1,20 @@
 @import 'open-color/open-color.css';
 
+.share_section {
+  &:not(:last-child) {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--oc-gray-2);
+  }
+}
+
+.info_wrapper {
+  padding: 0 15px;
+}
+.share_info_wrapper {
+  composes: info_wrapper;
+  padding: 20px 0;
+}
+
 .chart_info_container {
   & .chart_info_wrapper {
     padding: 10px 0px 10px 15px;
