@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 .analysis {
-  padding-top: 20px;
+  padding-top: 55px;
   display: flex;
   justify-content: center;
   color: var(--oc-gray-7);
@@ -10,28 +10,13 @@
 
 .share_info_chart {
   width: 80%;
-  margin-left: 10%;
 
   &:not(:last-child) {
     margin-bottom: 30px;
   }
 }
 
-.info_wrapper {
-  /*margin-bottom: 15px;
-  border-top: 1px solid var(--oc-gray-2);*/
-}
-
-.info_container {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
 .share_controller {
-  margin-top: 40px !important;
   justify-content: flex-start !important;
   flex-direction: row !important;
   position: relative;
