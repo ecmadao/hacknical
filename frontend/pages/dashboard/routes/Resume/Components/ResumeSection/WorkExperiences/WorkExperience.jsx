@@ -68,6 +68,8 @@ class WorkExperience extends React.Component {
       projects
     } = workExperience;
 
+    const endText = dateHelper.seconds.getByDate(endTime) > dateHelper.seconds.getCurrent() ? '预计离职时间' : '离职时间';
+
     return (
       <div className={styles["resume_piece_container"]}>
         <div className={styles["resume_delete"]} onClick={deleteExperience}>
@@ -108,7 +110,7 @@ class WorkExperience extends React.Component {
             initialStart={startTime}
             initialEnd={endTime}
             startText="入职时间"
-            endText="离职时间"
+            endText={endText}
             maxDate={dateHelper.date.afterYears(1)}
             onStartChange={handleExperienceChange('startTime')}
             onEndChange={handleExperienceChange('endTime')}
