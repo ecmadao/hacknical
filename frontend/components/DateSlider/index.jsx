@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
-import 'rc-slider/assets/index.css'
+import 'rc-slider/assets/index.css';
 import Slider from 'rc-slider';
 
 import styles from './date_slider.css';

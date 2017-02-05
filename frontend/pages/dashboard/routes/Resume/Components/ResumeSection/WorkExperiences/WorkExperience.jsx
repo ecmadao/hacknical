@@ -6,6 +6,7 @@ import InputsGroup from 'COMPONENTS/InputsGroup';
 import { EDUCATIONS } from '../../../helper/const_value';
 import WorkProject from './WorkProject';
 import styles from '../../../styles/resume.css';
+import dateHelper from 'UTILS/date';
 
 class WorkExperience extends React.Component {
   constructor(props) {
@@ -108,6 +109,7 @@ class WorkExperience extends React.Component {
             initialEnd={endTime}
             startText="入职时间"
             endText="离职时间"
+            maxDate={dateHelper.date.afterYears(1)}
             onStartChange={handleExperienceChange('startTime')}
             onEndChange={handleExperienceChange('endTime')}
           />

@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import DateSlider from 'COMPONENTS/DateSlider'
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
+import dateHelper from 'UTILS/date';
 import { EDUCATIONS } from '../../../helper/const_value';
 import styles from '../../../styles/resume.css';
 
@@ -79,6 +80,7 @@ class Education extends React.Component {
           <DateSlider
             initialStart={startTime}
             initialEnd={endTime}
+            maxDate={dateHelper.date.afterYears(5)}
             startText="入学时间"
             endText="毕业时间"
             pushInterval="year"

@@ -13,6 +13,11 @@ class Button extends React.Component {
     this.onMouseUp = this.onMouseUp.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { pressDown } = this.state;
+    return pressDown !== nextState.pressDown
+  }
+
   onClick(e) {
     const {onClick} = this.props;
     onClick && onClick();
