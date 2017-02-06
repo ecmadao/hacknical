@@ -13,6 +13,12 @@ class IconButton extends React.Component {
     this.onMouseDown = this.onMouseDown.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { pressed } = this.state;
+    const { disabled } = this.props;
+    return pressed !== nextState.pressed || disabled !== nextProps.disabled;
+  }
+
   onMouseUp() {
     this.setState({
       pressed: false

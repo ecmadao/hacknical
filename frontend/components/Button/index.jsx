@@ -6,7 +6,7 @@ class Button extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pressDown: false
+      pressed: false
     };
     this.onClick = this.onClick.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -14,8 +14,9 @@ class Button extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { pressDown } = this.state;
-    return pressDown !== nextState.pressDown
+    const { pressed } = this.state;
+    const { disabled } = this.props;
+    return pressed !== nextState.pressed || disabled !== nextProps.disabled;
   }
 
   onClick(e) {
@@ -24,11 +25,11 @@ class Button extends React.Component {
   }
 
   onMouseDown() {
-    this.setState({ pressDown: true });
+    this.setState({ pressed: true });
   }
 
   onMouseUp() {
-    this.setState({ pressDown: false });
+    this.setState({ pressed: false });
   }
 
   render() {
@@ -41,12 +42,12 @@ class Button extends React.Component {
       color,
       disabled
     } = this.props;
-    const { pressDown } = this.state;
+    const { pressed } = this.state;
     const buttonClass = cx(
       styles["button"],
       styles[style],
       styles[color],
-      pressDown && styles["pressDown"],
+      pressed && styles["pressDown"],
       disabled && styles["disabled"],
       className
     );

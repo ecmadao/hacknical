@@ -6,22 +6,23 @@ class FloatingActionButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pressDown: false
+      pressed: false
     };
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
   }
 
   onMouseDown() {
-    this.setState({ pressDown: true });
+    this.setState({ pressed: true });
   }
 
   onMouseUp() {
-    this.setState({ pressDown: false });
+    this.setState({ pressed: false });
   }
 
-  shouldComponentUpdate() {
-    return false;
+  shouldComponentUpdate(nextProps, nextState) {
+    const { pressed } = this.state;
+    return pressed !== nextState.pressed;
   }
 
   render() {
@@ -31,11 +32,11 @@ class FloatingActionButton extends React.Component {
       onClick,
       backgroundColor
     } = this.props;
-    const { pressDown } = this.state;
+    const { pressed } = this.state;
     style['backgroundColor'] = backgroundColor ? backgroundColor : style['backgroundColor'];
     const buttonClass = cx(
       styles["floating_action_button"],
-      pressDown && styles["pressDown"]
+      pressed && styles["pressDown"]
     );
     return (
       <div
