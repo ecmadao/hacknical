@@ -16,6 +16,11 @@ class Tab extends React.Component {
     this.onMouseOut = this.onMouseOut.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { showTipso } = this.state;
+    return showTipso !== nextState.showTipso;
+  }
+
   onMouseEnter() {
     this.setState({ showTipso: true });
   }

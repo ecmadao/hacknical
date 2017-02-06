@@ -109,7 +109,6 @@ const getResume = async (ctx, next) => {
   const getResult = await Resume.getResume(userId);
   const { message, result } = getResult;
   ctx.body = {
-    message,
     success: true,
     result
   };
