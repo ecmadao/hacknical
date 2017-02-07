@@ -14,12 +14,10 @@
 .modal_wrapper {
   display: flex;
   flex-direction: row;
-  height: 100%;
 }
 
 .modal_left {
   flex: 1;
-  overflow: auto;
   padding: 50px 30px;
 }
 
@@ -29,7 +27,6 @@
 }
 
 .modal_right {
-  height: 100%;
   width: 250px;
   padding: 50px 20px;
   text-align: center;
