@@ -6,6 +6,7 @@ import Button from 'COMPONENTS/Button';
 import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from '../helper/const_value';
 import ResumeSection from './ResumeSection';
+import ResumeModalV2 from './ResumeModal/v2';
 import ResumeModal from './ResumeModal';
 import actions from '../redux/actions';
 
@@ -160,7 +161,7 @@ class Resume extends React.Component {
             </div>
           </div>
         </div>
-        <ResumeModal
+        <ResumeModalV2
           openModal={openModal}
           onClose={() => this.handleModalStatus(false)}
         />

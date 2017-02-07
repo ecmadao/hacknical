@@ -1,5 +1,20 @@
 @import 'open-color/open-color.css';
 
+.baseText {
+  color: var(--oc-gray-7);
+  font-size: 16px;
+}
+
+.titleText {
+  color: var(--oc-gray-9);
+  font-size: 24px;
+}
+
+.baseIcon {
+  color: var(--oc-gray-5);
+  font-size: 14px;
+}
+
 .card_container {
   font-size: 16px;
   color: var(--oc-gray-5);
@@ -63,4 +78,18 @@
 
 .max-z-index {
   z-index: var(--zIndex999);
+}
+
+@media (max-width: 800px) {
+  .titleText {
+    font-size: 20px;
+  }
+
+  .baseText {
+    font-size: 14px;
+  }
+
+  .baseIcon {
+    font-size: 12px;
+  }
 }

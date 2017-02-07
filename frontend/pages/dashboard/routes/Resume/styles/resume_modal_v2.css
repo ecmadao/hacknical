@@ -1,0 +1,46 @@
+@import 'open-color/open-color.css';
+
+.modal_container {
+  background-color: #F7F8F9;
+  box-shadow: var(--shadow4);
+  width: 70%;
+  height: 100%;
+  border-radius: 2px;
+  overflow-y: auto;
+  composes: common-z-index from 'STYLES/common.css';
+}
+
+.modal_wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.modal_left {
+  flex: 1;
+  height: 100%;
+  padding: 50px 20px;
+}
+
+.modal_right {
+  height: 100%;
+  width: 200px;
+  padding: 50px 20px;
+  text-align: center;
+  background-color: var(--oc-gray-2);
+}
+
+.base_info {
+  text-align: center;
+  line-height: 30px;
+  composes: baseText from 'STYLES/common.css';
+}
+
+.base_icon {
+  composes: baseIcon from 'STYLES/common.css';
+}
+
+.user_title {
+  composes: titleText from 'STYLES/common.css';
+  line-height: 40px;
+}

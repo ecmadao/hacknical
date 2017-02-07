@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
 
@@ -35,7 +34,7 @@ class ResumeModal extends React.Component {
         <div className={styles["info_title"]}>
           <i className="fa fa-university" aria-hidden="true"></i>教育经历
         </div><br/>
-      <div className={cx(styles["info_wrapper"], styles["multi_info"])}>
+        <div className={cx(styles["info_wrapper"], styles["multi_info"])}>
           {edus}
         </div>
       </div>
@@ -203,9 +202,6 @@ class ResumeModal extends React.Component {
     const { onClose, openModal, resume } = this.props;
     const {
       info,
-      educations,
-      workExperiences,
-      personalProjects,
       others
     } = resume;
     return (
