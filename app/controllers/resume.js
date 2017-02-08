@@ -1,4 +1,5 @@
 import Resume from '../models/resumes';
+import ResumePub from '../models/resume-pub';
 
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
@@ -18,13 +19,36 @@ const setResume = async (ctx, next) => {
   const setResult = await Resume.updateResume(userId, resumeObj);
   const { success, result } = setResult;
   ctx.body = {
+    success: true,
     message: '储存成功',
-    success,
     result
   };
 };
 
+const getPubResume = async (ctx, next) => {
+  const { hash } = ctx.params;
+  const findResume = await ResumePub.getPubResume(hash);
+  const { success, result, message } = findResume;
+
+  ctx.body = {
+    message,
+    result,
+    success: true
+  };
+};
+
+const getPubResumePage = async (ctx, next) => {
+  const { hash } = ctx.params;
+  const findResume = await ResumePub.checkPubResume(hash);
+  if (!findResume.success) {
+    ctx.redirect('/404');
+    return;
+  }
+};
+
 export default {
   getResume,
-  setResume
+  setResume,
+  getPubResume,
+  getPubResumePage
 }

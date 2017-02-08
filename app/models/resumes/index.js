@@ -52,25 +52,6 @@ const getResume = async (userId) => {
   });
 };
 
-const getPubResume = async (userId, resumeId) => {
-  const getResult = await findResume({
-    userId,
-    _id: resumeId
-  });
-  if (!getResult) {
-    return Promise.resolve({
-      success: false,
-      message: '没有查询到结果',
-      result: {}
-    });
-  }
-  return Promise.resolve({
-    success: true,
-    message: '',
-    result: getResult.resume
-  });
-};
-
 const removeAll = async () => {
   await Resume.remove();
 };
@@ -79,7 +60,6 @@ export default {
   initialResume,
   addResume,
   getResume,
-  getPubResume,
   updateResume,
   removeAll
 }

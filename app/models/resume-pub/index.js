@@ -6,9 +6,9 @@ import dateHelper from '../../utils/date';
 
 const { getSeconds, getDateAfterDays } = dateHelper;
 
-const getResumeHash = (resumeId) => {
+const getResumeHash = (userId) => {
   const salt = crypto.randomBytes(8).toString('base64');
-  const bytes = new Buffer(resumeId || '', 'utf16le');
+  const bytes = new Buffer(userId || '', 'utf16le');
   const src = new Buffer(salt || '', 'base64');
   const dst = new Buffer(src.length + bytes.length);
 
@@ -16,7 +16,7 @@ const getResumeHash = (resumeId) => {
   bytes.copy(dst, src.length, 0, bytes.length);
 
   return crypto.createHash('sha1').update(dst).digest('base64');
-}
+};
 
 const resumeValidation = (timestamp) => {
   const secondsNow = getSeconds();
@@ -26,10 +26,17 @@ const resumeValidation = (timestamp) => {
   return true;
 };
 
-const findPublicResume = async (userId, resumeHash) => {
-  return await ResumePub.findOne({
-    userId,
-    resumeHash
+const findPublicResume = async (options) => {
+  const findResult = await ResumePub.findOne(options);
+  if (!findResult) {
+    return Promise.resolve({
+      success: false,
+      message: '没有找到指定简历'
+    });
+  }
+  return Promise.resolve({
+    success: true,
+    result: findResult
   });
 };
 
@@ -41,14 +48,11 @@ const addPubResume = async (userId, options) => {
       message: '尚未创建简历'
     });
   }
-  const resumeObj = findResule.result;
-  const resumeId = resumeObj._id;
   const timestamp = getSeconds(getDateAfterDays(options.days || 10));
-  const maxView = options.maxView || 100;
-  const resumeHash = getResumeHash(resumeId);
+  const maxView = options.maxView || 500;
+  const resumeHash = getResumeHash(userId);
 
   const saveResult = await ResumePub.create({
-    resumeId,
     userId,
     timestamp,
     maxView,
@@ -69,52 +73,59 @@ const addPubResume = async (userId, options) => {
 };
 
 const updatePubResume = async (userId, resumeHash, options) => {
-  const findResult = await findPublicResume(userId, resumeHash);
-  if (!findResult) {
-    return Promise.resolve({
-      success: false,
-      message: '没有找到指定简历'
-    });
+  const findResult = await findPublicResume({ userId, resumeHash });
+  const { result, success } = findResult;
+  if (!success) {
+    return findResult;
   }
 
   Object.keys(options).forEach((key) => {
-    findResult[key] = options[key];
+    result[key] = options[key];
   });
-  await findResult.save();
+  await result.save();
 
   return Promise.resolve({
     success: true
   });
 };
 
-const findPubResume = async (userId, resumeHash) => {
-  const findResult = await findPublicResume(userId, resumeHash);
-  if (!findResult) {
+const checkPubResume = async (resumeHash) => {
+  return await findPublicResume({ resumeHash });
+};
+
+const getPubResume = async (resumeHash) => {
+  const findResult = await findPublicResume({ resumeHash });
+  const { result, success } = findResult;
+  if (!success) {
+    return findResult;
+  }
+
+  const { timestamp, resumeId, maxView, userId, openShare } = result;
+
+  if (!openShare) {
     return Promise.resolve({
       success: false,
-      message: '没有找到指定简历'
+      message: '用户已关闭分享'
     });
   }
 
-  const { timestamp, resumeId, maxView } = findResult;
+  // if (!maxView) {
+  //   await deletePubResume(userId, resumeHash);
+  //   return Promise.resolve({
+  //     success: false,
+  //     message: '已超过最大查看次数'
+  //   });
+  // }
+  //
+  // if (!resumeValidation(timestamp)) {
+  //   await deletePubResume(userId, resumeHash);
+  //   return Promise.resolve({
+  //     success: false,
+  //     message: '已过期'
+  //   });
+  // }
 
-  if (!maxView) {
-    await deletePubResume(userId, resumeHash);
-    return Promise.resolve({
-      success: false,
-      message: '已超过最大查看次数'
-    });
-  }
-
-  if (!resumeValidation(timestamp)) {
-    await deletePubResume(userId, resumeHash);
-    return Promise.resolve({
-      success: false,
-      message: '已过期'
-    });
-  }
-
-  return await Resume.getPubResume(userId, resumeId);
+  return await Resume.getResume(userId);
 };
 
 const deletePubResume = async (userId, resumeHash) => {
@@ -137,5 +148,6 @@ export default {
   updatePubResume,
   deletePubResume,
   clearPubResume,
-  findPubResume
+  getPubResume,
+  checkPubResume
 }

@@ -278,10 +278,10 @@ const getStareData = async (ctx, next) => {
     success: true,
     result: {
       url,
-      openShare: enable,
       viewDevices,
       viewSources,
-      pageViews
+      pageViews,
+      openShare: enable
     }
   };
 };
