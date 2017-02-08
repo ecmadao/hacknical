@@ -26,12 +26,6 @@ router.get('/setting',
   User.mobileSetting
 );
 
-router.get('/resume',
-  user.checkSession(session.requiredSessions),
-  User.getResume
-);
-router.post('/resume', User.setResume);
-
 // user login/logout/signup
 router.get('/login',
   platform.checkPlatform,

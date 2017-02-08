@@ -19,6 +19,7 @@
 .modal_left {
   flex: 1;
   padding: 50px 30px;
+  background-color: var(--oc-white);
 }
 
 .left_wrapper {

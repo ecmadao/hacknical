@@ -98,6 +98,7 @@
   border-radius: 3px;
   margin-left: 15px;
   transition: box-shadow 0.2s;
+  position: relative;
 
   &:hover {
     box-shadow: var(--shadow4);

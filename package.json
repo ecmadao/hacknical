@@ -135,6 +135,7 @@
     "co-redis": "^2.1.1",
     "config": "^1.21.0",
     "crypto": "0.0.3",
+    "dom-to-image": "^2.5.2",
     "es6-promise": "^3.2.1",
     "fs-extra": "^2.0.0",
     "github-calendar": "^1.1.10",
@@ -172,6 +173,7 @@
     "request": "^2.75.0",
     "scrollreveal": "^3.3.2",
     "slick-carousel": "^1.6.0",
+    "uuid": "^3.0.1",
     "validator": "^6.2.0",
     "webpack-manifest-plugin": "^1.1.0",
     "wysiwyg.css": "0.0.2"

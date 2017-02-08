@@ -1,12 +1,15 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
+import domtoimage from 'dom-to-image';
 import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
+import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 
 import dateHelper from 'UTILS/date';
 import { sortByX } from 'UTILS/helper';
 import validator from 'UTILS/validator';
+import { GREEN_COLORS } from 'UTILS/colors';
 import styles from '../../styles/resume_modal_v2.css';
 
 const sortByDate = sortByX('startTime');
@@ -33,6 +36,25 @@ const titleInfo = (text, icon, style = '') => {
 };
 
 class ResumeModalV2 extends React.Component {
+
+  handleDownload() {
+    const { resume } = this.props;
+    const { info } = resume;
+    const node = document.getElementById('resume');
+    domtoimage.toPng(node)
+        .then((dataUrl) => {
+          const link = document.createElement('a');
+          link.download = `${info.name}的简历.png`;
+          link.href = dataUrl;
+          link.click();
+          // this.imageUrl = dataUrl;
+          // this.setImageData(dataUrl);
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+  }
+
   renderEducations() {
     const { educations } = this.props.resume;
     if (!educations.length) { return }
@@ -223,7 +245,7 @@ class ResumeModalV2 extends React.Component {
         showModal={openModal}
         onClose={onClose}>
         <div className={styles["modal_container"]}>
-          <div className={styles["modal_wrapper"]}>
+          <div className={styles["modal_wrapper"]} id="resume">
             <div className={styles["modal_left"]}>
               {this.renderEducations()}
               {this.renderWorkExperiences()}
@@ -243,6 +265,14 @@ class ResumeModalV2 extends React.Component {
               ) : ''}
             </div>
           </div>
+          <FloatingActionButton
+            icon="download"
+            style={{
+              right: '15%',
+              backgroundColor: GREEN_COLORS[1]
+            }}
+            onClick={this.handleDownload.bind(this)}
+          />
           { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
         </div>
       </PortalModal>

@@ -8,6 +8,10 @@ const initialResume = async (userId, options) => {
   return await addResume(userId, newResume);
 };
 
+const findResume = async (options) => {
+  return await Resume.findOne(options);
+};
+
 const addResume = async (userId, resume = DEFAULT_RESUME) => {
   const addResult = await Resume.create({
     userId,
@@ -33,7 +37,7 @@ const updateResume = async (userId, resume) => {
 };
 
 const getResume = async (userId) => {
-  const getResult = await Resume.findOne({ userId });
+  const getResult = await findResume({ userId });
   if (!getResult) {
     return Promise.resolve({
       success: false,
@@ -49,7 +53,7 @@ const getResume = async (userId) => {
 };
 
 const getPubResume = async (userId, resumeId) => {
-  const getResult = await Resume.findOne({
+  const getResult = await findResume({
     userId,
     _id: resumeId
   });

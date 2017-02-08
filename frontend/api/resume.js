@@ -1,11 +1,11 @@
 import { postData, getData } from './base';
 
 const getResume = () => {
-  return getData('/user/resume');
+  return getData('/resume');
 };
 
 const setResume = (resume) => {
-  return postData('/user/resume', { resume })
+  return postData('/resume', { resume })
 };
 
 export default {
