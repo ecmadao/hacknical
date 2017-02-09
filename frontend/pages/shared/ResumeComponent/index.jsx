@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import domtoimage from 'dom-to-image';
-import PortalModal from 'COMPONENTS/PortalModal';
-import TipsoModal from 'COMPONENTS/TipsoModal';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 
 import dateHelper from 'UTILS/date';
@@ -234,61 +232,52 @@ class ResumeComponent extends React.Component {
   }
 
   render() {
-    const { onClose, openModal, resume } = this.props;
+    const { resume } = this.props;
     const {
       info,
       others
     } = resume;
     return (
-      <PortalModal
-        showModal={openModal}
-        onClose={onClose}>
-        <div className={styles["modal_container"]}>
-          <div className={styles["modal_wrapper"]} id="resume">
-            <div className={styles["modal_left"]}>
-              {this.renderEducations()}
-              {this.renderWorkExperiences()}
-              {this.renderPersonalProjects()}
-              {this.renderSupplements()}
-              {this.renderSocialLinks()}
-            </div>
-            <div className={styles["modal_right"]}>
-              {baseInfo(info.name, info.gender, styles["user_title"])}<br/>
-              {baseInfo(info.phone, 'mobile')}
-              {baseInfo(info.email, 'envelope-o')}
-              {baseInfo(`${info.location}  ${info.intention}`, 'map-marker')}
-              {others.dream ? (
-                <div className={styles["user_dream"]}>
-                  {baseInfo(others.dream, 'quote-left')}
-                </div>
-              ) : ''}
-            </div>
+      <div className={styles["container"]}>
+        <div className={styles["wrapper"]} id="resume">
+          <div className={styles["left"]}>
+            {this.renderEducations()}
+            {this.renderWorkExperiences()}
+            {this.renderPersonalProjects()}
+            {this.renderSupplements()}
+            {this.renderSocialLinks()}
           </div>
-          <FloatingActionButton
-            icon="download"
-            style={{
-              right: '15%',
-              backgroundColor: GREEN_COLORS[1]
-            }}
-            onClick={this.handleDownload.bind(this)}
-          />
-          { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
+          <div className={styles["right"]}>
+            {baseInfo(info.name, info.gender, styles["user_title"])}<br/>
+            {baseInfo(info.phone, 'mobile')}
+            {baseInfo(info.email, 'envelope-o')}
+            {baseInfo(`${info.location}  ${info.intention}`, 'map-marker')}
+            {others.dream ? (
+              <div className={styles["user_dream"]}>
+                {baseInfo(others.dream, 'quote-left')}
+              </div>
+            ) : ''}
+          </div>
         </div>
-      </PortalModal>
+        <FloatingActionButton
+          icon="download"
+          style={{
+            right: '15%',
+            backgroundColor: GREEN_COLORS[1]
+          }}
+          onClick={this.handleDownload.bind(this)}
+        />
+      </div>
     )
   }
 }
 
 ResumeComponent.propTypes = {
-  resume: PropTypes.object,
-  openModal: PropTypes.bool,
-  onClose: PropTypes.func
+  resume: PropTypes.object
 };
 
 ResumeComponent.defaultProps = {
-  resume: {},
-  openModal: false,
-  onClose: () => {}
+  resume: {}
 };
 
 export default ResumeComponent;

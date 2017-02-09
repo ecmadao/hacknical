@@ -15,6 +15,7 @@ import {
   objectassign,
   validateSocialLinks
 } from 'SHAREDPAGE/utils/resume';
+import styles from '../styles/share.css';
 
 class ResumeShare extends React.Component {
   constructor(props) {
@@ -62,9 +63,8 @@ class ResumeShare extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.container}>
         <ResumeComponent
-          openModal={true}
           resume={this.state}
         />
       </div>

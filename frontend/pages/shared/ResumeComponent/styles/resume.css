@@ -1,23 +1,17 @@
 @import 'open-color/open-color.css';
 
-.modal_container {
-  background-color: #F7F8F9;
-  box-shadow: var(--shadow4);
-  width: 70%;
+.container {
+  width: 100%;
   height: 100%;
-  max-width: 800px;
-  border-radius: 2px;
-  overflow-y: auto;
-  composes: common-z-index from 'STYLES/common.css';
+  background-color: #F7F8F9;
 }
 
-.modal_wrapper {
+.wrapper {
   display: flex;
-  height: 100%;
   flex-direction: row;
 }
 
-.modal_left {
+.left {
   flex: 1;
   padding: 50px 30px;
   background-color: var(--oc-white);
@@ -28,7 +22,7 @@
   height: 100%;
 }
 
-.modal_right {
+.right {
   width: 250px;
   padding: 50px 20px;
   text-align: center;

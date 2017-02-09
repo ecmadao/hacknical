@@ -7,7 +7,7 @@ import Button from 'COMPONENTS/Button';
 import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
 import ResumeSection from './ResumeSection';
-import ResumeComponent from 'SHAREDPAGE/ResumeComponent';
+import ResumeModalV2 from './ResumeModal/v2';
 import actions from '../redux/actions';
 
 class Resume extends React.Component {
@@ -161,7 +161,7 @@ class Resume extends React.Component {
             </div>
           </div>
         </div>
-        <ResumeComponent
+        <ResumeModalV2
           resume={resume}
           openModal={openModal}
           onClose={() => this.handleModalStatus(false)}
