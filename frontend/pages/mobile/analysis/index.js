@@ -8,10 +8,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 import MobileAnalysis from './container';
 
-const renderApp = (domId) => {
+const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId);
   ReactDOM.render(
-    <MobileAnalysis login={window.login} />,
+    <MobileAnalysis {...props} />,
     DOM
   )
 };

@@ -3,10 +3,10 @@ import Portal from 'react-portal';
 import BaseModal from 'COMPONENTS/BaseModal';
 
 class PortalModal extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    const { showModal } = this.props;
-    return nextProps.showModal !== showModal;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   const { showModal } = this.props;
+  //   return nextProps.showModal !== showModal;
+  // }
 
   render() {
     const { closeOnEsc, showModal, onClose, children } = this.props;

@@ -17,11 +17,16 @@ const setResume = async (ctx, next) => {
   const userId = ctx.session.userId;
 
   const setResult = await Resume.updateResume(userId, resumeObj);
-  const { success, result } = setResult;
+  if (setResult.success) {
+    // check & add resume share info
+    const checkResult = await ResumePub.checkPubResume({ userId });
+    if (!checkResult.success) { await ResumePub.addPubResume(userId) }
+  }
+
   ctx.body = {
     success: true,
     message: '储存成功',
-    result
+    result: setResult.result
   };
 };
 
@@ -39,7 +44,9 @@ const getPubResume = async (ctx, next) => {
 
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
-  const findResume = await ResumePub.checkPubResume(hash);
+  const findResume = await ResumePub.checkPubResume({
+    resumeHash: hash
+  });
   const { success, result } = findResume;
   if (!success) {
     ctx.redirect('/404');

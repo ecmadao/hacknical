@@ -97,7 +97,7 @@ class Resume extends React.Component {
 
   render() {
     const { activeSection, openModal } = this.state;
-    const { resume } = this.props;
+    const { resume, actions } = this.props;
 
     const currentIndex = this.currentIndex;
     const max = RESUME_SECTIONS.length;

@@ -8,7 +8,7 @@ const { getSeconds, getDateAfterDays } = dateHelper;
 
 const getResumeHash = (userId) => {
   const salt = crypto.randomBytes(8).toString('base64');
-  const bytes = new Buffer(userId || '', 'utf16le');
+  const bytes = new Buffer(toString(userId) || '', 'utf16le');
   const src = new Buffer(salt || '', 'base64');
   const dst = new Buffer(src.length + bytes.length);
 
@@ -40,14 +40,14 @@ const findPublicResume = async (options) => {
   });
 };
 
-const addPubResume = async (userId, options) => {
-  const findResule = await Resume.getResume(userId);
-  if (!findResule.success) {
-    return Promise.resolve({
-      success: false,
-      message: '尚未创建简历'
-    });
-  }
+const addPubResume = async (userId, options = {}) => {
+  // const findResule = await Resume.getResume(userId);
+  // if (!findResule.success) {
+  //   return Promise.resolve({
+  //     success: false,
+  //     message: '尚未创建简历'
+  //   });
+  // }
   const timestamp = getSeconds(getDateAfterDays(options.days || 10));
   const maxView = options.maxView || 500;
   const resumeHash = getResumeHash(userId);
@@ -89,8 +89,8 @@ const updatePubResume = async (userId, resumeHash, options) => {
   });
 };
 
-const checkPubResume = async (resumeHash) => {
-  const findResult = await findPublicResume({ resumeHash });
+const checkPubResume = async (options) => {
+  const findResult = await findPublicResume(options);
   if (!findResult.success) { return findResult; }
   const { userId } = findResult.result;
 

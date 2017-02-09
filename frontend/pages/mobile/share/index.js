@@ -8,10 +8,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 import MobileShare from './container';
 
-const renderApp = (domId) => {
+const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId);
   ReactDOM.render(
-    <MobileShare login={window.login} />,
+    <MobileShare {...props} />,
     DOM
   )
 };

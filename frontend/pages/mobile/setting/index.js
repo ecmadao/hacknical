@@ -8,10 +8,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 import MobileSetting from './container';
 
-const renderApp = (domId) => {
+const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId);
   ReactDOM.render(
-    <MobileSetting login={window.login} />,
+    <MobileSetting {...props} />,
     DOM
   )
 };

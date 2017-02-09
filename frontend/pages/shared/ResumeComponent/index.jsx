@@ -149,7 +149,7 @@ class ResumeComponent extends React.Component {
             {tech}
           </div>
         );
-      })
+      });
       return (
         <div key={index}>
           {validator.url(url) ? (

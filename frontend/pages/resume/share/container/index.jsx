@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import Api from 'API/index';
-import objectAssign from 'object-assign';
 import ResumeComponent from 'SHAREDPAGE/ResumeComponent';
 import {
   EDU,
@@ -12,17 +11,21 @@ import {
   PERSONAL_PROJECT,
   SOCIAL_LINKS
 } from 'SHAREDPAGE/datas/resume';
+import {
+  objectassign,
+  validateSocialLinks
+} from 'SHAREDPAGE/utils/resume';
 
 class ResumeShare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      info: objectAssign({}, INFO),
+      info: objectassign({}, INFO),
       educations: [],
       workExperiences: [],
       personalProjects: [],
-      others: objectAssign({}, OTHERS)
+      others: objectassign({}, OTHERS)
     }
   }
 
@@ -44,6 +47,7 @@ class ResumeShare extends React.Component {
       personalProjects,
       others
     } = resume;
+    const state = this.state;
     this.setState({
       loading: false,
       info: objectassign(state.info, info),
@@ -61,7 +65,7 @@ class ResumeShare extends React.Component {
       <div>
         <ResumeComponent
           openModal={true}
-          {...this.state}
+          resume={this.state}
         />
       </div>
     )

@@ -1,5 +1,4 @@
 import { handleActions } from 'redux-actions';
-import objectAssign from 'object-assign';
 
 import {
   EDU,
@@ -10,17 +9,21 @@ import {
   PERSONAL_PROJECT,
   SOCIAL_LINKS
 } from 'SHAREDPAGE/datas/resume';
+import {
+  objectassign,
+  validateSocialLinks
+} from 'SHAREDPAGE/utils/resume';
 import dateHelper from 'UTILS/date';
 
 const getDateBeforeYears = dateHelper.date.beforeYears;
 const getCurrentDate = dateHelper.validator.fullDate;
 const initialState = {
   loading: true,
-  info: objectAssign({}, INFO),
+  info: objectassign({}, INFO),
   educations: [],
   workExperiences: [],
   personalProjects: [],
-  others: objectAssign({}, OTHERS)
+  others: objectassign({}, OTHERS)
 };
 
 // const initialState = {
@@ -92,20 +95,6 @@ const initialState = {
 //   }
 // };
 
-const objectassign = (baseObj, targetObj) => {
-  return objectAssign({}, baseObj, targetObj);
-};
-
-const validateSocialLinks = (socialLinks) => {
-  return SOCIAL_LINKS.map((social) => {
-    const targetSocial = socialLinks.filter(s => s.name === social.name);
-    if (targetSocial.length) {
-      return targetSocial[0];
-    } else {
-      return social;
-    }
-  });
-};
 
 const reducers = handleActions({
   // initial
