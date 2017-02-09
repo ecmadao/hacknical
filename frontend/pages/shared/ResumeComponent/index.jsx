@@ -223,9 +223,14 @@ class ResumeComponent extends React.Component {
         const { url, name, text } = social;
         return (
           <li key={index}>
-            {text || LINK_NAMES[name] || name}
-            &nbsp;:&nbsp;&nbsp;&nbsp;
-            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`}>{url}</a>
+            <div className={styles["link_wrapper"]}>
+              {text || LINK_NAMES[name] || name}
+              &nbsp;:&nbsp;&nbsp;&nbsp;
+              <a
+                target="_blank"
+                className={styles["list_link"]}
+                href={url[0] === 'h' ? url : `//${url}`}>{url}</a>
+            </div>
           </li>
         )
       }

@@ -176,10 +176,6 @@
     flex-direction: row;
     align-items: center;*/
 
-    /*overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;*/
-
     /*&::before {
       content: '';
       display: inline-block;
@@ -189,6 +185,21 @@
       background-color: var(--oc-gray-6);
       margin-right: 8px;
     }*/
+  }
+
+  & .link_wrapper {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  & .list_link {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--oc-blue-5);
+    display: inline-block;
   }
 }
 
