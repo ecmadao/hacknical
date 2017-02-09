@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import actions from '../../redux/actions';
-import { GENDERS } from '../../helper/const_value';
+import { GENDERS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../styles/resume.css';
 
 class Info extends React.Component {

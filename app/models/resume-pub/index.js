@@ -90,7 +90,17 @@ const updatePubResume = async (userId, resumeHash, options) => {
 };
 
 const checkPubResume = async (resumeHash) => {
-  return await findPublicResume({ resumeHash });
+  const findResult = await findPublicResume({ resumeHash });
+  if (!findResult.success) { return findResult; }
+  const { userId } = findResult.result;
+
+  const findResume = await Resume.getResume(userId);
+  if (!findResume.success) { return findResume }
+
+  return Promise.resolve({
+    success: true,
+    result: findResume.result.info.name
+  });
 };
 
 const getPubResume = async (resumeHash) => {

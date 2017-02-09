@@ -8,7 +8,12 @@ const setResume = (resume) => {
   return postData('/resume', { resume })
 };
 
+const getPubResume = (hash) => {
+  return getData(`/resume/${hash}/pub`);
+};
+
 export default {
   getResume,
-  setResume
+  setResume,
+  getPubResume
 }

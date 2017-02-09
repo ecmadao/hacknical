@@ -7,9 +7,9 @@ import {
   OTHERS,
   WORK_EXPERIENCE,
   WORK_PROJECT,
-  PERSONAL_PROJECT
-} from './templates';
-import { SOCIAL_LINKS } from '../helper/const_value';
+  PERSONAL_PROJECT,
+  SOCIAL_LINKS
+} from 'SHAREDPAGE/datas/resume';
 import dateHelper from 'UTILS/date';
 
 const getDateBeforeYears = dateHelper.date.beforeYears;

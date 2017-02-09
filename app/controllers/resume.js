@@ -40,10 +40,16 @@ const getPubResume = async (ctx, next) => {
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
   const findResume = await ResumePub.checkPubResume(hash);
-  if (!findResume.success) {
+  const { success, result } = findResume;
+  if (!success) {
     ctx.redirect('/404');
     return;
   }
+
+  await ctx.render('resume/share', {
+    title: `${result}的个人简历`,
+    resumeHash: hash
+  });
 };
 
 export default {

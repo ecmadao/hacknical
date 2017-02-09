@@ -3,7 +3,7 @@ import reducer from './App/redux/reducers';
 import App from './App/index';
 import Github from './Github/index';
 import Profile from './Profile/index';
-// import Resume from './Resume/index';
+import Resume from './Resume/index';
 import Setting from './Setting/index';
 import PATH from './shared/path';
 
@@ -14,13 +14,13 @@ export const createRoutes = (store) => {
     component: App,
     childRoutes: [
       Profile(store),
-      // Resume(store),
+      Resume(store),
       Github(store),
       Setting(store),
       {
         path: `${PATH.BASE_PATH}/`,
         onEnter: (nextState, replace) => {
-          replace('github');
+          replace('resume');
         }
       },
       {

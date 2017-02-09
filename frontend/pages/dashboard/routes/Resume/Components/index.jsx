@@ -1,13 +1,13 @@
 import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Button from 'COMPONENTS/Button';
 import styles from '../styles/resume.css';
-import { RESUME_SECTIONS } from '../helper/const_value';
+import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
 import ResumeSection from './ResumeSection';
-import ResumeModalV2 from './ResumeModal/v2';
-import ResumeModal from './ResumeModal';
+import ResumeComponent from 'SHAREDPAGE/ResumeComponent';
 import actions from '../redux/actions';
 
 class Resume extends React.Component {
@@ -43,7 +43,7 @@ class Resume extends React.Component {
         });
       }
     });
-    this.props.dispatch(actions.fetchResume());
+    this.props.actions.fetchResume();
   }
 
   handleModalStatus(openModal) {
@@ -97,7 +97,7 @@ class Resume extends React.Component {
 
   render() {
     const { activeSection, openModal } = this.state;
-    const { dispatch } = this.props;
+    const { resume } = this.props;
 
     const currentIndex = this.currentIndex;
     const max = RESUME_SECTIONS.length;
@@ -122,7 +122,7 @@ class Resume extends React.Component {
               leftIcon={(
                 <i className="fa fa-save" aria-hidden="true"></i>
               )}
-              onClick={() => dispatch(actions.saveResume())}
+              onClick={actions.saveResume}
             />
           </div>
         </div>
@@ -155,13 +155,14 @@ class Resume extends React.Component {
                   leftIcon={(
                     <i className="fa fa-save" aria-hidden="true"></i>
                   )}
-                  onClick={() => dispatch(actions.saveResume())}
+                  onClick={actions.saveResume}
                 />
               )}
             </div>
           </div>
         </div>
-        <ResumeModalV2
+        <ResumeComponent
+          resume={resume}
           openModal={openModal}
           onClose={() => this.handleModalStatus(false)}
         />
@@ -170,4 +171,16 @@ class Resume extends React.Component {
   }
 }
 
-export default connect()(Resume);
+function mapStateToProps(state) {
+  return {
+    resume: state.resume
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Resume);

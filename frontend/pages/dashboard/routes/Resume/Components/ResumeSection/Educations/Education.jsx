@@ -4,7 +4,7 @@ import DateSlider from 'COMPONENTS/DateSlider'
 import Input from 'COMPONENTS/Input';
 import Selector from 'COMPONENTS/Selector';
 import dateHelper from 'UTILS/date';
-import { EDUCATIONS } from '../../../helper/const_value';
+import { EDUCATIONS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../../styles/resume.css';
 
 class Education extends React.Component {

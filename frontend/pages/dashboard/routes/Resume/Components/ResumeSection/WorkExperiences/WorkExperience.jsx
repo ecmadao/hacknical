@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import DateSlider from 'COMPONENTS/DateSlider';
 import Input from 'COMPONENTS/Input';
 import InputsGroup from 'COMPONENTS/InputsGroup';
-import { EDUCATIONS } from '../../../helper/const_value';
+import { EDUCATIONS } from 'SHAREDPAGE/datas/resume';
 import WorkProject from './WorkProject';
 import styles from '../../../styles/resume.css';
 import dateHelper from 'UTILS/date';
