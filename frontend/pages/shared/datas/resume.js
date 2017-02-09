@@ -92,6 +92,13 @@ export const SOCIAL_LINKS = [
     url: ''
   }
 ];
+export const LINK_NAMES = {
+  github: 'github',
+  segmentfault: 'segmentfault',
+  blog: '个人博客',
+  stackoverflow: 'stackoverflow',
+  xitu: '稀土掘金'
+};
 
 export const INFO = {
   name: '',

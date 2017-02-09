@@ -45,7 +45,7 @@
 
 .user_dream {
   margin-top: 20px;
-  border-top: 1px solid var(--oc-gray-4);
+  border-top: 1px solid var(--oc-gray-3);
   padding-top: 20px;
 }
 
@@ -91,7 +91,7 @@
     bottom: 0;
     left: -30px;
     position: absolute;
-    background-color: var(--oc-gray-4);
+    background-color: var(--oc-gray-3);
   }
 
   &:last-child {
@@ -131,7 +131,7 @@
 
 .info_timeline {
   composes: info_wrapper;
-  margin-left: 36px;
+  margin-left: 30px;
 }
 
 .info_header {
@@ -141,19 +141,20 @@
   display: inline-block;
   composes: baseText from 'STYLES/common.css';
 
-  &.header_link {
-    transition: color 0.3s;
-    color: var(--oc-blue-5);
-    text-decoration: none;
-    margin-bottom: 5px;
-
-    &:hover {
-      color: var(--oc-blue-7);
-    }
-  }
-
   & i {
     font-size: 14px;
+  }
+}
+
+.link {
+  transition: color 0.3s;
+  color: var(--oc-blue-5);
+  text-decoration: none;
+  margin-bottom: 5px;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--oc-blue-7);
   }
 }
 
@@ -164,18 +165,22 @@
 }
 
 .info_intro {
-  list-style-type: none;
   margin-top: 10px;
   color: var(--oc-gray-6);
   font-size: 14px;
+  margin-left: 12px;
 
   & li {
     line-height: 1.7em;
-    display: flex;
+    /*display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: center;*/
 
-    &::before {
+    /*overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;*/
+
+    /*&::before {
       content: '';
       display: inline-block;
       width: 5px;
@@ -183,7 +188,7 @@
       border-radius: 50%;
       background-color: var(--oc-gray-6);
       margin-right: 8px;
-    }
+    }*/
   }
 }
 

@@ -40,7 +40,7 @@ app.use(convert(session({
   store: redisStore({
     url: config.get('redis'),
   }),
-  ttl: 24 * 60 * 60 * 1000
+  ttl: 24 * 60 * 60 * 1000 * 5
 })));
 // cache
 app.use(redisCache({

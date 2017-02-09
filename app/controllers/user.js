@@ -1,6 +1,5 @@
 import User from '../models/users';
 import Resume from '../models/resumes';
-import ShareAnalyse from '../models/share-analyse';
 import Github from '../services/github';
 
 // user login/logout/signup

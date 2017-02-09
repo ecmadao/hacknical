@@ -7,29 +7,43 @@ import dateHelper from 'UTILS/date';
 import { sortByX } from 'UTILS/helper';
 import validator from 'UTILS/validator';
 import { GREEN_COLORS } from 'UTILS/colors';
+import { LINK_NAMES } from 'SHAREDPAGE/datas/resume';
+import { objectassign } from 'SHAREDPAGE/utils/resume';
 import styles from './styles/resume.css';
 
 const sortByDate = sortByX('startTime');
 const validateDate = dateHelper.validator.date;
 
-const baseInfo = (text, icon, style = '') => {
+const info = (options) => {
+  const { text, icon, type } = options;
+  const style = options.style || '';
+  const component = options.component || null;
+
   return (
-    <div className={cx(styles["base_info"], style)}>
-      <i className={cx(`fa fa-${icon}`, styles["base_icon"])} aria-hidden="true"></i>
+    <div className={cx(styles[`${type}_info`], style)}>
+      <i className={cx(`fa fa-${icon}`, styles[`${type}_icon`])} aria-hidden="true"></i>
       &nbsp;&nbsp;
-      {text}
+      {component ? component : text}
     </div>
   )
 };
 
-const titleInfo = (text, icon, style = '') => {
-  return (
-    <div className={cx(styles["title_info"], style)}>
-      <i className={cx(`fa fa-${icon}`, styles["title_icon"])} aria-hidden="true"></i>
-      &nbsp;&nbsp;&nbsp;
-      {text}
-    </div>
-  )
+const baseInfo = (text, icon, options = {}) => {
+  return info(objectassign({}, {
+    text,
+    icon,
+    type: 'base',
+    ...options
+  }));
+};
+
+const titleInfo = (text, icon, options = {}) => {
+  return info(objectassign({}, {
+    text,
+    icon,
+    type: 'title',
+    ...options
+  }));
 };
 
 class ResumeComponent extends React.Component {
@@ -44,8 +58,6 @@ class ResumeComponent extends React.Component {
           link.download = `${info.name}的简历.png`;
           link.href = dataUrl;
           link.click();
-          // this.imageUrl = dataUrl;
-          // this.setImageData(dataUrl);
         })
         .catch(function (error) {
           console.error('oops, something went wrong!', error);
@@ -90,7 +102,7 @@ class ResumeComponent extends React.Component {
       return (
         <div key={index} className={styles["section_wrapper"]}>
           {validator.url(url) ? (
-            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["info_header"], styles["header_link"])}>
+            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["info_header"], styles.link)}>
               <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
               {company}
             </a>
@@ -151,7 +163,7 @@ class ResumeComponent extends React.Component {
       return (
         <div key={index}>
           {validator.url(url) ? (
-            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["info_header"], styles["header_link"])}>
+            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["info_header"], styles.link)}>
               <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
               {title}
             </a>
@@ -211,7 +223,7 @@ class ResumeComponent extends React.Component {
         const { url, name, text } = social;
         return (
           <li key={index}>
-            {text || name}
+            {text || LINK_NAMES[name] || name}
             &nbsp;:&nbsp;&nbsp;&nbsp;
             <a target="_blank" href={url[0] === 'h' ? url : `//${url}`}>{url}</a>
           </li>
@@ -248,9 +260,13 @@ class ResumeComponent extends React.Component {
             {this.renderSocialLinks()}
           </div>
           <div className={styles["right"]}>
-            {baseInfo(info.name, info.gender, styles["user_title"])}<br/>
+            {baseInfo(info.name, info.gender, { style: styles["user_title"] })}<br/>
             {baseInfo(info.phone, 'mobile')}
-            {baseInfo(info.email, 'envelope-o')}
+            {baseInfo(null, 'envelope-o', {
+              component: (
+                <a href={`mailto:${info.email}`} className={styles.link}>{info.email}</a>
+              )
+            })}
             {baseInfo(`${info.location}  ${info.intention}`, 'map-marker')}
             {others.dream ? (
               <div className={styles["user_dream"]}>
