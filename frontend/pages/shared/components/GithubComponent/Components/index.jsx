@@ -18,7 +18,7 @@ import styles from '../styles/github.css';
 import githubActions from '../redux/actions';
 
 
-class Github extends React.Component {
+class GithubComponent extends React.Component {
   constructor(props) {
     super(props);
     this.githubCalendar = false;
@@ -112,4 +112,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Github);
+export default connect(mapStateToProps, mapDispatchToProps)(GithubComponent);

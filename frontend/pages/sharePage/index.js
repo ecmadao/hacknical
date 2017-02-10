@@ -9,8 +9,8 @@ if (process.env.NODE_ENV !== 'production') {
   whyDidYouUpdate(React);
 }
 
-import Github from 'SHAREDPAGE/Github';
-import reducers from 'SHAREDPAGE/Github/redux/reducers';
+import Github from 'SHAREDPAGE/components/GithubComponent';
+import reducers from 'SHAREDPAGE/components/GithubComponent/redux/reducers';
 
 const renderApp = (domId, state = {}) => {
   const githubReducer = {

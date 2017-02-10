@@ -1,5 +1,5 @@
 import { injectReducer } from '../../redux/reducer/index';
-import reducer from 'SHAREDPAGE/Github/redux/reducers';
+import reducer from 'SHAREDPAGE/components/GithubComponent/redux/reducers';
 import PATH from '../shared/path';
 
 
@@ -8,7 +8,7 @@ export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'github', reducer });
-      cb(null, require('SHAREDPAGE/Github').default)
+      cb(null, require('SHAREDPAGE/components/GithubComponent').default)
     });
   }
 })

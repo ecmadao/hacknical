@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import Api from 'API/index';
-import ResumeComponent from 'SHAREDPAGE/ResumeComponent';
+import ResumeComponent from 'SHAREDPAGE/components/ResumeComponent';
 import ResumeDownloader from 'SHAREDPAGE/components/ResumeDownloader';
 import {
   EDU,
