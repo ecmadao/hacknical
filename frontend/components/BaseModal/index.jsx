@@ -28,7 +28,10 @@ class BaseModal extends React.Component {
 BaseModal.propTypes = {
   showModal: PropTypes.bool,
   onClose: PropTypes.func,
-  children: PropTypes.element
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array
+  ])
 };
 
 BaseModal.defaultProps = {

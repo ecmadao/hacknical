@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import Api from 'API/index';
 import ResumeComponent from 'SHAREDPAGE/ResumeComponent';
+import ResumeDownloader from 'SHAREDPAGE/components/ResumeDownloader';
 import {
   EDU,
   INFO,
@@ -27,7 +28,7 @@ class ResumeShare extends React.Component {
       workExperiences: [],
       personalProjects: [],
       others: objectassign({}, OTHERS)
-    }
+    };
   }
 
   componentDidMount() {
@@ -65,6 +66,9 @@ class ResumeShare extends React.Component {
     return (
       <div className={styles.container}>
         <ResumeComponent
+          resume={this.state}
+        />
+        <ResumeDownloader
           resume={this.state}
         />
       </div>

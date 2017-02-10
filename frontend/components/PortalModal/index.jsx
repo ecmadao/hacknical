@@ -27,7 +27,10 @@ PortalModal.propTypes = {
   closeOnEsc: PropTypes.bool,
   showModal: PropTypes.bool,
   onClose: PropTypes.func,
-  children: PropTypes.element
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array
+  ])
 };
 
 PortalModal.defaultProps = {

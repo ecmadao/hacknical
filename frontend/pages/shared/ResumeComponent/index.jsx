@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import domtoimage from 'dom-to-image';
-import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 
 import dateHelper from 'UTILS/date';
 import { sortByX } from 'UTILS/helper';
 import validator from 'UTILS/validator';
-import { GREEN_COLORS } from 'UTILS/colors';
 import { LINK_NAMES } from 'SHAREDPAGE/datas/resume';
 import { objectassign } from 'SHAREDPAGE/utils/resume';
 import styles from './styles/resume.css';
@@ -47,22 +44,6 @@ const titleInfo = (text, icon, options = {}) => {
 };
 
 class ResumeComponent extends React.Component {
-
-  handleDownload() {
-    const { resume } = this.props;
-    const { info } = resume;
-    const node = document.getElementById('resume');
-    domtoimage.toPng(node)
-        .then((dataUrl) => {
-          const link = document.createElement('a');
-          link.download = `${info.name}的简历.png`;
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch(function (error) {
-          console.error('oops, something went wrong!', error);
-        });
-  }
 
   renderEducations() {
     const { educations } = this.props.resume;
@@ -280,14 +261,6 @@ class ResumeComponent extends React.Component {
             ) : ''}
           </div>
         </div>
-        <FloatingActionButton
-          icon="download"
-          style={{
-            right: '15%',
-            backgroundColor: GREEN_COLORS[1]
-          }}
-          onClick={this.handleDownload.bind(this)}
-        />
       </div>
     )
   }
