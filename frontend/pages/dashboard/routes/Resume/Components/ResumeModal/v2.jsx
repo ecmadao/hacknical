@@ -68,16 +68,18 @@ class ResumeModalV2 extends React.Component {
             onClick={() => this.toggleShareModal(true)}
           />
           <ResumeDownloader resume={resume} />
-          <ShareModal
-            openModal={openShareModal}
-            options={{
-              openShare: true,
-              link: openShare ? `${origin}/${url}` : origin,
-              text: '分享你的个人简历'
-            }}
-            toggleShare={this.changeShareStatus}
-            onClose={() => this.toggleShareModal(false)}
-          />
+          {openShareModal ? (
+            <ShareModal
+              openModal={openShareModal}
+              options={{
+                openShare,
+                link: `${origin}/${url}`,
+                text: '分享你的个人简历'
+              }}
+              toggleShare={this.changeShareStatus}
+              onClose={() => this.toggleShareModal(false)}
+            />
+          ) : ''}
         </div>
       </PortalModal>
     )

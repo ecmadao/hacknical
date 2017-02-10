@@ -26,7 +26,8 @@
   width: 250px;
   padding: 50px 20px;
   text-align: center;
-  background-color: var(--oc-gray-2);
+  background-color: #4A4A4C;
+  /*background-color: var(--oc-gray-2);*/
 }
 
 .base_info {
@@ -39,8 +40,23 @@
   composes: baseIcon from 'STYLES/common.css';
 }
 
+.right_info {
+  color: #fff;
+}
+
+.right_link {
+  color: #f2f2f2;
+  transition: color 0.3s;
+  margin-bottom: 5px;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
 .user_title {
   composes: titleText from 'STYLES/common.css';
+  color: #fff;
 }
 
 .user_dream {
@@ -161,6 +177,8 @@
     color: var(--oc-blue-7);
   }
 }
+
+
 
 .info_text {
   font-size: 14px;

@@ -34,6 +34,7 @@
       content: '';
       display: block;
       background-color: rgba(0, 0, 0, 0.4);
+      z-index: var(--zIndex1);
     }
   }
 }
