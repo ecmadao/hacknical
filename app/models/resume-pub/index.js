@@ -1,7 +1,8 @@
 import crypto from 'crypto';
 
 import ResumePub from './schema';
-import Resume from '../resumes/index';
+import Resume from '../resumes';
+import ShareAnalyse from '../share-analyse';
 import dateHelper from '../../utils/date';
 
 const { getSeconds, getDateAfterDays } = dateHelper;
@@ -26,6 +27,10 @@ const resumeValidation = (timestamp) => {
   return true;
 };
 
+const createResumeShare = async (options) => {
+  await ShareAnalyse.createShare(options);
+};
+
 const findPublicResume = async (options) => {
   const findResult = await ResumePub.findOne(options);
   if (!findResult) {
@@ -41,16 +46,14 @@ const findPublicResume = async (options) => {
 };
 
 const addPubResume = async (userId, options = {}) => {
-  // const findResule = await Resume.getResume(userId);
-  // if (!findResule.success) {
-  //   return Promise.resolve({
-  //     success: false,
-  //     message: '尚未创建简历'
-  //   });
-  // }
   const timestamp = getSeconds(getDateAfterDays(options.days || 10));
   const maxView = options.maxView || 500;
   const resumeHash = getResumeHash(userId);
+
+  await createResumeShare({
+    userId,
+    url: `resume/${resumeHash}`
+  });
 
   const saveResult = await ResumePub.create({
     userId,

@@ -4,6 +4,7 @@ import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
 import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
+import analyse from '../controllers/helper/analyse';
 
 const router = koaRouter({
   prefix: '/resume'
@@ -16,6 +17,8 @@ router.get('/edit',
 router.post('/edit', Resume.setResume);
 
 router.get('/:hash',
+  platform.checkPlatform,
+  analyse.collectResumeData,
   Resume.getPubResumePage
 );
 

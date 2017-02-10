@@ -1,6 +1,5 @@
 import Resume from '../models/resumes';
 import ResumePub from '../models/resume-pub';
-import ShareAnalyse from '../models/share-analyse';
 
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;

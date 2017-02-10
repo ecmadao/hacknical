@@ -95,7 +95,7 @@ const findUserByGithubId = async (githubId) => {
   return await User.findOne({ githubId });
 };
 
-const createUserShare = async (options) => {
+const createGithubShare = async (options) => {
   await ShareAnalyse.createShare(options);
 };
 
@@ -122,7 +122,7 @@ const loginWithGithub = async (userInfo) => {
   const findUser = await findUserByGithubId(id);
   if (findUser) {
     shareInfo.userId = findUser._id;
-    await createUserShare(shareInfo);
+    await createGithubShare(shareInfo);
 
     findUser.githubInfo = Object.assign({}, findUser.githubInfo, newGithubInfo);
     findUser.lastLoginTime = new Date();
@@ -141,7 +141,7 @@ const loginWithGithub = async (userInfo) => {
   });
   if (newUser) {
     shareInfo.userId = newUser._id;
-    await createUserShare(shareInfo);
+    await createGithubShare(shareInfo);
 
     return Promise.resolve({
       success: true,

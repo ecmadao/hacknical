@@ -53,8 +53,8 @@ const checkShareEnable = async (options) => {
 };
 
 const updateViewData = async (options) => {
-  const { login, url, platform, from, browser } = options;
-  const analyse = await findShare({ login, url });
+  const { url, platform, from, browser } = options;
+  const analyse = await findShare({ url });
   const { viewDevices, viewSources } = analyse;
   const targetDevices = viewDevices.filter(device => device.platform === platform);
   if (!targetDevices.length) {
@@ -82,8 +82,8 @@ const updateViewData = async (options) => {
   });
 };
 
-const updateShare = async (login, url) => {
-  const analyse = await findShare({ login, url });
+const updateShare = async (options) => {
+  const analyse = await findShare(options);
   if (!analyse) {
     return Promise.resolve({
       success: false

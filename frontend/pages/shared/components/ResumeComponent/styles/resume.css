@@ -53,6 +53,10 @@
   color: var(--oc-gray-9);
   font-size: 20px;
   line-height: 40px;
+
+  & i {
+    color: var(--oc-gray-9);
+  }
 }
 
 .title_icon {
