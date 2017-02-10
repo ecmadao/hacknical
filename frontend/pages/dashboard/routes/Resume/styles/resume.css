@@ -39,6 +39,10 @@
 
   & .operations_wrapper {
     float: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -335,4 +339,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.resume_helper {
+  display: inline-flex;
 }

@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Button from 'COMPONENTS/Button';
+import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
 import ResumeSection from './ResumeSection';
 import ResumeModalV2 from './ResumeModal/v2';
 import actions from '../redux/actions';
+import Hotkeys from 'UTILS/hotkeys';
 
 class Resume extends React.Component {
   constructor(props) {
@@ -44,6 +46,14 @@ class Resume extends React.Component {
       }
     });
     this.props.actions.fetchResume();
+    this.bindHotkeys();
+  }
+
+  bindHotkeys() {
+    const hotkeys = new Hotkeys();
+    hotkeys
+      .save(this.props.actions.saveResume)
+      .preview(() => this.handleModalStatus(true));
   }
 
   handleModalStatus(openModal) {
@@ -109,6 +119,10 @@ class Resume extends React.Component {
         </div>
         <div className={styles["resume_operations"]}>
           <div className={styles["operations_wrapper"]}>
+            <IconButton
+              icon="question"
+              className={styles["resume_helper"]}
+            />
             <Button
               value="预览"
               color="gray"
@@ -147,15 +161,6 @@ class Resume extends React.Component {
                     <i className="fa fa-angle-right" aria-hidden="true"></i>
                   )}
                   onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
-                />
-              )}
-              {currentIndex === max - 1 && (
-                <Button
-                  value="完成"
-                  leftIcon={(
-                    <i className="fa fa-save" aria-hidden="true"></i>
-                  )}
-                  onClick={actions.saveResume}
                 />
               )}
             </div>
