@@ -22,8 +22,8 @@ class ShareModal extends React.Component {
   }
 
   renderQrcode() {
-    const { options, openShare } = this.props;
-    const colorDark = openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
+    const { options } = this.props;
+    const colorDark = options.openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
     $('#qrcode').empty();
     const qrcode = new QRCode(document.getElementById("qrcode"), {
       text: options.link,
@@ -36,8 +36,9 @@ class ShareModal extends React.Component {
   }
 
   componentDidUpdate(preProps) {
-    const { openShare } = this.props;
-    if ((!openShare && preProps.openShare) || (openShare && !preProps.openShare)) {
+    const { options } = this.props;
+    const preOptions = preProps.options;
+    if ((!options.openShare && preOptions.openShare) || (options.openShare && !preOptions.openShare)) {
       this.renderQrcode();
     }
   }
