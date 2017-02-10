@@ -49,7 +49,7 @@ class ResumeComponent extends React.Component {
     const { educations } = this.props.resume;
     if (!educations.length) { return }
 
-    const edus = educations.sort(sortByDate).map((edu, index) => {
+    const edus = educations.sort(sortByDate).reverse().map((edu, index) => {
       const { school, major, education, startTime, endTime} = edu;
       if (!school) { return }
       return (
@@ -76,7 +76,7 @@ class ResumeComponent extends React.Component {
     const { workExperiences } = this.props.resume;
     if (!workExperiences.length) { return }
 
-    const exps = workExperiences.map((experience, index) => {
+    const exps = workExperiences.sort(sortByDate).reverse().map((experience, index) => {
       const { company, url, startTime, endTime, position, projects } = experience;
       if (!company) { return }
       const workProjects = this.renderProjects(projects);

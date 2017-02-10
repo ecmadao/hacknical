@@ -12,8 +12,8 @@ import CommitInfo from 'COMPONENTS/Github/CommitInfo';
 import LanguageInfo from 'COMPONENTS/Github/LanguageInfo';
 import RepositoryInfo from 'COMPONENTS/Github/RepositoryInfo';
 import UserInfo from 'COMPONENTS/Github/UserInfo';
+import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
-import ShareModal from './ShareModal';
 import styles from '../styles/github.css';
 import githubActions from '../redux/actions';
 
@@ -51,6 +51,8 @@ class GithubComponent extends React.Component {
       reposLanguages
     } = this.props;
 
+    const origin = window.location.origin;
+
     return (
       <div>
         <div className={styles["info_card_container"]}>
@@ -65,9 +67,12 @@ class GithubComponent extends React.Component {
         <CommitInfo />
         {openShareModal ? (
           <ShareModal
-            login={user.login}
             openModal={openShareModal}
-            openShare={user.openShare}
+            options={{
+              openShare: user.openShare,
+              link: user.openShare ? `${origin}/github/${user.login}` : origin,
+              text: '分享你的 github 总结'
+            }}
             toggleShare={actions.changeShareStatus}
             onClose={() => actions.toggleShareModal(false)}
           />

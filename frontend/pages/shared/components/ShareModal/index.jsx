@@ -9,7 +9,7 @@ import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
-import styles from '../../styles/share_modal.css';
+import styles from './share_modal.css';
 
 const DARK_COLORS = MD_COLORS.slice(-2);
 
@@ -22,13 +22,11 @@ class ShareModal extends React.Component {
   }
 
   renderQrcode() {
-    const { login, openShare } = this.props;
-    const origin = window.location.origin;
-    const text = openShare ? `${origin}/github/${login}` : origin;
+    const { options, openShare } = this.props;
     const colorDark = openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
     $('#qrcode').empty();
     const qrcode = new QRCode(document.getElementById("qrcode"), {
-      text,
+      text: options.link,
       width: 120,
       height: 120,
       colorDark,
@@ -49,7 +47,8 @@ class ShareModal extends React.Component {
   }
 
   render() {
-    const { openModal, onClose, login, openShare, toggleShare } = this.props;
+    const { openModal, onClose, toggleShare, options } = this.props;
+    const { link, openShare, text } = options;
     const modalClass = cx(
       styles["share_modal_container"],
       !openShare && styles["disabled"]
@@ -59,6 +58,7 @@ class ShareModal extends React.Component {
       styles["share_status"],
       !openShare && styles["not_open"]
     );
+
     return (
       <PortalModal
         showModal={openModal}
@@ -76,12 +76,12 @@ class ShareModal extends React.Component {
               />
               <div className={statusClass}>{statusText}</div>
             </div>
-            <blockquote>扫描二维码/复制链接<br/>分享你的 github 总结</blockquote>
+            <blockquote>扫描二维码/复制链接<br/>{text}</blockquote>
             <div className={styles["share_container"]}>
               <Input
                 id="shareUrl"
                 style="flat"
-                value={`${window.location.origin}/github/${login}`}
+                value={link}
               />
               <IconButton
                 icon="clipboard"
@@ -94,6 +94,24 @@ class ShareModal extends React.Component {
       </PortalModal>
     )
   }
+}
+
+ShareModal.propTypes = {
+  openModal: PropTypes.bool,
+  options: PropTypes.object,
+  toggleShare: PropTypes.func,
+  onClose: PropTypes.func,
+};
+
+ShareModal.defaultProps = {
+  openModal: false,
+  options: {
+    openShare: true,
+    link: '',
+    text: ''
+  },
+  toggleShare: () => {},
+  onClose: () => {},
 }
 
 export default ShareModal;

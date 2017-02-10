@@ -5,6 +5,8 @@ import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
 import ResumeComponent from 'SHAREDPAGE/components/ResumeComponent';
 import ResumeDownloader from 'SHAREDPAGE/components/ResumeDownloader';
+import ShareModal from 'SHAREDPAGE/components/ShareModal';
+
 import { GREEN_COLORS } from 'UTILS/colors';
 import styles from '../../styles/resume_modal_v2.css';
 
@@ -27,6 +29,7 @@ class ResumeModalV2 extends React.Component {
             }}
           />
           <ResumeDownloader resume={resume} />
+          <ShareModal />
         </div>
       </PortalModal>
     )
