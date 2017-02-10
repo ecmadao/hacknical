@@ -1,6 +1,6 @@
 import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'object-assign';
-import Api from 'API/index';
+import Api from 'API';
 
 /**
  * initial

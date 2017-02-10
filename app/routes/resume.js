@@ -16,6 +16,15 @@ router.get('/edit',
 );
 router.post('/edit', Resume.setResume);
 
+router.get('/status',
+  user.checkSession(session.requiredSessions),
+  Resume.getResumeStatus
+);
+router.post('/status',
+  user.checkSession(session.requiredSessions),
+  Resume.setResumeStatus
+);
+
 router.get('/:hash',
   platform.checkPlatform,
   analyse.collectResumeData,

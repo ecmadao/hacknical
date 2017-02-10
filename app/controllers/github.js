@@ -88,7 +88,6 @@ const toggleShare = async (ctx, next) => {
   const { enable } = ctx.query;
   await ShareAnalyse.changeShareStatus({
     enable,
-    login: githubLogin,
     url: `github/${githubLogin}`
   });
   const text = enable === 'true' ? '开启' : '关闭';

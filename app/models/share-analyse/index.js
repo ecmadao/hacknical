@@ -21,25 +21,23 @@ const createShare = async (options) => {
   });
 };
 
-const disableShare = async (login, url) => {
+const disableShare = async (url) => {
   await changeShareStatus({
-    login,
     url,
     enable: false
   });
 };
 
-const enableShare = async (login, url) => {
+const enableShare = async (url) => {
   await changeShareStatus({
-    login,
     url,
     enable: true
   });
 };
 
 const changeShareStatus = async (options) => {
-  const { login, enable, url } = options;
-  const analyse = await findShare({ login, url });
+  const { enable, url } = options;
+  const analyse = await findShare({ url });
   analyse.enable = enable;
   await analyse.save();
   return Promise.resolve(true);

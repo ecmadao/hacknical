@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 
+import Api from 'API';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
@@ -11,8 +12,45 @@ import { GREEN_COLORS } from 'UTILS/colors';
 import styles from '../../styles/resume_modal_v2.css';
 
 class ResumeModalV2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      url: '',
+      openShare: false,
+      openShareModal: false
+    };
+    this.changeShareStatus = this.changeShareStatus.bind(this);
+    this.toggleShareModal = this.toggleShareModal.bind(this);
+  }
+
+  componentDidMount() {
+    Api.resume.getPubResumeStatus().then((result) => {
+      console.log('getPubResumeStatus');
+      console.log(result);
+      const { openShare, url } = result;
+      this.setState({
+        url,
+        openShare
+      });
+    });
+  }
+
+  toggleShareModal(openShareModal) {
+    this.setState({ openShareModal });
+  }
+
+  changeShareStatus() {
+    const { openShare } = this.state;
+    Api.resume.postPubResumeStatus(!openShare).then(() => {
+      this.setState({ openShare: !openShare });
+    });
+  }
+
   render() {
+    const { openShareModal, openShare, url } = this.state;
     const { onClose, openModal, resume } = this.props;
+    const origin = window.location.origin;
+
     return (
       <PortalModal
         showModal={openModal}
@@ -27,9 +65,19 @@ class ResumeModalV2 extends React.Component {
               bottom: '100px',
               backgroundColor: GREEN_COLORS[1]
             }}
+            onClick={() => this.toggleShareModal(true)}
           />
           <ResumeDownloader resume={resume} />
-          <ShareModal />
+          <ShareModal
+            openModal={openShareModal}
+            options={{
+              openShare: true,
+              link: openShare ? `${origin}/${url}` : origin,
+              text: '分享你的个人简历'
+            }}
+            toggleShare={this.changeShareStatus}
+            onClose={() => this.toggleShareModal(false)}
+          />
         </div>
       </PortalModal>
     )
@@ -38,12 +86,14 @@ class ResumeModalV2 extends React.Component {
 
 ResumeModalV2.propTypes = {
   openModal: PropTypes.bool,
+  openShareModal: PropTypes.bool,
   onClose: PropTypes.func,
   resume: PropTypes.object
 };
 
 ResumeModalV2.defaultProps = {
   openModal: false,
+  openShareModal: false,
   onClose: () => {},
   resume: {}
 };

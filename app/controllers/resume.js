@@ -14,7 +14,7 @@ const getResume = async (ctx, next) => {
 const setResume = async (ctx, next) => {
   const { resume } = ctx.query;
   const resumeObj = JSON.parse(resume);
-  const userId = ctx.session.userId;
+  const { userId } = ctx.session;
 
   const setResult = await Resume.updateResume(userId, resumeObj);
   if (setResult.success) {
@@ -59,9 +59,54 @@ const getPubResumePage = async (ctx, next) => {
   });
 };
 
+const getResumeStatus = async (ctx, next) => {
+  const { userId } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const { result, success, message } = findPubResume;
+  if (!success) {
+    ctx.body = {
+      error: message,
+      success: true
+    };
+    return
+  }
+
+  ctx.body = {
+    success: true,
+    result: {
+      url: `resume/${result.resumeHash}`,
+      openShare: result.openShare
+    }
+  }
+};
+
+const setResumeStatus = async (ctx, next) => {
+  const { enable } = ctx.query;
+  const { userId } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const { result, success, message } = findPubResume;
+  if (!success) {
+    ctx.body = {
+      error: message,
+      success: true
+    };
+    return
+  }
+  await ResumePub.updatePubResume(userId, result.resumeHash, {
+    openShare: enable
+  });
+  const text = enable === 'true' ? '开启' : '关闭';
+  ctx.body = {
+    success: true,
+    message: `分享链接已${text}`
+  };
+};
+
 export default {
   getResume,
   setResume,
   getPubResume,
-  getPubResumePage
+  getPubResumePage,
+  getResumeStatus,
+  setResumeStatus
 }

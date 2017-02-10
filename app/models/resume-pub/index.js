@@ -157,6 +157,7 @@ const clearPubResume = async (userId) => {
 
 
 export default {
+  findPublicResume,
   addPubResume,
   updatePubResume,
   deletePubResume,

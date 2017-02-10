@@ -12,8 +12,18 @@ const getPubResume = (hash) => {
   return getData(`/resume/${hash}/pub`);
 };
 
+const getPubResumeStatus = () => {
+  return getData(`/resume/status`);
+};
+
+const postPubResumeStatus = (enable) => {
+  return postData(`/resume/status`, { enable });
+};
+
 export default {
   getResume,
   setResume,
-  getPubResume
+  getPubResume,
+  getPubResumeStatus,
+  postPubResumeStatus
 }
