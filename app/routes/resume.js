@@ -9,11 +9,11 @@ const router = koaRouter({
   prefix: '/resume'
 });
 
-router.get('/',
+router.get('/edit',
   user.checkSession(session.requiredSessions),
   Resume.getResume
 );
-router.post('/', Resume.setResume);
+router.post('/edit', Resume.setResume);
 
 router.get('/:hash',
   Resume.getPubResumePage

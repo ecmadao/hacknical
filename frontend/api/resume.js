@@ -1,11 +1,11 @@
 import { postData, getData } from './base';
 
 const getResume = () => {
-  return getData('/resume');
+  return getData('/resume/edit');
 };
 
 const setResume = (resume) => {
-  return postData('/resume', { resume })
+  return postData('/resume/edit', { resume })
 };
 
 const getPubResume = (hash) => {
