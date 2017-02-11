@@ -84,6 +84,10 @@
 
 }
 
+.sec_section {
+  margin: 10px 0;
+}
+
 .section_wrapper {
   position: relative;
 
@@ -193,20 +197,7 @@
   margin-left: 12px;
 
   & li {
-    line-height: 1.7em;
-    /*display: flex;
-    flex-direction: row;
-    align-items: center;*/
-
-    /*&::before {
-      content: '';
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: var(--oc-gray-6);
-      margin-right: 8px;
-    }*/
+    line-height: 2em;
   }
 
   & .link_wrapper {
@@ -226,7 +217,7 @@
 }
 
 .project_section {
-  margin: 15px 0;
+  margin: 20px 0;
 }
 
 .info_labels {

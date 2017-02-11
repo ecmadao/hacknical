@@ -142,7 +142,7 @@ class ResumeComponent extends React.Component {
         );
       });
       return (
-        <div key={index}>
+        <div key={index} className={styles["sec_section"]}>
           {validator.url(url) ? (
             <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["info_header"], styles.link)}>
               <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
@@ -253,7 +253,7 @@ class ResumeComponent extends React.Component {
                 <a href={`mailto:${info.email}`} className={styles["right_link"]}>{info.email}</a>
               )
             })}
-            {baseInfo(`${info.location}  ${info.intention}`, 'map-marker', { style: styles["right_info"] })}
+            {baseInfo(`${info.location}   ${info.intention}`, 'map-marker', { style: styles["right_info"] })}
             {others.dream ? (
               <div className={styles["user_dream"]}>
                 {baseInfo(others.dream, 'quote-left', { style: styles["right_info"] })}
