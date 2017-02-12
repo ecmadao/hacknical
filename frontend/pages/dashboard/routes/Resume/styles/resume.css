@@ -97,16 +97,8 @@
 }
 
 .resume_sections {
-  background-color: var(--oc-white);
-  box-shadow: var(--shadow1);
-  border-radius: 3px;
+  composes: card from 'STYLES/common.css';
   margin-left: 15px;
-  transition: box-shadow 0.2s;
-  position: relative;
-
-  &:hover {
-    box-shadow: var(--shadow4);
-  }
 }
 
 .info_container {

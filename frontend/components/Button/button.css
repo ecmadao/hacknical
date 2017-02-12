@@ -128,7 +128,7 @@
 
 .pressDown {
   &.material {
-    box-shadow: var(--shadow1);
+    box-shadow: var(--shadow2);
   }
 
   & .wrapper {

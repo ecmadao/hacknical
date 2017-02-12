@@ -9,8 +9,13 @@ body,html {
   height: 100%;
   width: 100%;
   /*font-weight: 300;*/
-  font-family: 'Lato', sans-serif;
   background-color: var(--bg);
+}
+
+
+
+body,html, input, textarea, pre {
+  font-family: 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Lato', 'Microsoft YaHei', sans-serif;
 }
 
 ::-webkit-scrollbar {

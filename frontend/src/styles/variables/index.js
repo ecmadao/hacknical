@@ -3,9 +3,10 @@ module.exports = {
   shadow1: '1px 1px 2px 0 rgba(0, 0, 0, 0.1)',
   shadow2: '1px 1px 4px 0 rgba(0, 0, 0, 0.1)',
   shadow3: '1px 1px 8px 0 rgba(0, 0, 0, 0.1)',
-  shadow4: '2px 2px 8px 0 rgba(0, 0, 0, 0.2)',
-  shadow5: '2px 2px 8px 0 rgba(0, 0, 0, 0.3)',
-  shadow6: '2px 2px 8px 0 rgba(0, 0, 0, 0.5)',
+  shadow4: '2px 2px 8px 0 rgba(0, 0, 0, 0.1)',
+  shadow5: '2px 2px 8px 0 rgba(0, 0, 0, 0.2)',
+  shadow6: '2px 2px 8px 0 rgba(0, 0, 0, 0.3)',
+  shadow7: '2px 2px 8px 0 rgba(0, 0, 0, 0.5)',
 
   shadowCard: '0 8px 10px 0 rgba(0, 0, 0, 0.12), 0 0 10px 0 rgba(0, 0, 0, 0.08)',
 

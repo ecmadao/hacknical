@@ -24,14 +24,14 @@
 
 .right {
   width: 250px;
-  padding: 50px 20px;
+  padding: 50px 30px;
   text-align: center;
   background-color: #4A4A4C;
   /*background-color: var(--oc-gray-2);*/
 }
 
 .base_info {
-  text-align: center;
+  text-align: left;
   line-height: 30px;
   composes: baseText from 'STYLES/common.css';
 }
@@ -171,14 +171,13 @@
 }
 
 .link {
-  transition: color 0.3s;
-  color: var(--oc-blue-5);
-  text-decoration: none;
+  /*transition: color 0.3s;*/
+  color: var(--oc-green-7);
   margin-bottom: 5px;
+  text-decoration: underline;
 
   &:hover {
-    text-decoration: underline;
-    color: var(--oc-blue-7);
+    /*color: var(--oc-green-7);*/
   }
 }
 
@@ -211,7 +210,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--oc-blue-5);
+    color: var(--oc-green-7);
     display: inline-block;
   }
 }

@@ -1,8 +1,65 @@
+/*
+* Noto Sans TC (Chinese_traditional) http://www.google.com/fonts/earlyaccess
+ */
+/*@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 100;
+  src: url('./fonts/NotoSansTC-Thin.woff2') format('woff2'),
+       url('./fonts/NotoSansTC-Thin.woff') format('woff'),
+       url('./fonts/NotoSansTC-Thin.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./fonts/NotoSansTC-Thin.woff2') format('woff2'),
+       url('./fonts/NotoSansTC-Thin.woff') format('woff'),
+       url('./fonts/NotoSansTC-Thin.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/NotoSansTC-Thin.woff2') format('woff2'),
+       url('./fonts/NotoSansTC-Thin.woff') format('woff'),
+       url('./fonts/NotoSansTC-Thin.otf') format('opentype');
+ }
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./fonts/NotoSansTC-Thin.woff2') format('woff2'),
+       url('./fonts/NotoSansTC-Thin.woff') format('woff'),
+       url('./fonts/NotoSansTC-Thin.otf') format('opentype');
+ }
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/NotoSansTC-Thin.woff2') format('woff2'),
+       url('./fonts/NotoSansTC-Thin.woff') format('woff'),
+       url('./fonts/NotoSansTC-Thin.otf') format('opentype');
+ }
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 900;
+  src: url('./fonts/NotoSansTC-Thin.woff2') format('woff2'),
+       url('./fonts/NotoSansTC-Thin.woff') format('woff'),
+       url('./fonts/NotoSansTC-Thin.otf') format('opentype');
+ }*/
+
+/*
+ * Lato
+ */
 @font-face{
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url('./fonts/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2') format('woff2');
+  src:  local('Lato Regular'),
+        local('Lato-Regular'),
+        url('./fonts/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2') format('woff2');
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 
@@ -10,6 +67,8 @@
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url('./fonts/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2') format('woff2');
+  src:  local('Lato Regular'),
+        local('Lato-Regular'),
+        url('./fonts/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }

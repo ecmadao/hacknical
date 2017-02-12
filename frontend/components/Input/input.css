@@ -10,7 +10,6 @@
   border-radius: 2px;
   margin: 10px 5px;
   min-width: 60px;
-  font-family: 'Lato', sans-serif;
 
   &::-moz-placeholder {
     color: var(--oc-gray-5);

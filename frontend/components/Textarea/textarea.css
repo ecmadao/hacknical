@@ -32,7 +32,6 @@
   line-height: 18px;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-family: 'Lato', sans-serif;
   padding: 0;
   overflow-x: auto;
   border: none;
@@ -53,7 +52,6 @@
   outline: none !important;
   border: none;
   background-color: transparent;
-  font-family: 'Lato', sans-serif;
 
   &::-webkit-scrollbar {
     background: transparent;
