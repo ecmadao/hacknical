@@ -37,8 +37,8 @@ class ShareAnalysis extends React.Component {
   }
 
   componentDidMount() {
-    const { actions, loading, index } = this.props;
-    loading && actions.fetchShareData();
+    const { actions, index } = this.props;
+    actions.fetchShareData();
     new Clipboard(`#copyLinkButton-${index}`, {
       text: () => $(`#shareGithubUrl-${index}`).val()
     });

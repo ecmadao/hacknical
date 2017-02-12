@@ -3,7 +3,6 @@
 .container {
   background-color: #F7F8F9;
   box-shadow: var(--shadow4);
-  /*height: 70%;*/
   width: 400px;
   border-radius: 2px;
   overflow-y: auto;
@@ -22,11 +21,13 @@
   height: 40px;
   line-height: 40px;
   font-size: 1.3em;
+  color: var(--oc-gray-7);
 }
 
 .content {
   margin-left: 20px;
   margin-top: 10px;
+  color: var(--oc-gray-5);
 
   & li {
     line-height: 1.7em;

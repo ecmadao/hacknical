@@ -6,13 +6,10 @@
 }
 
 .resume_navigation {
+  composes: card from 'STYLES/common.css';
   position: absolute;
   left: -120px;
   top: 63px;
-  transition: box-shadow 0.2s;
-  box-shadow: var(--shadow1);
-  border-radius: 3px;
-  background-color: var(--oc-white);
   color: var(--oc-gray-7);
   font-size: 12px;
   text-align: center;
@@ -20,10 +17,6 @@
   flex-direction: column;
   padding: 20px 15px;
   user-select: none;
-
-  &:hover {
-    box-shadow: var(--shadow4);
-  }
 }
 
 .resume_operations {
@@ -71,10 +64,10 @@
     transition: color 0.2s;
 
     &:hover {
-      color: var(--oc-green-5);
+      color: var(--oc-green-7);
 
       &::before {
-        background-color: var(--oc-green-5);
+        background-color: var(--oc-green-7);
       }
     }
 
@@ -95,10 +88,10 @@
   &.active {
     & .section_wrapper {
       cursor: default;
-      color: var(--oc-green-5);
+      color: var(--oc-green-7);
 
       &::before {
-        background-color: var(--oc-green-5);
+        background-color: var(--oc-green-7);
       }
     }
   }
@@ -190,11 +183,9 @@
 }
 
 .SingleDatePickerInput {
-  /*border: none !important;*/
   margin: 10px 5px;
   border: 1px solid var(--oc-gray-5) !important;
   border-radius: 2px;
-  /*box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.10), 0 0 4px 0 rgba(0, 0, 0, 0.08);*/
 
   & .DateInput {
     font-size: 14px !important;
@@ -221,7 +212,6 @@
 }
 
 .resume_piece_container {
-  /*padding-bottom: 15px;*/
   padding: 0 50px 15px;
   position: relative;
 

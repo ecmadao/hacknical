@@ -185,7 +185,7 @@ class Resume extends React.Component {
               {currentIndex > 0 && (
                 <Button
                   value="上一步"
-                  color="gray"
+                  color="dark"
                   className={styles.operation}
                   onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
                   leftIcon={(

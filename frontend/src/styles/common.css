@@ -37,6 +37,10 @@
   border-radius: 3px;
   transition: box-shadow 0.2s;
   box-shadow: var(--shadow1);
+}
+
+.card_hoverable {
+  composes: card;
 
   &:hover {
     box-shadow: var(--shadow4);
