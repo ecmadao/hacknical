@@ -5,10 +5,10 @@ import styles from './switcher.css';
 
 class Switcher extends React.Component {
   componentDidMount() {
-    const { size } = this.props;
+    const { size, id } = this.props;
     const checkbox = this.checkbox;
     new Switchery(checkbox, { size });
-    $('.switchery').on('click', this.onChange.bind(this));
+    $(`#${id}`).on('click', this.onChange.bind(this));
   }
 
   onChange() {
@@ -19,9 +19,8 @@ class Switcher extends React.Component {
   render() {
     const { id, checked, onChange } = this.props;
     return (
-      <div className={styles["switchery"]}>
+      <div className={styles["switchery"]} id={id}>
         <input
-          id={id}
           type="checkbox"
           defaultChecked={checked}
           ref={ref => this.checkbox = ref}

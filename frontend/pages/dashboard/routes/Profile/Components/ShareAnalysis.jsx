@@ -73,7 +73,7 @@ class ShareAnalysis extends React.Component {
     return (
       <div className={styles["share_controller"]}>
         <Switcher
-          id="share_switch"
+          id={`share-switch-${index}`}
           onChange={actions.postShareStatus}
           checked={openShare}
         />
@@ -86,7 +86,7 @@ class ShareAnalysis extends React.Component {
           <Tipso
             show={showQrcodeModal}>
             <div className={styles["qrcode_container"]}>
-              <div id="qrcode"></div>
+              <div id={`qrcode-${index}`}></div>
               <span>扫码分享 github 报告</span>
             </div>
           </Tipso>
@@ -97,7 +97,7 @@ class ShareAnalysis extends React.Component {
           />
           <IconButton
             icon="clipboard"
-            id="copyLinkButton"
+            id={`copyLinkButton-${index}`}
             onClick={this.copyUrl.bind(this)}
           />
         </div>
@@ -172,10 +172,11 @@ class ShareAnalysis extends React.Component {
   }
 
   renderQrcode() {
-    const { info } = this.props;
+    const { info, index } = this.props;
     const { url } = info;
-    $('#qrcode').empty();
-    this.qrcode = new QRCode(document.getElementById("qrcode"), {
+    const qrcodeId = `qrcode-${index}`;
+    $(`#${qrcodeId}`).empty();
+    this.qrcode = new QRCode(document.getElementById(qrcodeId), {
       text: `${window.location.origin}/${url}`,
       width: 120,
       height: 120,
@@ -299,7 +300,6 @@ class ShareAnalysis extends React.Component {
     return (
       <div className={styles["card_container"]}>
         {title}
-        {/* <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{info.title}</p> */}
         {loading ? '' : (
           <div className={controllerClass}>
             {this.renderShareController()}
