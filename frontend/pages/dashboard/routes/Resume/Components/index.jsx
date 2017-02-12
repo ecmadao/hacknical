@@ -119,10 +119,6 @@ class Resume extends React.Component {
         </div>
         <div className={styles["resume_operations"]}>
           <div className={styles["operations_wrapper"]}>
-            <IconButton
-              icon="question"
-              className={styles["resume_helper"]}
-            />
             <Button
               value="预览"
               color="gray"
@@ -137,6 +133,10 @@ class Resume extends React.Component {
                 <i className="fa fa-save" aria-hidden="true"></i>
               )}
               onClick={actions.saveResume}
+            />
+            <IconButton
+              icon="question"
+              className={styles["resume_helper"]}
             />
           </div>
         </div>

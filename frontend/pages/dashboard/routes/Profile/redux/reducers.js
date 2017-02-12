@@ -3,35 +3,50 @@ import objectAssign from 'object-assign';
 import { getValidateViewSources } from 'UTILS/analysis';
 
 const initialState = {
-  loading: true,
-  userInfo: {
-    url: '',
-    openShare: false
+  resume: {
+    loading: true,
+    info: {
+      url: '',
+      openShare: false
+    },
+    viewDevices: [],
+    viewSources: [],
+    pageViews: []
   },
-  viewDevices: [],
-  viewSources: [],
-  pageViews: []
+  github: {
+    loading: true,
+    info: {
+      url: '',
+      openShare: false
+    },
+    viewDevices: [],
+    viewSources: [],
+    pageViews: []
+  }
 };
 
 
 const reducers = handleActions({
-  TOGGLE_SHARE_STATUS(state, action) {
-    const { userInfo } = state;
+  // github
+  TOGGLE_GITHUB_SHARE_STATUS(state, action) {
+    const { github } = state;
+    const newInfo = objectAssign({}, github.info, { openShare: action.payload });
     return ({
       ...state,
-      userInfo: objectAssign({}, userInfo, { openShare: action.payload })
+      github: objectAssign({}, github, { info: newInfo })
     });
   },
 
-  TOGGLE_LOADING(state, action) {
+  TOGGLE_GITHUB_LOADING(state, action) {
+    const { github } = state;
     return ({
       ...state,
-      loading: action.payload
+      github: objectAssign({}, github, { loading: action.payload })
     });
   },
 
   INITIAL_GITHUB_SHARE_DATA(state, action) {
-    const { userInfo } = state;
+    const { github } = state;
     const {
       url,
       openShare,
@@ -39,13 +54,56 @@ const reducers = handleActions({
       viewSources,
       pageViews
     } = action.payload;
-    return ({
-      ...state,
+    const newGithub = {
       loading: false,
-      userInfo: objectAssign({}, userInfo, { url, openShare }),
+      info: objectAssign({}, github.info, { url, openShare }),
       viewDevices: [...viewDevices],
       viewSources: getValidateViewSources(viewSources),
-      pageViews: pageViews.filter(pageView => !isNaN(pageView.count)),
+      pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+    };
+    return ({
+      ...state,
+      github: objectAssign({}, github, newGithub)
+    });
+  },
+
+  // resume
+  TOGGLE_RESUME_SHARE_STATUS(state, action) {
+    const { resume } = state;
+    const newInfo = objectAssign({}, resume.info, { openShare: action.payload });
+    return ({
+      ...state,
+      resume: objectAssign({}, resume, { info: newInfo })
+    });
+  },
+
+  TOGGLE_RESUME_LOADING(state, action) {
+    const { resume } = state;
+    return ({
+      ...state,
+      resume: objectAssign({}, resume, { loading: action.payload })
+    });
+  },
+
+  INITIAL_RESUME_SHARE_DATA(state, action) {
+    const { resume } = state;
+    const {
+      url,
+      openShare,
+      viewDevices,
+      viewSources,
+      pageViews
+    } = action.payload;
+    const newResume = {
+      loading: false,
+      info: objectAssign({}, resume.info, { url, openShare }),
+      viewDevices: [...viewDevices],
+      viewSources: getValidateViewSources(viewSources),
+      pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+    };
+    return ({
+      ...state,
+      resume: objectAssign({}, resume, newResume)
     });
   },
 }, initialState);

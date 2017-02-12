@@ -20,10 +20,15 @@ const postPubResumeStatus = (enable) => {
   return postData(`/resume/status`, { enable });
 };
 
+const getShareData = () => {
+  return getData('/resume/shareData');
+};
+
 export default {
   getResume,
   setResume,
   getPubResume,
   getPubResumeStatus,
-  postPubResumeStatus
+  postPubResumeStatus,
+  getShareData
 }

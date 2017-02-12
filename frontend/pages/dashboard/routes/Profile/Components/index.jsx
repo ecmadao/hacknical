@@ -1,328 +1,50 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import cx from 'classnames';
-import Chart from 'chart.js';
-import Clipboard from 'clipboard';
 import { bindActionCreators } from 'redux';
-import objectAssign from 'object-assign';
-
-import Loading from 'COMPONENTS/Loading';
-import IconButton from 'COMPONENTS/IconButton';
-import Switcher from 'COMPONENTS/Switcher';
-import Input from 'COMPONENTS/Input';
-import ChartInfo from 'COMPONENTS/ChartInfo';
-import Tipso from 'COMPONENTS/Tipso';
-
-import { LINECHART_CONFIG } from 'UTILS/const_value';
-import { GREEN_COLORS } from 'UTILS/colors';
-import dateHelper from 'UTILS/date';
-import WECHAT from 'SRC/data/wechat';
 import actions from '../redux/actions';
-import styles from '../styles/profile.css';
 
-const WECHAT_FROM = Object.keys(WECHAT);
+const ANALYSIS = [
+  {
+    id: 'github',
+    title: 'github 分享数据'
+  },
+  {
+    id: 'resume',
+    title: '简历分享数据'
+  }
+];
+
+import ShareAnalysis from './ShareAnalysis';
 
 class Profile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showQrcodeModal: false
-    };
-    this.qrcode = null;
-    this.pageViewsChart = null;
-    this.viewDevicesChart = null;
-    this.viewSourcesChart = null;
-    this.copyUrl = this.copyUrl.bind(this);
-    this.onMouseOut = this.onMouseOut.bind(this);
-    this.onMouseOver = this.onMouseOver.bind(this);
-  }
-
-  componentDidMount() {
-    const { actions, loading } = this.props;
-    loading && actions.fetchGithubShareData();
-    new Clipboard('#copyLinkButton', {
-      text: () => $("#shareGithubUrl").val()
-    });
-  }
-
-  componentDidUpdate() {
-    const { loading } = this.props;
-    if (loading) { return }
-    !this.pageViewsChart && this.renderViewsChart();
-    !this.viewDevicesChart && this.renderDevicesChart();
-    !this.viewSourcesChart && this.renderSourcesChart();
-    !this.qrcode && this.renderQrcode();
-  }
-
-  onMouseOut() {
-    this.setState({ showQrcodeModal: false });
-  }
-
-  onMouseOver() {
-    this.setState({ showQrcodeModal: true });
-  }
-
-  copyUrl() {
-    document.querySelector("#shareGithubUrl").select();
-  }
-
-  renderShareController() {
-    const { showQrcodeModal } = this.state;
-    const { actions, userInfo } = this.props;
-    const { openShare, url } = userInfo;
-    return (
-      <div className={styles["share_controller"]}>
-        <Switcher
-          id="share_switch"
-          onChange={actions.postShareStatus}
-          checked={openShare}
-        />
-        <div
-          onMouseEnter={this.onMouseOver}
-          onMouseLeave={this.onMouseOut}
-          onMouseOver={this.onMouseOver}
-          onMouseOut={this.onMouseOut}
-          className={styles["share_container"]}>
-          <Tipso
-            show={showQrcodeModal}>
-            <div className={styles["qrcode_container"]}>
-              <div id="qrcode"></div>
-              <span>扫码分享 github 报告</span>
-            </div>
-          </Tipso>
-          <Input
-            id="shareGithubUrl"
-            style="flat"
-            value={`${window.location.origin}/${url}`}
-          />
-          <IconButton
-            icon="clipboard"
-            id="copyLinkButton"
-            onClick={this.copyUrl.bind(this)}
-          />
-        </div>
-      </div>
-    )
-  }
-
-  renderViewsChart() {
-    const { pageViews } = this.props;
-    const viewsChart = ReactDOM.findDOMNode(this.pageViews);
-    const validatePageViews = [];
-    pageViews.forEach((pageView) => {
-      const { count, date } = pageView;
-      const filterPageViews = validatePageViews.filter(validatePageView => validatePageView.date === date);
-      if(filterPageViews.length) {
-        filterPageViews[0].count += count;
-      } else {
-        validatePageViews.push({
-          count,
-          date
-        });
-      }
-    });
-    const dateLabels = validatePageViews.map((pageView) => {
-      const { date } = pageView;
-      return `${dateHelper.validator.fullDate(date)} ${dateHelper.validator.hour(date)}:00`;
-    });
-    const viewDates = validatePageViews.map(pageView => pageView.count);
-    const datasetsConfig = {
-      data: viewDates,
-      label: '每小时浏览量'
-    };
-    if (viewDates.length >= 20) {
-      datasetsConfig.pointBorderWidth = 0;
-      datasetsConfig.pointRadius = 0;
-    }
-    this.pageViewsChart = new Chart(viewsChart, {
-      type: 'line',
-      data: {
-        labels: dateLabels,
-        datasets: [objectAssign({}, LINECHART_CONFIG, datasetsConfig)]
-      },
-      options: {
-        scales: {
-          xAxes: [{
-            display: false,
-            gridLines: {
-              display: false
-            }
-          }],
-          yAxes: [{
-            gridLines: {
-              display: false
-            },
-            ticks: {
-              beginAtZero:true
-            }
-          }],
-        },
-        tooltips: {
-          callbacks: {
-            title: (item, data) => {
-              return item[0].xLabel
-            },
-            label: (item, data) => {
-              return `浏览量：${item.yLabel} PV`
-            }
-          }
-        }
-      }
-    })
-  }
-
-  renderQrcode() {
-    const { userInfo } = this.props;
-    const { url } = userInfo;
-    $('#qrcode').empty();
-    this.qrcode = new QRCode(document.getElementById("qrcode"), {
-      text: `${window.location.origin}/${url}`,
-      width: 120,
-      height: 120,
-      colorDark: GREEN_COLORS[1],
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
-  }
-
-  renderDevicesChart() {
-    const { viewDevices } = this.props;
-    const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
-    const labels = viewDevices.map(viewDevice => viewDevice.platform);
-    const datas = viewDevices.map(viewDevice => viewDevice.count);
-    this.viewDevicesChart = new Chart(viewDevicesChart, {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [{
-          data: datas,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: '浏览量来源平台'
-        },
-        legend: {
-          display: false,
-        }
-      }
-    });
-  }
-
-  renderSourcesChart() {
-    const { viewSources } = this.props;
-    const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
-    const labels = viewSources.map(viewSource => viewSource.browser);
-    const datas = viewSources.map(viewSource => viewSource.count);
-
-    this.viewSourcesChart = new Chart(viewSourcesChart, {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [{
-          data: datas,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: '浏览器分布'
-        },
-        legend: {
-          display: false,
-        }
-      }
-    });
-  }
-
-  renderChartInfo() {
-    const { pageViews, viewDevices, viewSources } = this.props;
-    const viewCount = pageViews.reduce((prev, current, index) => {
-      if (index === 0) {
-        return current.count;
-      }
-      return current.count + prev;
-    }, '');
-    const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count));
-    const platforms = viewDevices
-      .filter(viewDevice => viewDevice.count === maxPlatformCount)
-      .map(viewDevice => viewDevice.platform);
-
-    const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
-    const browsers = viewSources
-      .filter(viewSource => viewSource.count === maxBrowserCount)
-      .map(viewSource => viewSource.browser);
-
-    return (
-      <div className={styles["chart_info_container"]}>
-        <ChartInfo
-          mainText={viewCount}
-          subText="总 PV"
-        />
-        <ChartInfo
-          mainText={platforms.slice(0, 2).join(',')}
-          subText="使用最多的平台"
-        />
-        <ChartInfo
-          mainText={browsers.join(',')}
-          subText="使用最多的浏览器"
-        />
-      </div>
-    )
-  }
 
   render() {
-    const { actions, loading, userInfo } = this.props;
-    const controllerClass = cx(
-      styles["share_controller_card"],
-      !userInfo.openShare && styles["disabled"]
-    );
+    const { github, resume, actions } = this.props;
+
     return (
       <div>
-        <div className={styles["card_container"]}>
-          <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 分享数据</p>
-          {loading ? '' : (
-            <div className={controllerClass}>
-              {this.renderShareController()}
-            </div>
+        <ShareAnalysis
+          actions={{
+            fetchShareData: actions.fetchResumeShareData,
+            postShareStatus: actions.postResumeShareStatus
+          }}
+          index={0}
+          title={(
+            <p><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;简历分享数据</p>
           )}
-          {loading ? (<Loading />) : (
-            <div className={styles["card"]}>
-              {this.renderChartInfo()}
-              <div className={styles["chart_container"]}>
-                <div className={styles["radar_chart"]}>
-                  <canvas ref={ref => this.viewDevices = ref}></canvas>
-                </div>
-                <div className={styles["radar_chart"]}>
-                  <canvas ref={ref => this.viewSources = ref}></canvas>
-                </div>
-              </div>
-              <div className={cx(styles["chart_container"], styles["pageview_chart_container"])}>
-                <canvas ref={ref => this.pageViews = ref}/>
-              </div>
-            </div>
+          {...resume}
+        />
+        <ShareAnalysis
+          actions={{
+            fetchShareData: actions.fetchGithubShareData,
+            postShareStatus: actions.postGithubShareStatus
+          }}
+          index={1}
+          title={(
+            <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 分享数据</p>
           )}
-        </div>
+          {...github}
+        />
       </div>
     )
   }

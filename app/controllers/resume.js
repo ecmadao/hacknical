@@ -1,5 +1,6 @@
 import Resume from '../models/resumes';
 import ResumePub from '../models/resume-pub';
+import ShareAnalyse from '../models/share-analyse';
 
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
@@ -102,11 +103,45 @@ const setResumeStatus = async (ctx, next) => {
   };
 };
 
+const getShareData = async (ctx, next) => {
+  const { userId } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const { result, success, message } = findPubResume;
+  if (!success) {
+    ctx.body = {
+      error: message,
+      success: true,
+      result: {
+        url: '',
+        viewDevices: [],
+        viewSources: [],
+        pageViews: [],
+        openShare: false
+      }
+    };
+    return;
+  }
+
+  const shareAnalyse = await ShareAnalyse.findShare({ url: `resume/${result.resumeHash}`, userId });
+  const { viewDevices, viewSources, pageViews } = shareAnalyse;
+  ctx.body = {
+    success: true,
+    result: {
+      url: `resume/${result.resumeHash}`,
+      openShare: result.openShare,
+      viewDevices,
+      viewSources,
+      pageViews,
+    }
+  };
+};
+
 export default {
   getResume,
   setResume,
   getPubResume,
   getPubResumePage,
   getResumeStatus,
-  setResumeStatus
+  setResumeStatus,
+  getShareData
 }
