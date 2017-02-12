@@ -68,7 +68,7 @@ class ShareAnalysis extends React.Component {
 
   renderShareController() {
     const { showQrcodeModal } = this.state;
-    const { actions, info } = this.props;
+    const { actions, info, index } = this.props;
     const { openShare, url } = info;
     return (
       <div className={styles["share_controller"]}>
@@ -91,7 +91,7 @@ class ShareAnalysis extends React.Component {
             </div>
           </Tipso>
           <Input
-            id="shareGithubUrl"
+            id={`shareGithubUrl-${index}`}
             style="flat"
             value={`${window.location.origin}/${url}`}
           />
