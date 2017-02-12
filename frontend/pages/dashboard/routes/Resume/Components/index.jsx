@@ -13,9 +13,15 @@ import IntroModal from './IntroModal';
 import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 
-const DATAS = [
+const INTROS = [
   '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
   '点击 "预览"（或 cmd/win + p 以预览当前简历）'
+];
+const TIPS = [
+  '技术热情很重要',
+  '请展现你的做事态度',
+  '大家都喜欢学习能力强，能够自我进步的人',
+  '技术经验越多越好；但如果缺乏，至少要表现出成长潜力'
 ];
 
 class Resume extends React.Component {
@@ -133,7 +139,7 @@ class Resume extends React.Component {
           <div className={styles["operations_wrapper"]}>
             <Button
               value="预览"
-              color="gray"
+              color="dark"
               onClick={() => this.handleModalStatus(true)}
               leftIcon={(
                 <i className="fa fa-file-text-o" aria-hidden="true"></i>
@@ -187,7 +193,8 @@ class Resume extends React.Component {
         <IntroModal
           openModal={openIntroModal}
           onClose={() => this.handleIntroModalStatus(false)}
-          datas={DATAS}
+          intros={INTROS}
+          tips={TIPS}
         />
       </div>
     )

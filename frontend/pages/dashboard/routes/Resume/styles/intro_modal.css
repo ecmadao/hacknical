@@ -12,15 +12,19 @@
   padding: 20px 25px 30px;
 }
 
+.container-wrapper {
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+}
+
 .header {
-  height: 50px;
-  line-height: 50px;
-  font-size: 1.5em;
-  font-weight: 300;
+  height: 40px;
+  line-height: 40px;
+  font-size: 1.3em;
 }
 
 .content {
-  font-weight: 300;
   margin-left: 20px;
   margin-top: 10px;
 

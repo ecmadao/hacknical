@@ -5,20 +5,31 @@ import styles from '../styles/intro_modal.css';
 
 class IntroModal extends React.Component {
   render() {
-    const { openModal, onClose, datas } = this.props;
+    const { openModal, onClose, intros, tips } = this.props;
 
-    const intros = datas.map((data, index) => {
+    const intro = intros.map((data, index) => {
       return (<li key={index}>{data}</li>);
+    });
+    const tip = tips.map((tip, index) => {
+      return (<li key={index}>{tip}</li>);
     });
     return (
       <PortalModal
         showModal={openModal}
         onClose={onClose}>
         <div className={styles.container}>
-          <div className={styles.header}>使用说明</div>
-          <ul className={styles.content}>
-            {intros}
-          </ul>
+          <div className={styles['container-wrapper']}>
+            <div className={styles.header}>使用说明</div>
+            <ul className={styles.content}>
+              {intro}
+            </ul>
+          </div>
+          <div className={styles['container-wrapper']}>
+            <div className={styles.header}>小建议</div>
+            <ul className={styles.content}>
+              {tip}
+            </ul>
+          </div>
         </div>
       </PortalModal>
     )
@@ -28,13 +39,15 @@ class IntroModal extends React.Component {
 IntroModal.propTypes = {
   openModal: PropTypes.bool,
   onClose: PropTypes.func,
-  datas: PropTypes.array
+  intros: PropTypes.array,
+  tips: PropTypes.array,
 };
 
 IntroModal.defaultProps = {
   openModal: false,
   onClose: () => {},
-  datas: []
+  intros: [],
+  tips: [],
 };
 
 export default IntroModal;
