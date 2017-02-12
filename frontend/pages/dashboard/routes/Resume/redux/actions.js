@@ -100,6 +100,22 @@ const {
   'DELETE_SUPPLEMENT'
 );
 
+// resume share
+const setPubResumeStatus = createAction('SET_PUB_RESUME_STATUS');
+const initialPubResumeStatus = createAction('INITIAL_PUB_RESUME_STATUS', (openShare, url) => ({ openShare, url }));
+const fetchPubResumeStatus = () => (dispatch, getState) => {
+  Api.resume.getPubResumeStatus().then((result) => {
+    const { openShare, url } = result;
+    dispatch(initialPubResumeStatus(openShare, url));
+  });
+};
+const postShareStatus = () => (dispatch, getState) => {
+  const { openShare } = getState().resume.shareInfo;
+  Api.resume.postPubResumeStatus(!openShare).then(() => {
+    dispatch(setPubResumeStatus(!openShare));
+  });
+};
+
 export default {
   // initial
   initialResume,
@@ -136,5 +152,10 @@ export default {
   addLocation,
   deleteLocation,
   addSupplement,
-  deleteSupplement
+  deleteSupplement,
+  // resume share
+  setPubResumeStatus,
+  initialPubResumeStatus,
+  fetchPubResumeStatus,
+  postShareStatus
 }

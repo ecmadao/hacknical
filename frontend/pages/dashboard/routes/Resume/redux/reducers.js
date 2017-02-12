@@ -23,7 +23,11 @@ const initialState = {
   educations: [],
   workExperiences: [],
   personalProjects: [],
-  others: objectassign({}, OTHERS)
+  others: objectassign({}, OTHERS),
+  shareInfo: {
+    url: '',
+    openShare: false
+  }
 };
 
 // const initialState = {
@@ -442,6 +446,25 @@ const reducers = handleActions({
           objectassign(socialLinks[index], { url }),
           ...socialLinks.slice(index + 1)]
       })
+    });
+  },
+
+  // resume share
+  INITIAL_PUB_RESUME_STATUS(state, action) {
+    const { openShare, url } = action.payload;
+    const { shareInfo } = state;
+    return ({
+      ...state,
+      shareInfo: objectassign(shareInfo, { openShare, url })
+    });
+  },
+
+  SET_PUB_RESUME_STATUS(state, action) {
+    const openShare = action.payload;
+    const { shareInfo } = state;
+    return ({
+      ...state,
+      shareInfo: objectassign(shareInfo, { openShare })
     });
   }
 }, initialState);

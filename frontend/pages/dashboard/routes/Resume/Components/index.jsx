@@ -7,6 +7,7 @@ import Button from 'COMPONENTS/Button';
 import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
+import ShareModal from 'SHAREDPAGE/components/ShareModal';
 import ResumeSection from './ResumeSection';
 import ResumeModalV2 from './ResumeModal/v2';
 import IntroModal from './IntroModal';
@@ -28,11 +29,13 @@ class Resume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openIntroModal: false,
       openModal: false,
+      openIntroModal: false,
+      openShareModal: false,
       activeSection: RESUME_SECTIONS[0].id
     };
     this.handleModalStatus = this.handleModalStatus.bind(this);
+    this.handleShareModalStatus = this.handleShareModalStatus.bind(this);
     this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this);
     this.handleSectionChange = this.handleSectionChange.bind(this);
     this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this);
@@ -60,6 +63,7 @@ class Resume extends React.Component {
       }
     });
     this.props.actions.fetchResume();
+    this.props.actions.fetchPubResumeStatus();
     this.bindHotkeys();
   }
 
@@ -72,6 +76,10 @@ class Resume extends React.Component {
 
   handleModalStatus(openModal) {
     this.setState({ openModal });
+  }
+
+  handleShareModalStatus(openShareModal) {
+    this.setState({ openShareModal });
   }
 
   handleIntroModalStatus(openIntroModal) {
@@ -124,9 +132,11 @@ class Resume extends React.Component {
   }
 
   render() {
-    const { activeSection, openModal, openIntroModal } = this.state;
+    const { activeSection, openModal, openIntroModal, openShareModal } = this.state;
     const { resume, actions } = this.props;
+    const { url, openShare } = resume.shareInfo;
 
+    const origin = window.location.origin;
     const currentIndex = this.currentIndex;
     const max = RESUME_SECTIONS.length;
 
@@ -136,26 +146,35 @@ class Resume extends React.Component {
           {this.renderNavigation()}
         </div>
         <div className={styles["resume_operations"]}>
+          <div className={styles["operations_wrapper_left"]}>
+            <IconButton
+              icon="share-alt"
+              className={styles["icon_button"]}
+              onClick={() => this.handleShareModalStatus(true)}
+            />
+            <IconButton
+              icon="question"
+              className={styles["icon_button"]}
+              onClick={() => this.handleIntroModalStatus(true)}
+            />
+          </div>
           <div className={styles["operations_wrapper"]}>
             <Button
               value="预览"
               color="dark"
               onClick={() => this.handleModalStatus(true)}
+              className={styles.operation}
               leftIcon={(
                 <i className="fa fa-file-text-o" aria-hidden="true"></i>
               )}
             />
             <Button
               value="保存"
+              className={styles.operation}
+              onClick={actions.saveResume}
               leftIcon={(
                 <i className="fa fa-save" aria-hidden="true"></i>
               )}
-              onClick={actions.saveResume}
-            />
-            <IconButton
-              icon="question"
-              className={styles["resume_helper"]}
-              onClick={() => this.handleIntroModalStatus(true)}
             />
           </div>
         </div>
@@ -167,19 +186,21 @@ class Resume extends React.Component {
                 <Button
                   value="上一步"
                   color="gray"
+                  className={styles.operation}
+                  onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
                   leftIcon={(
                     <i className="fa fa-angle-left" aria-hidden="true"></i>
                   )}
-                  onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
                 />
               )}
               {currentIndex < max - 1 && (
                 <Button
                   value="下一步"
+                  className={styles.operation}
+                  onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
                   rightIcon={(
                     <i className="fa fa-angle-right" aria-hidden="true"></i>
                   )}
-                  onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
                 />
               )}
             </div>
@@ -188,6 +209,7 @@ class Resume extends React.Component {
         <ResumeModalV2
           resume={resume}
           openModal={openModal}
+          onShare={() => this.handleShareModalStatus(true)}
           onClose={() => this.handleModalStatus(false)}
         />
         <IntroModal
@@ -196,6 +218,18 @@ class Resume extends React.Component {
           intros={INTROS}
           tips={TIPS}
         />
+        {openShareModal ? (
+          <ShareModal
+            openModal={openShareModal}
+            options={{
+              openShare,
+              link: `${origin}/${url}`,
+              text: '分享你的个人简历'
+            }}
+            toggleShare={actions.postShareStatus}
+            onClose={() => this.handleShareModalStatus(false)}
+          />
+        ) : ''}
       </div>
     )
   }
