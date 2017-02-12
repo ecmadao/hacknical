@@ -29,7 +29,6 @@ class Setting extends React.Component {
                 最近更新时间：{updateTime}
               </div>
               <Button
-                style="flat"
                 value="更新数据"
                 onClick={actions.refreshGithubDatas}
               />

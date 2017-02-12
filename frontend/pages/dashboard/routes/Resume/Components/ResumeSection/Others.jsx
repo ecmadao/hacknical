@@ -107,7 +107,7 @@ class Others extends React.Component {
         </div>
         <div className={styles["resume_piece_container"]}>
           <div className={styles["resume_title"]}>
-            链接其他账号
+            其他链接
           </div>
           <div className={styles["resume_wrapper"]}>
             {this.renderSocialLinks()}

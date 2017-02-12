@@ -29,6 +29,7 @@ class Profile extends React.Component {
             postShareStatus: actions.postResumeShareStatus
           }}
           index={0}
+          text={'个人简历'}
           title={(
             <p><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;简历分享数据</p>
           )}
@@ -40,6 +41,7 @@ class Profile extends React.Component {
             postShareStatus: actions.postGithubShareStatus
           }}
           index={1}
+          text={' github 报告'}
           title={(
             <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 分享数据</p>
           )}

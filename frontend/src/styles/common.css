@@ -31,12 +31,27 @@
 }
 
 .card {
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
   background-color: var(--oc-white);
   position: relative;
   border-radius: 3px;
   transition: box-shadow 0.2s;
   box-shadow: var(--shadow1);
+}
+
+.card_disabled {
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: var(--zIndex1);
+  }
 }
 
 .card_hoverable {

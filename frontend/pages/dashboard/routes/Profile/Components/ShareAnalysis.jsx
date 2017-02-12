@@ -68,7 +68,7 @@ class ShareAnalysis extends React.Component {
 
   renderShareController() {
     const { showQrcodeModal } = this.state;
-    const { actions, info, index } = this.props;
+    const { actions, info, index, text } = this.props;
     const { openShare, url } = info;
     return (
       <div className={styles["share_controller"]}>
@@ -87,7 +87,7 @@ class ShareAnalysis extends React.Component {
             show={showQrcodeModal}>
             <div className={styles["qrcode_container"]}>
               <div id={`qrcode-${index}`}></div>
-              <span>扫码分享 github 报告</span>
+              <span>扫码分享{text}</span>
             </div>
           </Tipso>
           <Input
@@ -330,6 +330,7 @@ ShareAnalysis.propTypes = {
   index: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
   loading: PropTypes.bool,
   title: PropTypes.element,
+  text: PropTypes.string,
   info: PropTypes.object,
   actions: PropTypes.object,
   pageViews: PropTypes.array,
@@ -341,6 +342,7 @@ ShareAnalysis.defaultProps = {
   index: 0,
   loading: true,
   title: (<p></p>),
+  text: '',
   info: {
     openShare: false,
     url: ''

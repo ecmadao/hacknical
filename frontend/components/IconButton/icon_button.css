@@ -11,6 +11,7 @@
   cursor: pointer;
   border-radius: 2px;
   position: relative;
+  user-select: none;
 
   &::before {
     content: '';
