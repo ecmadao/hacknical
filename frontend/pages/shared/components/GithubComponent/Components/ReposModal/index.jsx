@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import PortalModal from 'COMPONENTS/PortalModal';
-import Selector from 'COMPONENTS/Selector';
+import SelectorV2 from 'COMPONENTS/SelectorV2';
 import ReposItem from './ReposItem';
 import SelectedRepos from './SelectedRepos';
 import '../../styles/repos_modal.css';
@@ -47,10 +47,10 @@ class ReposModal extends React.Component {
       }
     });
     return (
-      <Selector
+      <SelectorV2
         value={selectedLanguage}
         options={selectorOptions}
-        style="flat"
+        theme="flat"
         onChange={this.changeSelectedLanguage}
       />
     )

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import DateSlider from 'COMPONENTS/DateSlider'
 import Input from 'COMPONENTS/Input';
-import Selector from 'COMPONENTS/Selector';
+import SelectorV2 from 'COMPONENTS/SelectorV2';
 import dateHelper from 'UTILS/date';
 import { EDUCATIONS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../../styles/resume.css';
@@ -69,10 +69,10 @@ class Education extends React.Component {
             placeholder="院系 & 专业"
             onChange={handleEduChange('major')}
           />
-          <Selector
+          <SelectorV2
             value={education}
             options={EDUCATIONS}
-            style="flat"
+            theme="flat"
             onChange={handleEduChange('education')}
           />
         </div>

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 
 import Input from 'COMPONENTS/Input';
-import Selector from 'COMPONENTS/Selector';
+import SelectorV2 from 'COMPONENTS/SelectorV2';
 import actions from '../../redux/actions';
 import { GENDERS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../styles/resume.css';
@@ -46,10 +46,10 @@ class Info extends React.Component {
             style="flat"
             onChange={this.handleInfoChange('name')}
           />
-          <Selector
+          <SelectorV2
             value={gender}
             options={GENDERS}
-            style="flat"
+            theme="flat"
             onChange={this.handleInfoChange('gender')}
           />
         </div>
