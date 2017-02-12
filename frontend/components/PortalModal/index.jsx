@@ -9,12 +9,13 @@ class PortalModal extends React.Component {
   // }
 
   render() {
-    const { closeOnEsc, showModal, onClose, children } = this.props;
+    const { closeOnEsc, showModal, onClose, closeOnOutsideClick, children } = this.props;
     return (
       <Portal
         closeOnEsc={closeOnEsc}
         isOpened={showModal}
-        onClose={onClose}>
+        onClose={onClose}
+        closeOnOutsideClick={closeOnOutsideClick}>
         <BaseModal showModal={true} onClose={onClose}>
           {children}
         </BaseModal>
@@ -26,6 +27,7 @@ class PortalModal extends React.Component {
 PortalModal.propTypes = {
   closeOnEsc: PropTypes.bool,
   showModal: PropTypes.bool,
+  closeOnOutsideClick: PropTypes.bool,
   onClose: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.element,
@@ -36,6 +38,7 @@ PortalModal.propTypes = {
 PortalModal.defaultProps = {
   closeOnEsc: true,
   showModal: false,
+  closeOnOutsideClick: false,
   onClose: () => {},
   children: (<div></div>)
 };

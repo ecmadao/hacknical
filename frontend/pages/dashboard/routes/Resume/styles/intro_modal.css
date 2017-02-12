@@ -1,0 +1,30 @@
+@import 'open-color/open-color.css';
+
+.container {
+  background-color: #F7F8F9;
+  box-shadow: var(--shadow4);
+  /*height: 70%;*/
+  width: 400px;
+  border-radius: 2px;
+  overflow-y: auto;
+  composes: common-z-index from 'STYLES/common.css';
+  background-color: var(--oc-white);
+  padding: 20px 25px 30px;
+}
+
+.header {
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.5em;
+  font-weight: 300;
+}
+
+.content {
+  font-weight: 300;
+  margin-left: 20px;
+  margin-top: 10px;
+
+  & li {
+    line-height: 1.7em;
+  }
+}

@@ -9,17 +9,25 @@ import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
 import ResumeSection from './ResumeSection';
 import ResumeModalV2 from './ResumeModal/v2';
+import IntroModal from './IntroModal';
 import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
+
+const DATAS = [
+  '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
+  '点击 "预览"（或 cmd/win + p 以预览当前简历）'
+];
 
 class Resume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      openIntroModal: false,
       openModal: false,
       activeSection: RESUME_SECTIONS[0].id
     };
     this.handleModalStatus = this.handleModalStatus.bind(this);
+    this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this);
     this.handleSectionChange = this.handleSectionChange.bind(this);
     this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this);
   }
@@ -58,6 +66,10 @@ class Resume extends React.Component {
 
   handleModalStatus(openModal) {
     this.setState({ openModal });
+  }
+
+  handleIntroModalStatus(openIntroModal) {
+    this.setState({ openIntroModal });
   }
 
   handleSectionChange(id) {
@@ -106,7 +118,7 @@ class Resume extends React.Component {
   }
 
   render() {
-    const { activeSection, openModal } = this.state;
+    const { activeSection, openModal, openIntroModal } = this.state;
     const { resume, actions } = this.props;
 
     const currentIndex = this.currentIndex;
@@ -137,6 +149,7 @@ class Resume extends React.Component {
             <IconButton
               icon="question"
               className={styles["resume_helper"]}
+              onClick={() => this.handleIntroModalStatus(true)}
             />
           </div>
         </div>
@@ -170,6 +183,11 @@ class Resume extends React.Component {
           resume={resume}
           openModal={openModal}
           onClose={() => this.handleModalStatus(false)}
+        />
+        <IntroModal
+          openModal={openIntroModal}
+          onClose={() => this.handleIntroModalStatus(false)}
+          datas={DATAS}
         />
       </div>
     )
