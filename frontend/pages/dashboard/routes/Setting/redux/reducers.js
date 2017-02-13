@@ -4,10 +4,15 @@ import dateHelper from 'UTILS/date';
 
 const initialState = {
   loading: true,
-  updateTime: null
+  updateTime: null,
+  resumeInfo: {
+    loading: true,
+    useGithub: true,
+  }
 };
 
 const reducers = handleActions({
+  // github
   TOGGLE_SETTING_LOADING(state, action) {
     return ({
       ...state,
@@ -22,6 +27,18 @@ const reducers = handleActions({
       ...state,
       updateTime,
       loading: false
+    });
+  },
+
+  // resume
+  INITIAL_RESUME_SHARE_INFO(state, action) {
+    const { resumeInfo } = state;
+    return ({
+      ...state,
+      resumeInfo: objectAssign({}, resumeInfo, {
+        useGithub: action.payload,
+        loading: false
+      })
     });
   }
 }, initialState)

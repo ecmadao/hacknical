@@ -21,8 +21,8 @@
 }
 
 .card_container {
-  font-size: 16px;
-  color: var(--oc-gray-5);
+  font-size: 14px;
+  color: var(--oc-gray-7);
   margin: 10px 0 20px;
 
   & p:first-child {
@@ -37,6 +37,7 @@
   border-radius: 3px;
   transition: box-shadow 0.2s;
   box-shadow: var(--shadow1);
+  color: var(--oc-gray-7);
 }
 
 .card_disabled {

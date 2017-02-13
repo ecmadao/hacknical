@@ -113,7 +113,7 @@ const getPubResume = async (resumeHash) => {
     return findResult;
   }
 
-  const { timestamp, resumeId, maxView, userId, openShare } = result;
+  const { timestamp, maxView, userId, openShare } = result;
 
   if (!openShare) {
     return Promise.resolve({

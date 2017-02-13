@@ -18,6 +18,11 @@
   flex-direction: row;
 }
 
+.info_container_large {
+  composes: info_container;
+  margin: 15px 0;
+}
+
 .info {
   flex: 1;
   display: flex;

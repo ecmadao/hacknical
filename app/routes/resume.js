@@ -16,6 +16,7 @@ router.get('/edit',
 );
 router.post('/edit', Resume.setResume);
 
+
 router.get('/status',
   user.checkSession(session.requiredSessions),
   Resume.getResumeStatus
@@ -34,6 +35,7 @@ router.get('/shareData',
   user.checkSession(session.requiredSessions),
   Resume.getShareData
 );
+
 
 router.get('/:hash',
   platform.checkPlatform,
