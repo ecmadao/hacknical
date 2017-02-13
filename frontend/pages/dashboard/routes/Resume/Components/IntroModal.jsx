@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 
-import { faltten } from 'UTILS/helper';
 import PortalModal from 'COMPONENTS/PortalModal';
 import styles from '../styles/intro_modal.css';
 

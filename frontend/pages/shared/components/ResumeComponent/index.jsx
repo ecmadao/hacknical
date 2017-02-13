@@ -57,7 +57,7 @@ class ResumeComponent extends React.Component {
           <div className={styles["info_header"]}>{school}{education ? `, ${education}` : ''}</div>
           <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div className={styles["info_text"]}>{major}</div>
-          <div className={styles["section_dot"]}></div>
+          {/* <div className={styles["section_dot"]}></div> */}
         </div>
       )
     });

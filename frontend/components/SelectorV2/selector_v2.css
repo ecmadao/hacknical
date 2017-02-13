@@ -28,7 +28,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    border-radius: 4px;
+    border-radius: 2px;
     background-color: transparent;
     transition: background-color 0.2s;
   }
@@ -152,7 +152,7 @@
   z-index: -1;
   visibility: hidden;
   overflow-y: auto;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 2px 2px;
 }
 
 .options-wrapper-active {
@@ -173,7 +173,7 @@
   }
 
   &:last-child {
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 2px 2px;
   }
 }
 
