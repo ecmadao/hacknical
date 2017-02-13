@@ -45,7 +45,7 @@ const fetchResumeShareData = () => (dispatch, getState) => {
 const postResumeShareStatus = () => (dispatch, getState) => {
   const { info } = getState().profile.resume;
   const { openShare } = info;
-  Api.resume.postPubResumeStatus(!openShare).then((result) => {
+  Api.resume.postPubResumeShareStatus(!openShare).then((result) => {
     dispatch(toggleResumeShareStatus(!openShare));
   });
 };

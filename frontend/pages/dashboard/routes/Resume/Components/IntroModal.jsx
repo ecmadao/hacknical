@@ -13,7 +13,7 @@ class IntroModal extends React.Component {
       });
 
       return (
-        <div className={styles['container-wrapper']}>
+        <div className={styles['container-wrapper']} key={index}>
           <div className={styles.header}>{title}</div>
           <ul className={styles.content}>
             {lis}

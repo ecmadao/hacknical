@@ -20,10 +20,15 @@ router.get('/status',
   user.checkSession(session.requiredSessions),
   Resume.getResumeStatus
 );
-router.post('/status',
+router.post('/shareStatus',
   user.checkSession(session.requiredSessions),
-  Resume.setResumeStatus
+  Resume.setResumeShareStatus
 );
+router.post('/githubStatus',
+  user.checkSession(session.requiredSessions),
+  Resume.setResumeGithubStatus
+);
+
 
 router.get('/shareData',
   user.checkSession(session.requiredSessions),

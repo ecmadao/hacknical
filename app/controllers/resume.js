@@ -72,16 +72,18 @@ const getResumeStatus = async (ctx, next) => {
     return
   }
 
+  const { useGithub, resumeHash, openShare } = result;
   ctx.body = {
     success: true,
     result: {
-      url: `resume/${result.resumeHash}`,
-      openShare: result.openShare
+      openShare,
+      useGithub,
+      url: `resume/${resumeHash}`
     }
   }
 };
 
-const setResumeStatus = async (ctx, next) => {
+const setResumeShareStatus = async (ctx, next) => {
   const { enable } = ctx.query;
   const { userId } = ctx.session;
   const findPubResume = await ResumePub.findPublicResume({ userId });
@@ -100,6 +102,28 @@ const setResumeStatus = async (ctx, next) => {
   ctx.body = {
     success: true,
     message: `分享链接已${text}`
+  };
+};
+
+const setResumeGithubStatus = async (ctx, next) => {
+  const { enable } = ctx.query;
+  const { userId } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const { result, success, message } = findPubResume;
+  if (!success) {
+    ctx.body = {
+      error: message,
+      success: true
+    };
+    return
+  }
+  await ResumePub.updatePubResume(userId, result.resumeHash, {
+    useGithub: enable
+  });
+  const text = enable === 'true' ? '开启' : '关闭';
+  ctx.body = {
+    success: true,
+    message: `已${text}简历和 github 的关联`
   };
 };
 
@@ -142,6 +166,7 @@ export default {
   getPubResume,
   getPubResumePage,
   getResumeStatus,
-  setResumeStatus,
+  setResumeShareStatus,
+  setResumeGithubStatus,
   getShareData
 }

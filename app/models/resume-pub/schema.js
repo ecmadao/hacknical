@@ -7,7 +7,8 @@ const ResumePubSchema = new Schema({
   timestamp: Number,
   maxView: Number,
   resumeHash: String,
-  openShare: { type: Boolean, default: true }
+  openShare: { type: Boolean, default: true },
+  useGithub: { type: Boolean, default: true },
 });
 
 export default mongoose.model('ResumePub', ResumePubSchema);

@@ -102,16 +102,15 @@ const {
 
 // resume share
 const setPubResumeStatus = createAction('SET_PUB_RESUME_STATUS');
-const initialPubResumeStatus = createAction('INITIAL_PUB_RESUME_STATUS', (openShare, url) => ({ openShare, url }));
+const initialPubResumeStatus = createAction('INITIAL_PUB_RESUME_STATUS');
 const fetchPubResumeStatus = () => (dispatch, getState) => {
   Api.resume.getPubResumeStatus().then((result) => {
-    const { openShare, url } = result;
-    dispatch(initialPubResumeStatus(openShare, url));
+    dispatch(initialPubResumeStatus(result));
   });
 };
 const postShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().resume.shareInfo;
-  Api.resume.postPubResumeStatus(!openShare).then(() => {
+  Api.resume.postPubResumeShareStatus(!openShare).then(() => {
     dispatch(setPubResumeStatus(!openShare));
   });
 };

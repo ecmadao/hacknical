@@ -26,7 +26,8 @@ const initialState = {
   others: objectassign({}, OTHERS),
   shareInfo: {
     url: '',
-    openShare: false
+    openShare: true,
+    useGithub: true
   }
 };
 
@@ -451,11 +452,11 @@ const reducers = handleActions({
 
   // resume share
   INITIAL_PUB_RESUME_STATUS(state, action) {
-    const { openShare, url } = action.payload;
+    const { openShare, url, useGithub } = action.payload;
     const { shareInfo } = state;
     return ({
       ...state,
-      shareInfo: objectassign(shareInfo, { openShare, url })
+      shareInfo: objectassign(shareInfo, { openShare, url, useGithub })
     });
   },
 
