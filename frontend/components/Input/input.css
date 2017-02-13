@@ -11,6 +11,14 @@
   margin: 10px 5px;
   min-width: 60px;
 
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
   &::-moz-placeholder {
     color: var(--oc-gray-5);
   }

@@ -10,6 +10,14 @@
   transition: border 0.2s;
   margin: 0 5px;
 
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
   &.flat {
     border: 1px solid var(--oc-gray-5);
   }

@@ -49,6 +49,7 @@ class InputsGroup extends React.Component {
       children
     } = this.props;
     const { focus } = this.state;
+
     return (
       <div
         ref={ref => this.tipso = ref}
@@ -60,6 +61,7 @@ class InputsGroup extends React.Component {
         ) : ''}
         <Input
           {...this.props}
+          customStyle={styles.input}
           onFocus={this.onFocus}
         />
       </div>

@@ -46,6 +46,14 @@
       border: 1px solid var(--oc-green-5);
     }
   }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .selector {

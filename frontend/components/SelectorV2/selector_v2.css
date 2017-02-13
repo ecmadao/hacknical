@@ -32,6 +32,14 @@
     background-color: transparent;
     transition: background-color 0.2s;
   }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .wrapper {

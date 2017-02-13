@@ -22,6 +22,14 @@
   & i:last-child {
     margin-left: 10px;
   }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .flat {
