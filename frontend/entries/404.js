@@ -3,12 +3,11 @@ import 'SRC/vendor/404/404.css';
 
 $(() => {
   const $count = $('.count');
+  let count = parseInt($count.html(), 10);
+
   setInterval(() => {
-    const count = parseInt($count.html());
-    if (count === 0) {
-      window.location.href = '/';
-    } else {
-      $count.html(count - 1);
+    if (count > 0) {
+      $count.html(--count);
     }
   }, 1000);
 });

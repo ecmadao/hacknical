@@ -15,14 +15,22 @@ import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 
 const INTROS = [
-  '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
-  '点击 "预览"（或 cmd/win + p 以预览当前简历）'
-];
-const TIPS = [
-  '技术热情很重要',
-  '请展现你的做事态度',
-  '大家都喜欢学习能力强，能够自我进步的人',
-  '技术经验越多越好；但如果缺乏，至少要表现出成长潜力'
+  {
+    title: '使用说明',
+    texts: [
+      '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
+      '点击 "预览"（或 cmd/win + p 以预览当前简历）'
+    ]
+  },
+  {
+    title: '小建议',
+    texts: [
+      '技术热情很重要',
+      '请展现你的做事态度',
+      '大家都喜欢学习能力强，能够自我进步的人',
+      '技术经验越多越好；但如果缺乏，至少要表现出成长潜力'
+    ]
+  }
 ];
 
 class Resume extends React.Component {
@@ -146,19 +154,17 @@ class Resume extends React.Component {
           {this.renderNavigation()}
         </div>
         <div className={styles["resume_operations"]}>
-          <div className={styles["operations_wrapper_left"]}>
-            <IconButton
-              icon="share-alt"
-              className={styles["icon_button"]}
-              onClick={() => this.handleShareModalStatus(true)}
-            />
+          <div className={styles["operations_wrapper"]}>
             <IconButton
               icon="question"
               className={styles["icon_button"]}
               onClick={() => this.handleIntroModalStatus(true)}
             />
-          </div>
-          <div className={styles["operations_wrapper"]}>
+            <IconButton
+              icon="share-alt"
+              className={styles["icon_button"]}
+              onClick={() => this.handleShareModalStatus(true)}
+            />
             <Button
               value="预览"
               color="dark"
@@ -216,7 +222,6 @@ class Resume extends React.Component {
           openModal={openIntroModal}
           onClose={() => this.handleIntroModalStatus(false)}
           intros={INTROS}
-          tips={TIPS}
         />
         {openShareModal ? (
           <ShareModal

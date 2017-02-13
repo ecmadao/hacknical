@@ -1,35 +1,38 @@
 import React, { PropTypes } from 'react';
 
+import { faltten } from 'UTILS/helper';
 import PortalModal from 'COMPONENTS/PortalModal';
 import styles from '../styles/intro_modal.css';
 
 class IntroModal extends React.Component {
-  render() {
-    const { openModal, onClose, intros, tips } = this.props;
+  renderIntros() {
+    const { intros } = this.props;
+    return intros.map((intro, index) => {
+      const { texts, title } = intro;
+      const lis = texts.map((text, i) => {
+        return (<li key={i}>{text}</li>);
+      });
 
-    const intro = intros.map((data, index) => {
-      return (<li key={index}>{data}</li>);
+      return (
+        <div className={styles['container-wrapper']}>
+          <div className={styles.header}>{title}</div>
+          <ul className={styles.content}>
+            {lis}
+          </ul>
+        </div>
+      )
     });
-    const tip = tips.map((tip, index) => {
-      return (<li key={index}>{tip}</li>);
-    });
+  }
+
+  render() {
+    const { openModal, onClose } = this.props;
+
     return (
       <PortalModal
         showModal={openModal}
         onClose={onClose}>
         <div className={styles.container}>
-          <div className={styles['container-wrapper']}>
-            <div className={styles.header}>使用说明</div>
-            <ul className={styles.content}>
-              {intro}
-            </ul>
-          </div>
-          <div className={styles['container-wrapper']}>
-            <div className={styles.header}>小建议</div>
-            <ul className={styles.content}>
-              {tip}
-            </ul>
-          </div>
+          {this.renderIntros()}
         </div>
       </PortalModal>
     )
@@ -40,14 +43,12 @@ IntroModal.propTypes = {
   openModal: PropTypes.bool,
   onClose: PropTypes.func,
   intros: PropTypes.array,
-  tips: PropTypes.array,
 };
 
 IntroModal.defaultProps = {
   openModal: false,
   onClose: () => {},
   intros: [],
-  tips: [],
 };
 
 export default IntroModal;

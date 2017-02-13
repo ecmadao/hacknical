@@ -70,3 +70,15 @@ export const getOffsetRight = (start, end) => (right) => {
 };
 
 export const sortByX = (key) => (thisObj, nextObj) => getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
+
+export const faltten = (array) => {
+  const result = [];
+  array.forEach((item) => {
+    if (Array.isArray(item)) {
+      result.concat(item);
+    } else {
+      result.push(item);
+    }
+  });
+  return result
+};
