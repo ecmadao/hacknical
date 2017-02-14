@@ -142,7 +142,8 @@ class Resume extends React.Component {
   render() {
     const { activeSection, openModal, openIntroModal, openShareModal } = this.state;
     const { resume, actions } = this.props;
-    const { url, openShare } = resume.shareInfo;
+    const { shareInfo } = resume;
+    const { url, openShare } = shareInfo;
 
     const origin = window.location.origin;
     const currentIndex = this.currentIndex;
@@ -214,6 +215,7 @@ class Resume extends React.Component {
         </div>
         <ResumeModalV2
           resume={resume}
+          shareInfo={shareInfo}
           openModal={openModal}
           onShare={() => this.handleShareModalStatus(true)}
           onClose={() => this.handleModalStatus(false)}

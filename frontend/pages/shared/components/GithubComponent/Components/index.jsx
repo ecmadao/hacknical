@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import GitHubCalendar from 'github-calendar';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
@@ -45,7 +45,8 @@ class GithubComponent extends React.Component {
   }
 
   componentDidMount() {
-    const { repos, login, loaded } = this.state;
+    const { login } = this.props;
+    const { repos, loaded } = this.state;
     this.getGithubInfo(login);
     if (!repos.length) {
       this.getGithubRepos(login);
@@ -119,7 +120,6 @@ class GithubComponent extends React.Component {
       user,
       repos,
       openModal,
-      isShare,
       openShareModal,
       reposLanguages,
       showedReposId,
@@ -127,11 +127,12 @@ class GithubComponent extends React.Component {
       commitInfos,
       loaded
     } = this.state;
+    const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
 
     return (
-      <div>
+      <div className={containerStyle}>
         <div className={styles["info_card_container"]}>
           <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
           <div id="calendar" className={styles["github_calendar"]}>
@@ -185,5 +186,17 @@ class GithubComponent extends React.Component {
     )
   }
 }
+
+GithubComponent.propTypes = {
+  login: PropTypes.string,
+  isShare: PropTypes.bool,
+  containerStyle: PropTypes.string,
+};
+
+GithubComponent.defaultProps = {
+  login: '',
+  isShare: false,
+  containerStyle: '',
+};
 
 export default GithubComponent;

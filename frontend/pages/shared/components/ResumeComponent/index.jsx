@@ -6,6 +6,7 @@ import { sortByX } from 'UTILS/helper';
 import validator from 'UTILS/validator';
 import { LINK_NAMES } from 'SHAREDPAGE/datas/resume';
 import { objectassign } from 'SHAREDPAGE/utils/resume';
+import GithubComponent from 'SHAREDPAGE/components/GithubComponent';
 import styles from './styles/resume.css';
 
 const sortByDate = sortByX('startTime');
@@ -44,6 +45,12 @@ const titleInfo = (text, icon, options = {}) => {
 };
 
 class ResumeComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showGithub: false
+    };
+  }
 
   renderEducations() {
     const { educations } = this.props.resume;
@@ -230,14 +237,13 @@ class ResumeComponent extends React.Component {
   }
 
   render() {
-    const { resume } = this.props;
-    const {
-      info,
-      others
-    } = resume;
+    const { resume, shareInfo } = this.props;
+    const { info, others } = resume;
+    const { useGithub } = shareInfo;
+
     return (
       <div className={styles["container"]}>
-        <div className={styles["wrapper"]} id="resume">
+        <div className={styles["wrapper"]}>
           <div className={styles["left"]}>
             {this.renderEducations()}
             {this.renderWorkExperiences()}
@@ -259,7 +265,20 @@ class ResumeComponent extends React.Component {
                 {baseInfo(others.dream, 'quote-left', { style: styles["right_info"] })}
               </div>
             ) : ''}
+            {useGithub ? (
+              baseInfo(null, 'github', {
+                component: (
+                  <a
+                    className={styles["right_link_info"]}>
+                    查看我的 github 总结报告
+                  </a>
+                )
+              })
+            ) : ''}
           </div>
+        </div>
+        <div className={styles["github_wrapper"]}>
+          <GithubComponent isShare={true} containerStyle={styles["github_container"]}/>
         </div>
       </div>
     )
@@ -267,11 +286,13 @@ class ResumeComponent extends React.Component {
 }
 
 ResumeComponent.propTypes = {
-  resume: PropTypes.object
+  resume: PropTypes.object,
+  shareInfo: PropTypes.object,
 };
 
 ResumeComponent.defaultProps = {
-  resume: {}
+  resume: {},
+  shareInfo: {},
 };
 
 export default ResumeComponent;

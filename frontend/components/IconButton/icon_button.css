@@ -12,6 +12,15 @@
   border-radius: 2px;
   position: relative;
   user-select: none;
+  margin: 15px 5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &::before {
     content: '';

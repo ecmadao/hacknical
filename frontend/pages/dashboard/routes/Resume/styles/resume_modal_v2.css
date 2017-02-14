@@ -8,5 +8,6 @@
   max-width: 800px;
   border-radius: 2px;
   overflow-y: auto;
+  overflow-x: hidden;
   composes: common-z-index from 'STYLES/common.css';
 }

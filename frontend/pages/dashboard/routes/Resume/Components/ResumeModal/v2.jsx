@@ -15,14 +15,20 @@ class ResumeModalV2 extends React.Component {
   }
 
   render() {
-    const { onClose, onShare, openModal, resume } = this.props;
+    const {
+      onClose,
+      onShare,
+      openModal,
+      resume,
+      shareInfo
+    } = this.props;
 
     return (
       <PortalModal
         showModal={openModal}
         onClose={onClose}>
         <div className={styles["modal_container"]}>
-          <ResumeComponent resume={resume} />
+          <ResumeComponent resume={resume} shareInfo={shareInfo} />
           { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
           <FloatingActionButton
             icon="share-alt"
@@ -44,14 +50,16 @@ ResumeModalV2.propTypes = {
   openModal: PropTypes.bool,
   onClose: PropTypes.func,
   onShare: PropTypes.func,
-  resume: PropTypes.object
+  resume: PropTypes.object,
+  shareInfo: PropTypes.object,
 };
 
 ResumeModalV2.defaultProps = {
   openModal: false,
   onClose: () => {},
   onShare: () => {},
-  resume: {}
+  resume: {},
+  shareInfo: {},
 };
 
 export default ResumeModalV2;
