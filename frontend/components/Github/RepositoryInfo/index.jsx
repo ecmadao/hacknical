@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
@@ -289,20 +288,4 @@ class RepositoryInfo extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const {
-    repos,
-    user,
-    showedReposId,
-    commitDatas
-  } = state.github;
-
-  return {
-    showedReposId,
-    commitDatas,
-    flatRepos: repos.filter(repository => !repository.fork).sort(sortRepos()),
-    username: user && user.name
-  }
-}
-
-export default connect(mapStateToProps)(RepositoryInfo);
+export default RepositoryInfo;

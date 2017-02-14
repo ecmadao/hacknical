@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import objectAssign from 'object-assign';
@@ -206,14 +205,4 @@ class CommitInfo extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { commitDatas, commitInfos, loaded } = state.github;
-  return {
-    loaded,
-    commitDatas,
-    commitInfos,
-    hasCommits: commitDatas.length > 0,
-  }
-}
-
-export default connect(mapStateToProps)(CommitInfo);
+export default CommitInfo;

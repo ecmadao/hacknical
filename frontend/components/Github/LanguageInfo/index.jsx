@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
 import cx from 'classnames';
 
 import ChartInfo from 'COMPONENTS/ChartInfo';
@@ -298,20 +297,4 @@ class LanguageInfo extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const {
-    repos,
-    showedReposId
-  } = state.github;
-
-  return {
-    repos,
-    loaded: repos.length > 0,
-    showedReposId,
-    languageDistributions: github.getLanguageDistribution(repos),
-    languageUsed: github.getLanguageUsed(repos),
-    languageSkills: github.getLanguageSkill(repos)
-  }
-}
-
-export default connect(mapStateToProps)(LanguageInfo);
+export default LanguageInfo;

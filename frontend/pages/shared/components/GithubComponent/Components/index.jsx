@@ -1,10 +1,10 @@
 import React from 'react';
 import GitHubCalendar from 'github-calendar';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import cx from 'classnames';
+import objectAssign from 'object-assign';
 import 'github-calendar/dist/github-calendar.css';
 
+import Api from 'API/index';
 import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
@@ -14,42 +14,119 @@ import RepositoryInfo from 'COMPONENTS/Github/RepositoryInfo';
 import UserInfo from 'COMPONENTS/Github/UserInfo';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
+import USER from 'SRC/data/user';
+import github from 'UTILS/github';
+import {
+  sortRepos
+} from 'UTILS/helper';
+
 import styles from '../styles/github.css';
-import githubActions from '../redux/actions';
 
 
 class GithubComponent extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loading: true,
+      loaded: false,
+      openModal: false,
+      openShareModal: false,
+      user: objectAssign({}, USER),
+      repos: [],
+      reposLanguages: [],
+      chosedRepos: [],
+      showedReposId: null,
+      commitDatas: [],
+      commitInfos: [],
+    };
     this.githubCalendar = false;
+    this.changeShareStatus = this.changeShareStatus.bind(this);
+    this.toggleShareModal = this.toggleShareModal.bind(this);
   }
 
   componentDidMount() {
-    const { actions, repos, login, loaded } = this.props;
-    actions.getGithubInfo(login);
+    const { repos, login, loaded } = this.state;
+    this.getGithubInfo(login);
     if (!repos.length) {
-      actions.getGithubRepos(login);
+      this.getGithubRepos(login);
     }
   }
 
   componentDidUpdate() {
-    const { user } = this.props;
+    const { user } = this.state;
     if (!this.githubCalendar && user.login) {
       this.githubCalendar = true;
       GitHubCalendar("#calendar", user.login);
     }
   }
 
+  getGithubInfo(login = '') {
+    Api.github.getUser(login).then((result) => {
+      this.changeState({ user: result });
+      this.toggleLoading(false);
+    });
+  }
+
+  changeState(newState) {
+    this.setState(newState);
+  }
+
+  getGithubRepos(login = '') {
+    Api.github.getRepos(login).then((result) => {
+      const { repos, commits } = result;
+      this.setGithubRepos(result);
+    });
+  }
+
+  setGithubRepos(result) {
+    const { repos, commits } = result;
+    this.setState({
+      loaded: true,
+      repos: [...repos],
+      commitDatas: [...commits],
+      commitInfos: github.combineReposCommits([...commits]),
+      reposLanguages: [...github.getReposLanguages(repos)]
+    })
+  }
+
+  changeShareStatus() {
+    const { user } = this.state;
+    const { openShare } = user;
+    Api.github.toggleShare(!openShare).then((result) => {
+      this.toggleShare(!openShare);
+    });
+  }
+
+  toggleShare(openShare) {
+    const { user } = this.state;
+    this.setState({
+      user: objectAssign({}, user, {
+        openShare
+      })
+    });
+  }
+
+  toggleLoading(loading) {
+    this.setState({ loading });
+  }
+
+  toggleShareModal(openShareModal) {
+    this.setState({ openShareModal })
+  }
+
   render() {
     const {
       user,
       repos,
-      actions,
       openModal,
       isShare,
       openShareModal,
-      reposLanguages
-    } = this.props;
+      reposLanguages,
+      showedReposId,
+      commitDatas,
+      commitInfos,
+      loaded
+    } = this.state;
 
     const origin = window.location.origin;
 
@@ -62,9 +139,26 @@ class GithubComponent extends React.Component {
           </div>
         </div>
         <UserInfo user={user} />
-        <RepositoryInfo />
-        <LanguageInfo />
-        <CommitInfo />
+        <RepositoryInfo
+          showedReposId={showedReposId}
+          commitDatas={commitDatas}
+          flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
+          username={user && user.name}
+        />
+        <LanguageInfo
+          repos={repos}
+          loaded={repos.length > 0}
+          showedReposId={showedReposId}
+          languageDistributions={github.getLanguageDistribution(repos)}
+          languageUsed={github.getLanguageUsed(repos)}
+          languageSkills={github.getLanguageSkill(repos)}
+        />
+        <CommitInfo
+          loaded={loaded}
+          commitDatas={commitDatas}
+          commitInfos={commitInfos}
+          hasCommits={commitDatas.length > 0}
+        />
         {openShareModal ? (
           <ShareModal
             openModal={openShareModal}
@@ -73,8 +167,8 @@ class GithubComponent extends React.Component {
               link: `${origin}/github/${user.login}`,
               text: '分享你的 github 总结'
             }}
-            toggleShare={actions.changeShareStatus}
-            onClose={() => actions.toggleShareModal(false)}
+            toggleShare={this.changeShareStatus}
+            onClose={() => this.toggleShareModal(false)}
           />
         ) : ''}
         {!isShare ? (
@@ -84,7 +178,7 @@ class GithubComponent extends React.Component {
               right: '20%',
               backgroundColor: GREEN_COLORS[1]
             }}
-            onClick={() => actions.toggleShareModal(true)}
+            onClick={() => this.toggleShareModal(true)}
           />
         ) : ''}
       </div>
@@ -92,29 +186,4 @@ class GithubComponent extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const {
-    user,
-    repos,
-    loaded,
-    openModal,
-    openShareModal,
-    reposLanguages
-  } = state.github;
-  return {
-    user,
-    repos,
-    loaded,
-    openModal,
-    openShareModal,
-    reposLanguages
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(githubActions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(GithubComponent);
+export default GithubComponent;
