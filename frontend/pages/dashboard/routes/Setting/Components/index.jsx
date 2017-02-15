@@ -33,6 +33,7 @@ class Setting extends React.Component {
               </div>
               <Button
                 value="更新数据"
+                style="flat"
                 onClick={actions.refreshGithubDatas}
               />
             </div>

@@ -8,20 +8,16 @@
 
 .wrapper {
   width: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
 	background: #F7F8F9;
   display: flex;
+  border-radius: 4px;
   flex-direction: row;
 }
 
 .github_wrapper {
   z-index: -1;
   composes: wrapper;
-  left: 70%;
   flex-direction: column;
-  transition: left 0.3s;
   visibility: hidden;
 }
 .github_wrapper_active {
@@ -37,6 +33,7 @@
 .left {
   flex: 1;
   padding: 50px 30px;
+  border-radius: 4px 0 0 4px;
   background-color: var(--oc-white);
 }
 
@@ -48,6 +45,7 @@
 .right {
   width: 250px;
   padding: 50px 30px;
+  border-radius: 0 4px 4px 0;
   text-align: center;
   background-color: #4A4A4C;
 }

@@ -264,7 +264,6 @@ class ResumeComponent extends React.Component {
                 </span>
               )
             })}
-            {/* {baseInfo('返回', 'arrow-left', { style: styles["base_info_header"] })} */}
             <GithubComponent isShare={true} containerStyle={styles["github_container"]}/>
           </div>
         </div>
