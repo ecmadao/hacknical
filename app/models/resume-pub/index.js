@@ -36,7 +36,6 @@ const findPublicResume = async (options) => {
   if (!findResult) {
     return Promise.resolve({
       success: false,
-      message: '没有找到指定简历'
     });
   }
   return Promise.resolve({

@@ -67,7 +67,8 @@ const getResumeStatus = async (ctx, next) => {
   if (!success) {
     ctx.body = {
       error: message,
-      success: true
+      success: true,
+      result: null
     };
     return
   }

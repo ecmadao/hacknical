@@ -47,10 +47,7 @@ const postGithubShareStatus = () => (dispatch, getState) => {
 // resume
 const fetchResumeShareInfo = () => (dispatch, getState) => {
   Api.resume.getPubResumeStatus().then((result) => {
-    dispatch(initialResumeShareInfo({
-      useGithub: result.useGithub,
-      openShare: result.openShare
-    }));
+    dispatch(initialResumeShareInfo(result));
   });
 };
 

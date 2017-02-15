@@ -9,10 +9,11 @@ class BaseModal extends React.Component {
   }
 
   render() {
-    const { children, showModal } = this.props;
+    const { children, showModal, className } = this.props;
     const modalClass = cx(
       styles["modal_component"],
-      showModal && styles["active"]
+      showModal && styles["active"],
+      className
     );
     return (
       <div className={modalClass}>
@@ -28,6 +29,7 @@ class BaseModal extends React.Component {
 BaseModal.propTypes = {
   showModal: PropTypes.bool,
   onClose: PropTypes.func,
+  className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array
@@ -37,6 +39,7 @@ BaseModal.propTypes = {
 BaseModal.defaultProps = {
   showModal: true,
   onClose: () => {},
+  className: '',
   children: (<div></div>)
 };
 

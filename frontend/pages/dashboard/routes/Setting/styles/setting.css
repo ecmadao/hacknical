@@ -15,6 +15,10 @@
 .info_container_wrapper {
   width: 100%;
   position: relative;
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--oc-gray-2);
+  }
 }
 
 .info_container {

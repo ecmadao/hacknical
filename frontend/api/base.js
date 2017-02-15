@@ -44,7 +44,7 @@ const fetchApi = (url, method, data) => {
         window.location = json.url;
       }
       NProgress.done();
-      return json.result || false;
+      return json.result || null;
     }).catch((ex) => {
       NProgress.done();
       throw new Error('Request Parsing Error', ex);

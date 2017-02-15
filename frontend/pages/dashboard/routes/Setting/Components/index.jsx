@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 
 import Loading from 'COMPONENTS/Loading';
+import BaseModal from 'COMPONENTS/BaseModal';
 import Button from 'COMPONENTS/Button';
 import Switcher from 'COMPONENTS/Switcher';
 import actions from '../redux/actions';
@@ -71,24 +72,23 @@ class Setting extends React.Component {
         <div className={styles['card_container']}>
           <p><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;简历相关设置</p>
           <div className={styles.card}>
-            {resumeInfo.loading ? (
-              <Loading className={styles['info_loading']} />
-            ) : (
-              <div className={styles['info_container_wrapper']}>
-                <SwitcherPane
-                  id='resume-share-switch'
-                  text='开启简历的分享'
-                  onChange={actions.postResumeShareStatus}
-                  checked={resumeInfo.openShare}
-                />
-                <SwitcherPane
-                  id='use-github-switch'
-                  text='在简历中附加我的 github 分析报告'
-                  onChange={actions.postResumeGithubStatus}
-                  checked={resumeInfo.useGithub}
-                />
-              </div>
-            )}
+            {(!resumeInfo || resumeInfo.loading) ? (
+              <BaseModal className={styles['info_loading']} showModal={true} />
+            ) : ''}
+            <div className={styles['info_container_wrapper']}>
+              <SwitcherPane
+                id='resume-share-switch'
+                text='开启简历的分享'
+                onChange={actions.postResumeShareStatus}
+                checked={(resumeInfo && resumeInfo.openShare) || false}
+              />
+              <SwitcherPane
+                id='use-github-switch'
+                text='在简历中附加我的 github 分析报告'
+                onChange={actions.postResumeGithubStatus}
+                checked={(resumeInfo && resumeInfo.useGithub) || false}
+              />
+            </div>
           </div>
         </div>
       </div>
