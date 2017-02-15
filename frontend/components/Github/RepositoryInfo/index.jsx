@@ -26,6 +26,7 @@ import githubStyles from '../styles/github.css';
 
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getRelativeTime = dateHelper.relative.hoursBefore;
+const getValidateDate = dateHelper.validator.fullDate;
 
 class RepositoryInfo extends React.Component {
   constructor(props) {
@@ -132,7 +133,7 @@ class RepositoryInfo extends React.Component {
           />
           <ChartInfo
             icon="clock-o"
-            mainText={`${startTime.split('-').join('/')}~${pushTime.split('-').join('/')}`}
+            mainText={`${getValidateDate(startTime)}~${getValidateDate(pushTime)}`}
             subText="贡献时间最久的仓库"
           />
         </div>

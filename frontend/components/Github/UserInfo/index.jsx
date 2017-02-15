@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import github from 'UTILS/github';
+import dateHelper from 'UTILS/date';
 import SocialInfo from 'COMPONENTS/Github/SocialInfo';
 import styles from '../styles/info_card.css';
 
@@ -17,7 +18,7 @@ const UserInfo = (props) => {
           </div>
           <div className={styles["info_user"]}>
             <a href={`${github.baseUrl}/${user.login}`} target="_blank">{user.name || user.login}</a>
-            <span>加入时间：{user['created_at'].split('T')[0]}</span>
+            <span>加入时间：{dateHelper.validator.fullDate(user['created_at'])}</span>
             {user.bio ? <blockquote>{user.bio}</blockquote> : ''}
           </div>
         </div>
