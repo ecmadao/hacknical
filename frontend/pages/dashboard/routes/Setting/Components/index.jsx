@@ -27,10 +27,10 @@ const SwitcherPane = (props) => {
 
 class Setting extends React.Component {
   componentDidMount() {
-    const { actions, loading } = this.props;
+    const { actions, loading, resumeInfo, githubInfo } = this.props;
     loading && actions.fetchGithubUpdateTime();
-    actions.fetchResumeShareInfo();
-    actions.fetchGithubShareInfo();
+    resumeInfo.loading && actions.fetchResumeShareInfo();
+    githubInfo.loading && actions.fetchGithubShareInfo();
   }
 
   render() {

@@ -80,6 +80,13 @@
 
 .menu_tipso {
   composes: tipso;
-  z-index: var(--zIndex999) !important;
   font-size: 12px;
+  color: var(--oc-white);
+  min-width: 50px !important;
+  background-color: var(--bgDark) !important;
+  z-index: var(--zIndex999) !important;
+
+  &::after {
+    border-bottom: 10px solid var(--bgDark);
+  }
 }
