@@ -1,8 +1,8 @@
-# [Hacknical](//hacknical.com)
+# [Hacknical](http://hacknical.com)
 
 > A website for github user to see his github contributions/commits/languages/repos datas analysis.
-> 
-> [Click to see this website](//hacknical.com)
+>
+> [Click to see this website](http://hacknical.com)
 
 ## Screenshots
 
