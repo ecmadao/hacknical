@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import objectAssign from 'object-assign';
 import Tipso from 'COMPONENTS/Tipso';
 
 import styles from '../../styles/app.css';
@@ -7,22 +8,32 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showTipso: false
+      showLogoutTipso: false,
+      showAdviceTipso: false
     };
     this.onMouseEnter = this.onMouseEnter.bind(this);
     this.onMouseLeave = this.onMouseLeave.bind(this);
   }
 
-  onMouseEnter() {
-    this.setState({ showTipso: true });
+  onMouseEnter(key) {
+    const state = objectAssign({}, this.state, {
+      [key]: true
+    });
+    this.setState(state);
   }
 
-  onMouseLeave() {
-    this.setState({ showTipso: false });
+  onMouseLeave(key) {
+    const state = objectAssign({}, this.state, {
+      [key]: false
+    });
+    this.setState(state);
   }
 
   render() {
-    const { showTipso } = this.state;
+    const { showAdviceTipso, showLogoutTipso } = this.state;
+    const onMouseEnter = (key) => () => this.onMouseEnter(key);
+    const onMouseLeave = (key) => () => this.onMouseLeave(key);
+
     return (
       <div className={styles["app_header"]}>
         <div className={styles["app_header_container"]}>
@@ -31,13 +42,13 @@ class Header extends React.Component {
           </div> */}
           <div className={styles["header_menus"]}>
             <a
-              onMouseOver={this.onMouseEnter}
-              onMouseEnter={this.onMouseEnter}
-              onMouseOut={this.onMouseLeave}
-              onMouseLeave={this.onMouseLeave}
+              onMouseOver={onMouseEnter('showAdviceTipso')}
+              onMouseEnter={onMouseEnter('showAdviceTipso')}
+              onMouseOut={onMouseLeave('showAdviceTipso')}
+              onMouseLeave={onMouseLeave('showAdviceTipso')}
               href="mailto:wlec@outlook.com?subject=Hacknical反馈"
               className={styles["header_menu_icon_right"]}>
-              {showTipso ? (
+              {showAdviceTipso ? (
                 <Tipso
                   className={styles["menu_tipso"]}
                   show={true}>
@@ -48,7 +59,18 @@ class Header extends React.Component {
             </a>
             <a
               href="/user/logout"
+              onMouseOver={onMouseEnter('showLogoutTipso')}
+              onMouseEnter={onMouseEnter('showLogoutTipso')}
+              onMouseOut={onMouseLeave('showLogoutTipso')}
+              onMouseLeave={onMouseLeave('showLogoutTipso')}
               className={styles["header_menu_icon_right"]}>
+              {showLogoutTipso ? (
+                <Tipso
+                  className={styles["menu_tipso"]}
+                  show={true}>
+                  <span>退出登录</span>
+                </Tipso>
+              ) : ''}
               <i className="fa fa-sign-out" aria-hidden="true"></i>
             </a>
           </div>
