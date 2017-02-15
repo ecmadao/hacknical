@@ -28,15 +28,6 @@ const initialState = {
 
 const reducers = handleActions({
   // github
-  TOGGLE_GITHUB_SHARE_STATUS(state, action) {
-    const { github } = state;
-    const newInfo = objectAssign({}, github.info, { openShare: action.payload });
-    return ({
-      ...state,
-      github: objectAssign({}, github, { info: newInfo })
-    });
-  },
-
   TOGGLE_GITHUB_LOADING(state, action) {
     const { github } = state;
     return ({
@@ -68,15 +59,6 @@ const reducers = handleActions({
   },
 
   // resume
-  TOGGLE_RESUME_SHARE_STATUS(state, action) {
-    const { resume } = state;
-    const newInfo = objectAssign({}, resume.info, { openShare: action.payload });
-    return ({
-      ...state,
-      resume: objectAssign({}, resume, { info: newInfo })
-    });
-  },
-
   TOGGLE_RESUME_LOADING(state, action) {
     const { resume } = state;
     return ({

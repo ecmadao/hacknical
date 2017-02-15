@@ -8,6 +8,11 @@ const initialState = {
   resumeInfo: {
     loading: true,
     useGithub: true,
+    openShare: true
+  },
+  githubInfo: {
+    loading: true,
+    openShare: true
   }
 };
 
@@ -30,13 +35,27 @@ const reducers = handleActions({
     });
   },
 
+  INITIAL_GITHUB_SHARE_INFO(state, action) {
+    const { githubInfo } = state;
+    const { openShare } = action.payload;
+    return ({
+      ...state,
+      githubInfo: objectAssign({}, githubInfo, {
+        openShare,
+        loading: false
+      })
+    });
+  },
+
   // resume
   INITIAL_RESUME_SHARE_INFO(state, action) {
     const { resumeInfo } = state;
+    const { openShare, useGithub } = action.payload;
     return ({
       ...state,
       resumeInfo: objectAssign({}, resumeInfo, {
-        useGithub: action.payload,
+        openShare,
+        useGithub,
         loading: false
       })
     });

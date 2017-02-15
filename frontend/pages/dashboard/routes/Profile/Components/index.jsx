@@ -26,7 +26,6 @@ class Profile extends React.Component {
         <ShareAnalysis
           actions={{
             fetchShareData: actions.fetchResumeShareData,
-            postShareStatus: actions.postResumeShareStatus
           }}
           index={0}
           text={'个人简历'}
@@ -38,7 +37,6 @@ class Profile extends React.Component {
         <ShareAnalysis
           actions={{
             fetchShareData: actions.fetchGithubShareData,
-            postShareStatus: actions.postGithubShareStatus
           }}
           index={1}
           text={' github 报告'}

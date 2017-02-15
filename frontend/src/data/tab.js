@@ -10,7 +10,7 @@ const TABS = [
     id: 'resume',
     name: '简历',
     enable: true,
-    icon: 'fa-file-text-o'
+    icon: 'fa-file-code-o'
   },
   {
     id: 'github',

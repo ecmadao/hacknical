@@ -8,7 +8,6 @@ import objectAssign from 'object-assign';
 
 import Loading from 'COMPONENTS/Loading';
 import IconButton from 'COMPONENTS/IconButton';
-import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Tipso from 'COMPONENTS/Tipso';
@@ -69,14 +68,9 @@ class ShareAnalysis extends React.Component {
   renderShareController() {
     const { showQrcodeModal } = this.state;
     const { actions, info, index, text } = this.props;
-    const { openShare, url } = info;
+    const { url } = info;
     return (
       <div className={styles["share_controller"]}>
-        <Switcher
-          id={`share-switch-${index}`}
-          onChange={actions.postShareStatus}
-          checked={openShare}
-        />
         <div
           onMouseEnter={this.onMouseOver}
           onMouseLeave={this.onMouseOut}

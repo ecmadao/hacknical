@@ -1,3 +1,5 @@
+@import 'open-color/open-color.css';
+
 .card_container {
   composes: card_container from 'STYLES/common.css';
 }
@@ -8,19 +10,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 5px 15px;
   position: relative;
 }
 
-.info_container {
+.info_container_wrapper {
   width: 100%;
+}
+
+.info_container {
   display: flex;
   flex-direction: row;
+  padding: 0 15px;
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--oc-gray-2);
+  }
 }
 
 .info_container_large {
   composes: info_container;
-  margin: 15px 0;
+  padding: 15px;
 }
 
 .info {

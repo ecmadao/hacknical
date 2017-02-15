@@ -5,7 +5,7 @@ import Clipboard from 'clipboard';
 
 import PortalModal from 'COMPONENTS/PortalModal';
 import IconButton from 'COMPONENTS/IconButton';
-import Switcher from 'COMPONENTS/Switcher';
+// import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
@@ -48,7 +48,7 @@ class ShareModal extends React.Component {
   }
 
   render() {
-    const { openModal, onClose, toggleShare, options } = this.props;
+    const { openModal, onClose, options } = this.props;
     const { link, openShare, text } = options;
     const modalClass = cx(
       styles["share_modal_container"],
@@ -70,11 +70,11 @@ class ShareModal extends React.Component {
           </div>
           <div className={styles["share_info"]}>
             <div className={styles["share_controller"]}>
-              <Switcher
+              {/* <Switcher
                 id="switch"
                 onChange={toggleShare}
                 checked={openShare}
-              />
+              /> */}
               <div className={statusClass}>{statusText}</div>
             </div>
             <blockquote>扫描二维码/复制链接<br/>{text}</blockquote>
