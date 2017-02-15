@@ -27,17 +27,34 @@ class ResumeShare extends React.Component {
       educations: [],
       workExperiences: [],
       personalProjects: [],
-      others: objectassign({}, OTHERS)
+      others: objectassign({}, OTHERS),
+      shareInfo: {
+        useGithub: true
+      }
     };
   }
 
   componentDidMount() {
     this.fetchResume();
+    this.fetchShareInfo();
+  }
+
+  fetchShareInfo() {
+    Api.resume.getPubResumeStatus().then((result) => {
+      this.initialShareInfo(result);
+    });
   }
 
   fetchResume() {
     Api.resume.getPubResume(this.props.hash).then((result) => {
       result && this.initialResume(result);
+    });
+  }
+
+  initialShareInfo(data) {
+    const { shareInfo } = this.state;
+    this.setState({
+      shareInfo: objectassign(shareInfo, data)
     });
   }
 
@@ -67,6 +84,7 @@ class ResumeShare extends React.Component {
       <div className={styles.container}>
         <ResumeComponent
           resume={this.state}
+          shareInfo={this.state.shareInfo}
         />
         <ResumeDownloader
           resume={this.state}

@@ -14,19 +14,24 @@
 	background: #F7F8F9;
   display: flex;
   flex-direction: row;
-
-  &:first-child {
-    z-index: 1;
-  }
 }
 
 .github_wrapper {
+  z-index: -1;
   composes: wrapper;
+  left: 70%;
   flex-direction: column;
+  transition: left 0.3s;
+  visibility: hidden;
+}
+.github_wrapper_active {
+  visibility: visible;
+  z-index: 1;
+  left: 0;
 }
 
 .github_container {
-  margin: 40px;
+  margin: 0 40px 40px;
 }
 
 .left {
@@ -51,6 +56,20 @@
   text-align: left;
   line-height: 30px;
   composes: baseText from 'STYLES/common.css';
+}
+
+.base_info_header {
+  composes: base_info;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--oc-gray-2);
+
+  & span {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .base_icon {
@@ -216,7 +235,7 @@
   margin-top: 10px;
   color: var(--oc-gray-6);
   font-size: 14px;
-  margin-left: 12px;
+  margin-left: 18px;
 
   & li {
     line-height: 2em;

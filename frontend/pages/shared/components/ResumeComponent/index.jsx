@@ -50,6 +50,11 @@ class ResumeComponent extends React.Component {
     this.state = {
       showGithub: false
     };
+    this.changeShowGithub = this.changeShowGithub.bind(this);
+  }
+
+  changeShowGithub(showGithub) {
+    this.setState({ showGithub });
   }
 
   renderEducations() {
@@ -237,13 +242,40 @@ class ResumeComponent extends React.Component {
   }
 
   render() {
+    const { showGithub } = this.state;
     const { resume, shareInfo } = this.props;
     const { info, others } = resume;
     const { useGithub } = shareInfo;
 
+    if (useGithub && showGithub) {
+      return (
+        <div className={styles["container"]}>
+          <div
+            className={cx(
+              styles["github_wrapper"],
+              showGithub && styles["github_wrapper_active"]
+            )}>
+            {baseInfo(null, 'arrow-left', {
+              style: styles["base_info_header"],
+              component: (
+                <span
+                  onClick={() => this.changeShowGithub(false)}>
+                  返回
+                </span>
+              )
+            })}
+            {/* {baseInfo('返回', 'arrow-left', { style: styles["base_info_header"] })} */}
+            <GithubComponent isShare={true} containerStyle={styles["github_container"]}/>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className={styles["container"]}>
-        <div className={styles["wrapper"]}>
+        <div className={cx(
+            styles["wrapper"]
+        )}>
           <div className={styles["left"]}>
             {this.renderEducations()}
             {this.renderWorkExperiences()}
@@ -269,6 +301,7 @@ class ResumeComponent extends React.Component {
               baseInfo(null, 'github', {
                 component: (
                   <a
+                    onClick={() => this.changeShowGithub(true)}
                     className={styles["right_link_info"]}>
                     查看我的 github 总结报告
                   </a>
@@ -276,9 +309,6 @@ class ResumeComponent extends React.Component {
               })
             ) : ''}
           </div>
-        </div>
-        <div className={styles["github_wrapper"]}>
-          <GithubComponent isShare={true} containerStyle={styles["github_container"]}/>
         </div>
       </div>
     )
