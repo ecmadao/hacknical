@@ -42,9 +42,6 @@ class Setting extends React.Component {
           <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 相关设置</p>
           <div className={styles.card}>
             <div className={styles['info_container_wrapper']}>
-              {loading ? (
-                <Loading className={styles['info_loading']} />
-              ) : ''}
               {githubInfo.loading ? '' : (
                 <SwitcherPane
                   id='github-share-switch'
@@ -53,6 +50,11 @@ class Setting extends React.Component {
                   checked={githubInfo.openShare}
                 />
               )}
+            </div>
+            <div className={styles['info_container_wrapper']}>
+              {loading ? (
+                <Loading className={styles['info_loading']} />
+              ) : ''}
               <div className={styles['info_container']}>
                 <div className={styles.info}>
                   最近更新时间：{updateTime}

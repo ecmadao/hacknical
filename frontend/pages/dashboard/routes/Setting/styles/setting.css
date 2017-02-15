@@ -10,11 +10,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .info_container_wrapper {
   width: 100%;
+  position: relative;
 }
 
 .info_container {
