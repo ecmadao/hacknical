@@ -8,7 +8,7 @@
 
 .wrapper {
   width: 100%;
-	background: #F7F8F9;
+	background: var(--bg);
   display: flex;
   border-radius: 4px;
   flex-direction: row;

@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 .container {
-  background-color: #F7F8F9;
+  background-color: var(--bg);
   box-shadow: var(--shadow4);
   width: 400px;
   border-radius: 2px;

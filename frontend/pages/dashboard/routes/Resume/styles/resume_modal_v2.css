@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 .modal_container {
-  background-color: #F7F8F9;
+  background-color: var(--bg);
   box-shadow: var(--shadow4);
   width: 70%;
   height: 100%;
