@@ -86,9 +86,9 @@ class ResumeShare extends React.Component {
           resume={this.state}
           shareInfo={this.state.shareInfo}
         />
-        <ResumeDownloader
+        {/* <ResumeDownloader
           resume={this.state}
-        />
+        /> */}
       </div>
     )
   }

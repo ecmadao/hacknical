@@ -39,7 +39,12 @@ class ResumeModalV2 extends React.Component {
             }}
             onClick={onShare}
           />
-          <ResumeDownloader resume={resume} />
+          {/* <ResumeDownloader
+            resume={resume}
+            style={{
+              right: '12%'
+            }}
+          /> */}
         </div>
       </PortalModal>
     )

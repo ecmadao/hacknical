@@ -27,7 +27,7 @@ class ResumeDownloader extends React.Component {
       <FloatingActionButton
         icon="download"
         style={{
-          right: '12%',
+          right: '15%',
           backgroundColor: GREEN_COLORS[1]
         }}
         onClick={this.handleDownload.bind(this)}
