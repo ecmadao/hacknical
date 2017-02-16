@@ -17,6 +17,7 @@ const saveResume = () => (dispatch, getState) => {
   const postResume = objectAssign({}, resume);
   delete postResume.loading;
   Api.resume.setResume(JSON.stringify(postResume)).then((result) => {
+    result && dispatch(initialPubResumeStatus(result));
     // dispatch(initialResume(result));
   });
 };

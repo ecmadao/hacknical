@@ -18,16 +18,24 @@ const setResume = async (ctx, next) => {
   const { userId } = ctx.session;
 
   const setResult = await Resume.updateResume(userId, resumeObj);
+  let resumeInfo = null;
   if (setResult.success) {
     // check & add resume share info
-    const checkResult = await ResumePub.checkPubResume({ userId });
-    if (!checkResult.success) { await ResumePub.addPubResume(userId) }
+    let checkResult = await ResumePub.findPublicResume({ userId });
+    if (!checkResult.success) {
+      checkResult = await ResumePub.addPubResume(userId);
+    }
+    resumeInfo = checkResult.success ? {
+      url: `resume/${checkResult.result.resumeHash}`,
+      useGithub: checkResult.result.useGithub,
+      openShare: checkResult.result.openShare
+    } : null;
   }
 
   ctx.body = {
     success: true,
     message: '储存成功',
-    result: setResult.result
+    result: resumeInfo
   };
 };
 

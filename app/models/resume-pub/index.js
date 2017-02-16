@@ -66,12 +66,13 @@ const addPubResume = async (userId, options = {}) => {
     return Promise.resolve({
       success: true,
       message: '创建成功',
-      result: resumeHash
+      result: saveResult
     });
   }
   return Promise.resolve({
     success: false,
-    message: '创建失败'
+    message: '创建失败',
+    result: null
   });
 };
 
