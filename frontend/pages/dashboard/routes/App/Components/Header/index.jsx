@@ -46,7 +46,8 @@ class Header extends React.Component {
               onMouseEnter={onMouseEnter('showAdviceTipso')}
               onMouseOut={onMouseLeave('showAdviceTipso')}
               onMouseLeave={onMouseLeave('showAdviceTipso')}
-              href="mailto:wlec@outlook.com?subject=Hacknical反馈"
+              href="https://github.com/ecmadao/hacknical/issues"
+              target="_blank"
               className={styles["header_menu_icon_right"]}>
               {showAdviceTipso ? (
                 <Tipso
@@ -55,7 +56,7 @@ class Header extends React.Component {
                   <span>发送反馈</span>
                 </Tipso>
               ) : ''}
-              <i className="fa fa-envelope-o" aria-hidden="true"></i>
+              <i className="fa fa-info-circle" aria-hidden="true"></i>
             </a>
             <a
               href="/user/logout"
