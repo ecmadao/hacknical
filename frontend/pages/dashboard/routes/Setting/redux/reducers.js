@@ -51,7 +51,8 @@ const reducers = handleActions({
   INITIAL_RESUME_SHARE_INFO(state, action) {
     const { resumeInfo } = state;
     const result = action.payload;
-    const newResumeInfo = result ? objectAssign({}, resumeInfo, {
+    let info = resumeInfo ? resumeInfo : {};
+    const newResumeInfo = result ? objectAssign({}, info, {
       openShare: result.openShare,
       useGithub: result.useGithub,
       loading: false
