@@ -94,7 +94,13 @@ const updatePubResume = async (userId, resumeHash, options) => {
 const checkPubResume = async (options) => {
   const findResult = await findPublicResume(options);
   if (!findResult.success) { return findResult; }
-  const { userId } = findResult.result;
+  const { userId, openShare } = findResult.result;
+
+  if (!openShare) {
+    return Promise.resolve({
+      success: false
+    });
+  }
 
   const findResume = await Resume.getResume(userId);
   if (!findResume.success) { return findResume }
