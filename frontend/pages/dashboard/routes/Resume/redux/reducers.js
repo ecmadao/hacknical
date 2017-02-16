@@ -19,6 +19,7 @@ const getDateBeforeYears = dateHelper.date.beforeYears;
 const getCurrentDate = dateHelper.validator.fullDate;
 const initialState = {
   loading: true,
+  posting: false,
   info: objectassign({}, INFO),
   educations: [],
   workExperiences: [],
@@ -128,6 +129,12 @@ const reducers = handleActions({
     return ({
       ...state,
       loading: action.payload
+    });
+  },
+  TOGGLE_POSTING(state, action) {
+    return ({
+      ...state,
+      posting: action.payload
     });
   },
   // info

@@ -5,6 +5,7 @@ import Api from 'API';
 /**
  * initial
  */
+const togglePosting = createAction('TOGGLE_POSTING');
 const initialResume = createAction('INITIAL_RESUME');
 const fetchResume = () => (dispatch, getState) => {
   Api.resume.getResume().then((result) => {
@@ -14,11 +15,19 @@ const fetchResume = () => (dispatch, getState) => {
 
 const saveResume = () => (dispatch, getState) => {
   const { resume } = getState();
+  const { posting } = resume;
+  if (posting) { return }
+
+  dispatch(togglePosting(true));
+
   const postResume = objectAssign({}, resume);
   delete postResume.loading;
+  delete postResume.posting;
+  delete postResume.shareInfo;
+
   Api.resume.setResume(JSON.stringify(postResume)).then((result) => {
     result && dispatch(initialPubResumeStatus(result));
-    // dispatch(initialResume(result));
+    dispatch(togglePosting(false));
   });
 };
 
