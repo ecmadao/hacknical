@@ -16,7 +16,8 @@ const getResumeHash = (userId) => {
   src.copy(dst, 0, 0, src.length);
   bytes.copy(dst, src.length, 0, bytes.length);
 
-  return crypto.createHash('sha1').update(dst).digest('base64');
+  const hash = crypto.createHash('sha1').update(dst).digest('base64');
+  return hash.split('/').join('');
 };
 
 const resumeValidation = (timestamp) => {
