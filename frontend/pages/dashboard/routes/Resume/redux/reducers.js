@@ -26,7 +26,7 @@ const initialState = {
   others: objectassign({}, OTHERS),
   shareInfo: {
     url: '',
-    openShare: true,
+    openShare: false,
     useGithub: true
   }
 };

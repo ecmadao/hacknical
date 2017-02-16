@@ -105,7 +105,7 @@ const setPubResumeStatus = createAction('SET_PUB_RESUME_STATUS');
 const initialPubResumeStatus = createAction('INITIAL_PUB_RESUME_STATUS');
 const fetchPubResumeStatus = () => (dispatch, getState) => {
   Api.resume.getPubResumeStatus().then((result) => {
-    dispatch(initialPubResumeStatus(result));
+    result && dispatch(initialPubResumeStatus(result));
   });
 };
 const postShareStatus = () => (dispatch, getState) => {

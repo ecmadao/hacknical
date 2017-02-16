@@ -33,7 +33,7 @@ class ResumeModalV2 extends React.Component {
           <FloatingActionButton
             icon="share-alt"
             style={{
-              right: '15%',
+              right: '12%',
               bottom: '100px',
               backgroundColor: GREEN_COLORS[1]
             }}

@@ -12,6 +12,7 @@
   display: flex;
   border-radius: 4px;
   flex-direction: row;
+  min-height: 100%;
 }
 
 .github_wrapper {

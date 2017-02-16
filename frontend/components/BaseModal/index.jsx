@@ -18,9 +18,7 @@ class BaseModal extends React.Component {
     return (
       <div className={modalClass}>
         <div className={styles["modal_wrapper"]} onClick={this.onClose.bind(this)}></div>
-        <div className={styles["modal_container"]}>
-          {children}
-        </div>
+        {children}
       </div>
     )
   }

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import domtoimage from 'dom-to-image';
+import objectAssign from 'object-assign';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import { GREEN_COLORS } from 'UTILS/colors';
 
@@ -21,11 +22,12 @@ class ResumeDownloader extends React.Component {
   }
 
   render() {
+    const { style } = this.props;
     return (
       <FloatingActionButton
         icon="download"
         style={{
-          right: '15%',
+          right: '12%',
           backgroundColor: GREEN_COLORS[1]
         }}
         onClick={this.handleDownload.bind(this)}
@@ -33,5 +35,15 @@ class ResumeDownloader extends React.Component {
     )
   }
 }
+
+ResumeDownloader.propTypes = {
+  style: PropTypes.object,
+  resume: PropTypes.object
+};
+
+ResumeDownloader.defaultProps = {
+  style: {},
+  resume: { info: { name: 'resume' } }
+};
 
 export default ResumeDownloader;

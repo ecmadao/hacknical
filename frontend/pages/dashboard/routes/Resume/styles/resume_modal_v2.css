@@ -5,9 +5,11 @@
   box-shadow: var(--shadow4);
   width: 70%;
   height: 100%;
+  flex: 1;
   max-width: 800px;
   border-radius: 2px;
   overflow-y: auto;
   overflow-x: hidden;
+  margin: 20px 0;
   composes: common-z-index from 'STYLES/common.css';
 }
