@@ -20,7 +20,7 @@ export const createRoutes = (store) => {
       {
         path: `${PATH.BASE_PATH}/`,
         onEnter: (nextState, replace) => {
-          replace('resume');
+          replace('github');
         }
       },
       {
