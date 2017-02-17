@@ -41,6 +41,10 @@ const getUpdateTime = () => fetchInfo('/updateTime');
 
 const refresh = () => fetchInfo('/refresh');
 
+const zen = () => fetchInfo('/zen');
+
+const octocat = () => fetchInfo('/octocat');
+
 export default {
   getUser,
   getRepos,
@@ -51,5 +55,7 @@ export default {
   toggleShare,
   getShareData,
   getUpdateTime,
-  refresh
+  refresh,
+  zen,
+  octocat
 }

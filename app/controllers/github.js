@@ -347,6 +347,22 @@ const refreshDatas = async (ctx, next) => {
   await next();
 };
 
+const getZen = async (ctx) => {
+  const result = await Github.getZen();
+  ctx.body = {
+    success: true,
+    result
+  }
+};
+
+const getOctocat = async (ctx) => {
+  const result = await Github.getOctocat();
+  ctx.body = {
+    success: true,
+    result
+  }
+};
+
 export default {
   getUser,
   getSharedUser,
@@ -359,5 +375,7 @@ export default {
   toggleShare,
   getStareData,
   getUpdateTime,
-  refreshDatas
+  refreshDatas,
+  getZen,
+  getOctocat
 }

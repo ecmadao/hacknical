@@ -28,6 +28,7 @@
   max-width: 1248px;
   display: flex;
   max-width: 750px;
+  height: 50px;
 }
 
 /* content */
@@ -39,10 +40,24 @@
 }
 
 /* header */
-.header_menus {
+.header_zen {
   flex: 1;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+}
+
+.zen {
+  line-height: 22px;
+  margin: 0 20px;
+  font-size: 14px;
+  position: relative;
+}
+
+.header_menus {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .header_menu_icon {
@@ -50,6 +65,7 @@
   display: block;
   color: var(--oc-gray-7);
   text-decoration: none;
+  line-height: normal;
 }
 
 .header_menu_icon_right {
@@ -63,7 +79,8 @@
 
 /* tipso */
 .tipso {
-  bottom: -80% !important;
+  top: 130%;
+  bottom: inherit !important;
 
   &::before {
     top: -11px;
@@ -89,4 +106,9 @@
   &::after {
     border-bottom: 10px solid var(--bgDark);
   }
+}
+
+.zen_tipso {
+  composes: menu_tipso;
+  min-width: 70px !important;
 }

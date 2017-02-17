@@ -11,6 +11,16 @@ const router = koaRouter({
   prefix: '/github'
 });
 
+// zen & octocat
+router.get(
+  '/zen',
+  Github.getZen
+);
+router.get(
+  '/octocat',
+  Github.getOctocat
+);
+
 // repos
 router.get(
   '/repos',
