@@ -283,9 +283,9 @@ class MobileShare extends React.Component {
     const dayName = DAYS[maxIndex];
     // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commitDatas.commits, (item) => item.total);
-    const week = dateHelper.date.bySeconds(firstCommitWeek.week);
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = dateHelper.date.afterDays(dayIndex, week);
+    const firstCommitDate = dateHelper.date.bySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
+
     return (
       <div
         className={styles["info_with_chart_wrapper"]}
