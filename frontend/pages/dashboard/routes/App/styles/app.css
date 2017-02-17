@@ -110,5 +110,5 @@
 
 .zen_tipso {
   composes: menu_tipso;
-  min-width: 70px !important;
+  min-width: 90px !important;
 }
