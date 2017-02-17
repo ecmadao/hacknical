@@ -66,7 +66,7 @@ class Header extends React.Component {
                 <Tipso
                   className={styles["zen_tipso"]}
                   show={true}>
-                  <span>zen of github.</span>
+                  <span>zen of github</span>
                 </Tipso>
               ) : ''}
             </span>

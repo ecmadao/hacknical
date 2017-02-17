@@ -144,9 +144,8 @@ class CommitInfo extends React.Component {
     const dayName = DAYS[maxIndex];
     // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commits, (item) => item.total);
-    const week = dateHelper.date.bySeconds(firstCommitWeek.week);
     const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = dateHelper.date.afterDays(dayIndex, week);
+    const firstCommitDate = dateHelper.date.bySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
     // max commit repos
     commitDatas.sort(sortRepos('totalCommits'));
     const maxCommitRepos = commitDatas[0];
