@@ -15,11 +15,10 @@ const getResume = async (ctx, next) => {
 };
 
 const setResume = async (ctx, next) => {
-  const { resume } = ctx.query;
-  const resumeObj = JSON.parse(resume);
+  const { resume } = ctx.request.body;
   const { userId } = ctx.session;
 
-  const setResult = await Resume.updateResume(userId, resumeObj);
+  const setResult = await Resume.updateResume(userId, resume);
   let resumeInfo = null;
   if (setResult.success) {
     // check & add resume share info
@@ -96,7 +95,7 @@ const getResumeStatus = async (ctx, next) => {
 };
 
 const setResumeShareStatus = async (ctx, next) => {
-  const { enable } = ctx.query;
+  const { enable } = ctx.request.body;
   const { userId } = ctx.session;
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
@@ -118,7 +117,7 @@ const setResumeShareStatus = async (ctx, next) => {
 };
 
 const setResumeGithubStatus = async (ctx, next) => {
-  const { enable } = ctx.query;
+  const { enable } = ctx.request.body;
   const { userId } = ctx.session;
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
@@ -152,10 +151,10 @@ const setGithubShareSection = async (ctx, next) => {
   }
 
   let githubSections = {};
-  const query = ctx.query;
-  Object.keys(query).forEach((key) => {
+  const { body } = ctx.request;
+  Object.keys(body).forEach((key) => {
     if (GITHUB_SECTIONS.some(section => section === key)) {
-      githubSections[key] = query[key];
+      githubSections[key] = body[key];
     }
   });
 

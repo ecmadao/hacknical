@@ -25,7 +25,7 @@ const saveResume = () => (dispatch, getState) => {
   delete postResume.posting;
   delete postResume.shareInfo;
 
-  Api.resume.setResume(JSON.stringify(postResume)).then((result) => {
+  Api.resume.setResume(postResume).then((result) => {
     result && dispatch(initialPubResumeStatus(result));
     dispatch(togglePosting(false));
   });

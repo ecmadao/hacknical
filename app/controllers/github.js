@@ -93,7 +93,7 @@ const fetchGithubInfo = async (githubToken) => {
 
 const toggleShare = async (ctx, next) => {
   const { githubLogin } = ctx.session;
-  const { enable } = ctx.query;
+  const { enable } = ctx.request.body;
   await ShareAnalyse.changeShareStatus({
     enable,
     url: `github/${githubLogin}`

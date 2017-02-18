@@ -6,6 +6,7 @@ import bodyParser from 'koa-bodyparser';
 import onerror from 'koa-onerror';
 import csrf from 'koa-csrf';
 import json from 'koa-json';
+
 import redisStore from 'koa-redis';
 import session from 'koa-generic-session';
 import config from 'config';
@@ -75,8 +76,7 @@ app.use(views(path.join(__dirname, '../templates'), {
 // router
 app.use(router.routes(), router.allowedMethods());
 // error
-app.on('error', function(err, ctx){
-  console.log(err);
+app.on('error', (err, ctx) => {
   logger.error('server error', err, ctx);
 });
 

@@ -6,13 +6,13 @@ require('nprogress/nprogress.css');
 import Message from 'COMPONENTS/Message';
 
 polyfill();
-const rnoContent = /^(?:GET|HEAD|POST)$/;
+const rnoContent = /^(?:GET|HEAD)$/;
 const message = Message();
 
 const fetchApi = (url, method, data) => {
   NProgress.start();
   NProgress.set(0.4);
-  const options = {
+  let options = {
     method,
     credentials: 'same-origin',
     headers: {
@@ -26,6 +26,10 @@ const fetchApi = (url, method, data) => {
     }
   } else if (data) {
     options.body = JSON.stringify(data);
+    options.headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json,text/plain,*/*'
+    };
   }
 
   return fetch(url, options)
