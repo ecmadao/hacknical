@@ -57,7 +57,7 @@ class GithubComponent extends React.Component {
     const { user } = this.state;
     if (!this.githubCalendar && user.login) {
       this.githubCalendar = true;
-      GitHubCalendar("#calendar", user.login);
+      $('#calendar') && GitHubCalendar("#calendar", user.login);
     }
   }
 
@@ -127,39 +127,47 @@ class GithubComponent extends React.Component {
       commitInfos,
       loaded
     } = this.state;
-    const { isShare, containerStyle } = this.props;
+    const { isShare, containerStyle, githubSection } = this.props;
 
     const origin = window.location.origin;
 
     return (
       <div className={containerStyle}>
-        <div className={styles["info_card_container"]}>
-          <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
-          <div id="calendar" className={styles["github_calendar"]}>
-            <Loading />
+        {githubSection.hotmap !== false ? (
+          <div className={styles["info_card_container"]}>
+            <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
+            <div id="calendar" className={styles["github_calendar"]}>
+              <Loading />
+            </div>
           </div>
-        </div>
-        <UserInfo user={user} />
-        <RepositoryInfo
-          showedReposId={showedReposId}
-          commitDatas={commitDatas}
-          flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
-          username={user && user.name}
-        />
-        <LanguageInfo
-          repos={repos}
-          loaded={repos.length > 0}
-          showedReposId={showedReposId}
-          languageDistributions={github.getLanguageDistribution(repos)}
-          languageUsed={github.getLanguageUsed(repos)}
-          languageSkills={github.getLanguageSkill(repos)}
-        />
-        <CommitInfo
-          loaded={loaded}
-          commitDatas={commitDatas}
-          commitInfos={commitInfos}
-          hasCommits={commitDatas.length > 0}
-        />
+        ) : ''}
+        {githubSection.info !== false ? (<UserInfo user={user} />) : ''}
+        {githubSection.repos !== false ? (
+          <RepositoryInfo
+            showedReposId={showedReposId}
+            commitDatas={commitDatas}
+            flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
+            username={user && user.name}
+          />
+        ) : ''}
+        {githubSection.languages !== false ? (
+          <LanguageInfo
+            repos={repos}
+            loaded={repos.length > 0}
+            showedReposId={showedReposId}
+            languageDistributions={github.getLanguageDistribution(repos)}
+            languageUsed={github.getLanguageUsed(repos)}
+            languageSkills={github.getLanguageSkill(repos)}
+          />
+        ) : ''}
+        {githubSection.commits !== false ? (
+          <CommitInfo
+            loaded={loaded}
+            commitDatas={commitDatas}
+            commitInfos={commitInfos}
+            hasCommits={commitDatas.length > 0}
+          />
+        ) : ''}
         {openShareModal ? (
           <ShareModal
             openModal={openShareModal}
@@ -190,12 +198,14 @@ class GithubComponent extends React.Component {
 GithubComponent.propTypes = {
   login: PropTypes.string,
   isShare: PropTypes.bool,
+  githubSection: PropTypes.object,
   containerStyle: PropTypes.string,
 };
 
 GithubComponent.defaultProps = {
   login: '',
   isShare: false,
+  githubSection: {},
   containerStyle: '',
 };
 

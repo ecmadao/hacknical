@@ -29,6 +29,7 @@ class ResumeShare extends React.Component {
       personalProjects: [],
       others: objectassign({}, OTHERS),
       shareInfo: {
+        github: {},
         useGithub: true
       }
     };

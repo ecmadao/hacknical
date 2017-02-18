@@ -9,6 +9,13 @@ const ResumePubSchema = new Schema({
   resumeHash: String,
   openShare: { type: Boolean, default: true },
   useGithub: { type: Boolean, default: true },
+  github: {
+    hotmap: { type: Boolean, default: true },
+    info: { type: Boolean, default: true },
+    repos: { type: Boolean, default: true },
+    languages: { type: Boolean, default: true },
+    commits: { type: Boolean, default: true }
+  }
 });
 
 export default mongoose.model('ResumePub', ResumePubSchema);

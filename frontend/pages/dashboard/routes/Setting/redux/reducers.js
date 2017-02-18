@@ -7,8 +7,9 @@ const initialState = {
   updateTime: null,
   resumeInfo: {
     loading: true,
-    useGithub: true,
-    openShare: true
+    useGithub: false,
+    openShare: false,
+    github: {}
   },
   githubInfo: {
     loading: true,
@@ -55,7 +56,8 @@ const reducers = handleActions({
     const newResumeInfo = result ? objectAssign({}, info, {
       openShare: result.openShare,
       useGithub: result.useGithub,
-      loading: false
+      loading: false,
+      github: result.github
     }) : null;
     return ({
       ...state,

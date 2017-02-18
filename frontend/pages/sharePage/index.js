@@ -10,7 +10,10 @@ import GithubComponent from 'SHAREDPAGE/components/GithubComponent';
 
 const renderApp = (domId, state = {}) => {
   ReactDOM.render(
-      <GithubComponent login={window.login} isShare={window.isShare} />,
+      <GithubComponent
+        login={window.login}
+        isShare={window.isShare}
+      />,
       document.getElementById(domId)
   );
 };

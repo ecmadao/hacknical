@@ -36,6 +36,20 @@
   padding: 15px;
 }
 
+.check_info_container {
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: var(--oc-gray-2);
+  }
+}
+
+.check_container {
+  margin: 0 15px;
+}
+
 .info {
   flex: 1;
   display: flex;

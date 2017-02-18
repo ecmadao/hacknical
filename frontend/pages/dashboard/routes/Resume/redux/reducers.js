@@ -27,79 +27,11 @@ const initialState = {
   others: objectassign({}, OTHERS),
   shareInfo: {
     url: '',
+    github: {},
     openShare: false,
-    useGithub: true
+    useGithub: false
   }
 };
-
-// const initialState = {
-//   info: {
-//     name: 'ecmadao',
-//     email: 'wlec@outlook.com',
-//     phone: '15659279468',
-//     gender: 'male',
-//     location: 'beijing',
-//     avator: 'https://avatars0.githubusercontent.com/u/10706318?v=3&u=a88a9a2703b6b014e7b7b0a2039b8663dfcf2c6f&s=400',
-//     intention: 'Node全栈工程师'
-//   },
-//   educations: [
-//     {
-//       school: '厦门大学',
-//       major: '材料科学与工程',
-//       education: '本科',
-//       startTime: '2011-11-01',
-//       endTime: '2016-07-01'
-//     },
-//     {
-//       school: '厦门大学',
-//       major: '材料科学与工程',
-//       education: '本科',
-//       startTime: '2011-11-01',
-//       endTime: '2016-07-01'
-//     }
-//   ],
-//   workExperiences: [
-//     {
-//       company: '厦门市创艺社',
-//       url: 'tshe.com',
-//       startTime: '2016-02-01',
-//       endTime: '2016-11-01',
-//       position: '前端工程师',
-//       projects: [
-//         {
-//           name: 'T社官网建设与更新、维护',
-//           details: ['官网核心功能建设', '网站一周一次的功能迭代和部署', '独立编写内部流程管理App', '内部后台网站更新']
-//         },
-//         {
-//           name: 'T社后台供应链App',
-//           details: ['学习React Native', '走访工厂，调研需求', 'App页面设计与架构设计', '最终使用RN + Redux开发出一套后台工厂人员使用的流程管理Android App']
-//         }
-//       ]
-//     }
-//   ],
-//   personalProjects: [
-//     {
-//       url: 'https://ecmadao.github.io/react-times',
-//       title: 'React 时间选择器',
-//       desc: '基于 React 的时间选择器，没有 jQuery 依赖。已发布为NPM包',
-//       techs: ['javascript', 'webpack', 'react']
-//     }
-//   ],
-//   others: {
-//     expectLocation: '北京',
-//     expectLocations: ['北京'],
-//     expectSalary: '20000',
-//     // expectPosition: 'NodeJS全栈',
-//     dream: '希望能进入到一个活跃的、学习氛围很好的很极客的团队',
-//     supplements: [
-//       '很强的学习能力和兴趣',
-//       '除去开发以外，对设计、交互、产品都有自己的见解和追求',
-//       '长期活跃于github，不断学习并贡献内容',
-//       '想成为一个优秀的全栈。但自己所理解的全栈并不仅仅是前后端开发，而是能够从产品、设计、开发等多角度切入，善于思考与创作产品的开发者'
-//     ],
-//     socialLinks: [...SOCIAL_LINKS]
-//   }
-// };
 
 
 const reducers = handleActions({
@@ -459,11 +391,11 @@ const reducers = handleActions({
 
   // resume share
   INITIAL_PUB_RESUME_STATUS(state, action) {
-    const { openShare, url, useGithub } = action.payload;
+    const newShareInfo = action.payload;
     const { shareInfo } = state;
     return ({
       ...state,
-      shareInfo: objectassign(shareInfo, { openShare, url, useGithub })
+      shareInfo: objectassign(shareInfo, newShareInfo)
     });
   },
 

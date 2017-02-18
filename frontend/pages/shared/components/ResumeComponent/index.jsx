@@ -245,7 +245,7 @@ class ResumeComponent extends React.Component {
     const { showGithub } = this.state;
     const { resume, shareInfo } = this.props;
     const { info, others } = resume;
-    const { useGithub } = shareInfo;
+    const { useGithub, github } = shareInfo;
 
     if (useGithub && showGithub) {
       return (
@@ -264,7 +264,11 @@ class ResumeComponent extends React.Component {
                 </span>
               )
             })}
-            <GithubComponent isShare={true} containerStyle={styles["github_container"]}/>
+            <GithubComponent
+              isShare={true}
+              githubSection={github}
+              containerStyle={styles["github_container"]}
+            />
           </div>
         </div>
       )

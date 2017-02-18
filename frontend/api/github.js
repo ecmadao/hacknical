@@ -1,14 +1,14 @@
 import { getData, postData } from './base';
 
-const fetchInfo = (url) => getData(`/github${url}`);
-const postInfo = (url, data) => postData(`/github${url}`, data);
+const fetchInfo = (url, data = {}) => getData(`/github${url}`, data);
+const postInfo = (url, data = {}) => postData(`/github${url}`, data);
 
 /* get user repos info */
 const getBaseRepos = () => fetchInfo(`/repos`);
 const getSharedRepos = (login) => fetchInfo(`/${login}/shareInfo`);
 const getRepos = (login) => {
   if (login) {
-    return getSharedRepos(login)
+    return getSharedRepos(login);
   }
   return getBaseRepos();
 };

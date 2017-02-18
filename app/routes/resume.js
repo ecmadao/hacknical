@@ -29,7 +29,10 @@ router.post('/githubStatus',
   user.checkSession(session.requiredSessions),
   Resume.setResumeGithubStatus
 );
-
+router.post('/githubSection',
+  user.checkSession(session.requiredSessions),
+  Resume.setGithubShareSection
+);
 
 router.get('/shareData',
   user.checkSession(session.requiredSessions),

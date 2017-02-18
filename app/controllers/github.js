@@ -14,6 +14,14 @@ const HALF_AN_HOUR = 30 * 60;
 
 /* ================== private helper ================== */
 
+/*
+ * check which part can be showed in github
+ */
+const checkGithubPart = (options) => (target) => {
+  if (!options.length) { return true; }
+  return options.some(option => option === target);
+};
+
 /**
  * repos
  */

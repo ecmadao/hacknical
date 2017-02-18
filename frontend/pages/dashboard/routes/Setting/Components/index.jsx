@@ -26,6 +26,25 @@ const SwitcherPane = (props) => {
   )
 };
 
+const CheckPane = (props) => {
+  const { onChange, checked, text } = props;
+  return (
+    <div
+      onClick={() => onChange(!checked)}
+      className={cx(
+      styles['info_container_large'],
+      styles['check_info_container']
+    )}>
+      <div className={styles.info}>
+        {text}
+      </div>
+      <div className={styles['check_container']}>
+        <i aria-hidden="true" className={`fa fa-${checked ? 'check-square' : 'square-o'}`}></i>
+      </div>
+    </div>
+  )
+};
+
 class Setting extends React.Component {
   componentDidMount() {
     const { actions, loading, resumeInfo, githubInfo } = this.props;
@@ -36,6 +55,8 @@ class Setting extends React.Component {
 
   render() {
     const { loading, updateTime, actions, resumeInfo, githubInfo } = this.props;
+    const { github } = resumeInfo;
+    const shareSection = (section) => (checked) => actions.postResumeShareSection(section, checked);
 
     return (
       <div>
@@ -91,6 +112,30 @@ class Setting extends React.Component {
                   onChange={actions.postResumeGithubStatus}
                   checked={(resumeInfo && resumeInfo.useGithub) || false}
                 />
+                {resumeInfo && resumeInfo.useGithub ? (
+                  <div className={styles['info_container_wrapper']}>
+                    <CheckPane
+                      text="展示 提交信息热点图"
+                      checked={github.hotmap}
+                      onChange={shareSection('hotmap')}
+                    />
+                    <CheckPane
+                      text="展示 仓库概览"
+                      checked={github.repos}
+                      onChange={shareSection('repos')}
+                    />
+                    <CheckPane
+                      text="展示 语言概览"
+                      checked={github.languages}
+                      onChange={shareSection('languages')}
+                    />
+                    <CheckPane
+                      text="展示 commit 概览"
+                      checked={github.commits}
+                      onChange={shareSection('commits')}
+                    />
+                  </div>
+                ) : ''}
               </div>
             )}
           </div>

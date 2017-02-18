@@ -52,22 +52,31 @@ const fetchResumeShareInfo = () => (dispatch, getState) => {
 };
 
 const postResumeGithubStatus = () => (dispatch, getState) => {
-  const { useGithub, openShare } = getState().setting.resumeInfo;
+  const { resumeInfo } = getState().setting;
+  const { useGithub } = resumeInfo;
   Api.resume.postPubResumeGithubStatus(!useGithub).then((result) => {
-    dispatch(initialResumeShareInfo({
-      useGithub: !useGithub,
-      openShare
-    }));
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
+      useGithub: !useGithub
+    })));
   });
 };
 
 const postResumeShareStatus = () => (dispatch, getState) => {
-  const { useGithub, openShare } = getState().setting.resumeInfo;
+  const { resumeInfo } = getState().setting;
+  const { openShare } = resumeInfo;
   Api.resume.postPubResumeShareStatus(!openShare).then((result) => {
-    dispatch(initialResumeShareInfo({
-      useGithub,
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       openShare: !openShare
-    }));
+    })));
+  });
+};
+
+const postResumeShareSection = (section, checked) => (dispatch, getState) => {
+  const { resumeInfo } = getState().setting;
+  Api.resume.postPubResumeGithubSection({ [section]: checked }).then((result) => {
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
+      github: objectAssign({}, resumeInfo.github, { [section]: checked })
+    })));
   });
 };
 
@@ -87,4 +96,5 @@ export default {
   fetchResumeShareInfo,
   postResumeGithubStatus,
   postResumeShareStatus,
+  postResumeShareSection,
 }

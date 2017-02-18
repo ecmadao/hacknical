@@ -78,14 +78,12 @@ const addPubResume = async (userId, options = {}) => {
 
 const updatePubResume = async (userId, resumeHash, options) => {
   const findResult = await findPublicResume({ userId, resumeHash });
-  const { result, success } = findResult;
+  let { result, success } = findResult;
   if (!success) {
     return findResult;
   }
+  Object.assign(result, options);
 
-  Object.keys(options).forEach((key) => {
-    result[key] = options[key];
-  });
   await result.save();
 
   return Promise.resolve({
