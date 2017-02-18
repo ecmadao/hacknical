@@ -28,6 +28,7 @@ export default {
     getCurrent: () => getSeconds()
   },
   date: {
+    now: () => formatDate('YYYY.MM.DD')(),
     beforeYears: getDateBeforeYears('YYYY.MM.DD'),
     afterYears: getDateAfterYears('YYYY.MM.DD'),
     afterDays: (after, date = null) => moment(date).add(parseInt(after), 'days').format('YYYY.MM.DD'),

@@ -80,7 +80,6 @@ class Education extends React.Component {
           <DateSlider
             initialStart={startTime}
             initialEnd={endTime}
-            maxDate={dateHelper.date.afterYears(5)}
             startText="入学时间"
             endText="毕业时间"
             pushInterval="year"

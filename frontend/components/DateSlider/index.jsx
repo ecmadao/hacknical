@@ -8,16 +8,19 @@ import dateHelper from 'UTILS/date';
 
 const getDateBySeconds = dateHelper.date.bySeconds;
 const getDateBeforeYears = dateHelper.date.beforeYears;
+const getValidatorDate = dateHelper.validator.date;
 const getSecondsByDate = dateHelper.seconds.getByDate;
+
 const SECONDS_PER_DAY = 24 * 60 * 60;
+const VALIDATE_DATE_NOW = getValidatorDate();
 
 class DateSlider extends React.Component {
   constructor(props) {
     super(props);
     const { initialStart, initialEnd } = this.props;
     this.state = {
-      startDate: initialStart || getDateBeforeYears(2),
-      endDate: initialEnd || getDateBeforeYears(1)
+      startDate: initialStart,
+      endDate: initialEnd
     }
     this.onChange = this.onChange.bind(this);
   }
@@ -93,7 +96,7 @@ class DateSlider extends React.Component {
           step={SECONDS_PER_DAY}
           tipFormatter={(data) => {
             const date = getDateBySeconds(data);
-            return dateHelper.validator.date(date);
+            return VALIDATE_DATE_NOW === getValidatorDate(date) ? '至今' : getValidatorDate(date);
           }}
           onChange={this.onChange}
           tipTransitionName="rc-slider-tooltip-zoom-down"
@@ -102,12 +105,12 @@ class DateSlider extends React.Component {
           <div className={styles["slider_tips"]}>
             {startText}
             <span>
-              {dateHelper.validator.date(startDate)}
+              {getValidatorDate(startDate)}
             </span>
           </div>
           <div className={styles["slider_tips"]}>
             <span>
-              {dateHelper.validator.date(endDate)}
+              {VALIDATE_DATE_NOW === getValidatorDate(endDate) ? '至今' : getValidatorDate(endDate)}
             </span>
             {endText}
           </div>
@@ -132,7 +135,7 @@ DateSlider.propTypes = {
 DateSlider.defaultProps = {
   pushInterval: 'day',
   minDate: getDateBeforeYears(10),
-  maxDate: dateHelper.validator.fullDate(),
+  maxDate: dateHelper.date.now(),
   initialStart: getDateBeforeYears(2),
   initialEnd: getDateBeforeYears(1),
   startText: '开始时间',

@@ -111,7 +111,6 @@ class WorkExperience extends React.Component {
             initialEnd={endTime}
             startText="入职时间"
             endText={endText}
-            maxDate={dateHelper.date.afterYears(1)}
             onStartChange={handleExperienceChange('startTime')}
             onEndChange={handleExperienceChange('endTime')}
           />
