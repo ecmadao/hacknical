@@ -293,7 +293,6 @@ class ShareAnalysis extends React.Component {
     );
     return (
       <div className={styles["card_container"]}>
-        {title}
         {loading ? '' : (
           <div className={controllerClass}>
             {this.renderShareController()}

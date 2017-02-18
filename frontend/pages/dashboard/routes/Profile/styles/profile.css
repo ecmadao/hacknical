@@ -1,5 +1,28 @@
+@import 'open-color/open-color.css';
+
+.head_switchers {
+  font-size: 14px;
+  line-height: 50px;
+}
+
+.head_switcher {
+  color: var(--oc-gray-5);
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--oc-gray-7);
+  }
+}
+
+.head_switcher_active {
+  color: var(--oc-gray-7);
+}
+
 .card_container {
   composes: card_container from 'STYLES/common.css';
+  margin-top: 0;
 }
 
 .card {
