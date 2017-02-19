@@ -8,6 +8,9 @@ import WorkProject from './WorkProject';
 import styles from '../../../styles/resume.css';
 import dateHelper from 'UTILS/date';
 
+const getSecondsByDate = dateHelper.seconds.getByDate;
+const getDateNow = dateHelper.date.now;
+
 class WorkExperience extends React.Component {
   constructor(props) {
     super(props);
@@ -68,7 +71,7 @@ class WorkExperience extends React.Component {
       projects
     } = workExperience;
 
-    const endText = dateHelper.seconds.getByDate(endTime) > dateHelper.seconds.getCurrent() ? '预计离职时间' : '离职时间';
+    const endText = getSecondsByDate(endTime) >= getSecondsByDate(getDateNow()) ? '至今在职' : '离职时间';
 
     return (
       <div className={styles["resume_piece_container"]}>

@@ -82,6 +82,7 @@ class Education extends React.Component {
             initialEnd={endTime}
             startText="入学时间"
             endText="毕业时间"
+            maxDate={dateHelper.date.afterYears(5)}
             pushInterval="year"
             onStartChange={handleEduChange('startTime')}
             onEndChange={handleEduChange('endTime')}

@@ -10,6 +10,7 @@ const getDateBySeconds = dateHelper.date.bySeconds;
 const getDateBeforeYears = dateHelper.date.beforeYears;
 const getValidatorDate = dateHelper.validator.date;
 const getSecondsByDate = dateHelper.seconds.getByDate;
+const getDateNow = dateHelper.date.now;
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
 const VALIDATE_DATE_NOW = getValidatorDate();
@@ -30,6 +31,7 @@ class DateSlider extends React.Component {
     const [startSeconds, endSeconds] = seconds;
     const startDate = getDateBySeconds(startSeconds);
     const endDate = getDateBySeconds(endSeconds);
+
     onStartChange && onStartChange(startDate);
     onEndChange && onEndChange(endDate);
     this.setState({
@@ -77,6 +79,9 @@ class DateSlider extends React.Component {
       endDate
     } = this.state;
 
+    const maxToday = maxDate === getDateNow();
+    const validateEndDate = getValidatorDate(endDate);
+
     return (
       <div className={styles["slider_container"]}>
         <Slider
@@ -96,7 +101,8 @@ class DateSlider extends React.Component {
           step={SECONDS_PER_DAY}
           tipFormatter={(data) => {
             const date = getDateBySeconds(data);
-            return VALIDATE_DATE_NOW === getValidatorDate(date) ? '至今' : getValidatorDate(date);
+            const formatDate = getValidatorDate(date);
+            return (maxToday && VALIDATE_DATE_NOW === formatDate) ? '至今' : formatDate;
           }}
           onChange={this.onChange}
           tipTransitionName="rc-slider-tooltip-zoom-down"
@@ -110,7 +116,7 @@ class DateSlider extends React.Component {
           </div>
           <div className={styles["slider_tips"]}>
             <span>
-              {VALIDATE_DATE_NOW === getValidatorDate(endDate) ? '至今' : getValidatorDate(endDate)}
+              {(maxToday && VALIDATE_DATE_NOW === validateEndDate) ? '至今' : validateEndDate}
             </span>
             {endText}
           </div>
@@ -135,7 +141,7 @@ DateSlider.propTypes = {
 DateSlider.defaultProps = {
   pushInterval: 'day',
   minDate: getDateBeforeYears(10),
-  maxDate: dateHelper.date.now(),
+  maxDate: getDateNow(),
   initialStart: getDateBeforeYears(2),
   initialEnd: getDateBeforeYears(1),
   startText: '开始时间',
