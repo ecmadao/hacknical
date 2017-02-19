@@ -64,7 +64,7 @@ const getPubResumePage = async (ctx, next) => {
   }
 
   await ctx.render('resume/share', {
-    title: `${result}的个人简历`,
+    title: `${result}的个人简历 | hacknical`,
     resumeHash: hash
   });
 };

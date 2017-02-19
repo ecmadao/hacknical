@@ -44,7 +44,7 @@ const signup = async (ctx, next) => {
 
 const loginPage = async (ctx, next) => {
   await ctx.render('user/login', {
-    title: '登录 - 查看 github 年度总结'
+    title: 'hacknical | 更加高效的在线简历'
   });
 };
 
@@ -80,7 +80,7 @@ const dashboard = async (ctx, next) => {
   }
 
   await ctx.render('user/dashboard', {
-    title: `${githubLogin} - 个人主页`
+    title: `hacknical | ${githubLogin}的个人主页`
   });
 };
 

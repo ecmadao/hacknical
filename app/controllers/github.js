@@ -238,7 +238,7 @@ const sharePage = async (ctx, next) => {
     return;
   }
   const { githubInfo } = user;
-  const title = `${githubInfo.name || githubInfo.login}的 github 总结`;
+  const title = `${githubInfo.name || githubInfo.login}的 github 总结 | hacknical`;
 
   if (!ctx.state.isMobile) {
     await ctx.render('user/share', {

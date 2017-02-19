@@ -7,7 +7,7 @@ const index = async (ctx, next) => {
 
 const handle404 = async (ctx, next) => {
   await ctx.render('error/404', {
-    title: '没有找到页面'
+    title: 'hacknical | 没有找到页面'
   });
 }
 
