@@ -10,7 +10,13 @@ import GithubComponent from 'SHAREDPAGE/components/GithubComponent';
 import styles from './styles/resume.css';
 
 const sortByDate = sortByX('startTime');
+const sortByEndDate = sortByX('endTime');
 const validateDate = dateHelper.validator.date;
+const getSecondsByDate = dateHelper.seconds.getByDate;
+const getDateNow = dateHelper.date.now;
+
+const DATE_NOW = getDateNow();
+const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW);
 
 const info = (options) => {
   const { text, icon, type } = options;
@@ -241,6 +247,38 @@ class ResumeComponent extends React.Component {
     )
   }
 
+  renderLabels() {
+    const { educations, workExperiences } = this.props.resume;
+    const labels = [];
+    if (educations.length) {
+      const lastEducation = educations.sort(sortByEndDate).reverse()[0];
+      const eduEndTime = lastEducation.endTime;
+      if (getSecondsByDate(eduEndTime) >= DATE_NOW_SECONDS) {
+        labels.push(
+          <div className={styles["info_label"]} key={0}>在校</div>
+        )
+      }
+    }
+
+    if (workExperiences.length) {
+      const lastWorkExperience = workExperiences.sort(sortByEndDate).reverse()[0];
+      const workEndTime = lastWorkExperience.endTime;
+      if (getSecondsByDate(workEndTime) >= DATE_NOW_SECONDS) {
+        labels.push(
+          <div className={styles["info_label"]} key={1}>在职</div>
+        )
+      }
+    }
+
+    if (labels.length) {
+      return (
+        <div className={styles["info_labels_container"]}>
+          {labels}
+        </div>
+      )
+    }
+  }
+
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo } = this.props;
@@ -287,7 +325,8 @@ class ResumeComponent extends React.Component {
             {this.renderSocialLinks()}
           </div>
           <div className={styles["right"]}>
-            {baseInfo(info.name, info.gender, { style: styles["user_title"] })}<br/>
+            {baseInfo(info.name, info.gender, { style: styles["user_title"] })}
+            {this.renderLabels()}<br/>
             {baseInfo(info.phone, 'mobile', { style: styles["right_info"] })}
             {baseInfo(null, 'envelope-o', {
               component: (

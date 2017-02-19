@@ -272,8 +272,14 @@
   border-radius: 2px;
   display: inline-block;
   margin-bottom: 5px;
+  margin-left: 7px;
 
-  &:not(:first-child) {
-    margin-left: 7px;
+  &:first-child {
+    margin-left: 0;
   }
+}
+
+.info_labels_container {
+  display: flex;
+  margin: 5px 0;
 }

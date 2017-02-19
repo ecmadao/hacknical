@@ -10,6 +10,7 @@ import dateHelper from 'UTILS/date';
 
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
+const DATE_NOW = getDateNow();
 
 class WorkExperience extends React.Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class WorkExperience extends React.Component {
       projects
     } = workExperience;
 
-    const endText = getSecondsByDate(endTime) >= getSecondsByDate(getDateNow()) ? '至今在职' : '离职时间';
+    const endText = getSecondsByDate(endTime) >= getSecondsByDate(DATE_NOW) ? '至今在职' : '离职时间';
 
     return (
       <div className={styles["resume_piece_container"]}>

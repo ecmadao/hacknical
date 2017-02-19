@@ -14,6 +14,7 @@ const getDateNow = dateHelper.date.now;
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
 const VALIDATE_DATE_NOW = getValidatorDate();
+const DATE_NOW = getDateNow();
 
 class DateSlider extends React.Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class DateSlider extends React.Component {
       endDate
     } = this.state;
 
-    const maxToday = maxDate === getDateNow();
+    const maxToday = maxDate === DATE_NOW;
     const validateEndDate = getValidatorDate(endDate);
 
     return (
@@ -141,7 +142,7 @@ DateSlider.propTypes = {
 DateSlider.defaultProps = {
   pushInterval: 'day',
   minDate: getDateBeforeYears(10),
-  maxDate: getDateNow(),
+  maxDate: DATE_NOW,
   initialStart: getDateBeforeYears(2),
   initialEnd: getDateBeforeYears(1),
   startText: '开始时间',
