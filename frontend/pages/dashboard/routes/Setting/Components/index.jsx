@@ -55,7 +55,6 @@ class Setting extends React.Component {
 
   render() {
     const { loading, updateTime, actions, resumeInfo, githubInfo } = this.props;
-    const { github } = resumeInfo;
     const shareSection = (section) => (checked) => actions.postResumeShareSection(section, checked);
 
     return (
@@ -112,26 +111,26 @@ class Setting extends React.Component {
                   onChange={actions.postResumeGithubStatus}
                   checked={(resumeInfo && resumeInfo.useGithub) || false}
                 />
-                {resumeInfo && resumeInfo.useGithub ? (
+                {resumeInfo && resumeInfo.useGithub && resumeInfo.github ? (
                   <div className={styles['info_container_wrapper']}>
                     <CheckPane
                       text="展示 提交信息热点图"
-                      checked={github.hotmap}
+                      checked={resumeInfo.github.hotmap}
                       onChange={shareSection('hotmap')}
                     />
                     <CheckPane
                       text="展示 仓库概览"
-                      checked={github.repos}
+                      checked={resumeInfo.github.repos}
                       onChange={shareSection('repos')}
                     />
                     <CheckPane
                       text="展示 语言概览"
-                      checked={github.languages}
+                      checked={resumeInfo.github.languages}
                       onChange={shareSection('languages')}
                     />
                     <CheckPane
                       text="展示 commit 概览"
-                      checked={github.commits}
+                      checked={resumeInfo.github.commits}
                       onChange={shareSection('commits')}
                     />
                   </div>
