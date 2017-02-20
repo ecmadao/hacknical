@@ -6,9 +6,9 @@
 
 - 工作经历要么描述的太少，要么废话太多
 - 没有实际的线上作品
-- 没有可看的公开、开源代码来让面试官了解自己的代码水平和风格
+- 没有可看的公开或开源代码来让面试官了解自己的代码水平和风格
 - 往往喜欢用 “百分之XX” 这样的进度来表示自己精通某种语言
-- 看不出面试者的灵魂
+- 无法通过简历，看出面试者的灵魂和风格
 
 所以，对于经验不足的人来说，在书写简历时如果没有一个很好的模板或者引导，比较容易走进一个自嗨的误区。如何言简意赅的展现自己的经历，让面试官认识到自己的水平，则是 hacknical 想要去解决的问题。
 
@@ -43,7 +43,11 @@
 ### 其他
 
 - hacknical 是一个开源项目，遵循 [Apache License](https://github.com/ecmadao/hacknical/blob/master/LICENSE) 
+- 项目地址位于：[ecmadao/hacknical](https://github.com/ecmadao/hacknical)
 - 保证对用户永久免费
+- 线上 DEMO
+  - [我的在线简历](http://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=)
+  - [我的 github 数据分析报告](http://hacknical.com/github/ecmadao)
 
 你可以[戳这里](https://github.com/ecmadao/hacknical/issues)，通过 issue 提出你的意见和建议，帮助我更好的完善它，谢谢。
 
