@@ -18,7 +18,6 @@ router.post('/edit', Resume.setResume);
 
 
 router.get('/status',
-  user.checkSession(session.requiredSessions),
   Resume.getResumeStatus
 );
 router.post('/shareStatus',
