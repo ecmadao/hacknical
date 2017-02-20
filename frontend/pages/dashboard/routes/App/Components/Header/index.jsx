@@ -11,6 +11,7 @@ class Header extends React.Component {
     this.state = {
       showLogoutTipso: false,
       showAdviceTipso: false,
+      showAboutTipso: false,
       showZenTipso: false,
       zen: ''
     };
@@ -46,7 +47,8 @@ class Header extends React.Component {
       zen,
       showZenTipso,
       showAdviceTipso,
-      showLogoutTipso
+      showLogoutTipso,
+      showAboutTipso
     } = this.state;
     const onMouseEnter = (key) => () => this.onMouseEnter(key);
     const onMouseLeave = (key) => () => this.onMouseLeave(key);
@@ -72,6 +74,23 @@ class Header extends React.Component {
             </span>
           </div>
           <div className={styles["header_menus"]}>
+            <a
+              onMouseOver={onMouseEnter('showAboutTipso')}
+              onMouseEnter={onMouseEnter('showAboutTipso')}
+              onMouseOut={onMouseLeave('showAboutTipso')}
+              onMouseLeave={onMouseLeave('showAboutTipso')}
+              href="https://github.com/ecmadao/hacknical/issues"
+              target="_blank"
+              className={styles["header_menu_icon_right"]}>
+              <i className="fa fa-question-circle" aria-hidden="true"></i>
+              {showAboutTipso ? (
+                <Tipso
+                  className={styles["menu_tipso"]}
+                  show={true}>
+                  <span>关于网站</span>
+                </Tipso>
+              ) : ''}
+            </a>
             <a
               onMouseOver={onMouseEnter('showAdviceTipso')}
               onMouseEnter={onMouseEnter('showAdviceTipso')}
