@@ -14,6 +14,10 @@
 
 ![github datas](./imgs/data.png)
 
+## About
+
+关于 hacknical 的[项目说明](./ABOUT.md)
+
 ## Techs
 
 - backend

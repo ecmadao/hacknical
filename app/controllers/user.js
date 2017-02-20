@@ -44,7 +44,8 @@ const signup = async (ctx, next) => {
 
 const loginPage = async (ctx, next) => {
   await ctx.render('user/login', {
-    title: 'hacknical | 更加高效的在线简历'
+    title: 'hacknical | 更加高效的在线简历',
+    isMobile: ctx.state.isMobile
   });
 };
 

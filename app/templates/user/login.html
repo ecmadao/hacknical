@@ -5,12 +5,21 @@
 {% endblock %}
 
 {% block body %}
-<div id="login" class="login_main">
+<div id="login" class="login-main">
+  <div class="topbar">
+    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}">
+      登录
+    </a>
+    <a href="https://github.com/ecmadao/hacknical/blob/master/ABOUT.md" target="_blank">关于</a>
+  </div>
   <div class="login-pannel">
-    <i class="fa fa-github fa-6" aria-hidden="true"></i>
-    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">login with github</a>
+    <div class="title">hacknical</div>
+    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">
+      <i class="fa fa-github" aria-hidden="true"></i>&nbsp;login with github
+    </a>
     <span>
-      登录以查看自己在 github 的战绩
+      用 github 数据辅助你进行简历投递
+      <!-- 查看自己在 github 的战绩<br/> -->
     </span>
   </div>
 </div>
