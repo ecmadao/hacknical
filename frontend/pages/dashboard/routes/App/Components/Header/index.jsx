@@ -79,7 +79,7 @@ class Header extends React.Component {
               onMouseEnter={onMouseEnter('showAboutTipso')}
               onMouseOut={onMouseLeave('showAboutTipso')}
               onMouseLeave={onMouseLeave('showAboutTipso')}
-              href="https://github.com/ecmadao/hacknical/issues"
+              href="https://github.com/ecmadao/hacknical/blob/master/ABOUT.md"
               target="_blank"
               className={styles["header_menu_icon_right"]}>
               <i className="fa fa-question-circle" aria-hidden="true"></i>
