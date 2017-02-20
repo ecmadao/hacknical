@@ -33,14 +33,15 @@ class PersonalProjects extends React.Component {
       const { url, desc, techs, title } = personalProject;
       return (
         <div className={styles["resume_piece_container"]} key={index}>
-          <div className={cx(styles["resume_delete"], styles["project_delete"])} onClick={this.deleteProject(index)}>
-            <i className="fa fa-trash-o" aria-hidden="true"></i>
-          </div>
           <div className={cx(styles["resume_wrapper"], styles["with_margin"])}>
+            <div className={styles["resume_delete"]} onClick={this.deleteProject(index)}>
+              <i className="fa fa-trash-o" aria-hidden="true"></i>
+            </div>
             <InputsGroup
               value={title}
               style="flat"
               placeholder="填写项目名称"
+              customStyle={styles["single_input"]}
               onChange={this.handleProjectChange(index)('title')}>
               <div className={styles["project_link_wrapper"]}>
                 <i className="fa fa-link" aria-hidden="true"></i>
@@ -102,8 +103,8 @@ class PersonalProjects extends React.Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className={styles["resume_personal_container"]}>
-        <div className={cx(styles["resume_title"], styles["single_title"])}>
+      <div className={styles["resume_section_container"]}>
+        <div className={styles["section_title"]}>
           个人项目
         </div>
         <div>

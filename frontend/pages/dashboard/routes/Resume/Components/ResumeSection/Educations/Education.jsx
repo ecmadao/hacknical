@@ -48,17 +48,15 @@ class Education extends React.Component {
 
     return (
       <div className={styles["resume_piece_container"]}>
-        <div className={styles["resume_delete"]} onClick={deleteEdu}>
-          <i className="fa fa-trash-o" aria-hidden="true"></i>
-        </div>
-        <div className={styles["resume_title"]}>
-          教育经历
-        </div>
         <div className={styles["resume_wrapper"]}>
+          <div className={styles["resume_delete"]} onClick={deleteEdu}>
+            <i className="fa fa-trash-o" aria-hidden="true"></i>
+          </div>
           <Input
             value={school}
             style="flat"
             placeholder="学校名称"
+            customStyle={styles["single_input"]}
             onChange={handleEduChange('school')}
           />
         </div>

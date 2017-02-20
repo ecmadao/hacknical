@@ -57,6 +57,8 @@ class Setting extends React.Component {
     const { loading, updateTime, actions, resumeInfo, githubInfo } = this.props;
     const shareSection = (section) => (checked) => actions.postResumeShareSection(section, checked);
 
+    const resumeInfoLoading = resumeInfo && resumeInfo.loading;
+
     return (
       <div>
         <div className={styles['card_container']}>
@@ -95,20 +97,20 @@ class Setting extends React.Component {
             {!resumeInfo ? (
               <BaseModal className={styles['info_loading']} showModal={true} />
             ) : ''}
-            {(resumeInfo && resumeInfo.loading) ? (
+            {(resumeInfoLoading) ? (
               <Loading className={styles['info_loading']} />
             ) : (
               <div className={styles['info_container_wrapper']}>
                 <SwitcherPane
                   id='resume-share-switch'
                   text='开启简历的分享'
-                  onChange={actions.postResumeShareStatus}
+                  onChange={resumeInfoLoading ? () => {} : actions.postResumeShareStatus}
                   checked={(resumeInfo && resumeInfo.openShare) || false}
                 />
                 <SwitcherPane
                   id='use-github-switch'
                   text='在简历中附加我的 github 分析报告'
-                  onChange={actions.postResumeGithubStatus}
+                  onChange={resumeInfoLoading ? () => {} : actions.postResumeGithubStatus}
                   checked={(resumeInfo && resumeInfo.useGithub) || false}
                 />
                 {resumeInfo && resumeInfo.useGithub && resumeInfo.github ? (

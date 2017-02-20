@@ -76,10 +76,7 @@ class WorkExperience extends React.Component {
 
     return (
       <div className={styles["resume_piece_container"]}>
-        <div className={styles["resume_delete"]} onClick={deleteExperience}>
-          <i className="fa fa-trash-o" aria-hidden="true"></i>
-        </div>
-        <div className={styles["resume_title"]}>
+        <div className={styles["section_second_title"]}>
           公司信息
         </div>
         <div className={styles["resume_wrapper"]}>
@@ -106,8 +103,12 @@ class WorkExperience extends React.Component {
             value={position}
             style="flat"
             placeholder="所处职位"
+            customStyle={styles["last_input"]}
             onChange={handleExperienceChange('position')}
           />
+          <div className={styles["resume_delete"]} onClick={deleteExperience}>
+            <i className="fa fa-trash-o" aria-hidden="true"></i>
+          </div>
         </div>
         <div className={styles["resume_wrapper"]}>
           <DateSlider
@@ -120,7 +121,7 @@ class WorkExperience extends React.Component {
           />
         </div>
         <div className={styles["project_wrapper"]}>
-          <div className={styles["resume_title"]}>
+          <div className={styles["section_second_title"]}>
             参与项目
           </div>
           {this.renderWorkProjects(projects)}

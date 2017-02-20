@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import cx from 'classnames';
 
 import Input from 'COMPONENTS/Input';
 import Tipso from 'COMPONENTS/Tipso';
@@ -46,14 +47,16 @@ class InputsGroup extends React.Component {
 
   render() {
     const {
-      children
+      children,
+      customStyle,
+      customInputStyle
     } = this.props;
     const { focus } = this.state;
 
     return (
       <div
         ref={ref => this.tipso = ref}
-        className={styles["input_group_wrapper"]}>
+        className={cx(styles["input_group_wrapper"], customStyle)}>
         { focus ? (
           <Tipso show={true}>
             {children}
@@ -61,12 +64,17 @@ class InputsGroup extends React.Component {
         ) : ''}
         <Input
           {...this.props}
-          customStyle={styles.input}
+          customStyle={cx(styles.input, customInputStyle)}
           onFocus={this.onFocus}
         />
       </div>
     )
   }
 }
+
+InputsGroup.defaultProps = {
+  customStyle: '',
+  customInputStyle: ''
+};
 
 export default InputsGroup;

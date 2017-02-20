@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 
 import actions from '../../../redux/actions';
@@ -48,7 +47,10 @@ class Educations extends React.Component {
   render() {
     const {actions} = this.props;
     return (
-      <div>
+      <div className={styles["resume_section_container"]}>
+        <div className={styles["section_title"]}>
+          教育经历
+        </div>
         <div>
           {this.renderEdu()}
         </div>
