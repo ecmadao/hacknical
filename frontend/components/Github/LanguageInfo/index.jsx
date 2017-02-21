@@ -92,7 +92,7 @@ class LanguageInfo extends React.Component {
 
   renderLanguageSkillsChart() {
     const { languageSkills } = this.props;
-    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null');
+    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null').slice(0, 6);
     const skill = languages.map(language => languageSkills[language]);
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
     this.languageSkillChart = new Chart(languageSkill, {
