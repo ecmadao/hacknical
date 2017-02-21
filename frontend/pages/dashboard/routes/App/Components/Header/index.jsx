@@ -104,7 +104,7 @@ class Header extends React.Component {
                 <Tipso
                   className={styles["menu_tipso"]}
                   show={true}>
-                  <span>反馈&建议</span>
+                  <span>意见反馈</span>
                 </Tipso>
               ) : ''}
             </a>
