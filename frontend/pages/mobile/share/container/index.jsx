@@ -191,7 +191,7 @@ class MobileShare extends React.Component {
 
   renderLanguagesChart() {
     const { languageSkills } = this.state;
-    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null');
+    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null').slice(0, 6);
     const skill = languages.map(language => languageSkills[language]);
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
     this.languageSkillChart = new Chart(languageSkill, {
@@ -381,7 +381,7 @@ class MobileShare extends React.Component {
   renderLanguageLines() {
     const { languageUsed } = this.state;
     const color = randomColor();
-    const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed));
+    const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).slice(0, 9);
     const maxUsedCounts = languageUsed[languages[0]];
     const languagesCount = languages.length;
 
@@ -490,13 +490,9 @@ class MobileShare extends React.Component {
           )
         }>
           <div className={styles["repos_wrapper"]}>
-            {/* <div className="repos_xAxes">
-              <div className="xAxes_text">提交次数</div>
-            </div> */}
             <div className={styles["repos_contents_wrapper"]}>
               <div className={styles["repos_contents"]}>
                 {loaded ? this.renderLanguageLines() : ''}
-                {/* {loaded ? this.renderReposDetailInfo() : ''} */}
               </div>
               <div className={styles["repos_yAxes"]}>
                 <div className={styles["yAxes_text"]}>使用频次</div>
