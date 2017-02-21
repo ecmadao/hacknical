@@ -64,8 +64,8 @@ const getUserRepos = (token) => {
 
 };
 
-const getRepos = (login, token, page = 5) => {
-  return fetchGithub(`${API_USERS}/${login}/repos?per_page=50&page=${page}&access_token=${token}`, {
+const getRepos = (login, token, page = 1) => {
+  return fetchGithub(`${API_USERS}/${login}/repos?per_page=100&page=${page}&access_token=${token}`, {
     parse: true
   });
 };
@@ -98,7 +98,6 @@ const getAllReposYearlyCommits = (repos, token) => {
  * private
  */
 const getReposLanguages = async (fullname, token) => {
-  console.log('getReposLanguages');
   let result = {};
   try {
     const languages = await fetchGithub(`${API_REPOS}/${fullname}/languages?access_token=${token}`, {

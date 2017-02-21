@@ -25,8 +25,8 @@ const checkGithubPart = (options) => (target) => {
 /**
  * repos
  */
-const fetchRepos = async (login, token, userId) => {
-  const multiRepos = await Github.getMultiRepos(login, token);
+const fetchRepos = async (login, token, userId, pages = 2) => {
+  const multiRepos = await Github.getMultiRepos(login, token, pages);
   try {
     const reposLanguages = await Github.getAllReposLanguages(multiRepos, token);
     multiRepos.forEach((repository, index) => repository.languages = reposLanguages[index]);
@@ -35,12 +35,14 @@ const fetchRepos = async (login, token, userId) => {
   return setResults;
 };
 
-const getRepos = async (login, token, userId) => {
+const getRepos = async (login, token, options) => {
+  const { publicRepos, userId } = options;
+  const pages = Math.ceil(publicRepos / 100);
   const findResult = await GithubRepos.getRepos(userId);
   if (findResult.length) {
     return findResult;
   }
-  return await fetchRepos(login, token, userId);
+  return await fetchRepos(login, token, userId, pages);
 };
 
 /**
@@ -157,7 +159,11 @@ const getUser = async (ctx, next) => {
 
 const getUserRepos = async (ctx, next) => {
   const { userId, githubLogin, githubToken } = ctx.session;
-  const repos = await getRepos(githubLogin, githubToken, userId);
+  const user = await User.findUserById(userId);
+  const repos = await getRepos(githubLogin, githubToken, {
+    userId,
+    publicRepos: user.githubInfo.public_repos
+  });
   const commits = await getCommits(userId, githubToken);
   if (!commits.length || !repos.length) {
     ctx.query.shouldCache = false;
@@ -194,9 +200,12 @@ const getRepositoryCommits = async (ctx, next) => {
 const getStareInfo = async (ctx, next) => {
   const { login } = ctx.params;
   const user = await User.findUserByLogin(login);
-  const { _id } = user;
+  const { _id, githubInfo } = user;
   const { githubToken } = ctx.session;
-  const repos = await getRepos(login, githubToken, _id);
+  const repos = await getRepos(login, githubToken, {
+    userId: _id,
+    publicRepos: githubInfo.public_repos
+  });
   const commits = await getCommits(_id, githubToken);
   if (!commits.length || !repos.length) {
     ctx.query.shouldCache = false;

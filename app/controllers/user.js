@@ -81,7 +81,7 @@ const dashboard = async (ctx, next) => {
   }
 
   await ctx.render('user/dashboard', {
-    title: `hacknical | ${githubLogin}的个人主页`
+    title: `hacknical | ${githubLogin} 的个人主页`
   });
 };
 
