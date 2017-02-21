@@ -26,7 +26,7 @@ const checkGithubPart = (options) => (target) => {
  * repos
  */
 const fetchRepos = async (login, token, userId, pages = 2) => {
-  const multiRepos = await Github.getMultiRepos(login, token, pages);
+  const multiRepos = await Github.getPersonalPubRepos(login, token, pages);
   try {
     const reposLanguages = await Github.getAllReposLanguages(multiRepos, token);
     multiRepos.forEach((repository, index) => repository.languages = reposLanguages[index]);

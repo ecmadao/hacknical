@@ -142,15 +142,10 @@ const loginWithGithub = async (userInfo) => {
   if (newUser) {
     shareInfo.userId = newUser._id;
     await createGithubShare(shareInfo);
-
-    return Promise.resolve({
-      success: true,
-      result: newUser
-    });
   }
   return Promise.resolve({
     success: false,
-    result: null
+    result: newUser || null
   });
 };
 
