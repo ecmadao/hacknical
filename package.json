@@ -141,6 +141,7 @@
     "github-calendar": "^1.1.10",
     "headroom.js": "^0.9.3",
     "hiredis": "^0.5.0",
+    "i18n": "^0.8.3",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1",
     "jquery-param": "^0.2.0",
