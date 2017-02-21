@@ -4,6 +4,8 @@
 >
 > [Click to see this website](http://hacknical.com)
 
+**Attention：this repos only support Chinese version now, but will publish English version later.**
+
 ## Screenshots
 
 > login page
@@ -16,7 +18,14 @@
 
 ## About
 
-关于 hacknical 的[项目说明](./ABOUT.md)
+See [Project description](./ABOUT.md) here.
+
+## Todos
+
+- [ ] support orgs
+- [ ] support forked repos
+- [ ] support edit resume in mobile
+- [ ] support show resume in mobile
 
 ## Techs
 
@@ -30,7 +39,6 @@
   - pm2
   - nginx
   - nodemon
-  - ...
 
 - frontend
 
@@ -43,7 +51,6 @@
   - clipboard
   - headroom.js
   - webpack
-  - ...
 
 - both
 
@@ -51,7 +58,6 @@
   - es6
   - babel
   - fetch
-  - ...
 
 ## License
 
