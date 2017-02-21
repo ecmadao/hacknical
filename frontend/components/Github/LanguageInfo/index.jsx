@@ -223,7 +223,7 @@ class LanguageInfo extends React.Component {
 
   get sortedLanguages() {
     const { languageUsed } = this.props;
-    return Object.keys(languageUsed).sort(sortLanguages(languageUsed));
+    return Object.keys(languageUsed).sort(sortLanguages(languageUsed)).slice(0, 6);
   }
 
   renderLanguagesLabel() {

@@ -11,6 +11,7 @@ import IconButton from 'COMPONENTS/IconButton';
 import Input from 'COMPONENTS/Input';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Tipso from 'COMPONENTS/Tipso';
+import { sortByX } from 'UTILS/helper';
 
 import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
@@ -19,6 +20,7 @@ import WECHAT from 'SRC/data/wechat';
 import styles from '../styles/profile.css';
 
 const WECHAT_FROM = Object.keys(WECHAT);
+const sortByCount = sortByX('count');
 
 class ShareAnalysis extends React.Component {
   constructor(props) {
@@ -181,7 +183,7 @@ class ShareAnalysis extends React.Component {
   }
 
   renderDevicesChart() {
-    const { viewDevices } = this.props;
+    const viewDevices = this.getDatas('viewDevices');
     const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
@@ -215,7 +217,7 @@ class ShareAnalysis extends React.Component {
   }
 
   renderSourcesChart() {
-    const { viewSources } = this.props;
+    const viewSources = this.getDatas('viewSources');
     const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
@@ -283,6 +285,20 @@ class ShareAnalysis extends React.Component {
         />
       </div>
     )
+  }
+
+  getDatas(type) {
+    const {
+      viewDevices,
+      viewSources
+    } = this.props;
+
+    const datas = {
+      viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
+      viewSources: viewSources.sort(sortByCount).slice(0, 6),
+    };
+
+    return datas[type];
   }
 
   render() {
