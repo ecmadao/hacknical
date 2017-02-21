@@ -20,7 +20,7 @@ class Button extends React.Component {
   }
 
   onClick(e) {
-    const {onClick} = this.props;
+    const { onClick } = this.props;
     onClick && onClick();
   }
 

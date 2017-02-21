@@ -45,7 +45,7 @@ class Educations extends React.Component {
   }
 
   render() {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (
       <div className={styles["resume_section_container"]}>
         <div className={styles["section_title"]}>

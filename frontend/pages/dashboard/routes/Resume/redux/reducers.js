@@ -81,12 +81,13 @@ const reducers = handleActions({
   // educations
   ADD_EDUCATION(state, action) {
     const { educations } = state;
+    const newEdu = objectassign(EDU, {
+      startTime: getDateBeforeYears(1),
+      endTime: getCurrentDate()
+    });
     return ({
       ...state,
-      educations: [...educations, objectassign(EDU, {
-        startTime: getDateBeforeYears(1),
-        endTime: getCurrentDate()
-      })]
+      educations: [...educations, newEdu]
     });
   },
 

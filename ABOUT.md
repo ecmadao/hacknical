@@ -1,6 +1,6 @@
 ## About hacknical
 
-### 它是什么？
+### hacknical 是什么？
 
 在我工作的经历中，无论是面试别人，或者在换工作时被人面试，都是一件很麻烦的事情。面试官经常对面试者的水平了解不足，而有些水平不错的开发者，也不知道该如何很好的展现自我。在这些状态下，简历里往往会有这样或那样的瑕疵：
 
@@ -31,14 +31,23 @@
 
 ### Next ?
 
-目前，hacknical 仅处于试验阶段，还有一些计划中的功能：
+目前，hacknical 仅处于试验阶段，一些地方还不完善：
+
+**计划中的功能：**
 
 - 通过分析用户的 github star 信息，来预测其技术偏好和趋势
 - 将在线简历转为 PDF
 - 移动端简历的编辑和展示
 - 更多更好的简历模板
+- 增加对 orgs 的统计
+- 增加对 fork 项目的 contributions 的统计
 
-如果有其他的建议，欢迎[提出 issue](https://github.com/ecmadao/hacknical/issues)
+**已知的问题：**
+
+- [x] 用户的 repos 没有抓取完全
+- [ ] 微信分享到朋友圈后，页面会被强制重排（需要微信公众号认证）
+
+如果有其他的建议，欢迎 [提出 issue](https://github.com/ecmadao/hacknical/issues)
 
 ### 其他
 
@@ -46,8 +55,8 @@
 - 项目地址位于：[ecmadao/hacknical](https://github.com/ecmadao/hacknical)
 - 保证对用户永久免费
 - 线上 DEMO
-  - [我的在线简历](http://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=)
-  - [我的 github 数据分析报告](http://hacknical.com/github/ecmadao)
+  - [我的在线简历](http://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=) -- -- 暂不支持移动端
+  - [我的 github 数据分析报告](http://hacknical.com/github/ecmadao) -- -- 已适配移动端
 
-你可以[戳这里](https://github.com/ecmadao/hacknical/issues)，通过 issue 提出你的意见和建议，帮助我更好的完善它，谢谢。
+你可以 [戳这里](https://github.com/ecmadao/hacknical/issues)，通过 issue 提出你的意见和建议，帮助我更好的完善它，谢谢。
 
