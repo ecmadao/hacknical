@@ -2,6 +2,7 @@ import koaRouter from 'koa-router';
 import Github from '../controllers/github';
 import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
+import locale from '../controllers/helper/locale';
 import session from '../controllers/helper/session';
 import query from '../controllers/helper/query';
 import platform from '../controllers/helper/platform';
@@ -79,6 +80,7 @@ router.get(
   '/:login',
   platform.checkPlatform,
   analyse.collect,
+  locale,
   Github.sharePage
 );
 router.get(

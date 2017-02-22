@@ -5,18 +5,19 @@ import cx from 'classnames';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 import Label from 'COMPONENTS/Label';
-// import Operations from 'COMPONENTS/Operations'
 import github from 'UTILS/github';
 import { GREEN_COLORS, randomColor } from 'UTILS/colors';
 import {
   getMaxIndex,
   sortLanguages
 } from 'UTILS/helper';
+import locales from 'LOCALES';
 
 import githubStyles from '../styles/github.css';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 
+const githubTexts = locales('github').sections.languages;
 
 class LanguageInfo extends React.Component {
   constructor(props) {
@@ -74,7 +75,7 @@ class LanguageInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: '语言使用频次'
+          text: githubTexts.usageChartTitle
         },
         legend: {
           display: false,
@@ -115,7 +116,7 @@ class LanguageInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: '语言 & 获得 star'
+          text: githubTexts.starChartTitle
         },
         legend: {
           display: false,
@@ -201,15 +202,15 @@ class LanguageInfo extends React.Component {
       <div className={chartStyles["chart_info_container"]}>
         <ChartInfo
           mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
-          subText="拥有最多的仓库"
+          subText={githubTexts.maxReposCountLanguage}
         />
         <ChartInfo
           mainText={maxUsedLanguage}
-          subText="最常使用的语言"
+          subText={githubTexts.maxUsageLanguage}
         />
         <ChartInfo
           mainText={Object.keys(languageSkills)[maxStarCountIndex]}
-          subText="拥有最多的 star"
+          subText={githubTexts.maxStarLanguage}
         />
       </div>
     )
@@ -286,7 +287,7 @@ class LanguageInfo extends React.Component {
     const { loaded } = this.props;
     return (
       <div className={cx(cardStyles["info_card_container"], githubStyles["chart_card_container"])}>
-        <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;编程语言</p>
+        <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;{githubTexts.title}</p>
         <div className={cardStyles["info_card"]}>
           { !loaded ? (
             <Loading />

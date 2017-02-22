@@ -4,17 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../redux/actions';
 import styles from '../styles/profile.css';
+import locales from 'LOCALES';
 
-const ANALYSIS = [
-  {
-    id: 'github',
-    title: 'github 分享数据'
-  },
-  {
-    id: 'resume',
-    title: '简历分享数据'
-  }
-];
+const profileTexts = locales('dashboard').profile;
 
 import ShareAnalysis from './ShareAnalysis';
 
@@ -43,14 +35,14 @@ class Profile extends React.Component {
             className={cx(
               styles["head_switcher"],
               activeTab === "resume" && styles["head_switcher_active"]
-            )}><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;简历分享数据</p>
+            )}><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;{profileTexts.resume.title}</p>
           &nbsp;/&nbsp;
           <p
             onClick={() => this.changeActiveTab("github")}
             className={cx(
               styles["head_switcher"],
               activeTab !== "resume" && styles["head_switcher_active"]
-            )}><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 分享数据</p>
+            )}><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{profileTexts.github.title}</p>
         </div>
         {activeTab === "resume" ? (
           <ShareAnalysis
@@ -59,7 +51,7 @@ class Profile extends React.Component {
             }}
             index={0}
             key={0}
-            text={'个人简历'}
+            text={profileTexts.resume.shareText}
             {...resume}
           />
         ) : (
@@ -69,7 +61,7 @@ class Profile extends React.Component {
             }}
             index={1}
             key={1}
-            text={' github 报告'}
+            text={profileTexts.github.shareText}
             {...github}
           />
         )}

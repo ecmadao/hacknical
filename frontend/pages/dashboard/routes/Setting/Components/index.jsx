@@ -9,6 +9,9 @@ import Button from 'COMPONENTS/Button';
 import Switcher from 'COMPONENTS/Switcher';
 import actions from '../redux/actions';
 import styles from '../styles/setting.css';
+import locales from 'LOCALES';
+
+const settingTexts = locales('dashboard').setting;
 
 const SwitcherPane = (props) => {
   const { id, onChange, checked, text } = props;
@@ -49,8 +52,8 @@ class Setting extends React.Component {
   componentDidMount() {
     const { actions, loading, resumeInfo, githubInfo } = this.props;
     loading && actions.fetchGithubUpdateTime();
-    resumeInfo.loading && actions.fetchResumeShareInfo();
-    githubInfo.loading && actions.fetchGithubShareInfo();
+    resumeInfo && resumeInfo.loading && actions.fetchResumeShareInfo();
+    githubInfo && githubInfo.loading && actions.fetchGithubShareInfo();
   }
 
   render() {
@@ -62,13 +65,13 @@ class Setting extends React.Component {
     return (
       <div>
         <div className={styles['card_container']}>
-          <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;github 相关设置</p>
+          <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{settingTexts.github.title}</p>
           <div className={styles.card}>
             <div className={styles['info_container_wrapper']}>
               {githubInfo.loading ? '' : (
                 <SwitcherPane
                   id='github-share-switch'
-                  text='开启 github 总结的分享'
+                  text={settingTexts.github.openShare}
                   onChange={actions.postGithubShareStatus}
                   checked={githubInfo.openShare}
                 />
@@ -80,10 +83,10 @@ class Setting extends React.Component {
               ) : ''}
               <div className={styles['info_container']}>
                 <div className={styles.info}>
-                  最近更新时间：{updateTime}
+                  {settingTexts.github.lastUpdate}{updateTime}
                 </div>
                 <Button
-                  value="更新数据"
+                  value={settingTexts.github.updateButtonText}
                   style="flat"
                   onClick={actions.refreshGithubDatas}
                 />
@@ -92,7 +95,7 @@ class Setting extends React.Component {
           </div>
         </div>
         <div className={styles['card_container']}>
-          <p><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;简历相关设置</p>
+          <p><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;{settingTexts.resume.title}</p>
           <div className={styles.card}>
             {!resumeInfo ? (
               <BaseModal className={styles['info_loading']} showModal={true} />
@@ -103,35 +106,35 @@ class Setting extends React.Component {
               <div className={styles['info_container_wrapper']}>
                 <SwitcherPane
                   id='resume-share-switch'
-                  text='开启简历的分享'
+                  text={settingTexts.resume.openShare}
                   onChange={resumeInfoLoading ? () => {} : actions.postResumeShareStatus}
                   checked={(resumeInfo && resumeInfo.openShare) || false}
                 />
                 <SwitcherPane
                   id='use-github-switch'
-                  text='在简历中附加我的 github 分析报告'
+                  text={settingTexts.resume.useGithub}
                   onChange={resumeInfoLoading ? () => {} : actions.postResumeGithubStatus}
                   checked={(resumeInfo && resumeInfo.useGithub) || false}
                 />
                 {resumeInfo && resumeInfo.useGithub && resumeInfo.github ? (
                   <div className={styles['info_container_wrapper']}>
                     <CheckPane
-                      text="展示 提交信息热点图"
+                      text={settingTexts.resume.showHotmap}
                       checked={resumeInfo.github.hotmap}
                       onChange={shareSection('hotmap')}
                     />
                     <CheckPane
-                      text="展示 仓库概览"
+                      text={settingTexts.resume.showRepos}
                       checked={resumeInfo.github.repos}
                       onChange={shareSection('repos')}
                     />
                     <CheckPane
-                      text="展示 语言概览"
+                      text={settingTexts.resume.showLanguages}
                       checked={resumeInfo.github.languages}
                       onChange={shareSection('languages')}
                     />
                     <CheckPane
-                      text="展示 commit 概览"
+                      text={settingTexts.resume.showCommits}
                       checked={resumeInfo.github.commits}
                       onChange={shareSection('commits')}
                     />
