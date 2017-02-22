@@ -152,6 +152,7 @@
     "koa-csrf": "^3.0.3",
     "koa-generic-session": "^1.11.4",
     "koa-json": "^1.1.3",
+    "koa-locales": "^1.5.2",
     "koa-logger": "^1.3.0",
     "koa-onerror": "^2.0.0",
     "koa-redis": "^2.1.3",
