@@ -41,8 +41,8 @@ router.get('/shareData',
 
 
 router.get('/:hash',
-  platform.checkPlatform,
   locale,
+  platform.checkPlatform,
   analyse.collectResumeData,
   Resume.getPubResumePage
 );
