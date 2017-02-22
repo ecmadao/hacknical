@@ -1,0 +1,23 @@
+{
+	"loginPage.title": "hacknical | make a better resume",
+	"loginPage.login": "login",
+	"loginPage.about": "about",
+	"loginPage.loginText": "use github data to make a better resume",
+	"languages": "",
+	"errorPage.title": "hacknical | not found",
+	"errorPage.404": "404 not found.",
+	"errorPage.text": "WTF? YOU ARE IN THE NO-MANS LAND",
+	"errorPage.redirectText": "s later go back to home",
+	"dashboard.title": "hacknical | %s",
+	"sharePage.github": "%s 's github summary | hacknical",
+	"sharePage.joinAt": "joined at",
+	"mobilePage.setting": "setting",
+	"mobilePage.analysis": "share record",
+	"messages.error.findUser": "find user failed",
+	"messages.error.frequent": "too frequent, please try %s minutes later",
+	"messages.error.update": "update failed",
+	"messages.share.text": "click to see your github data analysis",
+	"messages.share.mobileText": "see your github data analysis",
+	"messages.share.toggleOpen": "share opened",
+	"messages.share.toggleClose": "share closed"
+}

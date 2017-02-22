@@ -1,0 +1,23 @@
+{
+	"loginPage.title": "hacknical | 更加高效的在线简历",
+	"loginPage.login": "登录",
+	"loginPage.about": "关于",
+	"loginPage.loginText": "用 github 数据辅助你进行简历投递",
+	"languages": "",
+	"errorPage.title": "hacknical | 没有找到页面",
+	"errorPage.404": "没有找到页面",
+	"errorPage.text": "阿西吧!你进入了未知区域",
+	"errorPage.redirectText": "秒后跳转到首页",
+	"dashboard.title": "hacknical | %s 的个人主页",
+	"sharePage.github": "%s 的 github 总结 | hacknical",
+	"sharePage.joinAt": "加入于",
+	"mobilePage.setting": "数据更新",
+	"mobilePage.analysis": "分享记录",
+	"messages.error.findUser": "查找用户失败",
+	"messages.error.frequent": "更新过于频繁，请在 %s 分钟后重试",
+	"messages.error.update": "数据更新失败",
+	"messages.share.text": "想知道自己在致力于哪些编程语言？戳我查看 github 总结",
+	"messages.share.mobileText": "想知道自己在致力于哪些编程语言？",
+	"messages.share.toggleOpen": "分享链接已开启",
+	"messages.share.toggleClose": "分享链接已关闭"
+}

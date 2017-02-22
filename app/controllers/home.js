@@ -7,9 +7,9 @@ const index = async (ctx, next) => {
 
 const handle404 = async (ctx, next) => {
   await ctx.render('error/404', {
-    title: ctx.__("errorPage.title"),
-    text: ctx.__("errorPage.text"),
-    redirectText: ctx.__("errorPage.redirectText")
+    title: ctx.i18n.__("errorPage.title"),
+    text: ctx.i18n.__("errorPage.text"),
+    redirectText: ctx.i18n.__("errorPage.redirectText")
   });
 }
 

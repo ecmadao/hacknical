@@ -44,10 +44,10 @@ const signup = async (ctx, next) => {
 
 const loginPage = async (ctx, next) => {
   await ctx.render('user/login', {
-    title: ctx.__("loginPage.title"),
-    login: ctx.__("loginPage.login"),
-    about: ctx.__("loginPage.about"),
-    loginText: ctx.__("loginPage.loginText"),
+    title: ctx.i18n.__("loginPage.title"),
+    login: ctx.i18n.__("loginPage.login"),
+    about: ctx.i18n.__("loginPage.about"),
+    loginText: ctx.i18n.__("loginPage.loginText"),
     isMobile: ctx.state.isMobile
   });
 };
@@ -84,14 +84,14 @@ const dashboard = async (ctx, next) => {
   }
 
   await ctx.render('user/dashboard', {
-    title: ctx.__("dashboard.title", githubLogin)
+    title: ctx.i18n.__("dashboard.title", githubLogin)
   });
 };
 
 // user analysis mobile
 const mobileAnalysis = async (ctx, next) => {
   await ctx.render('user/mobile/analysis', {
-    title: ctx.__("mobilePage.analysis"),
+    title: ctx.i18n.__("mobilePage.analysis"),
     user: {
       isAdmin: true
     },
@@ -100,7 +100,7 @@ const mobileAnalysis = async (ctx, next) => {
 
 const mobileSetting = async (ctx, next) => {
   await ctx.render('user/mobile/setting', {
-    title: ctx.__("mobilePage.setting"),
+    title: ctx.i18n.__("mobilePage.setting"),
     user: {
       isAdmin: true
     },

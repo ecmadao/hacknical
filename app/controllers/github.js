@@ -103,7 +103,7 @@ const toggleShare = async (ctx, next) => {
   const message = enable === 'true' ? "messages.share.toggleOpen" : "messages.share.toggleClose"
   ctx.body = {
     success: true,
-    message: ctx.__(message)
+    message: ctx.i18n.__(message)
   };
 };
 
@@ -153,7 +153,7 @@ const getUser = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    error: ctx.__("messages.error.findUser")
+    error: ctx.i18n.__("messages.error.findUser")
   };
 };
 
@@ -234,7 +234,7 @@ const getSharedUser = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    error: ctx.__("messages.error.findUser")
+    error: ctx.i18n.__("messages.error.findUser")
   };
 };
 
@@ -247,7 +247,7 @@ const sharePage = async (ctx, next) => {
     return;
   }
   const { githubInfo } = user;
-  const title = ctx.__("sharePage.github", githubInfo.name || githubInfo.login);
+  const title = ctx.i18n.__("sharePage.github", githubInfo.name || githubInfo.login);
 
   if (!ctx.state.isMobile) {
     await ctx.render('user/share', {
@@ -256,7 +256,7 @@ const sharePage = async (ctx, next) => {
         isAdmin: login === githubLogin
       },
       title,
-      shareText: ctx.__("messages.share.text")
+      shareText: ctx.i18n.__("messages.share.text")
     });
     return;
   }
@@ -283,8 +283,8 @@ const sharePage = async (ctx, next) => {
       created_at: created_at.split('T')[0]
     },
     title,
-    shareText: ctx.__("messages.share.mobileText"),
-    joinAt: ctx.__("sharePage.joinAt")
+    shareText: ctx.i18n.__("messages.share.mobileText"),
+    joinAt: ctx.i18n.__("sharePage.joinAt")
   });
 };
 
@@ -318,7 +318,7 @@ const getUpdateTime = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    error: ctx.__("messages.error.findUser")
+    error: ctx.i18n.__("messages.error.findUser")
   };
 };
 
@@ -332,7 +332,7 @@ const refreshDatas = async (ctx, next) => {
   if (timeInterval <= HALF_AN_HOUR) {
     return ctx.body = {
       success: true,
-      error: ctx.__("messages.error.frequent", parseInt((HALF_AN_HOUR - timeInterval) / 60, 10) + "")
+      error: ctx.i18n.__("messages.error.frequent", parseInt((HALF_AN_HOUR - timeInterval) / 60, 10) + "")
     };
   }
 
@@ -360,7 +360,7 @@ const refreshDatas = async (ctx, next) => {
     ctx.body = {
       success: true,
       result: new Date(),
-      error: ctx.__("messages.error.update")
+      error: ctx.i18n.__("messages.error.update")
     };
   }
 
