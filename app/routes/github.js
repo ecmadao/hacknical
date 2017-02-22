@@ -78,9 +78,9 @@ router.get(
 );
 router.get(
   '/:login',
+  locale,
   platform.checkPlatform,
   analyse.collect,
-  locale,
   Github.sharePage
 );
 router.get(

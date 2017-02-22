@@ -11,30 +11,30 @@ const router = koaRouter({
 
 // dashboard page
 router.get('/dashboard',
+  locale,
   platform.checkPlatform,
   user.checkIfLogin(),
-  locale,
   User.dashboard
 );
 // mobile dashboard page
 router.get('/analysis',
+  locale,
   platform.checkPlatform,
   user.checkIfLogin(),
-  locale,
   User.mobileAnalysis
 );
 router.get('/setting',
+  locale,
   platform.checkPlatform,
   user.checkIfLogin(),
-  locale,
   User.mobileSetting
 );
 
 // user login/logout/signup page
 router.get('/login',
+  locale,
   platform.checkPlatform,
   user.checkIfNotLogin(),
-  locale,
   User.loginPage
 );
 
