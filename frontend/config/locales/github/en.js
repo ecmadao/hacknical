@@ -4,22 +4,22 @@ const datas = {
       title: 'Hotmap'
     },
     baseInfo: {
-      title: 'Base info',
+      title: 'Base Info',
       joinedAt: 'Joined at: '
     },
     social: {
-      repositories: 'repositories',
-      followers: 'followers',
-      following: 'following'
+      repositories: 'Repositories',
+      followers: 'Followers',
+      following: 'Following'
     },
     repos: {
       title: 'Repos Review',
-      starsCount: 'stars',
-      forksCount: 'forks',
-      reposCount: 'repos',
-      popularestRepos: 'Most popular',
+      starsCount: 'Stars',
+      forksCount: 'Forks',
+      reposCount: 'Repos',
+      popularestRepos: 'Most popular repos',
       longgestRepos: 'Longgest commit',
-      chartTitle: 'star/fork/commit(last one year)'
+      chartTitle: 'star/fork/commit (last one year)'
     },
     languages: {
       title: 'Languages Review',

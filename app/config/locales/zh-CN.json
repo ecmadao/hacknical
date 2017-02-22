@@ -23,6 +23,9 @@
     "github": "%s 的 github 总结 | hacknical",
     "joinAt": "加入于"
   },
+	"resumePage": {
+    "title": "%s 的个人简历 | hacknical"
+  },
 	"mobilePage": {
 		"setting": "数据更新",
 		"analysis": "分享记录"
@@ -38,6 +41,10 @@
       "mobileText": "想知道自己在致力于哪些编程语言？",
       "toggleOpen": "分享链接已开启",
       "toggleClose": "分享链接已关闭"
-    }
+    },
+		"resume": {
+			"linkGithub": "已开启简历和 github 的关联",
+			"unlinkGithub": "已关闭简历和 github 的关联"
+		}
   }
 }

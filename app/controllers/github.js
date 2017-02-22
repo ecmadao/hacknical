@@ -146,7 +146,8 @@ const getUser = async (ctx, next) => {
         following,
         public_repos,
         created_at,
-        openShare: shareAnalyse.enable
+        openShare: shareAnalyse.enable,
+        shareUrl: `github/${login}?locale=${ctx.session.locale}`
       }
     };
     return;
@@ -296,7 +297,7 @@ const getStareData = async (ctx, next) => {
   ctx.body = {
     success: true,
     result: {
-      url,
+      url: `${url}?locale=${ctx.session.locale}`,
       viewDevices,
       viewSources,
       pageViews,

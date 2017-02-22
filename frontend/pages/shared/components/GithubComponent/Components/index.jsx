@@ -177,7 +177,7 @@ class GithubComponent extends React.Component {
             openModal={openShareModal}
             options={{
               openShare: user.openShare,
-              link: `${origin}/github/${user.login}`,
+              link: `${origin}/${user.shareUrl}`,
               text: shareText
             }}
             toggleShare={this.changeShareStatus}

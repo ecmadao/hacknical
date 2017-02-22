@@ -27,7 +27,7 @@ const setResume = async (ctx, next) => {
       checkResult = await ResumePub.addPubResume(userId);
     }
     resumeInfo = checkResult.success ? {
-      url: `resume/${checkResult.result.resumeHash}`,
+      url: `resume/${checkResult.result.resumeHash}?locale=${ctx.session.locale}`,
       useGithub: checkResult.result.useGithub,
       openShare: checkResult.result.openShare
     } : null;
@@ -64,7 +64,7 @@ const getPubResumePage = async (ctx, next) => {
   }
 
   await ctx.render('resume/share', {
-    title: `${result}的个人简历 | hacknical`,
+    title: ctx.__("resumePage.title", result),
     resumeHash: hash
   });
 };
@@ -109,10 +109,10 @@ const setResumeShareStatus = async (ctx, next) => {
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     openShare: enable
   });
-  const text = enable === 'true' ? '开启' : '关闭';
+  const resultMessage = enable === 'true' ? "messages.share.toggleOpen" : "messages.share.toggleClose"
   ctx.body = {
     success: true,
-    message: `分享链接已${text}`
+    message: ctx.__(resultMessage)
   };
 };
 
@@ -131,10 +131,10 @@ const setResumeGithubStatus = async (ctx, next) => {
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     useGithub: enable
   });
-  const text = enable === 'true' ? '开启' : '关闭';
+  const resultMessage = enable === 'true' ? "messages.resume.linkGithub" : "messages.resume.unlinkGithub";
   ctx.body = {
     success: true,
-    message: `已${text}简历和 github 的关联`
+    message: ctx.__(resultMessage)
   };
 };
 

@@ -6,44 +6,46 @@ const datas = {
     setting: 'Setting'
   },
   headers: {
-    zen: 'Zen of github',
+    zen: 'Zen of Github',
     about: 'About',
     feedback: 'Feedback',
     logout: 'Logout'
   },
   resume: {
     buttons: {
-      save: 'save',
-      preview: 'preview',
-      pre: 'pre',
-      next: 'next'
+      save: 'Save',
+      preview: 'Preview',
+      pre: 'Pre',
+      next: 'Next'
     }
   },
   profile: {
     resume: {
-      title: 'resume share datas'
+      title: 'Resume Share Datas',
+      shareText: 'Scan QR code to share resume'
     },
     github: {
-      title: 'github share datas'
+      title: 'Github Share Datas',
+      shareText: 'Scan QR code to share github analysis'
     },
     common: {
-      pv: 'total pv',
-      platform: 'max platform',
-      browser: 'max browser',
-      platformChartTitle: 'platforms',
-      browserChartTitle: 'browsers',
-      hourlyViewChartTitle: 'hourly view'
+      pv: 'Total PV',
+      platform: 'Max Platform',
+      browser: 'Max Browser',
+      platformChartTitle: 'Platforms',
+      browserChartTitle: 'Browsers',
+      hourlyViewChartTitle: 'Hourly View'
     }
   },
   setting: {
     github: {
-      title: 'github',
+      title: 'Github',
       openShare: 'Open share',
       lastUpdate: 'Last update at: ',
-      updateButtonText: 'update'
+      updateButtonText: 'Update'
     },
     resume: {
-      title: 'resume',
+      title: 'Resume',
       openShare: 'Open share',
       useGithub: 'Use github analysis in resume',
       showHotmap: 'Show hotmap',

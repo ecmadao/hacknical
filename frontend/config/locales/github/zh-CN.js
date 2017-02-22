@@ -8,9 +8,9 @@ const datas = {
       joinedAt: '加入时间：'
     },
     social: {
-      repositories: 'repositories',
-      followers: 'followers',
-      following: 'following'
+      repositories: 'Repositories',
+      followers: 'Followers',
+      following: 'Following'
     },
     repos: {
       title: '仓库概览',
