@@ -88,7 +88,7 @@ class CommitInfo extends React.Component {
               return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
             },
             label: (item, data) => {
-              return `当周提交数：${item.yLabel}`
+              return `${item.yLabel} commits this week`
             }
           }
         }
@@ -130,7 +130,7 @@ class CommitInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `总提交数 ${item.yLabel}，平均每周${item.xLabel.slice(-1)}提交 ${(item.yLabel / 52).toFixed(2)} 次`
+              return `${item.yLabel} commits totally`
             }
           }
         }
