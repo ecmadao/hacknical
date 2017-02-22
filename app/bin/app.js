@@ -6,6 +6,7 @@ import bodyParser from 'koa-bodyparser';
 import onerror from 'koa-onerror';
 import csrf from 'koa-csrf';
 import json from 'koa-json';
+import locales from 'koa-locales';
 
 import redisStore from 'koa-redis';
 import session from 'koa-generic-session';
@@ -25,6 +26,16 @@ const port = config.get('port');
 const clientId = config.get('github.clientId');
 const app = new Koa();
 app.keys = [appKey];
+
+const options = {
+  defaultLocale: 'zh-CN',
+  dirs: [path.join(__dirname, '../config/locales')],
+  localeAlias: {
+    'en': 'en-US',
+    'de-de': 'de',
+  }
+};
+locales(app, options);
 
 // error handle
 onerror(app);
@@ -60,6 +71,7 @@ app.use(async (ctx, next) => {
   };
   await next();
 });
+
 // user-agent
 app.use(convert(userAgent()));
 

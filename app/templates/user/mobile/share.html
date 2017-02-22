@@ -25,7 +25,7 @@
   <div class="share">
     <div class="share_header">
       <img src="{{ user['avatar_url'] }}" /><br/>
-      <span>{{ user.name }}, 加入于 {{ user['created_at'] }}</span>
+      <span>{{ user.name }}, {{ joinAt }} {{ user['created_at'] }}</span>
       {% if user.bio %}
         <blockquote>{{ user.bio }}</blockquote>
       {% endif %}
@@ -48,7 +48,7 @@
   </div>
   {% if not user.isAdmin %}
     <a class="share_banner" href="/" target="_blank">
-      <i class="fa fa-code" aria-hidden="true"></i>&nbsp;&nbsp;想知道自己在致力于哪些编程语言？
+      <i class="fa fa-code" aria-hidden="true"></i>&nbsp;&nbsp;{{ shareText }}
     </a>
   {% endif %}
 {% endblock %}
