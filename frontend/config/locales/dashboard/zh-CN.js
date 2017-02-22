@@ -11,14 +11,6 @@ const datas = {
     feedback: '意见反馈',
     logout: '退出登录'
   },
-  resume: {
-    buttons: {
-      save: '保存',
-      preview: '预览',
-      pre: '上一步',
-      next: '下一步'
-    }
-  },
   profile: {
     resume: {
       title: '简历分享数据',

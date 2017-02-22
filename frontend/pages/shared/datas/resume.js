@@ -1,34 +1,40 @@
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume");
+const navTexts = resumeTexts.navs;
+const genderTexts = resumeTexts.options.genders;
+
 export const RESUME_SECTIONS = [
   {
     id: 'info',
-    text: '基本信息'
+    text: navTexts.info
   },
   {
     id: 'educations',
-    text: '教育经历'
+    text: navTexts.edu
   },
   {
     id: 'workExperiences',
-    text: '工作经历'
+    text: navTexts.work
   },
   {
     id: 'personalProjects',
-    text: '个人项目'
+    text: navTexts.projects
   },
   {
     id: 'others',
-    text: '其他补充'
+    text: navTexts.others
   }
 ];
 
 export const GENDERS = [
   {
     id: 'male',
-    text: '男性'
+    text: genderTexts.male
   },
   {
     id: 'female',
-    text: '女性'
+    text: genderTexts.female
   }
 ];
 

@@ -1,5 +1,5 @@
 const datas = {
-  text: 'Scan QR code / code link to share',
+  text: 'Scan QR / Copy Link',
   openTitle: 'Share Opened',
   closeTitle: 'Share Closed',
   baseText: 'share'

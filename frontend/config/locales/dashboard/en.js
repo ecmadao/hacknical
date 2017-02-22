@@ -11,14 +11,6 @@ const datas = {
     feedback: 'Feedback',
     logout: 'Logout'
   },
-  resume: {
-    buttons: {
-      save: 'Save',
-      preview: 'Preview',
-      pre: 'Pre',
-      next: 'Next'
-    }
-  },
   profile: {
     resume: {
       title: 'Resume Share Datas',

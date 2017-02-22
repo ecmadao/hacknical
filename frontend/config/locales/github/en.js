@@ -4,7 +4,7 @@ const datas = {
       title: 'Hotmap'
     },
     baseInfo: {
-      title: 'Base Info',
+      title: 'Basic Info',
       joinedAt: 'Joined at: '
     },
     social: {
