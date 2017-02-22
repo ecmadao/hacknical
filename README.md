@@ -18,7 +18,7 @@
 
 ## About
 
-See [Project description](./ABOUT.md) here.
+See [Project description](./doc/ABOUT-en.md) here.[中文](./doc/ABOUT-zh-CN.md)
 
 ## Todos
 
