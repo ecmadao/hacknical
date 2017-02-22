@@ -9,7 +9,7 @@ const catch404 = () => async (ctx, next) => {
         await ctx.redirect('/user/dashboard');
         return;
       }
-      await ctx.redirect('/404');
+      await ctx.redirect(`/404?locale=${ctx.session.locale}`);
     }
   } catch(err) {
     logger.error('404 error', err, ctx);

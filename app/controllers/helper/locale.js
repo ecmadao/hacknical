@@ -4,7 +4,7 @@ const locale = async (ctx, next) => {
   if (locale) {
     ctx.session.locale = locale;
   } else if (!ctx.session.locale) {
-    ctx.session.locale = 'zh-CN';
+    ctx.session.locale = 'en';
   }
 
   ctx.state.locale = ctx.session.locale;
