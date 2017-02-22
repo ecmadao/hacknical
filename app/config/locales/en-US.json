@@ -1,30 +1,30 @@
 {
   "language": {
-    "text": "中文",
-    "id": "zh-CN"
+    "text": "English",
+    "id": "en-US"
   },
   "loginPage": {
-    "title": "hacknical | make a better resume",
+    "title": "Hacknical | Make a better resume",
     "login": "Login",
     "about": "About",
     "loginText": "Use Github Data To Make A Better Resume"
   },
   "languages": {},
   "errorPage": {
-    "title": "hacknical | not found",
+    "title": "Hacknical | not found",
     "404": "404 not found.",
     "text": "WTF? YOU ARE IN THE NO-MANS LAND",
-		"redirectText": "s later go back to home"
+	"redirectText": "Going back home in a few seconds"
   },
   "dashboard": {
-    "title": "hacknical | %s"
+    "title": "Hacknical | %s"
   },
   "sharePage": {
-    "github": "%s 's github summary | hacknical",
+    "github": "%s 's github summary | Hacknical",
     "joinAt": "Joined at"
   },
   "resumePage": {
-    "title": "%s 's resume | hacknical"
+    "title": "%s 's resume | Hacknical"
   },
   "mobilePage": {
     "setting": "Setting",
@@ -33,18 +33,18 @@
   "messages": {
     "error": {
       "findUser": "Find user failed",
-      "frequent": "Too frequent, please try %s minutes later",
+      "frequent": "Too many attempts, please try in %s minutes",
       "update": "Update failed"
     },
     "share": {
       "text": "Click To See Your Github Data Analysis",
       "mobileText": "See Your Github Data Analysis",
-      "toggleOpen": "Share opened",
-      "toggleClose": "Share closed"
+      "toggleOpen": "Share enabled",
+      "toggleClose": "Share disabled"
     },
     "resume": {
-			"linkGithub": "Resume linked with github",
-			"unlinkGithub": "Resume unlinked with github"
-		}
+		"linkGithub": "Resume linked with github",
+		"unlinkGithub": "Resume unlinked with github"
+	}
   }
 }
