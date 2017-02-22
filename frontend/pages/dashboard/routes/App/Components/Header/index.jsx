@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import objectAssign from 'object-assign';
 import Api from 'API';
 import Tipso from 'COMPONENTS/Tipso';
+import locales from 'LOCALES';
+const headers = locales('dashboard').headers;
 
 import styles from '../../styles/app.css';
 
@@ -68,7 +70,7 @@ class Header extends React.Component {
                 <Tipso
                   className={styles["zen_tipso"]}
                   show={true}>
-                  <span>zen of github</span>
+                  <span>{headers.zen}</span>
                 </Tipso>
               ) : ''}
             </span>
@@ -87,7 +89,7 @@ class Header extends React.Component {
                 <Tipso
                   className={styles["menu_tipso"]}
                   show={true}>
-                  <span>关于网站</span>
+                  <span>{headers.about}</span>
                 </Tipso>
               ) : ''}
             </a>
@@ -104,7 +106,7 @@ class Header extends React.Component {
                 <Tipso
                   className={styles["menu_tipso"]}
                   show={true}>
-                  <span>意见反馈</span>
+                  <span>{headers.feedback}</span>
                 </Tipso>
               ) : ''}
             </a>
@@ -120,7 +122,7 @@ class Header extends React.Component {
                 <Tipso
                   className={styles["menu_tipso"]}
                   show={true}>
-                  <span>退出登录</span>
+                  <span>{headers.logout}</span>
                 </Tipso>
               ) : ''}
             </a>

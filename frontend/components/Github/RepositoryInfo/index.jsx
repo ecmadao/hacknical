@@ -19,11 +19,13 @@ import {
   getOffsetLeft,
   getOffsetRight
 } from 'UTILS/helper';
+import locales from 'LOCALES';
 
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
 
+const githubTexts = locales('github').sections.repos;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getRelativeTime = dateHelper.relative.hoursBefore;
 const getValidateDate = dateHelper.validator.fullDate;
@@ -72,7 +74,7 @@ class RepositoryInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: '仓库 star/fork/一年内commit 数一览（取前十）'
+          text: githubTexts.chartTitle
         },
         scales: {
           xAxes: [{
@@ -112,29 +114,29 @@ class RepositoryInfo extends React.Component {
           <ChartInfo
             icon="star-o"
             mainText={totalStar}
-            subText="收获 star 数"
+            subText={githubTexts.starsCount}
           />
           <ChartInfo
             icon="code-fork"
             mainText={totalFork}
-            subText="收获 fork 数"
+            subText={githubTexts.forksCount}
           />
           <ChartInfo
             icon="cubes"
             mainText={yearlyRepos.length}
-            subText="创建的仓库数"
+            subText={githubTexts.reposCount}
           />
         </div>
         <div className={chartStyles["chart_info_container"]}>
           <ChartInfo
             icon="cube"
             mainText={maxStaredRepos.name}
-            subText="最受欢迎的仓库"
+            subText={githubTexts.popularestRepos}
           />
           <ChartInfo
             icon="clock-o"
             mainText={`${getValidateDate(startTime)}~${getValidateDate(pushTime)}`}
-            subText="贡献时间最久的仓库"
+            subText={githubTexts.longgestRepos}
           />
         </div>
       </div>
@@ -278,7 +280,7 @@ class RepositoryInfo extends React.Component {
     const { flatRepos } = this.props;
     return (
       <div className={cx(cardStyles["info_card_container"], githubStyles["chart_card_container"])}>
-        <p><i aria-hidden="true" className="fa fa-bar-chart"></i>&nbsp;&nbsp;仓库概览</p>
+        <p><i aria-hidden="true" className="fa fa-bar-chart"></i>&nbsp;&nbsp;{githubTexts.title}</p>
         <div className={cardStyles["info_card"]}>
           {!flatRepos || !flatRepos.length ? (
             <Loading />

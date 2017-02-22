@@ -49,8 +49,8 @@ class Setting extends React.Component {
   componentDidMount() {
     const { actions, loading, resumeInfo, githubInfo } = this.props;
     loading && actions.fetchGithubUpdateTime();
-    resumeInfo.loading && actions.fetchResumeShareInfo();
-    githubInfo.loading && actions.fetchGithubShareInfo();
+    resumeInfo && resumeInfo.loading && actions.fetchResumeShareInfo();
+    githubInfo && githubInfo.loading && actions.fetchGithubShareInfo();
   }
 
   render() {
