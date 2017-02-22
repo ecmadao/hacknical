@@ -28,7 +28,7 @@ const app = new Koa();
 app.keys = [appKey];
 
 const options = {
-  defaultLocale: 'zh-CN',
+  defaultLocale: 'en-US',
   dirs: [path.join(__dirname, '../config/locales')],
   localeAlias: {
     'en': 'en-US',

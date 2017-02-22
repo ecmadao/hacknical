@@ -1,4 +1,8 @@
 {
+	"language": {
+    "text": "En",
+    "id": "en"
+  },
 	"loginPage": {
 		"title": "hacknical | 更加高效的在线简历",
 		"login": "登录",

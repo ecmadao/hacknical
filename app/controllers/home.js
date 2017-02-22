@@ -11,7 +11,7 @@ const handle404 = async (ctx, next) => {
     text: ctx.__("errorPage.text"),
     redirectText: ctx.__("errorPage.redirectText")
   });
-}
+};
 
 export default {
   index,

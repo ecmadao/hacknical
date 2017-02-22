@@ -1,4 +1,8 @@
 {
+  "language": {
+    "text": "中文",
+    "id": "zh-CN"
+  },
   "loginPage": {
     "title": "hacknical | make a better resume",
     "login": "login",

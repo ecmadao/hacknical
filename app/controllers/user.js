@@ -48,6 +48,8 @@ const loginPage = async (ctx, next) => {
     login: ctx.__("loginPage.login"),
     about: ctx.__("loginPage.about"),
     loginText: ctx.__("loginPage.loginText"),
+    languageText: ctx.__("language.text"),
+    languageId: ctx.__("language.id"),
     isMobile: ctx.state.isMobile
   });
 };
