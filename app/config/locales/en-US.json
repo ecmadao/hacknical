@@ -5,9 +5,9 @@
   },
   "loginPage": {
     "title": "hacknical | make a better resume",
-    "login": "login",
-    "about": "about",
-    "loginText": "use github data to make a better resume"
+    "login": "Login",
+    "about": "About",
+    "loginText": "Use Github Data To Make A Better Resume"
   },
   "languages": {},
   "errorPage": {
@@ -21,23 +21,30 @@
   },
   "sharePage": {
     "github": "%s 's github summary | hacknical",
-    "joinAt": "joined at"
+    "joinAt": "Joined at"
+  },
+  "resumePage": {
+    "title": "%s 's resume | hacknical"
   },
   "mobilePage": {
-    "setting": "setting",
-    "analysis": "share record"
+    "setting": "Setting",
+    "analysis": "Share record"
   },
   "messages": {
     "error": {
-      "findUser": "find user failed",
-      "frequent": "too frequent, please try %s minutes later",
-      "update": "update failed"
+      "findUser": "Find user failed",
+      "frequent": "Too frequent, please try %s minutes later",
+      "update": "Update failed"
     },
     "share": {
-      "text": "click to see your github data analysis",
-      "mobileText": "",
-      "toggleOpen": "share opened",
-      "toggleClose": "share closed"
-    }
+      "text": "Click To See Your Github Data Analysis",
+      "mobileText": "See Your Github Data Analysis",
+      "toggleOpen": "Share opened",
+      "toggleClose": "Share closed"
+    },
+    "resume": {
+			"linkGithub": "Resume linked with github",
+			"unlinkGithub": "Resume unlinked with github"
+		}
   }
 }
