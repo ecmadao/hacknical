@@ -18,7 +18,9 @@ import { GREEN_COLORS } from 'UTILS/colors';
 import dateHelper from 'UTILS/date';
 import WECHAT from 'SRC/data/wechat';
 import styles from '../styles/profile.css';
+import locales from 'LOCALES';
 
+const profileTexts = locales('dashboard').profile.common;
 const WECHAT_FROM = Object.keys(WECHAT);
 const sortByCount = sortByX('count');
 
@@ -83,7 +85,7 @@ class ShareAnalysis extends React.Component {
             show={showQrcodeModal}>
             <div className={styles["qrcode_container"]}>
               <div id={`qrcode-${index}`}></div>
-              <span>扫码分享{text}</span>
+              <span>{text}</span>
             </div>
           </Tipso>
           <Input
@@ -124,7 +126,7 @@ class ShareAnalysis extends React.Component {
     const viewDates = validatePageViews.map(pageView => pageView.count);
     const datasetsConfig = {
       data: viewDates,
-      label: '每小时浏览量'
+      label: profileTexts.hourlyViewChartTitle
     };
     if (viewDates.length >= 20) {
       datasetsConfig.pointBorderWidth = 0;
@@ -207,7 +209,7 @@ class ShareAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '浏览量来源平台'
+          text: profileTexts.platformChartTitle
         },
         legend: {
           display: false,
@@ -242,7 +244,7 @@ class ShareAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '浏览器分布'
+          text: profileTexts.browserChartTitle
         },
         legend: {
           display: false,
@@ -273,15 +275,15 @@ class ShareAnalysis extends React.Component {
       <div className={styles["chart_info_container"]}>
         <ChartInfo
           mainText={viewCount}
-          subText="总 PV"
+          subText={profileTexts.pv}
         />
         <ChartInfo
           mainText={platforms.slice(0, 2).join(',')}
-          subText="使用最多的平台"
+          subText={profileTexts.platform}
         />
         <ChartInfo
           mainText={browsers.join(',')}
-          subText="使用最多的浏览器"
+          subText={profileTexts.browser}
         />
       </div>
     )

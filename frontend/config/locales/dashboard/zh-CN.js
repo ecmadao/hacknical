@@ -21,10 +21,12 @@ const datas = {
   },
   profile: {
     resume: {
-      title: '简历分享数据'
+      title: '简历分享数据',
+      shareText: '扫码分享个人简历'
     },
     github: {
-      title: 'github 分享数据'
+      title: 'github 分享数据',
+      shareText: '扫码分享 github 报告'
     },
     common: {
       pv: '总 PV',
