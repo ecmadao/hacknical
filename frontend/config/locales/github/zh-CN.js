@@ -40,7 +40,7 @@ const datas = {
     }
   },
   modal: {
-    shareText: '分享你的 github 总结'
+    shareText: '分享你的 GitHub 总结'
   }
 };
 

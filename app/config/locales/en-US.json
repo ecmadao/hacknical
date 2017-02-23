@@ -7,20 +7,20 @@
     "title": "Hacknical | Make a better resume",
     "login": "Login",
     "about": "About",
-    "loginText": "Use Github Data To Make A Better Resume"
+    "loginText": "Use GitHub Data To Make A Better Resume"
   },
   "languages": {},
   "errorPage": {
     "title": "Hacknical | not found",
     "404": "404 not found.",
     "text": "WTF? YOU ARE IN THE NO-MANS LAND",
-	"redirectText": "Going back home in a few seconds"
+	  "redirectText": "Going back home in a few seconds"
   },
   "dashboard": {
     "title": "Hacknical | %s"
   },
   "sharePage": {
-    "github": "%s 's github summary | Hacknical",
+    "github": "%s 's GitHub summary | Hacknical",
     "joinAt": "Joined at"
   },
   "resumePage": {
@@ -37,14 +37,14 @@
       "update": "Update failed"
     },
     "share": {
-      "text": "Click To See Your Github Data Analysis",
-      "mobileText": "See Your Github Data Analysis",
+      "text": "Click to see your GitHub data Analysis",
+      "mobileText": "See your GitHub data analysis",
       "toggleOpen": "Share enabled",
       "toggleClose": "Share disabled"
     },
     "resume": {
-		"linkGithub": "Resume linked with github",
-		"unlinkGithub": "Resume unlinked with github"
+		"linkGithub": "Resume linked with GitHub",
+		"unlinkGithub": "Resume unlinked with GitHub"
 	}
   }
 }

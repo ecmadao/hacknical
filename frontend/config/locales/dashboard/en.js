@@ -2,11 +2,11 @@ const datas = {
   tabs: {
     profile: 'Profile',
     resume: 'Resume',
-    github: 'Github',
+    github: 'GitHub',
     setting: 'Setting'
   },
   headers: {
-    zen: 'Zen of Github',
+    zen: 'Zen of GitHub',
     about: 'About',
     feedback: 'Feedback',
     logout: 'Logout'
@@ -17,8 +17,8 @@ const datas = {
       shareText: 'Scan QR code to share resume'
     },
     github: {
-      title: 'Github Share Datas',
-      shareText: 'Scan QR code to share github analysis'
+      title: 'GitHub Share Datas',
+      shareText: 'Scan QR code to share GitHub analysis'
     },
     common: {
       pv: 'Total PV',
@@ -31,7 +31,7 @@ const datas = {
   },
   setting: {
     github: {
-      title: 'Github',
+      title: 'GitHub',
       openShare: 'Open share',
       lastUpdate: 'Last update at: ',
       updateButtonText: 'Update'
@@ -39,7 +39,7 @@ const datas = {
     resume: {
       title: 'Resume',
       openShare: 'Open share',
-      useGithub: 'Use github analysis in resume',
+      useGithub: 'Use GitHub analysis in resume',
       showHotmap: 'Show hotmap',
       showRepos: 'Show repos',
       showLanguages: 'Show languages',

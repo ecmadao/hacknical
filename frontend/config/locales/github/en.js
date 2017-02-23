@@ -40,7 +40,7 @@ const datas = {
     }
   },
   modal: {
-    shareText: 'Share your github analysis'
+    shareText: 'Share your GitHub analysis'
   }
 };
 
