@@ -1,7 +1,6 @@
 import koaRouter from 'koa-router';
 import Resume from '../controllers/resume';
 import user from '../controllers/helper/user';
-import locale from '../controllers/helper/locale';
 import session from '../controllers/helper/session';
 import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
@@ -41,7 +40,6 @@ router.get('/shareData',
 
 
 router.get('/:hash',
-  locale,
   platform.checkPlatform,
   analyse.collectResumeData,
   Resume.getPubResumePage

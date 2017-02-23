@@ -59,8 +59,6 @@ const githubLogin = async (ctx, next) => {
   const result = await Github.getToken(code);
   try {
     const githubToken = result.match(/^access_token=(\w+)&/)[1];
-    console.log('===== user githubToken is =====');
-    console.log(githubToken);
     const userInfo = await Github.getUser(githubToken);
     if (userInfo) {
       ctx.session.githubToken = githubToken;

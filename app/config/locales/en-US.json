@@ -3,6 +3,8 @@
     "text": "English",
     "id": "en-US"
   },
+  "description": "Hacknical - A website for GitHub user to make a better resume.",
+  "keywords": "GitHub, GitHub-Contributions, GitHub-Analysis, Resume, Resume-Template, Data-Analysis",
   "loginPage": {
     "title": "Hacknical | Make a better resume",
     "login": "Login",
@@ -36,6 +38,9 @@
       "frequent": "Too many attempts, please try in %s minutes",
       "update": "Update failed"
     },
+    "success": {
+      "save": "Save success"
+    },
     "share": {
       "text": "Click to see your GitHub data Analysis",
       "mobileText": "See your GitHub data analysis",
@@ -43,8 +48,8 @@
       "toggleClose": "Share disabled"
     },
     "resume": {
-		"linkGithub": "Resume linked with GitHub",
-		"unlinkGithub": "Resume unlinked with GitHub"
-	}
+      "linkGithub": "Resume linked with GitHub",
+      "unlinkGithub": "Resume unlinked with GitHub"
+	  }
   }
 }

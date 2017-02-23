@@ -1,7 +1,6 @@
 import koaRouter from 'koa-router';
 import User from '../controllers/user';
 import platform from '../controllers/helper/platform';
-import locale from '../controllers/helper/locale';
 import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
 
@@ -11,20 +10,17 @@ const router = koaRouter({
 
 // dashboard page
 router.get('/dashboard',
-  locale,
   platform.checkPlatform,
   user.checkIfLogin(),
   User.dashboard
 );
 // mobile dashboard page
 router.get('/analysis',
-  locale,
   platform.checkPlatform,
   user.checkIfLogin(),
   User.mobileAnalysis
 );
 router.get('/setting',
-  locale,
   platform.checkPlatform,
   user.checkIfLogin(),
   User.mobileSetting
@@ -32,7 +28,6 @@ router.get('/setting',
 
 // user login/logout/signup page
 router.get('/login',
-  locale,
   platform.checkPlatform,
   user.checkIfNotLogin(),
   User.loginPage

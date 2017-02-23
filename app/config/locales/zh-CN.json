@@ -3,6 +3,8 @@
     "text": "En",
     "id": "en"
   },
+	"description": "Hacknical - 查看自己的 GitHub 总结，并协助你完善自我简历",
+	"keywords": "GitHub，数据可视化，简历，在线简历",
 	"loginPage": {
 		"title": "Hacknical | 更加高效的在线简历",
 		"login": "登录",
@@ -35,6 +37,9 @@
       "findUser": "查找用户失败",
       "frequent": "更新过于频繁，请在 %s 分钟后重试",
       "update": "数据更新失败"
+    },
+		"success": {
+      "save": "储存成功"
     },
     "share": {
       "text": "想知道自己在致力于哪些编程语言？戳我查看 GitHub 总结",

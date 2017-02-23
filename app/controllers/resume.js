@@ -35,7 +35,7 @@ const setResume = async (ctx, next) => {
 
   ctx.body = {
     success: true,
-    message: '储存成功',
+    message: ctx.__("messages.success.save"),
     result: resumeInfo
   };
 };
