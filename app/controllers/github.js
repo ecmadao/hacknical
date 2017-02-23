@@ -285,7 +285,13 @@ const sharePage = async (ctx, next) => {
     },
     title,
     shareText: ctx.__("messages.share.mobileText"),
-    joinAt: ctx.__("sharePage.joinAt")
+    joinAt: ctx.__("sharePage.joinAt"),
+    menu: {
+      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
+      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
+      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
+      logout: ctx.__("mobilePage.menu.logout"),
+    }
   });
 };
 

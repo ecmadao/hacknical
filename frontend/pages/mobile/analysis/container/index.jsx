@@ -16,6 +16,9 @@ import Input from 'COMPONENTS/Input';
 import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/analysis.css';
 import sharedStyles from '../../shared/styles/mobile.css';
+import locales from 'LOCALES';
+
+const analysisTexts = locales('dashboard').profile;
 
 class MobileAnalysis extends React.Component {
   constructor(props) {
@@ -93,7 +96,7 @@ class MobileAnalysis extends React.Component {
     const viewDates = validatePageViews.map(pageView => pageView.count);
     const datasetsConfig = {
       data: viewDates,
-      label: '每小时浏览量',
+      label: analysisTexts.common.hourlyViewChartTitle,
       pointBorderWidth: 0,
       pointRadius: 0
     };
@@ -107,7 +110,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '每小时浏览量'
+          text: analysisTexts.common.hourlyViewChartTitle
         },
         legend: {
           display: false,
@@ -135,7 +138,7 @@ class MobileAnalysis extends React.Component {
               return item[0].xLabel
             },
             label: (item, data) => {
-              return `浏览量：${item.yLabel} PV`
+              return `${item.yLabel} PV`
             }
           }
         }
@@ -168,7 +171,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '浏览量来源平台'
+          text: analysisTexts.common.platformChartTitle
         },
         legend: {
           display: false,
@@ -203,7 +206,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '浏览器分布'
+          text: analysisTexts.common.browserChartTitle
         },
         legend: {
           display: false,
@@ -274,12 +277,12 @@ class MobileAnalysis extends React.Component {
         <div className={sharedStyles["info_wrapper"]}>
           <ChartInfo
             mainText={viewCount}
-            subText="总 PV"
+            subText={analysisTexts.common.pv}
             mainTextStyle={sharedStyles["main_text"]}
           />
           <ChartInfo
             mainText={maxViewPerHour}
-            subText="一小时内最大 PV"
+            subText={analysisTexts.common.maxPvPerHour}
             mainTextStyle={sharedStyles["main_text"]}
           />
         </div>
@@ -298,7 +301,7 @@ class MobileAnalysis extends React.Component {
       <div className={sharedStyles["info_with_chart"]}>
         <ChartInfo
           mainText={browsers.join(',')}
-          subText="使用最多的浏览器"
+          subText={analysisTexts.common.browser}
           mainTextStyle={sharedStyles["main_text"]}
         />
       </div>
@@ -317,7 +320,7 @@ class MobileAnalysis extends React.Component {
       <div className={sharedStyles["info_with_chart"]}>
         <ChartInfo
           mainText={platforms.slice(0, 2).join(',')}
-          subText="使用最多的平台"
+          subText={analysisTexts.common.platform}
           mainTextStyle={sharedStyles["main_text"]}
         />
       </div>

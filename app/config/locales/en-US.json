@@ -30,7 +30,13 @@
   },
   "mobilePage": {
     "setting": "Setting",
-    "analysis": "Share record"
+    "analysis": "Share record",
+    "menu": {
+      "shareDatas": "Share Datas",
+      "githubAnalysis": "GitHub Analysis",
+      "dataRefresh": "Data Refresh",
+      "logout": "Logout"
+    }
   },
   "messages": {
     "error": {

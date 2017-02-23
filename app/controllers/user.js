@@ -96,6 +96,12 @@ const mobileAnalysis = async (ctx, next) => {
     user: {
       isAdmin: true
     },
+    menu: {
+      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
+      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
+      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
+      logout: ctx.__("mobilePage.menu.logout"),
+    }
   });
 };
 
@@ -105,6 +111,12 @@ const mobileSetting = async (ctx, next) => {
     user: {
       isAdmin: true
     },
+    menu: {
+      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
+      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
+      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
+      logout: ctx.__("mobilePage.menu.logout"),
+    }
   });
 };
 
