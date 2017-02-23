@@ -14,27 +14,30 @@ const datas = {
     },
     repos: {
       title: 'Repos Review',
-      starsCount: 'Stars',
-      forksCount: 'Forks',
-      reposCount: 'Repos',
-      popularestRepos: 'Most popular repos',
-      longgestRepos: 'Longgest commit',
+      starsCount: 'Stars Count',
+      forksCount: 'Forks Count',
+      reposCount: 'Repos Count',
+      popularestRepos: 'Most Popular Repos',
+      maxStarPerRepos: 'Max Star/Repos',
+      longgestRepos: 'Longgest Commit',
       chartTitle: 'star/fork/commit (last one year)'
     },
     languages: {
       title: 'Languages Review',
-      maxReposCountLanguage: 'Has max repos',
-      maxUsageLanguage: 'Max usage',
-      maxStarLanguage: 'Has max star',
+      maxReposCountLanguage: 'Has Max Repos',
+      maxUsageLanguage: 'Max Usage',
+      maxStarLanguage: 'Has Max Star',
+      frequency: '',
       usageChartTitle: 'Language usage',
       starChartTitle: 'Stars language get'
     },
     commits: {
       title: 'Commits Review',
-      maxDay: 'Has max commits',
-      averageCount: 'commits/week',
-      firstCommit: 'First commit in last year',
-      maxCommitRepos: 'Has max commits',
+      maxDay: 'Has Max Commits',
+      averageCount: 'Commits/Week',
+      firstCommit: 'First Commit In Last Year',
+      maxCommitRepos: 'Has Max Commits',
+      maxCommitCount: 'Max Commits Count',
       dailyCommitChartTitle: 'commits/days in last year',
       weeklyCommitChartTitle: 'commits/week in last year'
     }

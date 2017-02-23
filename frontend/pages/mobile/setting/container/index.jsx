@@ -6,6 +6,9 @@ import Api from 'API/index';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
 import sharedStyles from '../../shared/styles/mobile.css';
+import locales from 'LOCALES';
+
+const settingTexts = locales('dashboard').setting;
 
 class MobileSetting extends React.Component {
   constructor(props) {
@@ -51,7 +54,7 @@ class MobileSetting extends React.Component {
           <div className={styles["update_container"]}>
             {updateTime}<br/>
             <span>
-              github 数据更新时间
+              {settingTexts.github.lastUpdate}
             </span>
           </div>
           <IconButton

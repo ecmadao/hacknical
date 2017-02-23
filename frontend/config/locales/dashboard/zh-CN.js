@@ -22,6 +22,7 @@ const datas = {
     },
     common: {
       pv: '总 PV',
+      maxPvPerHour: '一小时内最大 PV',
       platform: '使用最多的平台',
       browser: '使用最多的浏览器',
       platformChartTitle: '浏览量来源平台',
@@ -33,7 +34,7 @@ const datas = {
     github: {
       title: 'GitHub 相关设置',
       openShare: '开启 GitHub 总结的分享',
-      lastUpdate: '最近更新时间：',
+      lastUpdate: '最近更新时间',
       updateButtonText: '更新数据'
     },
     resume: {

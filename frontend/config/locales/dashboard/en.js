@@ -22,6 +22,7 @@ const datas = {
     },
     common: {
       pv: 'Total PV',
+      maxPvPerHour: 'Max PV/Hour',
       platform: 'Max Platform',
       browser: 'Max Browser',
       platformChartTitle: 'Platforms',
@@ -33,7 +34,7 @@ const datas = {
     github: {
       title: 'GitHub',
       openShare: 'Open share',
-      lastUpdate: 'Last update at: ',
+      lastUpdate: 'Last update at',
       updateButtonText: 'Update'
     },
     resume: {

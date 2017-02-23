@@ -83,7 +83,7 @@ class Setting extends React.Component {
               ) : ''}
               <div className={styles['info_container']}>
                 <div className={styles.info}>
-                  {settingTexts.github.lastUpdate}{updateTime}
+                  {settingTexts.github.lastUpdate}: {updateTime}
                 </div>
                 <Button
                   value={settingTexts.github.updateButtonText}
