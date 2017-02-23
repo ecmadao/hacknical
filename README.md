@@ -1,22 +1,36 @@
-# [Hacknical](http://hacknical.com)
+# [Hacknical](http://hacknical.com?locale=en)
 
 > A website for github user to make a better resume,  and see his github contributions/commits/languages/repos datas analysis.
 >
-> [Click to see this website](http://hacknical.com)
+> [Click to see this website](http://hacknical.com?locale=en)
+
+[中文版 README](./README-ZH.md)
+
+**Attention：this repos only support Chinese version now, but will publish English version later.**
+
+**Attention2：Most of the pages support English now😁😁😁, including github data analysis page. (Expect Resume Editor & Part of Mobile Pages) **
 
 ## Screenshots
 
 > login page
 
-![login page](./imgs/login.png)
+![login page](./screenshots/login-en.png)
 
 > github datas analysis
 
-![github datas](./imgs/data.png)
+![github datas](./screenshots/github-en.png)
 
 ## About
 
-关于 hacknical 的[项目说明](./ABOUT.md)
+See [Project description](./doc/ABOUT-en.md) here. [中文版说明](./doc/ABOUT-zh-CN.md)
+
+## Todos
+
+- [x] support English
+- [ ] support orgs
+- [ ] support forked repos
+- [ ] support edit resume in mobile
+- [ ] support show resume in mobile
 
 ## Techs
 
@@ -30,7 +44,6 @@
   - pm2
   - nginx
   - nodemon
-  - ...
 
 - frontend
 
@@ -43,7 +56,6 @@
   - clipboard
   - headroom.js
   - webpack
-  - ...
 
 - both
 
@@ -51,7 +63,6 @@
   - es6
   - babel
   - fetch
-  - ...
 
 ## License
 

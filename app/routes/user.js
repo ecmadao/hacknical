@@ -8,13 +8,13 @@ const router = koaRouter({
   prefix: '/user'
 });
 
-// dashboard
+// dashboard page
 router.get('/dashboard',
   platform.checkPlatform,
   user.checkIfLogin(),
   User.dashboard
 );
-// mobile dashboard
+// mobile dashboard page
 router.get('/analysis',
   platform.checkPlatform,
   user.checkIfLogin(),
@@ -26,12 +26,14 @@ router.get('/setting',
   User.mobileSetting
 );
 
-// user login/logout/signup
+// user login/logout/signup page
 router.get('/login',
   platform.checkPlatform,
   user.checkIfNotLogin(),
   User.loginPage
 );
+
+// API
 router.get('/login/github', User.githubLogin);
 router.post('/login', User.login);
 router.post('/signup', User.signup);

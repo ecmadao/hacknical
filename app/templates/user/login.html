@@ -7,10 +7,15 @@
 {% block body %}
 <div id="login" class="login-main">
   <div class="topbar">
-    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}">
-      登录
+    <a href="/user/login?locale={{ languageId }}">
+      {{ languageText }}
     </a>
-    <a href="https://github.com/ecmadao/hacknical/blob/master/ABOUT.md" target="_blank">关于</a>
+    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}">
+      {{ login }}
+    </a>
+    <a href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-{{ locale }}.md" target="_blank">
+      {{ about }}
+    </a>
   </div>
   <div class="login-pannel">
     <div class="title">hacknical</div>
@@ -18,8 +23,7 @@
       <i class="fa fa-github" aria-hidden="true"></i>&nbsp;login with github
     </a>
     <span>
-      用 github 数据辅助你进行简历投递
-      <!-- 查看自己在 github 的战绩<br/> -->
+      {{ loginText }}
     </span>
   </div>
 </div>

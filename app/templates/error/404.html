@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <meta http-equiv="refresh" content="5; url=/">
+  <meta http-equiv="refresh" content="4; url=/">
   <link href="{{ assetsPath("404.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
@@ -9,10 +9,11 @@
   <div class="error_container">
     <img src="/vendor/images/github_404.png" />
     <h2>&*%^$?:)@!# ???</h2><br/>
-    <h4>阿西吧!你进入了未知区域</h4>
+    <h4>{{ text }}</h4>
     <br/><br/>
     <div class="time_count">
-      <span class="count">5</span>秒后跳转到首页
+      <!-- <span class="count">5</span> -->
+      {{ redirectText }}
     </div>
   </div>
 {% endblock %}

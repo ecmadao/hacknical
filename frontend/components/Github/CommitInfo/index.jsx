@@ -14,9 +14,12 @@ import {
 } from 'UTILS/helper';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
+import locales from 'LOCALES';
 
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
+
+const githubTexts = locales('github').sections.commits;
 
 class CommitInfo extends React.Component {
   constructor(props) {
@@ -59,7 +62,7 @@ class CommitInfo extends React.Component {
         labels: dateLabels,
         datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commitDates,
-          label: '过去一年单周提交数',
+          label: githubTexts.weeklyCommitChartTitle,
         })]
       },
       options: {
@@ -85,7 +88,7 @@ class CommitInfo extends React.Component {
               return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
             },
             label: (item, data) => {
-              return `当周提交数：${item.yLabel}`
+              return `${item.yLabel} commits this week`
             }
           }
         }
@@ -105,7 +108,7 @@ class CommitInfo extends React.Component {
         labels: days,
         datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commits,
-          label: '过去一年每日总提交数',
+          label: githubTexts.dailyCommitChartTitle,
         })]
       },
       options: {
@@ -127,7 +130,7 @@ class CommitInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `总提交数 ${item.yLabel}，平均每周${item.xLabel.slice(-1)}提交 ${(item.yLabel / 52).toFixed(2)} 次`
+              return `${item.yLabel} commits totally`
             }
           }
         }
@@ -154,19 +157,19 @@ class CommitInfo extends React.Component {
       <div className={chartStyles["chart_info_container"]}>
         <ChartInfo
           mainText={dayName}
-          subText="是你提交最多的日子"
+          subText={githubTexts.maxDay}
         />
         <ChartInfo
           mainText={(total / 52).toFixed(2)}
-          subText="平均每周提交次数"
+          subText={githubTexts.averageCount}
         />
         <ChartInfo
           mainText={firstCommitDate}
-          subText="过去一年第一次提交代码"
+          subText={githubTexts.firstCommit}
         />
         <ChartInfo
           mainText={maxCommitRepos.name}
-          subText="提交次数最多的仓库"
+          subText={githubTexts.maxCommitRepos}
         />
       </div>
     )
@@ -193,7 +196,7 @@ class CommitInfo extends React.Component {
     }
     return (
       <div className={cardStyles["info_card_container"]}>
-        <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;贡献信息</p>
+        <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;{githubTexts.title}</p>
         <div className={cardStyles["info_card"]}>
           { !hasCommits ? (
             <Loading />

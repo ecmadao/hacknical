@@ -100,10 +100,10 @@ const toggleShare = async (ctx, next) => {
     enable,
     url: `github/${githubLogin}`
   });
-  const text = enable === 'true' ? '开启' : '关闭';
+  const message = enable === 'true' ? "messages.share.toggleOpen" : "messages.share.toggleClose"
   ctx.body = {
     success: true,
-    message: `分享链接已${text}`
+    message: ctx.__(message)
   };
 };
 
@@ -146,14 +146,15 @@ const getUser = async (ctx, next) => {
         following,
         public_repos,
         created_at,
-        openShare: shareAnalyse.enable
+        openShare: shareAnalyse.enable,
+        shareUrl: `github/${login}?locale=${ctx.session.locale}`
       }
     };
     return;
   }
   ctx.body = {
     success: true,
-    error: '查找用户失败'
+    error: ctx.__("messages.error.findUser")
   };
 };
 
@@ -234,7 +235,7 @@ const getSharedUser = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    error: '查找用户失败'
+    error: ctx.__("messages.error.findUser")
   };
 };
 
@@ -247,7 +248,7 @@ const sharePage = async (ctx, next) => {
     return;
   }
   const { githubInfo } = user;
-  const title = `${githubInfo.name || githubInfo.login}的 github 总结 | hacknical`;
+  const title = ctx.__("sharePage.github", githubInfo.name || githubInfo.login);
 
   if (!ctx.state.isMobile) {
     await ctx.render('user/share', {
@@ -255,7 +256,8 @@ const sharePage = async (ctx, next) => {
         login,
         isAdmin: login === githubLogin
       },
-      title
+      title,
+      shareText: ctx.__("messages.share.text")
     });
     return;
   }
@@ -281,7 +283,15 @@ const sharePage = async (ctx, next) => {
       isAdmin: login === githubLogin,
       created_at: created_at.split('T')[0]
     },
-    title
+    title,
+    shareText: ctx.__("messages.share.mobileText"),
+    joinAt: ctx.__("sharePage.joinAt"),
+    menu: {
+      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
+      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
+      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
+      logout: ctx.__("mobilePage.menu.logout"),
+    }
   });
 };
 
@@ -293,7 +303,7 @@ const getStareData = async (ctx, next) => {
   ctx.body = {
     success: true,
     result: {
-      url,
+      url: `${url}?locale=${ctx.session.locale}`,
       viewDevices,
       viewSources,
       pageViews,
@@ -315,7 +325,7 @@ const getUpdateTime = async (ctx, next) => {
   }
   ctx.body = {
     success: true,
-    error: '查找用户失败'
+    error: ctx.__("messages.error.findUser")
   };
 };
 
@@ -329,7 +339,7 @@ const refreshDatas = async (ctx, next) => {
   if (timeInterval <= HALF_AN_HOUR) {
     return ctx.body = {
       success: true,
-      error: `更新过于频繁，请在${parseInt((HALF_AN_HOUR - timeInterval) / 60, 10)}分钟后重试`
+      error: ctx.__("messages.error.frequent", parseInt((HALF_AN_HOUR - timeInterval) / 60, 10) + "")
     };
   }
 
@@ -357,7 +367,7 @@ const refreshDatas = async (ctx, next) => {
     ctx.body = {
       success: true,
       result: new Date(),
-      error: '数据更新失败'
+      error: ctx.__("messages.error.update")
     };
   }
 

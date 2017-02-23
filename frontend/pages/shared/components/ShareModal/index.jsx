@@ -5,12 +5,13 @@ import Clipboard from 'clipboard';
 
 import PortalModal from 'COMPONENTS/PortalModal';
 import IconButton from 'COMPONENTS/IconButton';
-// import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
+import locales from 'LOCALES';
 
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
 import styles from './share_modal.css';
 
+const modalTexts = locales('shareModal');
 const DARK_COLORS = MD_COLORS.slice(-2);
 
 class ShareModal extends React.Component {
@@ -54,7 +55,7 @@ class ShareModal extends React.Component {
       styles["share_modal_container"],
       !openShare && styles["disabled"]
     );
-    const statusText = openShare ? '已开启分享' : '已关闭分享';
+    const statusText = openShare ? modalTexts.openTitle : modalTexts.closeTitle;
     const statusClass = cx(
       styles["share_status"],
       !openShare && styles["not_open"]
@@ -70,14 +71,9 @@ class ShareModal extends React.Component {
           </div>
           <div className={styles["share_info"]}>
             <div className={styles["share_controller"]}>
-              {/* <Switcher
-                id="switch"
-                onChange={toggleShare}
-                checked={openShare}
-              /> */}
               <div className={statusClass}>{statusText}</div>
             </div>
-            <blockquote>扫描二维码/复制链接<br/>{text}</blockquote>
+            <blockquote>{modalTexts.text}<br/>{text}</blockquote>
             <div className={styles["share_container"]}>
               <Input
                 id="shareUrl"

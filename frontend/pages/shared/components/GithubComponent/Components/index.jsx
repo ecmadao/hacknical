@@ -19,8 +19,12 @@ import github from 'UTILS/github';
 import {
   sortRepos
 } from 'UTILS/helper';
-
+import locales from 'LOCALES';
 import styles from '../styles/github.css';
+
+const githubLocales = locales('github');
+const githubTexts = githubLocales.sections;
+const shareText = githubLocales.modal.shareText;
 
 
 class GithubComponent extends React.Component {
@@ -135,7 +139,7 @@ class GithubComponent extends React.Component {
       <div className={containerStyle}>
         {githubSection.hotmap !== false ? (
           <div className={styles["info_card_container"]}>
-            <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;活跃度</p>
+            <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;{githubTexts.hotmap.title}</p>
             <div id="calendar" className={styles["github_calendar"]}>
               <Loading />
             </div>
@@ -173,8 +177,8 @@ class GithubComponent extends React.Component {
             openModal={openShareModal}
             options={{
               openShare: user.openShare,
-              link: `${origin}/github/${user.login}`,
-              text: '分享你的 github 总结'
+              link: `${origin}/${user.shareUrl}`,
+              text: shareText
             }}
             toggleShare={this.changeShareStatus}
             onClose={() => this.toggleShareModal(false)}

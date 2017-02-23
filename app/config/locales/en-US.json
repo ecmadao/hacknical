@@ -1,0 +1,61 @@
+{
+  "language": {
+    "text": "中文",
+    "id": "zh-CN"
+  },
+  "description": "Hacknical - A website for GitHub user to make a better resume.",
+  "keywords": "GitHub, GitHub-Contributions, GitHub-Analysis, Resume, Resume-Template, Data-Analysis",
+  "loginPage": {
+    "title": "Hacknical | Make a better resume",
+    "login": "Login",
+    "about": "About",
+    "loginText": "Use GitHub Data To Make A Better Resume"
+  },
+  "languages": {},
+  "errorPage": {
+    "title": "Hacknical | not found",
+    "404": "404 not found.",
+    "text": "WTF? YOU ARE IN THE NO-MANS LAND",
+	  "redirectText": "Going back home in a few seconds"
+  },
+  "dashboard": {
+    "title": "Hacknical | %s"
+  },
+  "sharePage": {
+    "github": "%s 's GitHub summary | Hacknical",
+    "joinAt": "Joined at"
+  },
+  "resumePage": {
+    "title": "%s 's resume | Hacknical"
+  },
+  "mobilePage": {
+    "setting": "Setting",
+    "analysis": "Share record",
+    "menu": {
+      "shareDatas": "Share Datas",
+      "githubAnalysis": "GitHub Analysis",
+      "dataRefresh": "Data Refresh",
+      "logout": "Logout"
+    }
+  },
+  "messages": {
+    "error": {
+      "findUser": "Find user failed",
+      "frequent": "Too many attempts, please try in %s minutes",
+      "update": "Update failed"
+    },
+    "success": {
+      "save": "Save success"
+    },
+    "share": {
+      "text": "Click to see your GitHub data Analysis",
+      "mobileText": "See your GitHub data analysis",
+      "toggleOpen": "Share enabled",
+      "toggleClose": "Share disabled"
+    },
+    "resume": {
+      "linkGithub": "Resume linked with GitHub",
+      "unlinkGithub": "Resume unlinked with GitHub"
+	  }
+  }
+}

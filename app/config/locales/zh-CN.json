@@ -1,0 +1,61 @@
+{
+	"language": {
+    "text": "En",
+    "id": "en"
+  },
+	"description": "Hacknical - 查看自己的 GitHub 总结，并协助你完善自我简历",
+	"keywords": "GitHub，数据可视化，简历，在线简历",
+	"loginPage": {
+		"title": "Hacknical | 更加高效的在线简历",
+		"login": "登录",
+		"about": "关于",
+		"loginText": "用 GitHub 数据辅助你进行简历投递"
+	},
+	"languages": {},
+	"errorPage": {
+		"title": "Hacknical | 没有找到页面",
+    "404": "没有找到页面",
+		"text": "阿西吧!你进入了未知区域",
+		"redirectText": "即将回到首页"
+	},
+	"dashboard": {
+		"title": "Hacknical | %s 的个人主页"
+	},
+  "sharePage": {
+    "github": "%s 的 GitHub 总结 | Hacknical",
+    "joinAt": "加入于"
+  },
+	"resumePage": {
+    "title": "%s 的个人简历 | Hacknical"
+  },
+	"mobilePage": {
+		"setting": "数据更新",
+		"analysis": "分享记录",
+		"menu": {
+      "shareDatas": "数据记录",
+      "githubAnalysis": "GitHub 战绩",
+      "dataRefresh": "数据更新",
+      "logout": "退出登录"
+    }
+	},
+  "messages": {
+    "error": {
+      "findUser": "查找用户失败",
+      "frequent": "更新过于频繁，请在 %s 分钟后重试",
+      "update": "数据更新失败"
+    },
+		"success": {
+      "save": "储存成功"
+    },
+    "share": {
+      "text": "想知道自己在致力于哪些编程语言？戳我查看 GitHub 总结",
+      "mobileText": "想知道自己在致力于哪些编程语言？",
+      "toggleOpen": "分享链接已开启",
+      "toggleClose": "分享链接已关闭"
+    },
+		"resume": {
+			"linkGithub": "已开启简历和 GitHub 的关联",
+			"unlinkGithub": "已关闭简历和 GitHub 的关联"
+		}
+  }
+}

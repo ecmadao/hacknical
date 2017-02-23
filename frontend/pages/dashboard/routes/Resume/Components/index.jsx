@@ -13,6 +13,9 @@ import ResumeModalV2 from './ResumeModal/v2';
 import IntroModal from './IntroModal';
 import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume");
 
 const INTROS = [
   {
@@ -167,7 +170,7 @@ class Resume extends React.Component {
               onClick={() => this.handleShareModalStatus(true)}
             />
             <Button
-              value="预览"
+              value={resumeTexts.buttons.preview}
               color="dark"
               onClick={() => this.handleModalStatus(true)}
               className={styles.operation}
@@ -176,7 +179,7 @@ class Resume extends React.Component {
               )}
             />
             <Button
-              value="保存"
+              value={resumeTexts.buttons.save}
               className={styles.operation}
               onClick={actions.saveResume}
               leftIcon={(
@@ -191,7 +194,7 @@ class Resume extends React.Component {
             <div className={styles["operations_wrapper"]}>
               {currentIndex > 0 && (
                 <Button
-                  value="上一步"
+                  value={resumeTexts.buttons.pre}
                   color="dark"
                   className={styles.operation}
                   onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
@@ -202,7 +205,7 @@ class Resume extends React.Component {
               )}
               {currentIndex < max - 1 && (
                 <Button
-                  value="下一步"
+                  value={resumeTexts.buttons.next}
                   className={styles.operation}
                   onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
                   rightIcon={(
@@ -231,7 +234,7 @@ class Resume extends React.Component {
             options={{
               openShare,
               link: `${origin}/${url}`,
-              text: '分享你的个人简历'
+              text: resumeTexts.modal.shareText
             }}
             toggleShare={actions.postShareStatus}
             onClose={() => this.handleShareModalStatus(false)}

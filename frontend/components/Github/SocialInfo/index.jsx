@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
 import styles from './social_info.css';
+import locales from 'LOCALES';
+
+const githubTexts = locales('github').sections.social;
 
 const getUserCardColor = (user) => {
   const {public_repos, followers, following} = user;
@@ -36,7 +39,7 @@ const SocialInfo = (props) => {
         style={style || { backgroundColor: userCardColor['public_repos'] }}
         href={showLink ? `${github.baseUrl}/${user.login}?tab=repositories` : 'javascript:void(0)'}>
         <span style={mainTextStyle}>{user['public_repos']}</span>&nbsp;
-        <span style={sideTextStyle}>repositories</span>
+        <span style={sideTextStyle}>{githubTexts.repositories}</span>
       </a>
       <a
         target="_blank"
@@ -44,7 +47,7 @@ const SocialInfo = (props) => {
         style={style || { backgroundColor: userCardColor['followers'] }}
         href={showLink ? `${github.baseUrl}/${user.login}?tab=followers` : 'javascript:void(0)'}>
         <span style={mainTextStyle}>{user.followers}</span>&nbsp;
-        <span style={sideTextStyle}>followers</span>
+        <span style={sideTextStyle}>{githubTexts.followers}</span>
       </a>
       <a
         target="_blank"
@@ -52,7 +55,7 @@ const SocialInfo = (props) => {
         style={style || { backgroundColor: userCardColor['following'] }}
         href={showLink ? `${github.baseUrl}/${user.login}?tab=following`: 'javascript:void(0)'}>
         <span style={mainTextStyle}>{user.following}</span>&nbsp;
-        <span style={sideTextStyle}>following</span>
+        <span style={sideTextStyle}>{githubTexts.following}</span>
       </a>
     </div>
   )

@@ -44,8 +44,14 @@ const signup = async (ctx, next) => {
 
 const loginPage = async (ctx, next) => {
   await ctx.render('user/login', {
-    title: 'hacknical | 更加高效的在线简历',
-    isMobile: ctx.state.isMobile
+    title: ctx.__("loginPage.title"),
+    login: ctx.__("loginPage.login"),
+    about: ctx.__("loginPage.about"),
+    loginText: ctx.__("loginPage.loginText"),
+    languageText: ctx.__("language.text"),
+    languageId: ctx.__("language.id"),
+    isMobile: ctx.state.isMobile,
+    locale: ctx.session.locale
   });
 };
 
@@ -54,8 +60,6 @@ const githubLogin = async (ctx, next) => {
   const result = await Github.getToken(code);
   try {
     const githubToken = result.match(/^access_token=(\w+)&/)[1];
-    console.log('===== user githubToken is =====');
-    console.log(githubToken);
     const userInfo = await Github.getUser(githubToken);
     if (userInfo) {
       ctx.session.githubToken = githubToken;
@@ -81,26 +85,38 @@ const dashboard = async (ctx, next) => {
   }
 
   await ctx.render('user/dashboard', {
-    title: `hacknical | ${githubLogin} 的个人主页`
+    title: ctx.__("dashboard.title", githubLogin)
   });
 };
 
 // user analysis mobile
 const mobileAnalysis = async (ctx, next) => {
   await ctx.render('user/mobile/analysis', {
-    title: '数据记录',
+    title: ctx.__("mobilePage.analysis"),
     user: {
       isAdmin: true
     },
+    menu: {
+      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
+      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
+      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
+      logout: ctx.__("mobilePage.menu.logout"),
+    }
   });
 };
 
 const mobileSetting = async (ctx, next) => {
   await ctx.render('user/mobile/setting', {
-    title: '数据更新',
+    title: ctx.__("mobilePage.setting"),
     user: {
       isAdmin: true
     },
+    menu: {
+      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
+      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
+      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
+      logout: ctx.__("mobilePage.menu.logout"),
+    }
   });
 };
 
