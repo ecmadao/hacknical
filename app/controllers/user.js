@@ -50,7 +50,8 @@ const loginPage = async (ctx, next) => {
     loginText: ctx.__("loginPage.loginText"),
     languageText: ctx.__("language.text"),
     languageId: ctx.__("language.id"),
-    isMobile: ctx.state.isMobile
+    isMobile: ctx.state.isMobile,
+    locale: ctx.session.locale
   });
 };
 
