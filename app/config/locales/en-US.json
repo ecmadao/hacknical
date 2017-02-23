@@ -1,7 +1,7 @@
 {
   "language": {
-    "text": "English",
-    "id": "en-US"
+    "text": "中文",
+    "id": "zh-CN"
   },
   "description": "Hacknical - A website for GitHub user to make a better resume.",
   "keywords": "GitHub, GitHub-Contributions, GitHub-Analysis, Resume, Resume-Template, Data-Analysis",
