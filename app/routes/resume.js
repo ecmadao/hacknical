@@ -14,7 +14,10 @@ router.get('/edit',
   user.checkSession(session.requiredSessions),
   Resume.getResume
 );
-router.post('/edit', Resume.setResume);
+router.post('/edit',
+  Resume.setResume,
+  cache.del()
+);
 
 
 router.get('/status',
@@ -46,7 +49,11 @@ router.get('/:hash',
 );
 
 router.get('/:hash/pub',
-  Resume.getPubResume
+  cache.get('resume', {
+    params: ['hash']
+  }),
+  Resume.getPubResume,
+  cache.set()
 );
 
 module.exports = router;

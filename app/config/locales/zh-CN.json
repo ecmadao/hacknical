@@ -11,7 +11,6 @@
 		"about": "关于",
 		"loginText": "用 GitHub 数据辅助你进行简历投递"
 	},
-	"languages": {},
 	"errorPage": {
 		"title": "Hacknical | 没有找到页面",
     "404": "没有找到页面",
@@ -45,10 +44,11 @@
       "update": "数据更新失败"
     },
 		"success": {
-      "save": "储存成功"
+      "save": "储存成功",
+			"update": "数据更新完成"
     },
     "share": {
-      "text": "想知道自己在致力于哪些编程语言？戳我查看 GitHub 总结",
+      "text": "想知道自己在致力于哪些编程语言？戳我查看自己的 GitHub 总结",
       "mobileText": "想知道自己在致力于哪些编程语言？",
       "toggleOpen": "分享链接已开启",
       "toggleClose": "分享链接已关闭"

@@ -25,7 +25,9 @@ router.get(
 router.get(
   '/repos',
   user.checkSession(session.requiredSessions),
-  cache.get('repos'),
+  cache.get('repos', {
+    session: ['githubLogin']
+  }),
   Github.getUserRepos,
   cache.set()
 );
@@ -43,7 +45,9 @@ router.get(
 router.get(
   '/orgs',
   user.checkSession(session.requiredSessions),
-  cache.get('orgs'),
+  cache.get('orgs', {
+    session: ['githubLogin']
+  }),
   Github.getUserOrgs,
   cache.set()
 );
@@ -62,7 +66,9 @@ router.get(
 router.get(
   '/user',
   user.checkSession(['userId']),
-  cache.get('user'),
+  cache.get('user', {
+    session: ['githubLogin']
+  }),
   Github.getUser,
   cache.set()
 );
@@ -74,7 +80,9 @@ router.post(
 router.get(
   '/repos/commits',
   user.checkSession(session.requiredSessions),
-  cache.get('commits'),
+  cache.get('commits', {
+    session: ['githubLogin']
+  }),
   Github.getReposCommits,
   cache.set()
 );
@@ -91,13 +99,17 @@ router.get(
 );
 router.get(
   '/:login/share',
-  cache.get('sharedUser'),
+  cache.get('sharedUser', {
+    params: ['login']
+  }),
   Github.getSharedUser,
   cache.set()
 );
 router.get(
   '/:login/shareInfo',
-  cache.get('sharedInfo'),
+  cache.get('sharedInfo', {
+    params: ['login']
+  }),
   Github.getStareInfo,
   cache.set()
 );

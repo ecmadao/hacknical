@@ -1,7 +1,7 @@
 import getCacheKey from './cacheKey';
 
-const getCache = (key, params = []) => async (ctx, next) => {
-  const cacheKey = getCacheKey(ctx)(key, params);
+const getCache = (key, options = {}) => async (ctx, next) => {
+  const cacheKey = getCacheKey(ctx)(key, options);
   const result = await ctx.cache.get(cacheKey);
   if (result) {
     console.log(`request: ${cacheKey} get datas from cache`);
@@ -28,8 +28,8 @@ const setCache = (options = {}) => async (ctx, next) => {
 };
 
 const removeCache = (keys = []) => async (ctx, next) => {
-  console.log('remove cache');
   const targetKeys = ctx.query.deleteKeys || keys;
+  console.log('remove cache');
   for(let i = 0; i < targetKeys.length; i++) {
     await ctx.cache.del(targetKeys[i]);
   }

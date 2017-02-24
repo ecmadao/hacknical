@@ -1,6 +1,7 @@
 import Resume from '../models/resumes';
 import ResumePub from '../models/resume-pub';
 import ShareAnalyse from '../models/share-analyse';
+import getCacheKey from './helper/cacheKey';
 
 const GITHUB_SECTIONS = ['hotmap', 'info', 'repos', 'languages', 'commits'];
 
@@ -33,11 +34,22 @@ const setResume = async (ctx, next) => {
     } : null;
   }
 
+  const checkPubResume = await ResumePub.findPublicResume({ userId });
+  if (checkPubResume.success) {
+    const hash = checkPubResume.result.resumeHash;
+    const cacheKey = getCacheKey(ctx);
+    ctx.query.deleteKeys = [
+      cacheKey(`resume.${hash}`)
+    ];
+  }
+
   ctx.body = {
     success: true,
     message: ctx.__("messages.success.save"),
     result: resumeInfo
   };
+
+  await next();
 };
 
 const getPubResume = async (ctx, next) => {
@@ -50,6 +62,8 @@ const getPubResume = async (ctx, next) => {
     result,
     success: true
   };
+
+  await next();
 };
 
 const getPubResumePage = async (ctx, next) => {

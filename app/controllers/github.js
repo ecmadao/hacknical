@@ -401,14 +401,19 @@ const refreshDatas = async (ctx, next) => {
     // set cache keys to remove
     const cacheKey = getCacheKey(ctx);
     ctx.query.deleteKeys = [
-      cacheKey('repos'),
-      cacheKey('user'),
+      cacheKey('repos', {
+        session: ['githubLogin']
+      }),
+      cacheKey('user', {
+        session: ['githubLogin']
+      }),
       cacheKey(`sharedUser.${githubLogin}`),
       cacheKey(`sharedInfo.${githubLogin}`)
     ];
 
     ctx.body = {
       success: true,
+      message: ctx.__("messages.success.update"),
       result: updateUserResult.result
     };
   } catch (err) {
