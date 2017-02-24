@@ -107,7 +107,10 @@ const checkPubResume = async (options) => {
 
   return Promise.resolve({
     success: true,
-    result: findResume.result.info.name
+    result: {
+      name: findResume.result.info.name,
+      userId
+    }
   });
 };
 

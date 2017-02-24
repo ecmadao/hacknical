@@ -44,7 +44,7 @@ router.get(
 // orgs
 router.get(
   '/orgs',
-  user.checkSession(session.requiredSessions),
+  // user.checkSession(session.requiredSessions),
   cache.get('orgs', {
     session: ['githubLogin']
   }),
