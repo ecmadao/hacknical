@@ -11,7 +11,6 @@ import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
-import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/analysis.css';
@@ -40,7 +39,6 @@ class MobileAnalysis extends React.Component {
     this.viewSourcesChart = null;
 
     this.copyUrl = this.copyUrl.bind(this);
-    this.postShareStatus = this.postShareStatus.bind(this);
   }
 
   componentDidMount() {
@@ -57,16 +55,6 @@ class MobileAnalysis extends React.Component {
 
   copyUrl() {
     document.querySelector("#shareGithubUrl").select();
-  }
-
-  postShareStatus() {
-    const { userInfo } = this.state;
-    const { openShare } = userInfo;
-    Api.github.toggleShare(!openShare).then((result) => {
-      this.setState({
-        userInfo: objectAssign({}, userInfo, { openShare: !openShare })
-      });
-    });
   }
 
   renderCharts() {
@@ -257,24 +245,18 @@ class MobileAnalysis extends React.Component {
       <div className={cx(sharedStyles["mobile_card"], styles["share_controller"])}>
         <div
           className={styles["share_container"]}>
-          <IconButton
-            icon="clipboard"
-            id="copyLinkButton"
-            onClick={this.copyUrl.bind(this)}
-          />
           <Input
             id="shareGithubUrl"
             style="flat"
             value={`${window.location.origin}/${url}`}
             customStyle={styles["share_link_input"]}
           />
+          <IconButton
+            icon="clipboard"
+            id="copyLinkButton"
+            onClick={this.copyUrl.bind(this)}
+          />
         </div>
-        <Switcher
-          id="share_switch"
-          size="small"
-          onChange={this.postShareStatus}
-          checked={openShare}
-        />
       </div>
     )
   }

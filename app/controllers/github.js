@@ -288,8 +288,10 @@ const getSharedUser = async (ctx, next) => {
 const sharePage = async (ctx, next) => {
   const { login } = ctx.params;
   const { githubLogin } = ctx.session;
+
+  const shareAnalyse = await ShareAnalyse.findShare({ login, url: `github/${login}` });
   const user = await User.findUserByLogin(login);
-  if (!user) {
+  if (!user || !shareAnalyse.enable) {
     ctx.redirect('/404');
     return;
   }
