@@ -39,6 +39,14 @@ router.get(
   user.checkSession(['userId', 'githubLogin']),
   Github.getUpdateTime
 );
+// orgs
+router.get(
+  '/orgs',
+  user.checkSession(session.requiredSessions),
+  cache.get('orgs'),
+  Github.getUserOrgs,
+  cache.set()
+);
 // refresh github datas
 router.get(
   '/refresh',

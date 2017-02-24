@@ -1,4 +1,5 @@
-import User from '../models/users/index';
+import User from '../models/users';
+import Orgs from '../models/orgs';
 import Github from '../services/github';
 import GithubRepos from '../models/github-repos';
 import GithubCommits from '../models/github-commits';
@@ -84,6 +85,37 @@ const getCommits = async (userId, token) => {
 };
 
 /**
+ * orgs
+ */
+const fetchOrgs = async (login, token) => {
+  const pubOrgs = await Github.getPersonalPubOrgs(login, token);
+  const orgs = [];
+  for(let i = 0; i < pubOrgs.length; i++) {
+    const orgLogin = pubOrgs[i].login;
+    let org = await Orgs.find(orgLogin);
+    if (!org) {
+      org = await Github.getOrg(orgLogin, token);
+      const repos = await Github.getOrgPubRepos(orgLogin, token);
+      org.repos = repos;
+      await Orgs.create(org);
+    }
+    orgs.push(org);
+  }
+  await User.updateUserOrgs(login, pubOrgs);
+  return orgs;
+};
+
+const getOrgs = async (login, token) => {
+  const findUser = await User.findUserByLogin(login);
+  if (findUser.orgs && findUser.orgs.length) {
+    const orgLogins = findUser.orgs.map(org => org.login);
+    const orgs = await Orgs.findMany(orgLogins);
+    return orgs;
+  }
+  return await fetchOrgs(login, token);
+};
+
+/**
  * github info
  */
 const fetchGithubInfo = async (githubToken) => {
@@ -160,6 +192,7 @@ const getUser = async (ctx, next) => {
 
 const getUserRepos = async (ctx, next) => {
   const { userId, githubLogin, githubToken } = ctx.session;
+
   const user = await User.findUserById(userId);
   const repos = await getRepos(githubLogin, githubToken, {
     userId,
@@ -174,6 +207,19 @@ const getUserRepos = async (ctx, next) => {
     result: {
       repos,
       commits
+    }
+  };
+  await next();
+};
+
+const getUserOrgs = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  const { login } = ctx.query;
+  const orgs = await getOrgs(githubLogin || login, githubToken);
+  ctx.body = {
+    success: true,
+    result: {
+      orgs
     }
   };
   await next();
@@ -347,7 +393,9 @@ const refreshDatas = async (ctx, next) => {
     const userInfo = await fetchGithubInfo(githubToken);
     const githubUser = JSON.parse(userInfo);
     const updateUserResult = await User.updateUser(githubUser);
-    const repos = await fetchRepos(githubLogin, githubToken, userId);
+    const { public_repos } = githubUser;
+    const pages = Math.ceil(parseInt(public_repos, 10) / 100);
+    const repos = await fetchRepos(githubLogin, githubToken, userId, pages);
     await fetchCommits(repos, userId, githubToken);
 
     // set cache keys to remove
@@ -370,7 +418,6 @@ const refreshDatas = async (ctx, next) => {
       error: ctx.__("messages.error.update")
     };
   }
-
   await next();
 };
 
@@ -396,6 +443,7 @@ export default {
   sharePage,
   getStareInfo,
   getUserRepos,
+  getUserOrgs,
   getRepository,
   getReposCommits,
   getRepositoryCommits,

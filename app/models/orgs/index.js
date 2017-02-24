@@ -19,9 +19,10 @@ const getOrgInfo = (orgInfo) => {
     public_repos,
     public_gists,
     followers,
-    following
+    following,
+    repos
   } = orgInfo;
-  const newOrgInfo = {
+  return {
     login,
     name,
     avatar_url,
@@ -29,45 +30,115 @@ const getOrgInfo = (orgInfo) => {
     blog,
     location,
     email,
-    bio,
+    description,
     created_at,
     updated_at,
     public_repos,
     public_gists,
     followers,
-    following
+    following,
+    repos: repos || []
   };
-  return newOrgInfo;
 };
 
+const getReposInfo = (repos) => {
+  const {
+    full_name,
+    name,
+    html_url,
+    description,
+    fork,
+    created_at,
+    updated_at,
+    pushed_at,
+    homepage,
+    size,
+    stargazers_count,
+    watchers_count,
+    language,
+    forks_count,
+    forks,
+    watchers
+  } = repos;
+  return {
+    full_name,
+    name,
+    html_url,
+    description,
+    fork,
+    created_at,
+    updated_at,
+    pushed_at,
+    homepage,
+    size,
+    stargazers_count,
+    watchers_count,
+    language,
+    forks_count,
+    forks,
+    watchers
+  }
+};
+
+/* === API === */
+
 const findOrgByLogin = async (login) => {
-  return await Orgs.findOne({ 'orgInfo.login': login });
+  return await Orgs.findOne({ login });
+};
+
+const findOrgsByLogin = async (logins) => {
+  return await Orgs.find({
+    login: {
+      "$in": logins
+    }
+  });
+};
+
+const updateOrg = async (login) => {
+
+};
+
+const updateOrgRepos = async (login, repos) => {
+  const findOrg = await findOrgByLogin(login);
+  if (!findOrg) {
+    return Promise.resolve({
+      success: false
+    });
+  }
+  const newRepos = repos.map(repository => getReposInfo(repository));
+  findOrg.repos = [...newRepos];
+  await findOrg.save();
+  return Promise.resolve({
+    success: true,
+    result: findOrg
+  });
 };
 
 const createOrg = async (orgInfo) => {
   const newOrgInfo = getOrgInfo(orgInfo);
-  const { login } = userInfo;
+  const { login, repos } = newOrgInfo;
+  newOrgInfo.repos = repos.map(repository => getReposInfo(repository));
 
-  const findOrg = await findOrgByLogin(login);
+  let findOrg = await findOrgByLogin(login);
   if (findOrg) {
-    findOrg.orgInfo = Object.assign({}, findOrg.orgInfo, newOrgInfo);
+    findOrg = Object.assign({}, findOrg, newOrgInfo);
     await findOrg.save();
     return Promise.resolve({
       success: true,
       result: findOrg
     });
   }
-
-  const newOrg = await User.create({
-    orgInfo: newOrgInfo
-  });
-
+  const newOrg = await Orgs.create(newOrgInfo);
   return Promise.resolve({
     success: true,
-    result: newOrg || null
+    result: newOrg
   });
-}
+};
 
 export default {
-  find: findOrgByLogin
+  find: findOrgByLogin,
+  findMany: findOrgsByLogin,
+  create: createOrg,
+  update: updateOrg,
+  updateRepos: updateOrgRepos
 }

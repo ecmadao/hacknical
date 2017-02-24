@@ -112,10 +112,12 @@ const getUser = (token) => {
 };
 
 const getOrg = (org, token) => {
-  return fetchGithub(`${API_ORGS}/${org}?access_token=${token}`);
+  return fetchGithub(`${API_ORGS}/${org}?access_token=${token}`, {
+    parse: true
+  });
 };
 
-const getOrgPubRepos = (org, token, pages = 3) => {
+const getOrgPubRepos = (org, token, pages = 1) => {
   const promiseList = new Array(pages).fill(0).map((item, index) => {
     return getOrgRepos(org, token, index + 1);
   });
@@ -123,7 +125,7 @@ const getOrgPubRepos = (org, token, pages = 3) => {
     let results = [];
     datas.forEach(data => results = [...results, ...data]);
     return Promise.resolve(results);
-  });
+  }).catch(() => Promise.resolve([]));
 };
 
 const getPersonalPubRepos = (login, token, pages = 3) => {
@@ -134,7 +136,7 @@ const getPersonalPubRepos = (login, token, pages = 3) => {
     let results = [];
     datas.forEach(data => results = [...results, ...data]);
     return Promise.resolve(results);
-  });
+  }).catch(() => Promise.resolve([]));
 };
 
 const getPersonalPubOrgs = (login, token, pages = 1) => {
@@ -145,21 +147,21 @@ const getPersonalPubOrgs = (login, token, pages = 1) => {
     let results = [];
     datas.forEach(data => results = [...results, ...data]);
     return Promise.resolve(results);
-  });
+  }).catch(() => Promise.resolve([]));
 };
 
 const getAllReposYearlyCommits = (repos, token) => {
   const promiseList = repos.map((item, index) => {
     return getReposYearlyCommits(item.fullname || item.full_name, token);
   });
-  return Promise.all(promiseList);
+  return Promise.all(promiseList).catch(() => Promise.resolve([]));
 };
 
 const getAllReposLanguages = (repos, token) => {
   const promiseList = repos.map((item, index) => {
     return getReposLanguages(item.fullname || item.full_name, token);
   });
-  return Promise.all(promiseList);
+  return Promise.all(promiseList).catch(() => Promise.resolve([]));
 };
 
 export default {

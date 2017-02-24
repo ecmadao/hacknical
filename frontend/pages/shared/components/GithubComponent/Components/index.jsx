@@ -42,6 +42,7 @@ class GithubComponent extends React.Component {
       showedReposId: null,
       commitDatas: [],
       commitInfos: [],
+      orgs: []
     };
     this.githubCalendar = false;
     this.changeShareStatus = this.changeShareStatus.bind(this);
@@ -50,10 +51,13 @@ class GithubComponent extends React.Component {
 
   componentDidMount() {
     const { login } = this.props;
-    const { repos, loaded } = this.state;
+    const { repos, loaded, orgs } = this.state;
     this.getGithubInfo(login);
     if (!repos.length) {
       this.getGithubRepos(login);
+    }
+    if (!orgs.length) {
+      // this.getGithubOrgs(login);
     }
   }
 
@@ -65,6 +69,10 @@ class GithubComponent extends React.Component {
     }
   }
 
+  changeState(newState) {
+    this.setState(newState);
+  }
+
   getGithubInfo(login = '') {
     Api.github.getUser(login).then((result) => {
       this.changeState({ user: result });
@@ -72,14 +80,18 @@ class GithubComponent extends React.Component {
     });
   }
 
-  changeState(newState) {
-    this.setState(newState);
-  }
-
   getGithubRepos(login = '') {
     Api.github.getRepos(login).then((result) => {
       const { repos, commits } = result;
       this.setGithubRepos(result);
+    });
+  }
+
+  getGithubOrgs(login) {
+    Api.github.getOrgs(login).then((result) => {
+      console.log(result);
+      // const { repos, commits } = result;
+      // this.setGithubRepos(result);
     });
   }
 
