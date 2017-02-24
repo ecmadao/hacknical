@@ -2,6 +2,7 @@ import renderApp from 'PAGES/resume/share';
 
 $(() => {
   renderApp('share_body', {
-    hash: window.resumeHash
+    hash: window.resumeHash,
+    login: window.login
   });
 });

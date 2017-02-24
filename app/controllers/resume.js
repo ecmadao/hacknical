@@ -1,4 +1,5 @@
 import Resume from '../models/resumes';
+import User from '../models/users';
 import ResumePub from '../models/resume-pub';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
@@ -71,15 +72,20 @@ const getPubResumePage = async (ctx, next) => {
   const findResume = await ResumePub.checkPubResume({
     resumeHash: hash
   });
+
   const { success, result } = findResume;
   if (!success) {
     ctx.redirect('/404');
     return;
   }
 
+  const { name, userId } = result;
+  const user = await User.findUserById(userId);
+
   await ctx.render('resume/share', {
-    title: ctx.__("resumePage.title", result),
-    resumeHash: hash
+    title: ctx.__("resumePage.title", name),
+    resumeHash: hash,
+    login: user.githubInfo.login
   });
 };
 

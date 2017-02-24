@@ -281,7 +281,7 @@ class ResumeComponent extends React.Component {
 
   render() {
     const { showGithub } = this.state;
-    const { resume, shareInfo } = this.props;
+    const { resume, shareInfo, login } = this.props;
     const { info, others } = resume;
     const { useGithub, github } = shareInfo;
 
@@ -306,6 +306,7 @@ class ResumeComponent extends React.Component {
               isShare={true}
               githubSection={github}
               containerStyle={styles["github_container"]}
+              login={login}
             />
           </div>
         </div>
@@ -360,11 +361,13 @@ class ResumeComponent extends React.Component {
 ResumeComponent.propTypes = {
   resume: PropTypes.object,
   shareInfo: PropTypes.object,
+  login: PropTypes.string
 };
 
 ResumeComponent.defaultProps = {
   resume: {},
   shareInfo: {},
+  login: ''
 };
 
 export default ResumeComponent;
