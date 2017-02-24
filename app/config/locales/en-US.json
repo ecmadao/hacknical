@@ -29,9 +29,9 @@
   },
   "mobilePage": {
     "setting": "Setting",
-    "analysis": "Share record",
+    "analysis": "Share records",
     "menu": {
-      "shareDatas": "Share Datas",
+      "shareDatas": "Share datas",
       "githubAnalysis": "GitHub Analysis",
       "dataRefresh": "Settings",
       "logout": "Logout"
@@ -44,11 +44,11 @@
       "update": "Update failed"
     },
     "success": {
-      "save": "Save success",
-      "update": "Update success. Please refresh to check."
+      "save": "Save succeeded",
+      "update": "Update succeeded. Please refresh to check."
     },
     "share": {
-      "text": "Wanna check your GitHub data analysis visually ?",
+      "text": "Wanna check your GitHub data analysis visually?",
       "mobileText": "Check your GitHub data analysis",
       "toggleOpen": "Share enabled",
       "toggleClose": "Share disabled"
