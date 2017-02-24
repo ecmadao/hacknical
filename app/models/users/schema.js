@@ -30,7 +30,12 @@ const UserSchema = new Schema({
     following: String,
     html_url: String,
     lastUpdateTime: Date
-  }
+  },
+  orgs: [{
+    login: String,
+    avatar_url: String,
+    description: String
+  }]
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });

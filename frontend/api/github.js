@@ -12,8 +12,10 @@ const getRepos = (login) => {
   }
   return getBaseRepos();
 };
-
 const getRepository = (reposName) => fetchInfo(`/${reposName}`);
+
+/* get user orgs */
+const getOrgs = (login) => fetchInfo(`/orgs`, { login });
 
 const getReadme = (reposName) => fetchInfo(`/${reposName}/readme`);
 
@@ -48,6 +50,7 @@ const octocat = () => fetchInfo('/octocat');
 export default {
   getUser,
   getRepos,
+  getOrgs,
   getRepository,
   getReadme,
   getCommits,

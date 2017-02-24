@@ -8,12 +8,13 @@ const appName = config.get('github.appName');
 const BASE_URL = 'https://api.github.com';
 const API_TOKEN = 'https://github.com/login/oauth/access_token';
 const API_GET_USER = `${BASE_URL}/user`;
-const API_USERS = `${API_GET_USER}s`;
+
+const API_USERS = `${BASE_URL}/users`;
+const API_ORGS = `${BASE_URL}/orgs`;
 const API_REPOS = `${BASE_URL}/repos`;
 
-/*
- * private
- */
+/* =========================== basic funcs =========================== */
+
 const fetchGithub = (url, options = {}) => {
   return new Promise((resolve, reject) => {
     request.get(url, {
@@ -33,9 +34,6 @@ const fetchGithub = (url, options = {}) => {
   });
 };
 
-/*
- * private
- */
 const postGethub = (url) => {
   return new Promise((resolve, reject) => {
     request.post(url,
@@ -50,34 +48,25 @@ const postGethub = (url) => {
       }
     );
   });
-}
-
-const getToken = (code) => {
-  return postGethub(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`)
 };
 
-const getUser = (token) => {
-  return fetchGithub(`${API_GET_USER}?access_token=${token}`);
-};
+/* =========================== private funcs =========================== */
 
-const getUserRepos = (token) => {
-
-};
-
-const getRepos = (login, token, page = 1) => {
+const getUserRepos = (login, token, page = 1) => {
   return fetchGithub(`${API_USERS}/${login}/repos?per_page=100&page=${page}&access_token=${token}`, {
     parse: true
   });
 };
 
-const getMultiRepos = (login, token, pages = 3) => {
-  const promiseList = new Array(pages).fill(0).map((item, index) => {
-    return getRepos(login, token, index + 1);
+const getOrgRepos = (org, token, page = 1) => {
+  return fetchGithub(`${API_ORGS}/${org}/repos?per_page=100&page=${page}&access_token=${token}`, {
+    parse: true
   });
-  return Promise.all(promiseList).then((datas) => {
-    let results = [];
-    datas.forEach(data => results = [...results, ...data]);
-    return Promise.resolve(results);
+}
+
+const getUserPubOrgs = (login, token, page = 1) => {
+  return fetchGithub(`${API_USERS}/${login}/orgs?per_page=100&page=${page}&access_token=${token}`, {
+    parse: true
   });
 };
 
@@ -87,16 +76,6 @@ const getReposYearlyCommits = (fullname, token) => {
   });
 };
 
-const getAllReposYearlyCommits = (repos, token) => {
-  const promiseList = repos.map((item, index) => {
-    return getReposYearlyCommits(item.fullname || item.full_name, token);
-  });
-  return Promise.all(promiseList);
-};
-
-/*
- * private
- */
 const getReposLanguages = async (fullname, token) => {
   let result = {};
   try {
@@ -113,12 +92,8 @@ const getReposLanguages = async (fullname, token) => {
   }
 };
 
-const getAllReposLanguages = (repos, token) => {
-  const promiseList = repos.map((item, index) => {
-    return getReposLanguages(item.fullname || item.full_name, token);
-  });
-  return Promise.all(promiseList);
-};
+
+/* =========================== github api =========================== */
 
 const getOctocat = () => {
   return fetchGithub(`${BASE_URL}/octocat?client_id=${clientId}&client_secret=${clientSecret}`);
@@ -128,14 +103,80 @@ const getZen = () => {
   return fetchGithub(`${BASE_URL}/zen?client_id=${clientId}&client_secret=${clientSecret}`);
 };
 
+const getToken = (code) => {
+  return postGethub(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`)
+};
+
+const getUser = (token) => {
+  return fetchGithub(`${API_GET_USER}?access_token=${token}`);
+};
+
+const getOrg = (org, token) => {
+  return fetchGithub(`${API_ORGS}/${org}?access_token=${token}`, {
+    parse: true
+  });
+};
+
+const getOrgPubRepos = (org, token, pages = 1) => {
+  const promiseList = new Array(pages).fill(0).map((item, index) => {
+    return getOrgRepos(org, token, index + 1);
+  });
+  return Promise.all(promiseList).then((datas) => {
+    let results = [];
+    datas.forEach(data => results = [...results, ...data]);
+    return Promise.resolve(results);
+  }).catch(() => Promise.resolve([]));
+};
+
+const getPersonalPubRepos = (login, token, pages = 3) => {
+  const promiseList = new Array(pages).fill(0).map((item, index) => {
+    return getUserRepos(login, token, index + 1);
+  });
+  return Promise.all(promiseList).then((datas) => {
+    let results = [];
+    datas.forEach(data => results = [...results, ...data]);
+    return Promise.resolve(results);
+  }).catch(() => Promise.resolve([]));
+};
+
+const getPersonalPubOrgs = (login, token, pages = 1) => {
+  const promiseList = new Array(pages).fill(0).map((item, index) => {
+    return getUserPubOrgs(login, token, index + 1);
+  });
+  return Promise.all(promiseList).then((datas) => {
+    let results = [];
+    datas.forEach(data => results = [...results, ...data]);
+    return Promise.resolve(results);
+  }).catch(() => Promise.resolve([]));
+};
+
+const getAllReposYearlyCommits = (repos, token) => {
+  const promiseList = repos.map((item, index) => {
+    return getReposYearlyCommits(item.fullname || item.full_name, token);
+  });
+  return Promise.all(promiseList).catch(() => Promise.resolve([]));
+};
+
+const getAllReposLanguages = (repos, token) => {
+  const promiseList = repos.map((item, index) => {
+    return getReposLanguages(item.fullname || item.full_name, token);
+  });
+  return Promise.all(promiseList).catch(() => Promise.resolve([]));
+};
+
 export default {
+  // others
+  getZen,
+  getOctocat,
   getToken,
+  // user
   getUser,
-  getUserRepos,
-  getRepos,
-  getMultiRepos,
+  getPersonalPubRepos,
+  getPersonalPubOrgs,
+  // org
+  getOrg,
+  getOrgPubRepos,
+  // repos
   getAllReposYearlyCommits,
   getAllReposLanguages,
-  getOctocat,
-  getZen
 }

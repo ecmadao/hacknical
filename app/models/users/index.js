@@ -112,6 +112,21 @@ const updateUser = async (userInfo) => {
   });
 };
 
+const updateUserOrgs = async (login, orgs = []) => {
+  const user = await findUserByLogin(login);
+  if (!user) {
+    return Promise.resolve({
+      success: false
+    });
+  }
+  user.orgs = [...orgs];
+  await user.save();
+  return Promise.resolve({
+    success: true,
+    result: user
+  });
+};
+
 const loginWithGithub = async (userInfo) => {
   const newGithubInfo = getGithubInfo(userInfo);
   const { email, login, id } = userInfo;
@@ -129,7 +144,7 @@ const loginWithGithub = async (userInfo) => {
     await findUser.save();
     return Promise.resolve({
       success: true,
-      result: findUser
+      result: findUser._id
     });
   }
   const newUser = await User.create({
@@ -142,15 +157,10 @@ const loginWithGithub = async (userInfo) => {
   if (newUser) {
     shareInfo.userId = newUser._id;
     await createGithubShare(shareInfo);
-
-    return Promise.resolve({
-      success: true,
-      result: newUser
-    });
   }
   return Promise.resolve({
-    success: false,
-    result: null
+    success: true,
+    result: newUser._id
   });
 };
 
@@ -205,5 +215,6 @@ export default {
   findUserByGithubId,
   findUserById,
   findUserByLogin,
-  updateUser
+  updateUser,
+  updateUserOrgs
 }
