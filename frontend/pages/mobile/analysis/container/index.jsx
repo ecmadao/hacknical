@@ -17,7 +17,9 @@ import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/analysis.css';
 import sharedStyles from '../../shared/styles/mobile.css';
 import locales from 'LOCALES';
+import { sortByX } from 'UTILS/helper';
 
+const sortByCount = sortByX('count');
 const analysisTexts = locales('dashboard').profile;
 
 class MobileAnalysis extends React.Component {
@@ -146,8 +148,23 @@ class MobileAnalysis extends React.Component {
     });
   }
 
+  getDatas(type) {
+    const {
+      viewDevices,
+      viewSources
+    } = this.state;
+
+    const datas = {
+      viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
+      viewSources: viewSources.sort(sortByCount).slice(0, 6),
+    };
+
+    return datas[type];
+  }
+
+
   renderDevicesChart() {
-    const { viewDevices } = this.state;
+    const viewDevices = this.getDatas('viewDevices');
     const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
@@ -181,7 +198,7 @@ class MobileAnalysis extends React.Component {
   }
 
   renderSourcesChart() {
-    const { viewSources } = this.state;
+    const viewSources = this.getDatas('viewSources');
     const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
