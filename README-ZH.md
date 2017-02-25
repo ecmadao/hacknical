@@ -1,8 +1,8 @@
-# [Hacknical](http://hacknical.com?locale=zh-CN)
+# [Hacknical](http://hacknical.com?locale=zh)
 
 > hacknical 通过抓取用户的 github 数据，来形成一个可视化展示的 github 分析报告，以此辅助用户更好的完善自己的简历。
 >
-> [查看网站](http://hacknical.com?locale=zh-CN)
+> [查看网站](http://hacknical.com?locale=zh)
 
 [English Version of README](./README.md)
 
@@ -18,7 +18,7 @@
 
 ## 关于
 
-更加详细的 [项目说明](./doc/ABOUT-zh-CN.md)。[English Version](./doc/ABOUT-en.md)
+更加详细的 [项目说明](./doc/ABOUT-zh.md)。[English Version](./doc/ABOUT-en.md)
 
 ## Todos
 
@@ -38,8 +38,6 @@
   - nunjucks
   - request
   - pm2
-  - nginx
-  - nodemon
 
 - frontend
 
@@ -52,13 +50,6 @@
   - clipboard
   - headroom.js
   - webpack
-
-- both
-
-  - moment
-  - es6
-  - babel
-  - fetch
 
 ## License
 
