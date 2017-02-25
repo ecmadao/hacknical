@@ -33,7 +33,7 @@
 
   &.active {
     opacity: 1;
-    z-index: var(--zIndex99);
+    z-index: var(--zIndex999);
     background-color: rgba(0, 0, 0, 0.2);
   }
 
