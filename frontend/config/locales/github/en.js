@@ -28,8 +28,14 @@ const datas = {
       maxUsageLanguage: 'Max Usage',
       maxStarLanguage: 'Has Max Star',
       frequency: '',
-      usageChartTitle: 'Language usage',
-      starChartTitle: 'Stars language get'
+      usageChart: {
+        title: 'Language usage percentage',
+        label: 'Percentage: '
+      },
+      starChart: {
+        title: 'Stars language get',
+        label: 'Stars relative to this language: '
+      }
     },
     commits: {
       title: 'Commits Review',

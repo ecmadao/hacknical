@@ -49,7 +49,7 @@
 
 .zen {
   line-height: 22px;
-  margin: 0 20px;
+  margin: 0 10px;
   font-size: 12px;
   position: relative;
 }
@@ -77,13 +77,36 @@
   }
 }
 
-.header_menu_text_right {
-  composes: header_menu_icon;
-  position: relative;
-  font-size: 12px;
+.dropdown_wrapper {
+  height: 1.8em;
+  line-height: 1.8em;
+  overflow: hidden;
+  min-width: 40px;
+  text-align: center;
+  z-index: var(--zIndex999);
+
+  &:hover {
+    overflow: visible;
+  }
 
   &:not(:last-child) {
-    margin-right: 20px;
+    margin-right: 10px;
+  }
+}
+
+.dropdown_item {
+  cursor: pointer;
+  display: block;
+  color: var(--oc-gray-7);
+  text-decoration: none;
+  font-size: 12px;
+  height: 100%;
+  background-color: var(--oc-white);
+  box-shadow: var(--shadow2);
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: var(--oc-gray-1);
   }
 }
 

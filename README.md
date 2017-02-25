@@ -22,7 +22,7 @@
 
 ## About
 
-See [Project description](./doc/ABOUT-en.md) here. [中文版说明](./doc/ABOUT-zh-CN.md)
+See [Project description](./doc/ABOUT-en.md) here. [中文版说明](./doc/ABOUT-zh.md)
 
 ## Todos
 
@@ -42,8 +42,6 @@ See [Project description](./doc/ABOUT-en.md) here. [中文版说明](./doc/ABOUT
   - nunjucks
   - request
   - pm2
-  - nginx
-  - nodemon
 
 - frontend
 
@@ -57,12 +55,6 @@ See [Project description](./doc/ABOUT-en.md) here. [中文版说明](./doc/ABOUT
   - headroom.js
   - webpack
 
-- both
-
-  - moment
-  - es6
-  - babel
-  - fetch
 
 ## License
 

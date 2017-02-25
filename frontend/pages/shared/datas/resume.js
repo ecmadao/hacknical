@@ -3,6 +3,7 @@ import locales from 'LOCALES';
 const resumeTexts = locales("resume");
 const navTexts = resumeTexts.navs;
 const genderTexts = resumeTexts.options.genders;
+const eduTexts = resumeTexts.options.edus;
 
 export const RESUME_SECTIONS = [
   {
@@ -41,31 +42,31 @@ export const GENDERS = [
 export const EDUCATIONS = [
   {
     id: '初中',
-    text: '初中'
+    text: eduTexts.juniorHigh
   },
   {
     id: '高中',
-    text: '高中'
+    text: eduTexts.seniorHigh
   },
   {
     id: '大专',
-    text: '大专'
+    text: eduTexts.juniorCollege
   },
   {
     id: '本科',
-    text: '本科'
+    text: eduTexts.undergraduate
   },
   {
     id: '硕士',
-    text: '硕士'
+    text: eduTexts.master
   },
   {
     id: '博士',
-    text: '博士'
+    text: eduTexts.doctor
   },
   {
     id: '其他',
-    text: '其他'
+    text: eduTexts.others
   }
 ];
 

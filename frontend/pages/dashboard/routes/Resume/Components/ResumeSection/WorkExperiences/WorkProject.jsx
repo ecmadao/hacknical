@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import WritableList from 'COMPONENTS/WritableList';
 import Input from 'COMPONENTS/Input';
 import styles from '../../../styles/resume.css';
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume").sections.work;
 
 class WorkProject extends React.Component {
   constructor(props) {
@@ -49,7 +52,7 @@ class WorkProject extends React.Component {
         <div className={styles["project_name_wrapper"]}>
           <Input
             value={project.name}
-            placeholder="项目名称"
+            placeholder={resumeTexts.projectName}
             style="flat"
             onChange={this.handleProjectChange('name')}
           />
@@ -58,7 +61,7 @@ class WorkProject extends React.Component {
           </div>
         </div>
         <WritableList
-          placeholder="项目描述"
+          placeholder={resumeTexts.addProjectDesc}
           items={project.details}
           onAdd={this.addDetail}
           onDelete={this.deleteDetail}

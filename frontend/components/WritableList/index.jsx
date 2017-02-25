@@ -74,7 +74,7 @@ class WritableList extends React.Component {
             check={false}
             style="borderless"
             className="underline"
-            placeholder={`新增${placeholder}`}
+            placeholder={placeholder}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
           />

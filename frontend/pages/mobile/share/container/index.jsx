@@ -217,7 +217,7 @@ class MobileShare extends React.Component {
       options: {
         title: {
           display: true,
-          text: githubTexts.languages.starChartTitle
+          text: githubTexts.languages.starChart.title
         },
         legend: {
           display: false,

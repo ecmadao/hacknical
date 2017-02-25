@@ -11,6 +11,9 @@ import InputsGroup from 'COMPONENTS/InputsGroup';
 
 import styles from '../../styles/resume.css';
 import actions from '../../redux/actions';
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume").sections.projects;
 
 class PersonalProjects extends React.Component {
   constructor(props) {
@@ -40,7 +43,7 @@ class PersonalProjects extends React.Component {
             <InputsGroup
               value={title}
               style="flat"
-              placeholder="填写项目名称"
+              placeholder={resumeTexts.projectName}
               customStyle={styles["single_input"]}
               onChange={this.handleProjectChange(index)('title')}>
               <div className={styles["project_link_wrapper"]}>
@@ -52,7 +55,7 @@ class PersonalProjects extends React.Component {
                   check={false}
                   style="borderless"
                   className="underline"
-                  placeholder="填写项目链接"
+                  placeholder={resumeTexts.homepage}
                   onChange={this.handleProjectChange(index)('url')}
                 />
               </div>
@@ -62,7 +65,7 @@ class PersonalProjects extends React.Component {
             <Textarea
               max="200"
               value={desc}
-              placeholder="填写项目描述"
+              placeholder={resumeTexts.projectDesc}
               type="textarea"
               onChange={this.handleProjectChange(index)('desc')}
             />
@@ -73,7 +76,7 @@ class PersonalProjects extends React.Component {
               onAdd={this.addTech(index)}
               onDelete={this.deleteTech(index)}
               max={5}
-              placeholder="+ 添加使用的技术"
+              placeholder={`+ ${resumeTexts.technologies}`}
             />
           </div>
         </div>
@@ -105,7 +108,7 @@ class PersonalProjects extends React.Component {
     return (
       <div className={styles["resume_section_container"]}>
         <div className={styles["section_title"]}>
-          个人项目
+          {resumeTexts.title}
         </div>
         <div>
           {this.renderProjects()}
@@ -113,7 +116,7 @@ class PersonalProjects extends React.Component {
         <div className={styles["resume_button_container"]}>
           <Button
             style="flat"
-            value="添加个人项目"
+            value={resumeTexts.mainButton}
             leftIcon={(
               <i className="fa fa-plus-circle" aria-hidden="true"></i>
             )}

@@ -28,8 +28,14 @@ const datas = {
       maxUsageLanguage: '最常使用的语言',
       maxStarLanguage: '拥有最多的 star',
       frequency: '语言使用频次',
-      usageChartTitle: '语言使用频次',
-      starChartTitle: '语言 & 获得 star'
+      usageChart: {
+        title: '语言使用频次',
+        label: '占比：'
+      },
+      starChart: {
+        title: '语言 & 获得 star',
+        label: '与该语言相关 star 数：'
+      }
     },
     commits: {
       title: '贡献信息',

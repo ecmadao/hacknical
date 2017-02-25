@@ -1,7 +1,7 @@
 {
 	"language": {
-    "text": "En",
-    "id": "en"
+		"text": "中文",
+    "id": "zh"
   },
 	"description": "Hacknical - 查看自己的 GitHub 总结，并协助你完善自我简历",
 	"keywords": "GitHub，数据可视化，简历，在线简历",
