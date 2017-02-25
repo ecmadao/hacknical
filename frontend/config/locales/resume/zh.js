@@ -11,26 +11,65 @@ const datas = {
   sections: {
     info: {
       title: "基本信息",
+      name: '姓名',
+      email: '邮箱',
+      phone: '电话',
+      job: '意向职位',
+      position: '坐标'
     },
     edu: {
-      title: "教育经历"
+      title: '教育经历',
+      mainButton: '添加教育经历',
+      school: '学校名称',
+      major: '院系 & 专业',
+      entranceAt: '入学时间',
+      graduateAt: '毕业时间'
     },
     work: {
-      title: "工作经历"
+      title: '工作经历',
+      mainButton: '添加工作经历',
+      sideButton: '添加参与的项目',
+      companyInfo: '公司信息',
+      companyName: '公司名称',
+      homepage: '填写公司主页',
+      position: '所处职位',
+      entriedAt: '入职时间',
+      dimissionAt: '离职时间',
+      untilNow: '至今',
+      joinedProjects: '参与项目',
+      projectName: '项目名称',
+      addProjectDesc: '新增项目描述'
     },
     projects: {
-      title: "个人项目"
+      title: '个人项目',
+      projectName: '填写项目名称',
+      homepage: '填写项目链接',
+      projectDesc: '填写项目描述',
+      technologies: '添加使用的技术',
+      mainButton: '添加个人项目'
     },
     others: {
-      title: "其他补充"
+      title: '其他补充',
+      expectSalary: '期待月薪',
+      expectCity: '期望城市',
+      yourDream: '你的梦想？',
+      personalIntro: '新增个人介绍',
+      links: {
+        title: '其他链接',
+        github: '填写 github 地址',
+        segmentfault: '填写 segmentfault 地址',
+        blog: '填写 blog 地址',
+        stackoverflow: '填写 stackoverflow 地址',
+        xitu: '填写 稀土掘金 地址'
+      }
     }
   },
   navs: {
-    info: "基本信息",
-    edu: "教育经历",
-    work: "工作经历",
-    projects: "个人项目",
-    others: "其他补充"
+    info: '基本信息',
+    edu: '教育经历',
+    work: '工作经历',
+    projects: '个人项目',
+    others: '其他补充'
   },
   options: {
     genders: {
@@ -38,7 +77,13 @@ const datas = {
       female: '女性'
     },
     edus: {
-
+      juniorHigh: '初中',
+      seniorHigh: '高中',
+      juniorCollege: '大专',
+      undergraduate: '本科',
+      master: '硕士',
+      doctor: '博士',
+      others: '其他'
     }
   }
 };

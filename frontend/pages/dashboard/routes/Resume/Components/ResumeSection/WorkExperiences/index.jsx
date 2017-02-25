@@ -6,7 +6,9 @@ import actions from '../../../redux/actions';
 import WorkExperience from './WorkExperience';
 import Button from 'COMPONENTS/Button';
 import styles from '../../../styles/resume.css';
+import locales from 'LOCALES';
 
+const resumeTexts = locales("resume").sections.work;
 
 class WorkExperiences extends React.Component {
   constructor(props) {
@@ -76,7 +78,7 @@ class WorkExperiences extends React.Component {
     return (
       <div className={styles["resume_section_container"]}>
         <div className={styles["section_title"]}>
-          工作经历
+          {resumeTexts.title}
         </div>
         <div>
           {this.renderExperience()}
@@ -84,7 +86,7 @@ class WorkExperiences extends React.Component {
         <div className={styles["resume_button_container"]}>
           <Button
             style="flat"
-            value="添加工作经历"
+            value={resumeTexts.mainButton}
             leftIcon={(
               <i className="fa fa-plus-circle" aria-hidden="true"></i>
             )}

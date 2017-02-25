@@ -8,6 +8,9 @@ import SelectorV2 from 'COMPONENTS/SelectorV2';
 import actions from '../../redux/actions';
 import { GENDERS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../styles/resume.css';
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume").sections.info;
 
 class Info extends React.Component {
   constructor(props) {
@@ -37,12 +40,12 @@ class Info extends React.Component {
     return (
       <div className={styles["resume_piece_container"]}>
         <div className={styles["resume_title"]}>
-          基本信息
+          {resumeTexts.title}
         </div>
         <div className={styles["resume_wrapper"]}>
           <Input
             value={name}
-            placeholder="姓名"
+            placeholder={resumeTexts.name}
             style="flat"
             onChange={this.handleInfoChange('name')}
           />
@@ -57,14 +60,14 @@ class Info extends React.Component {
           <Input
             type="email"
             value={email}
-            placeholder="邮箱"
+            placeholder={resumeTexts.email}
             style="flat"
             onChange={this.handleInfoChange('email')}
           />
           <Input
             type="phone"
             value={phone}
-            placeholder="电话"
+            placeholder={resumeTexts.phone}
             style="flat"
             formatType="phone"
             onChange={this.handleInfoChange('phone')}
@@ -73,13 +76,13 @@ class Info extends React.Component {
         <div className={styles["resume_wrapper"]}>
           <Input
             value={intention}
-            placeholder="意向职位"
+            placeholder={resumeTexts.job}
             style="flat"
             onChange={this.handleInfoChange('intention')}
           />
           <Input
             value={location}
-            placeholder="坐标"
+            placeholder={resumeTexts.position}
             style="flat"
             onChange={this.handleInfoChange('location')}
           />

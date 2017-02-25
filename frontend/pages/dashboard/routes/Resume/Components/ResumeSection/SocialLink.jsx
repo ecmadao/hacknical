@@ -68,7 +68,7 @@ class SocialLink extends React.Component {
               type="url"
               style="borderless"
               className="underline"
-              placeholder={`填写 ${text || name} 地址`}
+              placeholder={`Add ${text || name} link`}
               onChange={onChange}
             />
           </div>

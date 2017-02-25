@@ -75,7 +75,7 @@ class LanguageInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: githubTexts.usageChartTitle
+          text: githubTexts.usageChart.title
         },
         legend: {
           display: false,
@@ -83,7 +83,7 @@ class LanguageInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `占比：${(item.yLabel * 100).toFixed(2)}%`
+              return `${githubTexts.usageChart.label}${(item.yLabel * 100).toFixed(2)}%`
             }
           }
         }
@@ -116,7 +116,7 @@ class LanguageInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: githubTexts.starChartTitle
+          text: githubTexts.starChart.title
         },
         legend: {
           display: false,
@@ -124,7 +124,7 @@ class LanguageInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `与该语言相关 star 数：${item.yLabel}`
+              return `${githubTexts.starChart.label}${item.yLabel}`
             }
           }
         }

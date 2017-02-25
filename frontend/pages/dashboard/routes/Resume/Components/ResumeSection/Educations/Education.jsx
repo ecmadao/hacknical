@@ -6,6 +6,9 @@ import SelectorV2 from 'COMPONENTS/SelectorV2';
 import dateHelper from 'UTILS/date';
 import { EDUCATIONS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../../styles/resume.css';
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume").sections.edu;
 
 class Education extends React.Component {
   constructor(props) {
@@ -55,7 +58,7 @@ class Education extends React.Component {
           <Input
             value={school}
             style="flat"
-            placeholder="学校名称"
+            placeholder={resumeTexts.school}
             customStyle={styles["single_input"]}
             onChange={handleEduChange('school')}
           />
@@ -64,7 +67,7 @@ class Education extends React.Component {
           <Input
             value={major}
             style="flat"
-            placeholder="院系 & 专业"
+            placeholder={resumeTexts.major}
             onChange={handleEduChange('major')}
           />
           <SelectorV2
@@ -78,8 +81,8 @@ class Education extends React.Component {
           <DateSlider
             initialStart={startTime}
             initialEnd={endTime}
-            startText="入学时间"
-            endText="毕业时间"
+            startText={resumeTexts.entranceAt}
+            endText={resumeTexts.graduateAt}
             maxDate={dateHelper.date.afterYears(5)}
             pushInterval="year"
             onStartChange={handleEduChange('startTime')}

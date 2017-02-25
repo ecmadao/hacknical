@@ -109,7 +109,7 @@ const getResumeStatus = async (ctx, next) => {
       github,
       openShare,
       useGithub,
-      url: `resume/${resumeHash}`
+      url: `resume/${resumeHash}?locale=${ctx.session.locale}`
     }
   }
 };
@@ -210,7 +210,7 @@ const getShareData = async (ctx, next) => {
   ctx.body = {
     success: true,
     result: {
-      url: `resume/${result.resumeHash}`,
+      url: `resume/${result.resumeHash}?locale=${ctx.session.locale}`,
       openShare: result.openShare,
       viewDevices,
       viewSources,
