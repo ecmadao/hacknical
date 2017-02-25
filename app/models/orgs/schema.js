@@ -36,7 +36,8 @@ const OrgSchema = new Schema({
     languages: { type: Object, default: {} },
   	forks_count: Number,
   	forks: Number,
-  	watchers: Number
+  	watchers: Number,
+    contributors: { type: Array, default: [] }
   }]
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

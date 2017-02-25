@@ -87,30 +87,56 @@ const getCommits = async (userId, token) => {
 /**
  * orgs
  */
+const fetchOrg = async (orgLogin, token) => {
+  const org = await Github.getOrg(orgLogin, token);
+  if (!org.login) {
+    return {};
+  }
+
+  const repos = await Github.getOrgPubRepos(orgLogin, token);
+
+  // set repos languages
+  try {
+    const reposLanguages = await Github.getAllReposLanguages(repos, token);
+    repos.forEach((repository, index) => repository.languages = reposLanguages[index]);
+  } catch (err) {}
+
+  // set repos contributors
+  try {
+    const reposContributors = await Github.getAllReposContributors(repos, token);
+    repos.forEach((repository, index) => repository.contributors = reposContributors[index]);
+  } catch (err) {}
+
+  org.repos = repos;
+  await Orgs.create(org);
+  return org;
+};
+
 const fetchOrgs = async (login, token) => {
   const pubOrgs = await Github.getPersonalPubOrgs(login, token);
+  const orgs = getDetailOrgs(pubOrgs);
+  await User.updateUserOrgs(login, pubOrgs);
+  return orgs;
+};
+
+const getDetailOrgs = async (pubOrgs, token) => {
   const orgs = [];
   for(let i = 0; i < pubOrgs.length; i++) {
     const orgLogin = pubOrgs[i].login;
     let org = await Orgs.find(orgLogin);
     if (!org) {
-      org = await Github.getOrg(orgLogin, token);
-      const repos = await Github.getOrgPubRepos(orgLogin, token);
-      org.repos = repos;
-      await Orgs.create(org);
+      org = await fetchOrg(orgLogin, token);
     }
     orgs.push(org);
   }
-  await User.updateUserOrgs(login, pubOrgs);
   return orgs;
 };
 
 const getOrgs = async (login, token) => {
   const findUser = await User.findUserByLogin(login);
-  if (findUser.orgs && findUser.orgs.length) {
-    const orgLogins = findUser.orgs.map(org => org.login);
-    const orgs = await Orgs.findMany(orgLogins);
-    return orgs;
+  const pubOrgs = findUser.orgs;
+  if (pubOrgs && pubOrgs.length) {
+    return getDetailOrgs(pubOrgs, token);
   }
   return await fetchOrgs(login, token);
 };
