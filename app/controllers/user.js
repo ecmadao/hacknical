@@ -1,6 +1,7 @@
 import User from '../models/users';
 import Resume from '../models/resumes';
 import Github from '../services/github';
+import languages from '../config/languages';
 
 // user login/logout/signup
 
@@ -43,15 +44,18 @@ const signup = async (ctx, next) => {
 };
 
 const loginPage = async (ctx, next) => {
+  const locale = ctx.__("language.id");
+  const locales = languages(locale);
   await ctx.render('user/login', {
+    locale,
+    locales,
     title: ctx.__("loginPage.title"),
     login: ctx.__("loginPage.login"),
     about: ctx.__("loginPage.about"),
     loginText: ctx.__("loginPage.loginText"),
     languageText: ctx.__("language.text"),
     languageId: ctx.__("language.id"),
-    isMobile: ctx.state.isMobile,
-    locale: ctx.session.locale
+    isMobile: ctx.state.isMobile
   });
 };
 

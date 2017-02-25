@@ -48,6 +48,10 @@
   }
 }
 
+.topbar-selector {
+  display: inline-block;
+}
+
 
 .login-pannel {
   color: var(--oc-white);
