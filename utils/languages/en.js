@@ -1,7 +1,11 @@
 const options = [
   {
     text: "中文",
-    id: "zh-CN"
+    id: "zh"
+  },
+  {
+    "text": "Fr",
+    "id": "fr"
   }
 ];
 

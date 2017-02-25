@@ -3,6 +3,7 @@ import objectAssign from 'object-assign';
 import Api from 'API';
 import Tipso from 'COMPONENTS/Tipso';
 import locales from 'LOCALES';
+import languages from 'LANGUAGES';
 const headers = locales('dashboard').headers;
 
 import styles from '../../styles/app.css';
@@ -44,6 +45,24 @@ class Header extends React.Component {
     this.setState(state);
   }
 
+  renderLanguageOptions(options) {
+    const optionDOMs = options.map((option, index) => {
+      return (
+        <a
+          key={index}
+          href={`/?locale=${option.id}`}
+          className={styles["dropdown_item"]}>
+          {option.text}
+        </a>
+      )
+    });
+    return (
+      <div className={styles["dropdown_wrapper"]}>
+        {optionDOMs}
+      </div>
+    )
+  }
+
   render() {
     const {
       zen,
@@ -56,6 +75,7 @@ class Header extends React.Component {
     const onMouseLeave = (key) => () => this.onMouseLeave(key);
 
     const locale = window.locale || 'en';
+    const languageOptions = languages(locale);
 
     return (
       <div className={styles["app_header"]}>
@@ -78,11 +98,7 @@ class Header extends React.Component {
             </span>
           </div>
           <div className={styles["header_menus"]}>
-            <a
-              href={`/?locale=${locale === 'en' ? 'zh-CN' : 'en'}`}
-              className={styles["header_menu_text_right"]}>
-              {locale === 'en' ? '中文' : 'EN'}
-            </a>
+            {this.renderLanguageOptions(languageOptions)}
             <a
               onMouseOver={onMouseEnter('showAboutTipso')}
               onMouseEnter={onMouseEnter('showAboutTipso')}

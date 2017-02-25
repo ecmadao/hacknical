@@ -1,6 +1,21 @@
 
+const validateLocale = (locale) => {
+  const language = locale;
+  if (!language) { return '' }
+  if (/^en/.test(language)) {
+    return 'en';
+  }
+  if (/^fr/.test(language)) {
+    return 'fr';
+  }
+  if (/^zh/.test(language)) {
+    return 'zh';
+  }
+  return 'en';
+};
+
 const checkLocale = () => async (ctx, next) => {
-  const { locale } = ctx.query;
+  const locale = validateLocale(ctx.query.locale);
   if (locale) {
     ctx.session.locale = locale;
   } else if (!ctx.session.locale) {

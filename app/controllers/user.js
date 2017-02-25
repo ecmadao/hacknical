@@ -1,7 +1,7 @@
 import User from '../models/users';
 import Resume from '../models/resumes';
 import Github from '../services/github';
-import languages from '../config/languages';
+import languages from '../../utils/languages';
 
 // user login/logout/signup
 
