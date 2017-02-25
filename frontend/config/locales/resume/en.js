@@ -10,13 +10,13 @@ const datas = {
   },
   sections: {
     info: {
-      title: "Basic Info",
+      title: "Basic Info"
     },
     edu: {
-      title: "Education Experience"
+      title: "Educational Experience"
     },
     work: {
-      title: "Work Experience"
+      title: "Job Experience"
     },
     projects: {
       title: "Personal Projects"
@@ -26,11 +26,11 @@ const datas = {
     }
   },
   navs: {
-    info: "Infos",
-    edu: "Edus",
-    work: "Works",
+    info: "Info",
+    edu: "Edu",
+    work: "Jobs",
     projects: "Projects",
-    others: "Others"
+    others: "Other"
   },
   options: {
     genders: {
