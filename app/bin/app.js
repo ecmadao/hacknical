@@ -33,7 +33,8 @@ const options = {
   dirs: [path.join(__dirname, '../config/locales')],
   localeAlias: {
     'en': 'en-US',
-    'de-de': 'de',
+    'fr': 'fr-FR',
+    'zh': 'zh-CN'
   }
 };
 locales(app, options);
