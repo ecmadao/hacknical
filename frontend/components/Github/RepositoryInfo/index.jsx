@@ -218,7 +218,8 @@ class RepositoryInfo extends React.Component {
         forks_count,
         stargazers_count,
         reposId,
-        full_name
+        full_name,
+        fork
       } = repository;
 
       const left = offsetLeft(getSecondsByDate(created_at));
@@ -232,7 +233,7 @@ class RepositoryInfo extends React.Component {
         isActive && githubStyles["active"]
       );
       const tipsoClass = cx(
-        githubStyles["repos_tipso"],
+        githubStyles["tipso_wrapper"],
         isActive && githubStyles["active"]
       );
       // const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
@@ -246,12 +247,20 @@ class RepositoryInfo extends React.Component {
             className={githubStyles["repos_timeline"]}>
           </div>
           <div className={tipsoClass}>
-            <div className={githubStyles["repos_tipso_container"]}>
-              <span className={githubStyles["tipso_title"]}>{name}</span>&nbsp;&nbsp;{`<${language}>`}<br/>
-              <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
-              &nbsp;&nbsp;&nbsp;
-              <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}<br/>
-              <p>{created_at.split('T')[0]} ~ {pushed_at.split('T')[0]}</p>
+            <div className={githubStyles["tipso_container"]}>
+              <span className={githubStyles["tipso_title"]}>
+                {name}
+                &nbsp;&nbsp;
+                {`<${language}>`}
+                &nbsp;&nbsp;
+                {fork ? '<fork>' : ''}
+              </span><br/>
+              <span>
+                <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
+                &nbsp;&nbsp;&nbsp;
+                <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
+              </span><br/>
+              <span>{getValidateDate(created_at)} ~ {getValidateDate(pushed_at)}</span>
             </div>
           </div>
         </div>

@@ -20,7 +20,9 @@ const getOrgInfo = (orgInfo) => {
     public_gists,
     followers,
     following,
-    repos
+    repos,
+    html_url,
+    type
   } = orgInfo;
   return {
     login,
@@ -37,6 +39,8 @@ const getOrgInfo = (orgInfo) => {
     public_gists,
     followers,
     following,
+    html_url,
+    type,
     repos: repos || []
   };
 };

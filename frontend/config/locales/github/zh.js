@@ -22,6 +22,12 @@ const datas = {
       longgestRepos: '贡献时间最久的仓库',
       chartTitle: '仓库 fork/star/一年内 commits 数一览（取前十）'
     },
+    orgs: {
+      title: '隶属组织',
+      createdAt: '创建于 ',
+      joinedRepos: '参与的公开项目',
+      contributionPercentage: '贡献比例'
+    },
     languages: {
       title: '编程语言',
       maxReposCountLanguage: '拥有最多的仓库',

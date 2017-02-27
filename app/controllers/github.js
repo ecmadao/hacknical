@@ -114,7 +114,7 @@ const fetchOrg = async (orgLogin, token) => {
 
 const fetchOrgs = async (login, token) => {
   const pubOrgs = await Github.getPersonalPubOrgs(login, token);
-  const orgs = getDetailOrgs(pubOrgs);
+  const orgs = await getDetailOrgs(pubOrgs);
   await User.updateUserOrgs(login, pubOrgs);
   return orgs;
 };
@@ -136,7 +136,7 @@ const getOrgs = async (login, token) => {
   const findUser = await User.findUserByLogin(login);
   const pubOrgs = findUser.orgs;
   if (pubOrgs && pubOrgs.length) {
-    return getDetailOrgs(pubOrgs, token);
+    return await getDetailOrgs(pubOrgs, token);
   }
   return await fetchOrgs(login, token);
 };
@@ -248,7 +248,7 @@ const getUserOrgs = async (ctx, next) => {
       orgs
     }
   };
-  await next();
+  // await next();
 };
 
 const getRepository = async (ctx, next) => {

@@ -11,6 +11,7 @@ import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import CommitInfo from 'COMPONENTS/Github/CommitInfo';
 import LanguageInfo from 'COMPONENTS/Github/LanguageInfo';
 import RepositoryInfo from 'COMPONENTS/Github/RepositoryInfo';
+import OrgInfo from 'COMPONENTS/Github/OrgInfo';
 import UserInfo from 'COMPONENTS/Github/UserInfo';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
@@ -57,7 +58,7 @@ class GithubComponent extends React.Component {
       this.getGithubRepos(login);
     }
     if (!orgs.length) {
-      // this.getGithubOrgs(login);
+      this.getGithubOrgs(login);
     }
   }
 
@@ -90,8 +91,14 @@ class GithubComponent extends React.Component {
   getGithubOrgs(login) {
     Api.github.getOrgs(login).then((result) => {
       console.log(result);
-      // const { repos, commits } = result;
-      // this.setGithubRepos(result);
+      const { orgs } = result;
+      this.setGithubOrgs(orgs);
+    });
+  }
+
+  setGithubOrgs(orgs) {
+    this.setState({
+      orgs: [...orgs]
     });
   }
 
@@ -141,7 +148,8 @@ class GithubComponent extends React.Component {
       showedReposId,
       commitDatas,
       commitInfos,
-      loaded
+      loaded,
+      orgs
     } = this.state;
     const { isShare, containerStyle, githubSection } = this.props;
 
@@ -166,6 +174,7 @@ class GithubComponent extends React.Component {
             username={user && user.name}
           />
         ) : ''}
+        <OrgInfo orgs={orgs} userLogin={user.login} />
         {githubSection.languages !== false ? (
           <LanguageInfo
             repos={repos}
