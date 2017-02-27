@@ -8,13 +8,14 @@ import appReducer from '../reducer/index';
 
 export const createAppStore = (initialState = {}) => {
 
-  // const logger = createLogger();
+  const logger = createLogger();
   const router = routerMiddleware(browserHistory);
 
-  const AppStore = createStore(appReducer, initialState, applyMiddleware(router, thunk));
-  // const AppStore = compose(
-  //     applyMiddleware(logger)
-  //   )(createStore)(appReducer, initialState);
+  const middlewares = process.env.NODE_ENV === "production"
+  ? applyMiddleware(router, thunk)
+  : applyMiddleware(router, logger, thunk);
+
+  const AppStore = createStore(appReducer, initialState, middlewares);
 
   AppStore.asyncReducers = {};
   return AppStore;

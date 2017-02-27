@@ -140,7 +140,8 @@ module.exports = {
       manifest: require(path.join(PATH.DLL_PATH, 'runtime-manifest.json'))
     }),
     new webpack.DefinePlugin({
-      'process.env.APP_VERSION': JSON.stringify(process.env.APP_VERSION || '')
+      'process.env.APP_VERSION': JSON.stringify(process.env.APP_VERSION || ''),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ],
   displayErrorDetails: true,
