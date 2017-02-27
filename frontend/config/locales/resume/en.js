@@ -65,11 +65,11 @@ const datas = {
     }
   },
   navs: {
-    info: "Infos",
-    edu: "Edus",
-    work: "Works",
+    info: "Info",
+    edu: "Edu",
+    work: "Jobs",
     projects: "Projects",
-    others: "Others"
+    others: "Other"
   },
   options: {
     genders: {
