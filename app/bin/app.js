@@ -67,11 +67,12 @@ app.use(new csrf());
 // helper func
 app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
-    csrf: ctx.csrf,
-    isMobile: false,
     assetsPath,
     vendorPath,
-    clientId
+    clientId,
+    csrf: ctx.csrf,
+    isMobile: false,
+    env: process.env.NODE_ENV
   });
   await next();
 });
