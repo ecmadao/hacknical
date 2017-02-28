@@ -491,8 +491,8 @@
 }
 
 .contributions_chart_container {
-  height: 300px;
   width: 100%;
+  padding-bottom: 10px;
 
   & .chart_container {
     width: 100%;
@@ -504,11 +504,13 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  margin: 5px 0 20px 0;
+  margin: 5px 0 10px 0;
 }
 
 .contribution_date {
   flex: 1;
+  color: var(--oc-gray-5);
+  font-size: 14px;
 
   &:first-child {
     text-align: left;
@@ -516,5 +518,41 @@
 
   &:last-child {
     text-align: right;
+  }
+}
+
+.repos_title {
+  font-size: 18px;
+  color: var(--oc-green-7);
+}
+
+.repos_label {
+  display: inline-block;
+  padding: 2px 5px;
+  font-size: 12px;
+  border-radius: 2px;
+  color: var(--oc-white);
+  background-color: var(--oc-gray-6);
+}
+
+.org_repos_infos {
+  display: flex;
+  font-size: 14px;
+  flex-direction: column;
+}
+
+.org_repos_info {
+  margin: 5px 0;
+  flex: 1;
+}
+
+.org_repos_desc_info {
+  composes: org_repos_info;
+  margin-top: 15px;
+
+  & blockquote {
+    color: var(--oc-gray-6);
+    border-left: 2px solid var(--oc-gray-6);
+    padding-left: 10px;
   }
 }

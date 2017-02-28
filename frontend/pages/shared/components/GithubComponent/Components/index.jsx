@@ -42,8 +42,7 @@ class GithubComponent extends React.Component {
       chosedRepos: [],
       showedReposId: null,
       commitDatas: [],
-      commitInfos: [],
-      orgs: []
+      commitInfos: []
     };
     this.githubCalendar = false;
     this.changeShareStatus = this.changeShareStatus.bind(this);
@@ -52,13 +51,10 @@ class GithubComponent extends React.Component {
 
   componentDidMount() {
     const { login } = this.props;
-    const { repos, loaded, orgs } = this.state;
+    const { repos, loaded } = this.state;
     this.getGithubInfo(login);
     if (!repos.length) {
       this.getGithubRepos(login);
-    }
-    if (!orgs.length) {
-      this.getGithubOrgs(login);
     }
   }
 
@@ -85,20 +81,6 @@ class GithubComponent extends React.Component {
     Api.github.getRepos(login).then((result) => {
       const { repos, commits } = result;
       this.setGithubRepos(result);
-    });
-  }
-
-  getGithubOrgs(login) {
-    Api.github.getOrgs(login).then((result) => {
-      console.log(result);
-      const { orgs } = result;
-      this.setGithubOrgs(orgs);
-    });
-  }
-
-  setGithubOrgs(orgs) {
-    this.setState({
-      orgs: [...orgs]
     });
   }
 
@@ -148,8 +130,7 @@ class GithubComponent extends React.Component {
       showedReposId,
       commitDatas,
       commitInfos,
-      loaded,
-      orgs
+      loaded
     } = this.state;
     const { isShare, containerStyle, githubSection } = this.props;
 
@@ -168,13 +149,14 @@ class GithubComponent extends React.Component {
         {githubSection.info !== false ? (<UserInfo user={user} />) : ''}
         {githubSection.repos !== false ? (
           <RepositoryInfo
+            loaded={loaded}
             showedReposId={showedReposId}
             commitDatas={commitDatas}
             flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
             username={user && user.name}
           />
         ) : ''}
-        <OrgInfo orgs={orgs} userLogin={user.login} />
+        <OrgInfo userLogin={user.login} />
         {githubSection.languages !== false ? (
           <LanguageInfo
             repos={repos}

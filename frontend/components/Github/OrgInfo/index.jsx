@@ -4,7 +4,9 @@ import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
 
+import Api from 'API';
 import Loading from 'COMPONENTS/Loading';
+import Tipso from 'COMPONENTS/Tipso';
 import OrgRepos from './OrgRepos';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
@@ -21,9 +23,37 @@ class OrgInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      orgs: [],
+      loaded: false,
+      showTipso: false,
       activeIndex: 0
     };
+    this.onMouseEnter = this.onMouseEnter.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.changeAcitveOrg = this.changeAcitveOrg.bind(this);
+  }
+
+  componentDidMount() {
+    const { userLogin } = this.props;
+    const { orgs } = this.state;
+    if (!orgs.length) {
+      this.getGithubOrgs(userLogin);
+    }
+  }
+
+  getGithubOrgs(login) {
+    Api.github.getOrgs(login).then((result) => {
+      // console.log(result);
+      const { orgs } = result;
+      this.setGithubOrgs(orgs);
+    });
+  }
+
+  setGithubOrgs(orgs) {
+    this.setState({
+      loaded: true,
+      orgs: [...orgs]
+    });
   }
 
   changeAcitveOrg(index) {
@@ -36,8 +66,8 @@ class OrgInfo extends React.Component {
   }
 
   renderOrgsReview() {
-    const { activeIndex } = this.state;
-    const { orgs } = this.props;
+    const { activeIndex, orgs } = this.state;
+
     const orgDOMs = splitArray(orgs, 10).map((organizations, line) => {
       const orgRows = organizations.map((organization, index) => {
         const { avatar_url, name, login } = organization;
@@ -72,11 +102,12 @@ class OrgInfo extends React.Component {
   }
 
   renderOrgDetail() {
-    const { activeIndex } = this.state;
-    const { orgs, userLogin } = this.props;
+    const { activeIndex, orgs } = this.state;
+    const { userLogin } = this.props;
     if (!orgs.length) { return '' }
     const activeOrg = orgs[activeIndex];
-    const { created_at, description, blog, repos } = activeOrg;
+    const { created_at, description, blog } = activeOrg;
+    const repos = activeOrg.repos || [];
 
     return (
       <div className={styles["org_detail"]}>
@@ -104,15 +135,50 @@ class OrgInfo extends React.Component {
     )
   }
 
+  onMouseEnter() {
+    this.setState({
+      showTipso: true
+    })
+  }
+
+  onMouseLeave() {
+    this.setState({
+      showTipso: false
+    })
+  }
+
   render() {
-    const { orgs } = this.props;
+    const { orgs, loaded, showTipso } = this.state;
+    let component;
+    if (!loaded) {
+      component = (<Loading />);
+    } else {
+      component = !orgs.length ?
+        (<div className={cardStyles["empty_card"]}>没有组织信息</div>) : this.renderOrgsReview();
+    }
     return (
       <div className={cx(cardStyles["info_card_container"], styles["chart_card_container"])}>
-        <p><i aria-hidden="true" className="fa fa-rocket"></i>&nbsp;&nbsp;{githubTexts.title}</p>
+        <p>
+          <i aria-hidden="true" className="fa fa-rocket"></i>
+          &nbsp;&nbsp;
+          {githubTexts.title}&nbsp;&nbsp;
+          <div
+            onMouseOver={this.onMouseEnter}
+            onMouseEnter={this.onMouseEnter}
+            onMouseOut={this.onMouseLeave}
+            onMouseLeave={this.onMouseLeave}
+            className={cardStyles["card_intro"]}>
+            <i className="fa fa-question-circle" aria-hidden="true"></i>
+            {showTipso ? (
+              <Tipso
+                show={true}>
+                <span>只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据</span>
+              </Tipso>
+            ) : ''}
+          </div>
+        </p>
         <div className={cardStyles["info_card"]}>
-          {!orgs || !orgs.length ? (
-            <Loading />
-          ) : this.renderOrgsReview()}
+          {component}
         </div>
       </div>
     )
@@ -120,12 +186,10 @@ class OrgInfo extends React.Component {
 }
 
 OrgInfo.propTypes = {
-  orgs: PropTypes.array,
   userLogin: PropTypes.string
 };
 
 OrgInfo.defaultProps = {
-  orgs: [],
   userLogin: ''
 };
 

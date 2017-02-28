@@ -286,14 +286,20 @@ class RepositoryInfo extends React.Component {
   }
 
   render() {
-    const { flatRepos } = this.props;
+    const { flatRepos, loaded } = this.props;
+    let component;
+    if (!loaded) {
+      component = (<Loading />)
+    } else {
+      component = (!flatRepos || !flatRepos.length) ?
+        (<div className={cardStyles["empty_card"]}>没有仓库信息</div>) : this.renderReposReview()
+    }
+
     return (
       <div className={cx(cardStyles["info_card_container"], githubStyles["chart_card_container"])}>
         <p><i aria-hidden="true" className="fa fa-bar-chart"></i>&nbsp;&nbsp;{githubTexts.title}</p>
         <div className={cardStyles["info_card"]}>
-          {!flatRepos || !flatRepos.length ? (
-            <Loading />
-          ) : this.renderReposReview()}
+          {component}
         </div>
       </div>
     )

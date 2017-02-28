@@ -18,6 +18,13 @@
   composes: card_container from 'STYLES/common.css';
 }
 
+.empty_card {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .info_header {
   display: flex;
   padding: 15px;
@@ -59,4 +66,10 @@
       margin: 15px 0;
     }
   }
+}
+
+.card_intro {
+  display: inline-block;
+  position: relative;
+  color: var(--oc-gray-5);
 }

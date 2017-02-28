@@ -33,7 +33,6 @@ class OrgRepos extends React.Component {
   renderReposTipso(repository, contributionPercentage) {
     const {
       name,
-      description,
       created_at,
       stargazers_count,
       contributors,
@@ -64,8 +63,7 @@ class OrgRepos extends React.Component {
             <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
             &nbsp;&nbsp;
             {githubTexts.contributionPercentage}: {`${contributionPercentage.toFixed(2)}%`}
-          </span><br/>
-          <blockquote>{description}</blockquote>
+          </span>
         </div>
       </div>
     )
@@ -104,6 +102,7 @@ class OrgRepos extends React.Component {
           </div>
           {activeIndex === index && percentage ? (
             <ContributionChart
+              repository={repository}
               contribution={filterContributions[0] || { weeks: [] }}
             />
           ) : ''}
