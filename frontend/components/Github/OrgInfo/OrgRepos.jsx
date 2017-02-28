@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
@@ -85,19 +86,25 @@ class OrgRepos extends React.Component {
       }, '');
       const userContributions = filterContributions.length ? filterContributions[0].total : 0;
       const percentage = totalContributions ? (userContributions / totalContributions) * 100 : 0;
+      const clickFunc = percentage ? () => this.changeAcitveRepos(index) : () => {};
+      const contributionClass = cx(
+        styles["repos_contributions"],
+        !percentage && styles["repos_contributions_disabled"]
+      );
+
       return (
         <div className={styles["repos_item"]} key={index}>
           <div
-            onClick={() => this.changeAcitveRepos(index)}
-            className={styles["repos_contributions"]}>
+            onClick={clickFunc}
+            className={contributionClass}>
             <div
               style={{ width: `${percentage}%` }}
               className={styles["user_contributions"]}></div>
             {this.renderReposTipso(repository, percentage)}
           </div>
-          {activeIndex === index ? (
+          {activeIndex === index && percentage ? (
             <ContributionChart
-              contribution={filterContributions[0]}
+              contribution={filterContributions[0] || { weeks: [] }}
             />
           ) : ''}
         </div>

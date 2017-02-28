@@ -480,6 +480,10 @@
   }
 }
 
+.repos_contributions_disabled {
+  cursor: default;
+}
+
 .user_contributions {
   border-radius: 20px;
   background-color: var(--oc-green-5);
@@ -494,9 +498,23 @@
     width: 100%;
     height: 200px;
   }
+}
 
-  & .contribution_dates {
-    width: 100%;
-    margin: 20px 0;
+.contribution_dates {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0 20px 0;
+}
+
+.contribution_date {
+  flex: 1;
+
+  &:first-child {
+    text-align: left;
+  }
+
+  &:last-child {
+    text-align: right;
   }
 }

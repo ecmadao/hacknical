@@ -25,8 +25,23 @@ class ContributionChart extends React.Component {
   renderCharts() {
     const { contribution } = this.props;
     if (contribution) {
-      !this.contributionReviewChart && this.renderContributionChart(contribution.weeks)
+      if (!this.contributionReviewChart) {
+        return this.renderContributionChart(contribution.weeks);
+      } else {
+        return this.updateCharts(contribution.weeks);
+      }
     }
+  }
+
+  updateCharts(contributions) {
+    const data = [], labels = [];
+    contributions.forEach((contribution) => {
+      data.push(contribution.data);
+      labels.push(dateHelper.date.bySeconds(contribution.week));
+    });
+    this.contributionReviewChart.data.labels = labels;
+    this.contributionReviewChart.data.datasets[0].data = data;
+    this.contributionReviewChart.update();
   }
 
   renderContributionChart(contributions) {
@@ -87,12 +102,16 @@ class ContributionChart extends React.Component {
 
   renderContributionDates() {
     const { contribution } = this.props;
-    if (!contribution) { return '' }
-    const dates = contribution.weeks.map(w => dateHelper.date.bySeconds(w.week));
-    // console.log(dates);
+    if (!contribution.weeks.length) { return '' }
+    const { weeks } = contribution;
+    const startDate = dateHelper.date.bySeconds(weeks[0].week);
+    const endDate = dateHelper.date.bySeconds(weeks.slice(-1)[0].week);
     return (
-      <div className={styles["contribution_dates"]}>
-
+      <div className={styles["contribution_details"]}>
+        <div className={styles["contribution_dates"]}>
+          <div className={styles["contribution_date"]}>{startDate}</div>
+          <div className={styles["contribution_date"]}>{endDate}</div>
+        </div>
       </div>
     )
   }
@@ -114,7 +133,9 @@ ContributionChart.propTypes = {
 };
 
 ContributionChart.defaultProps = {
-  contribution: null
+  contribution: {
+    weeks: []
+  }
 };
 
 export default ContributionChart;
