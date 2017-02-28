@@ -14,6 +14,8 @@ import { splitArray } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
 
 const githubTexts = locales('github').sections.orgs;
+const sortByX = (key) => (thisObj, nextObj) => thisObj[key] - nextObj[key];
+const sortByStar = sortByX('stargazers_count');
 
 class OrgInfo extends React.Component {
   constructor(props) {
@@ -94,7 +96,10 @@ class OrgInfo extends React.Component {
             {description}
           </div>
         ) : ''}
-        <OrgRepos repos={repos} userLogin={userLogin} />
+        <OrgRepos
+          repos={repos.sort(sortByStar).reverse()}
+          userLogin={userLogin}
+        />
       </div>
     )
   }

@@ -100,7 +100,13 @@ const getReposContributors = async (fullname, token) => {
     });
     results = contributors.map((contributor, index) => {
       const { total, weeks, author } = contributor;
-      const weeklyCommits = weeks.filter(week => parseInt((week.a + week.d + week.c), 10) > 0).map((week) => week.w);
+      const weeklyCommits = weeks.map((week, index) => {
+        const { w, a, d, c } = week;
+        return {
+          week: w,
+          data: parseInt((a + d + c), 10)
+        }
+      });
       const { avatar_url, login } = author;
       return {
         total,

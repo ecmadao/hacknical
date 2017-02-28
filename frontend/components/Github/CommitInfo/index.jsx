@@ -100,7 +100,7 @@ class CommitInfo extends React.Component {
     const commits = [...dailyCommits.slice(1)];
     commits.push(dailyCommits[0]);
     const days = DAYS.slice(1);
-    days.push(DAYS[0])
+    days.push(DAYS[0]);
     const commitsChart = ReactDOM.findDOMNode(this.commitsWeeklyChart);
     this.commitsWeeklyReviewChart = new Chart(commitsChart, {
       type: 'line',

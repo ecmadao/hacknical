@@ -335,7 +335,7 @@
   align-items: center;
   padding-bottom: 20px;
   cursor: pointer;
-  border-bottom: 2.5px solid transparent;
+  border-bottom: 3px solid transparent;
   transition: border-bottom 0.3s;
 
   & img {
@@ -346,7 +346,7 @@
 }
 
 .org_item_active {
-  border-bottom: 2.5px solid var(--oc-green-5);
+  border-bottom: 3px solid var(--oc-green-5);
 }
 
 .org_detail {
@@ -423,7 +423,7 @@
       width: 2px;
       max-width: 2px;
       flex: 1;
-      margin-left: 15px;
+      margin-left: 20px;
       margin-right: 10px;
       background-color: var(--oc-gray-4);
       position: relative;
@@ -460,13 +460,6 @@
   flex: 1;
   position: relative;
   margin-top: 10px;
-
-  &:hover {
-    & .tipso_wrapper {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
 }
 
 .repos_contributions {
@@ -476,10 +469,34 @@
   height: 20px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    & .tipso_wrapper {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
 
 .user_contributions {
   border-radius: 20px;
   background-color: var(--oc-green-5);
   height: 20px;
+}
+
+.contributions_chart_container {
+  height: 300px;
+  width: 100%;
+
+  & .chart_container {
+    width: 100%;
+    height: 200px;
+  }
+
+  & .contribution_dates {
+    width: 100%;
+    margin: 20px 0;
+  }
 }

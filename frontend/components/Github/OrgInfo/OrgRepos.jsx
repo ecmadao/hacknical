@@ -3,16 +3,32 @@ import React, { PropTypes } from 'react';
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
+import ContributionChart from './ContributionChart';
 
 const githubTexts = locales('github').sections.orgs;
-const sortByX = (key) => (thisObj, nextObj) => thisObj[key] - nextObj[key];
-const sortByStar = sortByX('stargazers_count');
 const fullDate = dateHelper.validator.fullDate;
 const filterRepos = (repos, login) => {
   return repos.filter(repository => repository.contributors.some(contributor => contributor.login === login));
 };
 
 class OrgRepos extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeReposIndex: 0
+    };
+    this.changeAcitveRepos = this.changeAcitveRepos.bind(this);
+  }
+
+  changeAcitveRepos(index) {
+    const { activeReposIndex } = this.state;
+    if (activeReposIndex !== index) {
+      this.setState({
+        activeReposIndex: index
+      });
+    }
+  }
+
   renderReposTipso(repository, contributionPercentage) {
     const {
       name,
@@ -55,8 +71,10 @@ class OrgRepos extends React.Component {
   }
 
   renderRepos() {
+    const { activeReposIndex } = this.state;
     const { repos, userLogin } = this.props;
-    return repos.sort(sortByStar).reverse().map((repository, index) => {
+    const activeIndex = activeReposIndex >= repos.length ? 0 : activeReposIndex;
+    return repos.map((repository, index) => {
       const { contributors } = repository;
       const filterContributions = contributors.filter(contributor => contributor.login === userLogin);
       const totalContributions = contributors.reduce((prev, current, index) => {
@@ -66,15 +84,22 @@ class OrgRepos extends React.Component {
         return current.total + prev;
       }, '');
       const userContributions = filterContributions.length ? filterContributions[0].total : 0;
-      const percentage = (userContributions / totalContributions) * 100;
+      const percentage = totalContributions ? (userContributions / totalContributions) * 100 : 0;
       return (
         <div className={styles["repos_item"]} key={index}>
-          <div className={styles["repos_contributions"]}>
+          <div
+            onClick={() => this.changeAcitveRepos(index)}
+            className={styles["repos_contributions"]}>
             <div
               style={{ width: `${percentage}%` }}
               className={styles["user_contributions"]}></div>
+            {this.renderReposTipso(repository, percentage)}
           </div>
-          {this.renderReposTipso(repository, percentage)}
+          {activeIndex === index ? (
+            <ContributionChart
+              contribution={filterContributions[0]}
+            />
+          ) : ''}
         </div>
       )
     });
