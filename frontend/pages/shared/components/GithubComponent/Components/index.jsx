@@ -21,6 +21,12 @@ const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
 
+let GithubSection = null;
+const getGithubSection = (options) => {
+  if (GithubSection) return GithubSection;
+  GithubSection = Github(options);
+  return GithubSection;
+};
 
 class GithubComponent extends React.Component {
   constructor(props) {
@@ -147,7 +153,7 @@ class GithubComponent extends React.Component {
     const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
-    const GithubSection = Github({
+    const GithubSection = getGithubSection({
       isShare,
       callback: this.changeGithubSection
     });
@@ -172,6 +178,7 @@ class GithubComponent extends React.Component {
             icon: 'vcard-o'
           }}
           section="info"
+          key="github-section-info"
           sectionStatus={sections["info"]}
           hide={this.hideSection("info")}
           disabled={this.disabledSection("info")}
@@ -182,11 +189,13 @@ class GithubComponent extends React.Component {
           commitDatas={commitDatas}
           flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
           username={user && user.name}
+
           title={{
             text: githubTexts.repos.title,
             icon: 'bar-chart'
           }}
           section="repos"
+          key="github-section-repos"
           sectionStatus={sections["repos"]}
           hide={this.hideSection("repos")}
           disabled={this.disabledSection("repos")}
@@ -198,6 +207,7 @@ class GithubComponent extends React.Component {
             icon: 'rocket'
           }}
           section="orgs"
+          key="github-section-orgs"
           sectionStatus={sections["orgs"]}
           hide={this.hideSection("orgs")}
           disabled={this.disabledSection("orgs")}
@@ -213,11 +223,13 @@ class GithubComponent extends React.Component {
           languageDistributions={github.getLanguageDistribution(repos)}
           languageUsed={github.getLanguageUsed(repos)}
           languageSkills={github.getLanguageSkill(repos)}
+
           title={{
             text: githubTexts.languages.title,
             icon: 'code'
           }}
           section="languages"
+          key="github-section-languages"
           sectionStatus={sections["languages"]}
           hide={this.hideSection("languages")}
           disabled={this.disabledSection("languages")}
@@ -227,11 +239,13 @@ class GithubComponent extends React.Component {
           commitDatas={commitDatas}
           commitInfos={commitInfos}
           hasCommits={commitDatas.length > 0}
+
           title={{
             text: githubTexts.commits.title,
             icon: 'git'
           }}
           section="commits"
+          key="github-section-commits"
           sectionStatus={sections["commits"]}
           hide={this.hideSection("commits")}
           disabled={this.disabledSection("commits")}

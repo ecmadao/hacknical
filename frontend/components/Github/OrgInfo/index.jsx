@@ -32,10 +32,7 @@ class OrgInfo extends React.Component {
 
   componentDidMount() {
     const { userLogin } = this.props;
-    const { orgs } = this.state;
-    if (!orgs.length) {
-      this.getGithubOrgs(userLogin);
-    }
+    this.getGithubOrgs(userLogin);
   }
 
   async getGithubOrgs(login) {

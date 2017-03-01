@@ -54,7 +54,6 @@ class GithubSection extends React.Component {
       intro
     } = this.props;
     const { showTipso } = this.state;
-
     if (hide) { return <EmptyDOM />; }
 
     const Section = config[section] || EmptyDOM;
@@ -66,7 +65,7 @@ class GithubSection extends React.Component {
           <i aria-hidden="true" className={`fa fa-${title.icon}`}></i>
           &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
           {intro ? (
-            <div
+            <span
               onMouseOver={this.onMouseEnter}
               onMouseEnter={this.onMouseEnter}
               onMouseOut={this.onMouseLeave}
@@ -80,7 +79,7 @@ class GithubSection extends React.Component {
                   <span>{intro.text}</span>
                 </Tipso>
               ) : ''}
-            </div>
+            </span>
           ) : ''}
         </p>
         <Section {...this.props} className={disabledClass} />
