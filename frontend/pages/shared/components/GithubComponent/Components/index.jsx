@@ -119,6 +119,18 @@ class GithubComponent extends React.Component {
     });
   }
 
+  disabledSection(section) {
+    const { sections } = this.state;
+    const { isShare, githubSection } = this.props;
+    return !isShare && (sections[section] === false || githubSection[section] === false);
+  }
+
+  hideSection(section) {
+    const { sections } = this.state;
+    const { isShare, githubSection } = this.props;
+    return isShare && (sections[section] === false || githubSection[section] === false);
+  }
+
   render() {
     const {
       user,
@@ -129,10 +141,10 @@ class GithubComponent extends React.Component {
       showedReposId,
       commitDatas,
       commitInfos,
-      loaded
+      loaded,
+      sections
     } = this.state;
-    const { isShare, containerStyle, githubSection } = this.props;
-    const sections = Object.keys(githubSection).length ? githubSection : this.state.sections;
+    const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
     const GithubSection = Github({
@@ -142,81 +154,84 @@ class GithubComponent extends React.Component {
 
     return (
       <div className={containerStyle}>
-        {sections.hotmap !== false ? (
-          <GithubSection
-            userLogin={user.login}
-            title={{
-              text: githubTexts.hotmap.title,
-              icon: 'cloud-upload'
-            }}
-            section="hotmap"
-          />
-        ) : ''}
-        {sections.info !== false ? (
-          <GithubSection
-            user={user}
-            title={{
-              text: githubTexts.baseInfo.title,
-              icon: 'vcard-o'
-            }}
-            section="info"
-          />
-        ) : ''}
-        {sections.repos !== false ? (
-          <GithubSection
-            loaded={loaded}
-            showedReposId={showedReposId}
-            commitDatas={commitDatas}
-            flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
-            username={user && user.name}
-
-            title={{
-              text: githubTexts.repos.title,
-              icon: 'bar-chart'
-            }}
-            section="repos"
-          />
-        ) : ''}
-        {sections.orgs !== false ? (
-          <GithubSection
-            userLogin={user.login}
-            title={{
-              text: githubTexts.orgs.title,
-              icon: 'rocket'
-            }}
-            section="orgs"
-          />
-        ) : ''}
-        {sections.languages !== false ? (
-          <GithubSection
-            repos={repos}
-            loaded={loaded}
-            showedReposId={showedReposId}
-            languageDistributions={github.getLanguageDistribution(repos)}
-            languageUsed={github.getLanguageUsed(repos)}
-            languageSkills={github.getLanguageSkill(repos)}
-
-            title={{
-              text: githubTexts.languages.title,
-              icon: 'code'
-            }}
-            section="languages"
-          />
-        ) : ''}
-        {sections.commits !== false ? (
-          <GithubSection
-            loaded={loaded}
-            commitDatas={commitDatas}
-            commitInfos={commitInfos}
-            hasCommits={commitDatas.length > 0}
-
-            title={{
-              text: githubTexts.commits.title,
-              icon: 'git'
-            }}
-            section="commits"
-          />
-        ) : ''}
+        <GithubSection
+          userLogin={user.login}
+          title={{
+            text: githubTexts.hotmap.title,
+            icon: 'cloud-upload'
+          }}
+          section="hotmap"
+          sectionStatus={sections["hotmap"]}
+          hide={this.hideSection("hotmap")}
+          disabled={this.disabledSection("hotmap")}
+        />
+        <GithubSection
+          user={user}
+          title={{
+            text: githubTexts.baseInfo.title,
+            icon: 'vcard-o'
+          }}
+          section="info"
+          sectionStatus={sections["info"]}
+          hide={this.hideSection("info")}
+          disabled={this.disabledSection("info")}
+        />
+        <GithubSection
+          loaded={loaded}
+          showedReposId={showedReposId}
+          commitDatas={commitDatas}
+          flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
+          username={user && user.name}
+          title={{
+            text: githubTexts.repos.title,
+            icon: 'bar-chart'
+          }}
+          section="repos"
+          sectionStatus={sections["repos"]}
+          hide={this.hideSection("repos")}
+          disabled={this.disabledSection("repos")}
+        />
+        <GithubSection
+          userLogin={user.login}
+          title={{
+            text: githubTexts.orgs.title,
+            icon: 'rocket'
+          }}
+          section="orgs"
+          sectionStatus={sections["orgs"]}
+          hide={this.hideSection("orgs")}
+          disabled={this.disabledSection("orgs")}
+        />
+        <GithubSection
+          repos={repos}
+          loaded={loaded}
+          showedReposId={showedReposId}
+          languageDistributions={github.getLanguageDistribution(repos)}
+          languageUsed={github.getLanguageUsed(repos)}
+          languageSkills={github.getLanguageSkill(repos)}
+          title={{
+            text: githubTexts.languages.title,
+            icon: 'code'
+          }}
+          section="languages"
+          sectionStatus={sections["languages"]}
+          hide={this.hideSection("languages")}
+          disabled={this.disabledSection("languages")}
+        />
+        <GithubSection
+          loaded={loaded}
+          commitDatas={commitDatas}
+          commitInfos={commitInfos}
+          hasCommits={commitDatas.length > 0}
+          title={{
+            text: githubTexts.commits.title,
+            icon: 'git'
+          }}
+          section="commits"
+          sectionStatus={sections["commits"]}
+          hide={this.hideSection("commits")}
+          disabled={this.disabledSection("commits")}
+        />
         {openShareModal ? (
           <ShareModal
             openModal={openShareModal}

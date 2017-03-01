@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import GitHubCalendar from 'github-calendar';
 import 'github-calendar/dist/github-calendar.css';
 
@@ -25,12 +26,17 @@ class Hotmap extends React.Component {
   }
 
   render() {
+    const { className } = this.props;
     return (
-      <div id="calendar" className={styles["github_calendar"]}>
+      <div id="calendar" className={cx(styles["github_calendar"], className)}>
         <Loading />
       </div>
     )
   }
 }
+
+Hotmap.defaultProps = {
+  className: ''
+};
 
 export default Hotmap;

@@ -286,7 +286,7 @@ class RepositoryInfo extends React.Component {
   }
 
   render() {
-    const { flatRepos, loaded } = this.props;
+    const { flatRepos, loaded, className } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading />)
@@ -296,11 +296,15 @@ class RepositoryInfo extends React.Component {
     }
 
     return (
-      <div className={cardStyles["info_card"]}>
+      <div className={cx(cardStyles["info_card"], className)}>
         {component}
       </div>
     )
   }
 }
+
+RepositoryInfo.defaultProps = {
+  className: ''
+};
 
 export default RepositoryInfo;

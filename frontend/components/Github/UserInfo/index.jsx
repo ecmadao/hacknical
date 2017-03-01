@@ -9,10 +9,10 @@ import locales from 'LOCALES';
 const githubTexts = locales('github').sections.baseInfo;
 
 const UserInfo = (props) => {
-  const { user } = props;
+  const { user, className } = props;
   if (!user) { return (<div></div>) }
   return (
-    <div className={styles["info_card"]}>
+    <div className={cx(styles["info_card"], className)}>
       <div className={styles["info_header"]}>
         <div className={styles["info_avator"]}>
           <img src={user['avatar_url']} />
@@ -26,6 +26,10 @@ const UserInfo = (props) => {
       <SocialInfo user={user} />
     </div>
   )
+};
+
+UserInfo.defaultProps = {
+  className: ''
 };
 
 export default UserInfo;

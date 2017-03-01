@@ -13,25 +13,55 @@ const EmptyDOM = (props) => {
 };
 
 class GithubSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showTipso: false
+    };
+    this.onMouseEnter = this.onMouseEnter.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
+  }
+
   get operationItems() {
-    const { callback, section } = this.props;
+    const { callback, section, sectionStatus } = this.props;
     return [
       {
-        text: '不在分享中展示',
+        text: sectionStatus ? '不在分享中展示' : '在分享中展示',
         onClick: () => callback({
-          [section]: false
+          [section]: !sectionStatus
         })
       }
     ]
   }
 
+  onMouseEnter() {
+    this.setState({ showTipso: true })
+  }
+
+  onMouseLeave() {
+    this.setState({ showTipso: false })
+  }
+
   render() {
-    const { title, section, className, isShare } = this.props;
+    const {
+      hide,
+      disabled,
+      title,
+      section,
+      className,
+      isShare
+    } = this.props;
+    const { showTipso } = this.state;
+
+    if (hide) { return <EmptyDOM />; }
+
     const Section = config[section] || EmptyDOM;
+    const disabledClass = disabled ? cardStyles["info_card_disabled"] : '';
+
     return (
       <div className={cx(cardStyles["info_card_container"], className)}>
         <p><i aria-hidden="true" className={`fa fa-${title.icon}`}></i>&nbsp;&nbsp;{title.text}</p>
-        <Section {...this.props} />
+        <Section {...this.props} className={disabledClass} />
         {!isShare ? (
           <Operations
             className={cardStyles["card_operation"]}
@@ -46,6 +76,7 @@ class GithubSection extends React.Component {
 GithubSection.PropTypes = {
   section: PropTypes.string,
   disabled: PropTypes.bool,
+  hide: PropTypes.bool,
   isShare: PropTypes.bool,
   show: PropTypes.bool,
   title: PropTypes.object,
@@ -56,6 +87,7 @@ GithubSection.PropTypes = {
 GithubSection.defaultProps = {
   section: Object.keys(config)[0],
   disabled: false,
+  hide: false,
   isShare: false,
   show: true,
   title: {

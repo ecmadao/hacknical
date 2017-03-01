@@ -25,11 +25,8 @@ class OrgInfo extends React.Component {
     this.state = {
       orgs: [],
       loaded: false,
-      showTipso: false,
       activeIndex: 0
     };
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.changeAcitveOrg = this.changeAcitveOrg.bind(this);
   }
 
@@ -41,12 +38,10 @@ class OrgInfo extends React.Component {
     }
   }
 
-  getGithubOrgs(login) {
-    Api.github.getOrgs(login).then((result) => {
-      // console.log(result);
-      const { orgs } = result;
-      this.setGithubOrgs(orgs);
-    });
+  async getGithubOrgs(login) {
+    const result = await Api.github.getOrgs(login);
+    const { orgs } = result;
+    this.setGithubOrgs(orgs);
   }
 
   setGithubOrgs(orgs) {
@@ -107,7 +102,7 @@ class OrgInfo extends React.Component {
     if (!orgs.length) { return '' }
     const activeOrg = orgs[activeIndex];
     const { created_at, description, blog } = activeOrg;
-    const repos = activeOrg.repos || [];
+    const repos = [...activeOrg.repos] || [];
 
     return (
       <div className={styles["org_detail"]}>
@@ -135,20 +130,9 @@ class OrgInfo extends React.Component {
     )
   }
 
-  onMouseEnter() {
-    this.setState({
-      showTipso: true
-    })
-  }
-
-  onMouseLeave() {
-    this.setState({
-      showTipso: false
-    })
-  }
-
   render() {
-    const { orgs, loaded, showTipso } = this.state;
+    const { orgs, loaded } = this.state;
+    const { className } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading />);
@@ -157,46 +141,21 @@ class OrgInfo extends React.Component {
         (<div className={cardStyles["empty_card"]}>没有组织信息</div>) : this.renderOrgsReview();
     }
     return (
-      <div className={cardStyles["info_card"]}>
+      <div className={cx(cardStyles["info_card"], className)}>
         {component}
       </div>
     )
-    // return (
-    //   <div className={cx(cardStyles["info_card_container"], styles["chart_card_container"])}>
-    //     <p>
-    //       <i aria-hidden="true" className="fa fa-rocket"></i>
-    //       &nbsp;&nbsp;
-    //       {githubTexts.title}&nbsp;&nbsp;
-    //       <div
-    //         onMouseOver={this.onMouseEnter}
-    //         onMouseEnter={this.onMouseEnter}
-    //         onMouseOut={this.onMouseLeave}
-    //         onMouseLeave={this.onMouseLeave}
-    //         className={cardStyles["card_intro"]}>
-    //         <i className="fa fa-question-circle" aria-hidden="true"></i>
-    //         {showTipso ? (
-    //           <Tipso
-    //             show={true}
-    //             className={cardStyles["card_tipso"]}>
-    //             <span>只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据</span>
-    //           </Tipso>
-    //         ) : ''}
-    //       </div>
-    //     </p>
-    //     <div className={cardStyles["info_card"]}>
-    //       {component}
-    //     </div>
-    //   </div>
-    // )
   }
 }
 
 OrgInfo.propTypes = {
+  className: PropTypes.string,
   userLogin: PropTypes.string
 };
 
 OrgInfo.defaultProps = {
-  userLogin: ''
+  userLogin: '',
+  className: ''
 };
 
 export default OrgInfo;

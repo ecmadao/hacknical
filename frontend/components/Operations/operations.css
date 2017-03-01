@@ -5,7 +5,7 @@
   left: -10px;
   top: 5px;
   transform: translateX(-100%);
-  composes: tipso-z-index from 'STYLES/common.css';
+  z-index: var(--zIndex999);
 }
 
 .operations_more {
@@ -25,7 +25,7 @@
 
   &.active,
   &:hover {
-    box-shadow: var(--shadow2);
+    box-shadow: var(--shadow1);
     background-color: var(--oc-white);
   }
 }

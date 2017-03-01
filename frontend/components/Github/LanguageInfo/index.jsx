@@ -138,21 +138,6 @@ class LanguageInfo extends React.Component {
     )
   }
 
-  // get operationItems() {
-  //   const { actions } = this.props;
-  //   return [
-  //     {
-  //       text: '更改仓库',
-  //       icon: 'gears',
-  //       onClick: () => actions.toggleModal(true)
-  //     },
-  //     {
-  //       text: '不在简历中展示',
-  //       onClick: () => {}
-  //     }
-  //   ]
-  // }
-
   renderShowRepos() {
     const { repos } = this.props;
     const { showLanguage } = this.state;
@@ -276,17 +261,14 @@ class LanguageInfo extends React.Component {
         </div>
         {this.renderLanguagesLabel()}
         { showLanguage ? this.renderShowRepos() : ''}
-        {/* <Operations
-          items={this.operationItems}
-        /> */}
       </div>
     )
   }
 
   render() {
-    const { loaded } = this.props;
+    const { loaded, className } = this.props;
     return (
-      <div className={cardStyles["info_card"]}>
+      <div className={cx(cardStyles["info_card"], className)}>
         { !loaded ? (
           <Loading />
         ) : this.renderLanguageReview()}
@@ -294,5 +276,9 @@ class LanguageInfo extends React.Component {
     )
   }
 }
+
+LanguageInfo.defaultProps = {
+  className: ''
+};
 
 export default LanguageInfo;

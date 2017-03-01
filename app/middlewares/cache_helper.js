@@ -16,14 +16,14 @@ const redisCache = (redisUrl, options = {}) => {
   redisClient.on('end', () => { redisAvailable = false; });
   redisClient.on('connect', () => { redisAvailable = true; });
 
-  const setCache = async (key, value, options = {}) => {
+  const setCache = async (key, value, option = {}) => {
     if(!redisAvailable){
       return;
     }
     if (value === null) {
       return;
     }
-    const ttl = options.expire || expire;
+    const ttl = option.expire || expire;
 
     await redisClient.setex(`${prefix}${key}`, ttl, JSON.stringify(value));
   };

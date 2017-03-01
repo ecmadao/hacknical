@@ -190,12 +190,12 @@ class CommitInfo extends React.Component {
   }
 
   render() {
-    const { hasCommits, loaded } = this.props;
+    const { hasCommits, loaded, className } = this.props;
     if (loaded && !hasCommits) {
       return (<div></div>)
     }
     return (
-      <div className={cardStyles["info_card"]}>
+      <div className={cx(cardStyles["info_card"], className)}>
         { !hasCommits ? (
           <Loading />
         ) : this.renderCommitsReview()}
@@ -203,5 +203,9 @@ class CommitInfo extends React.Component {
     )
   }
 }
+
+CommitInfo.defaultProps = {
+  className: ''
+};
 
 export default CommitInfo;
