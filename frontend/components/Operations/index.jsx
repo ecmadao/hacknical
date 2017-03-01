@@ -62,16 +62,22 @@ class Operations extends React.Component {
 
   render() {
     const { showOperations } = this.state;
+    const { className } = this.props;
+
+    const containerClass = cx(
+      styles["operations_container"],
+      className
+    );
     const moreIconClass = cx(
       styles["operations_more"],
       showOperations && styles["active"]
     );
     const menuClass = cx(
       styles["operations_menu"],
-      showOperations && styles["active"]
+      showOperations && styles["operations_menu_active"]
     );
     return (
-      <div className={styles["operations_container"]}>
+      <div className={containerClass}>
         <div
           className={moreIconClass}
           onClick={this.showOperationMenu}>
@@ -91,10 +97,12 @@ class Operations extends React.Component {
 
 Operations.propTypes = {
   items: PropTypes.array,
+  className: PropTypes.string
 };
 
 Operations.defaultProps = {
-  items: []
+  items: [],
+  className: ''
 };
 
 export default Operations;

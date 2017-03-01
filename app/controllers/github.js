@@ -187,7 +187,7 @@ const getUser = async (ctx, next) => {
       public_repos,
       created_at
     } = githubInfo;
-    ctx.body = {
+    return ctx.body = {
       success: true,
       result: {
         bio,
@@ -208,7 +208,6 @@ const getUser = async (ctx, next) => {
         shareUrl: `github/${login}?locale=${ctx.session.locale}`
       }
     };
-    return;
   }
   ctx.body = {
     success: true,
@@ -299,11 +298,10 @@ const getSharedUser = async (ctx, next) => {
 
   const user = await User.findUserByLogin(login);
   if (user) {
-    ctx.body = {
+    return ctx.body = {
       success: true,
       result: user.githubInfo || {}
     };
-    return;
   }
   ctx.body = {
     success: true,
@@ -391,11 +389,10 @@ const getUpdateTime = async (ctx, next) => {
   const findResult = await User.findUserByLogin(githubLogin);
   if (findResult) {
     const { githubInfo } = findResult;
-    ctx.body = {
+    return ctx.body = {
       success: true,
       result: githubInfo.lastUpdateTime || findResult['created_at']
     };
-    return;
   }
   ctx.body = {
     success: true,

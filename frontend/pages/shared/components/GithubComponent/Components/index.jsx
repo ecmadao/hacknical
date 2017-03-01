@@ -1,18 +1,12 @@
 import React, { PropTypes } from 'react';
-import GitHubCalendar from 'github-calendar';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
-import 'github-calendar/dist/github-calendar.css';
 
 import Api from 'API/index';
 import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
-import CommitInfo from 'COMPONENTS/Github/CommitInfo';
-import LanguageInfo from 'COMPONENTS/Github/LanguageInfo';
-import RepositoryInfo from 'COMPONENTS/Github/RepositoryInfo';
-import OrgInfo from 'COMPONENTS/Github/OrgInfo';
-import UserInfo from 'COMPONENTS/Github/UserInfo';
+import Github from 'COMPONENTS/Github';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
 import USER from 'SRC/data/user';
@@ -42,9 +36,9 @@ class GithubComponent extends React.Component {
       chosedRepos: [],
       showedReposId: null,
       commitDatas: [],
-      commitInfos: []
+      commitInfos: [],
+      sections: {}
     };
-    this.githubCalendar = false;
     this.changeShareStatus = this.changeShareStatus.bind(this);
     this.toggleShareModal = this.toggleShareModal.bind(this);
   }
@@ -56,32 +50,30 @@ class GithubComponent extends React.Component {
     if (!repos.length) {
       this.getGithubRepos(login);
     }
-  }
-
-  componentDidUpdate() {
-    const { user } = this.state;
-    if (!this.githubCalendar && user.login) {
-      this.githubCalendar = true;
-      $('#calendar') && GitHubCalendar("#calendar", user.login);
-    }
+    this.gitGithubSections(login);
   }
 
   changeState(newState) {
     this.setState(newState);
   }
 
-  getGithubInfo(login = '') {
-    Api.github.getUser(login).then((result) => {
-      this.changeState({ user: result });
-      this.toggleLoading(false);
+  async gitGithubSections(login = '') {
+    const sections = await Api.user.getSections(login);
+    this.setState({
+      sections
     });
   }
 
-  getGithubRepos(login = '') {
-    Api.github.getRepos(login).then((result) => {
-      const { repos, commits } = result;
-      this.setGithubRepos(result);
-    });
+  async getGithubInfo(login = '') {
+    const user = await Api.github.getUser(login);
+    this.changeState({ user });
+    this.toggleLoading(false);
+  }
+
+  async getGithubRepos(login = '') {
+    const result = await Api.github.getRepos(login);
+    const { repos, commits } = result;
+    this.setGithubRepos(result);
   }
 
   setGithubRepos(result) {
@@ -133,46 +125,85 @@ class GithubComponent extends React.Component {
       loaded
     } = this.state;
     const { isShare, containerStyle, githubSection } = this.props;
+    const sections = Object.keys(githubSection).length ? githubSection : this.state.sections;
 
     const origin = window.location.origin;
 
     return (
       <div className={containerStyle}>
-        {githubSection.hotmap !== false ? (
-          <div className={styles["info_card_container"]}>
-            <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;{githubTexts.hotmap.title}</p>
-            <div id="calendar" className={styles["github_calendar"]}>
-              <Loading />
-            </div>
-          </div>
+        {sections.hotmap !== false ? (
+          <Github
+            userLogin={user.login}
+            title={{
+              text: githubTexts.hotmap.title,
+              icon: 'cloud-upload'
+            }}
+            section="hotmap"
+          />
         ) : ''}
-        {githubSection.info !== false ? (<UserInfo user={user} />) : ''}
-        {githubSection.repos !== false ? (
-          <RepositoryInfo
+        {sections.info !== false ? (
+          <Github
+            title={{
+              text: githubTexts.baseInfo.title,
+              icon: 'vcard-o'
+            }}
+            section="info"
+            user={user}
+          />
+        ) : ''}
+        {sections.repos !== false ? (
+          <Github
             loaded={loaded}
             showedReposId={showedReposId}
             commitDatas={commitDatas}
             flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
             username={user && user.name}
+
+            title={{
+              text: githubTexts.repos.title,
+              icon: 'bar-chart'
+            }}
+            section="repos"
           />
         ) : ''}
-        <OrgInfo userLogin={user.login} />
-        {githubSection.languages !== false ? (
-          <LanguageInfo
+        {sections.orgs !== false ? (
+          <Github
+            userLogin={user.login}
+            title={{
+              text: githubTexts.orgs.title,
+              icon: 'rocket'
+            }}
+            section="orgs"
+          />
+        ) : ''}
+        {sections.languages !== false ? (
+          <Github
             repos={repos}
             loaded={repos.length > 0}
             showedReposId={showedReposId}
             languageDistributions={github.getLanguageDistribution(repos)}
             languageUsed={github.getLanguageUsed(repos)}
             languageSkills={github.getLanguageSkill(repos)}
+
+            title={{
+              text: githubTexts.languages.title,
+              icon: 'code'
+            }}
+            section="languages"
           />
         ) : ''}
-        {githubSection.commits !== false ? (
-          <CommitInfo
+        {sections.commits !== false ? (
+          <Github
             loaded={loaded}
             commitDatas={commitDatas}
             commitInfos={commitInfos}
             hasCommits={commitDatas.length > 0}
+
+            title={{
+              text: githubTexts.commits.title,
+              icon: 'git'
+            }}
+            section="commits"
           />
         ) : ''}
         {openShareModal ? (

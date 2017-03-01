@@ -9,8 +9,8 @@
 }
 
 .operations_more {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   cursor: pointer;
   position: relative;
@@ -39,18 +39,18 @@
   transform: translateY(10px);
   opacity: 0;
   transition: opacity 0.3s;
-  font-size: 14px;
+  font-size: 12px;
   composes: hidden-z-index from 'STYLES/common.css';
+}
 
-  &.active {
-    opacity: 1;
-    composes: common-z-index from 'STYLES/common.css';
-  }
+.operations_menu_active {
+  opacity: 1;
+  composes: common-z-index from 'STYLES/common.css';
 }
 
 .operation_item {
   padding: 10px 20px;
-  min-width: 100px;
+  min-width: 85px;
   transition: background-color 0.3s;
   cursor: pointer;
 

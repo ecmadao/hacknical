@@ -35,7 +35,15 @@ const UserSchema = new Schema({
     login: String,
     avatar_url: String,
     description: String
-  }]
+  }],
+  githubSections: {
+    hotmap: { type: Boolean, default: true },
+    info: { type: Boolean, default: true },
+    repos: { type: Boolean, default: true },
+    languages: { type: Boolean, default: true },
+    commits: { type: Boolean, default: true },
+    orgs: { type: Boolean, default: true }
+  }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });

@@ -206,6 +206,30 @@ const remove = async (userId) => {
   });
 };
 
+const findGithubSections = async (login) => {
+  try {
+    const user = await findUserByLogin(login);
+    return Promise.resolve(user.githubSections);
+  } catch (err) {
+    return Promise.resolve({});
+  }
+};
+
+const updateGithubSections = async (login, sections) => {
+  try {
+    const user = await findUserByLogin(login);
+    Object.assign(user.githubSections, sections);
+    await user.save();
+    return Promise.resolve({
+      success: true
+    });
+  } catch (err) {
+    return Promise.resolve({
+      success: false
+    });
+  }
+};
+
 export default {
   findUser,
   createUser,
@@ -216,5 +240,7 @@ export default {
   findUserById,
   findUserByLogin,
   updateUser,
-  updateUserOrgs
+  updateUserOrgs,
+  findGithubSections,
+  updateGithubSections
 }

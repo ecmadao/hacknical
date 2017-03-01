@@ -157,31 +157,37 @@ class OrgInfo extends React.Component {
         (<div className={cardStyles["empty_card"]}>没有组织信息</div>) : this.renderOrgsReview();
     }
     return (
-      <div className={cx(cardStyles["info_card_container"], styles["chart_card_container"])}>
-        <p>
-          <i aria-hidden="true" className="fa fa-rocket"></i>
-          &nbsp;&nbsp;
-          {githubTexts.title}&nbsp;&nbsp;
-          <div
-            onMouseOver={this.onMouseEnter}
-            onMouseEnter={this.onMouseEnter}
-            onMouseOut={this.onMouseLeave}
-            onMouseLeave={this.onMouseLeave}
-            className={cardStyles["card_intro"]}>
-            <i className="fa fa-question-circle" aria-hidden="true"></i>
-            {showTipso ? (
-              <Tipso
-                show={true}>
-                <span>只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据</span>
-              </Tipso>
-            ) : ''}
-          </div>
-        </p>
-        <div className={cardStyles["info_card"]}>
-          {component}
-        </div>
+      <div className={cardStyles["info_card"]}>
+        {component}
       </div>
     )
+    // return (
+    //   <div className={cx(cardStyles["info_card_container"], styles["chart_card_container"])}>
+    //     <p>
+    //       <i aria-hidden="true" className="fa fa-rocket"></i>
+    //       &nbsp;&nbsp;
+    //       {githubTexts.title}&nbsp;&nbsp;
+    //       <div
+    //         onMouseOver={this.onMouseEnter}
+    //         onMouseEnter={this.onMouseEnter}
+    //         onMouseOut={this.onMouseLeave}
+    //         onMouseLeave={this.onMouseLeave}
+    //         className={cardStyles["card_intro"]}>
+    //         <i className="fa fa-question-circle" aria-hidden="true"></i>
+    //         {showTipso ? (
+    //           <Tipso
+    //             show={true}
+    //             className={cardStyles["card_tipso"]}>
+    //             <span>只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据</span>
+    //           </Tipso>
+    //         ) : ''}
+    //       </div>
+    //     </p>
+    //     <div className={cardStyles["info_card"]}>
+    //       {component}
+    //     </div>
+    //   </div>
+    // )
   }
 }
 
