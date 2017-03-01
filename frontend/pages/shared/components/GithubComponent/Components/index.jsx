@@ -134,7 +134,8 @@ class GithubComponent extends React.Component {
   hideSection(section) {
     const { sections } = this.state;
     const { isShare, githubSection } = this.props;
-    return isShare && (sections[section] === false || githubSection[section] === false);
+    const shareSections = Object.keys(githubSection).length ? githubSection : sections;
+    return isShare && shareSections[section] === false;
   }
 
   render() {
