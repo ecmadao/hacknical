@@ -128,11 +128,12 @@ class GithubComponent extends React.Component {
     const sections = Object.keys(githubSection).length ? githubSection : this.state.sections;
 
     const origin = window.location.origin;
+    const GithubSection = Github(isShare);
 
     return (
       <div className={containerStyle}>
         {sections.hotmap !== false ? (
-          <Github
+          <GithubSection
             userLogin={user.login}
             title={{
               text: githubTexts.hotmap.title,
@@ -142,17 +143,17 @@ class GithubComponent extends React.Component {
           />
         ) : ''}
         {sections.info !== false ? (
-          <Github
+          <GithubSection
+            user={user}
             title={{
               text: githubTexts.baseInfo.title,
               icon: 'vcard-o'
             }}
             section="info"
-            user={user}
           />
         ) : ''}
         {sections.repos !== false ? (
-          <Github
+          <GithubSection
             loaded={loaded}
             showedReposId={showedReposId}
             commitDatas={commitDatas}
@@ -167,7 +168,7 @@ class GithubComponent extends React.Component {
           />
         ) : ''}
         {sections.orgs !== false ? (
-          <Github
+          <GithubSection
             userLogin={user.login}
             title={{
               text: githubTexts.orgs.title,
@@ -177,7 +178,7 @@ class GithubComponent extends React.Component {
           />
         ) : ''}
         {sections.languages !== false ? (
-          <Github
+          <GithubSection
             repos={repos}
             loaded={repos.length > 0}
             showedReposId={showedReposId}
@@ -193,7 +194,7 @@ class GithubComponent extends React.Component {
           />
         ) : ''}
         {sections.commits !== false ? (
-          <Github
+          <GithubSection
             loaded={loaded}
             commitDatas={commitDatas}
             commitInfos={commitInfos}

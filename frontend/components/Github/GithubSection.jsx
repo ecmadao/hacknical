@@ -24,16 +24,18 @@ class GithubSection extends React.Component {
   }
 
   render() {
-    const { title, section, children, className } = this.props;
+    const { title, section, className, isShare } = this.props;
     const Section = config[section] || EmptyDOM;
     return (
       <div className={cx(cardStyles["info_card_container"], className)}>
         <p><i aria-hidden="true" className={`fa fa-${title.icon}`}></i>&nbsp;&nbsp;{title.text}</p>
         <Section {...this.props} />
-        <Operations
-          className={cardStyles["card_operation"]}
-          items={this.operationItems}
-        />
+        {!isShare ? (
+          <Operations
+            className={cardStyles["card_operation"]}
+            items={this.operationItems}
+          />
+        ) : ''}
       </div>
     )
   }
@@ -42,6 +44,7 @@ class GithubSection extends React.Component {
 GithubSection.PropTypes = {
   section: PropTypes.string,
   disabled: PropTypes.bool,
+  isShare: PropTypes.bool,
   show: PropTypes.bool,
   title: PropTypes.object,
   className: PropTypes.string
@@ -50,6 +53,7 @@ GithubSection.PropTypes = {
 GithubSection.defaultProps = {
   section: Object.keys(config)[0],
   disabled: false,
+  isShare: false,
   show: true,
   title: {
     text: '',
