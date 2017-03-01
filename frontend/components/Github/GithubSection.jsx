@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import config from './config';
 import Operations from 'COMPONENTS/Operations';
+import Tipso from 'COMPONENTS/Tipso';
 import cardStyles from './styles/info_card.css';
 
 const EmptyDOM = (props) => {
@@ -49,7 +50,8 @@ class GithubSection extends React.Component {
       title,
       section,
       className,
-      isShare
+      isShare,
+      intro
     } = this.props;
     const { showTipso } = this.state;
 
@@ -60,7 +62,27 @@ class GithubSection extends React.Component {
 
     return (
       <div className={cx(cardStyles["info_card_container"], className)}>
-        <p><i aria-hidden="true" className={`fa fa-${title.icon}`}></i>&nbsp;&nbsp;{title.text}</p>
+        <p>
+          <i aria-hidden="true" className={`fa fa-${title.icon}`}></i>
+          &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
+          {intro ? (
+            <div
+              onMouseOver={this.onMouseEnter}
+              onMouseEnter={this.onMouseEnter}
+              onMouseOut={this.onMouseLeave}
+              onMouseLeave={this.onMouseLeave}
+              className={cardStyles["card_intro"]}>
+              <i className={`fa fa-${intro.icon}`} aria-hidden="true"></i>
+              {showTipso ? (
+                <Tipso
+                  show={true}
+                  className={cardStyles["card_tipso"]}>
+                  <span>{intro.text}</span>
+                </Tipso>
+              ) : ''}
+            </div>
+          ) : ''}
+        </p>
         <Section {...this.props} className={disabledClass} />
         {!isShare ? (
           <Operations
@@ -81,7 +103,8 @@ GithubSection.PropTypes = {
   show: PropTypes.bool,
   title: PropTypes.object,
   className: PropTypes.string,
-  callback: PropTypes.func
+  callback: PropTypes.func,
+  intro: PropTypes.object
 };
 
 GithubSection.defaultProps = {
@@ -95,7 +118,8 @@ GithubSection.defaultProps = {
     icon: ''
   },
   className: '',
-  callback: () => {}
+  callback: () => {},
+  intro: null
 };
 
 export default GithubSection;

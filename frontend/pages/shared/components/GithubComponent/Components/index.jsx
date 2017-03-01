@@ -201,6 +201,10 @@ class GithubComponent extends React.Component {
           sectionStatus={sections["orgs"]}
           hide={this.hideSection("orgs")}
           disabled={this.disabledSection("orgs")}
+          intro={{
+            icon: 'question-circle',
+            text: '只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据'
+          }}
         />
         <GithubSection
           repos={repos}
