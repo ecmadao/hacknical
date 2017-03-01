@@ -11,7 +11,7 @@ const validateLocale = (locale) => {
   if (/^zh/.test(language)) {
     return 'zh';
   }
-  return 'en';
+  return 'zh';
 };
 
 const checkLocale = () => async (ctx, next) => {
@@ -19,13 +19,14 @@ const checkLocale = () => async (ctx, next) => {
   if (locale) {
     ctx.session.locale = locale;
   } else if (!ctx.session.locale) {
-    ctx.session.locale = 'en';
+    ctx.session.locale = 'zh';
   }
 
   const sessionLocale = ctx.session.locale;
   ctx.state.locale = sessionLocale;
   ctx.state.description = ctx.__("description");
   ctx.state.keywords = ctx.__("keywords");
+
   await next();
 };
 
