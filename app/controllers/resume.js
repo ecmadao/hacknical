@@ -3,8 +3,8 @@ import User from '../models/users';
 import ResumePub from '../models/resume-pub';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
+import { GITHUB_SECTIONS } from '../utils/datas';
 
-const GITHUB_SECTIONS = ['hotmap', 'info', 'repos', 'languages', 'commits'];
 
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
@@ -94,12 +94,11 @@ const getResumeStatus = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true,
       result: null
     };
-    return
   }
 
   const { useGithub, resumeHash, openShare, github } = result;
@@ -120,11 +119,10 @@ const setResumeShareStatus = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true
     };
-    return
   }
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     openShare: enable
@@ -142,11 +140,10 @@ const setResumeGithubStatus = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true
     };
-    return
   }
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     useGithub: enable
@@ -163,11 +160,10 @@ const setGithubShareSection = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true
     };
-    return
   }
 
   let githubSections = {};

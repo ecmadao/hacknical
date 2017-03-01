@@ -20,7 +20,9 @@ const getOrgInfo = (orgInfo) => {
     public_gists,
     followers,
     following,
-    repos
+    repos,
+    html_url,
+    type
   } = orgInfo;
   return {
     login,
@@ -37,6 +39,8 @@ const getOrgInfo = (orgInfo) => {
     public_gists,
     followers,
     following,
+    html_url,
+    type,
     repos: repos || []
   };
 };
@@ -56,6 +60,8 @@ const getReposInfo = (repos) => {
     stargazers_count,
     watchers_count,
     language,
+    languages,
+    contributors,
     forks_count,
     forks,
     watchers
@@ -74,6 +80,8 @@ const getReposInfo = (repos) => {
     stargazers_count,
     watchers_count,
     language,
+    languages,
+    contributors,
     forks_count,
     forks,
     watchers
@@ -117,7 +125,8 @@ const updateOrgRepos = async (login, repos) => {
 const createOrg = async (orgInfo) => {
   const newOrgInfo = getOrgInfo(orgInfo);
   const { login, repos } = newOrgInfo;
-  newOrgInfo.repos = repos.map(repository => getReposInfo(repository));
+  const newRepos = repos.map(repository => getReposInfo(repository));
+  newOrgInfo.repos = newRepos;
 
   let findOrg = await findOrgByLogin(login);
   if (findOrg) {

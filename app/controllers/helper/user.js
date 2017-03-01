@@ -4,12 +4,11 @@ const check = (params, sessions) => params.some(key => sessions[key]);
 
 const checkSession = (params = []) => async (ctx, next) => {
   if (!check(params, ctx.session)) {
-    ctx.body = {
+    return ctx.body = {
       success: true,
       message: 'session 缺失，请登录',
       url: '/user/login'
     };
-    return;
   }
   await next();
 };

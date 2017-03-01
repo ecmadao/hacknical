@@ -2,8 +2,7 @@ import User from '../models/users';
 import Resume from '../models/resumes';
 import Github from '../services/github';
 import languages from '../../utils/languages';
-
-// user login/logout/signup
+import { GITHUB_SECTIONS } from '../utils/datas';
 
 const login = async (ctx, next) => {
   const { email, pwd } = ctx.request.body;
@@ -130,6 +129,33 @@ const mobileSetting = async (ctx, next) => {
   });
 };
 
+const getGithubSections = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+  const { login } = ctx.query;
+  const sections = await User.findGithubSections(login || githubLogin);
+  return ctx.body = {
+    success: true,
+    result: sections
+  }
+};
+
+const setGithubSections = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+
+  let githubSections = {};
+  const { body } = ctx.request;
+  Object.keys(body).forEach((key) => {
+    if (GITHUB_SECTIONS.some(section => section === key)) {
+      githubSections[key] = body[key];
+    }
+  });
+
+  await User.updateGithubSections(githubLogin, githubSections);
+  return ctx.body = {
+    success: true
+  };
+};
+
 export default {
   // user
   login,
@@ -141,5 +167,8 @@ export default {
   dashboard,
   // mobile
   mobileAnalysis,
-  mobileSetting
+  mobileSetting,
+  // github sections
+  getGithubSections,
+  setGithubSections
 }

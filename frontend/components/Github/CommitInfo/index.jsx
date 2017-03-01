@@ -100,7 +100,7 @@ class CommitInfo extends React.Component {
     const commits = [...dailyCommits.slice(1)];
     commits.push(dailyCommits[0]);
     const days = DAYS.slice(1);
-    days.push(DAYS[0])
+    days.push(DAYS[0]);
     const commitsChart = ReactDOM.findDOMNode(this.commitsWeeklyChart);
     this.commitsWeeklyReviewChart = new Chart(commitsChart, {
       type: 'line',
@@ -190,21 +190,22 @@ class CommitInfo extends React.Component {
   }
 
   render() {
-    const { hasCommits, loaded } = this.props;
+    const { hasCommits, loaded, className } = this.props;
     if (loaded && !hasCommits) {
       return (<div></div>)
     }
     return (
-      <div className={cardStyles["info_card_container"]}>
-        <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;{githubTexts.title}</p>
-        <div className={cardStyles["info_card"]}>
-          { !hasCommits ? (
-            <Loading />
-          ) : this.renderCommitsReview()}
-        </div>
+      <div className={cx(cardStyles["info_card"], className)}>
+        { !hasCommits ? (
+          <Loading />
+        ) : this.renderCommitsReview()}
       </div>
     )
   }
 }
+
+CommitInfo.defaultProps = {
+  className: ''
+};
 
 export default CommitInfo;

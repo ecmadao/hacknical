@@ -12,8 +12,18 @@ const logout = () => {
   return getData('/user/logout');
 };
 
+const getSections = (login) => {
+  return getData('/user/githubSections');
+};
+
+const setSections = (sections) => {
+  return postData('/user/githubSections', sections);
+};
+
 export default {
   login,
   signup,
-  logout
+  logout,
+  getSections,
+  setSections
 }

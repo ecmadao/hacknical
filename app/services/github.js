@@ -92,6 +92,36 @@ const getReposLanguages = async (fullname, token) => {
   }
 };
 
+const getReposContributors = async (fullname, token) => {
+  let results = [];
+  try {
+    const contributors = await fetchGithub(`${API_REPOS}/${fullname}/stats/contributors?access_token=${token}`, {
+      parse: true
+    });
+    results = contributors.map((contributor, index) => {
+      const { total, weeks, author } = contributor;
+      const weeklyCommits = weeks.map((week, index) => {
+        const { w, a, d, c } = week;
+        return {
+          week: w,
+          data: parseInt((a + d + c), 10)
+        }
+      });
+      const { avatar_url, login } = author;
+      return {
+        total,
+        login,
+        avatar_url,
+        weeks: weeklyCommits
+      }
+    });
+  } catch (err) {
+    results = [];
+  } finally {
+    return Promise.resolve(results);
+  }
+};
+
 
 /* =========================== github api =========================== */
 
@@ -164,6 +194,13 @@ const getAllReposLanguages = (repos, token) => {
   return Promise.all(promiseList).catch(() => Promise.resolve([]));
 };
 
+const getAllReposContributors = (repos, token) => {
+  const promiseList = repos.map((item, index) => {
+    return getReposContributors(item.fullname || item.full_name, token);
+  });
+  return Promise.all(promiseList).catch(() => Promise.resolve([]));
+};
+
 export default {
   // others
   getZen,
@@ -179,4 +216,5 @@ export default {
   // repos
   getAllReposYearlyCommits,
   getAllReposLanguages,
+  getAllReposContributors
 }

@@ -43,6 +43,7 @@ const data = {
       useGithub: 'Utiliser les résultats GitHub dans le CV',
       showHotmap: "Afficher l'historique des contributions",
       showRepos: 'Afficher les dépôts',
+      showOrgs: 'Afficher les organisation',
       showLanguages: 'Afficher les langages',
       showCommits: 'Afficher les commits'
     }

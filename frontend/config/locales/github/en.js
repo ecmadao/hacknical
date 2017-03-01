@@ -22,6 +22,12 @@ const datas = {
       longgestRepos: 'Longgest Commit',
       chartTitle: 'star/fork/commit (last one year)'
     },
+    orgs: {
+      title: 'Orgs Info',
+      createdAt: 'Created at ',
+      joinedRepos: 'Public repos you joined',
+      contributionPercentage: 'Contribution percentage'
+    },
     languages: {
       title: 'Languages Review',
       maxReposCountLanguage: 'Has Max Repos',

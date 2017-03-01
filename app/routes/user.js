@@ -39,5 +39,11 @@ router.post('/login', User.login);
 router.post('/signup', User.signup);
 router.get('/logout', User.logout);
 
+// github sections
+router.get('/githubSections', User.getGithubSections);
+router.post('/githubSections',
+  user.checkIfLogin(),
+  User.setGithubSections
+);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const getLocale = (currentLanguage) => {
-  const locale = currentLanguage || 'en';
+  let locale = currentLanguage || 'zh';
+  if (locale === 'fr') { locale === 'en' }
   let datas = {};
   try {
     datas = require(`./${locale}.js`).default;

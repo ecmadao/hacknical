@@ -82,3 +82,18 @@ export const faltten = (array) => {
   });
   return result
 };
+
+/*
+ * get: array => [1, 2, 3, 4, 5, 6], size => 2
+ * return [[1, 2], [3, 4], [5, 6]]
+ */
+export const splitArray = (array, size = 1) => {
+  const length = array.length;
+  if (length <= size) {
+    return [array];
+  }
+  const loop = Math.floor(length / size) + 1;
+  return Array.from(new Array(5), (item, index) => 0).map((i, index) => {
+    return array.slice(index * size, (index + 1) * size)
+  });
+};

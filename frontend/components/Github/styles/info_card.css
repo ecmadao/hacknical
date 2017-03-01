@@ -14,8 +14,33 @@
   composes: card from 'STYLES/common.css';
 }
 
+.info_card_disabled {
+  position: relative;
+
+  &::after {
+    display: block;
+    content: '';
+    position: absolute;
+    border-radius: 3px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: var(--zIndex999);
+  }
+}
+
 .info_card_container {
+  position: relative;
   composes: card_container from 'STYLES/common.css';
+}
+
+.empty_card {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .info_header {
@@ -59,4 +84,20 @@
       margin: 15px 0;
     }
   }
+}
+
+.card_intro {
+  display: inline-block;
+  position: relative;
+  color: var(--oc-gray-5);
+}
+
+.card_tipso {
+  min-width: 150px;
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.card_operation {
+  top: 50px !important;
 }

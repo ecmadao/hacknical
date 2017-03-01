@@ -35,9 +35,9 @@ const CheckPane = (props) => {
     <div
       onClick={() => onChange(!checked)}
       className={cx(
-      styles['info_container_large'],
-      styles['check_info_container']
-    )}>
+        styles['info_container_large'],
+        styles['check_info_container']
+      )}>
       <div className={styles.info}>
         {text}
       </div>
@@ -72,6 +72,11 @@ class Setting extends React.Component {
             text={settingTexts.resume.showRepos}
             checked={resumeInfo.github.repos}
             onChange={shareSection('repos')}
+          />
+          <CheckPane
+            text={settingTexts.resume.showOrgs}
+            checked={resumeInfo.github.orgs}
+            onChange={shareSection('orgs')}
           />
           <CheckPane
             text={settingTexts.resume.showLanguages}

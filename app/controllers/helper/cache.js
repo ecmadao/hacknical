@@ -5,11 +5,10 @@ const getCache = (key, options = {}) => async (ctx, next) => {
   const result = await ctx.cache.get(cacheKey);
   if (result) {
     console.log(`request: ${cacheKey} get datas from cache`);
-    ctx.body = {
+    return ctx.body = {
       success: true,
       result
     };
-    return;
   }
   ctx.query.cacheKey = cacheKey;
   ctx.query.shouldCache = true;
