@@ -17,7 +17,7 @@ const getSections = (login) => {
 };
 
 const setSections = (sections) => {
-  return postData('/user/githubSections', { sections });
+  return postData('/user/githubSections', sections);
 };
 
 export default {

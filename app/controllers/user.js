@@ -141,13 +141,15 @@ const getGithubSections = async (ctx, next) => {
 
 const setGithubSections = async (ctx, next) => {
   const { githubLogin } = ctx.session;
-  const { sections } = ctx.request.body;
+
   let githubSections = {};
-  Object.keys(sections).forEach((section) => {
-    if (GITHUB_SECTIONS.some(key => section === key)) {
-      githubSections[key] = sections[key];
+  const { body } = ctx.request;
+  Object.keys(body).forEach((key) => {
+    if (GITHUB_SECTIONS.some(section => section === key)) {
+      githubSections[key] = body[key];
     }
   });
+
   await User.updateGithubSections(githubLogin, githubSections);
   return ctx.body = {
     success: true

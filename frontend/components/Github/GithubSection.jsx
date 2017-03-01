@@ -14,11 +14,13 @@ const EmptyDOM = (props) => {
 
 class GithubSection extends React.Component {
   get operationItems() {
-    const { actions } = this.props;
+    const { callback, section } = this.props;
     return [
       {
         text: '不在分享中展示',
-        onClick: () => {}
+        onClick: () => callback({
+          [section]: false
+        })
       }
     ]
   }
@@ -47,7 +49,8 @@ GithubSection.PropTypes = {
   isShare: PropTypes.bool,
   show: PropTypes.bool,
   title: PropTypes.object,
-  className: PropTypes.string
+  className: PropTypes.string,
+  callback: PropTypes.func
 };
 
 GithubSection.defaultProps = {
@@ -59,7 +62,8 @@ GithubSection.defaultProps = {
     text: '',
     icon: ''
   },
-  className: ''
+  className: '',
+  callback: () => {}
 };
 
 export default GithubSection;

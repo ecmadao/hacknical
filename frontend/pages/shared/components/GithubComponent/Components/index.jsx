@@ -41,6 +41,7 @@ class GithubComponent extends React.Component {
     };
     this.changeShareStatus = this.changeShareStatus.bind(this);
     this.toggleShareModal = this.toggleShareModal.bind(this);
+    this.changeGithubSection = this.changeGithubSection.bind(this);
   }
 
   componentDidMount() {
@@ -87,12 +88,11 @@ class GithubComponent extends React.Component {
     })
   }
 
-  changeShareStatus() {
+  async changeShareStatus() {
     const { user } = this.state;
     const { openShare } = user;
-    Api.github.toggleShare(!openShare).then((result) => {
-      this.toggleShare(!openShare);
-    });
+    await Api.github.toggleShare(!openShare);
+    this.toggleShare(!openShare);
   }
 
   toggleShare(openShare) {
@@ -112,6 +112,13 @@ class GithubComponent extends React.Component {
     this.setState({ openShareModal })
   }
 
+  async changeGithubSection(sections) {
+    await Api.user.setSections(sections);
+    this.setState({
+      sections: objectAssign({}, this.state.sections, sections)
+    });
+  }
+
   render() {
     const {
       user,
@@ -128,7 +135,10 @@ class GithubComponent extends React.Component {
     const sections = Object.keys(githubSection).length ? githubSection : this.state.sections;
 
     const origin = window.location.origin;
-    const GithubSection = Github(isShare);
+    const GithubSection = Github({
+      isShare,
+      callback: this.changeGithubSection
+    });
 
     return (
       <div className={containerStyle}>
@@ -180,7 +190,7 @@ class GithubComponent extends React.Component {
         {sections.languages !== false ? (
           <GithubSection
             repos={repos}
-            loaded={repos.length > 0}
+            loaded={loaded}
             showedReposId={showedReposId}
             languageDistributions={github.getLanguageDistribution(repos)}
             languageUsed={github.getLanguageUsed(repos)}
