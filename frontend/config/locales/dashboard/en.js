@@ -13,11 +13,11 @@ const datas = {
   },
   profile: {
     resume: {
-      title: 'Resume Share Datas',
+      title: 'Resume Share Records',
       shareText: 'Scan QR code to share resume'
     },
     github: {
-      title: 'GitHub Share Datas',
+      title: 'GitHub Share Records',
       shareText: 'Scan QR code to share GitHub analysis'
     },
     common: {

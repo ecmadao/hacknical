@@ -135,7 +135,7 @@ class OrgInfo extends React.Component {
       component = (<Loading />);
     } else {
       component = !orgs.length ?
-        (<div className={cardStyles["empty_card"]}>没有组织信息</div>) : this.renderOrgsReview();
+        (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : this.renderOrgsReview();
     }
     return (
       <div className={cx(cardStyles["info_card"], className)}>

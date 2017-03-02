@@ -17,10 +17,25 @@ class GithubSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showTipso: false
+      showTipso: false,
+      showOperations: false
     };
+    this.onMenuClick = this.onMenuClick.bind(this);
     this.onMouseEnter = this.onMouseEnter.bind(this);
     this.onMouseLeave = this.onMouseLeave.bind(this);
+    this.onOperationFocusChange = this.onOperationFocusChange.bind(this);
+  }
+
+  onOperationFocusChange(value) {
+    this.setState({
+      showOperations: value
+    });
+  }
+
+  onMenuClick(value) {
+    const { callback } = this.props;
+    callback && callback(value);
+    this.onOperationFocusChange(false);
   }
 
   get operationItems() {
@@ -28,7 +43,7 @@ class GithubSection extends React.Component {
     return [
       {
         text: sectionStatus ? '不在分享中展示' : '在分享中展示',
-        onClick: () => callback({
+        onClick: () => this.onMenuClick({
           [section]: !sectionStatus
         })
       }
@@ -53,7 +68,7 @@ class GithubSection extends React.Component {
       isShare,
       intro
     } = this.props;
-    const { showTipso } = this.state;
+    const { showTipso, showOperations } = this.state;
     if (hide) { return <EmptyDOM />; }
 
     const Section = config[section] || EmptyDOM;
@@ -87,6 +102,8 @@ class GithubSection extends React.Component {
           <Operations
             className={cardStyles["card_operation"]}
             items={this.operationItems}
+            showOperations={showOperations}
+            onFocusChange={this.onOperationFocusChange}
           />
         ) : ''}
       </div>

@@ -26,7 +26,8 @@ const datas = {
       title: 'Orgs Info',
       createdAt: 'Created at ',
       joinedRepos: 'Public repos you joined',
-      contributionPercentage: 'Contribution percentage'
+      contributionPercentage: 'Contribution percentage',
+      emptyText: 'No organization datas'
     },
     languages: {
       title: 'Languages Review',

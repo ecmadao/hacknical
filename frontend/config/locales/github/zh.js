@@ -26,7 +26,8 @@ const datas = {
       title: '隶属组织',
       createdAt: '创建于 ',
       joinedRepos: '参与的公开项目',
-      contributionPercentage: '贡献比例'
+      contributionPercentage: '贡献比例',
+      emptyText: '没有组织信息'
     },
     languages: {
       title: '编程语言',

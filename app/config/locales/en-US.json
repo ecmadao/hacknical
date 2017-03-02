@@ -31,7 +31,7 @@
     "setting": "Setting",
     "analysis": "Share records",
     "menu": {
-      "shareDatas": "Share data",
+      "shareDatas": "Share Records",
       "githubAnalysis": "GitHub Analysis",
       "dataRefresh": "Settings",
       "logout": "Logout"
