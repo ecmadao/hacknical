@@ -6,7 +6,9 @@ import config from './config';
 import Operations from 'COMPONENTS/Operations';
 import Tipso from 'COMPONENTS/Tipso';
 import cardStyles from './styles/info_card.css';
+import locales from 'LOCALES';
 
+const operationTexts = locales('github').operations;
 const EmptyDOM = (props) => {
   return (
     <div></div>
@@ -42,7 +44,7 @@ class GithubSection extends React.Component {
     const { callback, section, sectionStatus } = this.props;
     return [
       {
-        text: sectionStatus ? '不在分享中展示' : '在分享中展示',
+        text: sectionStatus ? operationTexts.share.hide : operationTexts.share.show,
         onClick: () => this.onMenuClick({
           [section]: !sectionStatus
         })

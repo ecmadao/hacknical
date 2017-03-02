@@ -44,8 +44,6 @@ class Operations extends React.Component {
 
   componentDidUpdate() {
     const { showOperations } = this.props;
-    console.log(`props.showOperations: ${showOperations}`)
-    console.log(`state.showOperations: ${this.state.showOperations}`)
     if (showOperations !== this.state.showOperations) {
       this.setState({ showOperations })
     }

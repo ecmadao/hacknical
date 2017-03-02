@@ -1,5 +1,5 @@
 import config from 'config';
-import request from 'request';
+import fetch from '../utils/fetch';
 
 const clientId = config.get('github.clientId');
 const clientSecret = config.get('github.clientSecret');
@@ -15,39 +15,19 @@ const API_REPOS = `${BASE_URL}/repos`;
 
 /* =========================== basic funcs =========================== */
 
-const fetchGithub = (url, options = {}) => {
-  return new Promise((resolve, reject) => {
-    request.get(url, {
-      headers: {
-        'User-Agent': appName
-      }
-    }, (err, httpResponse, body) => {
-      if (err) {
-        reject(false);
-      }
-      if (body) {
-        const result = options.parse ? JSON.parse(body) : body;
-        resolve(result);
-      }
-      reject(false);
-    });
-  });
+const fetchGithub = (url, option = {}) => {
+  const options = {
+    url,
+    headers: { 'User-Agent': appName }
+  };
+  return fetch.get(options, option.parse);
 };
 
 const postGethub = (url) => {
-  return new Promise((resolve, reject) => {
-    request.post(url,
-      (err, httpResponse, body) => {
-        if (err) {
-          reject(false);
-        }
-        if (body) {
-          resolve(body);
-        }
-        reject(false);
-      }
-    );
-  });
+  const options = {
+    url
+  };
+  return fetch.post(options);
 };
 
 /* =========================== private funcs =========================== */

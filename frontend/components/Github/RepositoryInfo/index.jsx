@@ -292,7 +292,7 @@ class RepositoryInfo extends React.Component {
       component = (<Loading />)
     } else {
       component = (!flatRepos || !flatRepos.length) ?
-        (<div className={cardStyles["empty_card"]}>没有仓库信息</div>) : this.renderReposReview()
+        (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : this.renderReposReview()
     }
 
     return (

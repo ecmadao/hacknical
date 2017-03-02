@@ -20,14 +20,15 @@ const datas = {
       popularestRepos: '最受欢迎的仓库',
       maxStarPerRepos: '单个仓库最多 star 数',
       longgestRepos: '贡献时间最久的仓库',
-      chartTitle: '仓库 fork/star/一年内 commits 数一览（取前十）'
+      chartTitle: '仓库 fork/star/一年内 commits 数一览（取前十）',
+      emptyText: '暂无仓库信息'
     },
     orgs: {
       title: '隶属组织',
       createdAt: '创建于 ',
       joinedRepos: '参与的公开项目',
       contributionPercentage: '贡献比例',
-      emptyText: '没有组织信息'
+      emptyText: '暂无组织信息'
     },
     languages: {
       title: '编程语言',
@@ -42,7 +43,8 @@ const datas = {
       starChart: {
         title: '语言 & 获得 star',
         label: '与该语言相关 star 数：'
-      }
+      },
+      emptyText: '暂无语言信息'
     },
     commits: {
       title: '贡献信息',
@@ -52,11 +54,18 @@ const datas = {
       maxCommitRepos: '提交次数最多的仓库',
       maxCommitCount: '单个仓库最多提交数',
       dailyCommitChartTitle: '过去一年每日总提交数',
-      weeklyCommitChartTitle: '过去一年单周提交数'
+      weeklyCommitChartTitle: '过去一年单周提交数',
+      emptyText: '暂无提交信息'
     }
   },
   modal: {
     shareText: '分享你的 GitHub 总结'
+  },
+  operations: {
+    share: {
+      show: '在分享中展示',
+      hide: '不在分享中展示'
+    }
   }
 };
 

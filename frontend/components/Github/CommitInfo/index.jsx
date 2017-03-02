@@ -191,14 +191,19 @@ class CommitInfo extends React.Component {
 
   render() {
     const { hasCommits, loaded, className } = this.props;
-    if (loaded && !hasCommits) {
-      return (<div></div>)
+    let component;
+    if (!loaded) {
+      component = (<Loading />);
+    } else {
+      if (!hasCommits) {
+        component = (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>);
+      } else {
+        component = this.renderCommitsReview();
+      }
     }
     return (
       <div className={cx(cardStyles["info_card"], className)}>
-        { !hasCommits ? (
-          <Loading />
-        ) : this.renderCommitsReview()}
+        {component}
       </div>
     )
   }

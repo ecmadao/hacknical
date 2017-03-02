@@ -205,7 +205,7 @@ class GithubComponent extends React.Component {
             text: '暂未统计组织内/ fork 的项目信息，敬请期待'
           }}
         />
-        {/* <GithubSection
+        <GithubSection
           userLogin={user.login}
           title={{
             text: githubTexts.orgs.title,
@@ -220,7 +220,7 @@ class GithubComponent extends React.Component {
             icon: 'question-circle',
             text: '只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据'
           }}
-        /> */}
+        />
         <GithubSection
           repos={repos}
           loaded={loaded}

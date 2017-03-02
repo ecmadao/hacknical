@@ -20,14 +20,15 @@ const datas = {
       popularestRepos: 'Most Popular Repos',
       maxStarPerRepos: 'Max Star/Repos',
       longgestRepos: 'Longgest Commit',
-      chartTitle: 'star/fork/commit (last one year)'
+      chartTitle: 'star/fork/commit (last one year)',
+      emptyText: 'No repositories info'
     },
     orgs: {
       title: 'Orgs Info',
       createdAt: 'Created at ',
       joinedRepos: 'Public repos you joined',
       contributionPercentage: 'Contribution percentage',
-      emptyText: 'No organization datas'
+      emptyText: 'No organizations info'
     },
     languages: {
       title: 'Languages Review',
@@ -42,7 +43,8 @@ const datas = {
       starChart: {
         title: 'Stars language get',
         label: 'Stars relative to this language: '
-      }
+      },
+      emptyText: 'No languages info'
     },
     commits: {
       title: 'Commits Review',
@@ -52,11 +54,18 @@ const datas = {
       maxCommitRepos: 'Has Max Commits',
       maxCommitCount: 'Max Commits Count',
       dailyCommitChartTitle: 'commits/days in last year',
-      weeklyCommitChartTitle: 'commits/week in last year'
+      weeklyCommitChartTitle: 'commits/week in last year',
+      emptyText: 'No commits info'
     }
   },
   modal: {
     shareText: 'Share your GitHub analysis'
+  },
+  operations: {
+    share: {
+      show: 'Show in share',
+      hide: 'Hide in share'
+    }
   }
 };
 
