@@ -240,7 +240,7 @@ const getUserRepos = async (ctx, next) => {
 const getUserOrgs = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const { login } = ctx.query;
-  const orgs = await getOrgs(githubLogin || login, githubToken);
+  const orgs = await getOrgs(login || githubLogin, githubToken);
   ctx.body = {
     success: true,
     result: {
