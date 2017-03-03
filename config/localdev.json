@@ -25,7 +25,8 @@
   "services": {
     "api": {
       "url": "http://127.0.0.1:5002",
-      "app": "hacknical-local"
+      "app": "hacknical-local",
+      "timeouts": [5000, 5000, 5000]
     }
   },
   "cdn": ""

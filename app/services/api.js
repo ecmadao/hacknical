@@ -22,37 +22,41 @@ const postApi = (url) => {
   return fetch.post(options);
 };
 
+/* =========================== api funcs =========================== */
+
+const getZen = async () => fetchApi('/zen');
+const getOctocat = async () => fetchApi('/octocat');
+
 const getVerify = async () => {
   return fetchApi('/verify', {
     'User-Agent': APP_NAME
   });
 };
 
-const getToken = async (code) => {
-  return fetchApi(`/token?code=${code}`);
-};
+const getToken = async (code) => fetchApi(`/token?code=${code}`);
 
-const getLogin = async (token) => {
-  return fetchApi(`/login?token=${token}`);
-};
+const getLogin = async (token) => fetchApi(`/login?token=${token}`);
 
-const getUser = async (login, token) => {
-  return fetchApi(`/user?login=${login}&token=${token}`);
-};
+const getUser = async (login, token) => fetchApi(`/user?login=${login}&token=${token}`);
 
-const getUserDatas = async (login, token) => {
-  return fetchApi(`/userDatas?login=${login}&token=${token}`);
-};
+const getUserDatas = async (login, token) => fetchApi(`/userDatas?login=${login}&token=${token}`);
+const getUserOrgs = async (login, token) => fetchApi(`/userDatas/orgs?login=${login}&token=${token}`);
 
-const getZen = async () => fetchApi('/zen');
-const getOctocat = async () => fetchApi('/octocat');
+const getUpdateTime = async (login) => fetchApi(`/userDatas/updateTime?login=${login}`);
+const refreshUserDatas = async (login, token) => fetchApi(`/userDatas/refresh?login=${login}&token=${token}`);
 
 export default {
+  /* ===== */
+  getZen,
+  getOctocat,
+  /* ===== */
   getVerify,
   getToken,
   getLogin,
+  /* ===== */
   getUser,
   getUserDatas,
-  getZen,
-  getOctocat
+  getUserOrgs,
+  getUpdateTime,
+  refreshUserDatas
 }

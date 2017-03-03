@@ -29,8 +29,6 @@ const getUser = (login = '') => {
   return getBaseUser();
 };
 
-const getCommits = () => fetchInfo(`/repos/commits`);
-
 const getShareInfo = (login) => fetchInfo(`/${login}/shareInfo`);
 
 /* toggle user github share */
@@ -53,7 +51,6 @@ export default {
   getOrgs,
   getRepository,
   getReadme,
-  getCommits,
   getShareInfo,
   toggleShare,
   getShareData,

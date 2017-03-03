@@ -51,6 +51,7 @@ router.get(
   Github.getUserOrgs,
   // cache.set()
 );
+
 // refresh github datas
 router.get(
   '/refresh',
@@ -58,11 +59,7 @@ router.get(
   Github.refreshDatas,
   cache.del()
 );
-router.get(
-  '/repos/:reposName',
-  user.checkSession(session.requiredSessions),
-  Github.getRepository
-);
+
 router.get(
   '/user',
   user.checkSession(['userId']),
@@ -77,20 +74,7 @@ router.post(
   user.checkSession(['userId', 'githubLogin']),
   Github.toggleShare,
 );
-router.get(
-  '/repos/commits',
-  user.checkSession(session.requiredSessions),
-  cache.get('commits', {
-    session: ['githubLogin']
-  }),
-  Github.getReposCommits,
-  cache.set()
-);
-router.get(
-  '/repos/:reposName/commits',
-  user.checkSession(session.requiredSessions),
-  Github.getRepositoryCommits
-);
+
 router.get(
   '/:login',
   platform.checkPlatform,

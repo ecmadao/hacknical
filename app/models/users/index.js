@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 
@@ -101,13 +100,11 @@ const loginWithGithub = async (userInfo) => {
     githubLogin: login,
     githubInfo: { login }
   });
-  if (newUser) {
-    shareInfo.userId = newUser._id;
-    await createGithubShare(shareInfo);
-  }
+  shareInfo.userId = newUser._id;
+  await createGithubShare(shareInfo);
   return Promise.resolve({
     success: true,
-    result: newUser
+    result: newUser._id
   });
 };
 

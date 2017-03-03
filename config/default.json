@@ -25,7 +25,8 @@
   "services": {
     "api": {
       "url": "",
-      "app": ""
+      "app": "",
+      "timeouts": []
     }
   },
   "cdn": ""

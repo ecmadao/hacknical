@@ -1,6 +1,5 @@
 import User from '../models/users';
 import Resume from '../models/resumes';
-import Github from '../services/github';
 import Api from '../services/api';
 import languages from '../../utils/languages';
 import { GITHUB_SECTIONS } from '../utils/datas';
@@ -40,12 +39,8 @@ const githubLogin = async (ctx, next) => {
       ctx.session.githubLogin = userInfo.login;
       const loginResult = await User.loginWithGithub(userInfo);
       if (loginResult.success) {
-        const user = loginResult.result;
-        ctx.session.userId = user._id;
-        ctx.body = {
-          user
-        };
-        // return ctx.redirect('/user/dashboard');
+        ctx.session.userId = loginResult.result;
+        return ctx.redirect('/user/dashboard');
       }
     }
     return ctx.redirect('/user/login');
