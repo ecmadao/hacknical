@@ -14,7 +14,7 @@ const logout = async (ctx, next) => {
 const loginPage = async (ctx, next) => {
   const locale = ctx.__("language.id");
   const locales = languages(locale);
-  const verifyResult = await Api.getVerify();
+  const clientId = await Api.getVerify();
   await ctx.render('user/login', {
     locale,
     locales,
@@ -25,7 +25,7 @@ const loginPage = async (ctx, next) => {
     languageText: ctx.__("language.text"),
     languageId: ctx.__("language.id"),
     isMobile: ctx.state.isMobile,
-    clientId: verifyResult && verifyResult.clientId
+    clientId: clientId
   });
 };
 
