@@ -72,6 +72,7 @@ class OrgRepos extends React.Component {
   renderRepos() {
     const { activeReposIndex } = this.state;
     const { repos, userLogin } = this.props;
+
     const activeIndex = activeReposIndex >= repos.length ? 0 : activeReposIndex;
     return repos.map((repository, index) => {
       const { contributors } = repository;
@@ -82,6 +83,7 @@ class OrgRepos extends React.Component {
         }
         return current.total + prev;
       }, '');
+
       const userContributions = filterContributions.length ? filterContributions[0].total : 0;
       const percentage = totalContributions ? (userContributions / totalContributions) * 100 : 0;
       const clickFunc = percentage ? () => this.changeAcitveRepos(index) : () => {};

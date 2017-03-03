@@ -30,9 +30,11 @@ class OrgInfo extends React.Component {
     this.changeAcitveOrg = this.changeAcitveOrg.bind(this);
   }
 
-  componentDidMount() {
+  componentDidUpdate(preProps) {
     const { userLogin } = this.props;
-    this.getGithubOrgs(userLogin);
+    if (!preProps.userLogin && userLogin) {
+      this.getGithubOrgs(userLogin);
+    }
   }
 
   async getGithubOrgs(login) {

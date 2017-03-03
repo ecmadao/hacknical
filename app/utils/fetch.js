@@ -7,13 +7,13 @@ const fetchData = (options, parse = true) => {
   return new Promise((resolve, reject) => {
     request(options, (err, httpResponse, body) => {
       if (err) {
-        reject(false);
+        reject(err);
       }
       if (body) {
         const results = JSON.parse(body);
         resolve(results.success ? results.result : false);
       }
-      reject(false);
+      reject(err);
     });
   });
 };
@@ -28,7 +28,6 @@ const fetch = async (options, parse = true, timeout = retryTimes) => {
       return result;
     } catch (e) {
       err = e;
-      console.log(err);
     }
   }
   if (err) { throw new Error(err) }

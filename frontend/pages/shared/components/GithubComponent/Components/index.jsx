@@ -206,7 +206,7 @@ class GithubComponent extends React.Component {
           }}
         />
         <GithubSection
-          userLogin={this.props.login}
+          userLogin={user.login}
           title={{
             text: githubTexts.orgs.title,
             icon: 'rocket'
