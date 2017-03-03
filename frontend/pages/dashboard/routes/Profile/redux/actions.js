@@ -25,7 +25,7 @@ const fetchGithubShareData = () => (dispatch, getState) => {
 
 // resume
 const fetchResumeShareData = () => (dispatch, getState) => {
-  Api.resume.getShareData().then((result) => {
+  Api.resume.getShareRecords().then((result) => {
     dispatch(initialResumeShareData(result));
   });
 };

@@ -36,9 +36,9 @@ router.post('/githubSection',
   Resume.setGithubShareSection
 );
 
-router.get('/shareData',
+router.get('/shareRecords',
   user.checkSession(session.requiredSessions),
-  Resume.getShareData
+  Resume.getShareRecords
 );
 
 
