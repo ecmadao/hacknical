@@ -10,7 +10,7 @@ const BASE_URL = `${API_URL}/api/github`;
 const fetchApi = (url, headers = {}) => {
   const options = {
     url: `${BASE_URL}${url}`,
-    headers
+    headers: Object.assign({}, {'User-Agent': APP_NAME}, headers)
   };
   return fetch.get(options);
 };
@@ -28,9 +28,7 @@ const getZen = async () => fetchApi('/zen');
 const getOctocat = async () => fetchApi('/octocat');
 
 const getVerify = async () => {
-  return fetchApi('/verify', {
-    'User-Agent': APP_NAME
-  });
+  return fetchApi('/verify');
 };
 
 const getToken = async (code) => fetchApi(`/token?code=${code}`);
@@ -39,7 +37,8 @@ const getLogin = async (token) => fetchApi(`/login?token=${token}`);
 
 const getUser = async (login, token) => fetchApi(`/user?login=${login}&token=${token}`);
 
-const getUserDatas = async (login, token) => fetchApi(`/userDatas?login=${login}&token=${token}`);
+const getUserRepos = async (login, token) => fetchApi(`/userDatas/repos?login=${login}&token=${token}`);
+
 const getUserOrgs = async (login, token) => fetchApi(`/userDatas/orgs?login=${login}&token=${token}`);
 
 const getUpdateTime = async (login) => fetchApi(`/userDatas/updateTime?login=${login}`);
@@ -55,7 +54,7 @@ export default {
   getLogin,
   /* ===== */
   getUser,
-  getUserDatas,
+  getUserRepos,
   getUserOrgs,
   getUpdateTime,
   refreshUserDatas

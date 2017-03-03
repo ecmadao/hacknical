@@ -20,8 +20,8 @@ const toggleShare = async (ctx, next) => {
 };
 
 const getUser = async (ctx, next) => {
-  const { githubLogin, userId } = ctx.session;
-  const user = await Api.getUser(githubLogin);
+  const { githubLogin, githubToken, userId } = ctx.session;
+  const user = await Api.getUser(githubLogin, githubToken);
   const login = user.login;
   const shareAnalyse = await ShareAnalyse.findShare({ login, url: `github/${login}` });
 
@@ -36,7 +36,8 @@ const getUser = async (ctx, next) => {
 
 const getUserRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const { repos, commits } = await Api.getUserDatas(githubLogin, githubToken);
+  const { login } = ctx.query;
+  const { repos, commits } = await Api.getUserRepos(login || githubLogin, githubToken);
   if (!commits.length || !repos.length) {
     ctx.query.shouldCache = false;
   }
@@ -60,26 +61,6 @@ const getUserOrgs = async (ctx, next) => {
       orgs
     }
   };
-  // await next();
-};
-
-
-const getStareInfo = async (ctx, next) => {
-  const { login } = ctx.params;
-  const { repos, commits } = await Api.getUserDatas(login);
-
-  if (!commits.length || !repos.length) {
-    ctx.query.shouldCache = false;
-  }
-
-  ctx.body = {
-    success: true,
-    result: {
-      repos,
-      commits
-    }
-  }
-  await next();
 };
 
 const getSharedUser = async (ctx, next) => {
@@ -155,7 +136,7 @@ const sharePage = async (ctx, next) => {
   });
 };
 
-const getStareData = async (ctx, next) => {
+const getStareRecords = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const url = `github/${githubLogin}`;
   const shareAnalyse = await ShareAnalyse.findShare({ login: githubLogin, url });
@@ -234,11 +215,10 @@ export default {
   getUser,
   getSharedUser,
   sharePage,
-  getStareInfo,
   getUserRepos,
   getUserOrgs,
   toggleShare,
-  getStareData,
+  getStareRecords,
   getUpdateTime,
   refreshDatas,
   getZen,

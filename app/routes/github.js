@@ -24,22 +24,11 @@ router.get(
 // repos
 router.get(
   '/repos',
-  user.checkSession(session.requiredSessions),
   cache.get('repos', {
     session: ['githubLogin']
   }),
   Github.getUserRepos,
   cache.set()
-);
-router.get(
-  '/shareData',
-  user.checkSession(['userId', 'githubLogin']),
-  Github.getStareData
-);
-router.get(
-  '/updateTime',
-  user.checkSession(['userId', 'githubLogin']),
-  Github.getUpdateTime
 );
 // orgs
 router.get(
@@ -49,6 +38,16 @@ router.get(
   }),
   Github.getUserOrgs,
   cache.set()
+);
+router.get(
+  '/shareRecords',
+  user.checkSession(['userId', 'githubLogin']),
+  Github.getStareRecords
+);
+router.get(
+  '/updateTime',
+  user.checkSession(['userId', 'githubLogin']),
+  Github.getUpdateTime
 );
 
 // refresh github datas
@@ -68,6 +67,7 @@ router.get(
   Github.getUser,
   cache.set()
 );
+
 router.post(
   '/user/toggleShare',
   user.checkSession(['userId', 'githubLogin']),
@@ -81,21 +81,14 @@ router.get(
   Github.sharePage
 );
 router.get(
-  '/:login/share',
+  '/:login/user',
   cache.get('sharedUser', {
     params: ['login']
   }),
   Github.getSharedUser,
   cache.set()
 );
-router.get(
-  '/:login/shareInfo',
-  cache.get('sharedInfo', {
-    params: ['login']
-  }),
-  Github.getStareInfo,
-  cache.set()
-);
+
 
 
 module.exports = router;

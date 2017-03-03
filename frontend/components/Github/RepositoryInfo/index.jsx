@@ -236,7 +236,7 @@ class RepositoryInfo extends React.Component {
         githubStyles["tipso_wrapper"],
         isActive && githubStyles["active"]
       );
-      // const handleClick = isActive ? actions.closeReposReadme : () => actions.showReposReadme(full_name, reposId);
+
       return (
         <div
           key={index}

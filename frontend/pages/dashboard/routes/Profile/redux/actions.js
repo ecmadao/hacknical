@@ -18,7 +18,7 @@ const {
 
 // github
 const fetchGithubShareData = () => (dispatch, getState) => {
-  Api.github.getShareData().then((result) => {
+  Api.github.getShareRecords().then((result) => {
     dispatch(initialGithubShareData(result));
   });
 };
