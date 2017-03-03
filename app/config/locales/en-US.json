@@ -40,7 +40,7 @@
   "messages": {
     "error": {
       "findUser": "Find user failed",
-      "frequent": "Too many attempts, please try in %s minutes",
+      "frequent": "Too many attempts, please retry later",
       "update": "Update failed"
     },
     "success": {
