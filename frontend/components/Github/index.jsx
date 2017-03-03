@@ -6,9 +6,9 @@ const Github = (options) => (props) => {
   const { isShare, callback } = options;
   return (
     <GithubSection
+      {...props}
       isShare={isShare}
       callback={callback}
-      {...props}
     />
   );
 }
