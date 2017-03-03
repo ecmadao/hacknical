@@ -44,12 +44,11 @@ router.get(
 // orgs
 router.get(
   '/orgs',
-  // user.checkSession(session.requiredSessions),
-  // cache.get('orgs', {
-  //   session: ['githubLogin']
-  // }),
+  cache.get('orgs', {
+    session: ['githubLogin']
+  }),
   Github.getUserOrgs,
-  // cache.set()
+  cache.set()
 );
 
 // refresh github datas
