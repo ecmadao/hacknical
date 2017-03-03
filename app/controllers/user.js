@@ -1,21 +1,9 @@
 import User from '../models/users';
 import Resume from '../models/resumes';
 import Github from '../services/github';
+import Api from '../services/api';
 import languages from '../../utils/languages';
 import { GITHUB_SECTIONS } from '../utils/datas';
-
-const login = async (ctx, next) => {
-  const { email, pwd } = ctx.request.body;
-  const loginResult = await User.login(email, pwd);
-  const { message, success, result } = loginResult;
-  if (success) {
-    ctx.session.userId = result;
-  }
-  ctx.body = {
-    message,
-    success
-  };
-};
 
 const logout = async (ctx, next) => {
   ctx.session.userId = null;
@@ -24,27 +12,10 @@ const logout = async (ctx, next) => {
   ctx.redirect('/');
 };
 
-const signup = async (ctx, next) => {
-  const { email, pwd } = ctx.request.body;
-  const signupResult = await User.createUser(email, pwd);
-  const { message, success, result } = loginResult;
-  if (success) {
-    const { _id, userName, email } = result;
-    ctx.session.userId = _id;
-    await Resume.initialResume(_id, {
-      email,
-      name: userName
-    });
-  }
-  ctx.body = {
-    message,
-    success
-  };
-};
-
 const loginPage = async (ctx, next) => {
   const locale = ctx.__("language.id");
   const locales = languages(locale);
+  const verifyResult = await Api.getVerify();
   await ctx.render('user/login', {
     locale,
     locales,
@@ -54,28 +25,31 @@ const loginPage = async (ctx, next) => {
     loginText: ctx.__("loginPage.loginText"),
     languageText: ctx.__("language.text"),
     languageId: ctx.__("language.id"),
-    isMobile: ctx.state.isMobile
+    isMobile: ctx.state.isMobile,
+    clientId: verifyResult && verifyResult.clientId
   });
 };
 
 const githubLogin = async (ctx, next) => {
   const { code } = ctx.request.query;
-  const result = await Github.getToken(code);
   try {
-    const githubToken = result.match(/^access_token=(\w+)&/)[1];
-    const userInfo = await Github.getUser(githubToken);
-    if (userInfo) {
+    const githubToken = await Api.getToken(code);
+    const userInfo = await Api.getLogin(githubToken);
+    if (userInfo.login) {
       ctx.session.githubToken = githubToken;
-      const githubUser = JSON.parse(userInfo);
-      ctx.session.githubLogin = githubUser.login;
-      const loginResult = await User.loginWithGithub(githubUser);
+      ctx.session.githubLogin = userInfo.login;
+      const loginResult = await User.loginWithGithub(userInfo);
       if (loginResult.success) {
-        ctx.session.userId = loginResult.result;
-        return ctx.redirect('/user/dashboard');
+        const user = loginResult.result;
+        ctx.session.userId = user._id;
+        ctx.body = {
+          user
+        };
+        // return ctx.redirect('/user/dashboard');
       }
     }
     return ctx.redirect('/user/login');
-  } catch (TypeError) {
+  } catch (err) {
     return ctx.redirect('/user/login');
   }
 };
@@ -158,9 +132,7 @@ const setGithubSections = async (ctx, next) => {
 
 export default {
   // user
-  login,
   logout,
-  signup,
   loginPage,
   githubLogin,
   // dashboard
@@ -172,3 +144,39 @@ export default {
   getGithubSections,
   setGithubSections
 }
+
+
+/*
+
+const login = async (ctx, next) => {
+  const { email, pwd } = ctx.request.body;
+  const loginResult = await User.login(email, pwd);
+  const { message, success, result } = loginResult;
+  if (success) {
+    ctx.session.userId = result;
+  }
+  ctx.body = {
+    message,
+    success
+  };
+};
+
+const signup = async (ctx, next) => {
+  const { email, pwd } = ctx.request.body;
+  const signupResult = await User.createUser(email, pwd);
+  const { message, success, result } = loginResult;
+  if (success) {
+    const { _id, userName, email } = result;
+    ctx.session.userId = _id;
+    await Resume.initialResume(_id, {
+      email,
+      name: userName
+    });
+  }
+  ctx.body = {
+    message,
+    success
+  };
+};
+
+ */

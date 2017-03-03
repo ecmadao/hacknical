@@ -23,7 +23,7 @@ const fetchGithub = (url, option = {}) => {
   return fetch.get(options, option.parse);
 };
 
-const postGethub = (url) => {
+const postGithub = (url) => {
   const options = {
     url
   };
@@ -33,35 +33,25 @@ const postGethub = (url) => {
 /* =========================== private funcs =========================== */
 
 const getUserRepos = (login, token, page = 1) => {
-  return fetchGithub(`${API_USERS}/${login}/repos?per_page=100&page=${page}&access_token=${token}`, {
-    parse: true
-  });
+  return fetchGithub(`${API_USERS}/${login}/repos?per_page=100&page=${page}&access_token=${token}`);
 };
 
 const getOrgRepos = (org, token, page = 1) => {
-  return fetchGithub(`${API_ORGS}/${org}/repos?per_page=100&page=${page}&access_token=${token}`, {
-    parse: true
-  });
+  return fetchGithub(`${API_ORGS}/${org}/repos?per_page=100&page=${page}&access_token=${token}`);
 }
 
 const getUserPubOrgs = (login, token, page = 1) => {
-  return fetchGithub(`${API_USERS}/${login}/orgs?per_page=100&page=${page}&access_token=${token}`, {
-    parse: true
-  });
+  return fetchGithub(`${API_USERS}/${login}/orgs?per_page=100&page=${page}&access_token=${token}`);
 };
 
 const getReposYearlyCommits = (fullname, token) => {
-  return fetchGithub(`${API_REPOS}/${fullname}/stats/commit_activity?access_token=${token}`, {
-    parse: true
-  });
+  return fetchGithub(`${API_REPOS}/${fullname}/stats/commit_activity?access_token=${token}`);
 };
 
 const getReposLanguages = async (fullname, token) => {
   let result = {};
   try {
-    const languages = await fetchGithub(`${API_REPOS}/${fullname}/languages?access_token=${token}`, {
-      parse: true
-    });
+    const languages = await fetchGithub(`${API_REPOS}/${fullname}/languages?access_token=${token}`);
     let total = 0;
     Object.keys(languages).forEach(key => total += languages[key]);
     Object.keys(languages).forEach(key => result[key] = languages[key] / total);
@@ -75,9 +65,7 @@ const getReposLanguages = async (fullname, token) => {
 const getReposContributors = async (fullname, token) => {
   let results = [];
   try {
-    const contributors = await fetchGithub(`${API_REPOS}/${fullname}/stats/contributors?access_token=${token}`, {
-      parse: true
-    });
+    const contributors = await fetchGithub(`${API_REPOS}/${fullname}/stats/contributors?access_token=${token}`);
     results = contributors.map((contributor, index) => {
       const { total, weeks, author } = contributor;
       const weeklyCommits = weeks.map((week, index) => {
@@ -106,25 +94,31 @@ const getReposContributors = async (fullname, token) => {
 /* =========================== github api =========================== */
 
 const getOctocat = () => {
-  return fetchGithub(`${BASE_URL}/octocat?client_id=${clientId}&client_secret=${clientSecret}`);
+  return fetchGithub(`${BASE_URL}/octocat?client_id=${clientId}&client_secret=${clientSecret}`, {
+    parse: false
+  });
 };
 
 const getZen = () => {
-  return fetchGithub(`${BASE_URL}/zen?client_id=${clientId}&client_secret=${clientSecret}`);
+  return fetchGithub(`${BASE_URL}/zen?client_id=${clientId}&client_secret=${clientSecret}`, {
+    parse: false
+  });
 };
 
 const getToken = (code) => {
-  return postGethub(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`)
+  return postGithub(`${API_TOKEN}?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`, {
+    parse: false
+  })
 };
 
 const getUser = (token) => {
-  return fetchGithub(`${API_GET_USER}?access_token=${token}`);
+  return fetchGithub(`${API_GET_USER}?access_token=${token}`, {
+    parse: false
+  });
 };
 
 const getOrg = (org, token) => {
-  return fetchGithub(`${API_ORGS}/${org}?access_token=${token}`, {
-    parse: true
-  });
+  return fetchGithub(`${API_ORGS}/${org}?access_token=${token}`);
 };
 
 const getOrgPubRepos = (org, token, pages = 1) => {

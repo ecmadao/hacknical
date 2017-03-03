@@ -1,6 +1,7 @@
 import User from '../models/users';
 import Orgs from '../models/orgs';
 import Github from '../services/github';
+import Api from '../services/api';
 import GithubRepos from '../models/github-repos';
 import GithubCommits from '../models/github-commits';
 import ShareAnalyse from '../models/share-analyse';
@@ -452,7 +453,7 @@ const refreshDatas = async (ctx, next) => {
 };
 
 const getZen = async (ctx) => {
-  const result = await Github.getZen();
+  const result = await Api.getZen();
   ctx.body = {
     success: true,
     result
@@ -460,7 +461,7 @@ const getZen = async (ctx) => {
 };
 
 const getOctocat = async (ctx) => {
-  const result = await Github.getOctocat();
+  const result = await Api.getOctocat();
   ctx.body = {
     success: true,
     result

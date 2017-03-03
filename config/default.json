@@ -22,5 +22,11 @@
     "AccessKey": "",
     "SecretKey": ""
   },
+  "services": {
+    "api": {
+      "url": "",
+      "app": ""
+    }
+  },
   "cdn": ""
 }

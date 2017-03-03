@@ -2,22 +2,22 @@ import request from 'request';
 
 const retryTimes = [3000, 3000, 3000];
 
-const fetchData = (options, parse = false) => {
+const fetchData = (options, parse = true) => {
   return new Promise((resolve, reject) => {
     request(options, (err, httpResponse, body) => {
       if (err) {
         reject(false);
       }
       if (body) {
-        const result = parse ? JSON.parse(body) : body;
-        resolve(result);
+        const results = parse ? JSON.parse(body) : body;
+        resolve(results.result);
       }
       reject(false);
     });
   });
 };
 
-const fetch = async (options, parse = false, timeout = retryTimes) => {
+const fetch = async (options, parse = true, timeout = retryTimes) => {
   let err = null;
   for (let i = 0; i < timeout.length; i++) {
     try {
