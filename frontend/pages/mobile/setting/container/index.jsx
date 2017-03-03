@@ -48,7 +48,7 @@ class MobileSetting extends React.Component {
     Api.github.getUpdateTime().then((result) => {
       this.setUpdateTime(result);
     });
-    Api.github.getShareData().then((result) => {
+    Api.github.getShareRecords().then((result) => {
       this.initialGithubInfo(result);
     });
   }

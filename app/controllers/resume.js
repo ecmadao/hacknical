@@ -182,7 +182,7 @@ const setGithubShareSection = async (ctx, next) => {
   };
 };
 
-const getShareData = async (ctx, next) => {
+const getShareRecords = async (ctx, next) => {
   const { userId } = ctx.session;
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
@@ -224,5 +224,5 @@ export default {
   setResumeShareStatus,
   setResumeGithubStatus,
   setGithubShareSection,
-  getShareData
+  getShareRecords
 }

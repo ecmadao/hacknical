@@ -30,7 +30,7 @@ const refreshGithubDatas = () => (dispatch, getState) => {
 
 // github share
 const fetchGithubShareInfo = () => (dispatch, getState) => {
-  Api.github.getShareData().then((result) => {
+  Api.github.getShareRecords().then((result) => {
     dispatch(initialGithubShareInfo(result));
   });
 };

@@ -71,7 +71,7 @@ class MobileShare extends React.Component {
 
   componentDidMount() {
     const { login } = this.props;
-    Api.github.getShareInfo(login).then((result) => {
+    Api.github.getRepos(login).then((result) => {
       const { repos, commits } = result;
       this.setState({
         commits,

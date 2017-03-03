@@ -6,6 +6,7 @@ import bodyParser from 'koa-bodyparser';
 import onerror from 'koa-onerror';
 import csrf from 'koa-csrf';
 import json from 'koa-json';
+import cors from 'kcors';
 import locales from 'koa-locales';
 
 import redisStore from 'koa-redis';
@@ -24,7 +25,6 @@ import router from '../routes/index';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
-const clientId = config.get('github.clientId');
 const app = new Koa();
 app.keys = [appKey];
 
@@ -39,6 +39,7 @@ const options = {
 };
 locales(app, options);
 
+app.use(convert(cors()));
 // error handle
 onerror(app);
 // bodyparser
@@ -69,7 +70,6 @@ app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
     assetsPath,
     vendorPath,
-    clientId,
     csrf: ctx.csrf,
     isMobile: false,
     env: process.env.NODE_ENV

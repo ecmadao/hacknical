@@ -6,7 +6,8 @@ import Api from 'API/index';
 import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
-import Github from 'COMPONENTS/Github';
+// import Github from 'COMPONENTS/Github';
+import GithubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
 import USER from 'SRC/data/user';
@@ -21,12 +22,12 @@ const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
 
-let GithubSection = null;
-const getGithubSection = (options) => {
-  if (GithubSection) return GithubSection;
-  GithubSection = Github(options);
-  return GithubSection;
-};
+// let GithubSection = null;
+// const getGithubSection = (options) => {
+//   if (GithubSection) return GithubSection;
+//   GithubSection = Github(options);
+//   return GithubSection;
+// };
 
 class GithubComponent extends React.Component {
   constructor(props) {
@@ -52,26 +53,21 @@ class GithubComponent extends React.Component {
 
   componentDidMount() {
     const { login } = this.props;
-    const { repos, loaded } = this.state;
-    this.getGithubInfo(login);
-    if (!repos.length) {
-      this.getGithubRepos(login);
+    this.getGithubUser(login);
+  }
+
+  componentDidUpdate(preProps, preState) {
+    const { user, loaded, repos } = this.state;
+    if (!preState.user.login && user.login) {
+      !repos.length && this.getGithubRepos(user.login);
     }
-    this.gitGithubSections(login);
   }
 
   changeState(newState) {
     this.setState(newState);
   }
 
-  async gitGithubSections(login = '') {
-    const sections = await Api.user.getSections(login);
-    this.setState({
-      sections
-    });
-  }
-
-  async getGithubInfo(login = '') {
+  async getGithubUser(login = '') {
     const user = await Api.github.getUser(login);
     this.changeState({ user });
     this.toggleLoading(false);
@@ -79,7 +75,6 @@ class GithubComponent extends React.Component {
 
   async getGithubRepos(login = '') {
     const result = await Api.github.getRepos(login);
-    const { repos, commits } = result;
     this.setGithubRepos(result);
   }
 
@@ -154,10 +149,10 @@ class GithubComponent extends React.Component {
     const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
-    const GithubSection = getGithubSection({
-      isShare,
-      callback: this.changeGithubSection
-    });
+    // const GithubSection = getGithubSection({
+    //   isShare,
+    //   callback: this.changeGithubSection
+    // });
 
     return (
       <div className={containerStyle}>
@@ -171,6 +166,8 @@ class GithubComponent extends React.Component {
           sectionStatus={sections["hotmap"]}
           hide={this.hideSection("hotmap")}
           disabled={this.disabledSection("hotmap")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
         />
         <GithubSection
           user={user}
@@ -183,6 +180,8 @@ class GithubComponent extends React.Component {
           sectionStatus={sections["info"]}
           hide={this.hideSection("info")}
           disabled={this.disabledSection("info")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
         />
         <GithubSection
           loaded={loaded}
@@ -204,9 +203,11 @@ class GithubComponent extends React.Component {
             icon: 'question-circle',
             text: '暂未统计组织内/ fork 的项目信息，敬请期待'
           }}
+          isShare={isShare}
+          callback={this.changeGithubSection}
         />
         <GithubSection
-          userLogin={this.props.login}
+          userLogin={user.login}
           title={{
             text: githubTexts.orgs.title,
             icon: 'rocket'
@@ -220,6 +221,8 @@ class GithubComponent extends React.Component {
             icon: 'question-circle',
             text: '只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据'
           }}
+          isShare={isShare}
+          callback={this.changeGithubSection}
         />
         <GithubSection
           repos={repos}
@@ -238,6 +241,8 @@ class GithubComponent extends React.Component {
           sectionStatus={sections["languages"]}
           hide={this.hideSection("languages")}
           disabled={this.disabledSection("languages")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
         />
         <GithubSection
           loaded={loaded}
@@ -254,6 +259,8 @@ class GithubComponent extends React.Component {
           sectionStatus={sections["commits"]}
           hide={this.hideSection("commits")}
           disabled={this.disabledSection("commits")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
         />
         {openShareModal ? (
           <ShareModal

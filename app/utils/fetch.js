@@ -1,23 +1,24 @@
 import request from 'request';
+import config from 'config';
 
-const retryTimes = [3000, 3000, 3000];
+const retryTimes = config.get('services.api.timeouts');
 
-const fetchData = (options, parse = false) => {
+const fetchData = (options, parse = true) => {
   return new Promise((resolve, reject) => {
     request(options, (err, httpResponse, body) => {
       if (err) {
-        reject(false);
+        reject(err);
       }
       if (body) {
-        const result = parse ? JSON.parse(body) : body;
-        resolve(result);
+        const results = JSON.parse(body);
+        resolve(results.success ? results.result : false);
       }
-      reject(false);
+      reject(err);
     });
   });
 };
 
-const fetch = async (options, parse = false, timeout = retryTimes) => {
+const fetch = async (options, parse = true, timeout = retryTimes) => {
   let err = null;
   for (let i = 0; i < timeout.length; i++) {
     try {

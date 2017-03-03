@@ -35,8 +35,6 @@ router.get('/login',
 
 // API
 router.get('/login/github', User.githubLogin);
-router.post('/login', User.login);
-router.post('/signup', User.signup);
 router.get('/logout', User.logout);
 
 // github sections

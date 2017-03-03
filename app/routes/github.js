@@ -24,33 +24,32 @@ router.get(
 // repos
 router.get(
   '/repos',
-  user.checkSession(session.requiredSessions),
   cache.get('repos', {
     session: ['githubLogin']
   }),
   Github.getUserRepos,
   cache.set()
 );
+// orgs
 router.get(
-  '/shareData',
+  '/orgs',
+  cache.get('orgs', {
+    session: ['githubLogin']
+  }),
+  Github.getUserOrgs,
+  cache.set()
+);
+router.get(
+  '/shareRecords',
   user.checkSession(['userId', 'githubLogin']),
-  Github.getStareData
+  Github.getStareRecords
 );
 router.get(
   '/updateTime',
   user.checkSession(['userId', 'githubLogin']),
   Github.getUpdateTime
 );
-// orgs
-router.get(
-  '/orgs',
-  // user.checkSession(session.requiredSessions),
-  // cache.get('orgs', {
-  //   session: ['githubLogin']
-  // }),
-  Github.getUserOrgs,
-  // cache.set()
-);
+
 // refresh github datas
 router.get(
   '/refresh',
@@ -58,11 +57,7 @@ router.get(
   Github.refreshDatas,
   cache.del()
 );
-router.get(
-  '/repos/:reposName',
-  user.checkSession(session.requiredSessions),
-  Github.getRepository
-);
+
 router.get(
   '/user',
   user.checkSession(['userId']),
@@ -72,25 +67,13 @@ router.get(
   Github.getUser,
   cache.set()
 );
+
 router.post(
   '/user/toggleShare',
   user.checkSession(['userId', 'githubLogin']),
   Github.toggleShare,
 );
-router.get(
-  '/repos/commits',
-  user.checkSession(session.requiredSessions),
-  cache.get('commits', {
-    session: ['githubLogin']
-  }),
-  Github.getReposCommits,
-  cache.set()
-);
-router.get(
-  '/repos/:reposName/commits',
-  user.checkSession(session.requiredSessions),
-  Github.getRepositoryCommits
-);
+
 router.get(
   '/:login',
   platform.checkPlatform,
@@ -98,21 +81,14 @@ router.get(
   Github.sharePage
 );
 router.get(
-  '/:login/share',
+  '/:login/user',
   cache.get('sharedUser', {
     params: ['login']
   }),
   Github.getSharedUser,
   cache.set()
 );
-router.get(
-  '/:login/shareInfo',
-  cache.get('sharedInfo', {
-    params: ['login']
-  }),
-  Github.getStareInfo,
-  cache.set()
-);
+
 
 
 module.exports = router;
