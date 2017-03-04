@@ -25,8 +25,7 @@ router.get(
 router.get(
   '/repos',
   cache.get('repos', {
-    query: ['login'],
-    session: ['githubLogin']
+    keys: ['query.login', 'session.githubLogin']
   }),
   GitHub.getUserRepos,
   cache.set()
@@ -35,8 +34,7 @@ router.get(
 router.get(
   '/orgs',
   cache.get('orgs', {
-    query: ['login'],
-    session: ['githubLogin']
+    keys: ['query.login', 'session.githubLogin']
   }),
   GitHub.getUserOrgs,
   cache.set()

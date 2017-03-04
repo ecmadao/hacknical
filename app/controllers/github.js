@@ -182,11 +182,10 @@ const refreshDatas = async (ctx, next) => {
     cacheKey('repos', {
       session: ['githubLogin']
     }),
-    cacheKey('user', {
+    cacheKey('orgs', {
       session: ['githubLogin']
     }),
-    cacheKey(`sharedUser.${githubLogin}`),
-    cacheKey(`sharedInfo.${githubLogin}`)
+    cacheKey(`sharedUser.${githubLogin}`)
   ];
 
   ctx.body = {
