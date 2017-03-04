@@ -59,6 +59,7 @@ class GithubComponent extends React.Component {
   componentDidUpdate(preProps, preState) {
     const { user, loaded, repos } = this.state;
     if (!preState.user.login && user.login) {
+      this.getGithubSections(user.login);
       !repos.length && this.getGithubRepos(user.login);
     }
   }
@@ -76,6 +77,11 @@ class GithubComponent extends React.Component {
   async getGithubRepos(login = '') {
     const result = await Api.github.getRepos(login);
     this.setGithubRepos(result);
+  }
+
+  async getGithubSections(login = '') {
+    const sections = await Api.user.getSections(login);
+    this.changeState({ sections });
   }
 
   setGithubRepos(result) {
