@@ -1,5 +1,5 @@
 import koaRouter from 'koa-router';
-import Github from '../controllers/github';
+import GitHub from '../controllers/github';
 import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
 import session from '../controllers/helper/session';
@@ -14,11 +14,11 @@ const router = koaRouter({
 // zen & octocat
 router.get(
   '/zen',
-  Github.getZen
+  GitHub.getZen
 );
 router.get(
   '/octocat',
-  Github.getOctocat
+  GitHub.getOctocat
 );
 
 // repos
@@ -28,7 +28,7 @@ router.get(
     query: ['login'],
     session: ['githubLogin']
   }),
-  Github.getUserRepos,
+  GitHub.getUserRepos,
   cache.set()
 );
 // orgs
@@ -38,56 +38,52 @@ router.get(
     query: ['login'],
     session: ['githubLogin']
   }),
-  Github.getUserOrgs,
+  GitHub.getUserOrgs,
   cache.set()
 );
 router.get(
   '/share/records',
   user.checkSession(['userId', 'githubLogin']),
-  Github.getStareRecords
+  GitHub.getStareRecords
 );
 router.get(
   '/updateTime',
   user.checkSession(['userId', 'githubLogin']),
-  Github.getUpdateTime
+  GitHub.getUpdateTime
 );
 
 // refresh github datas
 router.get(
   '/refresh',
   user.checkSession(['userId', 'githubLogin']),
-  Github.refreshDatas,
+  GitHub.refreshDatas,
   cache.del()
 );
 
 router.get(
   '/user',
   user.checkSession(['userId']),
-  cache.get('user', {
-    session: ['githubLogin']
-  }),
-  Github.getUser,
-  cache.set()
+  GitHub.getUser
 );
 
 router.post(
   '/share/status',
   user.checkSession(['userId', 'githubLogin']),
-  Github.toggleShare,
+  GitHub.toggleShare,
 );
 
 router.get(
   '/:login',
   platform.checkPlatform,
   analyse.collect,
-  Github.sharePage
+  GitHub.sharePage
 );
 router.get(
   '/:login/user',
   cache.get('sharedUser', {
     params: ['login']
   }),
-  Github.getSharedUser,
+  GitHub.getSharedUser,
   cache.set()
 );
 

@@ -61,21 +61,24 @@ const getUserOrgs = async (ctx, next) => {
       orgs
     }
   };
+  await next();
 };
 
 const getSharedUser = async (ctx, next) => {
   const { login } = ctx.params;
   const user = await Api.getUser(login);
   if (user) {
-    return ctx.body = {
+    ctx.body = {
       success: true,
       result: user
     };
+  } else {
+    ctx.body = {
+      success: true,
+      error: ctx.__("messages.error.findUser")
+    };
   }
-  ctx.body = {
-    success: true,
-    error: ctx.__("messages.error.findUser")
-  };
+  await next();
 };
 
 const sharePage = async (ctx, next) => {
