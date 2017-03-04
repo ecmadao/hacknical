@@ -42,7 +42,7 @@ router.get(
   cache.set()
 );
 router.get(
-  '/shareRecords',
+  '/share/records',
   user.checkSession(['userId', 'githubLogin']),
   Github.getStareRecords
 );
@@ -71,7 +71,7 @@ router.get(
 );
 
 router.post(
-  '/user/toggleShare',
+  '/share/status',
   user.checkSession(['userId', 'githubLogin']),
   Github.toggleShare,
 );

@@ -20,25 +20,24 @@ router.post('/edit',
 );
 
 
-router.get('/status',
+router.get('/share',
   Resume.getResumeStatus
 );
-router.post('/shareStatus',
+router.get('/share/records',
+  user.checkSession(session.requiredSessions),
+  Resume.getShareRecords
+);
+router.post('/share/status',
   user.checkSession(session.requiredSessions),
   Resume.setResumeShareStatus
 );
-router.post('/githubStatus',
+router.post('/share/github',
   user.checkSession(session.requiredSessions),
   Resume.setResumeGithubStatus
 );
-router.post('/githubSection',
+router.post('/github/section',
   user.checkSession(session.requiredSessions),
   Resume.setGithubShareSection
-);
-
-router.get('/shareRecords',
-  user.checkSession(session.requiredSessions),
-  Resume.getShareRecords
 );
 
 

@@ -18,10 +18,10 @@ const getUser = (login = '') => {
 };
 
 /* toggle user github share */
-const toggleShare = (enable) => postInfo('/user/toggleShare', { enable });
+const toggleShare = (enable) => postInfo('/share/status', { enable });
 
 /* get github share records */
-const getShareRecords = () => fetchInfo(`/shareRecords`);
+const getShareRecords = () => fetchInfo(`/share/records`);
 
 const getUpdateTime = () => fetchInfo('/updateTime');
 
