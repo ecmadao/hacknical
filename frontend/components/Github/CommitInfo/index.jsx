@@ -88,7 +88,7 @@ class CommitInfo extends React.Component {
               return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
             },
             label: (item, data) => {
-              return `当周提交数：${item.yLabel}`
+              return `${item.yLabel} commits this week`
             }
           }
         }
@@ -100,7 +100,7 @@ class CommitInfo extends React.Component {
     const commits = [...dailyCommits.slice(1)];
     commits.push(dailyCommits[0]);
     const days = DAYS.slice(1);
-    days.push(DAYS[0])
+    days.push(DAYS[0]);
     const commitsChart = ReactDOM.findDOMNode(this.commitsWeeklyChart);
     this.commitsWeeklyReviewChart = new Chart(commitsChart, {
       type: 'line',
@@ -130,7 +130,7 @@ class CommitInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `总提交数 ${item.yLabel}，平均每周${item.xLabel.slice(-1)}提交 ${(item.yLabel / 52).toFixed(2)} 次`
+              return `${item.yLabel} commits totally`
             }
           }
         }
@@ -190,21 +190,27 @@ class CommitInfo extends React.Component {
   }
 
   render() {
-    const { hasCommits, loaded } = this.props;
-    if (loaded && !hasCommits) {
-      return (<div></div>)
+    const { hasCommits, loaded, className } = this.props;
+    let component;
+    if (!loaded) {
+      component = (<Loading />);
+    } else {
+      if (!hasCommits) {
+        component = (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>);
+      } else {
+        component = this.renderCommitsReview();
+      }
     }
     return (
-      <div className={cardStyles["info_card_container"]}>
-        <p><i aria-hidden="true" className="fa fa-git"></i>&nbsp;&nbsp;{githubTexts.title}</p>
-        <div className={cardStyles["info_card"]}>
-          { !hasCommits ? (
-            <Loading />
-          ) : this.renderCommitsReview()}
-        </div>
+      <div className={cx(cardStyles["info_card"], className)}>
+        {component}
       </div>
     )
   }
 }
+
+CommitInfo.defaultProps = {
+  className: ''
+};
 
 export default CommitInfo;

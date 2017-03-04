@@ -27,6 +27,9 @@ import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 import styles from '../styles/share.css';
 import sharedStyles from '../../shared/styles/mobile.css';
+import locales from 'LOCALES';
+
+const githubTexts = locales('github').sections;
 
 const ReposInfo = (props) => {
   const { mainText, subText, style, icon } = props;
@@ -68,7 +71,7 @@ class MobileShare extends React.Component {
 
   componentDidMount() {
     const { login } = this.props;
-    Api.github.getShareInfo(login).then((result) => {
+    Api.github.getRepos(login).then((result) => {
       const { repos, commits } = result;
       this.setState({
         commits,
@@ -181,7 +184,7 @@ class MobileShare extends React.Component {
               return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
             },
             label: (item, data) => {
-              return `当周提交数：${item.yLabel}`
+              return `${item.yLabel} commits this week`
             }
           }
         }
@@ -214,7 +217,7 @@ class MobileShare extends React.Component {
       options: {
         title: {
           display: true,
-          text: '语言 & 获得 star 数'
+          text: githubTexts.languages.starChart.title
         },
         legend: {
           display: false,
@@ -293,24 +296,24 @@ class MobileShare extends React.Component {
         <div className={sharedStyles["info_with_chart"]}>
           <ChartInfo
             mainText={parseInt(total / 52, 10)}
-            subText="平均每周提交次数"
+            subText={githubTexts.commits.averageCount}
             mainTextStyle={sharedStyles["main_text"]}
           />
           <ChartInfo
             mainText={totalCommits}
-            subText="单个仓库最多提交数"
+            subText={githubTexts.commits.maxCommitCount}
             mainTextStyle={sharedStyles["main_text"]}
           />
         </div>
         <div className={sharedStyles["info_wrapper"]}>
           <ChartInfo
             mainText={dayName}
-            subText="是你提交最多的日子"
+            subText={githubTexts.commits.maxDay}
             mainTextStyle={sharedStyles["main_text"]}
           />
           <ChartInfo
             mainText={firstCommitDate}
-            subText="过去一年第一次提交代码"
+            subText={githubTexts.commits.firstCommit}
             mainTextStyle={sharedStyles["main_text"]}
           />
         </div>
@@ -337,7 +340,7 @@ class MobileShare extends React.Component {
             <ReposInfo
               icon="star-o"
               mainText={totalStar}
-              subText="收获 star 数"
+              subText={githubTexts.repos.starsCount}
               style={styles["chart_info_card"]}
             />
           </div>
@@ -345,7 +348,7 @@ class MobileShare extends React.Component {
             <ReposInfo
               icon="code-fork"
               mainText={totalFork}
-              subText="收获 fork 数"
+              subText={githubTexts.repos.forksCount}
               style={styles["chart_info_card"]}
             />
           </div>
@@ -353,7 +356,7 @@ class MobileShare extends React.Component {
             <ReposInfo
               icon="cubes"
               mainText={yearlyRepos.length}
-              subText="创建的仓库数"
+              subText={githubTexts.repos.reposCount}
               style={styles["chart_info_card"]}
             />
           </div>
@@ -361,7 +364,7 @@ class MobileShare extends React.Component {
             <ReposInfo
               icon="cube"
               mainText={maxStaredRepos}
-              subText="最受欢迎的仓库"
+              subText={githubTexts.repos.popularestRepos}
               style={styles["chart_info_card"]}
             />
           </div>
@@ -369,7 +372,7 @@ class MobileShare extends React.Component {
             <ReposInfo
               icon="star"
               mainText={maxStaredPerRepos}
-              subText="单个仓库最多 star 数"
+              subText={githubTexts.repos.maxStarPerRepos}
               style={styles["chart_info_card"]}
             />
           </div>
@@ -495,7 +498,7 @@ class MobileShare extends React.Component {
                 {loaded ? this.renderLanguageLines() : ''}
               </div>
               <div className={styles["repos_yAxes"]}>
-                <div className={styles["yAxes_text"]}>使用频次</div>
+                <div className={styles["yAxes_text"]}>{githubTexts.languages.frequency}</div>
               </div>
             </div>
           </div>
@@ -506,12 +509,12 @@ class MobileShare extends React.Component {
             <ChartInfo
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
-              subText="拥有最多的仓库"
+              subText={githubTexts.languages.maxReposCountLanguage}
             />
             <ChartInfo
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageSkills)[maxStarCountIndex]}
-              subText="拥有最多的 star"
+              subText={githubTexts.languages.maxStarLanguage}
             />
           </div>
           <div

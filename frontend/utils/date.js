@@ -1,5 +1,20 @@
 import moment from 'moment';
-moment.locale('zh-cn');
+
+const validateLocale = () => {
+  const locale = window.locale || 'en';
+  if (/^en/.test(locale)) {
+    return 'en';
+  }
+  if (/^fr/.test(locale)) {
+    return 'fr-FR';
+  }
+  if (/^zh/.test(locale)) {
+    return 'zh-CN';
+  }
+  return 'en';
+};
+
+moment.locale(validateLocale());
 
 const formatDate = (format) => (date) => moment(date).format(format);
 const getSeconds = (date) => parseInt(formatDate('X')(date));

@@ -18,14 +18,14 @@ const {
 
 // github
 const fetchGithubShareData = () => (dispatch, getState) => {
-  Api.github.getShareData().then((result) => {
+  Api.github.getShareRecords().then((result) => {
     dispatch(initialGithubShareData(result));
   });
 };
 
 // resume
 const fetchResumeShareData = () => (dispatch, getState) => {
-  Api.resume.getShareData().then((result) => {
+  Api.resume.getShareRecords().then((result) => {
     dispatch(initialResumeShareData(result));
   });
 };

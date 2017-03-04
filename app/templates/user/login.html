@@ -7,13 +7,17 @@
 {% block body %}
 <div id="login" class="login-main">
   <div class="topbar">
-    <a href="/user/login?locale={{ languageId }}">
-      {{ languageText }}
-    </a>
+    <div class="topbar-selector">
+      {% for item in locales %}
+        <a href="/user/login?locale={{ item.id }}">
+          {{ item.text }}
+        </a>
+      {% endfor %}
+    </div>
     <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}">
       {{ login }}
     </a>
-    <a href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-{{ languageId }}.md" target="_blank">
+    <a href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-{{ locale }}.md" target="_blank">
       {{ about }}
     </a>
   </div>

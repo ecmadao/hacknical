@@ -8,16 +8,22 @@ class Operations extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showOperations: false
+      showOperations: props.showOperations || false
     };
     this.showOperationMenu = this.showOperationMenu.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   showOperationMenu() {
+    this.changeOperationStatus(true);
+  }
+
+  changeOperationStatus(status) {
     this.setState({
-      showOperations: true
+      showOperations: status
     });
+    const { onFocusChange } = this.props;
+    onFocusChange && onFocusChange(status);
   }
 
   componentDidMount() {
@@ -36,15 +42,20 @@ class Operations extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const { showOperations } = this.props;
+    if (showOperations !== this.state.showOperations) {
+      this.setState({ showOperations })
+    }
+  }
+
   handleOutsideClick(e) {
     e = e || window.event;
     const mouseTarget = (typeof e.which !== "undefined") ? e.which : e.button;
     const menu = ReactDOM.findDOMNode(this.operationMenu);
     const isDescendantOfRoot = menu && menu.contains(e.target);
     if (!isDescendantOfRoot) {
-      this.setState({
-        showOperations: false
-      });
+      this.changeOperationStatus(false);
     }
   }
 
@@ -62,16 +73,22 @@ class Operations extends React.Component {
 
   render() {
     const { showOperations } = this.state;
+    const { className } = this.props;
+
+    const containerClass = cx(
+      styles["operations_container"],
+      className
+    );
     const moreIconClass = cx(
       styles["operations_more"],
       showOperations && styles["active"]
     );
     const menuClass = cx(
       styles["operations_menu"],
-      showOperations && styles["active"]
+      showOperations && styles["operations_menu_active"]
     );
     return (
-      <div className={styles["operations_container"]}>
+      <div className={containerClass}>
         <div
           className={moreIconClass}
           onClick={this.showOperationMenu}>
@@ -91,10 +108,14 @@ class Operations extends React.Component {
 
 Operations.propTypes = {
   items: PropTypes.array,
+  className: PropTypes.string,
+  onFocusChange: PropTypes.func
 };
 
 Operations.defaultProps = {
-  items: []
+  items: [],
+  className: '',
+  onFocusChange: () => {}
 };
 
 export default Operations;

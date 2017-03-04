@@ -75,7 +75,7 @@ class LanguageInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: githubTexts.usageChartTitle
+          text: githubTexts.usageChart.title
         },
         legend: {
           display: false,
@@ -83,7 +83,7 @@ class LanguageInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `占比：${(item.yLabel * 100).toFixed(2)}%`
+              return `${githubTexts.usageChart.label}${(item.yLabel * 100).toFixed(2)}%`
             }
           }
         }
@@ -116,7 +116,7 @@ class LanguageInfo extends React.Component {
       options: {
         title: {
           display: true,
-          text: githubTexts.starChartTitle
+          text: githubTexts.starChart.title
         },
         legend: {
           display: false,
@@ -124,7 +124,7 @@ class LanguageInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `与该语言相关 star 数：${item.yLabel}`
+              return `${githubTexts.starChart.label}${item.yLabel}`
             }
           }
         }
@@ -137,21 +137,6 @@ class LanguageInfo extends React.Component {
       <div></div>
     )
   }
-
-  // get operationItems() {
-  //   const { actions } = this.props;
-  //   return [
-  //     {
-  //       text: '更改仓库',
-  //       icon: 'gears',
-  //       onClick: () => actions.toggleModal(true)
-  //     },
-  //     {
-  //       text: '不在简历中展示',
-  //       onClick: () => {}
-  //     }
-  //   ]
-  // }
 
   renderShowRepos() {
     const { repos } = this.props;
@@ -276,26 +261,24 @@ class LanguageInfo extends React.Component {
         </div>
         {this.renderLanguagesLabel()}
         { showLanguage ? this.renderShowRepos() : ''}
-        {/* <Operations
-          items={this.operationItems}
-        /> */}
       </div>
     )
   }
 
   render() {
-    const { loaded } = this.props;
+    const { loaded, className } = this.props;
     return (
-      <div className={cx(cardStyles["info_card_container"], githubStyles["chart_card_container"])}>
-        <p><i aria-hidden="true" className="fa fa-code"></i>&nbsp;&nbsp;{githubTexts.title}</p>
-        <div className={cardStyles["info_card"]}>
-          { !loaded ? (
-            <Loading />
-          ) : this.renderLanguageReview()}
-        </div>
+      <div className={cx(cardStyles["info_card"], className)}>
+        { !loaded ? (
+          <Loading />
+        ) : this.renderLanguageReview()}
       </div>
     )
   }
 }
+
+LanguageInfo.defaultProps = {
+  className: ''
+};
 
 export default LanguageInfo;

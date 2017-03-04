@@ -2,22 +2,14 @@ const datas = {
   tabs: {
     profile: '用户信息',
     resume: '简历',
-    github: 'github',
+    github: 'GitHub',
     setting: '设置'
   },
   headers: {
-    zen: 'github 之禅',
+    zen: 'GitHub 之禅',
     about: '关于网站',
     feedback: '意见反馈',
     logout: '退出登录'
-  },
-  resume: {
-    buttons: {
-      save: '保存',
-      preview: '预览',
-      pre: '上一步',
-      next: '下一步'
-    }
   },
   profile: {
     resume: {
@@ -25,11 +17,12 @@ const datas = {
       shareText: '扫码分享个人简历'
     },
     github: {
-      title: 'github 分享数据',
-      shareText: '扫码分享 github 报告'
+      title: 'GitHub 分享数据',
+      shareText: '扫码分享 GitHub 报告'
     },
     common: {
       pv: '总 PV',
+      maxPvPerHour: '一小时内最大 PV',
       platform: '使用最多的平台',
       browser: '使用最多的浏览器',
       platformChartTitle: '浏览量来源平台',
@@ -39,17 +32,18 @@ const datas = {
   },
   setting: {
     github: {
-      title: 'github 相关设置',
-      openShare: '开启 github 总结的分享',
-      lastUpdate: '最近更新时间：',
+      title: 'GitHub 相关设置',
+      openShare: '开启 GitHub 总结的分享',
+      lastUpdate: '最近更新时间',
       updateButtonText: '更新数据'
     },
     resume: {
       title: '简历相关设置',
       openShare: '开启简历的分享',
-      useGithub: '在简历中附加我的 github 分析报告',
+      useGithub: '在简历中附加我的 GitHub 分析报告',
       showHotmap: '展示 提交信息热点图',
       showRepos: '展示 仓库概览',
+      showOrgs: '展示 组织信息',
       showLanguages: '展示 语言概览',
       showCommits: '展示 commit 概览'
     }

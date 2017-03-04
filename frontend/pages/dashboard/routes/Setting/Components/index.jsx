@@ -35,9 +35,9 @@ const CheckPane = (props) => {
     <div
       onClick={() => onChange(!checked)}
       className={cx(
-      styles['info_container_large'],
-      styles['check_info_container']
-    )}>
+        styles['info_container_large'],
+        styles['check_info_container']
+      )}>
       <div className={styles.info}>
         {text}
       </div>
@@ -56,9 +56,64 @@ class Setting extends React.Component {
     githubInfo && githubInfo.loading && actions.fetchGithubShareInfo();
   }
 
+  renderGithubShareSectionsSetting() {
+    const { resumeInfo, actions } = this.props;
+    const shareSection = (section) => (checked) => actions.postResumeShareSection(section, checked);
+
+    if (resumeInfo.useGithub && resumeInfo.github) {
+      return (
+        <div className={styles['info_container_wrapper']}>
+          <CheckPane
+            text={settingTexts.resume.showHotmap}
+            checked={resumeInfo.github.hotmap}
+            onChange={shareSection('hotmap')}
+          />
+          <CheckPane
+            text={settingTexts.resume.showRepos}
+            checked={resumeInfo.github.repos}
+            onChange={shareSection('repos')}
+          />
+          <CheckPane
+            text={settingTexts.resume.showOrgs}
+            checked={resumeInfo.github.orgs}
+            onChange={shareSection('orgs')}
+          />
+          <CheckPane
+            text={settingTexts.resume.showLanguages}
+            checked={resumeInfo.github.languages}
+            onChange={shareSection('languages')}
+          />
+          <CheckPane
+            text={settingTexts.resume.showCommits}
+            checked={resumeInfo.github.commits}
+            onChange={shareSection('commits')}
+          />
+        </div>
+      )
+    }
+  }
+
+  renderResumeGithubSetting() {
+    const { resumeInfo, actions } = this.props;
+    const resumeInfoLoading = resumeInfo && resumeInfo.loading;
+
+    if (resumeInfo && resumeInfo.openShare) {
+      return (
+        <div className={styles['base_container']}>
+          <SwitcherPane
+            id='use-github-switch'
+            text={settingTexts.resume.useGithub}
+            onChange={resumeInfoLoading ? () => {} : actions.postResumeGithubStatus}
+            checked={(resumeInfo && resumeInfo.useGithub) || false}
+          />
+          {this.renderGithubShareSectionsSetting()}
+        </div>
+      )
+    }
+  }
+
   render() {
     const { loading, updateTime, actions, resumeInfo, githubInfo } = this.props;
-    const shareSection = (section) => (checked) => actions.postResumeShareSection(section, checked);
 
     const resumeInfoLoading = resumeInfo && resumeInfo.loading;
 
@@ -83,7 +138,7 @@ class Setting extends React.Component {
               ) : ''}
               <div className={styles['info_container']}>
                 <div className={styles.info}>
-                  {settingTexts.github.lastUpdate}{updateTime}
+                  {settingTexts.github.lastUpdate}: {updateTime}
                 </div>
                 <Button
                   value={settingTexts.github.updateButtonText}
@@ -100,7 +155,7 @@ class Setting extends React.Component {
             {!resumeInfo ? (
               <BaseModal className={styles['info_loading']} showModal={true} />
             ) : ''}
-            {(resumeInfoLoading) ? (
+            {resumeInfoLoading ? (
               <Loading className={styles['info_loading']} />
             ) : (
               <div className={styles['info_container_wrapper']}>
@@ -110,36 +165,7 @@ class Setting extends React.Component {
                   onChange={resumeInfoLoading ? () => {} : actions.postResumeShareStatus}
                   checked={(resumeInfo && resumeInfo.openShare) || false}
                 />
-                <SwitcherPane
-                  id='use-github-switch'
-                  text={settingTexts.resume.useGithub}
-                  onChange={resumeInfoLoading ? () => {} : actions.postResumeGithubStatus}
-                  checked={(resumeInfo && resumeInfo.useGithub) || false}
-                />
-                {resumeInfo && resumeInfo.useGithub && resumeInfo.github ? (
-                  <div className={styles['info_container_wrapper']}>
-                    <CheckPane
-                      text={settingTexts.resume.showHotmap}
-                      checked={resumeInfo.github.hotmap}
-                      onChange={shareSection('hotmap')}
-                    />
-                    <CheckPane
-                      text={settingTexts.resume.showRepos}
-                      checked={resumeInfo.github.repos}
-                      onChange={shareSection('repos')}
-                    />
-                    <CheckPane
-                      text={settingTexts.resume.showLanguages}
-                      checked={resumeInfo.github.languages}
-                      onChange={shareSection('languages')}
-                    />
-                    <CheckPane
-                      text={settingTexts.resume.showCommits}
-                      checked={resumeInfo.github.commits}
-                      onChange={shareSection('commits')}
-                    />
-                  </div>
-                ) : ''}
+                {this.renderResumeGithubSetting()}
               </div>
             )}
           </div>

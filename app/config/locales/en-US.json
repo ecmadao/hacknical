@@ -1,43 +1,61 @@
 {
   "language": {
-    "text": "中文",
-    "id": "zh-CN"
+    "text": "En",
+    "id": "en"
   },
+  "description": "Hacknical - A website for GitHub user to make a better resume.",
+  "keywords": "GitHub, GitHub-Contributions, GitHub-Analysis, Resume, Resume-Template, Data-Analysis",
   "loginPage": {
-    "title": "hacknical | make a better resume",
-    "login": "login",
-    "about": "about",
-    "loginText": "use github data to make a better resume"
+    "title": "Hacknical | Make a better resume",
+    "login": "Login",
+    "about": "About",
+    "loginText": "Use GitHub Data To Make A Better Resume"
   },
-  "languages": {},
   "errorPage": {
-    "title": "hacknical | not found",
+    "title": "Hacknical | not found",
     "404": "404 not found.",
     "text": "WTF? YOU ARE IN THE NO-MANS LAND",
-		"redirectText": "s later go back to home"
+	  "redirectText": "Going back home in a few seconds"
   },
   "dashboard": {
-    "title": "hacknical | %s"
+    "title": "Hacknical | %s"
   },
   "sharePage": {
-    "github": "%s 's github summary | hacknical",
-    "joinAt": "joined at"
+    "github": "%s's GitHub summary | Hacknical",
+    "joinAt": "Joined at"
+  },
+  "resumePage": {
+    "title": "%s's resume | Hacknical"
   },
   "mobilePage": {
-    "setting": "setting",
-    "analysis": "share record"
+    "setting": "Setting",
+    "analysis": "Share records",
+    "menu": {
+      "shareDatas": "Share Records",
+      "githubAnalysis": "GitHub Analysis",
+      "dataRefresh": "Settings",
+      "logout": "Logout"
+    }
   },
   "messages": {
     "error": {
-      "findUser": "find user failed",
-      "frequent": "too frequent, please try %s minutes later",
-      "update": "update failed"
+      "findUser": "Find user failed",
+      "frequent": "Too many attempts, please retry later",
+      "update": "Update failed"
+    },
+    "success": {
+      "save": "Save succeeded",
+      "update": "Update succeeded. Please refresh to check."
     },
     "share": {
-      "text": "click to see your github data analysis",
-      "mobileText": "",
-      "toggleOpen": "share opened",
-      "toggleClose": "share closed"
-    }
+      "text": "Wanna check your GitHub data analysis visually?",
+      "mobileText": "Check your GitHub data analysis",
+      "toggleOpen": "Share enabled",
+      "toggleClose": "Share disabled"
+    },
+    "resume": {
+      "linkGithub": "Resume linked with GitHub",
+      "unlinkGithub": "Resume unlinked with GitHub"
+	  }
   }
 }

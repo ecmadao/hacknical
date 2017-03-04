@@ -13,23 +13,23 @@ const getPubResume = (hash) => {
 };
 
 const getPubResumeStatus = () => {
-  return getData(`/resume/status`);
+  return getData(`/resume/share`);
 };
 
 const postPubResumeShareStatus = (enable) => {
-  return postData(`/resume/shareStatus`, { enable });
+  return postData(`/resume/share/status`, { enable });
 };
 
 const postPubResumeGithubStatus = (enable) => {
-  return postData(`/resume/githubStatus`, { enable });
+  return postData(`/resume/share/github`, { enable });
 };
 
 const postPubResumeGithubSection = (option) => {
-  return postData(`/resume/githubSection`, option);
+  return postData(`/resume/github/section`, option);
 };
 
-const getShareData = () => {
-  return getData('/resume/shareData');
+const getShareRecords = () => {
+  return getData('/resume/share/records');
 };
 
 export default {
@@ -40,5 +40,5 @@ export default {
   postPubResumeShareStatus,
   postPubResumeGithubStatus,
   postPubResumeGithubSection,
-  getShareData
+  getShareRecords
 }

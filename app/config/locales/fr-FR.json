@@ -1,0 +1,61 @@
+{
+  "language": {
+    "text": "Fr",
+    "id": "fr"
+  },
+  "description": "Hacknical - Une plateforme destinée aux utilisateurs GitHub afin de promouvoir un CV plus adapté.",
+  "keywords": "GitHub, GitHub-Contributions, GitHub-Analyse, Curriculum Vitae, CV",
+  "loginPage": {
+    "title": "Hacknical | Un meilleur CV",
+    "login": "Se connecter",
+    "about": "À propos",
+    "loginText": "Utilisez les données de GitHub afin de proposer un meilleur CV"
+  },
+  "errorPage": {
+    "title": "Hacknical | page introuvable",
+    "404": "404 introuvable.",
+    "text": "WTF? ÊTES-VOUS PERDU?",
+	  "redirectText": "Retour à l'accueil dans quelques secondes"
+  },
+  "dashboard": {
+    "title": "Hacknical | %s"
+  },
+  "sharePage": {
+    "github": "%s's GitHub résumé | Hacknical",
+    "joinAt": "À rejoint le"
+  },
+  "resumePage": {
+    "title": "%s's résumé | Hacknical"
+  },
+  "mobilePage": {
+    "setting": "Paramètres",
+    "analysis": "Partager les résultats",
+    "menu": {
+      "shareDatas": "Partager les données",
+      "githubAnalysis": "Analyse GitHub",
+      "dataRefresh": "Paramètres",
+      "logout": "Se déconnecter"
+    }
+  },
+  "messages": {
+    "error": {
+      "findUser": "Recherche d'utilisateur échouée",
+      "frequent": "Trop de tentatives, merci de patienter %s minutes",
+      "update": "Mise à jour échouée"
+    },
+    "success": {
+      "save": "Sauvegarde réussie",
+      "update": "Mise à jour réussie. Merci de rafraichir la page pour vérifier."
+    },
+    "share": {
+      "text": "Souhaitez-vous visualiser vos données GitHub ?",
+      "mobileText": "Vérifier votre analyse de données GitHub",
+      "toggleOpen": "Partage activé",
+      "toggleClose": "Partage désactivé"
+    },
+    "resume": {
+      "linkGithub": "CV associé avec GitHub",
+      "unlinkGithub": "CV dissocié de GitHub"
+	  }
+  }
+}

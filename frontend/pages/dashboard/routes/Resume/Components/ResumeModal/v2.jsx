@@ -28,7 +28,10 @@ class ResumeModalV2 extends React.Component {
         showModal={openModal}
         onClose={onClose}>
         <div className={styles["modal_container"]}>
-          <ResumeComponent resume={resume} shareInfo={shareInfo} />
+          <ResumeComponent
+            resume={resume}
+            shareInfo={shareInfo}
+          />
           { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
           <FloatingActionButton
             icon="share-alt"

@@ -31,6 +31,7 @@
   color: var(--oc-white);
   font-size: 14px;
   padding: 0 25px;
+  pointer-events: none;
 
   & a {
     color: var(--oc-gray-1);
@@ -38,11 +39,27 @@
     margin: 0 10px;
     text-decoration: none;
     transition: color 0.3s;
+    pointer-events: auto;
 
     &:hover {
       color: var(--oc-white);
       text-decoration: underline;
     }
+  }
+}
+
+.topbar-selector {
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  overflow: hidden;
+
+  &:hover {
+    overflow: visible;
+  }
+
+  & a {
+    line-height: 2em;
   }
 }
 

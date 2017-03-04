@@ -1,6 +1,9 @@
 import { GREEN_COLORS } from './colors';
+import locales from 'LOCALES';
 
-export const DAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+const days = locales('datas').days;
+
+export const DAYS = [days.sunday, days.monday, days.tuesday, days.wednesday, days.thursday, days.friday, days.saturday];
 
 export const LINECHART_CONFIG = {
   data: [],

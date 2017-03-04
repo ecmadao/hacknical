@@ -2,52 +2,48 @@ const datas = {
   tabs: {
     profile: 'Profile',
     resume: 'Resume',
-    github: 'Github',
+    github: 'GitHub',
     setting: 'Setting'
   },
   headers: {
-    zen: 'Zen of github',
+    zen: 'Zen of GitHub',
     about: 'About',
     feedback: 'Feedback',
     logout: 'Logout'
   },
-  resume: {
-    buttons: {
-      save: 'save',
-      preview: 'preview',
-      pre: 'pre',
-      next: 'next'
-    }
-  },
   profile: {
     resume: {
-      title: 'resume share datas'
+      title: 'Resume Share Records',
+      shareText: 'Scan QR code to share resume'
     },
     github: {
-      title: 'github share datas'
+      title: 'GitHub Share Records',
+      shareText: 'Scan QR code to share GitHub analysis'
     },
     common: {
-      pv: 'total pv',
-      platform: 'max platform',
-      browser: 'max browser',
-      platformChartTitle: 'platforms',
-      browserChartTitle: 'browsers',
-      hourlyViewChartTitle: 'hourly view'
+      pv: 'Total PV',
+      maxPvPerHour: 'Max PV/Hour',
+      platform: 'Max Platform',
+      browser: 'Max Browser',
+      platformChartTitle: 'Platforms',
+      browserChartTitle: 'Browsers',
+      hourlyViewChartTitle: 'Hourly View'
     }
   },
   setting: {
     github: {
-      title: 'github',
+      title: 'GitHub',
       openShare: 'Open share',
-      lastUpdate: 'Last update at: ',
-      updateButtonText: 'update'
+      lastUpdate: 'Last update at',
+      updateButtonText: 'Update'
     },
     resume: {
-      title: 'resume',
+      title: 'Resume',
       openShare: 'Open share',
-      useGithub: 'Use github analysis in resume',
+      useGithub: 'Use GitHub analysis in resume',
       showHotmap: 'Show hotmap',
       showRepos: 'Show repos',
+      showOrgs: 'Show orgs',
       showLanguages: 'Show languages',
       showCommits: 'Show commits'
     }

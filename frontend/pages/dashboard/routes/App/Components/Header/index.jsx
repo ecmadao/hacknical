@@ -3,6 +3,7 @@ import objectAssign from 'object-assign';
 import Api from 'API';
 import Tipso from 'COMPONENTS/Tipso';
 import locales from 'LOCALES';
+import languages from 'LANGUAGES';
 const headers = locales('dashboard').headers;
 
 import styles from '../../styles/app.css';
@@ -44,6 +45,24 @@ class Header extends React.Component {
     this.setState(state);
   }
 
+  renderLanguageOptions(options) {
+    const optionDOMs = options.map((option, index) => {
+      return (
+        <a
+          key={index}
+          href={`/?locale=${option.id}`}
+          className={styles["dropdown_item"]}>
+          {option.text}
+        </a>
+      )
+    });
+    return (
+      <div className={styles["dropdown_wrapper"]}>
+        {optionDOMs}
+      </div>
+    )
+  }
+
   render() {
     const {
       zen,
@@ -54,6 +73,9 @@ class Header extends React.Component {
     } = this.state;
     const onMouseEnter = (key) => () => this.onMouseEnter(key);
     const onMouseLeave = (key) => () => this.onMouseLeave(key);
+
+    const locale = window.locale || 'en';
+    const languageOptions = languages(locale);
 
     return (
       <div className={styles["app_header"]}>
@@ -76,12 +98,13 @@ class Header extends React.Component {
             </span>
           </div>
           <div className={styles["header_menus"]}>
+            {this.renderLanguageOptions(languageOptions)}
             <a
               onMouseOver={onMouseEnter('showAboutTipso')}
               onMouseEnter={onMouseEnter('showAboutTipso')}
               onMouseOut={onMouseLeave('showAboutTipso')}
               onMouseLeave={onMouseLeave('showAboutTipso')}
-              href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${window.locale || 'en'}.md`}
+              href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale || 'en'}.md`}
               target="_blank"
               className={styles["header_menu_icon_right"]}>
               <i className="fa fa-question-circle" aria-hidden="true"></i>

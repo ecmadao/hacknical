@@ -84,6 +84,7 @@ class ResumeShare extends React.Component {
     return (
       <div className={styles.container}>
         <ResumeComponent
+          login={this.props.login}
           resume={this.state}
           shareInfo={this.state.shareInfo}
         />
@@ -96,11 +97,13 @@ class ResumeShare extends React.Component {
 }
 
 ResumeShare.propTypes = {
-  hash: PropTypes.string
+  hash: PropTypes.string,
+  login: PropTypes.string
 };
 
 ResumeShare.defaultProps = {
-  hash: ''
+  hash: '',
+  login: ''
 };
 
 export default ResumeShare;

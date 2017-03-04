@@ -1,65 +1,72 @@
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume");
+const navTexts = resumeTexts.navs;
+const genderTexts = resumeTexts.options.genders;
+const eduTexts = resumeTexts.options.edus;
+
 export const RESUME_SECTIONS = [
   {
     id: 'info',
-    text: '基本信息'
+    text: navTexts.info
   },
   {
     id: 'educations',
-    text: '教育经历'
+    text: navTexts.edu
   },
   {
     id: 'workExperiences',
-    text: '工作经历'
+    text: navTexts.work
   },
   {
     id: 'personalProjects',
-    text: '个人项目'
+    text: navTexts.projects
   },
   {
     id: 'others',
-    text: '其他补充'
+    text: navTexts.others
   }
 ];
 
 export const GENDERS = [
   {
     id: 'male',
-    text: '男性'
+    text: genderTexts.male
   },
   {
     id: 'female',
-    text: '女性'
+    text: genderTexts.female
   }
 ];
 
 export const EDUCATIONS = [
   {
     id: '初中',
-    text: '初中'
+    text: eduTexts.juniorHigh
   },
   {
     id: '高中',
-    text: '高中'
+    text: eduTexts.seniorHigh
   },
   {
     id: '大专',
-    text: '大专'
+    text: eduTexts.juniorCollege
   },
   {
     id: '本科',
-    text: '本科'
+    text: eduTexts.undergraduate
   },
   {
     id: '硕士',
-    text: '硕士'
+    text: eduTexts.master
   },
   {
     id: '博士',
-    text: '博士'
+    text: eduTexts.doctor
   },
   {
     id: '其他',
-    text: '其他'
+    text: eduTexts.others
   }
 ];
 

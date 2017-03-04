@@ -20,7 +20,7 @@
   }
 }
 
-.update_container {
+.pane_text_container {
   flex: 1;
 
   & span {

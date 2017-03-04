@@ -11,11 +11,15 @@ import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
-import Switcher from 'COMPONENTS/Switcher';
 import Input from 'COMPONENTS/Input';
 import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/analysis.css';
 import sharedStyles from '../../shared/styles/mobile.css';
+import locales from 'LOCALES';
+import { sortByX } from 'UTILS/helper';
+
+const sortByCount = sortByX('count');
+const analysisTexts = locales('dashboard').profile;
 
 class MobileAnalysis extends React.Component {
   constructor(props) {
@@ -35,11 +39,10 @@ class MobileAnalysis extends React.Component {
     this.viewSourcesChart = null;
 
     this.copyUrl = this.copyUrl.bind(this);
-    this.postShareStatus = this.postShareStatus.bind(this);
   }
 
   componentDidMount() {
-    Api.github.getShareData().then((result) => {
+    Api.github.getShareRecords().then((result) => {
       this.initialState(result);
     });
   }
@@ -52,16 +55,6 @@ class MobileAnalysis extends React.Component {
 
   copyUrl() {
     document.querySelector("#shareGithubUrl").select();
-  }
-
-  postShareStatus() {
-    const { userInfo } = this.state;
-    const { openShare } = userInfo;
-    Api.github.toggleShare(!openShare).then((result) => {
-      this.setState({
-        userInfo: objectAssign({}, userInfo, { openShare: !openShare })
-      });
-    });
   }
 
   renderCharts() {
@@ -93,7 +86,7 @@ class MobileAnalysis extends React.Component {
     const viewDates = validatePageViews.map(pageView => pageView.count);
     const datasetsConfig = {
       data: viewDates,
-      label: '每小时浏览量',
+      label: analysisTexts.common.hourlyViewChartTitle,
       pointBorderWidth: 0,
       pointRadius: 0
     };
@@ -107,7 +100,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '每小时浏览量'
+          text: analysisTexts.common.hourlyViewChartTitle
         },
         legend: {
           display: false,
@@ -135,7 +128,7 @@ class MobileAnalysis extends React.Component {
               return item[0].xLabel
             },
             label: (item, data) => {
-              return `浏览量：${item.yLabel} PV`
+              return `${item.yLabel} PV`
             }
           }
         }
@@ -143,8 +136,23 @@ class MobileAnalysis extends React.Component {
     });
   }
 
+  getDatas(type) {
+    const {
+      viewDevices,
+      viewSources
+    } = this.state;
+
+    const datas = {
+      viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
+      viewSources: viewSources.sort(sortByCount).slice(0, 6),
+    };
+
+    return datas[type];
+  }
+
+
   renderDevicesChart() {
-    const { viewDevices } = this.state;
+    const viewDevices = this.getDatas('viewDevices');
     const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
@@ -168,7 +176,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '浏览量来源平台'
+          text: analysisTexts.common.platformChartTitle
         },
         legend: {
           display: false,
@@ -178,7 +186,7 @@ class MobileAnalysis extends React.Component {
   }
 
   renderSourcesChart() {
-    const { viewSources } = this.state;
+    const viewSources = this.getDatas('viewSources');
     const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
@@ -203,7 +211,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: '浏览器分布'
+          text: analysisTexts.common.browserChartTitle
         },
         legend: {
           display: false,
@@ -237,24 +245,18 @@ class MobileAnalysis extends React.Component {
       <div className={cx(sharedStyles["mobile_card"], styles["share_controller"])}>
         <div
           className={styles["share_container"]}>
-          <IconButton
-            icon="clipboard"
-            id="copyLinkButton"
-            onClick={this.copyUrl.bind(this)}
-          />
           <Input
             id="shareGithubUrl"
             style="flat"
             value={`${window.location.origin}/${url}`}
             customStyle={styles["share_link_input"]}
           />
+          <IconButton
+            icon="clipboard"
+            id="copyLinkButton"
+            onClick={this.copyUrl.bind(this)}
+          />
         </div>
-        <Switcher
-          id="share_switch"
-          size="small"
-          onChange={this.postShareStatus}
-          checked={openShare}
-        />
       </div>
     )
   }
@@ -274,12 +276,12 @@ class MobileAnalysis extends React.Component {
         <div className={sharedStyles["info_wrapper"]}>
           <ChartInfo
             mainText={viewCount}
-            subText="总 PV"
+            subText={analysisTexts.common.pv}
             mainTextStyle={sharedStyles["main_text"]}
           />
           <ChartInfo
             mainText={maxViewPerHour}
-            subText="一小时内最大 PV"
+            subText={analysisTexts.common.maxPvPerHour}
             mainTextStyle={sharedStyles["main_text"]}
           />
         </div>
@@ -298,7 +300,7 @@ class MobileAnalysis extends React.Component {
       <div className={sharedStyles["info_with_chart"]}>
         <ChartInfo
           mainText={browsers.join(',')}
-          subText="使用最多的浏览器"
+          subText={analysisTexts.common.browser}
           mainTextStyle={sharedStyles["main_text"]}
         />
       </div>
@@ -317,7 +319,7 @@ class MobileAnalysis extends React.Component {
       <div className={sharedStyles["info_with_chart"]}>
         <ChartInfo
           mainText={platforms.slice(0, 2).join(',')}
-          subText="使用最多的平台"
+          subText={analysisTexts.common.platform}
           mainTextStyle={sharedStyles["main_text"]}
         />
       </div>

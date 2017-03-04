@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 
@@ -7,49 +6,17 @@ import ShareAnalyse from '../share-analyse';
  */
 const getGithubInfo = (userInfo) => {
   const {
+    id,
     login,
     name,
-    avatar_url,
-    company,
-    blog,
-    location,
     email,
-    bio,
-    created_at,
-    updated_at,
-    public_repos,
-    public_gists,
-    followers,
-    following
   } = userInfo;
-  const newGithubInfo = {
+  return {
+    id,
     login,
     name,
-    avatar_url,
-    company,
-    blog,
-    location,
-    email,
-    bio,
-    created_at,
-    updated_at,
-    public_repos,
-    public_gists,
-    followers,
-    following
-  };
-  return newGithubInfo;
-};
-
-const getHashPwd = (salt, password) => {
-  const bytes = new Buffer(password || '', 'utf16le');
-  const src = new Buffer(salt || '', 'base64');
-  const dst = new Buffer(src.length + bytes.length);
-
-  src.copy(dst, 0, 0, src.length);
-  bytes.copy(dst, src.length, 0, bytes.length);
-
-  return crypto.createHash('sha1').update(dst).digest('base64');
+    email
+  }
 };
 
 const findUser = async (email) => {
@@ -64,32 +31,6 @@ const findUserByLogin = async (login) => {
   return await User.findOne({ 'githubInfo.login': login });
 };
 
-const createUser = async (email, pwd) => {
-  const findResult = await findUser(email);
-  if (findResult) {
-    return Promise.resolve({
-      success: false,
-      message: '该邮箱已存在'
-    });
-  }
-
-  const passwordSalt = crypto.randomBytes(16).toString('base64');
-  const passwordHash = getHashPwd(passwordSalt, pwd);
-
-  const newUser = await User.create({
-    userName: '',
-    lastLoginTime: new Date(),
-    email,
-    passwordSalt,
-    passwordHash
-  });
-
-  return Promise.resolve({
-    success: true,
-    message: '注册成功',
-    result: newUser
-  });
-};
 
 const findUserByGithubId = async (githubId) => {
   return await User.findOne({ githubId });
@@ -112,9 +53,28 @@ const updateUser = async (userInfo) => {
   });
 };
 
+const updateUserOrgs = async (login, orgs = []) => {
+  const user = await findUserByLogin(login);
+  if (!user) {
+    return Promise.resolve({
+      success: false
+    });
+  }
+  user.orgs = [...orgs];
+  await user.save();
+  return Promise.resolve({
+    success: true,
+    result: user
+  });
+};
+
 const loginWithGithub = async (userInfo) => {
-  const newGithubInfo = getGithubInfo(userInfo);
-  const { email, login, id } = userInfo;
+  const {
+    id,
+    login,
+    name,
+    email
+  } = userInfo;
   const shareInfo = {
     login,
     url: `github/${login}`
@@ -123,36 +83,69 @@ const loginWithGithub = async (userInfo) => {
   if (findUser) {
     shareInfo.userId = findUser._id;
     await createGithubShare(shareInfo);
-
-    findUser.githubInfo = Object.assign({}, findUser.githubInfo, newGithubInfo);
+    findUser.githubLogin = login;
+    findUser.githubInfo = { login };
     findUser.lastLoginTime = new Date();
     await findUser.save();
     return Promise.resolve({
       success: true,
-      result: findUser
+      result: findUser._id
     });
   }
   const newUser = await User.create({
     email,
-    userName: login,
+    userName: name,
     lastLoginTime: new Date(),
     githubId: id,
-    githubInfo: newGithubInfo
+    githubLogin: login,
+    githubInfo: { login }
   });
-  if (newUser) {
-    shareInfo.userId = newUser._id;
-    await createGithubShare(shareInfo);
-
-    return Promise.resolve({
-      success: true,
-      result: newUser
-    });
-  }
+  shareInfo.userId = newUser._id;
+  await createGithubShare(shareInfo);
   return Promise.resolve({
-    success: false,
-    result: null
+    success: true,
+    result: newUser._id
   });
 };
+
+const findGithubSections = async (login) => {
+  try {
+    const user = await findUserByLogin(login);
+    return Promise.resolve(user.githubSections);
+  } catch (err) {
+    return Promise.resolve({});
+  }
+};
+
+const updateGithubSections = async (login, sections) => {
+  try {
+    const user = await findUserByLogin(login);
+    Object.assign(user.githubSections, sections);
+    await user.save();
+    return Promise.resolve({
+      success: true
+    });
+  } catch (err) {
+    return Promise.resolve({
+      success: false
+    });
+  }
+};
+
+export default {
+  findUser,
+  loginWithGithub,
+  findUserByGithubId,
+  findUserById,
+  findUserByLogin,
+  updateUser,
+  updateUserOrgs,
+  findGithubSections,
+  updateGithubSections
+}
+
+
+/*
 
 const login = async (email, pwd) => {
   const findResult = await findUser(email);
@@ -196,14 +189,42 @@ const remove = async (userId) => {
   });
 };
 
-export default {
-  findUser,
-  createUser,
-  login,
-  changePwd,
-  loginWithGithub,
-  findUserByGithubId,
-  findUserById,
-  findUserByLogin,
-  updateUser
-}
+const createUser = async (email, pwd) => {
+  const findResult = await findUser(email);
+  if (findResult) {
+    return Promise.resolve({
+      success: false,
+      message: '该邮箱已存在'
+    });
+  }
+
+  const passwordSalt = crypto.randomBytes(16).toString('base64');
+  const passwordHash = getHashPwd(passwordSalt, pwd);
+
+  const newUser = await User.create({
+    userName: '',
+    lastLoginTime: new Date(),
+    email,
+    passwordSalt,
+    passwordHash
+  });
+
+  return Promise.resolve({
+    success: true,
+    message: '注册成功',
+    result: newUser
+  });
+};
+
+const getHashPwd = (salt, password) => {
+  const bytes = new Buffer(password || '', 'utf16le');
+  const src = new Buffer(salt || '', 'base64');
+  const dst = new Buffer(src.length + bytes.length);
+
+  src.copy(dst, 0, 0, src.length);
+  bytes.copy(dst, src.length, 0, bytes.length);
+
+  return crypto.createHash('sha1').update(dst).digest('base64');
+};
+
+ */

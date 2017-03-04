@@ -1,8 +1,10 @@
 import Resume from '../models/resumes';
+import User from '../models/users';
 import ResumePub from '../models/resume-pub';
 import ShareAnalyse from '../models/share-analyse';
+import getCacheKey from './helper/cacheKey';
+import { GITHUB_SECTIONS } from '../utils/datas';
 
-const GITHUB_SECTIONS = ['hotmap', 'info', 'repos', 'languages', 'commits'];
 
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
@@ -27,17 +29,28 @@ const setResume = async (ctx, next) => {
       checkResult = await ResumePub.addPubResume(userId);
     }
     resumeInfo = checkResult.success ? {
-      url: `resume/${checkResult.result.resumeHash}`,
+      url: `resume/${checkResult.result.resumeHash}?locale=${ctx.session.locale}`,
       useGithub: checkResult.result.useGithub,
       openShare: checkResult.result.openShare
     } : null;
   }
 
+  const checkPubResume = await ResumePub.findPublicResume({ userId });
+  if (checkPubResume.success) {
+    const hash = checkPubResume.result.resumeHash;
+    const cacheKey = getCacheKey(ctx);
+    ctx.query.deleteKeys = [
+      cacheKey(`resume.${hash}`)
+    ];
+  }
+
   ctx.body = {
     success: true,
-    message: '储存成功',
+    message: ctx.__("messages.success.save"),
     result: resumeInfo
   };
+
+  await next();
 };
 
 const getPubResume = async (ctx, next) => {
@@ -50,6 +63,8 @@ const getPubResume = async (ctx, next) => {
     result,
     success: true
   };
+
+  await next();
 };
 
 const getPubResumePage = async (ctx, next) => {
@@ -57,15 +72,20 @@ const getPubResumePage = async (ctx, next) => {
   const findResume = await ResumePub.checkPubResume({
     resumeHash: hash
   });
+
   const { success, result } = findResume;
   if (!success) {
     ctx.redirect('/404');
     return;
   }
 
+  const { name, userId } = result;
+  const user = await User.findUserById(userId);
+
   await ctx.render('resume/share', {
-    title: `${result}的个人简历 | hacknical`,
-    resumeHash: hash
+    title: ctx.__("resumePage.title", name),
+    resumeHash: hash,
+    login: user.githubInfo.login
   });
 };
 
@@ -74,12 +94,11 @@ const getResumeStatus = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true,
       result: null
     };
-    return
   }
 
   const { useGithub, resumeHash, openShare, github } = result;
@@ -89,7 +108,7 @@ const getResumeStatus = async (ctx, next) => {
       github,
       openShare,
       useGithub,
-      url: `resume/${resumeHash}`
+      url: `resume/${resumeHash}?locale=${ctx.session.locale}`
     }
   }
 };
@@ -100,19 +119,18 @@ const setResumeShareStatus = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true
     };
-    return
   }
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     openShare: enable
   });
-  const text = enable === 'true' ? '开启' : '关闭';
+  const resultMessage = enable === 'true' ? "messages.share.toggleOpen" : "messages.share.toggleClose"
   ctx.body = {
     success: true,
-    message: `分享链接已${text}`
+    message: ctx.__(resultMessage)
   };
 };
 
@@ -122,19 +140,18 @@ const setResumeGithubStatus = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true
     };
-    return
   }
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     useGithub: enable
   });
-  const text = enable === 'true' ? '开启' : '关闭';
+  const resultMessage = enable === 'true' ? "messages.resume.linkGithub" : "messages.resume.unlinkGithub";
   ctx.body = {
     success: true,
-    message: `已${text}简历和 github 的关联`
+    message: ctx.__(resultMessage)
   };
 };
 
@@ -143,11 +160,10 @@ const setGithubShareSection = async (ctx, next) => {
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
-    ctx.body = {
+    return ctx.body = {
       error: message,
       success: true
     };
-    return
   }
 
   let githubSections = {};
@@ -166,7 +182,7 @@ const setGithubShareSection = async (ctx, next) => {
   };
 };
 
-const getShareData = async (ctx, next) => {
+const getShareRecords = async (ctx, next) => {
   const { userId } = ctx.session;
   const findPubResume = await ResumePub.findPublicResume({ userId });
   const { result, success, message } = findPubResume;
@@ -190,7 +206,7 @@ const getShareData = async (ctx, next) => {
   ctx.body = {
     success: true,
     result: {
-      url: `resume/${result.resumeHash}`,
+      url: `resume/${result.resumeHash}?locale=${ctx.session.locale}`,
       openShare: result.openShare,
       viewDevices,
       viewSources,
@@ -208,5 +224,5 @@ export default {
   setResumeShareStatus,
   setResumeGithubStatus,
   setGithubShareSection,
-  getShareData
+  getShareRecords
 }

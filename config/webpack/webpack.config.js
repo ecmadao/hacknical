@@ -113,6 +113,7 @@ module.exports = {
       API: path.join(PATH.SOURCE_PATH, 'api'),
       SHAREDPAGE: path.join(PATH.SOURCE_PATH, 'pages/shared'),
       LOCALES: path.join(PATH.SOURCE_PATH, 'config/locales'),
+      LANGUAGES: path.join(PATH.ROOT_PATH, 'utils/languages')
     }
   },
   postcss: postcssPlugin,
@@ -139,7 +140,8 @@ module.exports = {
       manifest: require(path.join(PATH.DLL_PATH, 'runtime-manifest.json'))
     }),
     new webpack.DefinePlugin({
-      'process.env.APP_VERSION': JSON.stringify(process.env.APP_VERSION || '')
+      'process.env.APP_VERSION': JSON.stringify(process.env.APP_VERSION || ''),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ],
   displayErrorDetails: true,

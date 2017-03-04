@@ -1,17 +1,13 @@
 import React, { PropTypes } from 'react';
-import GitHubCalendar from 'github-calendar';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
-import 'github-calendar/dist/github-calendar.css';
 
 import Api from 'API/index';
 import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
-import CommitInfo from 'COMPONENTS/Github/CommitInfo';
-import LanguageInfo from 'COMPONENTS/Github/LanguageInfo';
-import RepositoryInfo from 'COMPONENTS/Github/RepositoryInfo';
-import UserInfo from 'COMPONENTS/Github/UserInfo';
+// import Github from 'COMPONENTS/Github';
+import GithubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
 import USER from 'SRC/data/user';
@@ -26,6 +22,12 @@ const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
 
+// let GithubSection = null;
+// const getGithubSection = (options) => {
+//   if (GithubSection) return GithubSection;
+//   GithubSection = Github(options);
+//   return GithubSection;
+// };
 
 class GithubComponent extends React.Component {
   constructor(props) {
@@ -42,45 +44,44 @@ class GithubComponent extends React.Component {
       showedReposId: null,
       commitDatas: [],
       commitInfos: [],
+      sections: {}
     };
-    this.githubCalendar = false;
     this.changeShareStatus = this.changeShareStatus.bind(this);
     this.toggleShareModal = this.toggleShareModal.bind(this);
+    this.changeGithubSection = this.changeGithubSection.bind(this);
   }
 
   componentDidMount() {
     const { login } = this.props;
-    const { repos, loaded } = this.state;
-    this.getGithubInfo(login);
-    if (!repos.length) {
-      this.getGithubRepos(login);
-    }
+    this.getGithubUser(login);
   }
 
-  componentDidUpdate() {
-    const { user } = this.state;
-    if (!this.githubCalendar && user.login) {
-      this.githubCalendar = true;
-      $('#calendar') && GitHubCalendar("#calendar", user.login);
+  componentDidUpdate(preProps, preState) {
+    const { user, loaded, repos } = this.state;
+    if (!preState.user.login && user.login) {
+      this.getGithubSections(user.login);
+      !repos.length && this.getGithubRepos(user.login);
     }
-  }
-
-  getGithubInfo(login = '') {
-    Api.github.getUser(login).then((result) => {
-      this.changeState({ user: result });
-      this.toggleLoading(false);
-    });
   }
 
   changeState(newState) {
     this.setState(newState);
   }
 
-  getGithubRepos(login = '') {
-    Api.github.getRepos(login).then((result) => {
-      const { repos, commits } = result;
-      this.setGithubRepos(result);
-    });
+  async getGithubUser(login = '') {
+    const user = await Api.github.getUser(login);
+    this.changeState({ user });
+    this.toggleLoading(false);
+  }
+
+  async getGithubRepos(login = '') {
+    const result = await Api.github.getRepos(login);
+    this.setGithubRepos(result);
+  }
+
+  async getGithubSections(login = '') {
+    const sections = await Api.user.getSections(login);
+    this.changeState({ sections });
   }
 
   setGithubRepos(result) {
@@ -94,12 +95,11 @@ class GithubComponent extends React.Component {
     })
   }
 
-  changeShareStatus() {
+  async changeShareStatus() {
     const { user } = this.state;
     const { openShare } = user;
-    Api.github.toggleShare(!openShare).then((result) => {
-      this.toggleShare(!openShare);
-    });
+    await Api.github.toggleShare(!openShare);
+    this.toggleShare(!openShare);
   }
 
   toggleShare(openShare) {
@@ -119,6 +119,26 @@ class GithubComponent extends React.Component {
     this.setState({ openShareModal })
   }
 
+  async changeGithubSection(sections) {
+    await Api.user.setSections(sections);
+    this.setState({
+      sections: objectAssign({}, this.state.sections, sections)
+    });
+  }
+
+  disabledSection(section) {
+    const { sections } = this.state;
+    const { isShare, githubSection } = this.props;
+    return !isShare && (sections[section] === false || githubSection[section] === false);
+  }
+
+  hideSection(section) {
+    const { sections } = this.state;
+    const { isShare, githubSection } = this.props;
+    const shareSections = Object.keys(githubSection).length ? githubSection : sections;
+    return isShare && shareSections[section] === false;
+  }
+
   render() {
     const {
       user,
@@ -129,55 +149,131 @@ class GithubComponent extends React.Component {
       showedReposId,
       commitDatas,
       commitInfos,
-      loaded
+      loaded,
+      sections
     } = this.state;
-    const { isShare, containerStyle, githubSection } = this.props;
+    const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
+    // const GithubSection = getGithubSection({
+    //   isShare,
+    //   callback: this.changeGithubSection
+    // });
 
     return (
       <div className={containerStyle}>
-        {githubSection.hotmap !== false ? (
-          <div className={styles["info_card_container"]}>
-            <p><i aria-hidden="true" className="fa fa-cloud-upload"></i>&nbsp;&nbsp;{githubTexts.hotmap.title}</p>
-            <div id="calendar" className={styles["github_calendar"]}>
-              <Loading />
-            </div>
-          </div>
-        ) : ''}
-        {githubSection.info !== false ? (<UserInfo user={user} />) : ''}
-        {githubSection.repos !== false ? (
-          <RepositoryInfo
-            showedReposId={showedReposId}
-            commitDatas={commitDatas}
-            flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
-            username={user && user.name}
-          />
-        ) : ''}
-        {githubSection.languages !== false ? (
-          <LanguageInfo
-            repos={repos}
-            loaded={repos.length > 0}
-            showedReposId={showedReposId}
-            languageDistributions={github.getLanguageDistribution(repos)}
-            languageUsed={github.getLanguageUsed(repos)}
-            languageSkills={github.getLanguageSkill(repos)}
-          />
-        ) : ''}
-        {githubSection.commits !== false ? (
-          <CommitInfo
-            loaded={loaded}
-            commitDatas={commitDatas}
-            commitInfos={commitInfos}
-            hasCommits={commitDatas.length > 0}
-          />
-        ) : ''}
+        <GithubSection
+          userLogin={user.login}
+          title={{
+            text: githubTexts.hotmap.title,
+            icon: 'cloud-upload'
+          }}
+          section="hotmap"
+          sectionStatus={sections["hotmap"]}
+          hide={this.hideSection("hotmap")}
+          disabled={this.disabledSection("hotmap")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
+        <GithubSection
+          user={user}
+          title={{
+            text: githubTexts.baseInfo.title,
+            icon: 'vcard-o'
+          }}
+          section="info"
+          key="github-section-info"
+          sectionStatus={sections["info"]}
+          hide={this.hideSection("info")}
+          disabled={this.disabledSection("info")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
+        <GithubSection
+          loaded={loaded}
+          showedReposId={showedReposId}
+          commitDatas={commitDatas}
+          flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
+          username={user && user.name}
+
+          title={{
+            text: githubTexts.repos.title,
+            icon: 'bar-chart'
+          }}
+          section="repos"
+          key="github-section-repos"
+          sectionStatus={sections["repos"]}
+          hide={this.hideSection("repos")}
+          disabled={this.disabledSection("repos")}
+          intro={{
+            icon: 'question-circle',
+            text: '暂未统计组织内/ fork 的项目信息，敬请期待'
+          }}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
+        <GithubSection
+          userLogin={user.login}
+          title={{
+            text: githubTexts.orgs.title,
+            icon: 'rocket'
+          }}
+          section="orgs"
+          key="github-section-orgs"
+          sectionStatus={sections["orgs"]}
+          hide={this.hideSection("orgs")}
+          disabled={this.disabledSection("orgs")}
+          intro={{
+            icon: 'question-circle',
+            text: '只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据'
+          }}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
+        <GithubSection
+          repos={repos}
+          loaded={loaded}
+          showedReposId={showedReposId}
+          languageDistributions={github.getLanguageDistribution(repos)}
+          languageUsed={github.getLanguageUsed(repos)}
+          languageSkills={github.getLanguageSkill(repos)}
+
+          title={{
+            text: githubTexts.languages.title,
+            icon: 'code'
+          }}
+          section="languages"
+          key="github-section-languages"
+          sectionStatus={sections["languages"]}
+          hide={this.hideSection("languages")}
+          disabled={this.disabledSection("languages")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
+        <GithubSection
+          loaded={loaded}
+          commitDatas={commitDatas}
+          commitInfos={commitInfos}
+          hasCommits={commitDatas.length > 0}
+
+          title={{
+            text: githubTexts.commits.title,
+            icon: 'git'
+          }}
+          section="commits"
+          key="github-section-commits"
+          sectionStatus={sections["commits"]}
+          hide={this.hideSection("commits")}
+          disabled={this.disabledSection("commits")}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
         {openShareModal ? (
           <ShareModal
             openModal={openShareModal}
             options={{
               openShare: user.openShare,
-              link: `${origin}/github/${user.login}`,
+              link: `${origin}/${user.shareUrl}`,
               text: shareText
             }}
             toggleShare={this.changeShareStatus}

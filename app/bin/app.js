@@ -6,6 +6,7 @@ import bodyParser from 'koa-bodyparser';
 import onerror from 'koa-onerror';
 import csrf from 'koa-csrf';
 import json from 'koa-json';
+import cors from 'kcors';
 import locales from 'koa-locales';
 
 import redisStore from 'koa-redis';
@@ -19,24 +20,26 @@ import assetsPath from '../middlewares/assets_helper';
 import vendorPath from '../middlewares/vendor_helper';
 import redisCache from '../middlewares/cache_helper';
 import catch404 from '../middlewares/404_helper';
+import checkLocale from '../middlewares/locale_helper';
 import router from '../routes/index';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
-const clientId = config.get('github.clientId');
 const app = new Koa();
 app.keys = [appKey];
 
 const options = {
-  defaultLocale: 'en-US',
+  defaultLocale: 'zh-CN',
   dirs: [path.join(__dirname, '../config/locales')],
   localeAlias: {
     'en': 'en-US',
-    'de-de': 'de',
+    'fr': 'fr-FR',
+    'zh': 'zh-CN'
   }
 };
 locales(app, options);
 
+app.use(convert(cors()));
 // error handle
 onerror(app);
 // bodyparser
@@ -45,8 +48,6 @@ app.use(bodyParser());
 app.use(convert(json()));
 // logger
 app.use(convert(logger()));
-// catch 404
-app.use(catch404());
 // session
 app.use(convert(session({
   store: redisStore({
@@ -58,17 +59,21 @@ app.use(convert(session({
 app.use(redisCache({
   url: config.get('redis')
 }));
+// locale
+app.use(checkLocale());
+// catch 404
+app.use(catch404());
 // csrf
 app.use(new csrf());
 // helper func
 app.use(async (ctx, next) => {
-  ctx.state = {
-    csrf: ctx.csrf,
-    isMobile: false,
+  ctx.state = Object.assign({}, ctx.state, {
     assetsPath,
     vendorPath,
-    clientId
-  };
+    csrf: ctx.csrf,
+    isMobile: false,
+    env: process.env.NODE_ENV
+  });
   await next();
 });
 
