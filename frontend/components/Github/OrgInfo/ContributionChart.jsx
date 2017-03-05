@@ -1,16 +1,26 @@
 import React, { PropTypes } from 'react';
 import Chart from 'chart.js';
+import cx from 'classnames';
 import ReactDOM from 'react-dom';
 import objectAssign from 'object-assign';
-
+import Tipso from 'COMPONENTS/Tipso';
 import styles from '../styles/github.css';
+import cardStyles from '../styles/info_card.css';
 import dateHelper from 'UTILS/date';
 import { GREEN_COLORS } from 'UTILS/colors';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
+import locales from 'LOCALES';
+
+const githubTexts = locales('github').sections.orgs;
 
 class ContributionChart extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showTipso: false
+    };
+    this.onMouseEnter = this.onMouseEnter.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.contributionReviewChart = null;
   }
 
@@ -20,6 +30,14 @@ class ContributionChart extends React.Component {
 
   componentDidUpdate() {
     this.renderCharts();
+  }
+
+  onMouseEnter() {
+    this.setState({ showTipso: true })
+  }
+
+  onMouseLeave() {
+    this.setState({ showTipso: false })
   }
 
   renderCharts() {
@@ -101,7 +119,8 @@ class ContributionChart extends React.Component {
   }
 
   renderContributionDates() {
-    const { contribution, repository } = this.props;
+    const { showTipso } = this.state;
+    const { contribution, repository, percentage } = this.props;
     if (!contribution.weeks.length) { return '' }
     // commit dates
     const { weeks } = contribution;
@@ -145,6 +164,23 @@ class ContributionChart extends React.Component {
             &nbsp;&nbsp;&nbsp;
             <i className="fa fa-code" aria-hidden="true"></i>&nbsp;{language || 'NULL'}
             &nbsp;&nbsp;&nbsp;
+            {percentage > 30 ? (
+              <span
+                onMouseOver={this.onMouseEnter}
+                onMouseEnter={this.onMouseEnter}
+                onMouseOut={this.onMouseLeave}
+                onMouseLeave={this.onMouseLeave}
+                className={styles["info_strong"]}>
+                <i className="fa fa-trophy" aria-hidden="true"></i>&nbsp;{githubTexts.coreDeveloper}
+                {showTipso ? (
+                  <Tipso
+                    show={true}
+                    className={cx(cardStyles["card_tipso"], styles["info_tipso"])}>
+                    <span>{githubTexts.coreDeveloperIntro}</span>
+                  </Tipso>
+                ) : ''}
+              </span>
+            ) : ''}
           </div>
           {description ? (
             <div className={styles["org_repos_desc_info"]}>

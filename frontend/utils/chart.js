@@ -34,20 +34,30 @@ const getCommitDatasets = (repos, commits) => {
   });
 };
 
-const polarAreaDatasets = (skills) => {
+const doughnutDatasets = (datas, backgroundColor = [...GREEN_COLORS].slice(0)) => {
+  return {
+    type: 'doughnut',
+    data: datas,
+    label: '',
+    backgroundColor,
+    borderWidth: 2,
+  }
+};
+
+const polarAreaDatasets = (datas) => {
   return {
     type: 'polarArea',
-    data: skills,
+    data: datas,
     label: '',
     backgroundColor: [...GREEN_COLORS].slice(1).reverse(),
     borderWidth: 2,
   }
 };
 
-const radarDatasets = (languagePercentages) => {
+const radarDatasets = (datas) => {
   return {
     type: 'radar',
-    data: languagePercentages,
+    data: datas,
     label: '',
     fill: true,
     backgroundColor: GREEN_COLORS[4],
@@ -67,5 +77,6 @@ export default {
     commitsDatasets: getCommitDatasets,
   },
   polarArea: polarAreaDatasets,
-  radar: radarDatasets
+  radar: radarDatasets,
+  doughnut: doughnutDatasets
 }

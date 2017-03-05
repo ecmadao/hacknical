@@ -43,6 +43,7 @@ const datas = {
       useGithub: '在简历中附加我的 GitHub 分析报告',
       showHotmap: '展示 提交信息热点图',
       showRepos: '展示 仓库概览',
+      showCourse: '展示 编码历程',
       showOrgs: '展示 组织信息',
       showLanguages: '展示 语言概览',
       showCommits: '展示 commit 概览'

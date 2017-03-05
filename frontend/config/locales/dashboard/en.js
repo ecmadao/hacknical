@@ -43,6 +43,7 @@ const datas = {
       useGithub: 'Use GitHub analysis in resume',
       showHotmap: 'Show hotmap',
       showRepos: 'Show repos',
+      showCourse: 'Show course',
       showOrgs: 'Show orgs',
       showLanguages: 'Show languages',
       showCommits: 'Show commits'

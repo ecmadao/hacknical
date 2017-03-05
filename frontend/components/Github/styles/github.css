@@ -142,6 +142,10 @@
   min-width: 200px;
   margin-top: 12px;
 
+  &.tipso_large {
+    min-width: 250px;
+  }
+
   &::before,
   &::after {
     width: 0;
@@ -215,12 +219,29 @@
   justify-content: center;
 }
 
-.repos_show_container,
-.repos_chart_container {
-  & .repos_chart {
-    flex: 1;
-    max-width: 50%;
+
+.repos_chart {
+  flex: 1;
+  position: relative;
+  max-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & .chart_center {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    text-align: center;
   }
+}
+
+.pie_chart {
+  max-width: 300px;
+  max-height: 300px;
+  z-index: 1;
 }
 
 .repos_chart_container {
@@ -232,6 +253,10 @@
   &.with_chart {
     padding: 15px;
     min-height: 80px;
+  }
+
+  &.small_margin {
+    margin-top: -50px !important;
   }
 }
 
@@ -544,6 +569,15 @@
 .org_repos_info {
   margin: 5px 0;
   flex: 1;
+}
+
+.info_strong {
+  position: relative;
+  font-weight: bolder;
+}
+
+.info_tipso {
+  bottom: 120%;
 }
 
 .org_repos_desc_info {

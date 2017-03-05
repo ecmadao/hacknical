@@ -15,7 +15,8 @@ const ResumePubSchema = new Schema({
     repos: { type: Boolean, default: true },
     languages: { type: Boolean, default: true },
     commits: { type: Boolean, default: true },
-    orgs: { type: Boolean, default: true }
+    orgs: { type: Boolean, default: true },
+    course: { type: Boolean, default: true }
   }
 });
 

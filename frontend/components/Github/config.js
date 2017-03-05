@@ -4,6 +4,7 @@ import RepositoryInfo from './RepositoryInfo';
 import OrgInfo from './OrgInfo';
 import UserInfo from './UserInfo';
 import Hotmap from './Hotmap';
+import CodeCourse from './CodeCourse';
 
 export default {
   hotmap: Hotmap,
@@ -11,5 +12,6 @@ export default {
   repos: RepositoryInfo,
   orgs: OrgInfo,
   languages: LanguageInfo,
-  commits: CommitInfo
+  commits: CommitInfo,
+  course: CodeCourse
 };

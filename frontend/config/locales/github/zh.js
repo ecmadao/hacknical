@@ -21,14 +21,24 @@ const datas = {
       maxStarPerRepos: '单个仓库最多 star 数',
       longgestRepos: '贡献时间最久的仓库',
       chartTitle: '仓库 fork/star/一年内 commits 数一览（取前十）',
-      emptyText: '暂无仓库信息'
+      emptyText: '暂无仓库信息',
+      originalRepos: '原创仓库',
+      starPercentage: 'Star 比例',
+      forkedRepos: 'fork 的仓库',
+      createdRepos: '创建的仓库'
+    },
+    course: {
+      emptyText: '暂无仓库信息',
+      title: '编码历程'
     },
     orgs: {
       title: '隶属组织',
       createdAt: '创建于 ',
       joinedRepos: '参与的公开项目',
       contributionPercentage: '贡献比例',
-      emptyText: '暂无组织信息'
+      emptyText: '暂无组织信息',
+      coreDeveloper: '核心开发者',
+      coreDeveloperIntro: '对项目的贡献比例超过30%'
     },
     languages: {
       title: '编程语言',

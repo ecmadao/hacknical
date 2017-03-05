@@ -6,7 +6,6 @@ import Api from 'API/index';
 import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
-// import Github from 'COMPONENTS/Github';
 import GitHubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
@@ -21,13 +20,6 @@ import styles from '../styles/github.css';
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
-
-// let GitHubSection = null;
-// const getGithubSection = (options) => {
-//   if (GitHubSection) return GitHubSection;
-//   GitHubSection = Github(options);
-//   return GitHubSection;
-// };
 
 class GithubComponent extends React.Component {
   constructor(props) {
@@ -153,12 +145,7 @@ class GithubComponent extends React.Component {
       sections
     } = this.state;
     const { isShare, containerStyle } = this.props;
-
     const origin = window.location.origin;
-    // const GitHubSection = getGithubSection({
-    //   isShare,
-    //   callback: this.changeGithubSection
-    // });
 
     return (
       <div className={containerStyle}>
@@ -191,10 +178,9 @@ class GithubComponent extends React.Component {
         />
         <GitHubSection
           loaded={loaded}
-          showedReposId={showedReposId}
           commitDatas={commitDatas}
-          flatRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
-          username={user && user.name}
+          userRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
+          forkedRepos={repos.filter(repository => repository.fork)}
 
           title={{
             text: githubTexts.repos.title,
@@ -208,6 +194,27 @@ class GithubComponent extends React.Component {
           intro={{
             icon: 'question-circle',
             text: '暂未统计组织内/ fork 的项目信息，敬请期待'
+          }}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
+        <GitHubSection
+          loaded={loaded}
+          showedReposId={showedReposId}
+          userRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
+
+          title={{
+            text: githubTexts.course.title,
+            icon: 'trophy'
+          }}
+          section="course"
+          key="github-section-course"
+          sectionStatus={sections["course"]}
+          hide={this.hideSection("course")}
+          disabled={this.disabledSection("course")}
+          intro={{
+            icon: 'question-circle',
+            text: '从第一个创建的仓库到现今的编程历程'
           }}
           isShare={isShare}
           callback={this.changeGithubSection}
@@ -259,6 +266,10 @@ class GithubComponent extends React.Component {
           title={{
             text: githubTexts.commits.title,
             icon: 'git'
+          }}
+          intro={{
+            icon: 'question-circle',
+            text: '记录过去一年内的 commit'
           }}
           section="commits"
           key="github-section-commits"

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
@@ -62,7 +61,9 @@ class OrgRepos extends React.Component {
             &nbsp;&nbsp;&nbsp;
             <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
             &nbsp;&nbsp;
-            {githubTexts.contributionPercentage}: {`${contributionPercentage.toFixed(2)}%`}
+            <span className={styles["info_strong"]}>
+              {githubTexts.contributionPercentage}: {`${contributionPercentage.toFixed(2)}%`}
+            </span>
           </span>
         </div>
       </div>
@@ -98,12 +99,16 @@ class OrgRepos extends React.Component {
             onClick={clickFunc}
             className={contributionClass}>
             <div
-              style={{ width: `${percentage}%` }}
+              style={{
+                width: `${percentage}%`,
+                opacity: percentage / 50
+              }}
               className={styles["user_contributions"]}></div>
             {this.renderReposTipso(repository, percentage)}
           </div>
           {activeIndex === index && percentage ? (
             <ContributionChart
+              percentage={percentage}
               repository={repository}
               contribution={filterContributions[0] || { weeks: [] }}
             />

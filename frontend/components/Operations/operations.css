@@ -5,7 +5,7 @@
   left: -10px;
   top: 5px;
   transform: translateX(-100%);
-  z-index: var(--zIndex999);
+  z-index: var(--zIndex9);
 }
 
 .operations_more {

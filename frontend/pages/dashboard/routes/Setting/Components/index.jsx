@@ -74,6 +74,11 @@ class Setting extends React.Component {
             onChange={shareSection('repos')}
           />
           <CheckPane
+            text={settingTexts.resume.showCourse}
+            checked={resumeInfo.github.course}
+            onChange={shareSection('course')}
+          />
+          <CheckPane
             text={settingTexts.resume.showOrgs}
             checked={resumeInfo.github.orgs}
             onChange={shareSection('orgs')}

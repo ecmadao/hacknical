@@ -21,14 +21,24 @@ const datas = {
       maxStarPerRepos: 'Max Star/Repos',
       longgestRepos: 'Longgest Commit',
       chartTitle: 'star/fork/commit (last one year)',
-      emptyText: 'No repositories info'
+      emptyText: 'No repositories info',
+      originalRepos: 'Original repos',
+      starPercentage: 'Star percentage',
+      forkedRepos: 'Forked repos',
+      createdRepos: 'Created repos'
+    },
+    course: {
+      emptyText: 'No repositories info',
+      title: 'Code Course'
     },
     orgs: {
       title: 'Orgs Info',
       createdAt: 'Created at ',
       joinedRepos: 'Public repos you joined',
       contributionPercentage: 'Contribution percentage',
-      emptyText: 'No organizations info'
+      emptyText: 'No organizations info',
+      coreDeveloper: 'Core developer',
+      coreDeveloperIntro: 'Larger than 30% Contributions'
     },
     languages: {
       title: 'Languages Review',
