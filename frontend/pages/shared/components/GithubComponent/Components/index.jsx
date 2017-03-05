@@ -7,7 +7,7 @@ import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 // import Github from 'COMPONENTS/Github';
-import GitHubSection from 'COMPONENTS/Github/GitHubSection';
+import GitHubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
 import USER from 'SRC/data/user';

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import GitHubSection from './GitHubSection';
+import GitHubSection from './GithubSection';
 
 
 const Github = (options) => (props) => {
