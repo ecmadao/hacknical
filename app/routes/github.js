@@ -51,7 +51,7 @@ router.get(
 );
 
 // refresh github datas
-router.get(
+router.put(
   '/refresh',
   user.checkSession(['userId', 'githubLogin']),
   GitHub.refreshDatas,
@@ -64,7 +64,7 @@ router.get(
   GitHub.getUser
 );
 
-router.post(
+router.patch(
   '/share/status',
   user.checkSession(['userId', 'githubLogin']),
   GitHub.toggleShare,

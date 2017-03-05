@@ -16,6 +16,7 @@ import {
   GREEN_COLORS
 } from 'UTILS/colors';
 import {
+  sortByX,
   sortRepos,
   getMaxIndex,
   getFirstTarget,
@@ -29,6 +30,7 @@ import styles from '../styles/share.css';
 import sharedStyles from '../../shared/styles/mobile.css';
 import locales from 'LOCALES';
 
+const sortByLanguageStar = sortByX('star');
 const githubTexts = locales('github').sections;
 
 const ReposInfo = (props) => {
@@ -194,25 +196,20 @@ class MobileShare extends React.Component {
 
   renderLanguagesChart() {
     const { languageSkills } = this.state;
-    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null').slice(0, 6);
-    const skill = languages.map(language => languageSkills[language]);
+
+    const languages = [], skills = [];
+    const languageArray = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null').slice(0, 6).map(language => ({ star: languageSkills[language], language })).sort(sortByLanguageStar);
+    languageArray.forEach((obj) => {
+      languages.push(obj.language);
+      skills.push(obj.star);
+    });
+
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
     this.languageSkillChart = new Chart(languageSkill, {
       type: 'radar',
       data: {
         labels: languages,
-        datasets: [{
-          data: skill,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 2,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
+        datasets: [chart.radar(skills)]
       },
       options: {
         title: {
@@ -232,12 +229,12 @@ class MobileShare extends React.Component {
   renderReposChart(repos) {
     const { commits } = this.state;
     const datasets = [
-      chart.getStarDatasets(repos),
-      chart.getForkDatasets(repos)
+      chart.repos.starsDatasets(repos),
+      chart.repos.forksDatasets(repos)
     ];
     if (commits.length) {
       datasets.push(
-        chart.getCommitDatasets(repos, commits)
+        chart.repos.commitsDatasets(repos, commits)
       )
     }
     const reposReview = ReactDOM.findDOMNode(this.reposReview);

@@ -294,7 +294,6 @@ class ShareAnalysis extends React.Component {
       viewDevices,
       viewSources
     } = this.props;
-
     const datas = {
       viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
       viewSources: viewSources.sort(sortByCount).slice(0, 6),

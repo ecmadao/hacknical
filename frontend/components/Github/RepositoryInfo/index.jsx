@@ -57,12 +57,12 @@ class RepositoryInfo extends React.Component {
     const { commitDatas } = this.props;
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     const datasets = [
-      chart.getStarDatasets(flatRepos),
-      chart.getForkDatasets(flatRepos)
+      chart.repos.starsDatasets(flatRepos),
+      chart.repos.forksDatasets(flatRepos)
     ];
     if (commitDatas.length) {
       datasets.push(
-        chart.getCommitDatasets(flatRepos, commitDatas)
+        chart.repos.commitsDatasets(flatRepos, commitDatas)
       )
     }
     this.reposReviewChart = new Chart(reposReview, {

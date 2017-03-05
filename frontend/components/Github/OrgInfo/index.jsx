@@ -12,11 +12,10 @@ import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 import styles from '../styles/github.css';
 import locales from 'LOCALES';
-import { splitArray } from 'UTILS/helper';
+import { splitArray, sortByX } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
 
 const githubTexts = locales('github').sections.orgs;
-const sortByX = (key) => (thisObj, nextObj) => thisObj[key] - nextObj[key];
 const sortByStar = sortByX('stargazers_count');
 
 class OrgInfo extends React.Component {

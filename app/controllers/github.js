@@ -12,7 +12,7 @@ const toggleShare = async (ctx, next) => {
     enable,
     url: `github/${githubLogin}`
   });
-  const message = enable === 'true' ? "messages.share.toggleOpen" : "messages.share.toggleClose"
+  const message = Boolean(enable) == true ? "messages.share.toggleOpen" : "messages.share.toggleClose"
   ctx.body = {
     success: true,
     message: ctx.__(message)

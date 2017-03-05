@@ -63,6 +63,8 @@ class CommitInfo extends React.Component {
         datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commitDates,
           label: githubTexts.weeklyCommitChartTitle,
+          pointBorderWidth: 0,
+          pointRadius: 0,
         })]
       },
       options: {

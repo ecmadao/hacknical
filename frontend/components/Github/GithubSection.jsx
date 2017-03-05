@@ -15,7 +15,7 @@ const EmptyDOM = (props) => {
   )
 };
 
-class GithubSection extends React.Component {
+class GitHubSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -113,7 +113,7 @@ class GithubSection extends React.Component {
   }
 }
 
-GithubSection.PropTypes = {
+GitHubSection.PropTypes = {
   section: PropTypes.string,
   disabled: PropTypes.bool,
   hide: PropTypes.bool,
@@ -125,7 +125,7 @@ GithubSection.PropTypes = {
   intro: PropTypes.object
 };
 
-GithubSection.defaultProps = {
+GitHubSection.defaultProps = {
   section: Object.keys(config)[0],
   disabled: false,
   hide: false,
@@ -140,4 +140,4 @@ GithubSection.defaultProps = {
   intro: null
 };
 
-export default GithubSection;
+export default GitHubSection;

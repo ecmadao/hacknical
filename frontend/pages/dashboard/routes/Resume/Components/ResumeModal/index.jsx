@@ -5,11 +5,11 @@ import PortalModal from 'COMPONENTS/PortalModal';
 import TipsoModal from 'COMPONENTS/TipsoModal';
 
 import dateHelper from 'UTILS/date';
-import { sortByX } from 'UTILS/helper';
+import { sortBySeconds } from 'UTILS/helper';
 import validator from 'UTILS/validator';
 import styles from '../../styles/resume_modal.css';
 
-const sortByDate = sortByX('startTime');
+const sortByDate = sortBySeconds('startTime');
 const validateDate = dateHelper.validator.date;
 
 class ResumeModal extends React.Component {

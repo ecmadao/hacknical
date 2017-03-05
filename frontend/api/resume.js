@@ -1,11 +1,11 @@
-import { postData, getData } from './base';
+import { postData, getData, putData, patchData } from './base';
 
 const getResume = () => {
   return getData('/resume/edit');
 };
 
 const setResume = (resume) => {
-  return postData('/resume/edit', { resume })
+  return putData('/resume/edit', { resume })
 };
 
 const getPubResume = (hash) => {
@@ -17,15 +17,15 @@ const getPubResumeStatus = () => {
 };
 
 const postPubResumeShareStatus = (enable) => {
-  return postData(`/resume/share/status`, { enable });
+  return patchData(`/resume/share/status`, { enable });
 };
 
 const postPubResumeGithubStatus = (enable) => {
-  return postData(`/resume/share/github`, { enable });
+  return patchData(`/resume/share/github`, { enable });
 };
 
 const postPubResumeGithubSection = (option) => {
-  return postData(`/resume/github/section`, option);
+  return patchData(`/resume/github/section`, option);
 };
 
 const getShareRecords = () => {

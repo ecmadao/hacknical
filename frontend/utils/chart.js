@@ -34,8 +34,38 @@ const getCommitDatasets = (repos, commits) => {
   });
 };
 
+const polarAreaDatasets = (skills) => {
+  return {
+    type: 'polarArea',
+    data: skills,
+    label: '',
+    backgroundColor: [...GREEN_COLORS].reverse(),
+    borderWidth: 2,
+  }
+};
+
+const radarDatasets = (languagePercentages) => {
+  return {
+    type: 'radar',
+    data: languagePercentages,
+    label: '',
+    fill: true,
+    backgroundColor: GREEN_COLORS[4],
+    borderWidth: 2,
+    borderColor: GREEN_COLORS[0],
+    pointBackgroundColor: GREEN_COLORS[0],
+    pointBorderColor: "#fff",
+    pointHoverBackgroundColor: "#fff",
+    pointHoverBorderColor: GREEN_COLORS[0]
+  }
+};
+
 export default {
-  getStarDatasets,
-  getForkDatasets,
-  getCommitDatasets
+  repos: {
+    starsDatasets: getStarDatasets,
+    forksDatasets: getForkDatasets,
+    commitsDatasets: getCommitDatasets,
+  },
+  polarArea: polarAreaDatasets,
+  radar: radarDatasets
 }

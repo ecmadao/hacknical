@@ -127,7 +127,7 @@ const setResumeShareStatus = async (ctx, next) => {
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     openShare: enable
   });
-  const resultMessage = enable === 'true' ? "messages.share.toggleOpen" : "messages.share.toggleClose"
+  const resultMessage = Boolean(enable) == true ? "messages.share.toggleOpen" : "messages.share.toggleClose";
   ctx.body = {
     success: true,
     message: ctx.__(resultMessage)
@@ -148,7 +148,7 @@ const setResumeGithubStatus = async (ctx, next) => {
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     useGithub: enable
   });
-  const resultMessage = enable === 'true' ? "messages.resume.linkGithub" : "messages.resume.unlinkGithub";
+  const resultMessage = Boolean(enable) == true ? "messages.resume.linkGithub" : "messages.resume.unlinkGithub";
   ctx.body = {
     success: true,
     message: ctx.__(resultMessage)

@@ -14,7 +14,7 @@ router.get('/edit',
   user.checkSession(session.requiredSessions),
   Resume.getResume
 );
-router.post('/edit',
+router.put('/edit',
   Resume.setResume,
   cache.del()
 );
@@ -27,15 +27,15 @@ router.get('/share/records',
   user.checkSession(session.requiredSessions),
   Resume.getShareRecords
 );
-router.post('/share/status',
+router.patch('/share/status',
   user.checkSession(session.requiredSessions),
   Resume.setResumeShareStatus
 );
-router.post('/share/github',
+router.patch('/share/github',
   user.checkSession(session.requiredSessions),
   Resume.setResumeGithubStatus
 );
-router.post('/github/section',
+router.patch('/github/section',
   user.checkSession(session.requiredSessions),
   Resume.setGithubShareSection
 );

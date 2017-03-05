@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import GithubSection from './GithubSection';
+import GitHubSection from './GitHubSection';
 
 
 const Github = (options) => (props) => {
   const { isShare, callback } = options;
   return (
-    <GithubSection
+    <GitHubSection
       {...props}
       isShare={isShare}
       callback={callback}

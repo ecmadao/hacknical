@@ -69,7 +69,8 @@ export const getOffsetRight = (start, end) => (right) => {
   return `${Math.floor((end - right) * 100 / length)}%`;
 };
 
-export const sortByX = (key) => (thisObj, nextObj) => getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
+export const sortBySeconds = (key) => (thisObj, nextObj) => getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
+export const sortByX = (key) => (thisObj, nextObj) => thisObj[key] - nextObj[key];
 
 export const faltten = (array) => {
   const result = [];

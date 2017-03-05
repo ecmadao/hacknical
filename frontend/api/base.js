@@ -68,3 +68,13 @@ export const deleteData = (url, data) => {
   data['_csrf'] = document.getElementsByTagName('meta')['csrf-token'].content;
   return fetchApi(url, 'DELETE', data);
 };
+
+export const putData = (url, data) => {
+  data['_csrf'] = document.getElementsByTagName('meta')['csrf-token'].content;
+  return fetchApi(url, 'PUT', data);
+};
+
+export const patchData = (url, data) => {
+  data['_csrf'] = document.getElementsByTagName('meta')['csrf-token'].content;
+  return fetchApi(url, 'PATCH', data);
+};

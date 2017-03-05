@@ -2,15 +2,15 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 
 import dateHelper from 'UTILS/date';
-import { sortByX } from 'UTILS/helper';
+import { sortBySeconds } from 'UTILS/helper';
 import validator from 'UTILS/validator';
 import { LINK_NAMES } from 'SHAREDPAGE/datas/resume';
 import { objectassign } from 'SHAREDPAGE/utils/resume';
 import GithubComponent from 'SHAREDPAGE/components/GithubComponent';
 import styles from './styles/resume.css';
 
-const sortByDate = sortByX('startTime');
-const sortByEndDate = sortByX('endTime');
+const sortByDate = sortBySeconds('startTime');
+const sortByEndDate = sortBySeconds('endTime');
 const validateDate = dateHelper.validator.date;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;

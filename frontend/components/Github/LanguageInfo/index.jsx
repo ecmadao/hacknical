@@ -8,15 +8,18 @@ import Label from 'COMPONENTS/Label';
 import github from 'UTILS/github';
 import { GREEN_COLORS, randomColor } from 'UTILS/colors';
 import {
+  sortByX,
   getMaxIndex,
   sortLanguages
 } from 'UTILS/helper';
 import locales from 'LOCALES';
+import chart from 'UTILS/chart';
 
 import githubStyles from '../styles/github.css';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 
+const sortByLanguageStar = sortByX('star');
 const githubTexts = locales('github').sections.languages;
 
 class LanguageInfo extends React.Component {
@@ -59,18 +62,7 @@ class LanguageInfo extends React.Component {
       type: 'radar',
       data: {
         labels: languages,
-        datasets: [{
-          data: languagePercentage,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
+        datasets: [chart.radar(languagePercentage)]
       },
       options: {
         title: {
@@ -93,25 +85,19 @@ class LanguageInfo extends React.Component {
 
   renderLanguageSkillsChart() {
     const { languageSkills } = this.props;
-    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null').slice(0, 6);
-    const skill = languages.map(language => languageSkills[language]);
+    const languages = [], skills = [];
+    const languageArray = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null').slice(0, 6).map(language => ({ star: languageSkills[language], language })).sort(sortByLanguageStar);
+    languageArray.forEach((obj) => {
+      languages.push(obj.language);
+      skills.push(obj.star);
+    });
+
     const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
     this.languageSkillChart = new Chart(languageSkill, {
-      type: 'radar',
+      type: 'polarArea',
       data: {
         labels: languages,
-        datasets: [{
-          data: skill,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
+        datasets: [chart.polarArea(skills)]
       },
       options: {
         title: {

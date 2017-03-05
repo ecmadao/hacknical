@@ -7,7 +7,7 @@ import { GREEN_COLORS } from 'UTILS/colors';
 import Loading from 'COMPONENTS/Loading';
 import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 // import Github from 'COMPONENTS/Github';
-import GithubSection from 'COMPONENTS/Github/GithubSection';
+import GitHubSection from 'COMPONENTS/Github/GitHubSection';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
 import USER from 'SRC/data/user';
@@ -22,11 +22,11 @@ const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
 
-// let GithubSection = null;
+// let GitHubSection = null;
 // const getGithubSection = (options) => {
-//   if (GithubSection) return GithubSection;
-//   GithubSection = Github(options);
-//   return GithubSection;
+//   if (GitHubSection) return GitHubSection;
+//   GitHubSection = Github(options);
+//   return GitHubSection;
 // };
 
 class GithubComponent extends React.Component {
@@ -155,14 +155,14 @@ class GithubComponent extends React.Component {
     const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
-    // const GithubSection = getGithubSection({
+    // const GitHubSection = getGithubSection({
     //   isShare,
     //   callback: this.changeGithubSection
     // });
 
     return (
       <div className={containerStyle}>
-        <GithubSection
+        <GitHubSection
           userLogin={user.login}
           title={{
             text: githubTexts.hotmap.title,
@@ -175,7 +175,7 @@ class GithubComponent extends React.Component {
           isShare={isShare}
           callback={this.changeGithubSection}
         />
-        <GithubSection
+        <GitHubSection
           user={user}
           title={{
             text: githubTexts.baseInfo.title,
@@ -189,7 +189,7 @@ class GithubComponent extends React.Component {
           isShare={isShare}
           callback={this.changeGithubSection}
         />
-        <GithubSection
+        <GitHubSection
           loaded={loaded}
           showedReposId={showedReposId}
           commitDatas={commitDatas}
@@ -212,7 +212,7 @@ class GithubComponent extends React.Component {
           isShare={isShare}
           callback={this.changeGithubSection}
         />
-        <GithubSection
+        <GitHubSection
           userLogin={user.login}
           title={{
             text: githubTexts.orgs.title,
@@ -230,7 +230,7 @@ class GithubComponent extends React.Component {
           isShare={isShare}
           callback={this.changeGithubSection}
         />
-        <GithubSection
+        <GitHubSection
           repos={repos}
           loaded={loaded}
           showedReposId={showedReposId}
@@ -250,7 +250,7 @@ class GithubComponent extends React.Component {
           isShare={isShare}
           callback={this.changeGithubSection}
         />
-        <GithubSection
+        <GitHubSection
           loaded={loaded}
           commitDatas={commitDatas}
           commitInfos={commitInfos}
