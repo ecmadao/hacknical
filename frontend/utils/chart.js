@@ -39,7 +39,7 @@ const polarAreaDatasets = (skills) => {
     type: 'polarArea',
     data: skills,
     label: '',
-    backgroundColor: [...GREEN_COLORS].reverse(),
+    backgroundColor: [...GREEN_COLORS].slice(1).reverse(),
     borderWidth: 2,
   }
 };

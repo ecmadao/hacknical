@@ -21,6 +21,7 @@ export const MD_COLORS = [
 
 export const GREEN_COLORS = [
   'rgba(55, 178, 77, 1)',
+  'rgba(55, 178, 77, 0.9)',
   'rgba(55, 178, 77, 0.8)',
   'rgba(55, 178, 77, 0.6)',
   'rgba(55, 178, 77, 0.4)',

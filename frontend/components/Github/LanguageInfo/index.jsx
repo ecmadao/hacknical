@@ -107,13 +107,13 @@ class LanguageInfo extends React.Component {
         legend: {
           display: false,
         },
-        tooltips: {
-          callbacks: {
-            label: (item, data) => {
-              return `${githubTexts.starChart.label}${item.yLabel}`
-            }
-          }
-        }
+        // tooltips: {
+        //   callbacks: {
+        //     label: (item, data) => {
+        //       return `${githubTexts.starChart.label}${item.yLabel}`
+        //     }
+        //   }
+        // }
       }
     });
   }
