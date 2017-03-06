@@ -4,24 +4,25 @@ import fetch from '../utils/fetch';
 const API_URL = config.get('services.api.url');
 const APP_NAME = config.get('services.api.app');
 const BASE_URL = `${API_URL}/api/github`;
+const retryTimes = config.get('services.api.timeouts');
 
 /* =========================== basic funcs =========================== */
 
-const fetchApi = (url, headers = {}) => {
+const fetchApi = (url, headers = {}, timeout = retryTimes) => {
   const options = {
     url: `${BASE_URL}${url}`,
     headers: Object.assign({}, {
       'Hacknical-App-Name': APP_NAME
     }, headers)
   };
-  return fetch.get(options);
+  return fetch.get(options, timeout);
 };
 
-const postApi = (url) => {
+const postApi = (url, timeout = retryTimes) => {
   const options = {
     url
   };
-  return fetch.post(options);
+  return fetch.post(options, timeout);
 };
 
 /* =========================== api funcs =========================== */
@@ -44,7 +45,11 @@ const getUserRepos = async (login, token) => fetchApi(`/user/repos?login=${login
 const getUserOrgs = async (login, token) => fetchApi(`/user/orgs?login=${login}&token=${token}`);
 
 const getUpdateTime = async (login) => fetchApi(`/user/updateTime?login=${login}`);
-const refreshUserDatas = async (login, token) => fetchApi(`/user/refresh?login=${login}&token=${token}`);
+const refreshUserDatas = async (login, token) => fetchApi(
+  `/user/refresh?login=${login}&token=${token}`,
+  {},
+  [null]
+);
 
 export default {
   /* ===== */

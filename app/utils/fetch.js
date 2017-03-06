@@ -1,9 +1,6 @@
 import request from 'request';
-import config from 'config';
 
-const retryTimes = config.get('services.api.timeouts');
-
-const fetchData = (options, parse = true) => {
+const fetchData = (options) => {
   return new Promise((resolve, reject) => {
     request(options, (err, httpResponse, body) => {
       if (err) {
@@ -18,28 +15,33 @@ const fetchData = (options, parse = true) => {
   });
 };
 
-const fetch = async (options, parse = true, timeout = retryTimes) => {
+const fetch = async (options, timeout) => {
+  console.log(timeout)
   let err = null;
   for (let i = 0; i < timeout.length; i++) {
     try {
-      options.timeout = timeout[i];
-      const result = await fetchData(options, parse);
+      const time = timeout[i];
+      if (time) {
+        options.timeout = time;
+      }
+      const result = await fetchData(options);
       err = null;
       return result;
     } catch (e) {
       err = e;
     }
   }
+  console.log(err);
   if (err) { throw new Error(err) }
 };
 
 export default {
-  get: (options, parse, timeout) => {
+  get: (options, timeout) => {
     options.method = 'GET';
-    return fetch(options, parse, timeout)
+    return fetch(options, timeout)
   },
-  post: (options, parse, timeout) => {
+  post: (options, timeout) => {
     options.method = 'POST';
-    return fetch(options, parse, timeout)
+    return fetch(options, timeout)
   }
 }
