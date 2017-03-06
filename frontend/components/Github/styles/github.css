@@ -582,6 +582,26 @@
 .info_strong {
   position: relative;
   font-weight: bolder;
+
+  &.strong-1 {
+    color: var(--oc-yellow-4);
+  }
+
+  &.strong-2 {
+    color: var(--oc-yellow-5);
+  }
+
+  &.strong-3 {
+    color: var(--oc-yellow-6);
+  }
+
+  &.strong-4 {
+    color: var(--oc-yellow-7);
+  }
+
+  &.strong-5 {
+    color: var(--oc-yellow-8);
+  }
 }
 
 .info_tipso {

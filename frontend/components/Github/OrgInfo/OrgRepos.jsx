@@ -4,6 +4,7 @@ import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
 import ContributionChart from './ContributionChart';
+import { contributionLevel } from './helper';
 
 const githubTexts = locales('github').sections.orgs;
 const fullDate = dateHelper.validator.fullDate;
@@ -61,7 +62,10 @@ class OrgRepos extends React.Component {
             &nbsp;&nbsp;&nbsp;
             <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
             &nbsp;&nbsp;
-            <span className={styles["info_strong"]}>
+            <span className={cx(
+              styles["info_strong"],
+              styles[`strong-${contributionLevel(contributionPercentage)}`]
+            )}>
               {githubTexts.contributionPercentage}: {`${contributionPercentage.toFixed(2)}%`}
             </span>
           </span>

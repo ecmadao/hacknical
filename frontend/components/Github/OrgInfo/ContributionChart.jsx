@@ -10,6 +10,7 @@ import dateHelper from 'UTILS/date';
 import { GREEN_COLORS } from 'UTILS/colors';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import locales from 'LOCALES';
+import { contributionLevel } from './helper';
 
 const githubTexts = locales('github').sections.orgs;
 
@@ -170,7 +171,10 @@ class ContributionChart extends React.Component {
                 onMouseEnter={this.onMouseEnter}
                 onMouseOut={this.onMouseLeave}
                 onMouseLeave={this.onMouseLeave}
-                className={styles["info_strong"]}>
+                className={cx(
+                  styles["info_strong"],
+                  styles[`strong-${contributionLevel(percentage)}`]
+                )}>
                 <i className="fa fa-trophy" aria-hidden="true"></i>&nbsp;{githubTexts.coreDeveloper}
                 {showTipso ? (
                   <Tipso
