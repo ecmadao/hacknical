@@ -28,6 +28,7 @@ class LanguageInfo extends React.Component {
     this.state = {
       showLanguage: null
     };
+    this.languages = [];
     this.labelColor = randomColor();
     this.languageSkillChart = null;
     this.languageUsedChart = null;
@@ -38,7 +39,13 @@ class LanguageInfo extends React.Component {
     this.renderCharts();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(preProps) {
+    const { languageUsed } = this.props;
+    if (!Object.keys(preProps.languageUsed).length && Object.keys(languageUsed).length) {
+      this.setState({
+        showLanguage: this.sortedLanguages[0]
+      });
+    }
     this.renderCharts();
   }
 
@@ -141,11 +148,14 @@ class LanguageInfo extends React.Component {
               href={repository['html_url']}
               className={githubStyles["repos_info_name"]}>
               {repository.name}
-            </a>{repository.fork ? (<span className={githubStyles["repos_info_forked"]}>
-              <i className="fa fa-code-fork" aria-hidden="true">
-              </i>&nbsp;
-              forked
-            </span>) : ''}<br/>
+            </a>
+            {repository.fork ? (
+              <span className={githubStyles["repos_info_forked"]}>
+                <i className="fa fa-code-fork" aria-hidden="true">
+                </i>
+                &nbsp;forked
+              </span>
+            ) : ''}<br/>
             <span>{repository.description}</span>
           </div>
           <div className={starClass}>
@@ -156,7 +166,10 @@ class LanguageInfo extends React.Component {
     });
     return (
       <div className={githubStyles["repos_show_container"]}>
-        <p className={githubStyles["repos_show_title"]}>{showLanguage}</p>
+        <p className={githubStyles["repos_show_title"]}>
+          {showLanguage}&nbsp;
+          <span>{githubTexts.relativeRepos}</span>
+        </p>
         {targetRepos}
       </div>
     )
@@ -194,8 +207,10 @@ class LanguageInfo extends React.Component {
   }
 
   get sortedLanguages() {
+    if (this.languages.length) { return this.languages }
     const { languageUsed } = this.props;
-    return Object.keys(languageUsed).sort(sortLanguages(languageUsed)).slice(0, 6);
+    this.languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).slice(0, 6);
+    return this.languages;
   }
 
   renderLanguagesLabel() {
@@ -264,7 +279,11 @@ class LanguageInfo extends React.Component {
 }
 
 LanguageInfo.defaultProps = {
-  className: ''
+  className: '',
+  loaded: false,
+  languageSkills: {},
+  languageUsed: {},
+  languageDistributions: {}
 };
 
 export default LanguageInfo;

@@ -4,24 +4,50 @@ import styles from './label.css';
 
 class Label extends React.Component {
 
-  shouldComponentUpdate(nextProps) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pressed: false
+    };
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { pressed } = this.state;
     const { active, clickable } = this.props;
-    return active !== nextProps.active || clickable !== nextProps.clickable;
+    return active !== nextProps.active || clickable !== nextProps.clickable || pressed !== nextState.pressed;
+  }
+
+  onMouseDown() {
+    this.setState({ pressed: true });
+  }
+
+  onMouseUp() {
+    this.setState({ pressed: false });
   }
 
   render() {
+    const { pressed } = this.state;
     const { style, text, onClick, id, clickable, active } = this.props;
     const labelClass = cx(
       styles["label"],
       !active && clickable && styles["clickable"],
+      pressed && styles["pressDown"],
       active && styles["active"]
     );
     return (
       <div
         style={style}
+        onMouseDown={this.onMouseDown}
+        onMouseOut={this.onMouseUp}
+        onMouseLeave={this.onMouseUp}
+        onMouseUp={this.onMouseUp}
         onClick={() => onClick(id)}
         className={labelClass}>
-        {text}
+        <span>
+          {text}
+        </span>
       </div>
     )
   }

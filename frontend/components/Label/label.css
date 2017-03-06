@@ -8,6 +8,7 @@
   margin: 5px;
   font-size: 12px;
   position: relative;
+  user-select: none;
 
   &.clickable {
     cursor: pointer;
@@ -17,7 +18,7 @@
       box-shadow: var(--shadow5);
 
       &::before {
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: rgba(0, 0, 0, 0.4);
       }
     }
   }
@@ -45,5 +46,18 @@
     bottom: 0;
     background-color: transparent;
     transition: background-color 0.2s;
+  }
+
+  & span {
+    display: block;
+    transform: translateY(0);
+  }
+
+  &.pressDown {
+    box-shadow: var(--shadow2);
+
+    & span {
+      transform: translateY(1px);
+    }
   }
 }

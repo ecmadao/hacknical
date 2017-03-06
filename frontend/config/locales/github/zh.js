@@ -54,7 +54,8 @@ const datas = {
         title: '语言 & 获得 star',
         label: '与该语言相关 star 数：'
       },
-      emptyText: '暂无语言信息'
+      emptyText: '暂无语言信息',
+      relativeRepos: '与该语言相关的仓库'
     },
     commits: {
       title: '贡献信息',

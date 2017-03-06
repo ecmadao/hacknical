@@ -263,17 +263,26 @@
 .repos_show_container {
   display: block;
 
-  & .repos_show_title {
+  & p.repos_show_title {
     padding-left: 10px;
-    margin-left: 10px;
-    font-size: 1.5em;
+    margin-left: 2px;
+    margin-bottom: 15px;
     border-left: 3px solid var(--oc-gray-5);
-    line-height: 40px;
+    line-height: 40px !important;
+    font-size: 2em;
+    font-weight: bold;
+
+    & span {
+      font-size: 16px;
+      font-weight: normal;
+      color: var(--oc-gray-5);
+    }
   }
 
   & .repos_show {
     display: flex;
     padding: 10px;
+    padding-bottom: 15px;
     border-radius: 3px;
     position: relative;
     transition: background-color 0.2s;
@@ -293,12 +302,13 @@
         font-size: 16px;
 
         &:hover {
-          color: var(--oc-green-5);
+          color: var(--oc-green-7);
         }
       }
 
       & span {
         font-size: 14px;
+        color: var(--oc-gray-5);
       }
 
       & .repos_info_forked {
@@ -306,14 +316,12 @@
         background-color: var(--oc-gray-5);
         color: var(--oc-white);
         margin-left: 8px;
-        padding: 3px 4px;
+        padding: 3px 6px;
         border-radius: 2px;
       }
     }
   }
 }
-/*.chart_card_container {
-}*/
 
 .repos_star {
   position: absolute;
@@ -322,7 +330,7 @@
   transform: translateY(-50%);
 
   &.active {
-    color: var(--oc-green-5);
+    color: var(--oc-green-7);
   }
 }
 
@@ -371,7 +379,7 @@
 }
 
 .org_item_active {
-  border-bottom: 3px solid var(--oc-green-5);
+  border-bottom: 3px solid var(--oc-green-7);
 }
 
 .org_detail {
@@ -511,7 +519,7 @@
 
 .user_contributions {
   border-radius: 20px;
-  background-color: var(--oc-green-5);
+  background-color: var(--oc-green-7);
   height: 20px;
 }
 

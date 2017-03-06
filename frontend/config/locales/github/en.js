@@ -54,7 +54,8 @@ const datas = {
         title: 'Stars language get',
         label: 'Stars relative to this language: '
       },
-      emptyText: 'No languages info'
+      emptyText: 'No languages info',
+      relativeRepos: 'Repos relatived to this language'
     },
     commits: {
       title: 'Commits Review',

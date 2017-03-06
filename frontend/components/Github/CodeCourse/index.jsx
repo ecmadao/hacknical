@@ -69,7 +69,9 @@ class CodeCourse extends React.Component {
         stargazers_count,
         reposId,
         full_name,
-        fork
+        fork,
+        html_url,
+        watchers_count
       } = repository;
 
       const left = offsetLeft(getSecondsByDate(created_at));
@@ -102,16 +104,21 @@ class CodeCourse extends React.Component {
           <div className={tipsoClass}>
             <div className={cx(githubStyles["tipso_container"], githubStyles["tipso_large"])}>
               <span className={githubStyles["tipso_title"]}>
-                {name}
+                <a href={html_url} target="_blank">
+                  {name}
+                </a>
                 &nbsp;&nbsp;
                 {`<${language}>`}
                 &nbsp;&nbsp;
                 {fork ? '<fork>' : ''}
               </span><br/>
+              <div className={githubStyles["tipso_line"]}></div>
               <span>
                 <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
                 &nbsp;&nbsp;&nbsp;
                 <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
+                &nbsp;&nbsp;&nbsp;
+                <i className="fa fa-eye" aria-hidden="true"></i>&nbsp;{watchers_count}
               </span><br/>
               <span>{getValidateDate(created_at)} ~ {getValidateDate(pushed_at)}</span>
             </div>
