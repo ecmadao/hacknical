@@ -10,7 +10,8 @@ import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import {
   sortRepos,
   getMaxIndex,
-  getFirstTarget
+  getMaxTarget,
+  getFirstMatchTarget
 } from 'UTILS/helper';
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
@@ -99,17 +100,17 @@ class CommitInfo extends React.Component {
   }
 
   renderWeeklyChart(dailyCommits) {
-    const commits = [...dailyCommits.slice(1)];
-    commits.push(dailyCommits[0]);
-    const days = DAYS.slice(1);
-    days.push(DAYS[0]);
+    // const commits = [...dailyCommits.slice(1)];
+    // commits.push(dailyCommits[0]);
+    // const days = DAYS.slice(1);
+    // days.push(DAYS[0]);
     const commitsChart = ReactDOM.findDOMNode(this.commitsWeeklyChart);
     this.commitsWeeklyReviewChart = new Chart(commitsChart, {
       type: 'line',
       data: {
-        labels: days,
+        labels: DAYS,
         datasets: [objectAssign({}, LINECHART_CONFIG, {
-          data: commits,
+          data: dailyCommits,
           label: githubTexts.dailyCommitChartTitle,
         })]
       },
@@ -132,7 +133,7 @@ class CommitInfo extends React.Component {
         tooltips: {
           callbacks: {
             label: (item, data) => {
-              return `${item.yLabel} commits totally`
+              return `${item.yLabel} commits`
             }
           }
         }
@@ -142,37 +143,54 @@ class CommitInfo extends React.Component {
 
   renderChartInfo() {
     const { commitDatas, commitInfos } = this.props;
-    // const commitInfo = this.commitInfo;
     const { commits, dailyCommits, total } = commitInfos;
     // day info
     const maxIndex = getMaxIndex(dailyCommits);
     const dayName = DAYS[maxIndex];
     // first commit
-    const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commits, (item) => item.total);
-    const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
+    const [firstCommitWeek, firstCommitIndex] = getFirstMatchTarget(commits, (item) => item.total);
+    const [firstCommitDay, dayIndex] = getFirstMatchTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = dateHelper.date.bySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
     // max commit repos
     commitDatas.sort(sortRepos('totalCommits'));
     const maxCommitRepos = commitDatas[0];
 
+    // max commits day
+    const [maxDailyCommits, maxDailyCommitsIndex] = getMaxTarget(commits, item => item.days);
+    const maxCommitsWeek = commits[maxDailyCommitsIndex];
+    const dailyIndex = getMaxIndex(maxCommitsWeek.days);
+    const maxCommitDate = dateHelper.date.bySeconds(maxCommitsWeek.week + dailyIndex * 24 * 60 * 60);
+
     return (
-      <div className={chartStyles["chart_info_container"]}>
-        <ChartInfo
-          mainText={dayName}
-          subText={githubTexts.maxDay}
-        />
-        <ChartInfo
-          mainText={(total / 52).toFixed(2)}
-          subText={githubTexts.averageCount}
-        />
-        <ChartInfo
-          mainText={firstCommitDate}
-          subText={githubTexts.firstCommit}
-        />
-        <ChartInfo
-          mainText={maxCommitRepos.name}
-          subText={githubTexts.maxCommitRepos}
-        />
+      <div>
+        <div className={chartStyles["chart_info_container"]}>
+          <ChartInfo
+            mainText={dayName}
+            subText={githubTexts.maxDay}
+          />
+          <ChartInfo
+            mainText={(total / commits.length).toFixed(2)}
+            subText={githubTexts.averageCount}
+          />
+          <ChartInfo
+            mainText={firstCommitDate}
+            subText={githubTexts.firstCommit}
+          />
+          <ChartInfo
+            mainText={maxCommitRepos.name}
+            subText={githubTexts.maxCommitRepos}
+          />
+        </div>
+        <div className={chartStyles["chart_info_container"]}>
+          <ChartInfo
+            mainText={maxCommitDate}
+            subText={githubTexts.maxCommitDate}
+          />
+          <ChartInfo
+            mainText={maxDailyCommits}
+            subText={githubTexts.maxDailyCommits}
+          />
+        </div>
       </div>
     )
   }
@@ -212,7 +230,11 @@ class CommitInfo extends React.Component {
 }
 
 CommitInfo.defaultProps = {
-  className: ''
+  loaded: false,
+  hasCommits: false,
+  className: '',
+  commitInfos: {},
+  commitDatas: []
 };
 
 export default CommitInfo;

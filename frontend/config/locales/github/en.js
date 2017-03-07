@@ -59,14 +59,16 @@ const datas = {
     },
     commits: {
       title: 'Commits Review',
-      maxDay: 'Has Max Commits',
-      averageCount: 'Commits/Week',
+      maxDay: 'Your favorite day to commit',
+      averageCount: 'Weekly Commits',
       firstCommit: 'First Commit In Last Year',
       maxCommitRepos: 'Has Max Commits',
       maxCommitCount: 'Max Commits Count',
-      dailyCommitChartTitle: 'commits/days in last year',
-      weeklyCommitChartTitle: 'commits/week in last year',
-      emptyText: 'No commits info'
+      dailyCommitChartTitle: 'commits/daily in last year',
+      weeklyCommitChartTitle: 'commits/weekly in last year',
+      emptyText: 'No commits info',
+      maxCommitDate: 'Max commit date',
+      maxDailyCommits: 'Max daily commits'
     }
   },
   modal: {

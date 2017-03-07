@@ -59,14 +59,16 @@ const datas = {
     },
     commits: {
       title: '贡献信息',
-      maxDay: '是你提交最多的日子',
+      maxDay: '是你最喜欢提交的日子',
       averageCount: '平均每周提交次数',
       firstCommit: '过去一年第一次提交代码',
       maxCommitRepos: '提交次数最多的仓库',
       maxCommitCount: '单个仓库最多提交数',
-      dailyCommitChartTitle: '过去一年每日总提交数',
-      weeklyCommitChartTitle: '过去一年单周提交数',
-      emptyText: '暂无提交信息'
+      dailyCommitChartTitle: '过去一年每日提交数(中位数)',
+      weeklyCommitChartTitle: '过去一年每周提交数',
+      emptyText: '暂无提交信息',
+      maxCommitDate: '提交最多的一天',
+      maxDailyCommits: '一天最多提交次数'
     }
   },
   modal: {

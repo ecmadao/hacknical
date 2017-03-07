@@ -1,3 +1,26 @@
+/*
+  * example:
+  *
+  * GET:
+  * object = {
+  *  a: 1,
+  *  b: {
+  *    c: 2
+  *  }
+  * }
+  * KEY = 'b.c';
+  *
+  * RETURN: 2
+ */
+const getValue = (object, key) => {
+  const sections = key.split('.');
+  let result = object;
+  sections.forEach((section) => {
+    result = result[section]
+  });
+  return result;
+};
+
 /**
  * [getPlanObject description]
  * @method getPlanObject
@@ -22,42 +45,15 @@
  *  c: 2
  * }
  */
-const getPlanObject = (object, keys) => {
+export const getPlanObject = (object, keys) => {
   const planObject = {};
   keys.forEach((key, index) => {
-    const sections = key.split('.');
-    let result = object;
-    sections.forEach((section) => {
-      result = result[section]
-    });
+    const result = getValue(object, key);
     if (result !== object) {
       planObject[sections.slice(-1)[0]] = result;
     }
   });
   return planObject;
-};
-
-/*
-  * example:
-  *
-  * GET:
-  * object = {
-  *  a: 1,
-  *  b: {
-  *    c: 2
-  *  }
-  * }
-  * KEY = 'b.c';
-  *
-  * RETURN: 2
- */
-const getValue = (object, key) => {
-  const sections = key.split('.');
-  let result = object;
-  sections.forEach((section) => {
-    result = result[section]
-  });
-  return result;
 };
 
 export default getValue;

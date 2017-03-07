@@ -11,14 +11,29 @@ const combineReposCommits = (reposCommits) => {
     total: 0,
     dailyCommits: [
       // from sunday to monday
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    totalDailyCommits: [
+      // from sunday to monday
     ]
   };
   reposCommits.forEach((repository, repositoryIndex) => {
+    const weeklyCommits = [];
     repository.commits.forEach((commit, index) => {
       const { total, days, week } = commit;
       result.total += total;
-
       const targetCommit = result.commits[index];
+
+      if (!weeklyCommits.length) {
+        weeklyCommits.push(...days);
+      }
+
       if (!targetCommit) {
         result.commits.push({
           total,
@@ -26,7 +41,8 @@ const combineReposCommits = (reposCommits) => {
           week
         });
         days.forEach((day, i) => {
-          result.dailyCommits[i] = day;
+          // each array comtains every repos's commits from sunday to monday
+          result.totalDailyCommits[i] = day;
         });
         return;
       }
@@ -34,9 +50,23 @@ const combineReposCommits = (reposCommits) => {
       targetCommit.total += total;
       days.forEach((day, i) => {
         targetCommit.days[i] += day;
-        result.dailyCommits[i] += day;
+        weeklyCommits[i] += day;
+        result.totalDailyCommits[i] += day;
       });
     });
+    // console.log('weeklyCommits')
+    // console.log(weeklyCommits)
+    weeklyCommits.forEach((commit, index) => {
+      result.dailyCommits[index].push(commit);
+    });
+  });
+
+  result.dailyCommits.forEach((dailyCommit, index) => {
+    dailyCommit.sort();
+    // console.log(dailyCommit)
+    result.dailyCommits[index] = dailyCommit.length % 2 === 0 ?
+      0.5 * (dailyCommit[(dailyCommit.length / 2) - 1] + dailyCommit[dailyCommit.length / 2]) :
+      dailyCommit[(dailyCommit.length - 1) / 2];
   });
   return result;
 };
