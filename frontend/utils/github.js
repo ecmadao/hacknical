@@ -6,23 +6,22 @@ const getSecondsByDate = dateHelper.seconds.getByDate;
 const getMonth = dateHelper.date.getMonth;
 const getDateBySeconds = dateHelper.date.bySeconds;
 const baseUrl = 'https://github.com';
+const BASE_DAYS = [0, 0, 0, 0, 0, 0, 0];
 
 const combineReposCommits = (reposCommits) => {
   const result = {
     commits: [],
     total: 0,
     dailyCommits: [
-      // from sunday to monday
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      []
+      // seven Array, means from sunday to monday
+      // sunday [1, 2, 3, 4] four repos commits on sunday
+      // monday [0, 5, 3, 9] four repos commits on monday
+      // ...
     ],
     totalDailyCommits: [
-      // from sunday to monday
+      // each item menus from sunday to monday
+      // total commits count combine by all repos
+      // 200, 201, 100, 198, 110, 150, 111
     ],
     monthReview: {
       // 1 to 12 month, each month commits count & new repos count
@@ -32,6 +31,7 @@ const combineReposCommits = (reposCommits) => {
 
   // initial monthReview
   for(let i = 1; i < 13; i++) {
+    result.dailyCommits[(i - 1) % 7] = [];
     result.monthReview[i] = {
       repos: [],
       commitsCount: 0
@@ -39,45 +39,36 @@ const combineReposCommits = (reposCommits) => {
   }
 
   reposCommits.forEach((repository, repositoryIndex) => {
-    const weeklyCommits = [];
-    const { created_at, commits, name } = repository;
+    const { created_at, pushed_at, commits, name } = repository;
     const month = getMonth(created_at);
     result.monthReview[month].repos.push(name);
+
+    const weeklyCommits = [...BASE_DAYS];
 
     commits.forEach((commit, index) => {
       const { total, days, week } = commit;
       result.total += total;
-      const targetCommit = result.commits[index];
-
-      if (!weeklyCommits.length) {
-        weeklyCommits.push(...days);
-      }
+      let targetCommit = result.commits[index];
 
       if (!targetCommit) {
-        result.commits.push({
-          total,
-          days,
+        targetCommit = {
+          total: 0,
+          days: [...BASE_DAYS],
           week
-        });
-        days.forEach((day, i) => {
-          // each array comtains every repos's commits from sunday to monday
-          result.totalDailyCommits[i] = day;
-        });
-        return;
+        };
+        result.commits.push(targetCommit);
       }
 
       targetCommit.total += total;
       days.forEach((day, i) => {
         targetCommit.days[i] += day;
         weeklyCommits[i] += day;
-        result.totalDailyCommits[i] += day;
 
         const daySeconds = week - (7 - i) * 24 * 60 * 60;
         const month = getDateBySeconds(daySeconds, 'M');
         result.monthReview[month].commitsCount += day;
       });
     });
-
     weeklyCommits.forEach((commit, index) => {
       result.dailyCommits[index].push(commit);
     });
@@ -85,10 +76,12 @@ const combineReposCommits = (reposCommits) => {
 
   result.dailyCommits.forEach((dailyCommit, index) => {
     dailyCommit.sort();
+    result.totalDailyCommits[index] = dailyCommit.reduce((pre, next) => pre + next);
     result.dailyCommits[index] = dailyCommit.length % 2 === 0 ?
       0.5 * (dailyCommit[(dailyCommit.length / 2) - 1] + dailyCommit[dailyCommit.length / 2]) :
       dailyCommit[(dailyCommit.length - 1) / 2];
   });
+
   return result;
 };
 

@@ -117,6 +117,7 @@ class CommitInfo extends React.Component {
         })]
       },
       options: {
+        animation: false,
         scales: {
           xAxes: [{
             display: false,
@@ -204,11 +205,13 @@ class CommitInfo extends React.Component {
     // max repos count month
     const monthlyReposCounts = Object.keys(monthReview).map(key => monthReview[key].repos.length);
     const maxReposCountMonth = getMaxIndex(monthlyReposCounts) + 1;
+    const allReposThisMonth = monthReview[maxReposCountMonth].repos.join(', ');
 
     // max commits month
     const monthlyCommitsCounts = Object.keys(monthReview).map(key => monthReview[key].commitsCount);
     const maxCommitsCountMonth = getMaxIndex(monthlyCommitsCounts) + 1;
-    // getMaxIndex
+    const maxCommitsCount = monthReview[maxCommitsCountMonth].commitsCount;
+
     return (
       <div>
         <div className={chartStyles["chart_info_container"]}>
@@ -231,16 +234,28 @@ class CommitInfo extends React.Component {
         </div>
         <div className={chartStyles["chart_info_container"]}>
           <ChartInfo
+            tipso={{
+              text: `总共有 ${maxCommitRepos.totalCommits} 次提交`
+            }}
             mainText={maxCommitRepos.name}
             subText={githubTexts.maxCommitRepos}
           />
           <ChartInfo
+            tipso={{
+              style: {
+                width: '250px'
+              },
+              text: `在${MONTHS[maxReposCountMonth]}创建了：${allReposThisMonth}`
+            }}
             mainText={MONTHS[maxReposCountMonth]}
-            subText={`${MONTHS[maxReposCountMonth]}${githubTexts.maxReposCountMonth}`}
+            subText={githubTexts.maxReposCountMonth}
           />
           <ChartInfo
+            tipso={{
+              text: `${MONTHS[maxCommitsCountMonth]}总共有 ${maxCommitsCount} 次提交`
+            }}
             mainText={MONTHS[maxCommitsCountMonth]}
-            subText={`${MONTHS[maxCommitsCountMonth]}${githubTexts.maxCommitsCountMonth}`}
+            subText={githubTexts.maxCommitsCountMonth}
           />
         </div>
       </div>

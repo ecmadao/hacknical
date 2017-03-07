@@ -64,7 +64,7 @@ const datas = {
       firstCommit: '过去一年第一次提交代码',
       maxCommitRepos: '提交次数最多的仓库',
       maxCommitCount: '单个仓库最多提交数',
-      dailyCommitChartTitle: '过去一年每日提交数',
+      dailyCommitChartTitle: '过去一年提交数分布',
       weeklyCommitChartTitle: '过去一年提交数一览',
       emptyText: '暂无提交信息',
       maxCommitDate: '提交最多的一天',

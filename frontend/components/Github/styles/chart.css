@@ -24,12 +24,12 @@
 .chart_controllers {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 20px;
   z-index: var(--zIndex9);
   border-radius: 2px;
   background-color: var(--oc-gray-5);
   font-size: 12px;
-  padding: 5px;
+  padding: 7px;
   color: var(--oc-gray-3);
 }
 

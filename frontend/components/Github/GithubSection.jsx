@@ -63,12 +63,12 @@ class GitHubSection extends React.Component {
   render() {
     const {
       hide,
-      disabled,
+      intro,
       title,
       section,
-      className,
       isShare,
-      intro
+      disabled,
+      className
     } = this.props;
     const { showTipso, showOperations } = this.state;
     if (hide) { return <EmptyDOM />; }
