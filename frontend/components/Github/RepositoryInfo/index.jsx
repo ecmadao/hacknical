@@ -201,11 +201,17 @@ class RepositoryInfo extends React.Component {
         <div className={chartStyles["chart_info_container"]}>
           <ChartInfo
             icon="cube"
+            tipso={{
+              text: `总共收获 ${maxStaredRepos['stargazers_count']} 个 star`
+            }}
             mainText={maxStaredRepos.name}
             subText={githubTexts.popularestRepos}
           />
           <ChartInfo
             icon="clock-o"
+            tipso={{
+              text: maxTimeRepos.name
+            }}
             mainText={`${getValidateDate(startTime)}~${getValidateDate(pushTime)}`}
             subText={githubTexts.longgestRepos}
           />

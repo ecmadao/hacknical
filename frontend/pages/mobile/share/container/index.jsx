@@ -19,7 +19,7 @@ import {
   sortByX,
   sortRepos,
   getMaxIndex,
-  getFirstTarget,
+  getFirstMatchTarget,
   sortLanguages
 } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
@@ -282,8 +282,8 @@ class MobileShare extends React.Component {
     const maxIndex = getMaxIndex(dailyCommits);
     const dayName = DAYS[maxIndex];
     // first commit
-    const [firstCommitWeek, firstCommitIndex] = getFirstTarget(commitDatas.commits, (item) => item.total);
-    const [firstCommitDay, dayIndex] = getFirstTarget(firstCommitWeek.days, (day) => day > 0);
+    const [firstCommitWeek, firstCommitIndex] = getFirstMatchTarget(commitDatas.commits, (item) => item.total);
+    const [firstCommitDay, dayIndex] = getFirstMatchTarget(firstCommitWeek.days, (day) => day > 0);
     const firstCommitDate = dateHelper.date.bySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
 
     return (

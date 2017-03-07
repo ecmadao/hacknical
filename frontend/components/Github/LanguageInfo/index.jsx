@@ -41,11 +41,11 @@ class LanguageInfo extends React.Component {
 
   componentDidUpdate(preProps) {
     const { languageUsed } = this.props;
-    if (!Object.keys(preProps.languageUsed).length && Object.keys(languageUsed).length) {
-      this.setState({
-        showLanguage: this.sortedLanguages[0]
-      });
-    }
+    // if (!Object.keys(preProps.languageUsed).length && Object.keys(languageUsed).length) {
+    //   this.setState({
+    //     showLanguage: this.sortedLanguages[0]
+    //   });
+    // }
     this.renderCharts();
   }
 
@@ -176,19 +176,28 @@ class LanguageInfo extends React.Component {
   }
 
   renderChartInfo() {
-    const { languageDistributions, languageSkills } = this.props;
+    const { languageDistributions, languageSkills, languageUsed } = this.props;
+
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
     const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
     const maxReposCountIndex = getMaxIndex(reposCount);
     const maxStarCountIndex = getMaxIndex(starCount);
     const maxUsedLanguage = this.sortedLanguages[0];
+    const total = Object.keys(languageUsed).map(key => languageUsed[key]).reduce((p, c) => p + c);
+
     return (
       <div className={chartStyles["chart_info_container"]}>
         <ChartInfo
+          tipso={{
+            text: `总共有 ${reposCount[maxReposCountIndex]} 个仓库与它相关`
+          }}
           mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
           subText={githubTexts.maxReposCountLanguage}
         />
         <ChartInfo
+          tipso={{
+            text: `使用频率达到 ${(100 * languageUsed[maxUsedLanguage] / total).toFixed(2)}%`
+          }}
           mainText={maxUsedLanguage}
           subText={githubTexts.maxUsageLanguage}
         />
