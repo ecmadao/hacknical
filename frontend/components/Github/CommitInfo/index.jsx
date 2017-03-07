@@ -78,12 +78,12 @@ class CommitInfo extends React.Component {
     const dateLabels = [];
 
     if (chartType === 'week') {
-      commits.forEach((item) => {
+      commits.forEach((item, index) => {
         commitDates.push(item.total);
-        dateLabels.push(getDateBySeconds(item.week));
+        dateLabels.push(getDateBySeconds(index === 0 ? item.week - 7 * 24 * 60 * 60 : item.week));
       });
     } else {
-      commits.forEach((item) => {
+      commits.forEach((item, index) => {
         item.days.forEach((day, dayIndex) => {
           commitDates.push(day);
           const date = getDateBySeconds(item.week - (7 - dayIndex) * 24 * 60 * 60);
@@ -264,6 +264,8 @@ class CommitInfo extends React.Component {
 
   renderCommitsReview() {
     const { chartType } = this.state;
+    const { commitInfos } = this.props;
+    const { commits } = commitInfos;
     return (
       <div>
         {this.renderChartInfo()}
@@ -291,6 +293,16 @@ class CommitInfo extends React.Component {
             </span>
           </div>
           <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
+          {commits && commits.length ? (
+            <div className={chartStyles["chart_bottom_container"]}>
+              <div className={chartStyles["chart_bottom"]}>
+                {getDateBySeconds(commits[0].week - 7 * 24 * 60 * 60)}
+              </div>
+              <div className={chartStyles["chart_bottom"]}>
+                {getDateBySeconds(commits[commits.length - 1].week)}
+              </div>
+            </div>
+          ) : ''}
         </div>
       </div>
     )

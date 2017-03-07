@@ -40,3 +40,24 @@
     color: var(--oc-white);
   }
 }
+
+.chart_bottom_container {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  margin-top: 10px;
+  flex-direction: row;
+
+  & .chart_bottom {
+    flex: 1;
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
