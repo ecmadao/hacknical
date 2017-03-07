@@ -71,6 +71,7 @@ const datas = {
       maxDailyCommits: '一天最多提交次数',
       maxReposCountMonth: '是你思如尿崩的时期',
       maxCommitsCountMonth: '是你玩命码字的时期',
+      monthlyView: '月视图',
       weeklyView: '周视图',
       dailyView: '日视图'
     }

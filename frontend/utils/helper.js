@@ -86,6 +86,32 @@ export const getFirstMatchTarget = (array, target) => {
   return [result, index];
 };
 
+export const getFirstMatchIndex = (array, target) => {
+  let index = 0;
+
+  for(let i = 0; i < array.length; i++) {
+    const item = array[i];
+    if (typeof target === 'object') {
+      const check = Object.keys(target).every(key => item[key] === target[key]);
+      if (check) {
+        index = i;
+        break;
+      }
+    } else if (typeof target === 'function') {
+      if (target(item)) {
+        index = i;
+        break;
+      }
+    } else {
+      if (item === target) {
+        index = i;
+        break;
+      }
+    }
+  }
+  return index;
+};
+
 export const sortRepos = (key = 'stargazers_count', func = parseInt) => (firstRepos, secRepos) => {
   return func(secRepos[key]) - func(firstRepos[key]);
 };

@@ -28,8 +28,11 @@ class CommitInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartType: 'week'
+      chartType: 'month'
     };
+    this.monthlyCommits = null;
+    this.weeklyCommits = null;
+    this.dailyCommits = null;
     this.commitsWeeklyReviewChart = null;
     this.commitsYearlyReviewChart = null;
     this.changeChartType = this.changeChartType.bind(this);
@@ -78,11 +81,22 @@ class CommitInfo extends React.Component {
     const dateLabels = [];
 
     if (chartType === 'week') {
+      if (this.weeklyCommits) { return this.weeklyCommits }
       commits.forEach((item, index) => {
         commitDates.push(item.total);
-        dateLabels.push(getDateBySeconds(index === 0 ? item.week - 7 * 24 * 60 * 60 : item.week));
+        dateLabels.push(
+          `${getDateBySeconds(item.week - 7 * 24 * 60 * 60)} ~ ${getDateBySeconds(item.week)}`
+        );
       });
-    } else {
+      this.weeklyCommits = {
+        commitDates,
+        dateLabels
+      };
+      return this.weeklyCommits;
+    }
+
+    if (chartType === 'day') {
+      if (this.dailyCommits) { return this.dailyCommits }
       commits.forEach((item, index) => {
         item.days.forEach((day, dayIndex) => {
           commitDates.push(day);
@@ -90,12 +104,48 @@ class CommitInfo extends React.Component {
           dateLabels.push(date);
         });
       });
+      this.dailyCommits = {
+        commitDates,
+        dateLabels
+      };
+      return this.dailyCommits;
     }
-    return [commitDates, dateLabels];
+
+    if (this.monthlyCommits) { return this.monthlyCommits }
+    const monthlyCommits = {};
+    commits.forEach((item) => {
+      const endDate = getDateBySeconds(item.week);
+      const [year, month, day] = endDate.split('-');
+      const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
+
+      const thisMonthKey = `${year}-${parseInt(month, 10)}`;
+      const totalCommits = item.days.slice(sliceIndex).reduce((pre, next) => pre + next, 0);
+      const targetCommits = monthlyCommits[thisMonthKey];
+      monthlyCommits[thisMonthKey] = isNaN(targetCommits) ? totalCommits : totalCommits + targetCommits;
+
+      if (sliceIndex > 0) {
+        const preMonthKey = parseInt(month, 10) - 1 <= 0 ?
+          `${parseInt(year, 10) - 1}-12` :
+          `${year}-${parseInt(month, 10) - 1}`;
+        const preTotalCommits = item.days.slice(0, sliceIndex).reduce((pre, next) => pre + next, 0);
+        const preTargetCommits = monthlyCommits[preMonthKey];
+        monthlyCommits[preMonthKey] = isNaN(preTargetCommits) ? preTotalCommits : preTotalCommits + preTargetCommits;
+      }
+    });
+
+    Object.keys(monthlyCommits).forEach((key) => {
+      commitDates.push(monthlyCommits[key]);
+      dateLabels.push(key);
+    });
+    this.monthlyCommits = {
+      commitDates,
+      dateLabels
+    };
+    return this.monthlyCommits;
   }
 
   updateYearlyChart() {
-    const [commitDates, dateLabels] = this.yearlyChartDatas;
+    const { commitDates, dateLabels } = this.yearlyChartDatas;
     this.commitsYearlyReviewChart.data.labels = dateLabels;
     this.commitsYearlyReviewChart.data.datasets[0].data = commitDates;
     this.commitsYearlyReviewChart.update();
@@ -103,7 +153,7 @@ class CommitInfo extends React.Component {
 
   renderYearlyChart() {
     const commitsChart = ReactDOM.findDOMNode(this.commitsYearlyChart);
-    const [commitDates, dateLabels] = this.yearlyChartDatas;
+    const { commitDates, dateLabels } = this.yearlyChartDatas;
 
     this.commitsYearlyReviewChart = new Chart(commitsChart, {
       type: 'line',
@@ -274,6 +324,15 @@ class CommitInfo extends React.Component {
         </div>
         <div className={chartStyles["canvas_container"]}>
           <div className={chartStyles["chart_controllers"]}>
+            <span
+              className={cx(
+                chartStyles["chart_controller"],
+                chartType === 'month' && chartStyles["controller_active"]
+              )}
+              onClick={() => this.changeChartType('month')}>
+              {githubTexts.monthlyView}
+            </span>
+            &nbsp;/&nbsp;
             <span
               className={cx(
                 chartStyles["chart_controller"],

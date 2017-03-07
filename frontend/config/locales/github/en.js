@@ -71,6 +71,7 @@ const datas = {
       maxDailyCommits: 'Max daily commits',
       maxReposCountMonth: 'You have most inspirations',
       maxCommitsCountMonth: 'Your busiest month',
+      monthlyView: 'Monthly view',
       weeklyView: 'Weekly view',
       dailyView: 'Daily view'
     }
