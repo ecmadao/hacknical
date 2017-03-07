@@ -3,6 +3,8 @@ import dateHelper from './date';
 
 const getFullDateBySecond = dateHelper.validator.fullDateBySeconds;
 const getSecondsByDate = dateHelper.seconds.getByDate;
+const getMonth = dateHelper.date.getMonth;
+const getDateBySeconds = dateHelper.date.bySeconds;
 const baseUrl = 'https://github.com';
 
 const combineReposCommits = (reposCommits) => {
@@ -21,11 +23,28 @@ const combineReposCommits = (reposCommits) => {
     ],
     totalDailyCommits: [
       // from sunday to monday
-    ]
+    ],
+    monthReview: {
+      // 1 to 12 month, each month commits count & new repos count
+      // 1: { repos: [xxx, yyy], commitsCount: xxx }
+    }
   };
+
+  // initial monthReview
+  for(let i = 1; i < 13; i++) {
+    result.monthReview[i] = {
+      repos: [],
+      commitsCount: 0
+    };
+  }
+
   reposCommits.forEach((repository, repositoryIndex) => {
     const weeklyCommits = [];
-    repository.commits.forEach((commit, index) => {
+    const { created_at, commits, name } = repository;
+    const month = getMonth(created_at);
+    result.monthReview[month].repos.push(name);
+
+    commits.forEach((commit, index) => {
       const { total, days, week } = commit;
       result.total += total;
       const targetCommit = result.commits[index];
@@ -52,10 +71,13 @@ const combineReposCommits = (reposCommits) => {
         targetCommit.days[i] += day;
         weeklyCommits[i] += day;
         result.totalDailyCommits[i] += day;
+
+        const daySeconds = week - (7 - i) * 24 * 60 * 60;
+        const month = getDateBySeconds(daySeconds, 'M');
+        result.monthReview[month].commitsCount += day;
       });
     });
-    // console.log('weeklyCommits')
-    // console.log(weeklyCommits)
+
     weeklyCommits.forEach((commit, index) => {
       result.dailyCommits[index].push(commit);
     });
@@ -63,7 +85,6 @@ const combineReposCommits = (reposCommits) => {
 
   result.dailyCommits.forEach((dailyCommit, index) => {
     dailyCommit.sort();
-    // console.log(dailyCommit)
     result.dailyCommits[index] = dailyCommit.length % 2 === 0 ?
       0.5 * (dailyCommit[(dailyCommit.length / 2) - 1] + dailyCommit[dailyCommit.length / 2]) :
       dailyCommit[(dailyCommit.length - 1) / 2];

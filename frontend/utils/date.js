@@ -47,7 +47,8 @@ export default {
     beforeYears: getDateBeforeYears('YYYY-MM-DD'),
     afterYears: getDateAfterYears('YYYY-MM-DD'),
     afterDays: (after, date = null) => moment(date).add(parseInt(after), 'days').format('YYYY-MM-DD'),
-    bySeconds: (seconds) => moment.unix(seconds).format('YYYY-MM-DD')
+    bySeconds: (seconds, format = 'YYYY-MM-DD') => moment.unix(seconds).format(format),
+    getMonth: (date) => formatDate('M')(date)
   },
   relative: {
     hoursBefore: (date) => moment(date).startOf('hour').fromNow(),

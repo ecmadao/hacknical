@@ -6,7 +6,7 @@ import objectAssign from 'object-assign';
 
 import github from 'UTILS/github';
 import dateHelper from 'UTILS/date';
-import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
+import { DAYS, MONTHS, LINECHART_CONFIG } from 'UTILS/const_value';
 import {
   sortRepos,
   getMaxIndex,
@@ -16,25 +16,46 @@ import {
 import ChartInfo from 'COMPONENTS/ChartInfo';
 import Loading from 'COMPONENTS/Loading';
 import locales from 'LOCALES';
-
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 
+
 const githubTexts = locales('github').sections.commits;
+const getDateBySeconds = dateHelper.date.bySeconds;
+
 
 class CommitInfo extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      chartType: 'week'
+    };
     this.commitsWeeklyReviewChart = null;
     this.commitsYearlyReviewChart = null;
+    this.changeChartType = this.changeChartType.bind(this);
   }
 
   componentDidMount() {
     this.renderCharts();
   }
 
-  componentDidUpdate(preProps) {
-    this.renderCharts();
+  componentDidUpdate(preProps, preState) {
+    const { loaded } = this.props;
+    const { chartType } = this.state;
+    if (chartType !== preState.chartType && loaded) {
+      this.commitsYearlyReviewChart && this.updateYearlyChart();
+    } else {
+      this.renderCharts();
+    }
+  }
+
+  changeChartType(type) {
+    const { chartType } = this.state;
+    if (chartType !== type) {
+      this.setState({
+        chartType: type
+      });
+    }
   }
 
   renderCharts() {
@@ -42,21 +63,48 @@ class CommitInfo extends React.Component {
     if (!loaded) { return }
     const { commits, dailyCommits } = commitInfos;
     if (dailyCommits.length) {
-      !this.commitsWeeklyReviewChart && this.renderWeeklyChart(dailyCommits);
+      !this.commitsWeeklyReviewChart && this.renderWeeklyChart();
     }
     if (commits.length) {
-      !this.commitsYearlyReviewChart && this.renderYearlyChart(commits);
+      !this.commitsYearlyReviewChart && this.renderYearlyChart();
     }
   }
 
-  renderYearlyChart(commits) {
-    const commitsChart = ReactDOM.findDOMNode(this.commitsYearlyChart);
+  get yearlyChartDatas() {
+    const { chartType } = this.state;
+    const { commitInfos } = this.props;
+    const { commits } = commitInfos;
     const commitDates = [];
     const dateLabels = [];
-    commits.forEach((item) => {
-      commitDates.push(item.total);
-      dateLabels.push(dateHelper.date.bySeconds(item.week));
-    });
+
+    if (chartType === 'week') {
+      commits.forEach((item) => {
+        commitDates.push(item.total);
+        dateLabels.push(getDateBySeconds(item.week));
+      });
+    } else {
+      commits.forEach((item) => {
+        item.days.forEach((day, dayIndex) => {
+          commitDates.push(day);
+          const date = getDateBySeconds(item.week - (7 - dayIndex) * 24 * 60 * 60);
+          dateLabels.push(date);
+        });
+      });
+    }
+    return [commitDates, dateLabels];
+  }
+
+  updateYearlyChart() {
+    const [commitDates, dateLabels] = this.yearlyChartDatas;
+    this.commitsYearlyReviewChart.data.labels = dateLabels;
+    this.commitsYearlyReviewChart.data.datasets[0].data = commitDates;
+    this.commitsYearlyReviewChart.update();
+  }
+
+  renderYearlyChart() {
+    const commitsChart = ReactDOM.findDOMNode(this.commitsYearlyChart);
+    const [commitDates, dateLabels] = this.yearlyChartDatas;
+
     this.commitsYearlyReviewChart = new Chart(commitsChart, {
       type: 'line',
       data: {
@@ -84,22 +132,14 @@ class CommitInfo extends React.Component {
               beginAtZero:true
             }
           }],
-        },
-        tooltips: {
-          callbacks: {
-            title: (item, data) => {
-              return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
-            },
-            label: (item, data) => {
-              return `${item.yLabel} commits this week`
-            }
-          }
         }
       }
     })
   }
 
-  renderWeeklyChart(dailyCommits) {
+  renderWeeklyChart() {
+    const { commitInfos } = this.props;
+    const { dailyCommits } = commitInfos;
     // const commits = [...dailyCommits.slice(1)];
     // commits.push(dailyCommits[0]);
     // const days = DAYS.slice(1);
@@ -143,14 +183,14 @@ class CommitInfo extends React.Component {
 
   renderChartInfo() {
     const { commitDatas, commitInfos } = this.props;
-    const { commits, dailyCommits, total } = commitInfos;
+    const { commits, dailyCommits, total, monthReview } = commitInfos;
     // day info
     const maxIndex = getMaxIndex(dailyCommits);
     const dayName = DAYS[maxIndex];
     // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstMatchTarget(commits, (item) => item.total);
     const [firstCommitDay, dayIndex] = getFirstMatchTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = dateHelper.date.bySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
+    const firstCommitDate = getDateBySeconds(firstCommitWeek.week - (7 - dayIndex) * 24 * 60 * 60);
     // max commit repos
     commitDatas.sort(sortRepos('totalCommits'));
     const maxCommitRepos = commitDatas[0];
@@ -159,8 +199,16 @@ class CommitInfo extends React.Component {
     const [maxDailyCommits, maxDailyCommitsIndex] = getMaxTarget(commits, item => item.days);
     const maxCommitsWeek = commits[maxDailyCommitsIndex];
     const dailyIndex = getMaxIndex(maxCommitsWeek.days);
-    const maxCommitDate = dateHelper.date.bySeconds(maxCommitsWeek.week + dailyIndex * 24 * 60 * 60);
+    const maxCommitDate = getDateBySeconds(maxCommitsWeek.week - (7 - dailyIndex) * 24 * 60 * 60);
 
+    // max repos count month
+    const monthlyReposCounts = Object.keys(monthReview).map(key => monthReview[key].repos.length);
+    const maxReposCountMonth = getMaxIndex(monthlyReposCounts) + 1;
+
+    // max commits month
+    const monthlyCommitsCounts = Object.keys(monthReview).map(key => monthReview[key].commitsCount);
+    const maxCommitsCountMonth = getMaxIndex(monthlyCommitsCounts) + 1;
+    // getMaxIndex
     return (
       <div>
         <div className={chartStyles["chart_info_container"]}>
@@ -177,18 +225,22 @@ class CommitInfo extends React.Component {
             subText={githubTexts.firstCommit}
           />
           <ChartInfo
-            mainText={maxCommitRepos.name}
-            subText={githubTexts.maxCommitRepos}
+            mainText={maxCommitDate}
+            subText={githubTexts.maxCommitDate}
           />
         </div>
         <div className={chartStyles["chart_info_container"]}>
           <ChartInfo
-            mainText={maxCommitDate}
-            subText={githubTexts.maxCommitDate}
+            mainText={maxCommitRepos.name}
+            subText={githubTexts.maxCommitRepos}
           />
           <ChartInfo
-            mainText={maxDailyCommits}
-            subText={githubTexts.maxDailyCommits}
+            mainText={MONTHS[maxReposCountMonth]}
+            subText={`${MONTHS[maxReposCountMonth]}${githubTexts.maxReposCountMonth}`}
+          />
+          <ChartInfo
+            mainText={MONTHS[maxCommitsCountMonth]}
+            subText={`${MONTHS[maxCommitsCountMonth]}${githubTexts.maxCommitsCountMonth}`}
           />
         </div>
       </div>
@@ -196,6 +248,7 @@ class CommitInfo extends React.Component {
   }
 
   renderCommitsReview() {
+    const { chartType } = this.state;
     return (
       <div>
         {this.renderChartInfo()}
@@ -203,6 +256,25 @@ class CommitInfo extends React.Component {
           <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
         </div>
         <div className={chartStyles["canvas_container"]}>
+          <div className={chartStyles["chart_controllers"]}>
+            <span
+              className={cx(
+                chartStyles["chart_controller"],
+                chartType === 'week' && chartStyles["controller_active"]
+              )}
+              onClick={() => this.changeChartType('week')}>
+              {githubTexts.weeklyView}
+            </span>
+            &nbsp;/&nbsp;
+            <span
+              className={cx(
+                chartStyles["chart_controller"],
+                chartType === 'day' && chartStyles["controller_active"]
+              )}
+              onClick={() => this.changeChartType('day')}>
+              {githubTexts.dailyView}
+            </span>
+          </div>
           <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
         </div>
       </div>

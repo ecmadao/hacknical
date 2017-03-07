@@ -39,7 +39,7 @@ const datas = {
       maxCommitRepos: 'Record de commits',
       maxCommitCount: 'Record de commits',
       dailyCommitChartTitle: 'commits/jour année dernière',
-      weeklyCommitChartTitle: 'commits/semaine année dernière'
+      weeklyCommitChartTitle: 'commits année dernière'
     }
   },
   modal: {

@@ -65,10 +65,14 @@ const datas = {
       maxCommitRepos: 'Has Max Commits',
       maxCommitCount: 'Max Commits Count',
       dailyCommitChartTitle: 'commits/daily in last year',
-      weeklyCommitChartTitle: 'commits/weekly in last year',
+      weeklyCommitChartTitle: 'commits in last year',
       emptyText: 'No commits info',
       maxCommitDate: 'Max commit date',
-      maxDailyCommits: 'Max daily commits'
+      maxDailyCommits: 'Max daily commits',
+      maxReposCountMonth: 'You have most inspirations',
+      maxCommitsCountMonth: 'Your busiest month',
+      weeklyView: 'Weekly view',
+      dailyView: 'Daily view'
     }
   },
   modal: {
