@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
+import { Tipso } from 'light-ui';
 
 import config from './config';
 import Operations from 'COMPONENTS/Operations';
-import Tipso from 'COMPONENTS/Tipso';
 import cardStyles from './styles/info_card.css';
 import locales from 'LOCALES';
 
@@ -19,12 +19,9 @@ class GitHubSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showTipso: false,
       showOperations: false
     };
     this.onMenuClick = this.onMenuClick.bind(this);
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.onOperationFocusChange = this.onOperationFocusChange.bind(this);
   }
 
@@ -52,14 +49,6 @@ class GitHubSection extends React.Component {
     ]
   }
 
-  onMouseEnter() {
-    this.setState({ showTipso: true })
-  }
-
-  onMouseLeave() {
-    this.setState({ showTipso: false })
-  }
-
   render() {
     const {
       hide,
@@ -70,7 +59,7 @@ class GitHubSection extends React.Component {
       disabled,
       className
     } = this.props;
-    const { showTipso, showOperations } = this.state;
+    const { showOperations } = this.state;
     if (hide) { return <EmptyDOM />; }
 
     const Section = config[section] || EmptyDOM;
@@ -82,21 +71,14 @@ class GitHubSection extends React.Component {
           <i aria-hidden="true" className={`fa fa-${title.icon}`}></i>
           &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
           {intro ? (
-            <span
-              onMouseOver={this.onMouseEnter}
-              onMouseEnter={this.onMouseEnter}
-              onMouseOut={this.onMouseLeave}
-              onMouseLeave={this.onMouseLeave}
-              className={cardStyles["card_intro"]}>
-              <i className={`fa fa-${intro.icon}`} aria-hidden="true"></i>
-              {showTipso ? (
-                <Tipso
-                  show={true}
-                  className={cardStyles["card_tipso"]}>
-                  <span>{intro.text}</span>
-                </Tipso>
-              ) : ''}
-            </span>
+            <Tipso
+              className={cardStyles["card_tipso"]}
+              tipsoContent={(<span>{intro.text}</span>)}>
+              <span
+                className={cardStyles["card_intro"]}>
+                <i className={`fa fa-${intro.icon}`} aria-hidden="true"></i>
+              </span>
+            </Tipso>
           ) : ''}
         </p>
         <Section {...this.props} className={disabledClass} />

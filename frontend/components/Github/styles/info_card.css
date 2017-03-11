@@ -102,3 +102,9 @@
 .card_operation {
   top: 50px !important;
 }
+
+.card_group {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 15px;
+}

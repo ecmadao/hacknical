@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
-import PortalModal from 'COMPONENTS/PortalModal';
-import SelectorV2 from 'COMPONENTS/SelectorV2';
+import { SelectorV2, PortalModal } from 'light-ui';
 import ReposItem from './ReposItem';
 import SelectedRepos from './SelectedRepos';
 import '../../styles/repos_modal.css';
@@ -43,7 +42,7 @@ class ReposModal extends React.Component {
     const selectorOptions = languages.map((language) => {
       return {
         id: language,
-        text: language || 'null'
+        value: language || 'null'
       }
     });
     return (

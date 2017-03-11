@@ -34,13 +34,13 @@
       }
     },
     "pro:build:src": {
-      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.production.js -p",
+      "command": "./node_modules/webpack/bin/webpack.js --progress --colors --config config/webpack/webpack.production.js -p",
       "env": {
         "NODE_ENV": "production"
       }
     },
     "local:build:src": {
-      "command": "./node_modules/webpack/bin/webpack.js --config config/webpack/webpack.dev.js --watch",
+      "command": "./node_modules/webpack/bin/webpack.js --progress --colors --config config/webpack/webpack.dev.js --watch",
       "env": {
         "NODE_ENV": "localdev"
       }
@@ -162,6 +162,7 @@
     "koa-static": "^2.0.0",
     "koa-useragent": "^0.1.5",
     "koa-views": "^5.1.2",
+    "light-ui": "0.0.7",
     "moment": "^2.17.0",
     "mongoose": "^4.7.2",
     "nodemon": "^1.10.2",

@@ -1,10 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
+import { Loading } from 'light-ui';
 import GitHubCalendar from 'github-calendar';
 import 'github-calendar/dist/github-calendar.css';
 
 import locales from 'LOCALES';
-import Loading from 'COMPONENTS/Loading';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 
@@ -29,7 +29,7 @@ class Hotmap extends React.Component {
     const { className } = this.props;
     return (
       <div id="calendar" className={cx(styles["github_calendar"], className)}>
-        <Loading />
+        <Loading loading={true} />
       </div>
     )
   }

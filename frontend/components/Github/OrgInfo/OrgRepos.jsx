@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
+import { Label } from 'light-ui';
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
@@ -50,10 +51,23 @@ class OrgRepos extends React.Component {
             <a href={html_url} target="_blank">
               {name}
             </a>
-            &nbsp;&nbsp;
-            {`<${language}>`}
-            &nbsp;&nbsp;
-            {fork ? '<fork>' : ''}
+            <Label
+              theme="ghost"
+              color="gray"
+              text={`<${language}>`}
+              clickable={false}
+              style={{ lineHeight: 'normal' }}
+            />
+            {fork ? (
+              <Label
+                color="gray"
+                theme="flat"
+                text="forked"
+                icon="code-fork"
+                style={{ lineHeight: 'normal' }}
+                clickable={false}
+              />
+            ) : ''}
           </span><br/>
           <span>{fullDate(created_at)} ~ {fullDate(pushed_at)}</span>
           <div className={styles["tipso_line"]}></div>

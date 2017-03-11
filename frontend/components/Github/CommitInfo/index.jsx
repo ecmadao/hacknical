@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import objectAssign from 'object-assign';
+import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import github from 'UTILS/github';
 import dateHelper from 'UTILS/date';
@@ -13,8 +14,6 @@ import {
   getMaxTarget,
   getFirstMatchTarget
 } from 'UTILS/helper';
-import ChartInfo from 'COMPONENTS/ChartInfo';
-import Loading from 'COMPONENTS/Loading';
 import locales from 'LOCALES';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
@@ -263,34 +262,34 @@ class CommitInfo extends React.Component {
     const maxCommitsCount = monthReview[maxCommitsCountMonth].commitsCount;
 
     return (
-      <div>
-        <div className={chartStyles["chart_info_container"]}>
-          <ChartInfo
+      <CardGroup className={cardStyles['card_group']}>
+        <CardGroup>
+          <InfoCard
             mainText={dayName}
             subText={githubTexts.maxDay}
           />
-          <ChartInfo
+          <InfoCard
             mainText={(total / commits.length).toFixed(2)}
             subText={githubTexts.averageCount}
           />
-          <ChartInfo
+          <InfoCard
             mainText={firstCommitDate}
             subText={githubTexts.firstCommit}
           />
-          <ChartInfo
+          <InfoCard
             mainText={maxCommitDate}
             subText={githubTexts.maxCommitDate}
           />
-        </div>
-        <div className={chartStyles["chart_info_container"]}>
-          <ChartInfo
+        </CardGroup>
+        <CardGroup>
+          <InfoCard
             tipso={{
               text: `总共有 ${maxCommitRepos.totalCommits} 次提交`
             }}
             mainText={maxCommitRepos.name}
             subText={githubTexts.maxCommitRepos}
           />
-          <ChartInfo
+          <InfoCard
             tipso={{
               style: {
                 width: '250px'
@@ -300,15 +299,15 @@ class CommitInfo extends React.Component {
             mainText={MONTHS[maxReposCountMonth]}
             subText={githubTexts.maxReposCountMonth}
           />
-          <ChartInfo
+          <InfoCard
             tipso={{
               text: `${MONTHS[maxCommitsCountMonth]}总共有 ${maxCommitsCount} 次提交`
             }}
             mainText={MONTHS[maxCommitsCountMonth]}
             subText={githubTexts.maxCommitsCountMonth}
           />
-        </div>
-      </div>
+        </CardGroup>
+      </CardGroup>
     )
   }
 
@@ -371,7 +370,7 @@ class CommitInfo extends React.Component {
     const { hasCommits, loaded, className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading />);
+      component = (<Loading loading={true} />);
     } else {
       if (!hasCommits) {
         component = (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>);

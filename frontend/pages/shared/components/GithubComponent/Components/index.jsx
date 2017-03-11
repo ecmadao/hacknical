@@ -1,11 +1,9 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
+import { FloatingActionButton } from 'light-ui';
 
 import Api from 'API/index';
-import { GREEN_COLORS } from 'UTILS/colors';
-import Loading from 'COMPONENTS/Loading';
-import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
 import GitHubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 
@@ -146,6 +144,9 @@ class GithubComponent extends React.Component {
     } = this.state;
     const { isShare, containerStyle } = this.props;
     const origin = window.location.origin;
+
+    console.log(commitDatas)
+    console.log(commitInfos)
 
     return (
       <div className={containerStyle}>
@@ -295,9 +296,11 @@ class GithubComponent extends React.Component {
           <FloatingActionButton
             icon="share-alt"
             style={{
-              right: '20%',
-              backgroundColor: GREEN_COLORS[1]
+              position: 'fixed',
+              bottom: '30px',
+              right: '20%'
             }}
+            color="green"
             onClick={() => this.toggleShareModal(true)}
           />
         ) : ''}

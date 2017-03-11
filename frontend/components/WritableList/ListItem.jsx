@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Input from 'COMPONENTS/Input';
+import { Input } from 'light-ui';
 import styles from './writable_list.css';
 
 class ListItem extends React.Component {
@@ -15,8 +15,8 @@ class ListItem extends React.Component {
           value={item}
           onChange={onChange}
           placeholder={placeholder}
-          style="borderless"
-          className="underline"
+          theme="borderless"
+          style="underline"
         />&nbsp;&nbsp;&nbsp;
         <i
           className="fa fa-close"

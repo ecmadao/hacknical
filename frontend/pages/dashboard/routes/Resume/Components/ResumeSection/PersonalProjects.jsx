@@ -2,13 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
+import { Button, InputGroup, Textarea, Input } from 'light-ui';
 
-import Textarea from 'COMPONENTS/Textarea';
-import Button from 'COMPONENTS/Button';
-import Input from 'COMPONENTS/Input';
 import Labels from 'COMPONENTS/Labels';
-import InputsGroup from 'COMPONENTS/InputsGroup';
-
 import styles from '../../styles/resume.css';
 import actions from '../../redux/actions';
 import locales from 'LOCALES';
@@ -40,11 +36,11 @@ class PersonalProjects extends React.Component {
             <div className={styles["resume_delete"]} onClick={this.deleteProject(index)}>
               <i className="fa fa-trash-o" aria-hidden="true"></i>
             </div>
-            <InputsGroup
+            <InputGroup
               value={title}
-              style="flat"
+              theme="flat"
               placeholder={resumeTexts.projectName}
-              customStyle={styles["single_input"]}
+              wrapperClassName={cx(styles["input_group"], styles["single_input"])}
               onChange={this.handleProjectChange(index)('title')}>
               <div className={styles["project_link_wrapper"]}>
                 <i className="fa fa-link" aria-hidden="true"></i>
@@ -53,13 +49,13 @@ class PersonalProjects extends React.Component {
                   value={url}
                   type="url"
                   check={false}
-                  style="borderless"
-                  className="underline"
+                  theme="borderless"
+                  style="underline"
                   placeholder={resumeTexts.homepage}
                   onChange={this.handleProjectChange(index)('url')}
                 />
               </div>
-            </InputsGroup>
+            </InputGroup>
           </div>
           <div className={styles["resume_wrapper"]}>
             <Textarea
@@ -115,7 +111,7 @@ class PersonalProjects extends React.Component {
         </div>
         <div className={styles["resume_button_container"]}>
           <Button
-            style="flat"
+            theme="flat"
             value={resumeTexts.mainButton}
             leftIcon={(
               <i className="fa fa-plus-circle" aria-hidden="true"></i>

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
-
-import PortalModal from 'COMPONENTS/PortalModal';
+import { PortalModal } from 'light-ui';
 import styles from '../styles/intro_modal.css';
 
 class IntroModal extends React.Component {

@@ -2,10 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-
-import Loading from 'COMPONENTS/Loading';
-import BaseModal from 'COMPONENTS/BaseModal';
-import Button from 'COMPONENTS/Button';
+import { Loading, Button } from 'light-ui';
 import Switcher from 'COMPONENTS/Switcher';
 import actions from '../redux/actions';
 import styles from '../styles/setting.css';
@@ -139,7 +136,7 @@ class Setting extends React.Component {
             </div>
             <div className={styles['info_container_wrapper']}>
               {loading ? (
-                <Loading className={styles['info_loading']} />
+                <Loading className={styles['info_loading']} loading={true} />
               ) : ''}
               <div className={styles['info_container']}>
                 <div className={styles.info}>
@@ -147,7 +144,7 @@ class Setting extends React.Component {
                 </div>
                 <Button
                   value={settingTexts.github.updateButtonText}
-                  style="flat"
+                  theme="flat"
                   onClick={actions.refreshGithubDatas}
                 />
               </div>
@@ -158,10 +155,10 @@ class Setting extends React.Component {
           <p><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;{settingTexts.resume.title}</p>
           <div className={styles.card}>
             {!resumeInfo ? (
-              <BaseModal className={styles['info_loading']} showModal={true} />
+              <Loading className={styles['info_loading']} loading={true} />
             ) : ''}
             {resumeInfoLoading ? (
-              <Loading className={styles['info_loading']} />
+              <Loading className={styles['info_loading']} loading={true} />
             ) : (
               <div className={styles['info_container_wrapper']}>
                 <SwitcherPane

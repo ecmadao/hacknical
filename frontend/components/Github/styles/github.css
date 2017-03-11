@@ -305,22 +305,13 @@
           color: var(--oc-green-7);
         }
       }
-
-      & span {
-        font-size: 14px;
-        color: var(--oc-gray-5);
-      }
-
-      & .repos_info_forked {
-        display: inline-block;
-        background-color: var(--oc-gray-5);
-        color: var(--oc-white);
-        margin-left: 8px;
-        padding: 3px 6px;
-        border-radius: 2px;
-      }
     }
   }
+}
+
+.repos_short_desc {
+  font-size: 14px;
+  color: var(--oc-gray-5);
 }
 
 .repos_star {
@@ -557,15 +548,6 @@
 .repos_title {
   font-size: 18px;
   color: var(--oc-green-7);
-}
-
-.repos_label {
-  display: inline-block;
-  padding: 2px 5px;
-  font-size: 12px;
-  border-radius: 2px;
-  color: var(--oc-white);
-  background-color: var(--oc-gray-6);
 }
 
 .org_repos_infos {

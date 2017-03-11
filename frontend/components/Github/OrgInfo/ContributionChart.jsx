@@ -3,7 +3,8 @@ import Chart from 'chart.js';
 import cx from 'classnames';
 import ReactDOM from 'react-dom';
 import objectAssign from 'object-assign';
-import Tipso from 'COMPONENTS/Tipso';
+import { Tipso, Label } from 'light-ui';
+
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import dateHelper from 'UTILS/date';
@@ -17,11 +18,6 @@ const githubTexts = locales('github').sections.orgs;
 class ContributionChart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showTipso: false
-    };
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.contributionReviewChart = null;
   }
 
@@ -31,14 +27,6 @@ class ContributionChart extends React.Component {
 
   componentDidUpdate() {
     this.renderCharts();
-  }
-
-  onMouseEnter() {
-    this.setState({ showTipso: true })
-  }
-
-  onMouseLeave() {
-    this.setState({ showTipso: false })
   }
 
   renderCharts() {
@@ -120,7 +108,6 @@ class ContributionChart extends React.Component {
   }
 
   renderContributionDates() {
-    const { showTipso } = this.state;
     const { contribution, repository, percentage } = this.props;
     if (!contribution.weeks.length) { return '' }
     // commit dates
@@ -153,7 +140,12 @@ class ContributionChart extends React.Component {
             </a>
             &nbsp;&nbsp;
             {fork ? (
-              <span className={styles["repos_label"]}>fork</span>
+              <Label
+                icon="code-fork"
+                text="forked"
+                color="gray"
+                clickable={false}
+              />
             ) : ''}
           </div>
           <div className={styles["org_repos_info"]}>
@@ -166,24 +158,17 @@ class ContributionChart extends React.Component {
             <i className="fa fa-code" aria-hidden="true"></i>&nbsp;{language || 'NULL'}
             &nbsp;&nbsp;&nbsp;
             {percentage > 30 ? (
-              <span
-                onMouseOver={this.onMouseEnter}
-                onMouseEnter={this.onMouseEnter}
-                onMouseOut={this.onMouseLeave}
-                onMouseLeave={this.onMouseLeave}
-                className={cx(
-                  styles["info_strong"],
-                  styles[`strong-${contributionLevel(percentage)}`]
-                )}>
-                <i className="fa fa-trophy" aria-hidden="true"></i>&nbsp;{githubTexts.coreDeveloper}
-                {showTipso ? (
-                  <Tipso
-                    show={true}
-                    className={cx(cardStyles["card_tipso"], styles["info_tipso"])}>
-                    <span>{githubTexts.coreDeveloperIntro}</span>
-                  </Tipso>
-                ) : ''}
-              </span>
+              <Tipso
+                className={cx(cardStyles["card_tipso"], styles["info_tipso"])}
+                tipsoContent={(<span>{githubTexts.coreDeveloperIntro}</span>)}>
+                <span
+                  className={cx(
+                    styles["info_strong"],
+                    styles[`strong-${contributionLevel(percentage)}`]
+                  )}>
+                  <i className="fa fa-trophy" aria-hidden="true"></i>&nbsp;{githubTexts.coreDeveloper}
+                </span>
+              </Tipso>
             ) : ''}
           </div>
           {description ? (

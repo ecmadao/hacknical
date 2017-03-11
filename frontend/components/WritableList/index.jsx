@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Input } from 'light-ui';
 
 import styles from './writable_list.css';
 import ListItem from './ListItem';
-import Input from 'COMPONENTS/Input';
 
 class WritableList extends React.Component {
   constructor(props) {
@@ -72,8 +72,8 @@ class WritableList extends React.Component {
           <Input
             value={value}
             check={false}
-            style="borderless"
-            className="underline"
+            theme="borderless"
+            style="underline"
             placeholder={placeholder}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}

@@ -74,8 +74,16 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        include: /light-ui/,
+        // include: /lib\/react/,
+        loader: cssLoader,
+      },
+      {
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract("style", "css!postcss"),
-        exclude: PATH.SOURCE_PATH
+        include: PATH.MODULES_PATH,
+        exclude: /light-ui/
+        // exclude: /lib\/react/,
       },
       {
         test: /\.css$/,
@@ -85,10 +93,10 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loader: ["babel-loader"],
-        query: {
-          presets: ["es2015"]
-        }
+        loaders: ["babel-loader"],
+        // query: {
+        //   presets: ["es2015"]
+        // }
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,

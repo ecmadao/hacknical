@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Button } from 'light-ui';
 
 import actions from '../../../redux/actions';
 import WorkExperience from './WorkExperience';
-import Button from 'COMPONENTS/Button';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
@@ -85,7 +85,7 @@ class WorkExperiences extends React.Component {
         </div>
         <div className={styles["resume_button_container"]}>
           <Button
-            style="flat"
+            theme="flat"
             value={resumeTexts.mainButton}
             leftIcon={(
               <i className="fa fa-plus-circle" aria-hidden="true"></i>

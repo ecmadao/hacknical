@@ -2,9 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Button, IconButton } from 'light-ui';
 
-import Button from 'COMPONENTS/Button';
-import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';

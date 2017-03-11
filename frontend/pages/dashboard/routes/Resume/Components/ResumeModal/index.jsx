@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
-import PortalModal from 'COMPONENTS/PortalModal';
-import TipsoModal from 'COMPONENTS/TipsoModal';
-
+import { ShortMessage, PortalModal } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import { sortBySeconds } from 'UTILS/helper';
 import validator from 'UTILS/validator';
@@ -245,7 +243,7 @@ class ResumeModal extends React.Component {
             {this.renderSupplements()}
             {this.renderSocialLinks()}
           </div>
-          { openModal ? <TipsoModal text="按 ESC 即可退出预览"/> : ''}
+          { openModal ? <ShortMessage text="按 ESC 即可退出预览"/> : ''}
         </div>
       </PortalModal>
     )

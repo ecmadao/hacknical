@@ -6,6 +6,7 @@ import objectAssign from 'object-assign';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick.min';
 import ScrollReveal from 'scrollreveal';
+import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import Api from 'API/index';
 import github from 'UTILS/github';
@@ -24,8 +25,6 @@ import {
 } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
-import ChartInfo from 'COMPONENTS/ChartInfo';
-import Loading from 'COMPONENTS/Loading';
 import styles from '../styles/share.css';
 import sharedStyles from '../../shared/styles/mobile.css';
 import locales from 'LOCALES';
@@ -287,34 +286,34 @@ class MobileShare extends React.Component {
     const firstCommitDate = dateHelper.date.bySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
 
     return (
-      <div
-        className={styles["info_with_chart_wrapper"]}
-        id="commits_wrapper">
-        <div className={sharedStyles["info_with_chart"]}>
-          <ChartInfo
+      <CardGroup
+        id="commits_wrapper"
+        className={styles["info_with_chart_wrapper"]}>
+        <CardGroup>
+          <InfoCard
             mainText={parseInt(total / 52, 10)}
             subText={githubTexts.commits.averageCount}
             mainTextStyle={sharedStyles["main_text"]}
           />
-          <ChartInfo
+          <InfoCard
             mainText={totalCommits}
             subText={githubTexts.commits.maxCommitCount}
             mainTextStyle={sharedStyles["main_text"]}
           />
-        </div>
-        <div className={sharedStyles["info_wrapper"]}>
-          <ChartInfo
+        </CardGroup>
+        <CardGroup>
+          <InfoCard
             mainText={dayName}
             subText={githubTexts.commits.maxDay}
             mainTextStyle={sharedStyles["main_text"]}
           />
-          <ChartInfo
+          <InfoCard
             mainText={firstCommitDate}
             subText={githubTexts.commits.firstCommit}
             mainTextStyle={sharedStyles["main_text"]}
           />
-        </div>
-      </div>
+        </CardGroup>
+      </CardGroup>
     )
   }
 
@@ -455,7 +454,7 @@ class MobileShare extends React.Component {
     if (!loaded) {
       return (
         <div className={sharedStyles["loading_container"]}>
-          <Loading />
+          <Loading loading={true} />
         </div>
       )
     }
@@ -501,19 +500,21 @@ class MobileShare extends React.Component {
           </div>
         </div>
 
-        <div className={cx(sharedStyles["mobile_card"], styles["mobile_card_full"])}>
-          <div id="language_wrapper" className={sharedStyles["info_with_chart"]}>
-            <ChartInfo
+        <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"])}>
+          <CardGroup
+            id="language_wrapper"
+            className={sharedStyles["info_with_chart"]}>
+            <InfoCard
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
               subText={githubTexts.languages.maxReposCountLanguage}
             />
-            <ChartInfo
+            <InfoCard
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageSkills)[maxStarCountIndex]}
               subText={githubTexts.languages.maxStarLanguage}
             />
-          </div>
+          </CardGroup>
           <div
             id="skill_chart"
             className={sharedStyles["info_chart"]} style={{ marginTop: '15px' }}>
@@ -521,7 +522,7 @@ class MobileShare extends React.Component {
           </div>
         </div>
 
-        <div className={cx(sharedStyles["mobile_card"], styles["mobile_card_full"], styles["mobile_card_no_bottom"])}>
+        <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"], styles["mobile_card_no_bottom"])}>
           { loaded && commits.length ? this.renderCommitsInfo() : ''}
           <div
             id="commits_chart"

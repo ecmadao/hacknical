@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Input } from 'light-ui';
 
 import Label from './Label';
 import styles from './labels.css';
-import Input from 'COMPONENTS/Input';
 
 class Labels extends React.Component {
   constructor(props) {
@@ -64,8 +64,8 @@ class Labels extends React.Component {
             <Input
               value={value}
               check={false}
-              style="borderless"
-              className="underline"
+              theme="borderless"
+              style="underline"
               placeholder={placeholder}
               onChange={this.handleInputChange}
               onKeyDown={this.onKeyDown}

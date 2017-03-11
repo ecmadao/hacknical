@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
+import { Input, SelectorV2 } from 'light-ui';
 
-import Input from 'COMPONENTS/Input';
-import SelectorV2 from 'COMPONENTS/SelectorV2';
 import actions from '../../redux/actions';
 import { GENDERS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../styles/resume.css';
@@ -46,7 +45,7 @@ class Info extends React.Component {
           <Input
             value={name}
             placeholder={resumeTexts.name}
-            style="flat"
+            theme="flat"
             onChange={this.handleInfoChange('name')}
           />
           <SelectorV2
@@ -61,14 +60,14 @@ class Info extends React.Component {
             type="email"
             value={email}
             placeholder={resumeTexts.email}
-            style="flat"
+            theme="flat"
             onChange={this.handleInfoChange('email')}
           />
           <Input
             type="phone"
             value={phone}
             placeholder={resumeTexts.phone}
-            style="flat"
+            theme="flat"
             formatType="phone"
             onChange={this.handleInfoChange('phone')}
           />
@@ -77,13 +76,13 @@ class Info extends React.Component {
           <Input
             value={intention}
             placeholder={resumeTexts.job}
-            style="flat"
+            theme="flat"
             onChange={this.handleInfoChange('intention')}
           />
           <Input
             value={location}
             placeholder={resumeTexts.position}
-            style="flat"
+            theme="flat"
             onChange={this.handleInfoChange('location')}
           />
         </div>
