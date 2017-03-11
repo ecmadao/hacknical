@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Label } from 'light-ui';
 
 class ReposItem extends React.Component {
   render() {
@@ -20,11 +21,14 @@ class ReposItem extends React.Component {
               &nbsp;{repository['stargazers_count']}&nbsp;&nbsp;
             </span>
           ) : ''}
-          {repository.fork ? (<span className="repos_info_forked">
-            <i className="fa fa-code-fork" aria-hidden="true">
-            </i>&nbsp;
-            forked
-          </span>) : ''}
+          {repository.fork ? (
+            <Label
+              icon="code-fork"
+              text="forked"
+              color="gray"
+              clickable={false}
+            />
+          ) : ''}
           <br/>
           <span>{repository.description}</span>
         </div>

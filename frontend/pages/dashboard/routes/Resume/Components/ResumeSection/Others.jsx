@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
+import { Input } from 'light-ui';
 
 import actions from '../../redux/actions';
 import WritableList from 'COMPONENTS/WritableList';
-import Input from 'COMPONENTS/Input';
 import FormatInput from 'COMPONENTS/FormatInput';
 import SocialLink from './SocialLink';
 import styles from '../../styles/resume.css';
@@ -81,14 +81,14 @@ class Others extends React.Component {
               value={expectSalary}
               placeholder={resumeTexts.expectSalary}
               formatType="number"
-              style="flat"
+              theme="flat"
               id="input-expect-salary"
               onChange={this.handleOthersChange('expectSalary')}
             />
             <Input
               value={expectLocation}
               placeholder={resumeTexts.expectCity}
-              style="flat"
+              theme="flat"
               onChange={this.handleOthersChange('expectLocation')}
             />
           </div>
@@ -96,7 +96,7 @@ class Others extends React.Component {
             <Input
               value={dream}
               placeholder={resumeTexts.yourDream}
-              style="flat"
+              theme="flat"
               onChange={this.handleOthersChange('dream')}
             />
           </div>

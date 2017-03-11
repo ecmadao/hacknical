@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
+import { InputGroup, Input } from 'light-ui';
 
 import DateSlider from 'COMPONENTS/DateSlider';
-import Input from 'COMPONENTS/Input';
-import InputsGroup from 'COMPONENTS/InputsGroup';
 import { EDUCATIONS } from 'SHAREDPAGE/datas/resume';
 import WorkProject from './WorkProject';
 import styles from '../../../styles/resume.css';
@@ -82,9 +81,9 @@ class WorkExperience extends React.Component {
           {resumeTexts.companyInfo}
         </div>
         <div className={styles["resume_wrapper"]}>
-          <InputsGroup
+          <InputGroup
             value={company}
-            style="flat"
+            theme="flat"
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}>
             <div className={styles["project_link_wrapper"]}>
@@ -94,18 +93,18 @@ class WorkExperience extends React.Component {
                 value={url}
                 type="url"
                 check={false}
-                style="borderless"
-                className="underline"
+                theme="borderless"
+                style="underline"
                 placeholder={resumeTexts.homepage}
                 onChange={handleExperienceChange('url')}
               />
             </div>
-          </InputsGroup>
+          </InputGroup>
           <Input
             value={position}
-            style="flat"
+            theme="flat"
             placeholder={resumeTexts.position}
-            customStyle={styles["last_input"]}
+            className={styles["last_input"]}
             onChange={handleExperienceChange('position')}
           />
           <div className={styles["resume_delete"]} onClick={deleteExperience}>

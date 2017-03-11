@@ -31,42 +31,42 @@ export const RESUME_SECTIONS = [
 export const GENDERS = [
   {
     id: 'male',
-    text: genderTexts.male
+    value: genderTexts.male
   },
   {
     id: 'female',
-    text: genderTexts.female
+    value: genderTexts.female
   }
 ];
 
 export const EDUCATIONS = [
   {
     id: '初中',
-    text: eduTexts.juniorHigh
+    value: eduTexts.juniorHigh
   },
   {
     id: '高中',
-    text: eduTexts.seniorHigh
+    value: eduTexts.seniorHigh
   },
   {
     id: '大专',
-    text: eduTexts.juniorCollege
+    value: eduTexts.juniorCollege
   },
   {
     id: '本科',
-    text: eduTexts.undergraduate
+    value: eduTexts.undergraduate
   },
   {
     id: '硕士',
-    text: eduTexts.master
+    value: eduTexts.master
   },
   {
     id: '博士',
-    text: eduTexts.doctor
+    value: eduTexts.doctor
   },
   {
     id: '其他',
-    text: eduTexts.others
+    value: eduTexts.others
   }
 ];
 

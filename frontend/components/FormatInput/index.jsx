@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Cleave from 'cleave.js';
 import 'cleave.js/dist/addons/cleave-phone.cn';
-import Input from 'COMPONENTS/Input';
+import { Input } from 'light-ui';
 
 const FORMAT_TYPES = {
   date: {

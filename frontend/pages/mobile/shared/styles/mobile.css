@@ -12,20 +12,32 @@
   box-shadow: var(--shadow1);
 }
 
+.info_card {
+  composes: mobile_card;
+  padding: 0;
+}
+
+.mobile_card_with_info {
+  composes: mobile_card;
+  padding-top: 0 !important;
+}
+
 .info_wrapper {
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: row;
+  margin: 0 !important;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--oc-gray-2);
   }
 }
+
 .info_with_chart {
   composes: info_wrapper;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  /*padding-bottom: 10px;*/
+  margin-bottom: 10px !important;
 }
 
 .loading_container {

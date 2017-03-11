@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
+import { Loading, InfoCard, CardGroup } from 'light-ui';
 
-import ChartInfo from 'COMPONENTS/ChartInfo';
-import Loading from 'COMPONENTS/Loading';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import dateHelper from 'UTILS/date';
@@ -180,26 +179,26 @@ class RepositoryInfo extends React.Component {
     const yearlyRepos = github.getYearlyRepos(userRepos);
 
     return (
-      <div>
-        <div className={chartStyles["chart_info_container"]}>
-          <ChartInfo
+      <CardGroup className={cardStyles['card_group']}>
+        <CardGroup>
+          <InfoCard
             icon="star-o"
             mainText={totalStar}
             subText={githubTexts.starsCount}
           />
-          <ChartInfo
+          <InfoCard
             icon="code-fork"
             mainText={totalFork}
             subText={githubTexts.forksCount}
           />
-          <ChartInfo
+          <InfoCard
             icon="cubes"
             mainText={yearlyRepos.length}
             subText={githubTexts.reposCount}
           />
-        </div>
-        <div className={chartStyles["chart_info_container"]}>
-          <ChartInfo
+        </CardGroup>
+        <CardGroup>
+          <InfoCard
             icon="cube"
             tipso={{
               text: `总共收获 ${maxStaredRepos['stargazers_count']} 个 star`
@@ -207,7 +206,7 @@ class RepositoryInfo extends React.Component {
             mainText={maxStaredRepos.name}
             subText={githubTexts.popularestRepos}
           />
-          <ChartInfo
+          <InfoCard
             icon="clock-o"
             tipso={{
               text: maxTimeRepos.name
@@ -215,8 +214,8 @@ class RepositoryInfo extends React.Component {
             mainText={`${getValidateDate(startTime)}~${getValidateDate(pushTime)}`}
             subText={githubTexts.longgestRepos}
           />
-        </div>
-      </div>
+        </CardGroup>
+      </CardGroup>
     )
   }
 
@@ -264,7 +263,7 @@ class RepositoryInfo extends React.Component {
     const { userRepos, loaded, className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading />)
+      component = (<Loading loading={true} />)
     } else {
       component = (!userRepos || !userRepos.length) ?
         (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : this.renderReposReview()

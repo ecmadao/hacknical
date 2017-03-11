@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
-import Loading from 'COMPONENTS/Loading';
+import { Loading, Label } from 'light-ui';
+
 import {
   randomColor,
   hex2Rgba,
@@ -107,10 +108,23 @@ class CodeCourse extends React.Component {
                 <a href={html_url} target="_blank">
                   {name}
                 </a>
-                &nbsp;&nbsp;
-                {`<${language}>`}
-                &nbsp;&nbsp;
-                {fork ? '<fork>' : ''}
+                <Label
+                  color="gray"
+                  theme="ghost"
+                  clickable={false}
+                  text={`<${language}>`}
+                  style={{ lineHeight: 'normal' }}
+                />
+                {fork ? (
+                  <Label
+                    color="gray"
+                    theme="flat"
+                    text="forked"
+                    icon="code-fork"
+                    clickable={false}
+                    style={{ lineHeight: 'normal' }}
+                  />
+                ) : ''}
               </span><br/>
               <div className={githubStyles["tipso_line"]}></div>
               <span>
@@ -161,7 +175,7 @@ class CodeCourse extends React.Component {
     }
     return (
       <div className="readme_container">
-        <Loading />
+        <Loading loading={true} />
       </div>
     )
   }
@@ -170,7 +184,7 @@ class CodeCourse extends React.Component {
     const { userRepos, loaded, className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading />)
+      component = (<Loading loading={true} />)
     } else {
       component = (!userRepos || !userRepos.length) ?
         (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : (

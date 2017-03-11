@@ -71,10 +71,7 @@
 .header_menu_icon_right {
   composes: header_menu_icon;
   position: relative;
-
-  &:not(:last-child) {
-    margin-right: 20px;
-  }
+  margin: 0 10px;
 }
 
 .dropdown_wrapper {
@@ -110,38 +107,14 @@
   }
 }
 
-/* tipso */
-.tipso {
-  top: 130%;
-  bottom: inherit !important;
-
-  &::before {
-    top: -11px;
-    border-top: none !important;
-    border-bottom: 10px solid rgba(212, 212, 212, 0.3);
-  }
-
-  &::after {
-    top: -9px;
-    border-top: none !important;
-    border-bottom: 10px solid var(--oc-white);
-  }
-}
-
 .menu_tipso {
-  composes: tipso;
-  font-size: 12px;
-  color: var(--oc-white);
   min-width: 50px !important;
-  background-color: var(--bgDark) !important;
+  transform: translate(-50%, 15px);
   z-index: var(--zIndex999) !important;
-
-  &::after {
-    border-bottom: 10px solid var(--bgDark);
-  }
 }
 
 .zen_tipso {
-  composes: menu_tipso;
+  transform: translate(-50%, 0px);
+  z-index: var(--zIndex999) !important;
   min-width: 90px !important;
 }

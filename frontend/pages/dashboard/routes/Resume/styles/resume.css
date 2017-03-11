@@ -119,6 +119,11 @@
   margin-right: 0 !important;
 }
 
+.input_group {
+  display: flex;
+  width: 100%;
+}
+
 .last_input {
   margin-right: 0 !important;
 }

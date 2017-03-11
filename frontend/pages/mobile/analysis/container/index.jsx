@@ -3,16 +3,13 @@ import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
+import { Loading, InfoCard, CardGroup, Input, IconButton } from 'light-ui';
 
 import Api from 'API/index';
 import dateHelper from 'UTILS/date';
 import { getValidateViewSources } from 'UTILS/analysis';
 import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
-import ChartInfo from 'COMPONENTS/ChartInfo';
-import Loading from 'COMPONENTS/Loading';
-import Input from 'COMPONENTS/Input';
-import IconButton from 'COMPONENTS/IconButton';
 import styles from '../styles/analysis.css';
 import sharedStyles from '../../shared/styles/mobile.css';
 import locales from 'LOCALES';
@@ -247,9 +244,9 @@ class MobileAnalysis extends React.Component {
           className={styles["share_container"]}>
           <Input
             id="shareGithubUrl"
-            style="flat"
+            theme="flat"
             value={`${window.location.origin}/${url}`}
-            customStyle={styles["share_link_input"]}
+            className={styles["share_link_input"]}
           />
           <IconButton
             icon="clipboard"
@@ -272,19 +269,19 @@ class MobileAnalysis extends React.Component {
 
     return (
       <div
-        className={sharedStyles["mobile_card"]}>
-        <div className={sharedStyles["info_wrapper"]}>
-          <ChartInfo
+        className={sharedStyles["info_card"]}>
+        <CardGroup className={sharedStyles["info_wrapper"]}>
+          <InfoCard
             mainText={viewCount}
             subText={analysisTexts.common.pv}
             mainTextStyle={sharedStyles["main_text"]}
           />
-          <ChartInfo
+          <InfoCard
             mainText={maxViewPerHour}
             subText={analysisTexts.common.maxPvPerHour}
             mainTextStyle={sharedStyles["main_text"]}
           />
-        </div>
+        </CardGroup>
       </div>
     )
   }
@@ -297,13 +294,13 @@ class MobileAnalysis extends React.Component {
       .filter(viewSource => viewSource.count === maxBrowserCount)
       .map(viewSource => viewSource.browser);
     return (
-      <div className={sharedStyles["info_with_chart"]}>
-        <ChartInfo
+      <CardGroup className={sharedStyles["info_with_chart"]}>
+        <InfoCard
           mainText={browsers.join(',')}
           subText={analysisTexts.common.browser}
           mainTextStyle={sharedStyles["main_text"]}
         />
-      </div>
+      </CardGroup>
     )
   }
 
@@ -316,13 +313,13 @@ class MobileAnalysis extends React.Component {
       .map(viewDevice => viewDevice.platform);
 
     return (
-      <div className={sharedStyles["info_with_chart"]}>
-        <ChartInfo
+      <CardGroup className={sharedStyles["info_with_chart"]}>
+        <InfoCard
           mainText={platforms.slice(0, 2).join(',')}
           subText={analysisTexts.common.platform}
           mainTextStyle={sharedStyles["main_text"]}
         />
-      </div>
+      </CardGroup>
     )
   }
 
@@ -332,9 +329,9 @@ class MobileAnalysis extends React.Component {
     return (
       <div className={styles["analysis"]}>
         {loading ? '' : this.renderShareController()}
-        {loading ? '' : this.renderChartInfo()}
+        {loading ? (<Loading loading={true} />) : this.renderChartInfo()}
 
-        <div className={sharedStyles["mobile_card"]}>
+        <div className={sharedStyles["mobile_card_with_info"]}>
           {loading ? '' : this.renderPlatformInfo()}
           <div
             className={styles["share_info_chart"]}>
@@ -344,7 +341,7 @@ class MobileAnalysis extends React.Component {
           </div>
         </div>
 
-        <div className={sharedStyles["mobile_card"]}>
+        <div className={sharedStyles["mobile_card_with_info"]}>
           {loading ? '' : this.renderBrowserInfo()}
           <div
             className={styles["share_info_chart"]}>

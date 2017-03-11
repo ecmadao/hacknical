@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
+import { Loading } from 'light-ui';
 
 import Api from 'API';
-import Loading from 'COMPONENTS/Loading';
-import Tipso from 'COMPONENTS/Tipso';
 import OrgRepos from './OrgRepos';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
@@ -133,7 +132,7 @@ class OrgInfo extends React.Component {
     const { className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading />);
+      component = (<Loading loading={true} />);
     } else {
       component = !orgs.length ?
         (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : this.renderOrgsReview();

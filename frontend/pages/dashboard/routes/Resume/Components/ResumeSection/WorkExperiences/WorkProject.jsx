@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
+import { Input } from 'light-ui';
+
 import WritableList from 'COMPONENTS/WritableList';
-import Input from 'COMPONENTS/Input';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
@@ -53,7 +54,7 @@ class WorkProject extends React.Component {
           <Input
             value={project.name}
             placeholder={resumeTexts.projectName}
-            style="flat"
+            theme="flat"
             onChange={this.handleProjectChange('name')}
           />
           <div className={styles["project_delete"]} onClick={onDelete}>

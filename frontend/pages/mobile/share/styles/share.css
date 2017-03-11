@@ -10,7 +10,7 @@
 }
 
 .mobile_card_full {
-  padding: 15px 0 !important;
+  padding: 15px 0;
   margin: 15px 0 !important;
 }
 
@@ -86,6 +86,7 @@
 
 .info_with_chart_wrapper {
   width: 100%;
+  margin-top: 0 !important;
 }
 
 .repos_wrapper {

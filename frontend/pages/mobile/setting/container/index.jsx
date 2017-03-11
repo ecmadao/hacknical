@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
+import { IconButton } from 'light-ui';
 
-import IconButton from 'COMPONENTS/IconButton';
 import Switcher from 'COMPONENTS/Switcher';
 import Api from 'API/index';
 import dateHelper from 'UTILS/date';

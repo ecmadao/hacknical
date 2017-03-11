@@ -2,10 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import Clipboard from 'clipboard';
-
-import PortalModal from 'COMPONENTS/PortalModal';
-import IconButton from 'COMPONENTS/IconButton';
-import Input from 'COMPONENTS/Input';
+import { IconButton, Input, PortalModal } from 'light-ui';
 import locales from 'LOCALES';
 
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
@@ -77,7 +74,7 @@ class ShareModal extends React.Component {
             <div className={styles["share_container"]}>
               <Input
                 id="shareUrl"
-                style="flat"
+                theme="flat"
                 value={link}
               />
               <IconButton

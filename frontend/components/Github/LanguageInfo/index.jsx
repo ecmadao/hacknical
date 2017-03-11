@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
+import {
+  Loading,
+  InfoCard,
+  CardGroup,
+  Label
+} from 'light-ui';
 
-import ChartInfo from 'COMPONENTS/ChartInfo';
-import Loading from 'COMPONENTS/Loading';
-import Label from 'COMPONENTS/Label';
 import github from 'UTILS/github';
 import { GREEN_COLORS, randomColor } from 'UTILS/colors';
 import {
@@ -150,13 +153,16 @@ class LanguageInfo extends React.Component {
               {repository.name}
             </a>
             {repository.fork ? (
-              <span className={githubStyles["repos_info_forked"]}>
-                <i className="fa fa-code-fork" aria-hidden="true">
-                </i>
-                &nbsp;forked
-              </span>
+              <Label
+                icon="code-fork"
+                text="forked"
+                color="gray"
+                clickable={false}
+              />
             ) : ''}<br/>
-            <span>{repository.description}</span>
+            <span className={githubStyles["repos_short_desc"]}>
+              {repository.description}
+            </span>
           </div>
           <div className={starClass}>
             <i className={`fa ${stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"></i>&nbsp;{stargazersCount}
@@ -186,26 +192,26 @@ class LanguageInfo extends React.Component {
     const total = Object.keys(languageUsed).map(key => languageUsed[key]).reduce((p, c) => p + c);
 
     return (
-      <div className={chartStyles["chart_info_container"]}>
-        <ChartInfo
+      <CardGroup className={cardStyles['card_group']}>
+        <InfoCard
           tipso={{
             text: `总共有 ${reposCount[maxReposCountIndex]} 个仓库与它相关`
           }}
           mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
           subText={githubTexts.maxReposCountLanguage}
         />
-        <ChartInfo
+        <InfoCard
           tipso={{
             text: `使用频率达到 ${(100 * languageUsed[maxUsedLanguage] / total).toFixed(2)}%`
           }}
           mainText={maxUsedLanguage}
           subText={githubTexts.maxUsageLanguage}
         />
-        <ChartInfo
+        <InfoCard
           mainText={Object.keys(languageSkills)[maxStarCountIndex]}
           subText={githubTexts.maxStarLanguage}
         />
-      </div>
+      </CardGroup>
     )
   }
 
@@ -232,8 +238,7 @@ class LanguageInfo extends React.Component {
             backgroundColor: this.labelColor
           }}
           text={language}
-          id={language}
-          onClick={this.setShowLanguage}
+          onClick={() => this.setShowLanguage(language)}
           active={language === showLanguage}
         />
       )
@@ -280,7 +285,7 @@ class LanguageInfo extends React.Component {
     return (
       <div className={cx(cardStyles["info_card"], className)}>
         { !loaded ? (
-          <Loading />
+          <Loading loading={true} />
         ) : this.renderLanguageReview()}
       </div>
     )

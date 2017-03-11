@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
+import { Input, SelectorV2 } from 'light-ui';
 
 import DateSlider from 'COMPONENTS/DateSlider'
-import Input from 'COMPONENTS/Input';
-import SelectorV2 from 'COMPONENTS/SelectorV2';
 import dateHelper from 'UTILS/date';
 import { EDUCATIONS } from 'SHAREDPAGE/datas/resume';
 import styles from '../../../styles/resume.css';
@@ -57,16 +56,16 @@ class Education extends React.Component {
           </div>
           <Input
             value={school}
-            style="flat"
+            theme="flat"
             placeholder={resumeTexts.school}
-            customStyle={styles["single_input"]}
+            className={styles["single_input"]}
             onChange={handleEduChange('school')}
           />
         </div>
         <div className={styles["resume_wrapper"]}>
           <Input
             value={major}
-            style="flat"
+            theme="flat"
             placeholder={resumeTexts.major}
             onChange={handleEduChange('major')}
           />

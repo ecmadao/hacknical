@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import domtoimage from 'dom-to-image';
 import objectAssign from 'object-assign';
-import FloatingActionButton from 'COMPONENTS/FloatingActionButton';
-import { GREEN_COLORS } from 'UTILS/colors';
+import { FloatingActionButton } from 'light-ui';
 
 class ResumeDownloader extends React.Component {
   handleDownload() {
@@ -27,9 +26,11 @@ class ResumeDownloader extends React.Component {
       <FloatingActionButton
         icon="download"
         style={{
-          right: '15%',
-          backgroundColor: GREEN_COLORS[1]
+          position: 'fixed',
+          bottom: '30px',
+          right: '15%'
         }}
+        color="green"
         onClick={this.handleDownload.bind(this)}
       />
     )

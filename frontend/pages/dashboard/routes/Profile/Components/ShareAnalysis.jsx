@@ -5,14 +5,9 @@ import Chart from 'chart.js';
 import Clipboard from 'clipboard';
 import { bindActionCreators } from 'redux';
 import objectAssign from 'object-assign';
+import { Loading, InfoCard, CardGroup, IconButton, Input, Tipso } from 'light-ui';
 
-import Loading from 'COMPONENTS/Loading';
-import IconButton from 'COMPONENTS/IconButton';
-import Input from 'COMPONENTS/Input';
-import ChartInfo from 'COMPONENTS/ChartInfo';
-import Tipso from 'COMPONENTS/Tipso';
 import { sortByX } from 'UTILS/helper';
-
 import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
 import dateHelper from 'UTILS/date';
@@ -27,16 +22,11 @@ const sortByCount = sortByX('count');
 class ShareAnalysis extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showQrcodeModal: false
-    };
     this.qrcode = null;
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
     this.copyUrl = this.copyUrl.bind(this);
-    this.onMouseOut = this.onMouseOut.bind(this);
-    this.onMouseOver = this.onMouseOver.bind(this);
   }
 
   componentDidMount() {
@@ -56,49 +46,38 @@ class ShareAnalysis extends React.Component {
     !this.qrcode && this.renderQrcode();
   }
 
-  onMouseOut() {
-    this.setState({ showQrcodeModal: false });
-  }
-
-  onMouseOver() {
-    this.setState({ showQrcodeModal: true });
-  }
-
   copyUrl() {
     const { index } = this.props;
     document.querySelector(`#shareGithubUrl-${index}`).select();
   }
 
   renderShareController() {
-    const { showQrcodeModal } = this.state;
     const { actions, info, index, text } = this.props;
     const { url } = info;
+
     return (
       <div className={styles["share_controller"]}>
-        <div
-          onMouseEnter={this.onMouseOver}
-          onMouseLeave={this.onMouseOut}
-          onMouseOver={this.onMouseOver}
-          onMouseOut={this.onMouseOut}
-          className={styles["share_container"]}>
-          <Tipso
-            show={showQrcodeModal}>
+        <Tipso
+          wrapperClass={styles["share_container_wrapper"]}
+          tipsoContent={(
             <div className={styles["qrcode_container"]}>
               <div id={`qrcode-${index}`}></div>
               <span>{text}</span>
             </div>
-          </Tipso>
-          <Input
-            id={`shareGithubUrl-${index}`}
-            style="flat"
-            value={`${window.location.origin}/${url}`}
-          />
-          <IconButton
-            icon="clipboard"
-            id={`copyLinkButton-${index}`}
-            onClick={this.copyUrl.bind(this)}
-          />
-        </div>
+          )}>
+          <div className={styles["share_container"]}>
+            <Input
+              theme="flat"
+              id={`shareGithubUrl-${index}`}
+              value={`${window.location.origin}/${url}`}
+            />
+            <IconButton
+              icon="clipboard"
+              id={`copyLinkButton-${index}`}
+              onClick={this.copyUrl.bind(this)}
+            />
+          </div>
+        </Tipso>
       </div>
     )
   }
@@ -272,20 +251,20 @@ class ShareAnalysis extends React.Component {
       .map(viewSource => viewSource.browser);
 
     return (
-      <div className={styles["chart_info_container"]}>
-        <ChartInfo
+      <CardGroup className={styles['card_group']}>
+        <InfoCard
           mainText={viewCount}
           subText={profileTexts.pv}
         />
-        <ChartInfo
+        <InfoCard
           mainText={platforms.slice(0, 2).join(',')}
           subText={profileTexts.platform}
         />
-        <ChartInfo
+        <InfoCard
           mainText={browsers.join(',')}
           subText={profileTexts.browser}
         />
-      </div>
+      </CardGroup>
     )
   }
 
@@ -315,7 +294,7 @@ class ShareAnalysis extends React.Component {
             {this.renderShareController()}
           </div>
         )}
-        {loading ? (<Loading />) : (
+        {loading ? (<Loading loading={true} />) : (
           <div className={styles["card"]}>
             {this.renderChartInfo()}
             <div className={styles["chart_container"]}>
