@@ -21,7 +21,7 @@ const SocialLink = (props) => {
             value={url}
             type="url"
             theme="borderless"
-            style="underline"
+            subTheme="underline"
             placeholder={`Add ${text || name} link`}
             onChange={onChange}
           />

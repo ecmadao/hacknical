@@ -92,9 +92,9 @@ class WorkExperience extends React.Component {
               <Input
                 value={url}
                 type="url"
-                check={false}
+                required={false}
                 theme="borderless"
-                style="underline"
+                subTheme="underline"
                 placeholder={resumeTexts.homepage}
                 onChange={handleExperienceChange('url')}
               />
