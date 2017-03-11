@@ -71,9 +71,9 @@ class WritableList extends React.Component {
         <li>-&nbsp;&nbsp;
           <Input
             value={value}
-            check={false}
+            required={false}
             theme="borderless"
-            style="underline"
+            subTheme="underline"
             placeholder={placeholder}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
