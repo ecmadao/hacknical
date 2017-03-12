@@ -144,9 +144,12 @@ class CommitInfo extends React.Component {
   }
 
   updateYearlyChart() {
+    const { chartType } = this.state;
     const { commitDates, dateLabels } = this.yearlyChartDatas;
     this.commitsYearlyReviewChart.data.labels = dateLabels;
     this.commitsYearlyReviewChart.data.datasets[0].data = commitDates;
+    this.commitsYearlyReviewChart.data.datasets[0].pointBorderWidth = chartType === 'day' ? 0 : 2;
+    this.commitsYearlyReviewChart.data.datasets[0].pointRadius = chartType === 'day' ? 0 : 3;
     this.commitsYearlyReviewChart.update();
   }
 
@@ -160,9 +163,7 @@ class CommitInfo extends React.Component {
         labels: dateLabels,
         datasets: [objectAssign({}, LINECHART_CONFIG, {
           data: commitDates,
-          label: githubTexts.weeklyCommitChartTitle,
-          pointBorderWidth: 0,
-          pointRadius: 0,
+          label: githubTexts.weeklyCommitChartTitle
         })]
       },
       options: {
