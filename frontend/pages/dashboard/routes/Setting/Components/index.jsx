@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { Loading, Button } from 'light-ui';
-import Switcher from 'COMPONENTS/Switcher';
+import { Loading, Button, Switcher } from 'light-ui';
+
 import actions from '../redux/actions';
 import styles from '../styles/setting.css';
 import locales from 'LOCALES';
@@ -18,7 +18,6 @@ const SwitcherPane = (props) => {
         {text}
       </div>
       <Switcher
-        id={id}
         onChange={onChange}
         checked={checked}
       />
