@@ -1,8 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
-import { IconButton } from 'light-ui';
+import { IconButton, Switcher } from 'light-ui';
 
-import Switcher from 'COMPONENTS/Switcher';
 import Api from 'API/index';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
@@ -20,7 +19,6 @@ const SwitcherPane = (props) => {
         {text}
       </div>
       <Switcher
-        id={id}
         onChange={onChange}
         checked={checked}
       />
