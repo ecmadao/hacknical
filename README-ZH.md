@@ -6,6 +6,11 @@
 
 [English Version of README](./README.md)
 
+抽离依赖：
+
+- UI 组件 --> [light-ui](https://github.com/ecmadao/light-ui)
+- GitHub API 爬虫 --> [hacknical-api](https://github.com/ecmadao/hacknical-api)
+
 ## 截图
 
 > 登录界面
