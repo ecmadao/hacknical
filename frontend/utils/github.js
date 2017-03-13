@@ -76,7 +76,7 @@ const combineReposCommits = (reposCommits) => {
 
   result.dailyCommits.forEach((dailyCommit, index) => {
     dailyCommit.sort();
-    result.totalDailyCommits[index] = dailyCommit.reduce((pre, next) => pre + next);
+    result.totalDailyCommits[index] = dailyCommit.reduce((pre, next) => pre + next, 0);
     result.dailyCommits[index] = dailyCommit.length % 2 === 0 ?
       0.5 * (dailyCommit[(dailyCommit.length / 2) - 1] + dailyCommit[dailyCommit.length / 2]) :
       dailyCommit[(dailyCommit.length - 1) / 2];

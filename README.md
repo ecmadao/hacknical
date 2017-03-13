@@ -6,9 +6,12 @@
 
 [中文版 README](./README-ZH.md)
 
-**Attention：this repos only support Chinese version now, but will publish English version later.**
+**Attention：Most of the pages support English now😁😁😁, including github data analysis page. (Expect Resume Editor & Part of Mobile Pages) **
 
-**Attention2：Most of the pages support English now😁😁😁, including github data analysis page. (Expect Resume Editor & Part of Mobile Pages) **
+Extract dependency：
+
+- UI Components --> [light-ui](https://github.com/ecmadao/light-ui)
+- GitHub API crawler --> [hacknical-api](https://github.com/ecmadao/hacknical-api)
 
 ## Screenshots
 

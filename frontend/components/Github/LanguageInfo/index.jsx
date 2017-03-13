@@ -189,7 +189,7 @@ class LanguageInfo extends React.Component {
     const maxReposCountIndex = getMaxIndex(reposCount);
     const maxStarCountIndex = getMaxIndex(starCount);
     const maxUsedLanguage = this.sortedLanguages[0];
-    const total = Object.keys(languageUsed).map(key => languageUsed[key]).reduce((p, c) => p + c);
+    const total = Object.keys(languageUsed).map(key => languageUsed[key]).reduce((p, c) => p + c, 0);
 
     return (
       <CardGroup className={cardStyles['card_group']}>
