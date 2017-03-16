@@ -285,7 +285,7 @@ class CommitInfo extends React.Component {
         <CardGroup>
           <InfoCard
             tipso={{
-              text: `总共有 ${maxCommitRepos.totalCommits} 次提交`
+              text: githubTexts.maxCommitReposTip.replace(/\$/, maxCommitRepos.totalCommits)
             }}
             mainText={maxCommitRepos.name}
             subText={githubTexts.maxCommitRepos}
@@ -295,14 +295,14 @@ class CommitInfo extends React.Component {
               style: {
                 width: '250px'
               },
-              text: `在${MONTHS[maxReposCountMonth]}创建了：${allReposThisMonth}`
+              text: `${githubTexts.maxReposCountMonthTip.replace(/\$/, allReposThisMonth)}`
             }}
             mainText={MONTHS[maxReposCountMonth]}
             subText={githubTexts.maxReposCountMonth}
           />
           <InfoCard
             tipso={{
-              text: `${MONTHS[maxCommitsCountMonth]}总共有 ${maxCommitsCount} 次提交`
+              text: `${githubTexts.maxCommitsCountMonthTip.replace(/\$/, maxCommitsCount)}`
             }}
             mainText={MONTHS[maxCommitsCountMonth]}
             subText={githubTexts.maxCommitsCountMonth}

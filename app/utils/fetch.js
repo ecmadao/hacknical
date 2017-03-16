@@ -16,7 +16,6 @@ const fetchData = (options) => {
 };
 
 const fetch = async (options, timeout) => {
-  console.log(timeout)
   let err = null;
   for (let i = 0; i < timeout.length; i++) {
     try {

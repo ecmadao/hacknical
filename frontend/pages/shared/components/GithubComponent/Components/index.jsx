@@ -2,11 +2,9 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
 import { FloatingActionButton } from 'light-ui';
-
 import Api from 'API/index';
 import GitHubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
-
 import USER from 'SRC/data/user';
 import github from 'UTILS/github';
 import {
@@ -145,8 +143,8 @@ class GithubComponent extends React.Component {
     const { isShare, containerStyle } = this.props;
     const origin = window.location.origin;
 
-    console.log(commitDatas)
-    console.log(commitInfos)
+    // console.log(commitDatas)
+    // console.log(commitInfos)
 
     return (
       <div className={containerStyle}>
@@ -194,7 +192,7 @@ class GithubComponent extends React.Component {
           disabled={this.disabledSection("repos")}
           intro={{
             icon: 'question-circle',
-            text: '暂未统计组织内/ fork 的项目信息，敬请期待'
+            text: githubTexts.repos.tipso
           }}
           isShare={isShare}
           callback={this.changeGithubSection}
@@ -215,7 +213,7 @@ class GithubComponent extends React.Component {
           disabled={this.disabledSection("course")}
           intro={{
             icon: 'question-circle',
-            text: '从第一个创建的仓库到现今的编程历程'
+            text: githubTexts.course.tipso
           }}
           isShare={isShare}
           callback={this.changeGithubSection}
@@ -233,7 +231,7 @@ class GithubComponent extends React.Component {
           disabled={this.disabledSection("orgs")}
           intro={{
             icon: 'question-circle',
-            text: '只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据。如果没有贡献信息，请在“设置”内进行刷新'
+            text: githubTexts.orgs.tipso
           }}
           isShare={isShare}
           callback={this.changeGithubSection}
@@ -270,7 +268,7 @@ class GithubComponent extends React.Component {
           }}
           intro={{
             icon: 'question-circle',
-            text: '记录过去一年内的 commit'
+            text: githubTexts.commits.tipso
           }}
           section="commits"
           key="github-section-commits"

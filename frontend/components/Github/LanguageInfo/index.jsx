@@ -195,14 +195,14 @@ class LanguageInfo extends React.Component {
       <CardGroup className={cardStyles['card_group']}>
         <InfoCard
           tipso={{
-            text: `总共有 ${reposCount[maxReposCountIndex]} 个仓库与它相关`
+            text: githubTexts.maxReposCountLanguageTip.replace(/\$/, reposCount[maxReposCountIndex])
           }}
           mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
           subText={githubTexts.maxReposCountLanguage}
         />
         <InfoCard
           tipso={{
-            text: `使用频率达到 ${(100 * languageUsed[maxUsedLanguage] / total).toFixed(2)}%`
+            text: githubTexts.maxUsageLanguageTip.replace(/\$/, (100 * languageUsed[maxUsedLanguage] / total).toFixed(2))
           }}
           mainText={maxUsedLanguage}
           subText={githubTexts.maxUsageLanguage}
