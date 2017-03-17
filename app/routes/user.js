@@ -2,7 +2,6 @@ import koaRouter from 'koa-router';
 import User from '../controllers/user';
 import platform from '../controllers/helper/platform';
 import user from '../controllers/helper/user';
-import session from '../controllers/helper/session';
 
 const router = koaRouter({
   prefix: '/user'
