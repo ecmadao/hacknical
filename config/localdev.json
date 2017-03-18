@@ -1,8 +1,8 @@
 {
   "production": false,
   "port": "4000",
-  "appKey": "hacknical-local",
-  "appName": "hacknical-local",
+  "appKey": "hacknical",
+  "appName": "hacknical",
   "redis": "redis://localhost:6379/3",
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"

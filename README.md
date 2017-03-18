@@ -30,7 +30,7 @@ See [Project description](./doc/ABOUT-en.md) here. [中文版说明](./doc/ABOUT
 ## Todos
 
 - [x] support English
-- [ ] support orgs
+- [x] support orgs
 - [ ] support forked repos
 - [ ] support edit resume in mobile
 - [ ] support show resume in mobile
