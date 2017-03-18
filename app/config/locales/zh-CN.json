@@ -45,7 +45,9 @@
     },
 		"success": {
       "save": "储存成功",
-			"update": "数据更新完成"
+			"update": "数据更新完成",
+			"updateRepos": "个人仓库和提交信息更新完毕",
+			"updateOrgs": "隶属组织信息更新完毕"
     },
     "share": {
       "text": "想知道自己在致力于哪些编程语言？戳我查看自己的 GitHub 总结",

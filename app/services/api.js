@@ -50,6 +50,11 @@ const refreshUserDatas = async (login, token) => fetchApi(
   {},
   [null]
 );
+const refreshUserOrgs = async (login, token) => fetchApi(
+  `/user/orgs/refresh?login=${login}&token=${token}`,
+  {},
+  [null]
+);
 
 export default {
   /* ===== */
@@ -64,5 +69,6 @@ export default {
   getUserRepos,
   getUserOrgs,
   getUpdateTime,
-  refreshUserDatas
+  refreshUserDatas,
+  refreshUserOrgs
 }

@@ -45,7 +45,9 @@
     },
     "success": {
       "save": "Save succeeded",
-      "update": "Update succeeded. Please refresh to check."
+      "update": "Update succeeded. Please refresh to check.",
+      "updateRepos": "Repos & commmits are successfully update",
+			"updateOrgs": "User orgs are successfully update"
     },
     "share": {
       "text": "Wanna check your GitHub data analysis visually?",

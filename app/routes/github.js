@@ -56,6 +56,12 @@ router.put(
   GitHub.refreshDatas,
   cache.del()
 );
+router.put(
+  '/orgs/refresh',
+  user.checkSession(['userId', 'githubLogin']),
+  GitHub.refreshOrgs,
+  cache.del()
+);
 
 router.get(
   '/user',

@@ -167,7 +167,6 @@ const getUpdateTime = async (ctx, next) => {
 
 const refreshDatas = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
-
   const result = await Api.refreshUserDatas(githubLogin, githubToken);
   if (result === false) {
     return ctx.body = {
@@ -182,15 +181,39 @@ const refreshDatas = async (ctx, next) => {
     cacheKey('repos', {
       session: ['githubLogin']
     }),
-    cacheKey('orgs', {
-      session: ['githubLogin']
-    }),
     cacheKey(`sharedUser.${githubLogin}`)
   ];
 
   ctx.body = {
     success: true,
-    message: ctx.__("messages.success.update"),
+    message: ctx.__("messages.success.updateRepos"),
+    result
+  };
+
+  await next();
+};
+
+const refreshOrgs = async (ctx, next) => {
+  const { githubToken, githubLogin } = ctx.session;
+  const result = await Api.refreshUserOrgs(githubLogin, githubToken);
+  if (result === false) {
+    return ctx.body = {
+      success: true,
+      error: ctx.__("messages.error.frequent")
+    };
+  }
+
+  // set cache keys to remove
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey('orgs', {
+      session: ['githubLogin']
+    })
+  ];
+
+  ctx.body = {
+    success: true,
+    message: ctx.__("messages.success.updateOrgs"),
     result
   };
 
@@ -223,6 +246,7 @@ export default {
   getStareRecords,
   getUpdateTime,
   refreshDatas,
+  refreshOrgs,
   getZen,
   getOctocat
 }

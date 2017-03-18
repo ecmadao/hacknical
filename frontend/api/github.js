@@ -26,7 +26,8 @@ const getShareRecords = () => fetchInfo(`/share/records`);
 
 const getUpdateTime = () => fetchInfo('/updateTime');
 
-const refresh = () => putInfo('/refresh');
+const refresh = () => putInfo('/refresh').then(() => putInfo('/orgs/refresh'));
+// const refresh = () => putInfo('/orgs/refresh');
 
 const zen = () => fetchInfo('/zen');
 const octocat = () => fetchInfo('/octocat');

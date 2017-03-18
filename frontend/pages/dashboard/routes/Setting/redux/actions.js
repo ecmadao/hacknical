@@ -23,9 +23,7 @@ const fetchGithubUpdateTime = () => (dispatch, getState) => {
 
 const refreshGithubDatas = () => (dispatch, getState) => {
   dispatch(toggleSettingLoading(true));
-  Api.github.refresh().then((result) => {
-    dispatch(setUpdateTime(result));
-  });
+  Api.github.refresh().then((result) => dispatch(setUpdateTime(result)));
 };
 
 // github share
