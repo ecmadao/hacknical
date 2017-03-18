@@ -31,6 +31,7 @@ import locales from 'LOCALES';
 
 const sortByLanguageStar = sortByX('star');
 const githubTexts = locales('github').sections;
+const isShare = window.isAdmin !== 'true';
 
 const ReposInfo = (props) => {
   const { mainText, subText, style, icon } = props;
@@ -288,7 +289,10 @@ class MobileShare extends React.Component {
     return (
       <CardGroup
         id="commits_wrapper"
-        className={styles["info_with_chart_wrapper"]}>
+        className={cx(
+          styles["info_with_chart_wrapper"],
+          isShare && sharedStyles["info_share"]
+        )}>
         <CardGroup>
           <InfoCard
             mainText={parseInt(total / 52, 10)}
@@ -465,7 +469,7 @@ class MobileShare extends React.Component {
     const maxStarCountIndex = getMaxIndex(starCount);
 
     const containerClass = cx(
-      window.isAdmin !== 'true' && styles["not_admin"]
+      isShare && styles["not_admin"]
     );
 
     return (
@@ -503,7 +507,10 @@ class MobileShare extends React.Component {
         <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"])}>
           <CardGroup
             id="language_wrapper"
-            className={sharedStyles["info_with_chart"]}>
+            className={cx(
+              sharedStyles["info_with_chart"],
+              isShare && sharedStyles["info_share"]
+            )}>
             <InfoCard
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageDistributions)[maxReposCountIndex]}

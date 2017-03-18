@@ -10,11 +10,16 @@
   padding: 15px;
   background-color: var(--oc-white);
   box-shadow: var(--shadow1);
+  border-bottom: 0 !important;
 }
 
 .info_card {
   composes: mobile_card;
   padding: 0;
+}
+
+.info_share {
+  background-color: transparent !important;
 }
 
 .mobile_card_with_info {
