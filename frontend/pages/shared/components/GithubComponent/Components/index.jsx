@@ -91,8 +91,6 @@ class GithubComponent extends React.Component {
     this.setState({
       reposLoaded: true,
       repos: [...repos],
-      // commitDatas: [...commits],
-      // commitInfos: github.combineReposCommits([...commits]),
       reposLanguages: [...github.getReposLanguages(repos)]
     })
   }

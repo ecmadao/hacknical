@@ -52,7 +52,8 @@ class MobileShare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loaded: false,
+      reposLoaded: false,
+      commitLoaded: false,
       repos: [],
       commits: [],
       commitDatas: {
@@ -72,27 +73,51 @@ class MobileShare extends React.Component {
   }
 
   componentDidMount() {
+    this.getGithubRepos();
+  }
+
+  componentDidUpdate(preProps, preState) {
+    this.renderCharts();
+    const { reposLoaded, commitLoaded } = this.state;
+    if (reposLoaded && !preState.reposLoaded) {
+      this.getGithubCommits();
+    }
+    reposLoaded && this.initialReposSlick();
+    reposLoaded && commitLoaded && this.initialScrollReveal();
+    commitLoaded && !preState.commitLoaded && this.renderReposChart();
+  }
+
+  async getGithubCommits() {
     const { login } = this.props;
-    Api.github.getRepos(login).then((result) => {
-      const { repos, commits } = result;
-      this.setState({
-        commits,
-        loaded: true,
-        repos: repos.sort(sortRepos()),
-        commitDatas: github.combineReposCommits(commits),
-        languageDistributions: github.getLanguageDistribution(repos),
-        languageSkills: github.getLanguageSkill(repos),
-        reposLanguages: [...github.getReposLanguages(repos)],
-        languageUsed: github.getLanguageUsed(repos)
-      });
+    const result = await Api.github.getCommits(login);
+    this.setGithubCommits(result);
+  }
+
+  async getGithubRepos() {
+    const { login } = this.props;
+    const result = await Api.github.getRepos(login);
+    this.setGithubRepos(result);
+  }
+
+  setGithubCommits(result) {
+    const { commits } = result;
+    this.setState({
+      commitLoaded: true,
+      commits,
+      commitDatas: github.combineReposCommits(commits),
     });
   }
 
-  componentDidUpdate() {
-    this.renderCharts();
-    const { loaded } = this.state;
-    loaded && this.initialSlick();
-    loaded && this.initialScrollReveal();
+  setGithubRepos(result) {
+    const { repos } = result;
+    this.setState({
+      repos: repos.sort(sortRepos()),
+      languageDistributions: github.getLanguageDistribution(repos),
+      languageSkills: github.getLanguageSkill(repos),
+      reposLanguages: [...github.getReposLanguages(repos)],
+      languageUsed: github.getLanguageUsed(repos),
+      reposLoaded: true,
+    });
   }
 
   initialScrollReveal() {
@@ -106,7 +131,7 @@ class MobileShare extends React.Component {
     sr.reveal('#language_wrapper', { duration: 150 });
   }
 
-  initialSlick() {
+  initialReposSlick() {
     if (this.slickInitialed) { return }
     $('#chart_info_container').slick({
       accessibility: false,
@@ -125,7 +150,7 @@ class MobileShare extends React.Component {
     const { repos, commitDatas } = this.state;
     const { commits } = commitDatas;
     if (repos.length) {
-      !this.reposChart && this.renderReposChart(repos.slice(0, 10));
+      !this.reposChart && this.renderReposChart();
       !this.languageSkillChart && this.renderLanguagesChart();
     }
     if (commits.length) {
@@ -226,15 +251,16 @@ class MobileShare extends React.Component {
     });
   }
 
-  renderReposChart(repos) {
-    const { commits } = this.state;
+  renderReposChart() {
+    const { commits, repos } = this.state;
+    const renderedRepos = repos.slice(0, 10);
     const datasets = [
-      chart.repos.starsDatasets(repos),
-      chart.repos.forksDatasets(repos)
+      chart.repos.starsDatasets(renderedRepos),
+      chart.repos.forksDatasets(renderedRepos)
     ];
     if (commits.length) {
       datasets.push(
-        chart.repos.commitsDatasets(repos, commits)
+        chart.repos.commitsDatasets(renderedRepos, commits)
       )
     }
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
@@ -242,7 +268,7 @@ class MobileShare extends React.Component {
       type: 'bar',
       data: {
         datasets,
-        labels: github.getReposNames(repos)
+        labels: github.getReposNames(renderedRepos)
       },
       options: {
         title: {
@@ -453,9 +479,9 @@ class MobileShare extends React.Component {
   }
 
   render() {
-    const { loaded, languageSkills, languageDistributions, commits } = this.state;
+    const { reposLoaded, commitLoaded, languageSkills, languageDistributions, commits } = this.state;
 
-    if (!loaded) {
+    if (!reposLoaded) {
       return (
         <div className={sharedStyles["loading_container"]}>
           <Loading loading={true} />
@@ -495,7 +521,7 @@ class MobileShare extends React.Component {
           <div className={styles["repos_wrapper"]}>
             <div className={styles["repos_contents_wrapper"]}>
               <div className={styles["repos_contents"]}>
-                {loaded ? this.renderLanguageLines() : ''}
+                {reposLoaded ? this.renderLanguageLines() : ''}
               </div>
               <div className={styles["repos_yAxes"]}>
                 <div className={styles["yAxes_text"]}>{githubTexts.languages.frequency}</div>
@@ -530,7 +556,7 @@ class MobileShare extends React.Component {
         </div>
 
         <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"], styles["mobile_card_no_bottom"])}>
-          { loaded && commits.length ? this.renderCommitsInfo() : ''}
+          { commitLoaded && commits.length ? this.renderCommitsInfo() : ''}
           <div
             id="commits_chart"
             className={sharedStyles["info_chart"]}>
