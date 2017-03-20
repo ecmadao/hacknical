@@ -29,6 +29,15 @@ router.get(
   GitHub.getUserRepos,
   cache.set()
 );
+// commits
+router.get(
+  '/commits',
+  cache.get('commits', {
+    keys: ['query.login', 'session.githubLogin']
+  }),
+  GitHub.getUserCommits,
+  cache.set()
+);
 // orgs
 router.get(
   '/orgs',
@@ -51,9 +60,15 @@ router.get(
 
 // refresh github datas
 router.put(
-  '/refresh',
+  '/repos/refresh',
   user.checkSession(['userId', 'githubLogin']),
-  GitHub.refreshDatas,
+  GitHub.refreshRepos,
+  cache.del()
+);
+router.put(
+  '/commits/refresh',
+  user.checkSession(['userId', 'githubLogin']),
+  GitHub.refreshCommits,
   cache.del()
 );
 router.put(

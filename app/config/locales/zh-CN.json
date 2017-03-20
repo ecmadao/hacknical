@@ -46,7 +46,8 @@
 		"success": {
       "save": "储存成功",
 			"update": "数据更新完成",
-			"updateRepos": "个人仓库和提交信息更新完毕",
+			"updateRepos": "个人仓库更新完毕",
+			"updateCommits": "提交信息更新完毕",
 			"updateOrgs": "隶属组织信息更新完毕"
     },
     "share": {

@@ -6,6 +6,7 @@ const putInfo = (url, data = {}) => putData(`/github${url}`, data);
 
 /* get repos & orgs info */
 const getRepos = (login) => fetchInfo(`/repos`, { login });
+const getCommits = (login) => fetchInfo(`/commits`, { login });
 const getOrgs = (login) => fetchInfo(`/orgs`, { login });
 
 /* get user info */
@@ -26,7 +27,7 @@ const getShareRecords = () => fetchInfo(`/share/records`);
 
 const getUpdateTime = () => fetchInfo('/updateTime');
 
-const refresh = () => putInfo('/refresh').then(() => putInfo('/orgs/refresh'));
+const refresh = () => putInfo('/repos/refresh').then(() => putInfo('/commits/refresh')).then(() => putInfo('/orgs/refresh'));
 // const refresh = () => putInfo('/refresh');
 
 const zen = () => fetchInfo('/zen');
@@ -35,6 +36,7 @@ const octocat = () => fetchInfo('/octocat');
 export default {
   getUser,
   getRepos,
+  getCommits,
   getOrgs,
   toggleShare,
   getShareRecords,

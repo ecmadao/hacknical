@@ -21,7 +21,7 @@ const datas = {
       maxStarPerRepos: 'Max Star/Repos',
       longgestRepos: 'Longgest commit',
       chartTitle: 'star/fork/commit (last one year)',
-      emptyText: 'No repositories info',
+      emptyText: 'No repositories info, please refresh later',
       originalRepos: 'Original repos',
       starPercentage: 'Star percentage',
       forkedRepos: 'Forked repos',
@@ -29,7 +29,7 @@ const datas = {
       tipso: 'Haven\'t combine orgs/forked repos info yet'
     },
     course: {
-      emptyText: 'No repositories info',
+      emptyText: 'No repositories info, please refresh later',
       title: 'Code Course',
       tipso: 'Timeline from the first repository you created'
     },
@@ -38,7 +38,7 @@ const datas = {
       createdAt: 'Created at ',
       joinedRepos: 'Public repos you joined',
       contributionPercentage: 'Contribution percentage',
-      emptyText: 'No organizations info',
+      emptyText: 'No organizations info, please refresh later',
       coreDeveloper: 'Core developer',
       coreDeveloperIntro: 'Larger than 30% Contributions',
       tipso: 'Only when you make yourself public in a organization can I get your orgs information'
@@ -59,7 +59,7 @@ const datas = {
         title: 'Stars language get',
         label: 'Stars relative to this language: '
       },
-      emptyText: 'No languages info',
+      emptyText: 'No languages info, please refresh later',
       relativeRepos: 'Repos relatived to this language'
     },
     commits: {
@@ -72,7 +72,7 @@ const datas = {
       maxCommitCount: 'Max commits count',
       dailyCommitChartTitle: 'Commits distribution in the last year',
       weeklyCommitChartTitle: 'commits in the last year',
-      emptyText: 'No commits info',
+      emptyText: 'No commits info, please refresh later',
       maxCommitDate: 'Max commit date',
       maxDailyCommits: 'Max daily commits',
       maxReposCountMonth: 'You have most inspirations',

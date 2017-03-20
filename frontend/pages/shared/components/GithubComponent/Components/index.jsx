@@ -22,7 +22,8 @@ class GithubComponent extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      loaded: false,
+      reposLoaded: false,
+      commitLoaded: false,
       openModal: false,
       openShareModal: false,
       user: objectAssign({}, USER),
@@ -45,10 +46,18 @@ class GithubComponent extends React.Component {
   }
 
   componentDidUpdate(preProps, preState) {
-    const { user, loaded, repos } = this.state;
+    const {
+      user,
+      reposLoaded,
+      commitLoaded
+    } = this.state;
+
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
-      !repos.length && this.getGithubRepos(user.login);
+      !reposLoaded && this.getGithubRepos(user.login);
+    }
+    if (reposLoaded && !preState.reposLoaded) {
+      !commitLoaded && this.getGithubCommits(user.login);
     }
   }
 
@@ -72,14 +81,28 @@ class GithubComponent extends React.Component {
     this.changeState({ sections });
   }
 
+  async getGithubCommits(login = '') {
+    const result = await Api.github.getCommits(login);
+    this.setGithubCommits(result);
+  }
+
   setGithubRepos(result) {
-    const { repos, commits } = result;
+    const { repos } = result;
     this.setState({
-      loaded: true,
+      reposLoaded: true,
       repos: [...repos],
-      commitDatas: [...commits],
-      commitInfos: github.combineReposCommits([...commits]),
+      // commitDatas: [...commits],
+      // commitInfos: github.combineReposCommits([...commits]),
       reposLanguages: [...github.getReposLanguages(repos)]
+    })
+  }
+
+  setGithubCommits(result) {
+    const { commits } = result;
+    this.setState({
+      commitLoaded: true,
+      commitDatas: [...commits],
+      commitInfos: github.combineReposCommits([...commits])
     })
   }
 
@@ -137,7 +160,8 @@ class GithubComponent extends React.Component {
       showedReposId,
       commitDatas,
       commitInfos,
-      loaded,
+      reposLoaded,
+      commitLoaded,
       sections
     } = this.state;
     const { isShare, containerStyle } = this.props;
@@ -176,7 +200,7 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          loaded={loaded}
+          loaded={reposLoaded || commitLoaded}
           commitDatas={commitDatas}
           userRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
           forkedRepos={repos.filter(repository => repository.fork)}
@@ -198,7 +222,7 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          loaded={loaded}
+          loaded={reposLoaded}
           showedReposId={showedReposId}
           userRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
 
@@ -238,7 +262,7 @@ class GithubComponent extends React.Component {
         />
         <GitHubSection
           repos={repos}
-          loaded={loaded}
+          loaded={reposLoaded}
           showedReposId={showedReposId}
           languageDistributions={github.getLanguageDistribution(repos)}
           languageUsed={github.getLanguageUsed(repos)}
@@ -257,7 +281,7 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          loaded={loaded}
+          loaded={commitLoaded}
           commitDatas={commitDatas}
           commitInfos={commitInfos}
           hasCommits={commitDatas.length > 0}

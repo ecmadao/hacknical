@@ -41,12 +41,18 @@ const getLogin = async (token) => fetchApi(`/login?token=${token}`);
 const getUser = async (login, token) => fetchApi(`/user?login=${login}&token=${token}`);
 
 const getUserRepos = async (login, token) => fetchApi(`/user/repos?login=${login}&token=${token}`);
-
+const getUserCommits = async (login, token) => fetchApi(`/user/commits?login=${login}&token=${token}`);
 const getUserOrgs = async (login, token) => fetchApi(`/user/orgs?login=${login}&token=${token}`);
 
 const getUpdateTime = async (login) => fetchApi(`/user/updateTime?login=${login}`);
-const refreshUserDatas = async (login, token) => fetchApi(
-  `/user/refresh?login=${login}&token=${token}`,
+
+const refreshUserRepos = async (login, token) => fetchApi(
+  `/user/repos/refresh?login=${login}&token=${token}`,
+  {},
+  [null]
+);
+const refreshUserCommits = async (login, token) => fetchApi(
+  `/user/commits/refresh?login=${login}&token=${token}`,
   {},
   [null]
 );
@@ -67,8 +73,10 @@ export default {
   /* ===== */
   getUser,
   getUserRepos,
+  getUserCommits,
   getUserOrgs,
   getUpdateTime,
-  refreshUserDatas,
+  refreshUserRepos,
+  refreshUserCommits,
   refreshUserOrgs
 }

@@ -37,14 +37,29 @@ const getUser = async (ctx, next) => {
 const getUserRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const { login } = ctx.query;
-  const { repos, commits } = await Api.getUserRepos(login || githubLogin, githubToken);
-  if (!commits.length || !repos.length) {
+  const { repos } = await Api.getUserRepos(login || githubLogin, githubToken);
+  if (!repos.length) {
     ctx.query.shouldCache = false;
   }
   ctx.body = {
     success: true,
     result: {
-      repos,
+      repos
+    }
+  };
+  await next();
+};
+
+const getUserCommits = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  const { login } = ctx.query;
+  const { commits } = await Api.getUserCommits(login || githubLogin, githubToken);
+  if (!commits.length) {
+    ctx.query.shouldCache = false;
+  }
+  ctx.body = {
+    success: true,
+    result: {
       commits
     }
   };
@@ -165,9 +180,9 @@ const getUpdateTime = async (ctx, next) => {
   };
 };
 
-const refreshDatas = async (ctx, next) => {
+const refreshRepos = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
-  const result = await Api.refreshUserDatas(githubLogin, githubToken);
+  const result = await Api.refreshUserRepos(githubLogin, githubToken);
   if (result === false) {
     return ctx.body = {
       success: true,
@@ -187,6 +202,34 @@ const refreshDatas = async (ctx, next) => {
   ctx.body = {
     success: true,
     message: ctx.__("messages.success.updateRepos"),
+    result
+  };
+
+  await next();
+};
+
+const refreshCommits = async (ctx, next) => {
+  const { githubToken, githubLogin } = ctx.session;
+  const result = await Api.refreshUserCommits(githubLogin, githubToken);
+
+  if (result === false) {
+    return ctx.body = {
+      success: true,
+      error: ctx.__("messages.error.frequent")
+    };
+  }
+
+  // set cache keys to remove
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey('commits', {
+      session: ['githubLogin']
+    })
+  ];
+
+  ctx.body = {
+    success: true,
+    message: ctx.__("messages.success.updateCommits"),
     result
   };
 
@@ -241,12 +284,14 @@ export default {
   getSharedUser,
   sharePage,
   getUserRepos,
+  getUserCommits,
   getUserOrgs,
   toggleShare,
   getStareRecords,
   getUpdateTime,
-  refreshDatas,
+  refreshRepos,
   refreshOrgs,
+  refreshCommits,
   getZen,
   getOctocat
 }
