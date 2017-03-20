@@ -17,8 +17,9 @@ const datas = {
       starsCount: 'Stars count',
       forksCount: 'Forks count',
       reposCount: 'Repos count',
-      popularestRepos: 'Most popular repos',
-      maxStarPerRepos: 'Max Star/Repos',
+      popularestRepos: 'Most popular repository',
+      popularestReposTip: 'Totally receive $ stars',
+      maxStarPerRepos: 'Max Stars in single repository',
       longgestRepos: 'Longgest commit',
       chartTitle: 'star/fork/commit (last one year)',
       emptyText: 'No repositories info, please refresh later',
@@ -31,7 +32,7 @@ const datas = {
     course: {
       emptyText: 'No repositories info, please refresh later',
       title: 'Code Course',
-      tipso: 'Timeline from the first repository you created'
+      tipso: 'Timelines from the first repository you created'
     },
     orgs: {
       title: 'Orgs Info',
@@ -40,23 +41,23 @@ const datas = {
       contributionPercentage: 'Contribution percentage',
       emptyText: 'No organizations info, please refresh later',
       coreDeveloper: 'Core developer',
-      coreDeveloperIntro: 'Larger than 30% Contributions',
-      tipso: 'Only when you make yourself public in a organization can I get your orgs information'
+      coreDeveloperIntro: 'More than 30% contributions',
+      tipso: 'Only when you make yourself public in a organization can I get your orgs informations'
     },
     languages: {
       title: 'Languages Review',
-      maxReposCountLanguage: 'Has max count of repos',
+      maxReposCountLanguage: 'Has most amount of repos',
       maxReposCountLanguageTip: 'Totally has $ repos relative to it',
       maxUsageLanguage: 'Max usage',
       maxUsageLanguageTip: 'You use it for almost $% times',
       maxStarLanguage: 'Has most stars',
-      frequency: '',
+      frequency: 'frequency',
       usageChart: {
         title: 'Language usage percentage',
         label: 'Percentage: '
       },
       starChart: {
-        title: 'Stars language get',
+        title: 'stars of each language',
         label: 'Stars relative to this language: '
       },
       emptyText: 'No languages info, please refresh later',
@@ -66,12 +67,13 @@ const datas = {
       title: 'Commits Review',
       maxDay: 'Your favorite day to commit',
       averageCount: 'Weekly commits',
-      firstCommit: 'First commit in last year',
+      firstCommit: 'First commit in the last year',
       maxCommitRepos: 'Has most commits',
       maxCommitReposTip: 'Totally has $ commits',
-      maxCommitCount: 'Max commits count',
+      maxCommitCount: 'Max commits in single repository',
       dailyCommitChartTitle: 'Commits distribution in the last year',
       weeklyCommitChartTitle: 'commits in the last year',
+      monthlyCommitChartTitle: 'monthly commits in the last year',
       emptyText: 'No commits info, please refresh later',
       maxCommitDate: 'Max commit date',
       maxDailyCommits: 'Max daily commits',
@@ -86,7 +88,7 @@ const datas = {
     }
   },
   modal: {
-    shareText: 'Share your GitHub analysis'
+    shareText: 'to share your GitHub analysis'
   },
   operations: {
     share: {

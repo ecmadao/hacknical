@@ -205,7 +205,7 @@ class RepositoryInfo extends React.Component {
           <InfoCard
             icon="cube"
             tipso={{
-              text: `总共收获 ${maxStaredRepos['stargazers_count']} 个 star`
+              text: githubTexts.popularestReposTip.replace(/\$/, maxStaredRepos['stargazers_count'])
             }}
             mainText={maxStaredRepos.name}
             subText={githubTexts.popularestRepos}

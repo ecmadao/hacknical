@@ -61,7 +61,7 @@
 
 .share_banner {
   position: fixed;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
   color: var(--oc-gray-6);
   background-color: var(--oc-white);

@@ -13,7 +13,7 @@ const settingTexts = locales('dashboard').setting;
 const SwitcherPane = (props) => {
   const { id, onChange, checked, text } = props;
   return (
-    <div className={styles['info_container_large']}>
+    <div className={styles['info_container']}>
       <div className={styles.info}>
         {text}
       </div>

@@ -32,7 +32,7 @@ class ShareAnalysis extends React.Component {
   componentDidMount() {
     const { actions, index } = this.props;
     actions.fetchShareData();
-    new Clipboard(`#copyLinkButton-${index}`, {
+    this.clipboard = new Clipboard(`#copyLinkButton-${index}`, {
       text: () => $(`#shareGithubUrl-${index}`).val()
     });
   }
@@ -44,6 +44,10 @@ class ShareAnalysis extends React.Component {
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
     !this.qrcode && this.renderQrcode();
+  }
+
+  componentWillUnmount() {
+    this.clipboard && this.clipboard.destroy();
   }
 
   copyUrl() {

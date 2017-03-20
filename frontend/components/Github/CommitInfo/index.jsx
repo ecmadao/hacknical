@@ -18,10 +18,8 @@ import locales from 'LOCALES';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 
-
 const githubTexts = locales('github').sections.commits;
 const getDateBySeconds = dateHelper.date.bySeconds;
-
 
 class CommitInfo extends React.Component {
   constructor(props) {
@@ -79,6 +77,7 @@ class CommitInfo extends React.Component {
     const commitDates = [];
     const dateLabels = [];
 
+    /* weekly commits chart view */
     if (chartType === 'week') {
       if (this.weeklyCommits) { return this.weeklyCommits }
       commits.forEach((item, index) => {
@@ -94,6 +93,7 @@ class CommitInfo extends React.Component {
       return this.weeklyCommits;
     }
 
+    /* daily commits chart view */
     if (chartType === 'day') {
       if (this.dailyCommits) { return this.dailyCommits }
       commits.forEach((item, index) => {
@@ -110,6 +110,7 @@ class CommitInfo extends React.Component {
       return this.dailyCommits;
     }
 
+    /* monthly commits chart view */
     if (this.monthlyCommits) { return this.monthlyCommits }
     const monthlyCommits = {};
     commits.forEach((item) => {

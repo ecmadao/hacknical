@@ -153,6 +153,7 @@
         top: 50%;
         left: 3px;
         transform: translateY(-50%);
+        writing-mode: vertical-rl;
       }
 
       &::before {

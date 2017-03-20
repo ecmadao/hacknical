@@ -52,6 +52,9 @@
 }
 
 .info_chart {
+  text-align: center;
+  font-size: 12px;
+
   &.repos_chart {
     margin-bottom: 20px;
   }

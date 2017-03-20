@@ -19,6 +19,7 @@ const SwitcherPane = (props) => {
         {text}
       </div>
       <Switcher
+        size="small"
         onChange={onChange}
         checked={checked}
       />

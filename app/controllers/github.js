@@ -186,7 +186,8 @@ const refreshRepos = async (ctx, next) => {
   if (result === false) {
     return ctx.body = {
       success: true,
-      error: ctx.__("messages.error.frequent")
+      error: ctx.__("messages.error.frequent"),
+      result: null
     };
   }
 
@@ -215,7 +216,8 @@ const refreshCommits = async (ctx, next) => {
   if (result === false) {
     return ctx.body = {
       success: true,
-      error: ctx.__("messages.error.frequent")
+      error: ctx.__("messages.error.frequent"),
+      result: null
     };
   }
 
@@ -242,7 +244,8 @@ const refreshOrgs = async (ctx, next) => {
   if (result === false) {
     return ctx.body = {
       success: true,
-      error: ctx.__("messages.error.frequent")
+      error: ctx.__("messages.error.frequent"),
+      result: null
     };
   }
 
@@ -288,10 +291,12 @@ export default {
   getUserOrgs,
   toggleShare,
   getStareRecords,
+  /* ===== refresh & update ====== */
   getUpdateTime,
   refreshRepos,
   refreshOrgs,
   refreshCommits,
+  /* ========== */
   getZen,
   getOctocat
 }

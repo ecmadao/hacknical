@@ -6,7 +6,7 @@ const datas = {
     next: 'Next'
   },
   modal: {
-    shareText: 'Share your resume'
+    shareText: 'to share your resume'
   },
   sections: {
     info: {

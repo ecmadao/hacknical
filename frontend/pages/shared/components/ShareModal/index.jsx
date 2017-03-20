@@ -14,9 +14,21 @@ const DARK_COLORS = MD_COLORS.slice(-2);
 class ShareModal extends React.Component {
   componentDidMount() {
     this.renderQrcode();
-    new Clipboard('#copyButton', {
+    this.clipboard = new Clipboard('#copyButton', {
       text: () => $("#shareUrl").val()
     });
+  }
+
+  componentDidUpdate(preProps) {
+    const { options } = this.props;
+    const preOptions = preProps.options;
+    if ((!options.openShare && preOptions.openShare) || (options.openShare && !preOptions.openShare)) {
+      this.renderQrcode();
+    }
+  }
+
+  componentWillUnmount() {
+    this.clipboard && this.clipboard.destroy();
   }
 
   renderQrcode() {
@@ -31,14 +43,6 @@ class ShareModal extends React.Component {
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H
     });
-  }
-
-  componentDidUpdate(preProps) {
-    const { options } = this.props;
-    const preOptions = preProps.options;
-    if ((!options.openShare && preOptions.openShare) || (options.openShare && !preOptions.openShare)) {
-      this.renderQrcode();
-    }
   }
 
   copyUrl() {

@@ -27,8 +27,7 @@ const getShareRecords = () => fetchInfo(`/share/records`);
 
 const getUpdateTime = () => fetchInfo('/updateTime');
 
-const refresh = () => putInfo('/repos/refresh').then(() => putInfo('/commits/refresh')).then(() => putInfo('/orgs/refresh'));
-// const refresh = () => putInfo('/refresh');
+const refresh = () => putInfo('/repos/refresh').then((result) => result && putInfo('/commits/refresh')).then((result) => result && putInfo('/orgs/refresh'));
 
 const zen = () => fetchInfo('/zen');
 const octocat = () => fetchInfo('/octocat');

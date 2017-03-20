@@ -32,6 +32,7 @@ import locales from 'LOCALES';
 const sortByLanguageStar = sortByX('star');
 const githubTexts = locales('github').sections;
 const isShare = window.isAdmin !== 'true';
+const getDateBySeconds = dateHelper.date.bySeconds;
 
 const ReposInfo = (props) => {
   const { mainText, subText, style, icon } = props;
@@ -162,10 +163,43 @@ class MobileShare extends React.Component {
     const commitsChart = ReactDOM.findDOMNode(this.commitsYearlyChart);
     const commitDates = [];
     const dateLabels = [];
+
+    const monthlyCommits = {};
     commits.forEach((item) => {
-      commitDates.push(item.total);
-      dateLabels.push(dateHelper.date.bySeconds(item.week));
+      const endDate = getDateBySeconds(item.week);
+      const [year, month, day] = endDate.split('-');
+      const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
+
+      const thisMonthKey = `${year}-${parseInt(month, 10)}`;
+      const totalCommits = item.days.slice(sliceIndex).reduce((pre, next) => pre + next, 0);
+      const targetCommits = monthlyCommits[thisMonthKey];
+      monthlyCommits[thisMonthKey] = isNaN(targetCommits) ? totalCommits : totalCommits + targetCommits;
+
+      if (sliceIndex > 0) {
+        const preMonthKey = parseInt(month, 10) - 1 <= 0 ?
+          `${parseInt(year, 10) - 1}-12` :
+          `${year}-${parseInt(month, 10) - 1}`;
+        const preTotalCommits = item.days.slice(0, sliceIndex).reduce((pre, next) => pre + next, 0);
+        const preTargetCommits = monthlyCommits[preMonthKey];
+        monthlyCommits[preMonthKey] = isNaN(preTargetCommits) ? preTotalCommits : preTotalCommits + preTargetCommits;
+      }
     });
+
+    Object.keys(monthlyCommits).forEach((key) => {
+      commitDates.push(monthlyCommits[key]);
+      dateLabels.push(key);
+    });
+    // this.monthlyCommits = {
+    //   commitDates,
+    //   dateLabels
+    // };
+
+    // commits.forEach((item) => {
+    //   commitDates.push(item.total);
+    //   dateLabels.push(
+    //     `${getDateBySeconds(item.week - 7 * 24 * 60 * 60)} ~ ${getDateBySeconds(item.week)}`
+    //   );
+    // });
     this.commitsYearlyReviewChart = new Chart(commitsChart, {
       type: 'line',
       data: {
@@ -176,14 +210,13 @@ class MobileShare extends React.Component {
           pointHoverRadius: 2,
           pointHoverBorderWidth: 2,
           pointHitRadius: 2,
-          pointBorderWidth: 0,
-          pointRadius: 0,
+          pointBorderWidth: 1,
+          pointRadius: 2,
         })]
       },
       options: {
         title: {
           display: false,
-          text: ''
         },
         legend: {
           display: false,
@@ -205,16 +238,16 @@ class MobileShare extends React.Component {
             }
           }],
         },
-        tooltips: {
-          callbacks: {
-            title: (item, data) => {
-              return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
-            },
-            label: (item, data) => {
-              return `${item.yLabel} commits this week`
-            }
-          }
-        }
+        // tooltips: {
+        //   callbacks: {
+        //     title: (item, data) => {
+        //       return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
+        //     },
+        //     label: (item, data) => {
+        //       return `${item.yLabel} commits this week`
+        //     }
+        //   }
+        // }
       }
     })
   }
@@ -310,7 +343,7 @@ class MobileShare extends React.Component {
     // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstMatchTarget(commitDatas.commits, (item) => item.total);
     const [firstCommitDay, dayIndex] = getFirstMatchTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = dateHelper.date.bySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
+    const firstCommitDate = getDateBySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
 
     return (
       <CardGroup
@@ -560,6 +593,7 @@ class MobileShare extends React.Component {
           <div
             id="commits_chart"
             className={sharedStyles["info_chart"]}>
+            <strong>{githubTexts.commits.monthlyCommitChartTitle}</strong>
             <canvas
               className={sharedStyles["max_canvas"]}
               ref={ref => this.commitsYearlyChart = ref}></canvas>
