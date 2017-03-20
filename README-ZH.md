@@ -82,13 +82,13 @@ Authorization callback URL: http://localhost:4000/user/login/github
 }
 ```
 
-除此以外，还可以在 `hacknical/config/localdev.json` 以及 `hacknical-api/config/localdev.json` 中修改数据量链接、server 端口等配置。
+除此以外，还可以在 `hacknical/config/localdev.json` 以及 `hacknical-api/config/localdev.json` 中修改数据库链接、server 端口等配置。
 
 ### 提交说明
 
 #### Bug 修复
 
-Bug 相关的修复可以直接发起 pull request
+Bug 相关的修复可以直接发起 pull request，当然也欢迎在 issue 中指出，我会尽快进行修复。
 
 #### 新 feature
 
@@ -103,6 +103,7 @@ Bug 相关的修复可以直接发起 pull request
 - [ ] 支持分析用户 fork 的项目
 - [ ] 支持移动端简历编辑
 - [ ] 支持移动端简历展示
+- [ ] 支持建立导出
 
 ## 技术栈
 
