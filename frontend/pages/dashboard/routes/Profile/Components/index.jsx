@@ -30,19 +30,19 @@ class Profile extends React.Component {
     return (
       <div>
         <div className={styles["head_switchers"]}>
-          <p
+          <div
             onClick={() => this.changeActiveTab("resume")}
             className={cx(
               styles["head_switcher"],
               activeTab === "resume" && styles["head_switcher_active"]
-            )}><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;{profileTexts.resume.title}</p>
-          &nbsp;/&nbsp;
-          <p
+            )}><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;{profileTexts.resume.title}</div>
+          &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+          <div
             onClick={() => this.changeActiveTab("github")}
             className={cx(
               styles["head_switcher"],
               activeTab !== "resume" && styles["head_switcher_active"]
-            )}><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{profileTexts.github.title}</p>
+            )}><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{profileTexts.github.title}</div>
         </div>
         {activeTab === "resume" ? (
           <ShareAnalysis

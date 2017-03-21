@@ -2,7 +2,8 @@
 
 .head_switchers {
   font-size: 14px;
-  line-height: 50px;
+  line-height: 30px;
+  margin: 10px 0;
 }
 
 .head_switcher {
@@ -10,13 +11,17 @@
   cursor: pointer;
   display: inline-block;
   transition: color 0.3s;
+  transition: border-bottom 0.3s;
+  border-bottom: 2px solid transparent;
 
   &:hover {
+    border-bottom: 2px solid var(--oc-green-7);
     color: var(--oc-gray-7);
   }
 }
 
 .head_switcher_active {
+  border-bottom: 2px solid var(--oc-green-7);
   color: var(--oc-gray-7);
 }
 

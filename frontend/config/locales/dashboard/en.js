@@ -3,7 +3,7 @@ const datas = {
     profile: 'Profile',
     resume: 'Resume',
     github: 'GitHub',
-    setting: 'Setting'
+    setting: 'Settings'
   },
   headers: {
     zen: 'Zen of GitHub',
@@ -13,11 +13,11 @@ const datas = {
   },
   profile: {
     resume: {
-      title: 'Resume Share Records',
+      title: 'Resume share records',
       shareText: 'Scan QR code to share resume'
     },
     github: {
-      title: 'GitHub Share Records',
+      title: 'GitHub share records',
       shareText: 'Scan QR code to share GitHub analysis'
     },
     common: {
