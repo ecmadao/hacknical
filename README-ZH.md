@@ -1,5 +1,7 @@
 # [Hacknical](http://hacknical.com?locale=zh)
 
+![hacknical-logo-with-text](./screenshots/logos/hacknical-logo-with-text.png)
+
 > hacknical 通过抓取用户的 github 数据，来形成一个可视化展示的 github 分析报告，以此辅助用户更好的完善自己的简历。
 >
 > [查看网站](http://hacknical.com?locale=zh)
@@ -23,7 +25,7 @@
 
 ## 关于
 
-更加详细的 [项目说明](./doc/ABOUT-zh.md)。[English Version](./doc/ABOUT-en.md)
+更加详细的 [项目说明](./doc/ABOUT-zh.md)
 
 ## 参与贡献
 

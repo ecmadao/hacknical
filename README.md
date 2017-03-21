@@ -1,12 +1,14 @@
 # [Hacknical](http://hacknical.com?locale=en)
 
-> A website for github user to make a better resume,  and see his github contributions/commits/languages/repos datas analysis.
+![hacknical-logo-with-text](./screenshots/logos/hacknical-logo-with-text.png)
+
+> A website for GitHub user to generate his GitHub data analysis (contributions/commits/languages/repos datas), helps to make a better resume.
 >
 > [Click to see this website](http://hacknical.com?locale=en)
 
 [中文版 README](./README-ZH.md)
 
-**Attention：Most of the pages support English now😁😁😁, including github data analysis page. (Expect Resume Editor & Part of Mobile Pages) **
+**Attention：Most of the pages support English now😁😁😁, including github data analysis page.**
 
 Extract dependency：
 
@@ -25,7 +27,7 @@ Extract dependency：
 
 ## About
 
-See [Project description](./doc/ABOUT-en.md) here. [中文版说明](./doc/ABOUT-zh.md)
+[中文版说明](./doc/ABOUT-zh.md)
 
 ## Todos
 
