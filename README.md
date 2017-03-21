@@ -3,8 +3,6 @@
 ![hacknical-logo-with-text](./screenshots/logos/hacknical-logo-with-text.png)
 
 > A website for GitHub user to generate his GitHub data analysis (contributions/commits/languages/repos datas), helps to make a better resume.
->
-> [Click to see this website](http://hacknical.com?locale=en)
 
 [中文版 README](./README-ZH.md)
 
@@ -14,6 +12,10 @@ Extract dependency：
 
 - UI Components --> [light-ui](https://github.com/ecmadao/light-ui)
 - GitHub API crawler --> [hacknical-api](https://github.com/ecmadao/hacknical-api)
+
+## Examples
+
+- [My GitHub data analysis](http://hacknical.com/github/ecmadao?locale=en)
 
 ## Screenshots
 

@@ -3,29 +3,30 @@
     "text": "En",
     "id": "en"
   },
-  "description": "Hacknical - A website for GitHub user to make a better resume.",
+  "description": "hacknical - A website for GitHub user to make a better resume.",
   "keywords": "GitHub, GitHub-Contributions, GitHub-Analysis, Resume, Resume-Template, Data-Analysis",
   "loginPage": {
-    "title": "Hacknical | Make a better resume",
+    "title": "hacknical | Make a better resume",
     "login": "Login",
     "about": "About",
-    "loginText": "Use GitHub Data To Make A Better Resume"
+    "loginText": "Use GitHub data to make a better resume",
+    "loginButtonText": "login with GitHub"
   },
   "errorPage": {
-    "title": "Hacknical | not found",
+    "title": "hacknical | not found",
     "404": "404 not found.",
     "text": "WTF? YOU ARE IN THE NO-MANS LAND",
 	  "redirectText": "Going back home in a few seconds"
   },
   "dashboard": {
-    "title": "Hacknical | %s"
+    "title": "hacknical | %s"
   },
   "sharePage": {
-    "github": "%s's GitHub summary | Hacknical",
+    "github": "%s's GitHub summary | hacknical",
     "joinAt": "Joined at"
   },
   "resumePage": {
-    "title": "%s's resume | Hacknical"
+    "title": "%s's resume | hacknical"
   },
   "mobilePage": {
     "setting": "Setting",

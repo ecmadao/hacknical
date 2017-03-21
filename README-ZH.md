@@ -3,8 +3,6 @@
 ![hacknical-logo-with-text](./screenshots/logos/hacknical-logo-with-text.png)
 
 > hacknical 通过抓取用户的 github 数据，来形成一个可视化展示的 github 分析报告，以此辅助用户更好的完善自己的简历。
->
-> [查看网站](http://hacknical.com?locale=zh)
 
 [English Version of README](./README.md)
 
@@ -12,6 +10,11 @@
 
 - UI 组件 --> [light-ui](https://github.com/ecmadao/light-ui)
 - GitHub API 爬虫 --> [hacknical-api](https://github.com/ecmadao/hacknical-api)
+
+## 案例
+
+- [我的 github 数据分析报告](http://hacknical.com/github/ecmadao?locale=zh)
+- [我的在线简历](http://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=) -- -- 暂不支持移动端
 
 ## 截图
 

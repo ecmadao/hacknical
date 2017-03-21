@@ -109,3 +109,7 @@
 .github_login_link {
   font-family: 'VT323', 'Lato', monospace, sans-serif;
 }
+
+.github_login_link {
+  font-size: 14px;
+}
