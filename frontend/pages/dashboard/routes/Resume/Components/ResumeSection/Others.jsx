@@ -102,6 +102,7 @@ class Others extends React.Component {
           </div>
           <WritableList
             items={supplements}
+            introText={resumeTexts.introText}
             onAdd={this.addSupplement}
             onDelete={this.deleteSupplement}
             onChange={this.changeSupplement}

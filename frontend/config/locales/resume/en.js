@@ -38,7 +38,8 @@ const datas = {
       untilNow: 'Until now',
       joinedProjects: 'Joined projects',
       projectName: 'Project name',
-      addProjectDesc: 'Add project desc'
+      addProjectDesc: 'Add project desc',
+      introText: 'Wirte the project desc then press enter to create it'
     },
     projects: {
       title: "Personal Projects",
@@ -54,6 +55,7 @@ const datas = {
       expectCity: 'Expect city',
       yourDream: 'Your dream?',
       personalIntro: 'Personal intro',
+      introText: 'Wirte your personal intro then press enter to create it',
       links: {
         title: 'Other Links',
         github: 'Your github link',

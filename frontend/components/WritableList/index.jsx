@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Input } from 'light-ui';
+import { InputGroup } from 'light-ui';
 
 import styles from './writable_list.css';
 import ListItem from './ListItem';
@@ -64,12 +64,12 @@ class WritableList extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { placeholder } = this.props;
+    const { placeholder, introText } = this.props;
     return (
       <ul className={styles["items_wrapper"]}>
         {this.renderListItems()}
         <li>-&nbsp;&nbsp;
-          <Input
+          <InputGroup
             value={value}
             required={false}
             theme="borderless"
@@ -77,7 +77,13 @@ class WritableList extends React.Component {
             placeholder={placeholder}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
-          />
+            wrapperClassName={styles.wrapper}
+            inputClassName={styles.input}
+          >
+            <div style={{fontSize: '12px'}}>
+              {introText}
+            </div>
+          </InputGroup>
         </li>
       </ul>
     )
@@ -88,6 +94,7 @@ WritableList.propTypes = {
   items: PropTypes.array,
   onAdd: PropTypes.func,
   placeholder: PropTypes.string,
+  introText: PropTypes.string,
   onDelete: PropTypes.func,
   onChange: PropTypes.func
 };
@@ -95,6 +102,7 @@ WritableList.propTypes = {
 WritableList.defaultProps = {
   items: [],
   placeholder: '',
+  introText: '',
   onDelete: () => {},
   onAdd: () => {},
   onChange: () => {}

@@ -38,7 +38,8 @@ const datas = {
       untilNow: '至今',
       joinedProjects: '参与项目',
       projectName: '项目名称',
-      addProjectDesc: '新增项目描述'
+      addProjectDesc: '新增项目描述',
+      introText: '输入一句项目描述，并按下回车来创建'
     },
     projects: {
       title: '个人项目',
@@ -54,6 +55,7 @@ const datas = {
       expectCity: '期望城市',
       yourDream: '你的梦想？',
       personalIntro: '新增个人介绍',
+      introText: '输入一句个人介绍，并按下回车来创建',
       links: {
         title: '其他链接',
         github: '填写 github 地址',

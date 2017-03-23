@@ -15,13 +15,13 @@
   border-bottom: 2px solid transparent;
 
   &:hover {
-    border-bottom: 2px solid var(--oc-green-7);
+    border-bottom: 2px solid var(--oc-gray-7);
     color: var(--oc-gray-7);
   }
 }
 
 .head_switcher_active {
-  border-bottom: 2px solid var(--oc-green-7);
+  border-bottom: 2px solid transparent;
   color: var(--oc-gray-7);
 }
 

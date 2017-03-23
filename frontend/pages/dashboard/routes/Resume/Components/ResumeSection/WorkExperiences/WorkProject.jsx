@@ -55,6 +55,7 @@ class WorkProject extends React.Component {
             value={project.name}
             placeholder={resumeTexts.projectName}
             theme="flat"
+            className={styles["last_input"]}
             onChange={this.handleProjectChange('name')}
           />
           <div className={styles["project_delete"]} onClick={onDelete}>
@@ -63,6 +64,7 @@ class WorkProject extends React.Component {
         </div>
         <WritableList
           placeholder={resumeTexts.addProjectDesc}
+          introText={resumeTexts.introText}
           items={project.details}
           onAdd={this.addDetail}
           onDelete={this.deleteDetail}
