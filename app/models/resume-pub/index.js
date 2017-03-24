@@ -119,6 +119,17 @@ const checkPubResume = async (options, verify = {}) => {
   });
 };
 
+const getUpdateTime = async (resumeHash) => {
+  const findResult = await findPublicResume({ resumeHash });
+  const { result, success } = findResult;
+  if (!success) {
+    return findResult;
+  }
+
+  const { userId } = result;
+  return await Resume.getUpdateTime(userId);
+};
+
 const getPubResume = async (resumeHash) => {
   const findResult = await findPublicResume({ resumeHash });
   const { result, success } = findResult;
@@ -176,5 +187,6 @@ export default {
   deletePubResume,
   clearPubResume,
   getPubResume,
+  getUpdateTime,
   checkPubResume
 }

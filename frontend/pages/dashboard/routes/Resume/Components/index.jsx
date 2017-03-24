@@ -144,7 +144,7 @@ class Resume extends React.Component {
   render() {
     const { activeSection, openModal, openIntroModal, openShareModal } = this.state;
     const { resume, actions } = this.props;
-    const { shareInfo } = resume;
+    const { shareInfo, downloadDisabled } = resume;
     const { url, openShare } = shareInfo;
 
     const origin = window.location.origin;
@@ -167,6 +167,7 @@ class Resume extends React.Component {
               icon="download"
               className={styles["icon_button"]}
               onClick={actions.downloadResume}
+              disabled={downloadDisabled}
             />
             <IconButton
               icon="share-alt"

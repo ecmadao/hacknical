@@ -6,6 +6,7 @@ import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import { GITHUB_SECTIONS } from '../utils/datas';
 import Downloads from '../services/downloads';
+import dateHelper from '../utils/date';
 
 const URL = config.get('url');
 const getResume = async (ctx, next) => {
@@ -56,10 +57,16 @@ const setResume = async (ctx, next) => {
 };
 
 const downloadResume = async (ctx, next) => {
-  const { url } = ctx.query;
-  const { userId } = ctx.session;
-  const resumeUrl = `${URL}/${url}&userId=${userId}`;
-  const resultUrl = await Downloads.resume(resumeUrl, `${userId}-resume`);
+  const { hash } = ctx.query;
+  const { userId, githubLogin } = ctx.session;
+  const { result } = await ResumePub.getUpdateTime(hash);
+  const seconds = dateHelper.getSeconds(result);
+
+  const resumeUrl = `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}`;
+  const resultUrl = await Downloads.resume(resumeUrl, {
+    folder: githubLogin,
+    title: `${seconds}-resume.pdf`
+  });
 
   ctx.body = {
     result: resultUrl,
@@ -125,6 +132,7 @@ const getResumeStatus = async (ctx, next) => {
       github,
       openShare,
       useGithub,
+      resumeHash,
       url: `resume/${resumeHash}?locale=${ctx.session.locale}`
     }
   }

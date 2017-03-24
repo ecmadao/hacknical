@@ -97,7 +97,8 @@ const {
   addLocation,
   deleteLocation,
   addSupplement,
-  deleteSupplement
+  deleteSupplement,
+  toggleDownloadButton
 } = createActions(
   {
     CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index }),
@@ -107,7 +108,8 @@ const {
   'ADD_LOCATION',
   'DELETE_LOCATION',
   'ADD_SUPPLEMENT',
-  'DELETE_SUPPLEMENT'
+  'DELETE_SUPPLEMENT',
+  'TOGGLE_DOWNLOAD_BUTTON'
 );
 
 // resume share
@@ -127,9 +129,14 @@ const postShareStatus = () => (dispatch, getState) => {
 
 // resume download
 const downloadResume = () => (dispatch, getState) => {
-  const { url } = getState().resume.shareInfo;
-  Api.resume.download(url).then((result) => {
-    console.log(result);
+  dispatch(toggleDownloadButton(true));
+  const { resumeHash } = getState().resume.shareInfo;
+  Api.resume.download(resumeHash).then((result) => {
+    const a = document.createElement('a');
+    a.href = result;
+    a.download = result.split('/').slice(-1)[0];
+    a.click();
+    dispatch(toggleDownloadButton(false));
   });
 };
 
@@ -176,5 +183,6 @@ export default {
   fetchPubResumeStatus,
   postShareStatus,
   // resume download
-  downloadResume
+  downloadResume,
+  toggleDownloadButton
 }

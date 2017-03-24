@@ -29,8 +29,10 @@ const initialState = {
     url: '',
     github: {},
     openShare: false,
-    useGithub: false
-  }
+    useGithub: false,
+    resumeHash: ''
+  },
+  downloadDisabled: false
 };
 
 
@@ -407,7 +409,16 @@ const reducers = handleActions({
       ...state,
       shareInfo: objectassign(shareInfo, { openShare })
     });
-  }
+  },
+
+  // resume download
+  TOGGLE_DOWNLOAD_BUTTON(state, action) {
+    return ({
+      ...state,
+      downloadDisabled: action.payload
+    });
+  },
+
 }, initialState);
 
 export default reducers;

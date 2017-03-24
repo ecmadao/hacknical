@@ -22,7 +22,7 @@ router.put('/edit',
 
 router.get('/download',
   user.checkSession(session.requiredSessions),
-  query.check('url'),
+  query.check('hash'),
   Resume.downloadResume
 );
 
