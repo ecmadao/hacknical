@@ -91,10 +91,15 @@ const updatePubResume = async (userId, resumeHash, options) => {
   });
 };
 
-const checkPubResume = async (options) => {
+const checkPubResume = async (options, verify = {}) => {
   const findResult = await findPublicResume(options);
   if (!findResult.success) { return findResult; }
-  const { userId, openShare } = findResult.result;
+  const { userId } = findResult.result;
+  let openShare = findResult.result.openShare;
+
+  if (verify.userId && verify.userId === userId) {
+    openShare = true;
+  }
 
   if (!openShare) {
     return Promise.resolve({
@@ -112,6 +117,17 @@ const checkPubResume = async (options) => {
       userId
     }
   });
+};
+
+const getUpdateTime = async (resumeHash) => {
+  const findResult = await findPublicResume({ resumeHash });
+  const { result, success } = findResult;
+  if (!success) {
+    return findResult;
+  }
+
+  const { userId } = result;
+  return await Resume.getUpdateTime(userId);
 };
 
 const getPubResume = async (resumeHash) => {
@@ -171,5 +187,6 @@ export default {
   deletePubResume,
   clearPubResume,
   getPubResume,
+  getUpdateTime,
   checkPubResume
 }

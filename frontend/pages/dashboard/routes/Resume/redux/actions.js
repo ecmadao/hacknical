@@ -97,7 +97,8 @@ const {
   addLocation,
   deleteLocation,
   addSupplement,
-  deleteSupplement
+  deleteSupplement,
+  toggleDownloadButton
 } = createActions(
   {
     CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index }),
@@ -107,7 +108,8 @@ const {
   'ADD_LOCATION',
   'DELETE_LOCATION',
   'ADD_SUPPLEMENT',
-  'DELETE_SUPPLEMENT'
+  'DELETE_SUPPLEMENT',
+  'TOGGLE_DOWNLOAD_BUTTON'
 );
 
 // resume share
@@ -122,6 +124,21 @@ const postShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().resume.shareInfo;
   Api.resume.postPubResumeShareStatus(!openShare).then(() => {
     dispatch(setPubResumeStatus(!openShare));
+  });
+};
+
+// resume download
+const downloadResume = () => (dispatch, getState) => {
+  dispatch(toggleDownloadButton(true));
+  const { info, shareInfo } = getState().resume;
+  const { resumeHash } = shareInfo;
+  const { name } = info;
+  Api.resume.download(resumeHash).then((result) => {
+    const a = document.createElement('a');
+    a.href = result;
+    a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`;
+    a.click();
+    dispatch(toggleDownloadButton(false));
   });
 };
 
@@ -166,5 +183,8 @@ export default {
   setPubResumeStatus,
   initialPubResumeStatus,
   fetchPubResumeStatus,
-  postShareStatus
+  postShareStatus,
+  // resume download
+  downloadResume,
+  toggleDownloadButton
 }

@@ -2,7 +2,6 @@ import koaRouter from 'koa-router';
 import GitHub from '../controllers/github';
 import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
-import query from '../controllers/helper/query';
 import platform from '../controllers/helper/platform';
 import analyse from '../controllers/helper/analyse';
 

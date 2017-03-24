@@ -5,6 +5,9 @@ const datas = {
     pre: 'Pre',
     next: 'Next'
   },
+  messages: {
+    download: 'Resume is rendering, please wait later.'
+  },
   modal: {
     shareText: 'to share your resume'
   },

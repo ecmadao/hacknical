@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Button, IconButton } from 'light-ui';
 
 import styles from '../styles/resume.css';
+import Message from 'COMPONENTS/Message';
 import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 import ResumeSection from './ResumeSection';
@@ -14,8 +15,8 @@ import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
 
+const message = Message();
 const resumeTexts = locales("resume");
-
 const INTROS = [
   {
     title: '使用说明',
@@ -44,6 +45,7 @@ class Resume extends React.Component {
       openShareModal: false,
       activeSection: RESUME_SECTIONS[0].id
     };
+    this.downloadResume = this.downloadResume.bind(this);
     this.handleModalStatus = this.handleModalStatus.bind(this);
     this.handleShareModalStatus = this.handleShareModalStatus.bind(this);
     this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this);
@@ -75,6 +77,12 @@ class Resume extends React.Component {
     this.props.actions.fetchResume();
     this.props.actions.fetchPubResumeStatus();
     this.bindHotkeys();
+  }
+
+  downloadResume() {
+    message.notice(resumeTexts.messages.download);
+    const { actions } = this.props;
+    actions.downloadResume();
   }
 
   bindHotkeys() {
@@ -144,7 +152,7 @@ class Resume extends React.Component {
   render() {
     const { activeSection, openModal, openIntroModal, openShareModal } = this.state;
     const { resume, actions } = this.props;
-    const { shareInfo } = resume;
+    const { shareInfo, downloadDisabled } = resume;
     const { url, openShare } = shareInfo;
 
     const origin = window.location.origin;
@@ -162,6 +170,12 @@ class Resume extends React.Component {
               icon="question"
               className={styles["icon_button"]}
               onClick={() => this.handleIntroModalStatus(true)}
+            />
+            <IconButton
+              icon="download"
+              className={styles["icon_button"]}
+              onClick={this.downloadResume}
+              disabled={downloadDisabled}
             />
             <IconButton
               icon="share-alt"
@@ -221,6 +235,7 @@ class Resume extends React.Component {
           openModal={openModal}
           onShare={() => this.handleShareModalStatus(true)}
           onClose={() => this.handleModalStatus(false)}
+          onDownload={this.downloadResume}
         />
         <IntroModal
           openModal={openIntroModal}

@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import Api from 'API/index';
 import ResumeComponent from 'SHAREDPAGE/components/ResumeComponent';
-import ResumeDownloader from 'SHAREDPAGE/components/ResumeDownloader';
 import {
   EDU,
   INFO,
@@ -38,6 +37,13 @@ class ResumeShare extends React.Component {
   componentDidMount() {
     this.fetchResume();
     this.fetchShareInfo();
+  }
+
+  componentDidUpdate(preProps, preState) {
+    const { loading } = this.state;
+    if(!loading && preState.loading) {
+      window.done = true;
+    }
   }
 
   fetchShareInfo() {
@@ -88,9 +94,6 @@ class ResumeShare extends React.Component {
           resume={this.state}
           shareInfo={this.state.shareInfo}
         />
-        {/* <ResumeDownloader
-          resume={this.state}
-        /> */}
       </div>
     )
   }

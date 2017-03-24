@@ -1,11 +1,14 @@
+import config from 'config';
 import Resume from '../models/resumes';
 import User from '../models/users';
 import ResumePub from '../models/resume-pub';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import { GITHUB_SECTIONS } from '../utils/datas';
+import Downloads from '../services/downloads';
+import dateHelper from '../utils/date';
 
-
+const URL = config.get('url');
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
   const getResult = await Resume.getResume(userId);
@@ -53,6 +56,24 @@ const setResume = async (ctx, next) => {
   await next();
 };
 
+const downloadResume = async (ctx, next) => {
+  const { hash } = ctx.query;
+  const { userId, githubLogin } = ctx.session;
+  const { result } = await ResumePub.getUpdateTime(hash);
+  const seconds = dateHelper.getSeconds(result);
+
+  const resumeUrl = `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}`;
+  const resultUrl = await Downloads.resume(resumeUrl, {
+    folder: githubLogin,
+    title: `${seconds}-resume.pdf`
+  });
+
+  ctx.body = {
+    result: resultUrl,
+    success: true
+  };
+};
+
 const getPubResume = async (ctx, next) => {
   const { hash } = ctx.params;
   const findResume = await ResumePub.getPubResume(hash);
@@ -69,8 +90,11 @@ const getPubResume = async (ctx, next) => {
 
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
+  const targetUserId = ctx.query.userId;
   const findResume = await ResumePub.checkPubResume({
     resumeHash: hash
+  }, {
+    userId: targetUserId
   });
 
   const { success, result } = findResume;
@@ -108,6 +132,7 @@ const getResumeStatus = async (ctx, next) => {
       github,
       openShare,
       useGithub,
+      resumeHash,
       url: `resume/${resumeHash}?locale=${ctx.session.locale}`
     }
   }
@@ -218,6 +243,7 @@ const getShareRecords = async (ctx, next) => {
 export default {
   getResume,
   setResume,
+  downloadResume,
   getPubResume,
   getPubResumePage,
   getResumeStatus,

@@ -1,11 +1,9 @@
 
-const checkQuery = (params) => {
+const checkQuery = (...params) => {
   return async (ctx, next) => {
-    Object.keys(params).forEach((key) => {
-      if (params[key] === 'required') {
-        if (!{}.hasOwnProperty.call(ctx.query, key)) {
-          throw new Error(`required parameters '${key}' is missed.`);
-        }
+    params.forEach((param) => {
+      if (!{}.hasOwnProperty.call(ctx.query, param)) {
+        throw new Error(`required parameters '${param}' is missed.`);
       }
     });
     await next();

@@ -4,6 +4,7 @@ import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
 import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
+import query from '../controllers/helper/query';
 import analyse from '../controllers/helper/analyse';
 
 const router = koaRouter({
@@ -19,6 +20,11 @@ router.put('/edit',
   cache.del()
 );
 
+router.get('/download',
+  user.checkSession(session.requiredSessions),
+  query.check('hash'),
+  Resume.downloadResume
+);
 
 router.get('/share',
   Resume.getResumeStatus

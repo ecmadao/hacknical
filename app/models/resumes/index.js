@@ -36,6 +36,22 @@ const updateResume = async (userId, resume) => {
   return await addResume(userId, resume);
 };
 
+const getUpdateTime = async (userId) => {
+  const getResult = await findResume({ userId });
+  if (!getResult) {
+    return Promise.resolve({
+      success: false,
+      message: '没有查询到结果',
+      result: null
+    });
+  }
+  return Promise.resolve({
+    success: true,
+    message: '',
+    result: getResult.updated_at
+  });
+};
+
 const getResume = async (userId) => {
   const getResult = await findResume({ userId });
   if (!getResult) {
@@ -60,6 +76,7 @@ export default {
   initialResume,
   addResume,
   getResume,
+  getUpdateTime,
   updateResume,
   removeAll
 }
