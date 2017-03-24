@@ -5,6 +5,9 @@ const datas = {
     pre: '上一步',
     next: '下一步'
   },
+  messages: {
+    download: '简历生成中，请稍后'
+  },
   modal: {
     shareText: '分享你的个人简历'
   },

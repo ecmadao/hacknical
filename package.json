@@ -163,7 +163,7 @@
     "koa-static": "^2.0.0",
     "koa-useragent": "^0.1.5",
     "koa-views": "^5.1.2",
-    "light-ui": "0.0.14",
+    "light-ui": "0.0.17",
     "moment": "^2.17.0",
     "mongoose": "^4.7.2",
     "nodemon": "^1.10.2",

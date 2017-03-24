@@ -1,61 +1,61 @@
 import 'SRC/vendor/message/message.css';
 
-const Message = () => {
+const Message = (...args) => {
   let messageComponent = null;
   return (() => {
     if (!messageComponent) {
-      messageComponent = new MessageComponent();
+      messageComponent = new MessageComponent(...args);
     }
     return messageComponent;
   })()
 };
 
 class MessageComponent {
-  constructor(content = '', type = 'positive', time = 2500) {
-    this.time = time;
+  constructor(content = '', type = 'positive', timeOut = 2500) {
+    this.timeOut = timeOut;
     this.content = content;
     this.type = type;
     this.$message = $(this.messageTemplate());
     this.appendMessage();
   }
 
-  error(msg) {
+  error(msg, timeOut) {
     this.$message
       .removeClass('positive')
       .removeClass('tips')
       .addClass('negative')
       .find('.message_content').html(msg);
-    this.showMessage();
+    this.showMessage(timeOut);
   }
 
-  notice(msg) {
+  notice(msg, timeOut) {
     this.$message
       .removeClass('negative')
       .removeClass('tips')
       .addClass('positive')
       .find('.message_content').html(msg);
-    this.showMessage();
+    this.showMessage(timeOut);
   }
 
-  tips(msg) {
+  tips(msg, timeOut) {
     this.$message
       .removeClass('negative')
       .removeClass('positive')
       .addClass('tips')
       .find('.message_content').html(msg);
-    this.showMessage();
+    this.showMessage(timeOut);
   }
 
-  showMessage() {
+  showMessage(timeOut = this.timeOut) {
     this.$message.addClass('active');
-    this.autoHideMessage();
+    this.autoHideMessage(timeOut);
   }
 
-  autoHideMessage() {
+  autoHideMessage(timeOut) {
     let hideMessage = () => {
       this.$message.removeClass('active');
     };
-    setTimeout(hideMessage, this.time);
+    setTimeout(hideMessage, timeOut);
   }
 
   appendMessage() {

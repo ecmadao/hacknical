@@ -130,11 +130,13 @@ const postShareStatus = () => (dispatch, getState) => {
 // resume download
 const downloadResume = () => (dispatch, getState) => {
   dispatch(toggleDownloadButton(true));
-  const { resumeHash } = getState().resume.shareInfo;
+  const { info, shareInfo } = getState().resume;
+  const { resumeHash } = shareInfo;
+  const { name } = info;
   Api.resume.download(resumeHash).then((result) => {
     const a = document.createElement('a');
     a.href = result;
-    a.download = result.split('/').slice(-1)[0];
+    a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`;
     a.click();
     dispatch(toggleDownloadButton(false));
   });

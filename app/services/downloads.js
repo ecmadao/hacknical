@@ -36,10 +36,10 @@ const downloadResume = async (url, options = {}) => {
   const instance = await phantom.create();
   const page = await instance.createPage();
 
-  await page.property('viewportSize', {width: 1024, height: 600});
+  await page.property('viewportSize', { width: 1024, height: 600 });
   const status = await page.open(url);
-
-  await wait(7000);
+  await page.evaluate(() => window.done);
+  // await wait(7000);
   await page.render(filePath);
 
   await instance.exit();
