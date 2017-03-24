@@ -6,18 +6,13 @@ import klawSync from 'klaw-sync';
 const sourcePath = path.join(__dirname, '../../public/downloads');
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 // makesure folder exist
-const makesureFolder = (path) => {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path);
-  }
-};
-makesureFolder(sourcePath);
+fs.ensureDirSync(sourcePath);
 
 const downloadResume = async (url, options = {}) => {
   const folder = options.folder || '';
   const title = options.title || 'resume.pdf';
   const resultFloder = path.join(sourcePath, folder);
-  makesureFolder(resultFloder);
+  await fs.ensureDir(resultFloder);
 
   const filePath = path.join(resultFloder, title);
   const resultPath = `/downloads/${folder}/${title}`;
