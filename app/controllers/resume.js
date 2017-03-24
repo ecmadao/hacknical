@@ -1,11 +1,13 @@
+import config from 'config';
 import Resume from '../models/resumes';
 import User from '../models/users';
 import ResumePub from '../models/resume-pub';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import { GITHUB_SECTIONS } from '../utils/datas';
+import Downloads from '../services/downloads';
 
-
+const URL = config.get('url');
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
   const getResult = await Resume.getResume(userId);
@@ -53,6 +55,18 @@ const setResume = async (ctx, next) => {
   await next();
 };
 
+const downloadResume = async (ctx, next) => {
+  const { url } = ctx.query;
+  const { userId } = ctx.session;
+  const resumeUrl = `${URL}/${url}&userId=${userId}`;
+  const resultUrl = await Downloads.resume(resumeUrl, `${userId}-resume`);
+
+  ctx.body = {
+    result: resultUrl,
+    success: true
+  };
+};
+
 const getPubResume = async (ctx, next) => {
   const { hash } = ctx.params;
   const findResume = await ResumePub.getPubResume(hash);
@@ -69,8 +83,11 @@ const getPubResume = async (ctx, next) => {
 
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
+  const targetUserId = ctx.query.userId;
   const findResume = await ResumePub.checkPubResume({
     resumeHash: hash
+  }, {
+    userId: targetUserId
   });
 
   const { success, result } = findResume;
@@ -218,6 +235,7 @@ const getShareRecords = async (ctx, next) => {
 export default {
   getResume,
   setResume,
+  downloadResume,
   getPubResume,
   getPubResumePage,
   getResumeStatus,

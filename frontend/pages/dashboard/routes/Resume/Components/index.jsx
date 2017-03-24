@@ -164,6 +164,11 @@ class Resume extends React.Component {
               onClick={() => this.handleIntroModalStatus(true)}
             />
             <IconButton
+              icon="download"
+              className={styles["icon_button"]}
+              onClick={actions.downloadResume}
+            />
+            <IconButton
               icon="share-alt"
               className={styles["icon_button"]}
               onClick={() => this.handleShareModalStatus(true)}

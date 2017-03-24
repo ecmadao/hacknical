@@ -125,6 +125,14 @@ const postShareStatus = () => (dispatch, getState) => {
   });
 };
 
+// resume download
+const downloadResume = () => (dispatch, getState) => {
+  const { url } = getState().resume.shareInfo;
+  Api.resume.download(url).then((result) => {
+    console.log(result);
+  });
+};
+
 export default {
   // initial
   initialResume,
@@ -166,5 +174,7 @@ export default {
   setPubResumeStatus,
   initialPubResumeStatus,
   fetchPubResumeStatus,
-  postShareStatus
+  postShareStatus,
+  // resume download
+  downloadResume
 }

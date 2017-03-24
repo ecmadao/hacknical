@@ -24,5 +24,6 @@
       "timeouts": [8000, 8000, 8000]
     }
   },
-  "cdn": ""
+  "cdn": "",
+  "url": "http://localhost:4000"
 }

@@ -8,6 +8,8 @@ const setResume = (resume) => {
   return putData('/resume/edit', { resume })
 };
 
+const download = (url) => getData('/resume/download', { url });
+
 const getPubResume = (hash) => {
   return getData(`/resume/${hash}/pub`);
 };
@@ -35,6 +37,7 @@ const getShareRecords = () => {
 export default {
   getResume,
   setResume,
+  download,
   getPubResume,
   getPubResumeStatus,
   postPubResumeShareStatus,

@@ -91,10 +91,15 @@ const updatePubResume = async (userId, resumeHash, options) => {
   });
 };
 
-const checkPubResume = async (options) => {
+const checkPubResume = async (options, verify = {}) => {
   const findResult = await findPublicResume(options);
   if (!findResult.success) { return findResult; }
-  const { userId, openShare } = findResult.result;
+  const { userId } = findResult.result;
+  let openShare = findResult.result.openShare;
+
+  if (verify.userId && verify.userId === userId) {
+    openShare = true;
+  }
 
   if (!openShare) {
     return Promise.resolve({
