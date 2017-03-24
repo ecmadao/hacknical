@@ -1,4 +1,5 @@
 require('babel-core/register')();
 require('babel-polyfill');
 
-require('./init/index');
+require('./phantomjs/index')
+// require('./init/index');
