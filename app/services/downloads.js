@@ -34,7 +34,7 @@ const downloadResume = async (url, options = {}) => {
   await page.property('viewportSize', { width: 1024, height: 600 });
   const status = await page.open(url);
   await page.evaluate(() => window.done);
-  // await wait(7000);
+  await wait(3000);
   await page.render(filePath);
 
   await instance.exit();
