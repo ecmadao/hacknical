@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
+import objectAssign from 'object-assign';
 import Api from 'API/index';
 import ResumeComponent from 'SHAREDPAGE/components/ResumeComponent';
 import {
@@ -29,7 +30,8 @@ class ResumeShare extends React.Component {
       others: objectassign({}, OTHERS),
       shareInfo: {
         github: {},
-        useGithub: true
+        useGithub: true,
+        githubUrl: null
       }
     };
   }
@@ -47,7 +49,7 @@ class ResumeShare extends React.Component {
   }
 
   fetchShareInfo() {
-    Api.resume.getPubResumeStatus().then((result) => {
+    Api.resume.getPubResumeStatus(this.props.hash).then((result) => {
       this.initialShareInfo(result);
     });
   }
@@ -87,12 +89,16 @@ class ResumeShare extends React.Component {
   }
 
   render() {
+    const resumeProps = objectAssign({}, this.state);
+    const shareInfo = objectAssign({}, resumeProps.shareInfo);
+    delete resumeProps.shareInfo;
+
     return (
       <div className={styles.container}>
         <ResumeComponent
           login={this.props.login}
-          resume={this.state}
-          shareInfo={this.state.shareInfo}
+          resume={resumeProps}
+          shareInfo={shareInfo}
         />
       </div>
     )

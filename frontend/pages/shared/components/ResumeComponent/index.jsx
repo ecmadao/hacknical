@@ -283,7 +283,7 @@ class ResumeComponent extends React.Component {
     const { showGithub } = this.state;
     const { resume, shareInfo, login } = this.props;
     const { info, others } = resume;
-    const { useGithub, github } = shareInfo;
+    const { useGithub, github, githubUrl } = shareInfo;
 
     if (useGithub && showGithub) {
       return (
@@ -342,7 +342,13 @@ class ResumeComponent extends React.Component {
             ) : ''}
             {useGithub ? (
               baseInfo(null, 'github', {
-                component: (
+                component: githubUrl ? (
+                  <a
+                    href={githubUrl}
+                    className={styles["right_link_info"]}>
+                    查看我的 github 总结报告
+                  </a>
+                ) : (
                   <a
                     onClick={() => this.changeShowGithub(true)}
                     className={styles["right_link_info"]}>

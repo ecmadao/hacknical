@@ -75,7 +75,7 @@ const downloadResume = async (ctx, next) => {
 };
 
 const getPubResume = async (ctx, next) => {
-  const { hash } = ctx.params;
+  const { hash } = ctx.query;
   const findResume = await ResumePub.getPubResume(hash);
   const { success, result, message } = findResume;
 
@@ -91,6 +91,10 @@ const getPubResume = async (ctx, next) => {
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
   const targetUserId = ctx.query.userId;
+  if (targetUserId) {
+    ctx.session.fromDownload = true;
+  }
+
   const findResume = await ResumePub.checkPubResume({
     resumeHash: hash
   }, {
@@ -113,12 +117,10 @@ const getPubResumePage = async (ctx, next) => {
   });
 };
 
-const getResumeStatus = async (ctx, next) => {
-  const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+const getResumeShareStatus = (findPubResume, locale) => {
   const { result, success, message } = findPubResume;
   if (!success) {
-    return ctx.body = {
+    return {
       error: message,
       success: true,
       result: null
@@ -126,16 +128,41 @@ const getResumeStatus = async (ctx, next) => {
   }
 
   const { useGithub, resumeHash, openShare, github } = result;
-  ctx.body = {
+  return {
     success: true,
     result: {
       github,
       openShare,
       useGithub,
       resumeHash,
-      url: `resume/${resumeHash}?locale=${ctx.session.locale}`
+      url: `resume/${resumeHash}?locale=${locale}`,
+      githubUrl: null
     }
   }
+};
+
+const getPubResumeStatus = async (ctx, next) => {
+  const { hash } = ctx.params;
+  const { fromDownload, locale } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ resumeHash: hash });
+  const shareResult = getResumeShareStatus(findPubResume, locale);
+
+  const { success, result } = shareResult;
+  if (success && result && fromDownload) {
+    const { userId } = findPubResume.result;
+    const user = await User.findUserById(userId);
+    shareResult.result.githubUrl = `${URL}/github/${user.githubLogin}?locale=${locale}`;
+    ctx.session.fromDownload = null;
+  }
+
+  return ctx.body = shareResult;
+};
+
+const getResumeStatus = async (ctx, next) => {
+  const { userId, locale } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ userId });
+
+  return ctx.body = getResumeShareStatus(findPubResume, locale);
 };
 
 const setResumeShareStatus = async (ctx, next) => {
@@ -247,6 +274,7 @@ export default {
   getPubResume,
   getPubResumePage,
   getResumeStatus,
+  getPubResumeStatus,
   setResumeShareStatus,
   setResumeGithubStatus,
   setGithubShareSection,

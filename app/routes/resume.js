@@ -26,9 +26,20 @@ router.get('/download',
   Resume.downloadResume
 );
 
+router.get('/pub',
+  query.check('hash'),
+  cache.get('resume', {
+    query: ['hash']
+  }),
+  Resume.getPubResume,
+  cache.set()
+);
+
 router.get('/share',
+  user.checkSession(session.requiredSessions),
   Resume.getResumeStatus
 );
+
 router.get('/share/records',
   user.checkSession(session.requiredSessions),
   Resume.getShareRecords
@@ -53,12 +64,15 @@ router.get('/:hash',
   Resume.getPubResumePage
 );
 
-router.get('/:hash/pub',
-  cache.get('resume', {
-    params: ['hash']
-  }),
-  Resume.getPubResume,
-  cache.set()
+router.get('/:hash/share',
+  Resume.getPubResumeStatus
 );
+// router.get('/:hash/pub',
+//   cache.get('resume', {
+//     params: ['hash']
+//   }),
+//   Resume.getPubResume,
+//   cache.set()
+// );
 
 module.exports = router;

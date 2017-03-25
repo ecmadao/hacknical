@@ -10,12 +10,14 @@ const setResume = (resume) => {
 
 const download = (hash = window.resumeHash) => getData('/resume/download', { hash });
 
-const getPubResume = (hash) => {
-  return getData(`/resume/${hash}/pub`);
-};
+const getPubResume = (hash) => getData(`/resume/pub`, { hash });
 
-const getPubResumeStatus = () => {
-  return getData(`/resume/share`);
+const getPubResumeStatus = (hash) => {
+  if (hash) {
+    return getData(`/resume/${hash}/share`);
+  } else {
+    return getData(`/resume/share`);
+  }
 };
 
 const postPubResumeShareStatus = (enable) => {
