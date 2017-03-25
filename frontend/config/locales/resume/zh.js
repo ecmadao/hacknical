@@ -6,7 +6,7 @@ const datas = {
     next: '下一步'
   },
   messages: {
-    download: '简历生成中，请稍后'
+    download: '简历生成中，请稍后（初次生成所需的时间稍长）'
   },
   modal: {
     shareText: '分享你的个人简历'

@@ -75,7 +75,7 @@ module.exports = {
       {
         test: /\.css$/,
         include: /light-ui/,
-        // include: /lib\/react/,
+        // include: /(lib\/react|lib\/raw)/,
         loader: cssLoader,
       },
       {
@@ -83,7 +83,7 @@ module.exports = {
         loader: ExtractTextPlugin.extract("style", "css!postcss"),
         include: PATH.MODULES_PATH,
         exclude: /light-ui/
-        // exclude: /lib\/react/,
+        // exclude: /(lib\/react|lib\/raw)/,
       },
       {
         test: /\.css$/,

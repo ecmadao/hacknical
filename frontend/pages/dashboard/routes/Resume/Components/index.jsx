@@ -3,9 +3,9 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, IconButton } from 'light-ui';
+import { Message } from 'light-ui/lib/raw';
 
 import styles from '../styles/resume.css';
-import Message from 'COMPONENTS/Message';
 import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
 import ShareModal from 'SHAREDPAGE/components/ShareModal';
 import ResumeSection from './ResumeSection';
@@ -15,7 +15,7 @@ import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
 
-const message = Message();
+const message = new Message();
 const resumeTexts = locales("resume");
 const INTROS = [
   {

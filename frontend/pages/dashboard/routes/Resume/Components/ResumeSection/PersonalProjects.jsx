@@ -40,6 +40,10 @@ class PersonalProjects extends React.Component {
               value={title}
               theme="flat"
               placeholder={resumeTexts.projectName}
+              tipsoStyle={{
+                left: '0',
+                transform: 'translateX(0)'
+              }}
               wrapperClassName={cx(styles["input_group"], styles["single_input"])}
               onChange={this.handleProjectChange(index)('title')}>
               <div className={styles["project_link_wrapper"]}>

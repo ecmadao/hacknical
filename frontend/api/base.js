@@ -3,11 +3,11 @@ import param from 'jquery-param';
 import 'isomorphic-fetch';
 import NProgress from 'nprogress';
 require('nprogress/nprogress.css');
-import Message from 'COMPONENTS/Message';
+import { Message } from 'light-ui/lib/raw';
 
 polyfill();
 const rnoContent = /^(?:GET|HEAD)$/;
-const message = Message();
+const message = new Message();
 
 const fetchApi = (url, method, data) => {
   NProgress.start();
