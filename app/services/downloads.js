@@ -4,7 +4,26 @@ import fs from 'fs-extra';
 import klawSync from 'klaw-sync';
 
 const sourcePath = path.join(__dirname, '../../public/downloads');
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+// const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const waitUntil = (asyncFunc) => {
+  return new Promise((resolve, reject) => {
+    const wait = () => {
+      console.log('loop...')
+      asyncFunc().then((value) => {
+        console.log('value', value)
+        if (value === true) {
+          resolve();
+        } else {
+          setTimeout(wait, 100);
+        }
+      }).catch(function(e) {
+        console.log('Error found. Rejecting.', e);
+        reject();
+      });
+    }
+    wait();
+  });
+}
 // makesure folder exist
 fs.ensureDirSync(sourcePath);
 
@@ -33,12 +52,17 @@ const downloadResume = async (url, options = {}) => {
 
   await page.property('viewportSize', { width: 1024, height: 600 });
   const status = await page.open(url);
-  await page.evaluate(() => window.done);
-  await wait(3000);
-  await page.render(filePath);
 
+  await waitUntil(() => {
+    return page.evaluate(function() {
+      return window.done;
+    });
+  });
+  await page.render(filePath);
   await instance.exit();
   return resultPath;
+  // await page.evaluate(() => window.done);
+  // await wait(8000);
 };
 
 
