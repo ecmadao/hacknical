@@ -33,7 +33,7 @@ const ResumeModalV2 = (props) => {
           color="green"
           onClick={onShare}
         />
-        {/* <FloatingActionButton
+        <FloatingActionButton
           icon="download"
           style={{
             position: 'fixed',
@@ -42,7 +42,7 @@ const ResumeModalV2 = (props) => {
           }}
           color="green"
           onClick={onDownload}
-        /> */}
+        />
       </div>
     </PortalModal>
   )

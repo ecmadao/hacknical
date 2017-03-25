@@ -171,14 +171,12 @@ class Resume extends React.Component {
               className={styles["icon_button"]}
               onClick={() => this.handleIntroModalStatus(true)}
             />
-            {resume.info.email === 'wlec@outlook.com' && resume.info.name === 'ecmadao' ? (
-              <IconButton
-                icon="download"
-                className={styles["icon_button"]}
-                onClick={this.downloadResume}
-                disabled={downloadDisabled}
-              />
-            ) : ''}
+            <IconButton
+              icon="download"
+              className={styles["icon_button"]}
+              onClick={this.downloadResume}
+              disabled={downloadDisabled}
+            />
             <IconButton
               icon="share-alt"
               className={styles["icon_button"]}

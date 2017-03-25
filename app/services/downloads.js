@@ -8,16 +8,13 @@ const sourcePath = path.join(__dirname, '../../public/downloads');
 const waitUntil = (asyncFunc) => {
   return new Promise((resolve, reject) => {
     const wait = () => {
-      console.log('loop...')
       asyncFunc().then((value) => {
-        console.log('value', value)
         if (value === true) {
           resolve();
         } else {
           setTimeout(wait, 100);
         }
       }).catch(function(e) {
-        console.log('Error found. Rejecting.', e);
         reject();
       });
     }
@@ -61,8 +58,6 @@ const downloadResume = async (url, options = {}) => {
   await page.render(filePath);
   await instance.exit();
   return resultPath;
-  // await page.evaluate(() => window.done);
-  // await wait(8000);
 };
 
 
