@@ -32,6 +32,8 @@ const info = (options) => {
   )
 };
 
+const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
+
 const baseInfo = (text, icon, options = {}) => {
   return info(objectassign({}, {
     text,
@@ -101,7 +103,7 @@ class ResumeComponent extends React.Component {
       return (
         <div key={index} className={styles["section_wrapper"]}>
           {validator.url(url) ? (
-            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["info_header"], styles.link)}>
+            <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
               <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
               {company}
             </a>
@@ -126,7 +128,7 @@ class ResumeComponent extends React.Component {
 
   renderProjects(projects) {
     return projects.map((project, index) => {
-      const { name, details } = project;
+      const { name, url, details } = project;
       if (!name) { return }
       const projectDetails = details.map((detail, i) => {
         return (
@@ -137,7 +139,11 @@ class ResumeComponent extends React.Component {
       });
       return (
         <div key={index} className={styles["project_section"]}>
-          <div className={styles["info_section"]}>{name}</div>
+          {validator.url(url) ? (
+            <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
+              {name}
+            </a>
+          ) : (<div className={styles["info_header"]}>{name}</div>)}
           <ul className={styles["info_intro"]}>
             {projectDetails}
           </ul>
@@ -162,7 +168,7 @@ class ResumeComponent extends React.Component {
       return (
         <div key={index} className={styles["sec_section"]}>
           {validator.url(url) ? (
-            <a target="_blank" href={url[0] === 'h' ? url : `//${url}`} className={cx(styles["info_header"], styles.link)}>
+            <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
               <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
               {title}
             </a>
@@ -215,7 +221,6 @@ class ResumeComponent extends React.Component {
   renderSocialLinks() {
     const { others } = this.props.resume;
     const { socialLinks } = others;
-    if (!socialLinks.some(social => validator.url(social.url))) { return }
 
     const socials = socialLinks.map((social, index) => {
       if (validator.url(social.url)) {
@@ -228,7 +233,7 @@ class ResumeComponent extends React.Component {
               <a
                 target="_blank"
                 className={styles["list_link"]}
-                href={url[0] === 'h' ? url : `//${url}`}>{url}</a>
+                href={validateUrl(url)}>{url}</a>
             </div>
           </li>
         )
@@ -328,12 +333,14 @@ class ResumeComponent extends React.Component {
           <div className={styles["right"]}>
             {baseInfo(info.name, info.gender, { style: styles["user_title"] })}
             {this.renderLabels()}<br/>
-            {baseInfo(info.phone, 'mobile', { style: styles["right_info"] })}
-            {baseInfo(null, 'envelope-o', {
-              component: (
-                <a href={`mailto:${info.email}`} className={styles["right_link"]}>{info.email}</a>
-              )
-            })}
+            {info.phone ? (baseInfo(info.phone, 'mobile', { style: styles["right_info"] })) : ''}
+            {info.email ? (
+              baseInfo(null, 'envelope-o', {
+                component: (
+                  <a href={`mailto:${info.email}`} className={styles["right_link"]}>{info.email}</a>
+                )
+              })
+            ) : ''}
             {baseInfo(`${info.location}   ${info.intention}`, 'map-marker', { style: styles["right_info"] })}
             {others.dream ? (
               <div className={styles["user_dream"]}>

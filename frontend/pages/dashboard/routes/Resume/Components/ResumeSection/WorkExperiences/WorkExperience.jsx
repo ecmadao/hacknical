@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { InputGroup, Input } from 'light-ui';
 
 import DateSlider from 'COMPONENTS/DateSlider';
@@ -96,6 +96,7 @@ class WorkExperience extends React.Component {
                 theme="borderless"
                 subTheme="underline"
                 placeholder={resumeTexts.homepage}
+                className={styles['tipso_input_long']}
                 onChange={handleExperienceChange('url')}
               />
             </div>

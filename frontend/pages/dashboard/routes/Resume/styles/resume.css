@@ -364,3 +364,19 @@
   margin-right: 5px !important;
   display: inline-flex;
 }
+
+.icon_button_tipso {
+  min-width: 150px;
+  font-size: 12px;
+  line-height: 1.5em;
+  color: var(--oc-gray-7);
+}
+
+.tipso_input {
+  font-size: 12px;
+}
+
+.tipso_input_long {
+  composes: tipso_input;
+  width: 260px;
+}

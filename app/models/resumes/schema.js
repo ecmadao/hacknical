@@ -29,7 +29,8 @@ const ResumeSchema = new Schema({
       position: String,
       projects: [{
         name: String,
-        details: Array
+        details: Array,
+        url: { type: String, default: '' }
       }]
     }],
     personalProjects: [{

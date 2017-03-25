@@ -6,7 +6,8 @@ const datas = {
     next: 'Next'
   },
   messages: {
-    download: 'Resume is rendering, please wait later.'
+    download: 'Resume is rendering, please wait later.',
+    downloadTip: 'Please save your changes before download resume'
   },
   modal: {
     shareText: 'to share your resume'
@@ -41,13 +42,14 @@ const datas = {
       untilNow: 'Until now',
       joinedProjects: 'Joined projects',
       projectName: 'Project name',
+      projectHomepage: 'Project homepage',
       addProjectDesc: 'Add project desc',
       introText: 'Wirte the project desc then press enter to create it'
     },
     projects: {
       title: "Personal Projects",
       projectName: 'Project name',
-      homepage: 'Project homepage',
+      homepage: 'Talk is cheap, show me your code',
       projectDesc: 'Project desc',
       technologies: 'Technologies',
       mainButton: 'Add personal projects'

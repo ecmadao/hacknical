@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, IconButton } from 'light-ui';
+import { Button, IconButton, Tipso } from 'light-ui';
 import { Message } from 'light-ui/lib/raw';
 
 import styles from '../styles/resume.css';
@@ -171,12 +171,17 @@ class Resume extends React.Component {
               className={styles["icon_button"]}
               onClick={() => this.handleIntroModalStatus(true)}
             />
-            <IconButton
-              icon="download"
-              className={styles["icon_button"]}
-              onClick={this.downloadResume}
-              disabled={downloadDisabled}
-            />
+            <Tipso
+              trigger="hover"
+              className={styles["icon_button_tipso"]}
+              tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}>
+              <IconButton
+                icon="download"
+                className={styles["icon_button"]}
+                onClick={this.downloadResume}
+                disabled={downloadDisabled}
+              />
+            </Tipso>
             <IconButton
               icon="share-alt"
               className={styles["icon_button"]}

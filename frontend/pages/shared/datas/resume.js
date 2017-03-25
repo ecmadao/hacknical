@@ -136,6 +136,7 @@ export const WORK_EXPERIENCE = {
 
 export const WORK_PROJECT = {
   name: '',
+  url: '',
   details: []
 };
 

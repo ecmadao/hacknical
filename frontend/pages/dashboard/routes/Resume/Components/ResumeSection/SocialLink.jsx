@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { Input, Tipso } from 'light-ui';
@@ -25,6 +25,7 @@ const SocialLink = (props) => {
             type="url"
             theme="borderless"
             subTheme="underline"
+            className={styles['tipso_input']}
             placeholder={`Add ${text || name} link`}
             onChange={onChange}
           />

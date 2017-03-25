@@ -6,7 +6,8 @@ const datas = {
     next: '下一步'
   },
   messages: {
-    download: '简历生成中，请稍后（初次生成所需的时间稍长）'
+    download: '简历生成中，请稍后（初次生成所需的时间稍长）',
+    downloadTip: '如简历有更新，请先保存再下载'
   },
   modal: {
     shareText: '分享你的个人简历'
@@ -34,20 +35,21 @@ const datas = {
       sideButton: '添加参与的项目',
       companyInfo: '公司信息',
       companyName: '公司名称',
-      homepage: '填写公司主页',
+      homepage: '填写公司主页有利于展现自己的职业经历（选填）',
       position: '所处职位',
       entriedAt: '入职时间',
       dimissionAt: '离职时间',
       untilNow: '至今',
       joinedProjects: '参与项目',
       projectName: '项目名称',
+      projectHomepage: '项目线上地址可以让对方更快的了解你（选填）',
       addProjectDesc: '新增项目描述',
       introText: '输入一句项目描述，并按下回车来创建'
     },
     projects: {
       title: '个人项目',
       projectName: '填写项目名称',
-      homepage: '填写项目链接',
+      homepage: '没有线上地址还怎么展现实力？（选填）',
       projectDesc: '填写项目描述',
       technologies: '添加使用的技术',
       mainButton: '添加个人项目'

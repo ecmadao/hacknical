@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Input, SelectorV2 } from 'light-ui';
 
 import DateSlider from 'COMPONENTS/DateSlider'

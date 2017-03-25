@@ -55,6 +55,7 @@ class PersonalProjects extends React.Component {
                   required={false}
                   theme="borderless"
                   subTheme="underline"
+                  className={styles['tipso_input_long']}
                   placeholder={resumeTexts.homepage}
                   onChange={this.handleProjectChange(index)('url')}
                 />
