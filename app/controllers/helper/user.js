@@ -21,7 +21,7 @@ const checkIfLogin = (redirect = '/user/login')  => async (ctx, next)=> {
   await next();
 };
 
-const checkIfNotLogin = (redirect = '/user/dashboard') => async (ctx, next) => {
+const checkIfNotLogin = (redirect = '/dashboard') => async (ctx, next) => {
   const checkResult = check(session.requiredSessions, ctx.session);
   if (checkResult) {
     return ctx.redirect(redirect);

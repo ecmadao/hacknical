@@ -1,7 +1,7 @@
-const RAW_PATH = "/user/dashboard";
-const BASE_PATH = "/dashboard";
+const RAW_PATH = "/dashboard";
+// const BASE_PATH = "/dashboard";
 
 export default {
-  BASE_PATH,
+  // BASE_PATH,
   RAW_PATH
 };

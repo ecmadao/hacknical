@@ -18,7 +18,7 @@ export const createRoutes = (store) => {
       Github(store),
       Setting(store),
       {
-        path: `${PATH.BASE_PATH}/`,
+        path: `${PATH.RAW_PATH}/`,
         onEnter: (nextState, replace) => {
           replace('github');
         }
@@ -26,7 +26,7 @@ export const createRoutes = (store) => {
       {
         path: PATH.RAW_PATH,
         onEnter: (nextState, replace) => {
-          replace(`${PATH.BASE_PATH}/`);
+          replace(`${PATH.RAW_PATH}/`);
         }
       },
     ]

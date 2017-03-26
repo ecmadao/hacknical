@@ -2,7 +2,7 @@
 import User from '../models/users/index';
 
 const index = async (ctx, next) => {
-  ctx.redirect('/user/dashboard');
+  ctx.redirect('/dashboard');
 };
 
 const handle404 = async (ctx, next) => {
@@ -13,7 +13,19 @@ const handle404 = async (ctx, next) => {
   });
 };
 
+const dashboard = async (ctx, next) => {
+  const { userId, githubLogin } = ctx.session;
+  if (ctx.state.isMobile) {
+    ctx.redirect(`/github/${githubLogin}`);
+  }
+
+  await ctx.render('user/dashboard', {
+    title: ctx.__("dashboard.title", githubLogin)
+  });
+};
+
 export default {
   index,
-  handle404
+  handle404,
+  dashboard
 }

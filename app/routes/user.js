@@ -7,28 +7,24 @@ const router = koaRouter({
   prefix: '/user'
 });
 
-// dashboard page
-router.get('/dashboard',
-  platform.checkPlatform,
-  user.checkIfLogin(),
-  User.dashboard
-);
 // mobile dashboard page
-router.get('/analysis',
-  platform.checkPlatform,
+router.get('/analysis/mobile',
   user.checkIfLogin(),
+  platform.checkPlatform,
+  platform.checkMobile('/dashboard'),
   User.mobileAnalysis
 );
-router.get('/setting',
-  platform.checkPlatform,
+router.get('/setting/mobile',
   user.checkIfLogin(),
+  platform.checkPlatform,
+  platform.checkMobile('/dashboard'),
   User.mobileSetting
 );
 
 // user login/logout/signup page
 router.get('/login',
-  platform.checkPlatform,
   user.checkIfNotLogin(),
+  platform.checkPlatform,
   User.loginPage
 );
 

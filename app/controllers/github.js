@@ -96,7 +96,7 @@ const getSharedUser = async (ctx, next) => {
   await next();
 };
 
-const sharePage = async (ctx, next) => {
+const checkShareEnable = async (ctx) => {
   const { login } = ctx.params;
   const { githubLogin } = ctx.session;
 
@@ -107,19 +107,15 @@ const sharePage = async (ctx, next) => {
     ctx.redirect('/404');
     return;
   }
-  const title = ctx.__("sharePage.github", user.name || user.login);
 
-  if (!ctx.state.isMobile) {
-    await ctx.render('user/share', {
-      user: {
-        login,
-        isAdmin: login === githubLogin
-      },
-      title,
-      shareText: ctx.__("messages.share.text")
-    });
-    return;
-  }
+  return user;
+};
+
+const sharePageMobile = async (ctx, next) => {
+  const user = await checkShareEnable(ctx);
+  const { login } = ctx.params;
+  const { githubLogin } = ctx.session;
+  const title = ctx.__("sharePage.github", user.name || user.login);
 
   const {
     bio,
@@ -130,6 +126,7 @@ const sharePage = async (ctx, next) => {
     followers,
     following
   } = user;
+
   await ctx.render('user/mobile/share', {
     user: {
       bio,
@@ -151,6 +148,22 @@ const sharePage = async (ctx, next) => {
       dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
       logout: ctx.__("mobilePage.menu.logout"),
     }
+  });
+};
+
+const sharePage = async (ctx, next) => {
+  const user = await checkShareEnable(ctx);
+  const { login } = ctx.params;
+  const { githubLogin } = ctx.session;
+  const title = ctx.__("sharePage.github", user.name || user.login);
+
+  await ctx.render('user/share', {
+    user: {
+      login,
+      isAdmin: login === githubLogin
+    },
+    title,
+    shareText: ctx.__("messages.share.text")
   });
 };
 
@@ -286,6 +299,7 @@ export default {
   getUser,
   getSharedUser,
   sharePage,
+  sharePageMobile,
   getUserRepos,
   getUserCommits,
   getUserOrgs,

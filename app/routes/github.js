@@ -92,9 +92,19 @@ router.patch(
 router.get(
   '/:login',
   platform.checkPlatform,
+  platform.checkMobile(),
   analyse.collect,
   GitHub.sharePage
 );
+router.get(
+  '/:login/mobile',
+  platform.checkPlatform,
+  platform.checkMobile(),
+  analyse.collect,
+  GitHub.sharePageMobile
+);
+
+
 router.get(
   '/:login/user',
   cache.get('sharedUser', {

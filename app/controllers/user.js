@@ -41,7 +41,7 @@ const githubLogin = async (ctx, next) => {
       const loginResult = await User.loginWithGithub(userInfo);
       if (loginResult.success) {
         ctx.session.userId = loginResult.result;
-        return ctx.redirect('/user/dashboard');
+        return ctx.redirect('/dashboard');
       }
     }
     return ctx.redirect('/user/login');
@@ -50,22 +50,10 @@ const githubLogin = async (ctx, next) => {
   }
 };
 
-// user dashboard
-const dashboard = async (ctx, next) => {
-  const { userId, githubLogin } = ctx.session;
-  if (ctx.state.isMobile) {
-    ctx.redirect(`/github/${githubLogin}`);
-  }
-
-  await ctx.render('user/dashboard', {
-    title: ctx.__("dashboard.title", githubLogin)
-  });
-};
-
 // user analysis mobile
 const mobileAnalysis = async (ctx, next) => {
   if (!ctx.state.isMobile) {
-    return ctx.redirect('/user/dashboard');
+    return ctx.redirect('/dashboard');
   }
   await ctx.render('user/mobile/analysis', {
     title: ctx.__("mobilePage.analysis"),
@@ -83,7 +71,7 @@ const mobileAnalysis = async (ctx, next) => {
 
 const mobileSetting = async (ctx, next) => {
   if (!ctx.state.isMobile) {
-    return ctx.redirect('/user/dashboard');
+    return ctx.redirect('/dashboard');
   }
   await ctx.render('user/mobile/setting', {
     title: ctx.__("mobilePage.setting"),
@@ -131,8 +119,6 @@ export default {
   logout,
   loginPage,
   githubLogin,
-  // dashboard
-  dashboard,
   // mobile
   mobileAnalysis,
   mobileSetting,

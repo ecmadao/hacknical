@@ -8,7 +8,7 @@ const checkIfLogin = (redirect = '/user/login') => {
   }
 };
 
-const checkIfNotLogin = (redirect = '/user/dashboard') => {
+const checkIfNotLogin = (redirect = '/dashboard') => {
   return async (ctx, next) => {
     const userId = ctx.session.userId;
     if (userId) {

@@ -6,7 +6,7 @@ $(() => {
   $('.menu').each((index, el) => {
     const $el = $(el);
     const href = $el.attr('href');
-    if (href === pathname || (href === '/user/dashboard' && new RegExp('github').test(pathname))) {
+    if (href === pathname || (href === '/dashboard' && new RegExp('github').test(pathname))) {
       $el.addClass('active');
     }
   });
