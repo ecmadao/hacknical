@@ -67,12 +67,5 @@ router.get('/:hash',
 router.get('/:hash/share',
   Resume.getPubResumeStatus
 );
-// router.get('/:hash/pub',
-//   cache.get('resume', {
-//     params: ['hash']
-//   }),
-//   Resume.getPubResume,
-//   cache.set()
-// );
 
 module.exports = router;
