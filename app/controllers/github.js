@@ -112,8 +112,8 @@ const checkShareEnable = async (ctx) => {
 };
 
 const sharePageMobile = async (ctx, next) => {
-  const user = await checkShareEnable(ctx);
   const { login } = ctx.params;
+  const user = await checkShareEnable(ctx);
   const { githubLogin } = ctx.session;
   const title = ctx.__("sharePage.github", user.name || user.login);
 
@@ -152,8 +152,8 @@ const sharePageMobile = async (ctx, next) => {
 };
 
 const sharePage = async (ctx, next) => {
-  const user = await checkShareEnable(ctx);
   const { login } = ctx.params;
+  const user = await checkShareEnable(ctx);
   const { githubLogin } = ctx.session;
   const title = ctx.__("sharePage.github", user.name || user.login);
 

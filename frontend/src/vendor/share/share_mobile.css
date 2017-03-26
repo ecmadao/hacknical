@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 .share {
-  padding: 55px 0 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   color: var(--oc-gray-7);

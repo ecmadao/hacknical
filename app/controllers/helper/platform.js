@@ -16,10 +16,12 @@ const checkMobile = (redirectUrl) => async (ctx, next) => {
   const requestMobile = /\/mobile/.test(path);
 
   if (isMobile && !requestMobile) {
-    ctx.redirect(redirectUrl || `${path}/mobile?${querystring}`)
+    ctx.redirect(redirectUrl || `${path}/mobile?${querystring}`);
+    return;
   }
   if (!isMobile && requestMobile) {
     ctx.redirect(redirectUrl || `${path.replace('/mobile', '')}?${querystring}`);
+    return;
   }
   await next();
 };

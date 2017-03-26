@@ -1,7 +1,6 @@
 @import 'open-color/open-color.css';
 
 .setting {
-  padding-top: 55px;
   display: flex;
   justify-content: center;
   color: var(--oc-gray-7);
@@ -9,11 +8,8 @@
 }
 
 .setting_section {
-  /*padding: 20px 30px;*/
-  /*display: flex;*/
   flex-direction: row !important;
   justify-content: flex-end !important;
-  /*align-items: center;*/
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--oc-gray-2);

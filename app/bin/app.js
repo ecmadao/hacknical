@@ -8,7 +8,6 @@ import csrf from 'koa-csrf';
 import json from 'koa-json';
 import cors from 'kcors';
 import locales from 'koa-locales';
-
 import redisStore from 'koa-redis';
 import session from 'koa-generic-session';
 import config from 'config';
@@ -26,6 +25,7 @@ import router from '../routes/index';
 const appKey = config.get('appKey');
 const port = config.get('port');
 const app = new Koa();
+app.proxy = true;
 app.keys = [appKey];
 
 const options = {
@@ -94,7 +94,7 @@ app.use(views(path.join(__dirname, '../templates'), {
 app.use(router.routes(), router.allowedMethods());
 // error
 app.on('error', (err, ctx) => {
-  logger.error('server error', err, ctx);
+  console.log(err);
 });
 
 app.listen(process.env.PORT || port);
