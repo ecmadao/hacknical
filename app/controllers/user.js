@@ -52,9 +52,6 @@ const githubLogin = async (ctx, next) => {
 
 // user analysis mobile
 const mobileAnalysis = async (ctx, next) => {
-  if (!ctx.state.isMobile) {
-    return ctx.redirect('/dashboard');
-  }
   await ctx.render('user/mobile/analysis', {
     title: ctx.__("mobilePage.analysis"),
     user: {
@@ -70,9 +67,6 @@ const mobileAnalysis = async (ctx, next) => {
 };
 
 const mobileSetting = async (ctx, next) => {
-  if (!ctx.state.isMobile) {
-    return ctx.redirect('/dashboard');
-  }
   await ctx.render('user/mobile/setting', {
     title: ctx.__("mobilePage.setting"),
     user: {

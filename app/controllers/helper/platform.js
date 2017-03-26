@@ -12,12 +12,13 @@ const checkPlatform = async (ctx, next) => {
 
 const checkMobile = (redirectUrl) => async (ctx, next) => {
   const { path, querystring } = ctx.request;
+  const { isMobile } = ctx.state;
   const requestMobile = /\/mobile/.test(path);
 
-  if (ctx.state.isMobile && !requestMobile) {
+  if (isMobile && !requestMobile) {
     ctx.redirect(redirectUrl || `${path}/mobile?${querystring}`)
   }
-  if (!ctx.state.isMobile && requestMobile) {
+  if (!isMobile && requestMobile) {
     ctx.redirect(redirectUrl || `${path.replace('/mobile', '')}?${querystring}`);
   }
   await next();

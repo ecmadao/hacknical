@@ -14,9 +14,9 @@ const handle404 = async (ctx, next) => {
 };
 
 const dashboard = async (ctx, next) => {
-  const { userId, githubLogin } = ctx.session;
+  const { githubLogin } = ctx.session;
   if (ctx.state.isMobile) {
-    ctx.redirect(`/github/${githubLogin}`);
+    ctx.redirect(`/github/${githubLogin}/mobile`);
   }
 
   await ctx.render('user/dashboard', {
