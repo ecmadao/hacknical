@@ -23,12 +23,13 @@
 }
 
 .loading_container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  min-height: 250px;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }
 
 /* rotate animation */

@@ -1,0 +1,76 @@
+@import 'open-color/open-color.css';
+
+:root {
+  --baseHeight: 30px;
+  --fontSize: 14px;
+}
+
+.hacknical-footer {
+  width: 100%;
+  height: 100px;
+  margin-top: 40px;
+  color: var(--oc-gray-7);
+  border-top: 1px solid var(--oc-gray-3);
+}
+
+.footer-wrapper {
+  width: 80%;
+  height: 100%;
+  max-width: 750px;
+  min-width: 675px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-left {
+  justify-content: flex-start;
+
+  &:hover {
+    & .footer-image {
+      filter: grayscale(0%);
+    }
+  }
+}
+
+.footer-right {
+  flex: 1;
+  font-size: var(--fontSize);
+  justify-content: flex-end;
+
+  & a {
+    color: var(--oc-gray-7);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.footer-logo {
+  font-size: 2em;
+  font-family: 'VT323', 'Lato', monospace, sans-serif;
+}
+
+.footer-intro {
+  font-size: var(--fontSize);
+  color: var(--oc-gray-5);
+}
+
+.footer-image {
+  width: var(--baseHeight);
+  height: var(--baseHeight);
+  border-radius: 50%;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}

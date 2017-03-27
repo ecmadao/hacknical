@@ -19,7 +19,10 @@
 		"redirectText": "即将回到首页"
 	},
 	"dashboard": {
-		"title": "hacknical | %s 的个人主页"
+		"title": "hacknical | %s 的个人主页",
+		"about": "关于",
+		"feedback": "反馈",
+		"code": "源码"
 	},
   "sharePage": {
     "github": "%s 的 GitHub 总结 | hacknical",
