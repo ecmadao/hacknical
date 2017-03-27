@@ -1,0 +1,37 @@
+@import 'open-color/open-color.css';
+
+:root {
+  --baseHeight: 40px;
+}
+
+.hacknical-footer {
+  width: 100%;
+  height: 100px;
+  margin-top: var(--baseHeight);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid var(--oc-gray-3);
+}
+
+.footer-left {
+  flex: 1;
+}
+
+.footer-right {
+  flex: 1;
+}
+
+.footer-image {
+  width: var(--baseHeight);
+  height: var(--baseHeight);
+  border-radius: 50%;
+  cursor: pointer;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+
+  &:hover {
+    filter: grayscale(0%);
+  }
+}
