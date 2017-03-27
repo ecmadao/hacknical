@@ -19,7 +19,10 @@
 	  "redirectText": "Going back home in a few seconds"
   },
   "dashboard": {
-    "title": "hacknical | %s"
+    "title": "hacknical | %s",
+    "about": "about",
+		"feedback": "feedback",
+		"code": "source code"
   },
   "sharePage": {
     "github": "%s's GitHub summary | hacknical",
