@@ -1,5 +1,9 @@
 @import 'open-color/open-color.css';
 
+.container {
+  composes: dashboard_content from 'STYLES/common.css';
+}
+
 .card {
   border-radius: 3px;
   transition: box-shadow 0.2s;

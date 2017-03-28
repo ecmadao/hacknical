@@ -62,7 +62,7 @@ const downloadResume = async (ctx, next) => {
   const { result } = await ResumePub.getUpdateTime(hash);
   const seconds = dateHelper.getSeconds(result);
 
-  const resumeUrl = `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}`;
+  const resumeUrl = `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
   const resultUrl = await Downloads.resume(resumeUrl, {
     folder: githubLogin,
     title: `${seconds}-resume.pdf`

@@ -31,12 +31,21 @@
   height: 50px;
 }
 
+/* tabbar */
+.tab_container {
+  flex: 1;
+}
+
+.tab_tipso {
+  display: inline-block;
+  line-height: 16px;
+  width: 120px;
+}
+
 /* content */
 .content_container {
-  width: 80%;
-  margin: 30px auto;
-  max-width: 750px;
-  min-width: 675px;
+  width: 100%;
+  margin: 30px 0;
 }
 
 /* header */

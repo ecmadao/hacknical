@@ -105,6 +105,13 @@
   z-index: var(--zIndex999);
 }
 
+.dashboard_content {
+  max-width: 750px;
+  min-width: 675px;
+  width: 80%;
+  margin: 0 auto;
+}
+
 @media (max-width: 800px) {
   .titleText {
     font-size: 20px;

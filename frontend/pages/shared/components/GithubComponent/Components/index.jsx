@@ -169,7 +169,10 @@ class GithubComponent extends React.Component {
     // console.log(commitInfos)
 
     return (
-      <div className={containerStyle}>
+      <div className={cx(
+          styles.container,
+          containerStyle
+        )}>
         <GitHubSection
           userLogin={user.login}
           title={{

@@ -7,6 +7,16 @@ import styles from '../styles/profile.css';
 import locales from 'LOCALES';
 
 const profileTexts = locales('dashboard').profile;
+const PROFILE_SECTIONS = [
+  {
+    id: 'resume',
+    text: profileTexts.resume.title
+  },
+  {
+    id: 'github',
+    text: profileTexts.github.title
+  }
+];
 
 import ShareAnalysis from './ShareAnalysis';
 
@@ -23,26 +33,34 @@ class Profile extends React.Component {
     this.setState({ activeTab });
   }
 
+  renderNavigation() {
+    const { activeTab } = this.state;
+    return PROFILE_SECTIONS.map((section, index) => {
+      const { id, text } = section;
+      const sectionClass = cx(
+        styles.section,
+        activeTab === id && styles.active
+      );
+      return (
+        <div className={sectionClass} key={index}>
+          <div
+            className={styles["section_wrapper"]}
+            onClick={() => this.changeActiveTab(id)}>
+            {text}
+          </div>
+        </div>
+      )
+    });
+  }
+
   render() {
     const { activeTab } = this.state;
     const { github, resume, actions } = this.props;
 
     return (
-      <div>
-        <div className={styles["head_switchers"]}>
-          <div
-            onClick={() => this.changeActiveTab("resume")}
-            className={cx(
-              styles["head_switcher"],
-              activeTab === "resume" && styles["head_switcher_active"]
-            )}><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;{profileTexts.resume.title}</div>
-          &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-          <div
-            onClick={() => this.changeActiveTab("github")}
-            className={cx(
-              styles["head_switcher"],
-              activeTab !== "resume" && styles["head_switcher_active"]
-            )}><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{profileTexts.github.title}</div>
+      <div className={styles.container}>
+        <div className={styles.navigation}>
+          {this.renderNavigation()}
         </div>
         {activeTab === "resume" ? (
           <ShareAnalysis

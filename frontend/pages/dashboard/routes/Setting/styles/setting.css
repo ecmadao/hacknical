@@ -1,5 +1,9 @@
 @import 'open-color/open-color.css';
 
+.container {
+  composes: dashboard_content from 'STYLES/common.css';
+}
+
 .card_container {
   composes: card_container from 'STYLES/common.css';
 }

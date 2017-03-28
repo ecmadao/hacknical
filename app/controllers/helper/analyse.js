@@ -28,22 +28,25 @@ const collect = async (ctx, next) => {
 };
 
 const collectResumeData = async (ctx, next) => {
-  const { from } = ctx.query;
+  const { from, notrace } = ctx.query;
   const { hash } = ctx.params;
 
-  const { platform, browser } = ctx.state;
-  const url = `resume/${hash}`;
-  const updateResult = await ShareAnalyse.updateShare({ url });
-  if (!updateResult.success) {
-    ctx.redirect('/404');
-    return;
+  if (!notrace || notrace === 'false') {
+    const { platform, browser } = ctx.state;
+    const url = `resume/${hash}`;
+    const updateResult = await ShareAnalyse.updateShare({ url });
+    if (!updateResult.success) {
+      ctx.redirect('/404');
+      return;
+    }
+    await ShareAnalyse.updateViewData({
+      url,
+      platform,
+      browser: browser || '',
+      from: from || ''
+    });
   }
-  await ShareAnalyse.updateViewData({
-    url,
-    platform,
-    browser: browser || '',
-    from: from || ''
-  });
+
   await next();
 };
 

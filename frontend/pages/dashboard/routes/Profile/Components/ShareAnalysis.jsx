@@ -62,6 +62,7 @@ class ShareAnalysis extends React.Component {
     return (
       <div className={styles["share_controller"]}>
         <Tipso
+          position="bottom"
           wrapperClass={styles["share_container_wrapper"]}
           tipsoContent={(
             <div className={styles["qrcode_container"]}>

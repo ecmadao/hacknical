@@ -18,7 +18,8 @@
 }
 
 .app_tab {
-  flex: 1;
+  /*flex: 1;*/
+  width: 100%;
   text-align: center;
   display: block;
   text-decoration: none;

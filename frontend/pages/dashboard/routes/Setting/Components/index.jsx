@@ -119,7 +119,7 @@ class Setting extends React.Component {
     const resumeInfoLoading = resumeInfo && resumeInfo.loading;
 
     return (
-      <div>
+      <div className={styles.container}>
         <div className={styles['card_container']}>
           <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{settingTexts.github.title}</p>
           <div className={styles.card}>
