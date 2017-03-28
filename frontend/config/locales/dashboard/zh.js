@@ -1,9 +1,21 @@
 const datas = {
   tabs: {
-    profile: '用户信息',
-    resume: '简历',
-    github: 'GitHub',
-    setting: '设置'
+    profile: {
+      text: '用户信息',
+      tipso: '记录你分享出去的页面的浏览量'
+    },
+    resume: {
+      text: '简历',
+      tipso: ''
+    },
+    github: {
+      text: 'GitHub',
+      tipso: ''
+    },
+    setting: {
+      text: '设置',
+      tipso: ''
+    }
   },
   headers: {
     zen: 'GitHub 之禅',
@@ -13,11 +25,11 @@ const datas = {
   },
   profile: {
     resume: {
-      title: '简历分享数据',
+      title: '简历',
       shareText: '扫码分享个人简历'
     },
     github: {
-      title: 'GitHub 分享数据',
+      title: 'GitHub',
       shareText: '扫码分享 GitHub 报告'
     },
     common: {

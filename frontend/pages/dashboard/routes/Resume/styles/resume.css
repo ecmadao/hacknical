@@ -2,7 +2,8 @@
 
 .resume_container {
   position: relative;
-  margin-left: 90px;
+  composes: dashboard_content from 'STYLES/common.css';
+  max-width: 650px;
 }
 
 .resume_navigation {

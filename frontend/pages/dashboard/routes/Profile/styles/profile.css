@@ -1,5 +1,74 @@
 @import 'open-color/open-color.css';
 
+.container {
+  composes: dashboard_content from 'STYLES/common.css';
+  max-width: 650px;
+  position: relative;
+  margin-top: 100px;
+}
+
+.navigation {
+  composes: card from 'STYLES/common.css';
+  position: absolute;
+  left: -120px;
+  color: var(--oc-gray-7);
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px;
+  user-select: none;
+}
+
+.section {
+  flex: 1;
+
+  & .section_wrapper {
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--oc-green-7);
+
+      &::before {
+        background-color: var(--oc-green-7);
+      }
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+      background-color: var(--bgDeep);
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &.active {
+    & .section_wrapper {
+      cursor: default;
+      color: var(--oc-green-7);
+
+      &::before {
+        background-color: var(--oc-green-7);
+      }
+    }
+  }
+
+  &:not(:last-child)::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 30px;
+    margin: 7px auto;
+  }
+}
+
 .head_switchers {
   font-size: 14px;
   line-height: 30px;

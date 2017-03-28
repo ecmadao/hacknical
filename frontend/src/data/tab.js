@@ -4,27 +4,31 @@ const tabs = locales('dashboard').tabs;
 const TABS = [
   {
     id: 'profile',
-    name: tabs.profile,
+    name: tabs.profile.text,
     icon: 'fa-user-circle',
     enable: true,
+    tipso: tabs.profile.tipso
   },
   {
     id: 'resume',
-    name: tabs.resume,
+    name: tabs.resume.text,
+    icon: 'fa-file-code-o',
     enable: true,
-    icon: 'fa-file-code-o'
+    tipso: tabs.resume.tipso
   },
   {
     id: 'github',
-    name: tabs.github,
+    name: tabs.github.text,
     icon: 'fa-github',
-    enable: true
+    enable: true,
+    tipso: tabs.github.tipso
   },
   {
     id: 'setting',
-    name: tabs.setting,
+    name: tabs.setting.text,
     icon: 'fa-cog',
-    enable: true
+    enable: true,
+    tipso: tabs.setting.tipso
   }
 ];
 

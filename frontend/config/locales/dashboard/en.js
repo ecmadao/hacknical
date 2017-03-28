@@ -1,9 +1,21 @@
 const datas = {
   tabs: {
-    profile: 'Profile',
-    resume: 'Resume',
-    github: 'GitHub',
-    setting: 'Settings'
+    profile: {
+      text: 'Profile',
+      tipso: 'record your shared page datas'
+    },
+    resume: {
+      text: 'Resume',
+      tipso: ''
+    },
+    github: {
+      text: 'GitHub',
+      tipso: ''
+    },
+    setting: {
+      text: 'Settings',
+      tipso: ''
+    }
   },
   headers: {
     zen: 'Zen of GitHub',
@@ -13,11 +25,11 @@ const datas = {
   },
   profile: {
     resume: {
-      title: 'Resume share records',
+      title: 'Resume',
       shareText: 'Scan QR code to share resume'
     },
     github: {
-      title: 'GitHub share records',
+      title: 'GitHub',
       shareText: 'Scan QR code to share GitHub analysis'
     },
     common: {

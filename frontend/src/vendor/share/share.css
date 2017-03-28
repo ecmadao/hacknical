@@ -1,9 +1,7 @@
 @import 'open-color/open-color.css';
 
 #share {
-  width: 80%;
-  max-width: 750px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .share_banner_wrapper {
