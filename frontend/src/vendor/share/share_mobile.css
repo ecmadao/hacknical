@@ -48,6 +48,7 @@
       & span {
         &:first-child {
           font-size: 1.6em;
+          font-weight: bold;
           color: var(--oc-green-8);
         }
 

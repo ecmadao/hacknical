@@ -1,7 +1,6 @@
 import './mobile.css';
 
 $(() => {
-
   const pathname = window.location.pathname;
   $('.menu').each((index, el) => {
     const $el = $(el);
@@ -11,18 +10,27 @@ $(() => {
     }
   });
 
+  const $menuIcon = $('.mobile_menu_icon');
+  const $menuWrapper = $('.mobile_menu_wrapper');
+
   const changeOverflow = (overflow) => {
     $('body').css('overflow-y', overflow);
   };
 
-  const $menuIcon = $('.mobile_menu_icon');
-  const $menuWrapper = $('.mobile_menu_wrapper');
+  const changeMenuIcon = (iconClass) => {
+    const $icon = $menuIcon.find('i');
+    $icon.removeClass().addClass(`fa fa-${iconClass}`);
+  };
 
   $menuIcon.on('click', () => {
+    changeMenuIcon('close');
     $menuWrapper.addClass('active');
+    changeOverflow('hidden');
   });
 
   $menuWrapper.on('click', () => {
+    changeMenuIcon('navicon');
     $menuWrapper.removeClass('active');
+    changeOverflow('auto');
   });
 });
