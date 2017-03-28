@@ -512,7 +512,13 @@ class MobileShare extends React.Component {
   }
 
   render() {
-    const { reposLoaded, commitLoaded, languageSkills, languageDistributions, commits } = this.state;
+    const {
+      commits,
+      reposLoaded,
+      commitLoaded,
+      languageSkills,
+      languageDistributions
+    } = this.state;
 
     if (!reposLoaded) {
       return (
@@ -588,17 +594,20 @@ class MobileShare extends React.Component {
           </div>
         </div>
 
-        <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"], styles["mobile_card_no_bottom"])}>
-          { commitLoaded && commits.length ? this.renderCommitsInfo() : ''}
-          <div
-            id="commits_chart"
-            className={sharedStyles["info_chart"]}>
-            <strong>{githubTexts.commits.monthlyCommitChartTitle}</strong>
-            <canvas
-              className={sharedStyles["max_canvas"]}
-              ref={ref => this.commitsYearlyChart = ref}></canvas>
+        {commitLoaded && commits.length ? (
+          <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"], styles["mobile_card_no_bottom"])}>
+            {this.renderCommitsInfo()}
+            <div
+              id="commits_chart"
+              className={sharedStyles["info_chart"]}>
+              <strong>{githubTexts.commits.monthlyCommitChartTitle}</strong>
+              <canvas
+                className={sharedStyles["max_canvas"]}
+                ref={ref => this.commitsYearlyChart = ref}></canvas>
+            </div>
           </div>
-        </div>
+        ) : ''}
+
       </div>
     )
   }
