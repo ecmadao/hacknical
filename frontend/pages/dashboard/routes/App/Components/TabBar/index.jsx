@@ -40,6 +40,7 @@ class TabBar extends React.Component {
         <Tab
           key={index}
           tab={tab}
+          active={activeTab === tab.id}
           onChange={this.changeActiveTab}
         />
       )

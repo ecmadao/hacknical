@@ -34,12 +34,43 @@
 /* tabbar */
 .tab_container {
   flex: 1;
+  color: var(--oc-gray-6);
+  border-bottom: 3px solid transparent;
+  transition: border-bottom 0.2s, color 0.2s;
+
+  & i {
+    color: var(--oc-gray-6);
+  }
+
+  &.enable:hover,
+  &.active {
+    color: var(--oc-green-7);
+    border-bottom: 3px solid var(--oc-green-7);
+
+    & .app_tab {
+      color: var(--oc-green-7);
+    }
+
+    & i {
+      color: var(--oc-green-7);
+    }
+  }
 }
 
-.tab_tipso {
+.app_tab {
+  width: 100%;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+  color: var(--oc-gray-6);
+  position: relative;
+}
+
+.tab_tipso.tab_tipso {
   display: inline-block;
   line-height: 16px;
   width: 120px;
+  color: var(--oc-gray-6);
 }
 
 /* content */

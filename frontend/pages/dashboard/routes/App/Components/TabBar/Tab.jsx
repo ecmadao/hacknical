@@ -6,24 +6,28 @@ import styles from '../../styles/app.css';
 import PATH from '../../../shared/path';
 
 const Tab = (props) => {
-  const { onChange, tab } = props;
+  const { onChange, tab, active } = props;
   const { id, name, icon, enable, tipso } = tab;
-  const tabClass = cx(
-    "app_tab",
-    enable && "enable"
+
+  const containerClass = cx(
+    styles['tab_container'],
+    enable && styles.enable,
+    active && styles.active
   );
 
   return (
     <Tipso
       position="bottom"
-      wrapperClass={styles['tab_container']}
+      wrapperClass={containerClass}
+      tipsoStyle={{
+        transform: 'translate(-50%, 13px)'
+      }}
       tipsoContent={tipso ? (
         <span className={styles['tab_tipso']}>{tipso}</span>
       ) : null}>
       <Link
         to={`${PATH.BASE_PATH}/${id}`}
-        className={tabClass}
-        activeClassName="app_tab_active"
+        className={styles['app_tab']}
         onClick={(e) => onChange(e, id, enable)}>
         <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
         {name}

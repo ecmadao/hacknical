@@ -17,32 +17,6 @@
   font-size: 14px;
 }
 
-.app_tab {
-  /*flex: 1;*/
-  width: 100%;
-  text-align: center;
-  display: block;
-  text-decoration: none;
-  color: var(--oc-gray-6);
-  border-bottom: 3px solid transparent;
-  transition: border-bottom 0.2s, color 0.2s;
-  position: relative;
-
-  & i {
-    color: var(--oc-gray-6);
-  }
-
-  &.enable:hover,
-  &.app_tab_active {
-    color: var(--oc-green-7);
-    border-bottom: 3px solid var(--oc-green-7);
-
-    & i {
-      color: var(--oc-green-7);
-    }
-  }
-}
-
 .headroom {
   left: 0;
   transition: transform 0.5s;
