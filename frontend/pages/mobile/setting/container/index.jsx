@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import objectAssign from 'object-assign';
 import { IconButton, Switcher } from 'light-ui';
 
 import Api from 'API/index';
@@ -12,7 +13,7 @@ const settingTexts = locales('dashboard').setting;
 const paneStyle = cx(sharedStyles["mobile_card"], styles["setting_section"]);
 
 const SwitcherPane = (props) => {
-  const { id, onChange, checked, text } = props;
+  const { onChange, checked, text, disabled } = props;
   return (
     <div className={paneStyle}>
       <div className={styles["pane_text_container"]}>
@@ -22,6 +23,7 @@ const SwitcherPane = (props) => {
         size="small"
         onChange={onChange}
         checked={checked}
+        disabled={disabled}
       />
     </div>
   )
@@ -36,11 +38,16 @@ class MobileSetting extends React.Component {
       githubInfo: {
         loading: true,
         openShare: true
+      },
+      resumeInfo: {
+        loading: true,
+        openShare: true
       }
     };
 
     this.refreshGithubDatas = this.refreshGithubDatas.bind(this);
-    this.postShareStatus = this.postShareStatus.bind(this);
+    this.postGithubShareStatus = this.postGithubShareStatus.bind(this);
+    this.postResumeShareStatus = this.postResumeShareStatus.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +56,9 @@ class MobileSetting extends React.Component {
     });
     Api.github.getShareRecords().then((result) => {
       this.initialGithubInfo(result);
+    });
+    Api.resume.getPubResumeStatus().then((result) => {
+      this.initialResumeInfo(result);
     });
   }
 
@@ -64,24 +74,39 @@ class MobileSetting extends React.Component {
   }
 
   setUpdateTime(data) {
-    const updateTime = data ? dateHelper.relative.secondsBefore(data) : this.state.updateTime;
+    const updateTime = data
+      ? dateHelper.relative.secondsBefore(data)
+      : this.state.updateTime;
     this.setState({
       loading: false,
       updateTime
     });
   }
 
-  initialGithubInfo(datas) {
-    const { openShare } = datas;
-    this.setState({
-      githubInfo: {
-        loading: false,
-        openShare
-      }
-    });
+  initialInfo(key) {
+    const obj = this.state[key];
+    return (datas) => {
+      const { openShare } = datas;
+      this.setState({
+        [key]: objectAssign({}, obj, {
+          loading: false,
+          openShare
+        })
+      });
+    }
   }
 
-  postShareStatus() {
+  initialResumeInfo(datas) {
+    const initial = this.initialInfo('resumeInfo');
+    initial(datas);
+  }
+
+  initialGithubInfo(datas) {
+    const initial = this.initialInfo('githubInfo');
+    initial(datas);
+  }
+
+  postGithubShareStatus() {
     const { githubInfo } = this.state;
     const { openShare } = githubInfo;
     Api.github.toggleShare(!openShare).then((result) => {
@@ -94,19 +119,24 @@ class MobileSetting extends React.Component {
     });
   }
 
+  postResumeShareStatus() {
+    const { resumeInfo } = this.state;
+    const { openShare } = resumeInfo;
+    Api.resume.postPubResumeShareStatus(!openShare).then((result) => {
+      this.setState({
+        resumeInfo: {
+          loading: false,
+          openShare: !openShare
+        }
+      });
+    });
+  }
+
   render() {
-    const { loading, updateTime, githubInfo } = this.state;
+    const { loading, updateTime, githubInfo, resumeInfo } = this.state;
 
     return (
       <div className={styles["setting"]}>
-        {githubInfo.loading ? '' : (
-          <SwitcherPane
-            id='github-share-switch'
-            text={settingTexts.github.openShare}
-            onChange={this.postShareStatus}
-            checked={githubInfo.openShare}
-          />
-        )}
         <div className={paneStyle}>
           <div className={styles["pane_text_container"]}>
             {updateTime}<br/>
@@ -121,6 +151,18 @@ class MobileSetting extends React.Component {
             onClick={this.refreshGithubDatas}
           />
         </div>
+        <SwitcherPane
+          text={settingTexts.github.openShare}
+          onChange={this.postGithubShareStatus}
+          checked={githubInfo.openShare}
+          disabled={githubInfo.loading}
+        />
+        <SwitcherPane
+          text={settingTexts.resume.openShare}
+          onChange={this.postResumeShareStatus}
+          checked={resumeInfo.openShare}
+          disabled={resumeInfo.loading}
+        />
       </div>
     )
   }
