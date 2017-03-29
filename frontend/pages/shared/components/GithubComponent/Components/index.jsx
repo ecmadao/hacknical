@@ -172,7 +172,7 @@ class GithubComponent extends React.Component {
       <div className={cx(
           styles.container,
           containerStyle
-        )}>
+      )}>
         <GitHubSection
           userLogin={user.login}
           title={{
@@ -321,7 +321,8 @@ class GithubComponent extends React.Component {
             style={{
               position: 'fixed',
               bottom: '30px',
-              right: '20%'
+              right: '20%',
+              zIndex: '11'
             }}
             color="green"
             onClick={() => this.toggleShareModal(true)}

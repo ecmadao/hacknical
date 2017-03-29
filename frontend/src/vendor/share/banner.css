@@ -1,0 +1,19 @@
+.headroom {
+  left: 0;
+  transition: transform 0.5s;
+  z-index: var(--zIndex99);
+}
+
+.headroom--pinned,
+.headroom--unpinned {
+  position: fixed;
+  bottom: 0;
+}
+
+.headroom--pinned {
+  transform: translateY(0);
+}
+
+.headroom--unpinned {
+  transform: translateY(100%);
+}

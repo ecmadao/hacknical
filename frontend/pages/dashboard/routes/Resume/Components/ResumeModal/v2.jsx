@@ -28,7 +28,8 @@ const ResumeModalV2 = (props) => {
           style={{
             position: 'fixed',
             bottom: '30px',
-            right: '15%'
+            right: '15%',
+            zIndex: '11'
           }}
           color="green"
           onClick={onShare}
@@ -38,7 +39,8 @@ const ResumeModalV2 = (props) => {
           style={{
             position: 'fixed',
             bottom: '100px',
-            right: '15%'
+            right: '15%',
+            zIndex: '11'
           }}
           color="green"
           onClick={onDownload}
