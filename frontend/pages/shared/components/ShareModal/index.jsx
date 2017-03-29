@@ -82,6 +82,7 @@ class ShareModal extends React.Component {
                 value={link}
               />
               <IconButton
+                color="gray"
                 icon="clipboard"
                 id="copyButton"
                 onClick={this.copyUrl.bind(this)}

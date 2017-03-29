@@ -145,6 +145,7 @@ class MobileSetting extends React.Component {
             </span>
           </div>
           <IconButton
+            color="gray"
             icon="refresh"
             disabled={loading}
             className={styles["icon_button"]}

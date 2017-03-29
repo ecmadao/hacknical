@@ -167,6 +167,7 @@ class Resume extends React.Component {
         <div className={styles["resume_operations"]}>
           <div className={styles["operations_wrapper"]}>
             <IconButton
+              color="gray"
               icon="question"
               className={styles["icon_button"]}
               onClick={() => this.handleIntroModalStatus(true)}
@@ -176,6 +177,7 @@ class Resume extends React.Component {
               className={styles["icon_button_tipso"]}
               tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}>
               <IconButton
+                color="gray"
                 icon="download"
                 className={styles["icon_button"]}
                 onClick={this.downloadResume}
@@ -183,6 +185,7 @@ class Resume extends React.Component {
               />
             </Tipso>
             <IconButton
+              color="gray"
               icon="share-alt"
               className={styles["icon_button"]}
               onClick={() => this.handleShareModalStatus(true)}

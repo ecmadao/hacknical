@@ -77,6 +77,7 @@ class ShareAnalysis extends React.Component {
               value={`${window.location.origin}/${url}`}
             />
             <IconButton
+              color="gray"
               icon="clipboard"
               id={`copyLinkButton-${index}`}
               onClick={this.copyUrl.bind(this)}
