@@ -1,0 +1,20 @@
+@import 'open-color/open-color.css';
+
+.info_sub_text.info_sub_text {
+  font-size: 12px;
+  opacity: 0.5;
+  text-align: left;
+  color: var(--oc-gray-1);
+  margin-bottom: 3px;
+}
+
+.info_main_text.info_main_text {
+  font-size: 1.7em;
+  color: var(--oc-white);
+  text-align: left;
+
+  & i {
+    opacity: 0.5;
+    font-size: 0.9em;
+  }
+}

@@ -1,11 +1,16 @@
 {% extends "layouts/mobile.html" %}
 
 {% block pageCSS %}
+  <style>
+    .mobile_topbar {
+      box-shadow: none;
+    }
+  </style>
   <link href="{{ assetsPath("mobile_analysis.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
-  <div id="analysis"></div>
+  <div id="analysis" class="share_gray"></div>
 {% endblock %}
 
 {% block pageJS %}

@@ -33,57 +33,6 @@
   width: 100%;
 }
 
-.share_info_wrapper {
-  padding: 15px 0 0;
-  width: 100%;
-}
-
-.chart_info_container {
-  & .chart_info_wrapper {
-    padding: 10px 0px 10px 15px;
-
-    &:last-child {
-      & .chart_info_card {
-        width: 150px;
-        padding-right: 15px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
-  }
-
-  & .chart_info_card {
-    border-radius: 2px;
-    box-shadow: var(--shadow2);
-    padding: 10px 25px 7px;
-    background-color: var(--oc-green-7);
-
-    & i {
-      margin-right: 10px;
-    }
-
-    & .info_main_text {
-      font-size: 1.7em;
-      color: var(--oc-white);
-      text-align: left;
-
-      & i {
-        opacity: 0.5;
-        font-size: 0.9em;
-      }
-    }
-
-    & .info_sub_text {
-      font-size: 12px;
-      opacity: 0.5;
-      text-align: left;
-      color: var(--oc-gray-1);
-      margin-bottom: 3px;
-    }
-  }
-}
-
 .info_with_chart_wrapper {
   width: 100%;
   margin-top: 0 !important;

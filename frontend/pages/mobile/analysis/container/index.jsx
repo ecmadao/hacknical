@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
-import { Loading, InfoCard, CardGroup, Input, IconButton } from 'light-ui';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick.min';
+import { Loading, Input, IconButton } from 'light-ui';
 
 import Api from 'API/index';
 import dateHelper from 'UTILS/date';
@@ -12,46 +14,122 @@ import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
 import styles from '../styles/analysis.css';
 import sharedStyles from '../../shared/styles/mobile.css';
+import MinInfoCard from '../../shared/components/MinInfoCard';
 import locales from 'LOCALES';
 import { sortByX } from 'UTILS/helper';
 
 const sortByCount = sortByX('count');
-const analysisTexts = locales('dashboard').profile;
+const analysisTexts = locales('dashboard').profile.common;
 
 class MobileAnalysis extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      userInfo: {
-        url: '',
-        openShare: false
+      activeTab: 'github',
+      resume: {
+        loading: true,
+        info: {
+          url: '',
+          openShare: false
+        },
+        viewDevices: [],
+        viewSources: [],
+        pageViews: []
       },
-      viewDevices: [],
-      viewSources: [],
-      pageViews: []
+      github: {
+        loading: true,
+        info: {
+          url: '',
+          openShare: false
+        },
+        viewDevices: [],
+        viewSources: [],
+        pageViews: []
+      }
     };
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
+    this.slickInitialed = false;
 
-    this.copyUrl = this.copyUrl.bind(this);
+    this.onTabChange = this.onTabChange.bind(this);
   }
 
   componentDidMount() {
-    Api.github.getShareRecords().then((result) => {
+    this.fetchData();
+  }
+
+  componentDidUpdate(preProps, preState) {
+    const { activeTab } = this.state;
+    if (activeTab !== preState.activeTab) {
+      this.reset();
+      this.fetchData();
+    }
+    if (this.loading) { return }
+    this.renderCharts();
+    this.initialCardSlick();
+  }
+
+  onTabChange(tab) {
+    const { activeTab } = this.state;
+    if (activeTab !== tab) {
+      this.setState({ activeTab: tab });
+    }
+  }
+
+  reset() {
+    this.pageViewsChart = null;
+    this.viewDevicesChart = null;
+    this.viewSourcesChart = null;
+    this.slickInitialed = false;
+  }
+
+  fetchData() {
+    this.fetchShareData().then((result) => {
       this.initialState(result);
     });
   }
 
-  componentDidUpdate() {
-    const { loading } = this.state;
-    if (loading) { return }
-    this.renderCharts();
+  get loading() {
+    const { activeTab } = this.state;
+    const loadings = {
+      github: this.state.github.loading,
+      resume: this.state.resume.loading,
+    };
+    return loadings[activeTab];
   }
 
-  copyUrl() {
-    document.querySelector("#shareGithubUrl").select();
+  get fetchShareData() {
+    const fetchFuncs = {
+      github: Api.github.getShareRecords,
+      resume: Api.resume.getShareRecords
+    };
+    const { activeTab } = this.state;
+    return fetchFuncs[activeTab];
+  }
+
+  get dataObj() {
+    const objs = {
+      github: this.state.github,
+      resume: this.state.resume,
+    };
+    const { activeTab } = this.state;
+    return objs[activeTab];
+  }
+
+  initialCardSlick() {
+    if (this.slickInitialed) { return }
+    $('#chart_info_container').slick({
+      accessibility: false,
+      arrows: false,
+      slidesToShow: 2,
+      mobileFirst: true,
+      swipeToSlide: true,
+      infinite: false,
+      slidesToScroll: 1,
+      variableWidth: true
+    });
+    this.slickInitialed = true;
   }
 
   renderCharts() {
@@ -61,7 +139,7 @@ class MobileAnalysis extends React.Component {
   }
 
   renderViewsChart() {
-    const { pageViews } = this.state;
+    const { pageViews } = this.dataObj;
     const viewsChart = ReactDOM.findDOMNode(this.pageViews);
     const validatePageViews = [];
     pageViews.forEach((pageView) => {
@@ -83,7 +161,7 @@ class MobileAnalysis extends React.Component {
     const viewDates = validatePageViews.map(pageView => pageView.count);
     const datasetsConfig = {
       data: viewDates,
-      label: analysisTexts.common.hourlyViewChartTitle,
+      label: analysisTexts.hourlyViewChartTitle,
       pointBorderWidth: 0,
       pointRadius: 0
     };
@@ -97,7 +175,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: analysisTexts.common.hourlyViewChartTitle
+          text: analysisTexts.hourlyViewChartTitle
         },
         legend: {
           display: false,
@@ -137,7 +215,7 @@ class MobileAnalysis extends React.Component {
     const {
       viewDevices,
       viewSources
-    } = this.state;
+    } = this.dataObj;
 
     const datas = {
       viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
@@ -173,7 +251,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: analysisTexts.common.platformChartTitle
+          text: analysisTexts.platformChartTitle
         },
         legend: {
           display: false,
@@ -208,7 +286,7 @@ class MobileAnalysis extends React.Component {
       options: {
         title: {
           display: true,
-          text: analysisTexts.common.browserChartTitle
+          text: analysisTexts.browserChartTitle
         },
         legend: {
           display: false,
@@ -218,7 +296,7 @@ class MobileAnalysis extends React.Component {
   }
 
   initialState(datas) {
-    const { userInfo } = this.state;
+    const { activeTab } = this.state;
     const {
       url,
       openShare,
@@ -226,40 +304,20 @@ class MobileAnalysis extends React.Component {
       viewSources,
       pageViews
     } = datas;
+    const targetObj = this.state[activeTab];
     this.setState({
-      loading: false,
-      userInfo: objectAssign({}, userInfo, { url, openShare }),
-      viewDevices: [...viewDevices],
-      viewSources: getValidateViewSources(viewSources),
-      pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+      [activeTab]: objectAssign({}, targetObj, {
+        loading: false,
+        userInfo: objectAssign({}, targetObj.userInfo, { url, openShare }),
+        viewDevices: [...viewDevices],
+        viewSources: getValidateViewSources(viewSources),
+        pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+      })
     });
   }
 
-  renderShareController() {
-    const { actions, userInfo } = this.state;
-    const { openShare, url } = userInfo;
-    return (
-      <div className={cx(sharedStyles["mobile_card"], styles["share_controller"])}>
-        <div
-          className={styles["share_container"]}>
-          <Input
-            id="shareGithubUrl"
-            theme="flat"
-            value={`${window.location.origin}/${url}`}
-            className={styles["share_link_input"]}
-          />
-          <IconButton
-            icon="clipboard"
-            id="copyLinkButton"
-            onClick={this.copyUrl.bind(this)}
-          />
-        </div>
-      </div>
-    )
-  }
-
-  renderChartInfo() {
-    const { pageViews, viewDevices, viewSources } = this.state;
+  renderCardInfo() {
+    const { pageViews, viewDevices, viewSources } = this.dataObj;
     const pageViewCounts = pageViews.map(item => item.count);
 
     const viewCount = pageViewCounts.reduce((prev, current, index) => {
@@ -267,72 +325,82 @@ class MobileAnalysis extends React.Component {
     }, 0);
     const maxViewPerHour = Math.max(...pageViewCounts);
 
-    return (
-      <div
-        className={sharedStyles["info_card"]}>
-        <CardGroup className={sharedStyles["info_wrapper"]}>
-          <InfoCard
-            mainText={viewCount}
-            subText={analysisTexts.common.pv}
-            mainTextStyle={sharedStyles["main_text"]}
-          />
-          <InfoCard
-            mainText={maxViewPerHour}
-            subText={analysisTexts.common.maxPvPerHour}
-            mainTextStyle={sharedStyles["main_text"]}
-          />
-        </CardGroup>
-      </div>
-    )
-  }
-
-  renderBrowserInfo() {
-    const { viewSources } = this.state;
-
-    const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
-    const browsers = viewSources
-      .filter(viewSource => viewSource.count === maxBrowserCount)
-      .map(viewSource => viewSource.browser);
-    return (
-      <CardGroup className={sharedStyles["info_with_chart"]}>
-        <InfoCard
-          mainText={browsers.join(',')}
-          subText={analysisTexts.common.browser}
-          mainTextStyle={sharedStyles["main_text"]}
-        />
-      </CardGroup>
-    )
-  }
-
-  renderPlatformInfo() {
-    const { viewDevices } = this.state;
-
     const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count));
     const platforms = viewDevices
       .filter(viewDevice => viewDevice.count === maxPlatformCount)
       .map(viewDevice => viewDevice.platform);
 
+    const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
+    const browsers = viewSources
+      .filter(viewSource => viewSource.count === maxBrowserCount)
+      .map(viewSource => viewSource.browser);
+
     return (
-      <CardGroup className={sharedStyles["info_with_chart"]}>
-        <InfoCard
-          mainText={platforms.slice(0, 2).join(',')}
-          subText={analysisTexts.common.platform}
-          mainTextStyle={sharedStyles["main_text"]}
-        />
-      </CardGroup>
+      <div
+        className={cx(
+          sharedStyles["share_info_wrapper"],
+          styles["card_info_wrapper"]
+        )}>
+        <div
+          id="chart_info_container"
+          className={sharedStyles["chart_info_container"]}>
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
+              mainText={viewCount}
+              subText={analysisTexts.pv}
+              className={sharedStyles["chart_info_card"]}
+            />
+          </div>
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
+              mainText={maxViewPerHour}
+              subText={analysisTexts.maxPvPerHour}
+              className={sharedStyles["chart_info_card"]}
+            />
+          </div>
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
+              mainText={platforms.slice(0, 2).join(',')}
+              subText={analysisTexts.platform}
+              className={sharedStyles["chart_info_card"]}
+            />
+          </div>
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
+              mainText={browsers.join(',')}
+              subText={analysisTexts.browser}
+              className={sharedStyles["chart_info_card"]}
+            />
+          </div>
+        </div>
+      </div>
     )
   }
 
   render() {
-    const { loading, userInfo } = this.state;
+    const { activeTab } = this.state;
 
     return (
       <div className={styles["analysis"]}>
-        {loading ? '' : this.renderShareController()}
-        {loading ? (<Loading loading={true} />) : this.renderChartInfo()}
 
-        <div className={sharedStyles["mobile_card_with_info"]}>
-          {loading ? '' : this.renderPlatformInfo()}
+        <div className={styles.tabs}>
+          <div className={styles['tabs_wrapper']}>
+            <div
+              onClick={() => this.onTabChange('github')}
+              className={cx(styles.tab, activeTab === 'github' && styles.tabActive)}>
+              GitHub
+            </div>
+            <div
+              onClick={() => this.onTabChange('resume')}
+              className={cx(styles.tab, activeTab === 'resume' && styles.tabActive)}>
+              简历
+            </div>
+          </div>
+        </div>
+
+        {this.loading ? (<Loading loading={true} />) : this.renderCardInfo()}
+
+        <div className={sharedStyles["mobile_card"]}>
           <div
             className={styles["share_info_chart"]}>
             <canvas
@@ -341,8 +409,7 @@ class MobileAnalysis extends React.Component {
           </div>
         </div>
 
-        <div className={sharedStyles["mobile_card_with_info"]}>
-          {loading ? '' : this.renderBrowserInfo()}
+        <div className={sharedStyles["mobile_card"]}>
           <div
             className={styles["share_info_chart"]}>
             <canvas

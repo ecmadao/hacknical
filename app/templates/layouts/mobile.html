@@ -1,6 +1,14 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
+  <style>
+    html, body {
+      background-color: #fff;
+    }
+    .share_gray {
+      background-color: #F7F8F9;
+    }
+  </style>
   {% if user.isAdmin %}
     <link href="{{ assetsPath("mobile.css") }}" rel="stylesheet" type="text/css">
   {% endif %}

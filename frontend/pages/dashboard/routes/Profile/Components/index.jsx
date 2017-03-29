@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import actions from '../redux/actions';
 import styles from '../styles/profile.css';
 import locales from 'LOCALES';
+import ShareAnalysis from './ShareAnalysis';
 
 const profileTexts = locales('dashboard').profile;
 const PROFILE_SECTIONS = [
@@ -17,8 +18,6 @@ const PROFILE_SECTIONS = [
     text: profileTexts.github.title
   }
 ];
-
-import ShareAnalysis from './ShareAnalysis';
 
 class Profile extends React.Component {
   constructor(props) {

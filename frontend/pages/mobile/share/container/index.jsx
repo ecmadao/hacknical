@@ -27,27 +27,12 @@ import dateHelper from 'UTILS/date';
 import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
 import styles from '../styles/share.css';
 import sharedStyles from '../../shared/styles/mobile.css';
+import MinInfoCard from '../../shared/components/MinInfoCard';
 import locales from 'LOCALES';
 
 const sortByLanguageStar = sortByX('star');
 const githubTexts = locales('github').sections;
-const isShare = window.isAdmin !== 'true';
 const getDateBySeconds = dateHelper.date.bySeconds;
-
-const ReposInfo = (props) => {
-  const { mainText, subText, style, icon } = props;
-  return (
-    <div className={style}>
-      <div className={styles["info_sub_text"]}>
-        {subText}
-      </div>
-      <div className={styles["info_main_text"]}>
-        <i className={`fa fa-${icon}`} aria-hidden="true"></i>
-        {mainText}
-      </div>
-    </div>
-  )
-};
 
 class MobileShare extends React.Component {
   constructor(props) {
@@ -350,7 +335,7 @@ class MobileShare extends React.Component {
         id="commits_wrapper"
         className={cx(
           styles["info_with_chart_wrapper"],
-          isShare && sharedStyles["info_share"]
+          sharedStyles["info_share"]
         )}>
         <CardGroup>
           <InfoCard
@@ -391,48 +376,48 @@ class MobileShare extends React.Component {
     return (
       <div
         id="repos_wrapper"
-        className={styles["share_info_wrapper"]}>
+        className={sharedStyles["share_info_wrapper"]}>
         <div
           id="chart_info_container"
-          className={styles["chart_info_container"]}>
-          <div className={styles["chart_info_wrapper"]}>
-            <ReposInfo
+          className={sharedStyles["chart_info_container"]}>
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
               icon="star-o"
               mainText={totalStar}
               subText={githubTexts.repos.starsCount}
-              style={styles["chart_info_card"]}
+              className={sharedStyles["chart_info_card"]}
             />
           </div>
-          <div className={styles["chart_info_wrapper"]}>
-            <ReposInfo
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
               icon="code-fork"
               mainText={totalFork}
               subText={githubTexts.repos.forksCount}
-              style={styles["chart_info_card"]}
+              className={sharedStyles["chart_info_card"]}
             />
           </div>
-          <div className={styles["chart_info_wrapper"]}>
-            <ReposInfo
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
               icon="cubes"
               mainText={yearlyRepos.length}
               subText={githubTexts.repos.reposCount}
-              style={styles["chart_info_card"]}
+              className={sharedStyles["chart_info_card"]}
             />
           </div>
-          <div className={styles["chart_info_wrapper"]}>
-            <ReposInfo
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
               icon="cube"
               mainText={maxStaredRepos}
               subText={githubTexts.repos.popularestRepos}
-              style={styles["chart_info_card"]}
+              className={sharedStyles["chart_info_card"]}
             />
           </div>
-          <div className={styles["chart_info_wrapper"]}>
-            <ReposInfo
+          <div className={sharedStyles["chart_info_wrapper"]}>
+            <MinInfoCard
               icon="star"
               mainText={maxStaredPerRepos}
               subText={githubTexts.repos.maxStarPerRepos}
-              style={styles["chart_info_card"]}
+              className={sharedStyles["chart_info_card"]}
             />
           </div>
         </div>
@@ -533,12 +518,8 @@ class MobileShare extends React.Component {
     const maxReposCountIndex = getMaxIndex(reposCount);
     const maxStarCountIndex = getMaxIndex(starCount);
 
-    const containerClass = cx(
-      isShare && styles["not_admin"]
-    );
-
     return (
-      <div className={containerClass}>
+      <div className={styles["not_admin"]}>
         <div className={cx(sharedStyles["mobile_card"], styles["mobile_card_full"])}>
           <div
             id="repos_chart"
@@ -574,7 +555,7 @@ class MobileShare extends React.Component {
             id="language_wrapper"
             className={cx(
               sharedStyles["info_with_chart"],
-              isShare && sharedStyles["info_share"]
+              sharedStyles["info_share"]
             )}>
             <InfoCard
               mainTextStyle={sharedStyles["main_text"]}

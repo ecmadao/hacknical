@@ -7,6 +7,33 @@
   flex-direction: column;
 }
 
+.tabs {
+  width: 100%;
+  box-shadow: var(--topShadow);
+  background-color: var(--oc-white);
+}
+
+.tabs_wrapper {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  color: var(--oc-gray-5);
+  border-bottom: 2px solid transparent;
+}
+
+.tabActive {
+  color: var(--oc-green-7);
+  border-bottom: 2px solid var(--oc-green-7);
+}
+
 .share_info_chart {
   width: 80%;
 
@@ -34,4 +61,8 @@
   font-size: 12px !important;
   height: 25px !important;
   line-height: 25px !important;
+}
+
+.card_info_wrapper {
+  margin-bottom: 10px;
 }

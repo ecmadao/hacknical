@@ -11,6 +11,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--topShadow);
+  background-color: var(--oc-white);
 }
 
 .mobile_menu_icon {

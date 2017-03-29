@@ -1,6 +1,11 @@
 {% extends "layouts/mobile.html" %}
 
 {% block pageCSS %}
+  <style>
+    .mobile_topbar {
+      box-shadow: none !important;
+    }
+  </style>
   {% if not user.isAdmin %}
     <style>
       .share {
@@ -10,9 +15,7 @@
         padding-bottom: 50px;
       }
       .share_header {
-        background-color: transparent !important;
         margin: 0 !important;
-        box-shadow: none !important;
         padding-bottom: 30px;
         margin-bottom: 30px;
       }

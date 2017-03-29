@@ -16,8 +16,6 @@
   justify-content: center;
   margin: 5px 0;
   padding: 15px;
-  background-color: var(--oc-white);
-  box-shadow: var(--shadow1);
   text-align: center;
 
   & img {
