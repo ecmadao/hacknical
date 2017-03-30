@@ -57,15 +57,15 @@
     {% endblock %}
   </head>
   <body>
-    <img id="wechat-image" src="{{ vendorPath("images/github.png") }}"/>
+    <img id="wechat-image" src="{{ assetsPath("vendor/images/github.png") }}"/>
     {% block body %}
     {% endblock %}
   </body>
   <script>
     window.locale = "{{ locale }}";
   </script>
-  <script src="{{ assetsPath("react.dll.js") }}"></script>
-  <script src="{{ assetsPath("runtime.dll.js") }}"></script>
+  <script src="{{ assetsPath("dll/react.dll.js") }}"></script>
+  <script src="{{ assetsPath("dll/runtime.dll.js") }}"></script>
   <script src="{{ assetsPath("base.js") }}"></script>
   {% block js %}
   {% endblock %}
