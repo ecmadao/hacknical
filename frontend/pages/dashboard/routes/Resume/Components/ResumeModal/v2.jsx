@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { ShortMessage, FloatingActionButton, PortalModal } from 'light-ui';
-import ResumeComponent from 'SHAREDPAGE/components/ResumeComponent';
+import ResumeComponent from 'SHARED/components/ResumeComponent';
 import styles from '../../styles/resume_modal_v2.css';
 
 const ResumeModalV2 = (props) => {

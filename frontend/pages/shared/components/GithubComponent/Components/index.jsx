@@ -4,7 +4,7 @@ import objectAssign from 'object-assign';
 import { FloatingActionButton } from 'light-ui';
 import Api from 'API/index';
 import GitHubSection from 'COMPONENTS/Github/GithubSection';
-import ShareModal from 'SHAREDPAGE/components/ShareModal';
+import ShareModal from 'SHARED/components/ShareModal';
 import USER from 'SRC/data/user';
 import github from 'UTILS/github';
 import {

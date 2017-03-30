@@ -119,7 +119,7 @@ module.exports = {
       UTILS: path.join(PATH.SOURCE_PATH, 'utils'),
       PAGES: path.join(PATH.SOURCE_PATH, 'pages'),
       API: path.join(PATH.SOURCE_PATH, 'api'),
-      SHAREDPAGE: path.join(PATH.SOURCE_PATH, 'pages/shared'),
+      SHARED: path.join(PATH.SOURCE_PATH, 'pages/shared'),
       LOCALES: path.join(PATH.SOURCE_PATH, 'config/locales'),
       LANGUAGES: path.join(PATH.ROOT_PATH, 'utils/languages')
     }

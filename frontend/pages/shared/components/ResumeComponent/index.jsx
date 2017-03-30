@@ -4,9 +4,9 @@ import cx from 'classnames';
 import dateHelper from 'UTILS/date';
 import { sortBySeconds } from 'UTILS/helper';
 import validator from 'UTILS/validator';
-import { LINK_NAMES } from 'SHAREDPAGE/datas/resume';
-import { objectassign } from 'SHAREDPAGE/utils/resume';
-import GithubComponent from 'SHAREDPAGE/components/GithubComponent';
+import { LINK_NAMES } from 'SHARED/datas/resume';
+import { objectassign } from 'SHARED/utils/resume';
+import GithubComponent from 'SHARED/components/GithubComponent';
 import styles from './styles/resume.css';
 
 const sortByDate = sortBySeconds('startTime');

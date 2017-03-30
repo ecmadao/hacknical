@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
   whyDidYouUpdate(React);
 }
 
-import GithubComponent from 'SHAREDPAGE/components/GithubComponent';
+import GithubComponent from 'SHARED/components/GithubComponent';
 
 const renderApp = (domId, state = {}) => {
   ReactDOM.render(
