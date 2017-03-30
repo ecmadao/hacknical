@@ -27,8 +27,16 @@ const dashboard = async (ctx, next) => {
   });
 };
 
+const initial = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+  await ctx.render('user/initial', {
+    title: `Initial ${githubLogin}`
+  });
+};
+
 export default {
   index,
   handle404,
-  dashboard
+  dashboard,
+  initial
 }

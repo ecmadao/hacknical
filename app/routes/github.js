@@ -21,6 +21,11 @@ router.get(
 
 // repos
 router.get(
+  '/fetchRepos',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.fetchRepos,
+);
+router.get(
   '/repos',
   cache.get('repos', {
     keys: ['query.login', 'session.githubLogin']
@@ -28,7 +33,13 @@ router.get(
   GitHub.getUserRepos,
   cache.set()
 );
+
 // commits
+router.get(
+  '/fetchCommits',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.fetchCommits,
+);
 router.get(
   '/commits',
   cache.get('commits', {
@@ -38,6 +49,11 @@ router.get(
   cache.set()
 );
 // orgs
+router.get(
+  '/fetchOrgs',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.fetchOrgs,
+);
 router.get(
   '/orgs',
   cache.get('orgs', {

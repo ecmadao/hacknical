@@ -26,5 +26,9 @@ router.get(
   user.checkIfLogin(),
   Home.dashboard
 );
+router.get(
+  '/initial',
+  Home.initial
+);
 
 export default router;

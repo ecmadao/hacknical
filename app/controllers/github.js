@@ -34,6 +34,33 @@ const getUser = async (ctx, next) => {
   };
 };
 
+const fetchRepos = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  await Api.getUserRepos(githubLogin, githubToken);
+  ctx.body = {
+    success: true,
+    result: 'fetch repos success'
+  };
+};
+
+const fetchCommits = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  await Api.getUserCommits(githubLogin, githubToken);
+  ctx.body = {
+    success: true,
+    result: 'fetch commits success'
+  };
+};
+
+const fetchOrgs = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  await Api.getUserOrgs(githubLogin, githubToken);
+  ctx.body = {
+    success: true,
+    result: 'fetch orgs success'
+  };
+};
+
 const getUserRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const { login } = ctx.query;
@@ -300,6 +327,9 @@ export default {
   getSharedUser,
   sharePage,
   sharePageMobile,
+  fetchRepos,
+  fetchCommits,
+  fetchOrgs,
   getUserRepos,
   getUserCommits,
   getUserOrgs,
