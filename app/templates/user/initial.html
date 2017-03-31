@@ -1,10 +1,21 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
+  <link href="{{ assetsPath("initial.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
+<div class="app">
+  <div class="content">
+    <div class="content-section">
+      <div class="content-info">
+      </div>
+      <div class="content-cursor cursor-animation"></div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block js %}
+  <script src="{{ assetsPath("initial.js") }}"></script>
 {% endblock %}

@@ -1,0 +1,52 @@
+@import 'open-color/open-color.css';
+@import './animation.css';
+
+* {
+  cursor: none;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--oc-gray-9);
+  color: var(--oc-white);
+}
+
+.content {
+  width: 80%;
+  max-width: 600px;
+  height: 100%;
+  margin: 100px 0;
+}
+
+.content-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  &:last-child {
+    & .content-cursor {
+      background-color: var(--oc-white);
+    }
+  }
+}
+
+.content-info {
+  height: 2em;
+  line-height: 2em;
+}
+
+.content-cursor {
+  margin-left: 5px;
+  width: 5px;
+  height: 18px;
+}
+
+.cursor-animation {
+  animation: flash 0.7s infinite ease-in-out;
+}
