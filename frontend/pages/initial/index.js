@@ -1,5 +1,6 @@
+import cx from 'classnames';
 import { polyfill } from 'es6-promise';
-import './styles/index.css';
+import styles from './styles/initial.css';
 
 polyfill();
 const LOADING = ' .......... ';
@@ -16,16 +17,16 @@ class Rock {
   _setDOM() {
     const $template = $(this._template());
     this.$main.append($template);
-    this.$info = $template.find('.content-info');
-    this.$cursor = $template.find('.content-cursor');
+    this.$info = $template.find(`.${styles['content-info']}`);
+    this.$cursor = $template.find(`.${styles['content-cursor']}`);
   }
 
   _template() {
     return `
-      <div class="content-section">
-        <div class="content-info">
+      <div class="${styles['content-section']}">
+        <div class="${styles['content-info']}">
         </div>
-        <div class="content-cursor cursor-flash"></div>
+        <div class="${cx(styles['content-cursor'], styles['cursor-flash'])}"></div>
       </div>
     `;
   }
@@ -34,8 +35,8 @@ class Rock {
     return (name) => {
       this.$cursor
         ? (open
-            ? this.$cursor.addClass(`cursor-${name}`)
-            : this.$cursor.removeClass(`cursor-${name}`))
+            ? this.$cursor.addClass(styles[`cursor-${name}`])
+            : this.$cursor.removeClass(styles[`cursor-${name}`]))
         : null;
     }
   }

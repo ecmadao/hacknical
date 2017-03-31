@@ -1,5 +1,6 @@
 import Api from 'API';
-import Rock from 'SRC/vendor/initial';
+import 'SRC/vendor/initial/index.css';
+import Rock from 'PAGES/initial';
 
 const EMOJI = {
   rocket: '🚀',
@@ -31,5 +32,6 @@ $(() => {
     .then(instance => instance.loading())
     .then(() => Api.github.fetchOrgs())
     .then(result => rock.roll(`${result} ${EMOJI.smiling}`))
-    .then(instance => instance.stop())
+    // .then(instance => instance.stop())
+    .then(instance => instance.roll('fetch finished!!! 🤘🎉🤘'))
 });

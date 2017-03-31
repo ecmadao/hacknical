@@ -1,31 +1,6 @@
 @import 'open-color/open-color.css';
 @import './animation.css';
 
-* {
-  cursor: none;
-  font-family: 'VT323', 'Press Start 2P', 'Lato', monospace, sans-serif;
-}
-
-.app {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--oc-gray-9);
-  color: var(--oc-white);
-}
-
-.content {
-  max-width: 600px;
-  height: 100%;
-  margin: 100px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .content-section {
   display: flex;
   flex-direction: row;
