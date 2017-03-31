@@ -8,7 +8,7 @@
       }
     </style>
   {% endif %}
-  <link href="{{ assetsPath("share.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("share_github.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -28,5 +28,5 @@
     window.isShare = true;
     window.login = "{{ user.login }}";
   </script>
-  <script src="{{ assetsPath("share.js") }}"></script>
+  <script src="{{ assetsPath("share_github.js") }}"></script>
 {% endblock %}

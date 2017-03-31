@@ -77,9 +77,9 @@ const combineReposCommits = (reposCommits) => {
   result.dailyCommits.forEach((dailyCommit, index) => {
     dailyCommit.sort();
     result.totalDailyCommits[index] = dailyCommit.reduce((pre, next) => pre + next, 0);
-    result.dailyCommits[index] = dailyCommit.length % 2 === 0 ?
-      0.5 * (dailyCommit[(dailyCommit.length / 2) - 1] + dailyCommit[dailyCommit.length / 2]) :
-      dailyCommit[(dailyCommit.length - 1) / 2];
+    result.dailyCommits[index] = dailyCommit.length % 2 === 0
+      ? 0.5 * (dailyCommit[(dailyCommit.length / 2) - 1] + dailyCommit[dailyCommit.length / 2])
+      : dailyCommit[(dailyCommit.length - 1) / 2];
   });
 
   return result;
@@ -101,7 +101,9 @@ const getLanguageDistribution = (repos) => {
   const reposLanguages = {};
   repos.forEach((repository) => {
     const { language } = repository;
-    reposLanguages[language] = isNaN(reposLanguages[language]) ? 1 : reposLanguages[language] + 1;
+    reposLanguages[language] = isNaN(reposLanguages[language])
+      ? 1
+      : reposLanguages[language] + 1;
   });
   return reposLanguages;
 };
@@ -111,7 +113,9 @@ const getLanguageSkill = (repos) => {
   repos.forEach((repository) => {
     const { language, languages, stargazers_count } = repository;
     if (!languages) {
-      reposLanguages[language] = isNaN(reposLanguages[language]) ? parseInt(stargazers_count) : reposLanguages[language] + parseInt(stargazers_count);
+      reposLanguages[language] = isNaN(reposLanguages[language])
+        ? parseInt(stargazers_count)
+        : reposLanguages[language] + parseInt(stargazers_count);
       return;
     }
     Object.keys(languages).forEach((language) => {

@@ -5,7 +5,6 @@ import Chart from 'chart.js';
 import objectAssign from 'object-assign';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
-import github from 'UTILS/github';
 import dateHelper from 'UTILS/date';
 import { DAYS, MONTHS, LINECHART_CONFIG } from 'UTILS/const_value';
 import {
