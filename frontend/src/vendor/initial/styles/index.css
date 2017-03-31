@@ -3,6 +3,7 @@
 
 * {
   cursor: none;
+  font-family: 'VT323', 'Press Start 2P', 'Lato', monospace, sans-serif;
 }
 
 .app {
@@ -17,10 +18,12 @@
 }
 
 .content {
-  width: 80%;
   max-width: 600px;
   height: 100%;
   margin: 100px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .content-section {
@@ -37,16 +40,20 @@
 }
 
 .content-info {
-  height: 2em;
-  line-height: 2em;
+  line-height: 1.3em;
+  font-size: 1.5em;
 }
 
 .content-cursor {
   margin-left: 5px;
-  width: 5px;
-  height: 18px;
+  width: 8px;
+  height: 20px;
 }
 
-.cursor-animation {
+.cursor-flash {
   animation: flash 0.7s infinite ease-in-out;
+}
+
+.cursor-loading {
+  animation: loading 0.7s infinite linear;
 }

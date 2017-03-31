@@ -8,6 +8,9 @@ const putInfo = (url, data = {}) => putData(`/github${url}`, data);
 const getRepos = (login) => fetchInfo(`/repos`, { login });
 const getCommits = (login) => fetchInfo(`/commits`, { login });
 const getOrgs = (login) => fetchInfo(`/orgs`, { login });
+const fetchRepos = () => fetchInfo('/repos/initial');
+const fetchCommits = () => fetchInfo('/commits/initial');
+const fetchOrgs = () => fetchInfo('/orgs/initial');
 
 /* get user info */
 const getBaseUser = () => fetchInfo(`/user`);
@@ -37,6 +40,9 @@ export default {
   getRepos,
   getCommits,
   getOrgs,
+  fetchRepos,
+  fetchCommits,
+  fetchOrgs,
   toggleShare,
   getShareRecords,
   getUpdateTime,

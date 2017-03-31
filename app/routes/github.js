@@ -21,11 +21,6 @@ router.get(
 
 // repos
 router.get(
-  '/fetchRepos',
-  user.checkSession(['githubToken', 'githubLogin']),
-  GitHub.fetchRepos,
-);
-router.get(
   '/repos',
   cache.get('repos', {
     keys: ['query.login', 'session.githubLogin']
@@ -33,13 +28,12 @@ router.get(
   GitHub.getUserRepos,
   cache.set()
 );
-
-// commits
 router.get(
-  '/fetchCommits',
+  '/repos/initial',
   user.checkSession(['githubToken', 'githubLogin']),
-  GitHub.fetchCommits,
+  GitHub.fetchRepos,
 );
+// commits
 router.get(
   '/commits',
   cache.get('commits', {
@@ -48,12 +42,12 @@ router.get(
   GitHub.getUserCommits,
   cache.set()
 );
-// orgs
 router.get(
-  '/fetchOrgs',
+  '/commits/initial',
   user.checkSession(['githubToken', 'githubLogin']),
-  GitHub.fetchOrgs,
+  GitHub.fetchCommits,
 );
+// orgs
 router.get(
   '/orgs',
   cache.get('orgs', {
@@ -61,6 +55,11 @@ router.get(
   }),
   GitHub.getUserOrgs,
   cache.set()
+);
+router.get(
+  '/orgs/initial',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.fetchOrgs,
 );
 router.get(
   '/share/records',
