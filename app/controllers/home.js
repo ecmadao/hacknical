@@ -30,7 +30,7 @@ const dashboard = async (ctx, next) => {
 const initial = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   await ctx.render('user/initial', {
-    title: `Initial ${githubLogin}`
+    title: `${githubLogin} initialize`
   });
 };
 

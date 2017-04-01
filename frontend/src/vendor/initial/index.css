@@ -1,7 +1,6 @@
 @import 'open-color/open-color.css';
 
 * {
-  cursor: none;
   font-family: 'VT323', 'Press Start 2P', 'Lato', monospace, sans-serif;
 }
 
@@ -14,6 +13,11 @@
   align-items: center;
   background-color: var(--oc-gray-9);
   color: var(--oc-white);
+  cursor: none;
+}
+
+.app-active {
+  cursor: default;
 }
 
 .content {
