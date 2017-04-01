@@ -18,6 +18,7 @@ $(() => {
   $(document).bind("contextmenu", (e) => {
     return false;
   });
+  Api.user.initialed();
 
   const $content = $('.content');
   const rock = new Rock($content);
@@ -37,11 +38,5 @@ $(() => {
     .then(() => Api.github.fetchOrgs())
     .then(result => rock.roll(`${result} ${EMOJI.smiling}`))
     .then(instance => instance.roll(`fetch finished!!! ${EMOJI.rock}${EMOJI.fireworks}${EMOJI.rock}`))
-    .then(
-      () => {
-        $('.app').addClass('app-active');
-        Button(`BOOM!${EMOJI.fireworks}${EMOJI.fireworks}`)
-          .renderIn($content, redirect());
-      }
-    );
+    .then(() => Button(`BOOM!${EMOJI.fireworks}${EMOJI.fireworks}`).renderIn($content, redirect()));
 });

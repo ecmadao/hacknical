@@ -1,29 +1,22 @@
-import { postData, getData } from './base';
+import { postData, getData, patchData } from './base';
 
-const login = (email, pwd) => {
-  return postData('/user/login', { email, pwd });
-};
+const login = (email, pwd) => postData('/user/login', { email, pwd });
 
-const signup = (email, pwd) => {
-  return postData('/user/signup', { email, pwd });
-};
+const signup = (email, pwd) => postData('/user/signup', { email, pwd });
 
-const logout = () => {
-  return getData('/user/logout');
-};
+const logout = () => getData('/user/logout');
 
-const getSections = (login) => {
-  return getData('/user/githubSections');
-};
+const getSections = (login) => getData('/user/githubSections');
 
-const setSections = (sections) => {
-  return postData('/user/githubSections', sections);
-};
+const setSections = (sections) => postData('/user/githubSections', sections);
+
+const initialed = () => patchData('/user/initialed');
 
 export default {
   login,
   signup,
   logout,
   getSections,
-  setSections
+  setSections,
+  initialed
 }

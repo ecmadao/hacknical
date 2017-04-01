@@ -13,6 +13,7 @@ const baseButton = (value = 'BOOM!') => {
 const Button = (value) => ({
   renderIn: (dom, callback = () => {}) => {
     const $buttonContainer = $(baseButton(value));
+    const resetButtonPress = () => $buttonContainer.removeClass(styles['button-press']);
     dom.append($buttonContainer);
     const $button = `.${styles.button}`;
 
@@ -20,9 +21,9 @@ const Button = (value) => ({
     $(document).on('mousedown', $button, () => {
       $buttonContainer.addClass(styles['button-press']);
     });
-    $(document).on('mouseup', $button, () => {
-      $buttonContainer.removeClass(styles['button-press']);
-    });
+    $(document).on('mouseup', $button, resetButtonPress);
+    $(document).on('mouseout', $button, resetButtonPress);
+    $(document).on('mouseleave', $button, resetButtonPress);
   }
 })
 

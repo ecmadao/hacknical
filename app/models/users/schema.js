@@ -30,7 +30,8 @@ const UserSchema = new Schema({
     commits: { type: Boolean, default: true },
     orgs: { type: Boolean, default: true },
     course: { type: Boolean, default: true }
-  }
+  },
+  initialed: { type: Boolean, default: false }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });

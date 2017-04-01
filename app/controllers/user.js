@@ -50,6 +50,19 @@ const githubLogin = async (ctx, next) => {
   }
 };
 
+const initialFinished = async (ctx, next) => {
+  const { userId } = ctx.session;
+  await User.updateUserInfo({
+    userId,
+    initialed: true
+  });
+
+  return ctx.body = {
+    success: true,
+    result: ''
+  };
+};
+
 // user analysis mobile
 const mobileAnalysis = async (ctx, next) => {
   await ctx.render('user/mobile/analysis', {
@@ -113,6 +126,7 @@ export default {
   logout,
   loginPage,
   githubLogin,
+  initialFinished,
   // mobile
   mobileAnalysis,
   mobileSetting,

@@ -21,6 +21,12 @@ router.get('/setting/mobile',
   User.mobileSetting
 );
 
+// initial finished
+router.patch('/initialed',
+  user.checkIfLogin(),
+  User.initialFinished
+);
+
 // user login/logout/signup page
 router.get('/login',
   user.checkIfNotLogin(),
