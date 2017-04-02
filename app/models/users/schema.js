@@ -22,6 +22,7 @@ const UserSchema = new Schema({
     avatar_url: String,
     description: String
   }],
+  pinnedRepos: { type: Array, default: [] },
   githubSections: {
     hotmap: { type: Boolean, default: true },
     info: { type: Boolean, default: true },

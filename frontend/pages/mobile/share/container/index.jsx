@@ -76,17 +76,16 @@ class MobileShare extends React.Component {
   async getGithubCommits() {
     const { login } = this.props;
     const result = await Api.github.getCommits(login);
-    this.setGithubCommits(result);
+    this.setGithubCommits(result.commits);
   }
 
   async getGithubRepos() {
     const { login } = this.props;
     const result = await Api.github.getRepos(login);
-    this.setGithubRepos(result);
+    this.setGithubRepos(result.repos);
   }
 
-  setGithubCommits(result) {
-    const { commits } = result;
+  setGithubCommits(commits = []) {
     this.setState({
       commitLoaded: true,
       commits,
@@ -94,8 +93,7 @@ class MobileShare extends React.Component {
     });
   }
 
-  setGithubRepos(result) {
-    const { repos } = result;
+  setGithubRepos(repos = []) {
     this.setState({
       repos: repos.sort(sortRepos()),
       languageDistributions: github.getLanguageDistribution(repos),

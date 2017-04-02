@@ -1,6 +1,7 @@
 import User from '../models/users';
 import Resume from '../models/resumes';
 import Api from '../services/api';
+import getCacheKey from './helper/cacheKey';
 import languages from '../../utils/languages';
 import { GITHUB_SECTIONS } from '../utils/datas';
 
@@ -98,10 +99,10 @@ const getGithubSections = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const { login } = ctx.query;
   const sections = await User.findGithubSections(login || githubLogin);
-  return ctx.body = {
+  ctx.body = {
     success: true,
     result: sections
-  }
+  };
 };
 
 const setGithubSections = async (ctx, next) => {
@@ -121,12 +122,46 @@ const setGithubSections = async (ctx, next) => {
   };
 };
 
+const getPinnedRepos = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+  const { login } = ctx.query;
+  const pinnedRepos = await User.findPinnedRepos(login || githubLogin);
+  ctx.body = {
+    success: true,
+    result: pinnedRepos
+  }
+};
+
+const setPinnedRepos = async (ctx, next) => {
+  const { githubLogin } = ctx.session;
+  const { pinnedRepos } = ctx.request.body;
+  const repos = pinnedRepos.split(',');
+
+  await User.updatePinnedRepos(githubLogin, repos);
+
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey('repos', {
+      session: ['githubLogin']
+    }),
+    cacheKey(`sharedUser.${githubLogin}`)
+  ];
+
+  ctx.body = {
+    success: true
+  };
+
+  await next();
+};
+
 export default {
   // user
   logout,
   loginPage,
   githubLogin,
   initialFinished,
+  getPinnedRepos,
+  setPinnedRepos,
   // mobile
   mobileAnalysis,
   mobileSetting,

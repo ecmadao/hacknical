@@ -27,7 +27,7 @@ const checkIfNotLogin = (redirect = '/dashboard') => async (ctx, next) => {
     return ctx.redirect(redirect);
   }
   await next();
-}
+};
 
 const checkIsEmail = (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 

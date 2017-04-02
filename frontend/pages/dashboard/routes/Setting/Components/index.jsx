@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { Loading, Button, Switcher } from 'light-ui';
-
+import { Loading, Button, Switcher, PortalModal } from 'light-ui';
+import ReposModal from './ReposModal';
 import actions from '../redux/actions';
 import styles from '../styles/setting.css';
 import locales from 'LOCALES';
@@ -114,7 +114,13 @@ class Setting extends React.Component {
   }
 
   render() {
-    const { loading, updateTime, actions, resumeInfo, githubInfo } = this.props;
+    const {
+      loading,
+      updateTime,
+      actions,
+      resumeInfo,
+      githubInfo
+    } = this.props;
 
     const resumeInfoLoading = resumeInfo && resumeInfo.loading;
 
@@ -144,7 +150,20 @@ class Setting extends React.Component {
                 <Button
                   value={settingTexts.github.updateButtonText}
                   theme="flat"
+                  disabled={loading}
                   onClick={actions.refreshGithubDatas}
+                />
+              </div>
+            </div>
+            <div className={styles['info_container_wrapper']}>
+              <div className={styles['info_container']}>
+                <div className={styles.info}>
+                  {settingTexts.github.customize.title}
+                </div>
+                <Button
+                  value={settingTexts.github.customize.button}
+                  theme="flat"
+                  onClick={() => actions.toggleGithubModal(true)}
                 />
               </div>
             </div>
@@ -171,6 +190,10 @@ class Setting extends React.Component {
             )}
           </div>
         </div>
+        <ReposModal
+          openModal={githubInfo.openModal}
+          onClose={() => actions.toggleGithubModal(false)}
+        />
       </div>
     )
   }

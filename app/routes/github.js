@@ -4,6 +4,7 @@ import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
 import platform from '../controllers/helper/platform';
 import analyse from '../controllers/helper/analyse';
+import check from '../controllers/helper/check';
 
 const router = koaRouter({
   prefix: '/github'
@@ -27,6 +28,11 @@ router.get(
   }),
   GitHub.getUserRepos,
   cache.set()
+);
+router.get(
+  '/repos/all',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.getAllRepos,
 );
 router.get(
   '/repos/initial',
@@ -101,6 +107,7 @@ router.get(
 router.patch(
   '/share/status',
   user.checkSession(['userId', 'githubLogin']),
+  check.body('enable'),
   GitHub.toggleShare,
 );
 
@@ -118,7 +125,6 @@ router.get(
   analyse.collect,
   GitHub.sharePageMobile
 );
-
 
 router.get(
   '/:login/user',

@@ -2,6 +2,8 @@ import koaRouter from 'koa-router';
 import User from '../controllers/user';
 import platform from '../controllers/helper/platform';
 import user from '../controllers/helper/user';
+import check from '../controllers/helper/check';
+import cache from '../controllers/helper/cache';
 
 const router = koaRouter({
   prefix: '/user'
@@ -35,14 +37,28 @@ router.get('/login',
 );
 
 // API
-router.get('/login/github', User.githubLogin);
 router.get('/logout', User.logout);
 
 // github sections
-router.get('/githubSections', User.getGithubSections);
-router.post('/githubSections',
+router.get('/github_sections', User.getGithubSections);
+router.post('/github_sections',
   user.checkIfLogin(),
   User.setGithubSections
 );
+
+router.get(
+  '/repos/pinned',
+  user.checkIfLogin(),
+  User.getPinnedRepos
+);
+router.post(
+  '/repos/pinned',
+  user.checkIfLogin(),
+  check.body('pinnedRepos'),
+  User.setPinnedRepos,
+  cache.del()
+);
+
+router.get('/login/github', User.githubLogin);
 
 module.exports = router;

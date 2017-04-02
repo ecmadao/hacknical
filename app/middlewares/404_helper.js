@@ -12,7 +12,7 @@ const catch404 = () => async (ctx, next) => {
       await ctx.redirect(`/404?locale=${ctx.session.locale}`);
     }
   } catch(err) {
-    logger.error('404 error', err, ctx);
+    console.log(err);
   }
 }
 
