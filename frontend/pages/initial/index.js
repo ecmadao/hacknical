@@ -7,16 +7,22 @@ const LOADING = ' .......... ';
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 class Rock {
-  constructor(mainDOM) {
-    this.$main = mainDOM;
+  constructor(containerDOM, wait = 100) {
+    this.$container = containerDOM;
+    this.$main = containerDOM.parent();
     this.$info = null;
     this.$cursor = null;
     this.chars = '';
+    this.wait = wait;
+  }
+
+  _scroll() {
+    this.$main.scrollTop(this.$main.height());
   }
 
   _setDOM() {
     const $template = $(this._template());
-    this.$main.append($template);
+    this.$container.append($template);
     this.$info = $template.find(`.${styles['content-info']}`);
     this.$cursor = $template.find(`.${styles['content-cursor']}`);
   }
@@ -60,9 +66,18 @@ class Rock {
   async _renderChars(chars) {
     for (let i = 0; i < chars.length; i++) {
       const char = chars[i];
-      await wait(100);
+      await wait(this.wait);
       await this._setChar(char);
     }
+  }
+
+  async rock(chars, animation = 'flash') {
+    await this.stop();
+    this._setDOM();
+    this.cursorAnimation.stop(animation);
+    await this._setChar(chars);
+    this.cursorAnimation.start(animation);
+    return this;
   }
 
   async roll(chars, animation = 'flash') {
@@ -88,6 +103,7 @@ class Rock {
     await this._setCharHtml(this.chars);
     this.chars = '';
     this.cursorAnimation.start('flash');
+    this._scroll();
     return this;
   }
 }

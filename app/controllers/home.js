@@ -39,7 +39,8 @@ const initial = async (ctx, next) => {
     ctx.redirect('/dashboard');
   }
   await ctx.render('user/initial', {
-    title: `initializing ${githubLogin}`
+    title: `initializing ${githubLogin}`,
+    login: githubLogin
   });
 };
 
