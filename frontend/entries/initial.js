@@ -20,8 +20,8 @@ $(() => {
   });
   Api.user.initialed();
 
-  const $content = $('.content');
-  const rock = new Rock($content);
+  const $content = $('.content-wrapper');
+  const rock = new Rock($content, 70);
   rock
     .roll('start fetching your informations')
     .then(instance => instance.loading())

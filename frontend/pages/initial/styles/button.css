@@ -2,6 +2,7 @@
 
 .button-container {
   margin-top: 30px;
+  margin-left: 2px;
 }
 
 .button-wrapper {
@@ -33,6 +34,12 @@
   border-radius: 1px;
   transition: transform 0.15s;
   user-select: none;
+}
+
+.button-hover {
+  & .button-wrapper .button {
+    transform: translate(-2px, -2px);
+  }
 }
 
 .button-press {
