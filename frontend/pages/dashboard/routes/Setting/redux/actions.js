@@ -3,11 +3,13 @@ import objectAssign from 'object-assign';
 import Api from 'API/index';
 
 const {
+  toggleGithubModal,
   toggleSettingLoading,
   setUpdateTime,
   initialResumeShareInfo,
   initialGithubShareInfo
 } = createActions(
+  'TOGGLE_GITHUB_MODAL',
   'TOGGLE_SETTING_LOADING',
   'SET_UPDATE_TIME',
   'INITIAL_RESUME_SHARE_INFO',
@@ -81,6 +83,7 @@ const postResumeShareSection = (section, checked) => (dispatch, getState) => {
 
 export default {
   // github
+  toggleGithubModal,
   toggleSettingLoading,
   setUpdateTime,
   fetchGithubUpdateTime,

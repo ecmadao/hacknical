@@ -13,14 +13,6 @@
 .resume_info_wrapper {
   color: var(--oc-gray-7);
   padding: 15px;
-  /*background-color: var(--flat-card);
-  border-top: 1px solid var(--flat-card-border);
-  border-left: 1px solid var(--flat-card-border);
-  border-right: 1px solid var(--flat-card-border);
-
-  &:last-child {
-    border-bottom: 1px solid var(--flat-card-border);
-  }*/
 }
 
 .info_title {

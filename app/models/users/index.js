@@ -120,6 +120,30 @@ const loginWithGithub = async (userInfo) => {
   });
 };
 
+const findPinnedRepos = async (login) => {
+  try {
+    const user = await findUserByLogin(login);
+    return Promise.resolve(user.pinnedRepos);
+  } catch (err) {
+    return Promise.resolve({});
+  }
+};
+
+const updatePinnedRepos = async (login, repos) => {
+  try {
+    const user = await findUserByLogin(login);
+    user.pinnedRepos = [...repos];
+    await user.save();
+    return Promise.resolve({
+      success: true
+    });
+  } catch (err) {
+    return Promise.resolve({
+      success: false
+    });
+  }
+};
+
 const findGithubSections = async (login) => {
   try {
     const user = await findUserByLogin(login);
@@ -154,7 +178,9 @@ export default {
   updateUserInfo,
   updateUserOrgs,
   findGithubSections,
-  updateGithubSections
+  updateGithubSections,
+  findPinnedRepos,
+  updatePinnedRepos
 }
 
 

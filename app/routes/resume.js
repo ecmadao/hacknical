@@ -4,7 +4,7 @@ import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
 import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
-import query from '../controllers/helper/query';
+import check from '../controllers/helper/check';
 import analyse from '../controllers/helper/analyse';
 
 const router = koaRouter({
@@ -16,18 +16,20 @@ router.get('/edit',
   Resume.getResume
 );
 router.put('/edit',
+  user.checkSession(session.requiredSessions),
+  check.body('resume'),
   Resume.setResume,
   cache.del()
 );
 
 router.get('/download',
   user.checkSession(session.requiredSessions),
-  query.check('hash'),
+  check.query('hash'),
   Resume.downloadResume
 );
 
 router.get('/pub',
-  query.check('hash'),
+  check.query('hash'),
   cache.get('resume', {
     query: ['hash']
   }),
@@ -46,10 +48,12 @@ router.get('/share/records',
 );
 router.patch('/share/status',
   user.checkSession(session.requiredSessions),
+  check.body('enable'),
   Resume.setResumeShareStatus
 );
 router.patch('/share/github',
   user.checkSession(session.requiredSessions),
+  check.body('enable'),
   Resume.setResumeGithubStatus
 );
 router.patch('/github/section',

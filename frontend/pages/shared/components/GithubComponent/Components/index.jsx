@@ -73,7 +73,7 @@ class GithubComponent extends React.Component {
 
   async getGithubRepos(login = '') {
     const result = await Api.github.getRepos(login);
-    this.setGithubRepos(result);
+    this.setGithubRepos(result.repos);
   }
 
   async getGithubSections(login = '') {
@@ -83,11 +83,10 @@ class GithubComponent extends React.Component {
 
   async getGithubCommits(login = '') {
     const result = await Api.github.getCommits(login);
-    this.setGithubCommits(result);
+    this.setGithubCommits(result.commits);
   }
 
-  setGithubRepos(result) {
-    const { repos } = result;
+  setGithubRepos(repos = []) {
     this.setState({
       reposLoaded: true,
       repos: [...repos],
@@ -95,8 +94,7 @@ class GithubComponent extends React.Component {
     })
   }
 
-  setGithubCommits(result) {
-    const { commits } = result;
+  setGithubCommits(commits = []) {
     this.setState({
       commitLoaded: true,
       commitDatas: [...commits],
@@ -164,9 +162,6 @@ class GithubComponent extends React.Component {
     } = this.state;
     const { isShare, containerStyle } = this.props;
     const origin = window.location.origin;
-
-    // console.log(commitDatas)
-    // console.log(commitInfos)
 
     return (
       <div className={cx(

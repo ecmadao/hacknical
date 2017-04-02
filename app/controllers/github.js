@@ -61,17 +61,41 @@ const fetchOrgs = async (ctx, next) => {
   };
 };
 
+const getAllRepos = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  const { repos } = await Api.getUserRepos(githubLogin, githubToken);
+  const result = repos.filter(repository => !repository.fork).map((repository) => {
+    const { reposId, name, language, stargazers_count } = repository;
+    return {
+      name,
+      reposId,
+      language,
+      stargazers_count
+    }
+  });
+
+  ctx.body = {
+    success: true,
+    result
+  };
+};
+
 const getUserRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const { login } = ctx.query;
   const { repos } = await Api.getUserRepos(login || githubLogin, githubToken);
+  const pinnedRepos = await User.findPinnedRepos(login || githubLogin);
   if (!repos.length) {
     ctx.query.shouldCache = false;
   }
+  const results = pinnedRepos.length
+    ? repos.filter(repository => pinnedRepos.some(pinned => pinned === repository.reposId))
+    : repos;
+
   ctx.body = {
     success: true,
     result: {
-      repos
+      repos: results
     }
   };
   await next();
@@ -330,6 +354,7 @@ export default {
   fetchRepos,
   fetchCommits,
   fetchOrgs,
+  getAllRepos,
   getUserRepos,
   getUserCommits,
   getUserOrgs,

@@ -47,7 +47,14 @@ const datas = {
       title: 'GitHub',
       openShare: 'Open GitHub analysis share',
       lastUpdate: 'Last update at',
-      updateButtonText: 'Update'
+      updateButtonText: 'Update',
+      customize: {
+        title: 'Customize repositories',
+        button: 'Click to change',
+        confirm: 'Confirm',
+        checkAll: 'Check all',
+        filter: 'Filter repositories'
+      }
     },
     resume: {
       title: 'Resume',

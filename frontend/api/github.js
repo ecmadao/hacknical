@@ -6,6 +6,7 @@ const putInfo = (url, data = {}) => putData(`/github${url}`, data);
 
 /* get repos & orgs info */
 const getRepos = (login) => fetchInfo(`/repos`, { login });
+const getAllRepos = () => fetchInfo(`/repos/all`);
 const getCommits = (login) => fetchInfo(`/commits`, { login });
 const getOrgs = (login) => fetchInfo(`/orgs`, { login });
 const fetchRepos = () => fetchInfo('/repos/initial');
@@ -38,6 +39,7 @@ const octocat = () => fetchInfo('/octocat');
 export default {
   getUser,
   getRepos,
+  getAllRepos,
   getCommits,
   getOrgs,
   fetchRepos,

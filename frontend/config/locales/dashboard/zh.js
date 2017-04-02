@@ -47,7 +47,14 @@ const datas = {
       title: 'GitHub 相关设置',
       openShare: '开启 GitHub 总结的分享',
       lastUpdate: '最近更新时间',
-      updateButtonText: '更新数据'
+      updateButtonText: '更新数据',
+      customize: {
+        title: '自定义仓库展示',
+        button: '点击更改',
+        confirm: '确认',
+        checkAll: '全选',
+        filter: '筛选仓库'
+      }
     },
     resume: {
       title: '简历相关设置',

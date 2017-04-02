@@ -13,12 +13,23 @@ const initialState = {
   },
   githubInfo: {
     loading: true,
-    openShare: true
+    openShare: true,
+    openModal: false
   }
 };
 
 const reducers = handleActions({
   // github
+  TOGGLE_GITHUB_MODAL(state, action) {
+    const { githubInfo } = state;
+    return ({
+      ...state,
+      githubInfo: objectAssign({}, githubInfo, {
+        openModal: action.payload
+      })
+    });
+  },
+
   TOGGLE_SETTING_LOADING(state, action) {
     return ({
       ...state,

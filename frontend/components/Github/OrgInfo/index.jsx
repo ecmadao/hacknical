@@ -34,11 +34,10 @@ class OrgInfo extends React.Component {
 
   async getGithubOrgs(login) {
     const result = await Api.github.getOrgs(login);
-    const { orgs } = result;
-    this.setGithubOrgs(orgs);
+    this.setGithubOrgs(result.orgs);
   }
 
-  setGithubOrgs(orgs) {
+  setGithubOrgs(orgs = []) {
     this.setState({
       loaded: true,
       orgs: [...orgs]

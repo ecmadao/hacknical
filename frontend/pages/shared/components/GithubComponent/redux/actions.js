@@ -44,13 +44,6 @@ const changeShareStatus = () => (dispatch, getState) => {
 //   });
 // };
 
-// const getGithubRepos = (login = '') => (dispatch, getState) => {
-//   Api.github.getRepos(login).then((result) => {
-//     const { repos, commits } = result;
-//     dispatch(setGithubRepos(repos, commits));
-//   });
-// };
-
 // const showReposReadme = (url, reposId) => (dispatch, getState) => {
 //   const { chosedRepos } = getState().github;
 //   const filteredRepos = chosedRepos.filter(repository => repository.id === reposId && repository.readme);
