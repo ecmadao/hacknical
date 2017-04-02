@@ -15,7 +15,8 @@ class ReposModal extends React.Component {
       pinned: [],
       repos: [],
       query: '',
-      checkAll: false
+      checkAll: false,
+      loading: true
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onClose = this.onClose.bind(this);
@@ -79,6 +80,7 @@ class ReposModal extends React.Component {
       repos: [...result],
       pinned: [...pinnedRepos],
       rawPinned: [...pinnedRepos],
+      loading: false,
       checkAll: !pinned.length || pinned.length === result.length
     });
   }
@@ -132,7 +134,7 @@ class ReposModal extends React.Component {
   }
 
   render() {
-    const { checkAll } = this.state;
+    const { checkAll, loading } = this.state;
     const { openModal } = this.props;
     return (
       <PortalModal
@@ -171,9 +173,13 @@ class ReposModal extends React.Component {
           </div>
           <div className={styles['user_repos']}>
             <div className={styles['repos_container']}>
-              <div className={styles['repos_wrapper']}>
-                {this.renderRepos()}
-              </div>
+              {loading ? (
+                <Loading loading={true} />
+              ) : (
+                <div className={styles['repos_wrapper']}>
+                  {this.renderRepos()}
+                </div>
+              )}
             </div>
           </div>
         </div>
