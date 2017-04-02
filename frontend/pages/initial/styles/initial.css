@@ -1,0 +1,34 @@
+@import 'open-color/open-color.css';
+@import './animation.css';
+
+.content-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  &:last-child {
+    & .content-cursor {
+      background-color: var(--oc-white);
+    }
+  }
+}
+
+.content-info {
+  line-height: 1.3em;
+  font-size: 1.5em;
+}
+
+.content-cursor {
+  margin-left: 5px;
+  width: 8px;
+  height: 20px;
+}
+
+.cursor-flash {
+  animation: flash 0.7s infinite ease-in-out;
+}
+
+.cursor-loading {
+  animation: loading 0.7s infinite linear;
+}

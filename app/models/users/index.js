@@ -40,6 +40,18 @@ const createGithubShare = async (options) => {
   await ShareAnalyse.createShare(options);
 };
 
+const updateUserInfo = async (options = {}) => {
+  const user = await findUserById(options.userId);
+  delete options.userId;
+  Object.keys(options).forEach((key) => {
+    user[key] = options[key];
+  });
+  await user.save();
+  return Promise.resolve({
+    success: true
+  });
+};
+
 const updateUser = async (userInfo) => {
   const newGithubInfo = getGithubInfo(userInfo);
   const lastUpdateTime = new Date();
@@ -139,6 +151,7 @@ export default {
   findUserById,
   findUserByLogin,
   updateUser,
+  updateUserInfo,
   updateUserOrgs,
   findGithubSections,
   updateGithubSections

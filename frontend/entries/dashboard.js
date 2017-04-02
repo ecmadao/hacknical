@@ -1,4 +1,4 @@
-import renderApp from 'PAGES/dashboard/index';
+import renderApp from 'PAGES/dashboard';
 import 'SRC/vendor/dashboard/dashboard.css';
 import Api from 'API';
 

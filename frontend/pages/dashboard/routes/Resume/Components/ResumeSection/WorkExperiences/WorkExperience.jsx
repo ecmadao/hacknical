@@ -2,7 +2,7 @@ import React from 'react';
 import { InputGroup, Input } from 'light-ui';
 
 import DateSlider from 'COMPONENTS/DateSlider';
-import { EDUCATIONS } from 'SHAREDPAGE/datas/resume';
+import { EDUCATIONS } from 'SHARED/datas/resume';
 import WorkProject from './WorkProject';
 import styles from '../../../styles/resume.css';
 import dateHelper from 'UTILS/date';

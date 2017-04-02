@@ -18,7 +18,6 @@ function getAssetName(asset) {
 const assetsPath = (assetsName) => {
   const publicAsset = getAssetName(assetsName);
   if (!publicAsset) {
-    // return `${CDN.URL}/dll/${assetsName}`;
     return `${CDN.URL}/${assetsName}`;
   }
   return publicAsset;

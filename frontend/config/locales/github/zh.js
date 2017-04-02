@@ -42,6 +42,9 @@ const datas = {
       emptyText: '暂未抓取到组织信息，请稍后刷新重试',
       coreDeveloper: '核心开发者',
       coreDeveloperIntro: '对项目的贡献比例超过30%',
+      orgsCount: '参与的组织数',
+      reposCount: '参与的项目数',
+      starsCount: '获得的 star 数',
       tipso: '只有用户将自己在组织中的信息设置为公开可见时，才能抓取到数据。如果没有贡献信息，请在“设置”内进行刷新'
     },
     languages: {

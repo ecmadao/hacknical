@@ -28,6 +28,11 @@ router.get(
   GitHub.getUserRepos,
   cache.set()
 );
+router.get(
+  '/repos/initial',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.fetchRepos,
+);
 // commits
 router.get(
   '/commits',
@@ -37,6 +42,11 @@ router.get(
   GitHub.getUserCommits,
   cache.set()
 );
+router.get(
+  '/commits/initial',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.fetchCommits,
+);
 // orgs
 router.get(
   '/orgs',
@@ -45,6 +55,11 @@ router.get(
   }),
   GitHub.getUserOrgs,
   cache.set()
+);
+router.get(
+  '/orgs/initial',
+  user.checkSession(['githubToken', 'githubLogin']),
+  GitHub.fetchOrgs,
 );
 router.get(
   '/share/records',

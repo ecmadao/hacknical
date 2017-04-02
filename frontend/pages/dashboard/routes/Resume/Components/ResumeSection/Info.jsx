@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Input, SelectorV2 } from 'light-ui';
 
 import actions from '../../redux/actions';
-import { GENDERS } from 'SHAREDPAGE/datas/resume';
+import { GENDERS } from 'SHARED/datas/resume';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
 

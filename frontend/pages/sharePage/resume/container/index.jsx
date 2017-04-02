@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
 import Api from 'API/index';
-import ResumeComponent from 'SHAREDPAGE/components/ResumeComponent';
+import ResumeComponent from 'SHARED/components/ResumeComponent';
 import {
   EDU,
   INFO,
@@ -11,11 +11,11 @@ import {
   WORK_PROJECT,
   PERSONAL_PROJECT,
   SOCIAL_LINKS
-} from 'SHAREDPAGE/datas/resume';
+} from 'SHARED/datas/resume';
 import {
   objectassign,
   validateSocialLinks
-} from 'SHAREDPAGE/utils/resume';
+} from 'SHARED/utils/resume';
 import styles from '../styles/share.css';
 
 class ResumeShare extends React.Component {

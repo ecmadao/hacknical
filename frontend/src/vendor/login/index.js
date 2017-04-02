@@ -1,5 +1,5 @@
 import 'particles.js';
-import './styles/index.css'
+import './styles/index.css';
 
 $(() => {
   // particleground(document.getElementById('login'), {

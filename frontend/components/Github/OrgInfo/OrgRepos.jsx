@@ -33,15 +33,15 @@ class OrgRepos extends React.Component {
 
   renderReposTipso(repository, contributionPercentage) {
     const {
+      fork,
       name,
-      created_at,
-      stargazers_count,
-      contributors,
-      forks_count,
-      pushed_at,
       language,
       html_url,
-      fork
+      created_at,
+      pushed_at,
+      contributors,
+      forks_count,
+      stargazers_count
     } = repository;
 
     return (

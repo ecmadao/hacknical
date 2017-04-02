@@ -8,11 +8,11 @@ import {
   WORK_PROJECT,
   PERSONAL_PROJECT,
   SOCIAL_LINKS
-} from 'SHAREDPAGE/datas/resume';
+} from 'SHARED/datas/resume';
 import {
   objectassign,
   validateSocialLinks
-} from 'SHAREDPAGE/utils/resume';
+} from 'SHARED/utils/resume';
 import dateHelper from 'UTILS/date';
 
 const getDateBeforeYears = dateHelper.date.beforeYears;

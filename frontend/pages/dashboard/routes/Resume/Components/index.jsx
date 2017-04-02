@@ -6,8 +6,8 @@ import { Button, IconButton, Tipso } from 'light-ui';
 import { Message } from 'light-ui/lib/raw';
 
 import styles from '../styles/resume.css';
-import { RESUME_SECTIONS } from 'SHAREDPAGE/datas/resume';
-import ShareModal from 'SHAREDPAGE/components/ShareModal';
+import { RESUME_SECTIONS } from 'SHARED/datas/resume';
+import ShareModal from 'SHARED/components/ShareModal';
 import ResumeSection from './ResumeSection';
 import ResumeModalV2 from './ResumeModal/v2';
 import IntroModal from './IntroModal';

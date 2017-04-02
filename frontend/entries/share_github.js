@@ -1,4 +1,4 @@
-import renderApp from 'PAGES/sharePage/index';
+import renderApp from 'PAGES/sharePage/github';
 import 'SRC/vendor/share/share.css';
 import initialBanner from 'SRC/vendor/shared/footer_banner';
 

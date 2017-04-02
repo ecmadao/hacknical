@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
-import objectAssign from 'object-assign';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import github from 'UTILS/github';

@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <link href="{{ assetsPath("resume_share.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("share_resume.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -14,5 +14,5 @@
     window.resumeHash = '{{ resumeHash }}';
     window.login = '{{ login }}';
   </script>
-  <script src="{{ assetsPath("resume_share.js") }}"></script>
+  <script src="{{ assetsPath("share_resume.js") }}"></script>
 {% endblock %}

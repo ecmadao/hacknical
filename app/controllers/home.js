@@ -14,7 +14,12 @@ const handle404 = async (ctx, next) => {
 };
 
 const dashboard = async (ctx, next) => {
-  const { githubLogin } = ctx.session;
+  const { githubLogin, userId } = ctx.session;
+  const user = await User.findUserById(userId);
+  if (!user.initialed) {
+    ctx.redirect('/initial');
+  }
+
   if (ctx.state.isMobile) {
     ctx.redirect(`/github/${githubLogin}/mobile`);
   }
@@ -27,8 +32,20 @@ const dashboard = async (ctx, next) => {
   });
 };
 
+const initial = async (ctx, next) => {
+  const { githubLogin, userId } = ctx.session;
+  const user = await User.findUserById(userId);
+  if (user.initialed) {
+    ctx.redirect('/dashboard');
+  }
+  await ctx.render('user/initial', {
+    title: `initializing ${githubLogin}`
+  });
+};
+
 export default {
   index,
   handle404,
-  dashboard
+  dashboard,
+  initial
 }

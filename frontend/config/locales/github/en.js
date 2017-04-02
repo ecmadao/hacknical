@@ -42,6 +42,9 @@ const datas = {
       emptyText: 'No organizations info, please refresh later',
       coreDeveloper: 'Core developer',
       coreDeveloperIntro: 'More than 30% contributions',
+      orgsCount: 'Joined orgs',
+      reposCount: 'Joined repos',
+      starsCount: 'Stars count',
       tipso: 'Only when you make yourself public in a organization can I get your orgs informations'
     },
     languages: {
