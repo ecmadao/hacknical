@@ -22,7 +22,6 @@ router.get('/404', Home.handle404);
 router.get(
   '/dashboard',
   platform.checkPlatform,
-  // platform.checkMobile('/dashboard'),
   user.checkIfLogin(),
   Home.dashboard
 );

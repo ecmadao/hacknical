@@ -1,19 +1,16 @@
 import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import Chart from 'chart.js';
 import cx from 'classnames';
-import objectAssign from 'object-assign';
-import { Loading } from 'light-ui';
+import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import Api from 'API';
 import OrgRepos from './OrgRepos';
-import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 import styles from '../styles/github.css';
 import locales from 'LOCALES';
 import { splitArray, sortByX } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
 
+const fullDate = dateHelper.validator.fullDate;
 const githubTexts = locales('github').sections.orgs;
 const sortByStar = sortByX('stargazers_count');
 
@@ -55,6 +52,44 @@ class OrgInfo extends React.Component {
         activeIndex: index
       });
     }
+  }
+
+  renderOrgsCard() {
+    const { orgs } = this.state;
+    const { userLogin } = this.props;
+    const filterRepos = [];
+    orgs.forEach((organizations) => {
+      const repos = organizations.repos.filter((repository) => {
+        return repository.contributors.some((contributor) => contributor.login === userLogin);
+      });
+      filterRepos.push(...repos);
+    });
+    const totalStar = filterRepos.reduce((prev, current, index) => {
+      if (index === 0) {
+        return current['stargazers_count'];
+      }
+      return current['stargazers_count'] + prev;
+    }, '');
+
+    return (
+      <CardGroup className={cardStyles['card_group']}>
+        <InfoCard
+          icon="group"
+          mainText={orgs.length}
+          subText={githubTexts.orgsCount}
+        />
+        <InfoCard
+          icon="heart-o"
+          mainText={filterRepos.length}
+          subText={githubTexts.reposCount}
+        />
+        <InfoCard
+          icon="star-o"
+          mainText={totalStar}
+          subText={githubTexts.starsCount}
+        />
+      </CardGroup>
+    );
   }
 
   renderOrgsReview() {
@@ -105,7 +140,7 @@ class OrgInfo extends React.Component {
       <div className={styles["org_detail"]}>
         <div className={styles["org_info"]}>
           <i className="fa fa-rocket" aria-hidden="true"></i>&nbsp;
-          {githubTexts.createdAt}{dateHelper.validator.fullDate(created_at)}
+          {githubTexts.createdAt}{fullDate(created_at)}
         </div>
         {blog ? (
           <div className={styles["org_info"]}>
@@ -137,8 +172,10 @@ class OrgInfo extends React.Component {
       component = !orgs.length ?
         (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : this.renderOrgsReview();
     }
+    const cards = loaded && orgs.length ? this.renderOrgsCard() : '';
     return (
       <div className={cx(cardStyles["info_card"], className)}>
+        {cards}
         {component}
       </div>
     )
