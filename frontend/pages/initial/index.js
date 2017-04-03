@@ -4,16 +4,16 @@ import styles from './styles/initial.css';
 
 polyfill();
 const LOADING = ' .......... ';
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const waitFor = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 class Rock {
-  constructor(containerDOM, wait = 100) {
+  constructor(containerDOM, waitTime = 100) {
     this.$container = containerDOM;
     this.$main = containerDOM.parent();
     this.$info = null;
     this.$cursor = null;
     this.chars = '';
-    this.wait = wait;
+    this.waitTime = waitTime;
   }
 
   _scroll() {
@@ -63,10 +63,10 @@ class Rock {
     await this._setCharHtml(`${$html}${char}`);
   }
 
-  async _renderChars(chars) {
+  async _renderChars(chars, time = this.waitTime) {
     for (let i = 0; i < chars.length; i++) {
       const char = chars[i];
-      await wait(this.wait);
+      await this.wait(time);
       await this._setChar(char);
     }
   }
@@ -80,21 +80,21 @@ class Rock {
     return this;
   }
 
-  async roll(chars, animation = 'flash') {
+  async roll(chars, animation = 'flash', time = this.waitTime) {
     await this.stop();
     this.chars = chars;
     this._setDOM();
     this.cursorAnimation.stop(animation);
-    await this._renderChars(chars);
+    await this._renderChars(chars, time);
     this.cursorAnimation.start(animation);
     return this;
   }
 
-  async loading() {
+  async loading(time = this.waitTime) {
     this.cursorAnimation.stop('flash');
     this.cursorAnimation.start('loading');
     this.chars = `${this.chars}${LOADING}`;
-    await this._renderChars(LOADING);
+    await this._renderChars(LOADING, time);
     return this;
   }
 
@@ -104,6 +104,11 @@ class Rock {
     this.chars = '';
     this.cursorAnimation.start('flash');
     this._scroll();
+    return this;
+  }
+
+  async wait(time) {
+    await waitFor(time || this.waitTime);
     return this;
   }
 }
