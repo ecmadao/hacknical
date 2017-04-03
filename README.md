@@ -1,6 +1,6 @@
 # [Hacknical](http://hacknical.com?locale=en)
 
-![hacknical-logo-with-text](./screenshots/logos/hacknical-logo-with-text.png)
+![hacknical-logo-with-text](./screenshots/logos/hacknical-logo-large.png)
 
 > A website for GitHub user to generate his GitHub data analysis (contributions/commits/languages/repos datas), helps to make a better resume.
 
