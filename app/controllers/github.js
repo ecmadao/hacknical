@@ -84,18 +84,19 @@ const getUserRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const { login } = ctx.query;
   const { repos } = await Api.getUserRepos(login || githubLogin, githubToken);
-  const pinnedRepos = await User.findPinnedRepos(login || githubLogin);
+  const pinned = await User.findPinnedRepos(login || githubLogin);
   if (!repos.length) {
     ctx.query.shouldCache = false;
   }
-  const results = pinnedRepos.length
-    ? repos.filter(repository => pinnedRepos.some(pinned => pinned === repository.reposId))
+  const checkPinned = (repository) => pinned.some(item => item === repository.reposId);
+  const pinnedRepos = pinned.length
+    ? repos.filter(repository => checkPinned(repository) || repository.fork)
     : repos;
 
   ctx.body = {
     success: true,
     result: {
-      repos: results
+      repos: pinnedRepos
     }
   };
   await next();
