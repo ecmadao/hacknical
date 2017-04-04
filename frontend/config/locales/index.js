@@ -9,7 +9,7 @@ export const validateLocale = () => {
   if (/^zh/.test(locale)) {
     return 'zh';
   }
-  return 'en';
+  return 'zh';
 };
 
 const getLocale = (page) => {
