@@ -17,17 +17,10 @@ const addResume = async (userId, resume = DEFAULT_RESUME) => {
     userId,
     resume
   });
-  if (addResult) {
-    return Promise.resolve({
-      success: true,
-      message: '新增简历成功',
-      result: addResult
-    });
-  }
   return Promise.resolve({
-    success: false,
+    success: addResult ? true : false,
     message: '新增简历成功',
-    result: null
+    result: addResult || null
   });
 };
 
@@ -38,33 +31,19 @@ const updateResume = async (userId, resume) => {
 
 const getUpdateTime = async (userId) => {
   const getResult = await findResume({ userId });
-  if (!getResult) {
-    return Promise.resolve({
-      success: false,
-      message: '没有查询到结果',
-      result: null
-    });
-  }
   return Promise.resolve({
-    success: true,
+    success: getResult ? true : false,
     message: '',
-    result: getResult.updated_at
+    result: getResult ? getResult.updated_at : ''
   });
 };
 
 const getResume = async (userId) => {
   const getResult = await findResume({ userId });
-  if (!getResult) {
-    return Promise.resolve({
-      success: false,
-      message: '没有查询到结果',
-      result: null
-    });
-  }
   return Promise.resolve({
-    success: true,
-    message: '',
-    result: getResult.resume
+    success: getResult ? true : false,
+    message: getResult ? '' : '没有查询到结果',
+    result: getResult ? getResult.resume : null
   });
 };
 

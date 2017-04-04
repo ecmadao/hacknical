@@ -64,7 +64,7 @@ router.patch('/github/section',
 
 router.get('/:hash',
   platform.checkPlatform,
-  analyse.collectResumeData,
+  analyse.resume,
   Resume.getPubResumePage
 );
 

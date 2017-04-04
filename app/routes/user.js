@@ -40,10 +40,10 @@ router.get('/login',
 router.get('/logout', User.logout);
 
 // github sections
-router.get('/github_sections', User.getGithubSections);
+router.get('/github_sections', User.getGithubShareSections);
 router.post('/github_sections',
   user.checkIfLogin(),
-  User.setGithubSections
+  User.setGithubShareSections
 );
 
 router.get(

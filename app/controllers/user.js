@@ -3,7 +3,7 @@ import Resume from '../models/resumes';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
 import languages from '../../utils/languages';
-import { GITHUB_SECTIONS } from '../utils/datas';
+import { getMobileMenu, getGithubSections } from './shared';
 
 const logout = async (ctx, next) => {
   ctx.session.userId = null;
@@ -71,12 +71,7 @@ const mobileAnalysis = async (ctx, next) => {
     user: {
       isAdmin: true
     },
-    menu: {
-      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
-      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
-      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
-      logout: ctx.__("mobilePage.menu.logout"),
-    }
+    menu: getMobileMenu(ctx.__)
   });
 };
 
@@ -86,16 +81,11 @@ const mobileSetting = async (ctx, next) => {
     user: {
       isAdmin: true
     },
-    menu: {
-      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
-      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
-      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
-      logout: ctx.__("mobilePage.menu.logout"),
-    }
+    menu: getMobileMenu(ctx.__)
   });
 };
 
-const getGithubSections = async (ctx, next) => {
+const getGithubShareSections = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const { login } = ctx.query;
   const sections = await User.findGithubSections(login || githubLogin);
@@ -105,16 +95,9 @@ const getGithubSections = async (ctx, next) => {
   };
 };
 
-const setGithubSections = async (ctx, next) => {
+const setGithubShareSections = async (ctx, next) => {
   const { githubLogin } = ctx.session;
-
-  let githubSections = {};
-  const { body } = ctx.request;
-  Object.keys(body).forEach((key) => {
-    if (GITHUB_SECTIONS.some(section => section === key)) {
-      githubSections[key] = body[key];
-    }
-  });
+  const githubSections = getGithubSections(ctx.request.body);
 
   await User.updateGithubSections(githubLogin, githubSections);
   return ctx.body = {
@@ -166,8 +149,8 @@ export default {
   mobileAnalysis,
   mobileSetting,
   // github sections
-  getGithubSections,
-  setGithubSections
+  getGithubShareSections,
+  setGithubShareSections
 }
 
 

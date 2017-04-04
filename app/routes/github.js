@@ -115,14 +115,14 @@ router.get(
   '/:login',
   platform.checkPlatform,
   platform.checkMobile(),
-  analyse.collect,
+  analyse.github,
   GitHub.sharePage
 );
 router.get(
   '/:login/mobile',
   platform.checkPlatform,
   platform.checkMobile(),
-  analyse.collect,
+  analyse.github,
   GitHub.sharePageMobile
 );
 

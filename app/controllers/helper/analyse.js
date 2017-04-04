@@ -1,7 +1,22 @@
 import ShareAnalyse from '../../models/share-analyse';
 
-const collect = async (ctx, next) => {
+const updateViewData = async (ctx, options) => {
   const { from } = ctx.query;
+  const { platform, browser } = ctx.state;
+  const updateResult = await ShareAnalyse.updateShare(options);
+  if (!updateResult.success) {
+    ctx.redirect('/404');
+    return;
+  }
+  await ShareAnalyse.updateViewData({
+    platform,
+    url: options.url,
+    browser: browser || '',
+    from: from || ''
+  });
+};
+
+const collectGithubRecord = async (ctx, next) => {
   const { login } = ctx.params;
   const { githubLogin } = ctx.session;
 
@@ -11,46 +26,24 @@ const collect = async (ctx, next) => {
     return;
   }
 
-  const { platform, browser } = ctx.state;
   const url = `github/${login}`;
-  const updateResult = await ShareAnalyse.updateShare({ login, url });
-  if (!updateResult.success) {
-    ctx.redirect('/404');
-    return;
-  }
-  await ShareAnalyse.updateViewData({
-    url,
-    platform,
-    browser: browser || '',
-    from: from || ''
-  });
+  updateViewData(ctx, { login, url });
   await next();
 };
 
-const collectResumeData = async (ctx, next) => {
-  const { from, notrace } = ctx.query;
+const collectResumeRecord = async (ctx, next) => {
+  const { notrace } = ctx.query;
   const { hash } = ctx.params;
 
   if (!notrace || notrace === 'false') {
-    const { platform, browser } = ctx.state;
     const url = `resume/${hash}`;
-    const updateResult = await ShareAnalyse.updateShare({ url });
-    if (!updateResult.success) {
-      ctx.redirect('/404');
-      return;
-    }
-    await ShareAnalyse.updateViewData({
-      url,
-      platform,
-      browser: browser || '',
-      from: from || ''
-    });
+    updateViewData(ctx, { url });
   }
 
   await next();
 };
 
 export default {
-  collect,
-  collectResumeData
+  github: collectGithubRecord,
+  resume: collectResumeRecord
 }

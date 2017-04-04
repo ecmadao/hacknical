@@ -2,6 +2,7 @@ import User from '../models/users';
 import Api from '../services/api';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
+import { getMobileMenu } from './shared';
 
 /* ================== router handler ================== */
 
@@ -180,26 +181,21 @@ const sharePageMobile = async (ctx, next) => {
   } = user;
 
   await ctx.render('user/mobile/share', {
+    title,
     user: {
       bio,
-      name: name || login,
       login,
-      avatar_url,
-      public_repos,
       followers,
       following,
+      avatar_url,
+      public_repos,
+      name: name || login,
       isAdmin: login === githubLogin,
       created_at: created_at.split('T')[0]
     },
-    title,
     shareText: ctx.__("messages.share.mobileText"),
     joinAt: ctx.__("sharePage.joinAt"),
-    menu: {
-      shareDatas: ctx.__("mobilePage.menu.shareDatas"),
-      githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
-      dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
-      logout: ctx.__("mobilePage.menu.logout"),
-    }
+    menu: getMobileMenu(ctx.__)
   });
 };
 
@@ -210,11 +206,11 @@ const sharePage = async (ctx, next) => {
   const title = ctx.__("sharePage.github", user.name || user.login);
 
   await ctx.render('user/share', {
+    title,
     user: {
       login,
       isAdmin: login === githubLogin
     },
-    title,
     shareText: ctx.__("messages.share.text")
   });
 };

@@ -4,9 +4,9 @@ import User from '../models/users';
 import ResumePub from '../models/resume-pub';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
-import { GITHUB_SECTIONS } from '../utils/datas';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
+import { getGithubSections } from './shared';
 
 const URL = config.get('url');
 const getResume = async (ctx, next) => {
@@ -218,13 +218,7 @@ const setGithubShareSection = async (ctx, next) => {
     };
   }
 
-  let githubSections = {};
-  const { body } = ctx.request;
-  Object.keys(body).forEach((key) => {
-    if (GITHUB_SECTIONS.some(section => section === key)) {
-      githubSections[key] = body[key];
-    }
-  });
+  const githubSections = getGithubSections(ctx.request.body);
 
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     github: Object.assign({}, result.github, githubSections)
