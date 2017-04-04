@@ -1,7 +1,8 @@
 import moment from 'moment';
-import { validateLocale } from 'LOCALES';
+import { formatLocale } from 'LOCALES';
 
-moment.locale(validateLocale());
+const locale = formatLocale();
+moment.locale(locale);
 
 const formatDate = (format) => (date) => moment(date).format(format);
 const getSeconds = (date) => parseInt(formatDate('X')(date));

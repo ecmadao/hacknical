@@ -33,6 +33,7 @@ class WritableGroupWrapper extends React.Component {
       onChange: this.handleInputChange,
       onKeyDown: this.onKeyDown
     });
+
     return (
       <div>
         {child}

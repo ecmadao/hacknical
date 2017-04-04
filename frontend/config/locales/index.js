@@ -1,4 +1,4 @@
-export const validateLocale = () => {
+const validateLocale = () => {
   const locale = window.locale || 'en';
   if (/^en/.test(locale)) {
     return 'en';
@@ -10,6 +10,20 @@ export const validateLocale = () => {
     return 'zh';
   }
   return 'zh';
+};
+
+export const formatLocale = () => {
+  const locale = validateLocale();
+  if (/^en/.test(locale)) {
+    return locale;
+  }
+  if (/^fr/.test(locale)) {
+    return 'fr-FR';
+  }
+  if (/^zh/.test(locale)) {
+    return 'zh-CN';
+  }
+  return 'zh-CN';
 };
 
 const getLocale = (page) => {
