@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button } from 'light-ui';
 
 import actions from '../../../redux/actions';
 import WorkExperience from './WorkExperience';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
+import { SectionWrapper } from '../components';
 
 const resumeTexts = locales("resume").sections.work;
 
@@ -76,24 +76,12 @@ class WorkExperiences extends React.Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className={styles["resume_section_container"]}>
-        <div className={styles["section_title"]}>
-          {resumeTexts.title}
-        </div>
-        <div>
-          {this.renderExperience()}
-        </div>
-        <div className={styles["resume_button_container"]}>
-          <Button
-            theme="flat"
-            value={resumeTexts.mainButton}
-            leftIcon={(
-              <i className="fa fa-plus-circle" aria-hidden="true"></i>
-            )}
-            onClick={actions.addWorkExperience}
-          />
-        </div>
-      </div>
+      <SectionWrapper
+        title={resumeTexts.title}
+        button={resumeTexts.mainButton}
+        onClick={actions.addWorkExperience}>
+        {this.renderExperience()}
+      </SectionWrapper>
     )
   }
 }

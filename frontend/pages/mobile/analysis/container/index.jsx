@@ -10,9 +10,9 @@ import { Loading, Input, IconButton } from 'light-ui';
 import Api from 'API/index';
 import dateHelper from 'UTILS/date';
 import { getValidateViewSources } from 'UTILS/analysis';
-import { LINECHART_CONFIG } from 'UTILS/const_value';
-import { GREEN_COLORS } from 'UTILS/colors';
+import { LINE_CONFIG, RADAR_CONFIG } from 'SHARED/datas/chart_config';
 import styles from '../styles/analysis.css';
+import { initialSlick } from '../../shared/helper';
 import sharedStyles from '../../shared/styles/mobile.css';
 import MinInfoCard from '../../shared/components/MinInfoCard';
 import locales from 'LOCALES';
@@ -119,16 +119,7 @@ class MobileAnalysis extends React.Component {
 
   initialCardSlick() {
     if (this.slickInitialed) { return }
-    $('#chart_info_container').slick({
-      accessibility: false,
-      arrows: false,
-      slidesToShow: 2,
-      mobileFirst: true,
-      swipeToSlide: true,
-      infinite: false,
-      slidesToScroll: 1,
-      variableWidth: true
-    });
+    initialSlick('#chart_info_container');
     this.slickInitialed = true;
   }
 
@@ -170,7 +161,7 @@ class MobileAnalysis extends React.Component {
       type: 'line',
       data: {
         labels: dateLabels,
-        datasets: [objectAssign({}, LINECHART_CONFIG, datasetsConfig)]
+        datasets: [objectAssign({}, LINE_CONFIG, datasetsConfig)]
       },
       options: {
         title: {
@@ -231,33 +222,13 @@ class MobileAnalysis extends React.Component {
     const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
-    this.viewDevicesChart = new Chart(viewDevicesChart, {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [{
-          data: datas,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 2,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: analysisTexts.platformChartTitle
-        },
-        legend: {
-          display: false,
-        }
-      }
-    });
+
+    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    radarConfig.data.labels = labels;
+    radarConfig.data.datasets[0].data = datas;
+    radarConfig.options.title.text = analysisTexts.platformChartTitle;
+
+    this.viewDevicesChart = new Chart(viewDevicesChart, radarConfig);
   }
 
   renderSourcesChart() {
@@ -266,33 +237,12 @@ class MobileAnalysis extends React.Component {
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
 
-    this.viewSourcesChart = new Chart(viewSourcesChart, {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [{
-          data: datas,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 2,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: analysisTexts.browserChartTitle
-        },
-        legend: {
-          display: false,
-        }
-      }
-    });
+    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    radarConfig.data.labels = labels;
+    radarConfig.data.datasets[0].data = datas;
+    radarConfig.options.title.text = analysisTexts.browserChartTitle;
+
+    this.viewSourcesChart = new Chart(viewSourcesChart, radarConfig);
   }
 
   initialState(datas) {
@@ -399,7 +349,6 @@ class MobileAnalysis extends React.Component {
         </div>
 
         {this.loading ? (<Loading loading={true} />) : this.renderCardInfo()}
-
         <div className={sharedStyles["mobile_card"]}>
           <div
             className={styles["share_info_chart"]}>
@@ -408,7 +357,6 @@ class MobileAnalysis extends React.Component {
               ref={ref => this.viewDevices = ref}></canvas>
           </div>
         </div>
-
         <div className={sharedStyles["mobile_card"]}>
           <div
             className={styles["share_info_chart"]}>

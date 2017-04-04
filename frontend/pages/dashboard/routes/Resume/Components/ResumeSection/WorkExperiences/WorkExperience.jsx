@@ -4,6 +4,7 @@ import { InputGroup, Input } from 'light-ui';
 import DateSlider from 'COMPONENTS/DateSlider';
 import { EDUCATIONS } from 'SHARED/datas/resume';
 import WorkProject from './WorkProject';
+import { TipsoInput } from '../components';
 import styles from '../../../styles/resume.css';
 import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
@@ -86,20 +87,12 @@ class WorkExperience extends React.Component {
             theme="flat"
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}>
-            <div className={styles["project_link_wrapper"]}>
-              <i className="fa fa-link" aria-hidden="true"></i>
-              &nbsp;&nbsp;
-              <Input
-                value={url}
-                type="url"
-                required={false}
-                theme="borderless"
-                subTheme="underline"
-                placeholder={resumeTexts.homepage}
-                className={styles['tipso_input_long']}
-                onChange={handleExperienceChange('url')}
-              />
-            </div>
+            <TipsoInput
+              value={url}
+              placeholder={resumeTexts.homepage}
+              onChange={handleExperienceChange('url')}
+              className={styles['tipso_input_long']}
+            />
           </InputGroup>
           <Input
             value={position}

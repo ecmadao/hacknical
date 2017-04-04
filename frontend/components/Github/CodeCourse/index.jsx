@@ -16,6 +16,7 @@ import {
 } from 'UTILS/helper';
 import github from 'UTILS/github';
 import locales from 'LOCALES';
+import ReposBaseInfo from '../ReposBaseInfo';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
@@ -127,13 +128,12 @@ class CodeCourse extends React.Component {
                 ) : ''}
               </span><br/>
               <div className={githubStyles["tipso_line"]}></div>
-              <span>
-                <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
-                &nbsp;&nbsp;&nbsp;
-                <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
-                &nbsp;&nbsp;&nbsp;
-                <i className="fa fa-eye" aria-hidden="true"></i>&nbsp;{watchers_count}
-              </span><br/>
+              <ReposBaseInfo
+                stargazers={stargazers_count}
+                forks={forks_count}
+                watchers={watchers_count}
+              />
+              <br/>
               <span>{getValidateDate(created_at)} ~ {getValidateDate(pushed_at)}</span>
             </div>
           </div>

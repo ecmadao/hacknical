@@ -6,7 +6,8 @@ import objectAssign from 'object-assign';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import dateHelper from 'UTILS/date';
-import { DAYS, MONTHS, LINECHART_CONFIG } from 'UTILS/const_value';
+import { DAYS, MONTHS } from 'UTILS/const_value';
+import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import {
   sortRepos,
   getMaxIndex,
@@ -161,7 +162,7 @@ class CommitInfo extends React.Component {
       type: 'line',
       data: {
         labels: dateLabels,
-        datasets: [objectAssign({}, LINECHART_CONFIG, {
+        datasets: [objectAssign({}, LINE_CONFIG, {
           data: commitDates,
           label: githubTexts.weeklyCommitChartTitle
         })]
@@ -200,7 +201,7 @@ class CommitInfo extends React.Component {
       type: 'line',
       data: {
         labels: DAYS,
-        datasets: [objectAssign({}, LINECHART_CONFIG, {
+        datasets: [objectAssign({}, LINE_CONFIG, {
           data: dailyCommits,
           label: githubTexts.dailyCommitChartTitle,
         })]

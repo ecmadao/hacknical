@@ -1,18 +1,5 @@
 import moment from 'moment';
-
-const validateLocale = () => {
-  const locale = window.locale || 'en';
-  if (/^en/.test(locale)) {
-    return 'en';
-  }
-  if (/^fr/.test(locale)) {
-    return 'fr-FR';
-  }
-  if (/^zh/.test(locale)) {
-    return 'zh-CN';
-  }
-  return 'en';
-};
+import { validateLocale } from 'LOCALES';
 
 moment.locale(validateLocale());
 

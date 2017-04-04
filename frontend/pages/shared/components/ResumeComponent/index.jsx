@@ -32,6 +32,17 @@ const info = (options) => {
   )
 };
 
+const linkInfo = (options) => {
+  const { url, title } = options;
+
+  return validator.url(url) ? (
+    <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
+      <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
+      {title}
+    </a>
+  ) : (<div className={styles["info_header"]}>{title}</div>)
+};
+
 const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
 
 const baseInfo = (text, icon, options = {}) => {
@@ -102,12 +113,7 @@ class ResumeComponent extends React.Component {
       const workProjects = this.renderProjects(projects);
       return (
         <div key={index} className={styles["section_wrapper"]}>
-          {validator.url(url) ? (
-            <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
-              <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
-              {company}
-            </a>
-          ) : (<div className={styles["info_header"]}>{company}</div>)}
+          {linkInfo({url, title: company})}
           {position ? `, ${position}` : ''}
           <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
           <div>{workProjects}</div>
@@ -139,11 +145,7 @@ class ResumeComponent extends React.Component {
       });
       return (
         <div key={index} className={styles["project_section"]}>
-          {validator.url(url) ? (
-            <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
-              {name}
-            </a>
-          ) : (<div className={styles["info_header"]}>{name}</div>)}
+          {linkInfo({url, title: name})}
           <ul className={styles["info_intro"]}>
             {projectDetails}
           </ul>
@@ -167,12 +169,7 @@ class ResumeComponent extends React.Component {
       });
       return (
         <div key={index} className={styles["sec_section"]}>
-          {validator.url(url) ? (
-            <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
-              <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
-              {title}
-            </a>
-          ) : (<div className={styles["info_header"]}>{title}</div>)}
+          {linkInfo({url, title})}
           <div className={styles["info_text"]}>
             {desc}
           </div>

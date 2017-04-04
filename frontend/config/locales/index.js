@@ -1,4 +1,4 @@
-const validateLocale = () => {
+export const validateLocale = () => {
   const locale = window.locale || 'en';
   if (/^en/.test(locale)) {
     return 'en';

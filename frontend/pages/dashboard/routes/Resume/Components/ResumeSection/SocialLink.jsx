@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
-import { Input, Tipso } from 'light-ui';
+import { Tipso } from 'light-ui';
 import validator from 'UTILS/validator';
 import styles from '../../styles/resume.css';
+import { TipsoInput } from './components';
 
 const SocialLink = (props) => {
   const { onChange, social } = props;
@@ -17,19 +18,12 @@ const SocialLink = (props) => {
     <Tipso
       trigger="click"
       tipsoContent={(
-        <div className={styles["project_link_wrapper"]}>
-          <i className="fa fa-link" aria-hidden="true"></i>
-          &nbsp;&nbsp;
-          <Input
-            value={url}
-            type="url"
-            theme="borderless"
-            subTheme="underline"
-            className={styles['tipso_input']}
-            placeholder={`Add ${text || name} link`}
-            onChange={onChange}
-          />
-        </div>
+        <TipsoInput
+          value={url}
+          required={true}
+          placeholder={`Add ${text || name} link`}
+          onChange={onChange}
+        />
       )}>
       <div
         className={itemClass}>

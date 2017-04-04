@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { Button, InputGroup, Textarea, Input } from 'light-ui';
+import { InputGroup, Textarea } from 'light-ui';
 
 import Labels from 'COMPONENTS/Labels';
 import styles from '../../styles/resume.css';
 import actions from '../../redux/actions';
 import locales from 'LOCALES';
+import { TipsoInput, SectionWrapper } from './components';
 
 const resumeTexts = locales("resume").sections.projects;
 
@@ -46,20 +47,12 @@ class PersonalProjects extends React.Component {
               }}
               wrapperClassName={cx(styles["input_group"], styles["single_input"])}
               onChange={this.handleProjectChange(index)('title')}>
-              <div className={styles["project_link_wrapper"]}>
-                <i className="fa fa-link" aria-hidden="true"></i>
-                &nbsp;&nbsp;
-                <Input
-                  value={url}
-                  type="url"
-                  required={false}
-                  theme="borderless"
-                  subTheme="underline"
-                  className={styles['tipso_input_long']}
-                  placeholder={resumeTexts.homepage}
-                  onChange={this.handleProjectChange(index)('url')}
-                />
-              </div>
+              <TipsoInput
+                value={url}
+                placeholder={resumeTexts.homepage}
+                className={styles['tipso_input_long']}
+                onChange={this.handleProjectChange(index)('url')}
+              />
             </InputGroup>
           </div>
           <div className={styles["resume_wrapper"]}>
@@ -107,24 +100,12 @@ class PersonalProjects extends React.Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className={styles["resume_section_container"]}>
-        <div className={styles["section_title"]}>
-          {resumeTexts.title}
-        </div>
-        <div>
-          {this.renderProjects()}
-        </div>
-        <div className={styles["resume_button_container"]}>
-          <Button
-            theme="flat"
-            value={resumeTexts.mainButton}
-            leftIcon={(
-              <i className="fa fa-plus-circle" aria-hidden="true"></i>
-            )}
-            onClick={actions.addPersonalProject}
-          />
-        </div>
-      </div>
+      <SectionWrapper
+        title={resumeTexts.title}
+        button={resumeTexts.mainButton}
+        onClick={actions.addPersonalProject}>
+        {this.renderProjects()}
+      </SectionWrapper>
     )
   }
 }

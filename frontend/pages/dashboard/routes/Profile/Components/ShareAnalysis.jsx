@@ -8,8 +8,8 @@ import objectAssign from 'object-assign';
 import { Loading, InfoCard, CardGroup, IconButton, Input, Tipso } from 'light-ui';
 
 import { sortByX } from 'UTILS/helper';
-import { LINECHART_CONFIG } from 'UTILS/const_value';
 import { GREEN_COLORS } from 'UTILS/colors';
+import { RADAR_CONFIG, LINE_CONFIG } from 'SHARED/datas/chart_config';
 import dateHelper from 'UTILS/date';
 import WECHAT from 'SRC/data/wechat';
 import styles from '../styles/profile.css';
@@ -121,7 +121,7 @@ class ShareAnalysis extends React.Component {
       type: 'line',
       data: {
         labels: dateLabels,
-        datasets: [objectAssign({}, LINECHART_CONFIG, datasetsConfig)]
+        datasets: [objectAssign({}, LINE_CONFIG, datasetsConfig)]
       },
       options: {
         scales: {
@@ -174,33 +174,13 @@ class ShareAnalysis extends React.Component {
     const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
-    this.viewDevicesChart = new Chart(viewDevicesChart, {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [{
-          data: datas,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: profileTexts.platformChartTitle
-        },
-        legend: {
-          display: false,
-        }
-      }
-    });
+
+    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    radarConfig.data.labels = labels;
+    radarConfig.data.datasets[0].data = datas;
+    radarConfig.options.title.text = profileTexts.platformChartTitle;
+
+    this.viewDevicesChart = new Chart(viewDevicesChart, radarConfig);
   }
 
   renderSourcesChart() {
@@ -209,33 +189,12 @@ class ShareAnalysis extends React.Component {
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
 
-    this.viewSourcesChart = new Chart(viewSourcesChart, {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [{
-          data: datas,
-          label: '',
-          fill: true,
-          backgroundColor: GREEN_COLORS[4],
-          borderWidth: 1,
-          borderColor: GREEN_COLORS[0],
-          pointBackgroundColor: GREEN_COLORS[0],
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: GREEN_COLORS[0]
-        }]
-      },
-      options: {
-        title: {
-          display: true,
-          text: profileTexts.browserChartTitle
-        },
-        legend: {
-          display: false,
-        }
-      }
-    });
+    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    radarConfig.data.labels = labels;
+    radarConfig.data.datasets[0].data = datas;
+    radarConfig.options.title.text = profileTexts.browserChartTitle;
+
+    this.viewSourcesChart = new Chart(viewSourcesChart, radarConfig);
   }
 
   renderChartInfo() {

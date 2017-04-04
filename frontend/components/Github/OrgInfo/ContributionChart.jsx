@@ -8,10 +8,11 @@ import { Tipso, Label } from 'light-ui';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import dateHelper from 'UTILS/date';
-import { GREEN_COLORS } from 'UTILS/colors';
-import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
+import { DAYS } from 'UTILS/const_value';
+import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import locales from 'LOCALES';
 import { contributionLevel } from './helper';
+import ReposBaseInfo from '../ReposBaseInfo';
 
 const githubTexts = locales('github').sections.orgs;
 
@@ -62,7 +63,7 @@ class ContributionChart extends React.Component {
       type: 'line',
       data: {
         labels,
-        datasets: [objectAssign({}, LINECHART_CONFIG, {
+        datasets: [objectAssign({}, LINE_CONFIG, {
           data,
           label: '',
           pointHoverRadius: 2,
@@ -70,7 +71,7 @@ class ContributionChart extends React.Component {
           pointHitRadius: 2,
           pointBorderWidth: 0,
           pointRadius: 0,
-          borderColor: GREEN_COLORS[4],
+          // borderColor: GREEN_COLORS[4],
         })]
       },
       options: {
@@ -149,11 +150,16 @@ class ContributionChart extends React.Component {
             ) : ''}
           </div>
           <div className={styles["org_repos_info"]}>
-            <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
-            &nbsp;&nbsp;&nbsp;
-            <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
-            &nbsp;&nbsp;&nbsp;
-            <i className="fa fa-eye" aria-hidden="true"></i>&nbsp;{watchers_count}
+            <ReposBaseInfo
+              stargazers={stargazers_count}
+              forks={forks_count}
+              watchers={watchers_count}
+            />
+            {/* <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
+              &nbsp;&nbsp;&nbsp;
+              <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
+              &nbsp;&nbsp;&nbsp;
+            <i className="fa fa-eye" aria-hidden="true"></i>&nbsp;{watchers_count} */}
             &nbsp;&nbsp;&nbsp;
             <i className="fa fa-code" aria-hidden="true"></i>&nbsp;{language || 'NULL'}
             &nbsp;&nbsp;&nbsp;

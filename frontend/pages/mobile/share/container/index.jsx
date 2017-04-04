@@ -11,11 +11,7 @@ import { Loading, InfoCard, CardGroup } from 'light-ui';
 import Api from 'API/index';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
-import {
-  MD_COLORS,
-  randomColor,
-  GREEN_COLORS
-} from 'UTILS/colors';
+import { randomColor } from 'UTILS/colors';
 import {
   sortByX,
   sortRepos,
@@ -24,8 +20,10 @@ import {
   sortLanguages
 } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
-import { DAYS, LINECHART_CONFIG } from 'UTILS/const_value';
+import { DAYS } from 'UTILS/const_value';
+import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import styles from '../styles/share.css';
+import { initialSlick } from '../../shared/helper';
 import sharedStyles from '../../shared/styles/mobile.css';
 import MinInfoCard from '../../shared/components/MinInfoCard';
 import locales from 'LOCALES';
@@ -117,16 +115,7 @@ class MobileShare extends React.Component {
 
   initialReposSlick() {
     if (this.slickInitialed) { return }
-    $('#chart_info_container').slick({
-      accessibility: false,
-      arrows: false,
-      slidesToShow: 2,
-      mobileFirst: true,
-      swipeToSlide: true,
-      infinite: false,
-      slidesToScroll: 1,
-      variableWidth: true
-    });
+    initialSlick('#chart_info_container');
     this.slickInitialed = true;
   }
 
@@ -187,7 +176,7 @@ class MobileShare extends React.Component {
       type: 'line',
       data: {
         labels: dateLabels,
-        datasets: [objectAssign({}, LINECHART_CONFIG, {
+        datasets: [objectAssign({}, LINE_CONFIG, {
           data: commitDates,
           label: '',
           pointHoverRadius: 2,
@@ -452,45 +441,6 @@ class MobileShare extends React.Component {
           </div>
         </div>
       );
-    });
-  }
-
-  renderReposDetailInfo() {
-    const { repos, commits } = this.state;
-    const color = randomColor();
-    const targetRepos = repos.slice(0, 10);
-    const targetCommits = commits.filter(commitObj => targetRepos.some(repos => repos.reposId === commitObj.reposId));
-
-    const reposCount = targetRepos.length;
-    const maxCommitsIndex = getMaxIndex(targetCommits, 'totalCommits');
-    const maxCommits = targetCommits[maxCommitsIndex].totalCommits;
-    const MAX_BAR_WIDTH = 0.75;
-
-    return targetRepos.map((repository, index) => {
-      const { reposId, stargazers_count, name } = repository;
-      const filterCommits = targetCommits.filter(commitObj => commitObj.reposId === reposId);
-      const totalCommits = filterCommits.length ? filterCommits[0].totalCommits : 0;
-      const style = {
-        backgroundColor: color,
-        opacity: `${(reposCount - index) / reposCount}`,
-      };
-      const barStyle = {
-        width: `${(totalCommits / maxCommits) * MAX_BAR_WIDTH * 100}%`
-      };
-      return (
-        <div className={styles["repos_item"]} key={index}>
-          <div
-            style={barStyle}
-            className={styles["item_chart"]}>
-            <div
-              style={style}
-              className={styles["commit_bar"]}></div>
-          </div>
-          <div className={styles["item_data"]}>
-            {totalCommits} commits
-          </div>
-        </div>
-      )
     });
   }
 

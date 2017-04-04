@@ -15,6 +15,29 @@ import githubStyles from '../styles/github.css';
 
 const githubTexts = locales('github').sections.repos;
 const getValidateDate = dateHelper.validator.fullDate;
+const CHART_OPTIONS = {
+  responsive: true,
+  title: {
+    display: true,
+  },
+  legend: {
+    display: false,
+  },
+  scales: {
+    xAxes: [{
+      display: false,
+      gridLines: {
+        display:false
+      }
+    }],
+    yAxes: [{
+      display: false,
+      gridLines: {
+        display:false
+      }
+    }],
+  }
+};
 
 class RepositoryInfo extends React.Component {
   constructor(props) {
@@ -57,29 +80,7 @@ class RepositoryInfo extends React.Component {
         )],
         labels: [githubTexts.createdRepos, githubTexts.forkedRepos]
       },
-      options: {
-        responsive: true,
-        title: {
-          display: true,
-        },
-        legend: {
-          display: false,
-        },
-        scales: {
-          xAxes: [{
-            display: false,
-            gridLines: {
-              display:false
-            }
-          }],
-          yAxes: [{
-            display: false,
-            gridLines: {
-              display:false
-            }
-          }],
-        }
-      }
+      options: CHART_OPTIONS
     });
   }
 
@@ -103,29 +104,7 @@ class RepositoryInfo extends React.Component {
         datasets: [chart.doughnut(datas, colors)],
         labels
       },
-      options: {
-        responsive: true,
-        title: {
-          display: true,
-        },
-        legend: {
-          display: false,
-        },
-        scales: {
-          xAxes: [{
-            display: false,
-            gridLines: {
-              display:false
-            }
-          }],
-          yAxes: [{
-            display: false,
-            gridLines: {
-              display:false
-            }
-          }],
-        }
-      }
+      options: CHART_OPTIONS
     });
   }
 

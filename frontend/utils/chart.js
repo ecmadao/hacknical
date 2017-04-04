@@ -2,7 +2,7 @@ import objectAssign from 'object-assign';
 
 import github from './github';
 import { GREEN_COLORS } from './colors';
-import { LINECHART_CONFIG } from './const_value';
+import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 
 const getStarDatasets = (repos) => {
   return {
@@ -27,7 +27,7 @@ const getForkDatasets = (repos) => {
 };
 
 const getCommitDatasets = (repos, commits) => {
-  return objectAssign({}, LINECHART_CONFIG, {
+  return objectAssign({}, LINE_CONFIG, {
     type: 'line',
     label: 'commits',
     data: github.getReposCommits(repos, commits),
