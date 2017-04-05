@@ -32,13 +32,18 @@ router.get(
 router.get(
   '/repos/all',
   user.checkSession(['githubToken', 'githubLogin']),
+  cache.get('allRepos', {
+    keys: ['session.githubLogin']
+  }),
   GitHub.getAllRepos,
+  cache.set()
 );
 router.get(
   '/repos/initial',
   user.checkSession(['githubToken', 'githubLogin']),
   GitHub.fetchRepos,
 );
+
 // commits
 router.get(
   '/commits',
@@ -53,6 +58,7 @@ router.get(
   user.checkSession(['githubToken', 'githubLogin']),
   GitHub.fetchCommits,
 );
+
 // orgs
 router.get(
   '/orgs',

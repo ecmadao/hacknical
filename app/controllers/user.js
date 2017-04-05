@@ -127,6 +127,9 @@ const setPinnedRepos = async (ctx, next) => {
     cacheKey('repos', {
       session: ['githubLogin']
     }),
+    cacheKey('commits', {
+      session: ['githubLogin']
+    }),
     cacheKey(`sharedUser.${githubLogin}`)
   ];
 

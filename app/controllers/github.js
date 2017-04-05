@@ -79,6 +79,8 @@ const getAllRepos = async (ctx, next) => {
     success: true,
     result
   };
+
+  await next();
 };
 
 const getUserRepos = async (ctx, next) => {
@@ -256,6 +258,9 @@ const refreshRepos = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
     cacheKey('repos', {
+      session: ['githubLogin']
+    }),
+    cacheKey('allRepos', {
       session: ['githubLogin']
     }),
     cacheKey(`sharedUser.${githubLogin}`)

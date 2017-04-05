@@ -1,4 +1,4 @@
-
+@import "./footer.css";
 
 * {
   margin: 0;
@@ -12,7 +12,9 @@ body,html {
   background-color: var(--bg);
 }
 
-
+input, button, textarea, select {
+  -webkit-appearance:none;
+}
 
 body,html, input, textarea, pre {
   font-family: 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Lato', 'Microsoft YaHei', sans-serif;

@@ -1,4 +1,3 @@
-import './styles/index.css';
 // import Api from 'API';
 //
 // const renderOctocat = async () => {
