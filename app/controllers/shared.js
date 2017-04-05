@@ -1,14 +1,11 @@
 import { GITHUB_SECTIONS } from '../utils/datas';
 
-export const getMobileMenu = (__) => {
-  const menu = {
-    shareDatas: __("mobilePage.menu.shareDatas"),
-    githubAnalysis: __("mobilePage.menu.githubAnalysis"),
-    dataRefresh: __("mobilePage.menu.dataRefresh"),
-    logout: __("mobilePage.menu.logout"),
-  };
-  return menu;
-};
+export const getMobileMenu = (ctx) => ({
+  shareDatas: ctx.__("mobilePage.menu.shareDatas"),
+  githubAnalysis: ctx.__("mobilePage.menu.githubAnalysis"),
+  dataRefresh: ctx.__("mobilePage.menu.dataRefresh"),
+  logout: ctx.__("mobilePage.menu.logout")
+});
 
 export const getGithubSections = (datas) => {
   let githubSections = {};

@@ -71,7 +71,7 @@ const mobileAnalysis = async (ctx, next) => {
     user: {
       isAdmin: true
     },
-    menu: getMobileMenu(ctx.__)
+    menu: getMobileMenu(ctx)
   });
 };
 
@@ -81,7 +81,7 @@ const mobileSetting = async (ctx, next) => {
     user: {
       isAdmin: true
     },
-    menu: getMobileMenu(ctx.__)
+    menu: getMobileMenu(ctx)
   });
 };
 

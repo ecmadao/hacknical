@@ -1,5 +1,5 @@
-import renderApp from 'PAGES/mobile/share';
-import 'SRC/vendor/share/share_mobile.css';
+import renderApp from 'PAGES/mobile/github';
+import 'SRC/vendor/mobile/github.css';
 import initialBanner from 'SRC/vendor/shared/footer_banner';
 
 $(() => {

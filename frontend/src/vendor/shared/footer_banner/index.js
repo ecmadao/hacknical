@@ -1,4 +1,5 @@
 import Headroom from 'headroom.js';
+import './banner.css';
 
 const initialBanner = (dom, options = {}) => {
   if (dom) {

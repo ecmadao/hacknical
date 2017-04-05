@@ -18,7 +18,7 @@
       }
     </style>
   {% endif %}
-  <link href="{{ assetsPath("mobile_share.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("mobile_github.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -58,5 +58,5 @@
     window.isAdmin = '{{ user.isAdmin }}';
     window.login = '{{ user.login }}';
   </script>
-  <script src="{{ assetsPath("mobile_share.js") }}"></script>
+  <script src="{{ assetsPath("mobile_github.js") }}"></script>
 {% endblock %}

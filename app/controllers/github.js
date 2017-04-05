@@ -182,7 +182,7 @@ const sharePageMobile = async (ctx, next) => {
     following
   } = user;
 
-  await ctx.render('user/mobile/share', {
+  await ctx.render('user/mobile/github', {
     title,
     user: {
       bio,
@@ -197,7 +197,7 @@ const sharePageMobile = async (ctx, next) => {
     },
     shareText: ctx.__("messages.share.mobileText"),
     joinAt: ctx.__("sharePage.joinAt"),
-    menu: getMobileMenu(ctx.__)
+    menu: getMobileMenu(ctx)
   });
 };
 
