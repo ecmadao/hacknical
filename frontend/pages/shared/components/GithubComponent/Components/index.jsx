@@ -52,6 +52,8 @@ class GithubComponent extends React.Component {
       commitLoaded
     } = this.state;
 
+    this.removeLoading('#loading');
+
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
       !reposLoaded && this.getGithubRepos(user.login);
@@ -59,6 +61,10 @@ class GithubComponent extends React.Component {
     if (reposLoaded && !preState.reposLoaded) {
       !commitLoaded && this.getGithubCommits(user.login);
     }
+  }
+
+  removeLoading(dom) {
+    $(dom) && $(dom).remove();
   }
 
   changeState(newState) {

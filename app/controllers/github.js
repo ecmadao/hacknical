@@ -207,7 +207,7 @@ const sharePage = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const title = ctx.__("sharePage.github", user.name || user.login);
 
-  await ctx.render('user/share', {
+  await ctx.render('github/share', {
     title,
     user: {
       login,

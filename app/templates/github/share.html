@@ -12,8 +12,15 @@
 {% endblock %}
 
 {% block body %}
-  <div id="share">
+  <div id="loading">
+    <div class="loading_container">
+      <div class="ball-clip-rotate-multiple">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
   </div>
+  <div id="share"></div>
   {% if not user.isAdmin %}
     <div id="share_banner" class="share_banner_wrapper">
       <a class="share_banner" href="/" target="_blank">

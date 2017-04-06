@@ -38,6 +38,7 @@ class ResumeShare extends React.Component {
 
   componentDidMount() {
     this.fetchResume();
+    this.removeLoading('#loading');
     this.fetchShareInfo();
   }
 
@@ -46,6 +47,10 @@ class ResumeShare extends React.Component {
     if(!loading && preState.loading) {
       window.done = true;
     }
+  }
+
+  removeLoading(dom) {
+    $(dom) && $(dom).remove();
   }
 
   fetchShareInfo() {
