@@ -9,9 +9,7 @@ import styles from '../styles/resume.css';
 import { sortBySeconds } from 'UTILS/helper';
 
 const sortByDate = sortBySeconds('startTime');
-const sortByEndDate = sortBySeconds('endTime');
 const validateDate = dateHelper.validator.date;
-const getSecondsByDate = dateHelper.seconds.getByDate;
 
 const LINK_OPTIONS = {
   text: '',
@@ -49,18 +47,21 @@ class ResumeContent extends React.Component {
         {phone ? LinkInfo({
           text: phone,
           url: `tel:${phone}`,
-          icon: 'mobile'
+          icon: 'mobile',
+          showIcon: false,
+          className: styles.phone
         }) : ''}
         {email ? LinkInfo({
           text: email,
           url: `mailto:${email}`,
+          showIcon: false,
           icon: 'envelope-o'
         }) : ''}
         {dream ? (
-          <div className={styles.sideText}>{dream}</div>
+          <div className={styles.mainText}>{dream}</div>
         ) : ''}
       </div>
-    )
+    );
   }
 
   renderEducations() {
@@ -73,7 +74,7 @@ class ResumeContent extends React.Component {
       .map((edu, index) => {
         const { school, major, education, startTime, endTime} = edu;
         return (
-          <div className={styles['section-row']}>
+          <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
               {validateDate(startTime)}<br/>~<br/>{validateDate(endTime)}
             </div>
@@ -83,18 +84,16 @@ class ResumeContent extends React.Component {
               {major ? (<div className={styles.sideText}>{major}</div>) : ''}
             </div>
           </div>
-        )
+        );
       });
 
-    if (!edus.length) { return }
+    if (!edus.length) { return; }
 
     return (
       <div className={styles['resume-section']}>
-        <div className={styles['section-body']}>
-          {edus}
-        </div>
+        {edus}
       </div>
-    )
+    );
   }
 
   renderWorkExperiences() {
@@ -108,7 +107,7 @@ class ResumeContent extends React.Component {
         const { company, url, startTime, endTime, position, projects } = experience;
         const workProjects = this.renderWorkProjects(projects);
         return (
-          <div className={styles['section-row']}>
+          <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
               {validateDate(startTime)}<br/>~<br/>{validateDate(endTime)}
             </div>
@@ -125,15 +124,13 @@ class ResumeContent extends React.Component {
         );
       });
 
-    if (!exps.length) { return }
+    if (!exps.length) { return; }
 
     return (
       <div className={styles['resume-section']}>
-        <div className={styles['section-body']}>
-          {exps}
-        </div>
+        {exps}
       </div>
-    )
+    );
   }
 
   renderWorkProjects(projects) {
@@ -151,29 +148,75 @@ class ResumeContent extends React.Component {
         return (
           <div key={index} className={styles['section-project']}>
             <div className={styles['project-header']}>{name}</div>
-            <ul className={styles['project-list']}>
+            <ul className={styles['section-list']}>
               {projectDetails}
             </ul>
           </div>
-        )
+        );
       });
   }
 
   renderPersonalProjects() {
+    const { personalProjects } = this.props.resume;
 
+    const projects = personalProjects
+      .filter(project => project.title)
+      .map((project, index) => {
+        const { url, desc, title } = project;
+        return (
+          <div className={styles['section-row']} key={index}>
+            <div className={styles['row-left']}>
+              个人项目
+            </div>
+            <div className={styles['row-right']}>
+              <div className={styles.mainText}>{title}</div>
+              {desc ? (<div className={styles.sideText}>{desc}</div>) : ''}
+            </div>
+          </div>
+        );
+      });
+
+    if (!projects.length) { return; }
+
+    return (
+      <div className={styles['resume-section']}>
+        {projects}
+      </div>
+    );
   }
 
   renderSupplements() {
+    const { others } = this.props.resume;
+    const { supplements } = others;
+    if (!supplements.length) { return; }
 
-  }
+    const personalSupplements = supplements.map((supplement, index) => {
+      return (
+        <li key={index}>
+          {supplement}
+        </li>
+      );
+    });
 
-  renderSocialLinks() {
-
+    return (
+      <div className={styles['resume-section']}>
+        <div className={styles['section-row']}>
+          <div className={styles['row-left']}>
+            自我评价
+          </div>
+          <div className={styles['row-right']}>
+            <ul className={cx(styles['section-list'], styles.mainText)}>
+              {personalSupplements}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   renderSlick() {
     const { loading, resume } = this.props;
-    if (loading) { return }
+    if (loading) { return; }
     const { info, others } = resume;
     const { intention, location, gender } = info;
     const { expectLocation } = others;
@@ -203,22 +246,20 @@ class ResumeContent extends React.Component {
       });
     }
 
-    return (
-      <Slick sliders={sliders} className={styles['slider_wrapper']}/>
-    );
+    return (<Slick sliders={sliders} className={styles.slick}/>);
   }
 
   render() {
     return (
       <div>
-        <div className={cx(styles.section, styles['header-section'])}>
+        <div className={styles['header-section']}>
           {this.renderHeader()}
           {this.renderSlick()}
         </div>
-        <div className={styles.section}>
-          {this.renderEducations()}
-          {this.renderWorkExperiences()}
-        </div>
+        {this.renderEducations()}
+        {this.renderWorkExperiences()}
+        {this.renderPersonalProjects()}
+        {this.renderSupplements()}
       </div>
     )
   }

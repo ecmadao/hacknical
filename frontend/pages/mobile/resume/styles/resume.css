@@ -36,10 +36,21 @@
   & i {
     margin-right: 5px;
   }
+
+  &.phone {
+    & i {
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+  }
 }
 
 .container {
   font-size: var(--mainFontSize);
+}
+
+.slick {
+  padding: 0!important;
 }
 
 .header-section {
@@ -48,23 +59,14 @@
   background-color: var(--mainBg);
 }
 
-.slider_wrapper {
-}
-
-.section {
-}
-
 .section-header {
-  padding: 0 20px;
+  padding: 10px 20px 0;
 }
 
 .resume-section {
   background-color: var(--mainBg);
   box-shadow: var(--shadow1);
   margin: 8px 0;
-}
-
-.section-body {
 }
 
 .section-row {
@@ -110,6 +112,6 @@
   margin-bottom: 5px;
 }
 
-.project-list {
+.section-list {
   padding-left: 15px;
 }
