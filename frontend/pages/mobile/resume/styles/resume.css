@@ -17,19 +17,19 @@
 }
 
 .mainText {
-  line-height: 1.8em;
-  color: var(--oc-gray-7);
+  composes: maxText;
+  line-height: 2em;
   font-size: var(--mainFontSize);
 }
 
 .sideText {
   line-height: 1.5em;
-  color: var(--oc-gray-5);
-  font-size: var(--sideFontSize);
+  color: var(--oc-gray-7);
+  font-size: var(--mainFontSize);
 }
 
 .linkText {
-  composes: sideText;
+  composes: mainText;
   display: block;
   color: var(--oc-green-7);
 
@@ -47,6 +47,10 @@
 
 .container {
   font-size: var(--mainFontSize);
+}
+
+.resume-container {
+  padding-bottom: 20px;
 }
 
 .slick {

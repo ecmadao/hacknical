@@ -205,7 +205,7 @@ class ResumeContent extends React.Component {
             自我评价
           </div>
           <div className={styles['row-right']}>
-            <ul className={cx(styles['section-list'], styles.mainText)}>
+            <ul className={cx(styles['section-list'], styles.sideText)}>
               {personalSupplements}
             </ul>
           </div>
@@ -251,7 +251,7 @@ class ResumeContent extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={styles['resume-container']}>
         <div className={styles['header-section']}>
           {this.renderHeader()}
           {this.renderSlick()}
