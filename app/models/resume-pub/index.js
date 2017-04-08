@@ -139,7 +139,7 @@ const getPubResume = async (resumeHash, verify = {}) => {
 
   const { timestamp, maxView, userId } = result;
   let openShare = result.openShare;
-  if (verify.userId && verify.userId === userId) {
+  if ((verify.userId && verify.userId === userId) || verify.enable) {
     openShare = true;
   }
 
