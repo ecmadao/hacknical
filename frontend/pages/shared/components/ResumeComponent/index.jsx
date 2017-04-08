@@ -78,20 +78,24 @@ class ResumeComponent extends React.Component {
 
   renderEducations() {
     const { educations } = this.props.resume;
-    if (!educations.length) { return }
 
-    const edus = educations.sort(sortByDate).reverse().map((edu, index) => {
-      const { school, major, education, startTime, endTime} = edu;
-      if (!school) { return }
-      return (
-        <div key={index} className={styles["section_wrapper"]}>
-          <div className={styles["info_header"]}>{school}{education ? `, ${education}` : ''}</div>
-          <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
-          <div className={styles["info_text"]}>{major}</div>
-          {/* <div className={styles["section_dot"]}></div> */}
-        </div>
-      )
-    });
+    const edus = educations
+      .filter(edu => edu.school)
+      .sort(sortByDate)
+      .reverse()
+      .map((edu, index) => {
+        const { school, major, education, startTime, endTime} = edu;
+        return (
+          <div key={index} className={styles["section_wrapper"]}>
+            <div className={styles["info_header"]}>{school}{education ? `, ${education}` : ''}</div>
+            <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
+            <div className={styles["info_text"]}>{major}</div>
+            {/* <div className={styles["section_dot"]}></div> */}
+          </div>
+        )
+      });
+
+    if (!edus.length) { return }
 
     return (
       <div className={styles["section"]}>
@@ -105,22 +109,26 @@ class ResumeComponent extends React.Component {
 
   renderWorkExperiences() {
     const { workExperiences } = this.props.resume;
-    if (!workExperiences.length) { return }
 
-    const exps = workExperiences.sort(sortByDate).reverse().map((experience, index) => {
-      const { company, url, startTime, endTime, position, projects } = experience;
-      if (!company) { return }
-      const workProjects = this.renderProjects(projects);
-      return (
-        <div key={index} className={styles["section_wrapper"]}>
-          {linkInfo({url, title: company})}
-          {position ? `, ${position}` : ''}
-          <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
-          <div>{workProjects}</div>
-          <div className={styles["section_dot"]}></div>
-        </div>
-      )
-    });
+    const exps = workExperiences
+      .filter(experience => experience.company)
+      .sort(sortByDate)
+      .reverse()
+      .map((experience, index) => {
+        const { company, url, startTime, endTime, position, projects } = experience;
+        const workProjects = this.renderProjects(projects);
+        return (
+          <div key={index} className={styles["section_wrapper"]}>
+            {linkInfo({url, title: company})}
+            {position ? `, ${position}` : ''}
+            <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
+            <div>{workProjects}</div>
+            <div className={styles["section_dot"]}></div>
+          </div>
+        )
+      });
+
+    if (!exps.length) { return }
 
     return (
       <div className={styles["section"]}>

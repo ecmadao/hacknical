@@ -1,3 +1,115 @@
+@import 'open-color/open-color.css';
+
+:root {
+  --maxFontSize: 16px;
+  --mainFontSize: 14px;
+  --sideFontSize: 12px;
+  --mainBg: var(--oc-white);
+  --sideBg: var(--oc-gray-1);
+  --darkBg: var(--oc-gray-2);
+}
+
+.maxText {
+  color: var(--oc-gray-9);
+  line-height: 2.5em;
+  font-weight: bold;
+  font-size: var(--maxFontSize);
+}
+
+.mainText {
+  line-height: 1.8em;
+  color: var(--oc-gray-7);
+  font-size: var(--mainFontSize);
+}
+
+.sideText {
+  line-height: 1.5em;
+  color: var(--oc-gray-5);
+  font-size: var(--sideFontSize);
+}
+
+.linkText {
+  composes: sideText;
+  display: block;
+  color: var(--oc-green-7);
+
+  & i {
+    margin-right: 5px;
+  }
+}
+
 .container {
-  
+  font-size: var(--mainFontSize);
+}
+
+.header-section {
+  padding-bottom: 10px;
+  box-shadow: var(--shadow1);
+  background-color: var(--mainBg);
+}
+
+.slider_wrapper {
+}
+
+.section {
+}
+
+.section-header {
+  padding: 0 20px;
+}
+
+.resume-section {
+  background-color: var(--mainBg);
+  box-shadow: var(--shadow1);
+  margin: 8px 0;
+}
+
+.section-body {
+}
+
+.section-row {
+  display: flex;
+  flex-direction: row;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--darkBg);
+  }
+}
+
+.row-left {
+  composes: sideText;
+  text-align: center;
+  padding: 15px 0;
+  width: 80px;
+  border-right: 1px solid var(--sideBg);
+}
+
+.row-right {
+  flex: 1;
+  padding: 10px;
+}
+
+.right-container {
+  padding: 0;
+}
+
+.right-header {
+  padding: 10px;
+}
+
+.section-projects {
+  composes: sideText;
+}
+
+.section-project {
+  padding: 10px;
+  border-top: 1px solid var(--sideBg);
+}
+
+.project-header {
+  margin-bottom: 5px;
+}
+
+.project-list {
+  padding-left: 15px;
 }

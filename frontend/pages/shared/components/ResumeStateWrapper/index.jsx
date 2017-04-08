@@ -94,11 +94,13 @@ class ResumeStateWrapper extends React.Component {
     const resumeProps = objectassign(this.state);
     const shareInfo = objectassign(resumeProps.shareInfo);
     delete resumeProps.shareInfo;
+    delete resumeProps.loading;
 
     const children = cloneElement(this.props.children, {
       login: this.props.login,
       resume: resumeProps,
-      shareInfo: shareInfo
+      shareInfo: shareInfo,
+      loading: this.state.loading
     });
     return (
       <div className={this.props.className}>
