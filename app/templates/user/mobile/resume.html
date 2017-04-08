@@ -14,5 +14,9 @@
 {% endblock %}
 
 {% block pageJS %}
+  <script>
+    window.resumeHash = '{{ resumeHash }}';
+    window.login = '{{ login }}';
+  </script>
   <script src="{{ assetsPath("mobile_resume.js") }}"></script>
 {% endblock %}

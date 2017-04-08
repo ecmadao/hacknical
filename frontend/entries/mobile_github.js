@@ -3,7 +3,7 @@ import 'SRC/vendor/mobile/github.css';
 import initialBanner from 'SRC/vendor/shared/footer_banner';
 
 $(() => {
-  renderApp('share_body', {
+  renderApp('github', {
     login: window.login
   });
 

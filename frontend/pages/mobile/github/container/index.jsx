@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick.min';
 import ScrollReveal from 'scrollreveal';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
@@ -22,17 +20,16 @@ import {
 import dateHelper from 'UTILS/date';
 import { DAYS } from 'UTILS/const_value';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
-import styles from '../styles/share.css';
-import { initialSlick } from '../../shared/helper';
+import styles from '../styles/github.css';
 import sharedStyles from '../../shared/styles/mobile.css';
-import MinInfoCard from '../../shared/components/MinInfoCard';
+import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
 
 const sortByLanguageStar = sortByX('star');
 const githubTexts = locales('github').sections;
 const getDateBySeconds = dateHelper.date.bySeconds;
 
-class MobileShare extends React.Component {
+class GitHubMobileShare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +48,6 @@ class MobileShare extends React.Component {
       languageUsed: {}
     };
     this.reposChart = null;
-    this.slickInitialed = false;
     this.languageSkillChart = null;
     this.commitsYearlyReviewChart = null;
   }
@@ -66,7 +62,6 @@ class MobileShare extends React.Component {
     if (reposLoaded && !preState.reposLoaded) {
       this.getGithubCommits();
     }
-    reposLoaded && this.initialReposSlick();
     reposLoaded && commitLoaded && this.initialScrollReveal();
     commitLoaded && !preState.commitLoaded && this.renderReposChart();
   }
@@ -111,12 +106,6 @@ class MobileShare extends React.Component {
     sr.reveal('#commits_wrapper', { duration: 150 });
     sr.reveal('#repos_wrapper', { duration: 150 });
     sr.reveal('#language_wrapper', { duration: 150 });
-  }
-
-  initialReposSlick() {
-    if (this.slickInitialed) { return }
-    initialSlick('#chart_info_container');
-    this.slickInitialed = true;
   }
 
   renderCharts() {
@@ -360,56 +349,40 @@ class MobileShare extends React.Component {
     const maxStaredPerRepos = repos[0] ? repos[0]['stargazers_count'] : 0;
     const yearlyRepos = github.getYearlyRepos(repos);
 
+    const sliders = [
+      {
+        icon: 'star-o',
+        mainText: totalStar,
+        subText: githubTexts.repos.starsCount
+      },
+      {
+        icon: 'code-fork',
+        mainText: totalFork,
+        subText: githubTexts.repos.forksCount
+      },
+      {
+        icon: 'cubes',
+        mainText: yearlyRepos.length,
+        subText: githubTexts.repos.reposCount
+      },
+      {
+        icon: 'cube',
+        mainText: maxStaredRepos,
+        subText: githubTexts.repos.popularestRepos
+      },
+      {
+        icon: 'star',
+        mainText: maxStaredPerRepos,
+        subText: githubTexts.repos.maxStarPerRepos
+      }
+    ];
+
     return (
-      <div
-        id="repos_wrapper"
-        className={sharedStyles["share_info_wrapper"]}>
-        <div
-          id="chart_info_container"
-          className={sharedStyles["chart_info_container"]}>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              icon="star-o"
-              mainText={totalStar}
-              subText={githubTexts.repos.starsCount}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              icon="code-fork"
-              mainText={totalFork}
-              subText={githubTexts.repos.forksCount}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              icon="cubes"
-              mainText={yearlyRepos.length}
-              subText={githubTexts.repos.reposCount}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              icon="cube"
-              mainText={maxStaredRepos}
-              subText={githubTexts.repos.popularestRepos}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              icon="star"
-              mainText={maxStaredPerRepos}
-              subText={githubTexts.repos.maxStarPerRepos}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-        </div>
-      </div>
-    )
+      <Slick
+        wrapperId="repos_wrapper"
+        sliders={sliders}
+      />
+    );
   }
 
   renderLanguageLines() {
@@ -542,4 +515,4 @@ class MobileShare extends React.Component {
   }
 }
 
-export default MobileShare;
+export default GitHubMobileShare;
