@@ -21,8 +21,8 @@ router.get('/', Home.index);
 router.get('/404', Home.handle404);
 router.get(
   '/dashboard',
-  platform.checkPlatform,
   user.checkIfLogin(),
+  platform.checkPlatform,
   Home.dashboard
 );
 router.get(

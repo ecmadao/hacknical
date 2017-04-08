@@ -4,6 +4,14 @@
   --topbarHeight: 55px;
 }
 
+html, body {
+  background-color: #fff;
+}
+
+.share_gray {
+  background-color: #F7F8F9;
+}
+
 .mobile_topbar {
   height: var(--topbarHeight);
   width: 100%;

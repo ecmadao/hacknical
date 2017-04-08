@@ -36,7 +36,8 @@
     "analysis": "Share records",
     "menu": {
       "shareDatas": "Share Records",
-      "githubAnalysis": "GitHub Analysis",
+      "githubShare": "GitHub Analysis",
+      "resumeShare": "Personal Resume",
       "dataRefresh": "Settings",
       "logout": "Logout"
     }

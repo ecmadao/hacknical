@@ -6,7 +6,7 @@ import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
-import { getGithubSections } from './shared';
+import { getGithubSections, getMobileMenu } from './shared';
 
 const URL = config.get('url');
 const getResume = async (ctx, next) => {
@@ -88,7 +88,7 @@ const getPubResume = async (ctx, next) => {
   await next();
 };
 
-const getPubResumePage = async (ctx, next) => {
+const checkShareEnable = async (ctx) => {
   const { hash } = ctx.params;
   const targetUserId = ctx.query.userId;
   if (targetUserId) {
@@ -106,14 +106,54 @@ const getPubResumePage = async (ctx, next) => {
     ctx.redirect('/404');
     return;
   }
-
   const { name, userId } = result;
   const user = await User.findUserById(userId);
 
-  await ctx.render('resume/share', {
-    title: ctx.__("resumePage.title", name),
-    resumeHash: hash,
+  return {
+    name,
     login: user.githubInfo.login
+  };
+};
+
+const getResumeSharePage = async (ctx, next) => {
+  const { userId } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const { result, success } = findPubResume;
+  if (!success) {
+    return ctx.redirect('/404');
+  }
+  const { resumeHash } = result;
+
+  if (ctx.state.isMobile) {
+    return ctx.redirect(`/resume/${resumeHash}/mobile`);
+  }
+  return ctx.redirect(`/resume/${resumeHash}`);
+};
+
+const getPubResumePage = async (ctx, next) => {
+  const { hash } = ctx.params;
+  const user = await checkShareEnable(ctx);
+
+  await ctx.render('resume/share', {
+    title: ctx.__("resumePage.title", user.name),
+    resumeHash: hash,
+    login: user.login
+  });
+};
+
+const getPubResumePageMobile = async (ctx, next) => {
+  const { hash } = ctx.params;
+  const { githubLogin } = ctx.session;
+  const user = await checkShareEnable(ctx);
+
+  await ctx.render('user/mobile/resume', {
+    title: ctx.__("resumePage.title", user.name),
+    resumeHash: hash,
+    login: user.login,
+    menu: getMobileMenu(ctx),
+    user: {
+      isAdmin: user.login === githubLogin
+    }
   });
 };
 
@@ -266,7 +306,9 @@ export default {
   setResume,
   downloadResume,
   getPubResume,
+  getResumeSharePage,
   getPubResumePage,
+  getPubResumePageMobile,
   getResumeStatus,
   getPubResumeStatus,
   setResumeShareStatus,
