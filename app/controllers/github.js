@@ -4,6 +4,38 @@ import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import { getMobileMenu } from './shared';
 
+/* ================== private func ====================*/
+
+const _getUser = async (ctx) => {
+  const { login } = ctx.params;
+  const user = await Api.getUser(login);
+  if (!user) {
+    return ctx.redirect('/404');
+  }
+  return user;
+};
+
+const _getRepos = async (login, token) => {
+  const { repos } = await Api.getUserRepos(login, token);
+  const pinned = await User.findPinnedRepos(login);
+  const checkPinned = (repository) => pinned.some(item => item === repository.reposId);
+  const pinnedRepos = pinned.length
+    ? repos.filter(repository => checkPinned(repository) || repository.fork)
+    : repos;
+
+  return pinnedRepos;
+};
+
+const _getCommits = async (login, token) => {
+  const { commits } = await Api.getUserCommits(login, token);
+  return commits;
+};
+
+const _getOrgs = async (login, token) => {
+  const orgs = await Api.getUserOrgs(login, token);
+  return orgs;
+};
+
 /* ================== router handler ================== */
 
 const toggleShare = async (ctx, next) => {
@@ -83,92 +115,79 @@ const getAllRepos = async (ctx, next) => {
   await next();
 };
 
-const getUserRepos = async (ctx, next) => {
-  const { githubLogin, githubToken } = ctx.session;
-  const { login } = ctx.query;
-  const { repos } = await Api.getUserRepos(login || githubLogin, githubToken);
-  const pinned = await User.findPinnedRepos(login || githubLogin);
-  if (!repos.length) {
-    ctx.query.shouldCache = false;
-  }
-  const checkPinned = (repository) => pinned.some(item => item === repository.reposId);
-  const pinnedRepos = pinned.length
-    ? repos.filter(repository => checkPinned(repository) || repository.fork)
-    : repos;
-
+const getSharedRepos = async (ctx, next) => {
+  const repos = await _getRepos(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
-    result: {
-      repos: pinnedRepos
-    }
+    result: { repos }
+  };
+  await next();
+};
+
+const getUserRepos = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  const repos = await _getRepos(githubLogin, githubToken);
+  ctx.body = {
+    success: true,
+    result: { repos }
+  };
+  await next();
+};
+
+const getSharedCommits = async (ctx, next) => {
+  const commits = await _getCommits(ctx.params.login, ctx.session.githubToken);
+  ctx.body = {
+    success: true,
+    result: { commits }
   };
   await next();
 };
 
 const getUserCommits = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const { login } = ctx.query;
-  const { commits } = await Api.getUserCommits(login || githubLogin, githubToken);
+  const commits = await _getCommits(githubLogin, githubToken);
+
   if (!commits.length) {
     ctx.query.shouldCache = false;
   }
   ctx.body = {
     success: true,
-    result: {
-      commits
-    }
+    result: { commits }
+  };
+  await next();
+};
+
+const getSharedOrgs = async (ctx, next) => {
+  const orgs = await _getOrgs(ctx.params.login, ctx.session.githubToken);
+  ctx.body = {
+    success: true,
+    result: { orgs }
   };
   await next();
 };
 
 const getUserOrgs = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const { login } = ctx.query;
-  const orgs = await Api.getUserOrgs(login || githubLogin, githubToken);
+  const orgs = await _getOrgs(githubLogin, githubToken);
   ctx.body = {
     success: true,
-    result: {
-      orgs
-    }
+    result: { orgs }
   };
   await next();
 };
 
 const getSharedUser = async (ctx, next) => {
-  const { login } = ctx.params;
-  const user = await Api.getUser(login);
-  if (user) {
-    ctx.body = {
-      success: true,
-      result: user
-    };
-  } else {
-    ctx.body = {
-      success: true,
-      error: ctx.__("messages.error.findUser")
-    };
-  }
+  const user = await _getUser(ctx);
+  ctx.body = {
+    success: true,
+    result: user
+  };
   await next();
-};
-
-const checkShareEnable = async (ctx) => {
-  const { login } = ctx.params;
-  const { githubLogin } = ctx.session;
-
-  const shareAnalyse = await ShareAnalyse.findShare({ login, url: `github/${login}` });
-  const user = await Api.getUser(login);
-
-  if (!user || !shareAnalyse.enable) {
-    ctx.redirect('/404');
-    return;
-  }
-
-  return user;
 };
 
 const sharePageMobile = async (ctx, next) => {
   const { login } = ctx.params;
-  const user = await checkShareEnable(ctx);
+  const user = await _getUser(ctx);
   const { githubLogin } = ctx.session;
   const title = ctx.__("sharePage.github", user.name || user.login);
 
@@ -203,7 +222,7 @@ const sharePageMobile = async (ctx, next) => {
 
 const sharePage = async (ctx, next) => {
   const { login } = ctx.params;
-  const user = await checkShareEnable(ctx);
+  const user = await _getUser(ctx);
   const { githubLogin } = ctx.session;
   const title = ctx.__("sharePage.github", user.name || user.login);
 
@@ -360,6 +379,9 @@ export default {
   getUserRepos,
   getUserCommits,
   getUserOrgs,
+  getSharedRepos,
+  getSharedCommits,
+  getSharedOrgs,
   toggleShare,
   getStareRecords,
   /* ===== refresh & update ====== */

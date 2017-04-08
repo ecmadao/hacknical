@@ -3,25 +3,23 @@ import { getData, patchData, putData } from './base';
 const fetchInfo = (url, data = {}) => getData(`/github${url}`, data);
 const patchInfo = (url, data = {}) => patchData(`/github${url}`, data);
 const putInfo = (url, data = {}) => putData(`/github${url}`, data);
+const routerAdapter = (router, login = null) => {
+  if (login) {
+    return `/${login}/${router}`;
+  }
+  return `/${router}`;
+};
 
-/* get repos & orgs info */
-const getRepos = (login) => fetchInfo(`/repos`, { login });
+/* get repos & orgs info & user info */
 const getAllRepos = () => fetchInfo(`/repos/all`);
-const getCommits = (login) => fetchInfo(`/commits`, { login });
-const getOrgs = (login) => fetchInfo(`/orgs`, { login });
 const fetchRepos = () => fetchInfo('/repos/initial');
 const fetchCommits = () => fetchInfo('/commits/initial');
 const fetchOrgs = () => fetchInfo('/orgs/initial');
+const getRepos = (login = null) => fetchInfo(routerAdapter('repos', login));
+const getCommits = (login = null) => fetchInfo(routerAdapter('commits', login));
+const getOrgs = (login = null) => fetchInfo(routerAdapter('orgs', login));
+const getUser = (login = null) => fetchInfo(routerAdapter('user', login));
 
-/* get user info */
-const getBaseUser = () => fetchInfo(`/user`);
-const getShareUser = (login) => fetchInfo(`/${login}/user`);
-const getUser = (login = '') => {
-  if (login) {
-    return getShareUser(login);
-  }
-  return getBaseUser();
-};
 
 /* toggle user github share */
 const toggleShare = (enable) => patchInfo('/share/status', { enable });

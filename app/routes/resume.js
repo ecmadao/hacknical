@@ -6,6 +6,7 @@ import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
 import check from '../controllers/helper/check';
 import analyse from '../controllers/helper/analyse';
+import share from '../controllers/helper/share';
 
 const router = koaRouter({
   prefix: '/resume'
@@ -66,13 +67,16 @@ router.get('/sharePage',
   platform.checkPlatform,
   Resume.getResumeSharePage
 );
+
 router.get('/:hash',
+  share.resumeEnable(),
   platform.checkPlatform,
   platform.checkMobile(),
   analyse.resume,
   Resume.getPubResumePage
 );
 router.get('/:hash/mobile',
+  share.resumeEnable(),
   platform.checkPlatform,
   platform.checkMobile(),
   analyse.resume,
@@ -80,6 +84,7 @@ router.get('/:hash/mobile',
 );
 
 router.get('/:hash/share',
+  share.resumeEnable(),
   Resume.getPubResumeStatus
 );
 

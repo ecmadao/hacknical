@@ -91,21 +91,29 @@ const updatePubResume = async (userId, resumeHash, options) => {
   });
 };
 
-const checkPubResume = async (options, verify = {}) => {
+const checkResumeShare = async (options, verify = {}) => {
   const findResult = await findPublicResume(options);
   if (!findResult.success) { return findResult; }
   const { userId } = findResult.result;
-  let openShare = findResult.result.openShare;
 
-  if (verify.userId && verify.userId === userId) {
+  let openShare = findResult.result.openShare;
+  if ((verify.userId && verify.userId === userId) || verify.enable) {
     openShare = true;
   }
-
   if (!openShare) {
     return Promise.resolve({
       success: false
     });
   }
+  return Promise.resolve({
+    success: true
+  });
+};
+
+const getPubResumeInfo = async (options) => {
+  const findResult = await findPublicResume(options);
+  if (!findResult.success) { return findResult; }
+  const { userId } = findResult.result;
 
   const findResume = await Resume.getResume(userId);
   if (!findResume.success) { return findResume }
@@ -130,42 +138,11 @@ const getUpdateTime = async (resumeHash) => {
   return await Resume.getUpdateTime(userId);
 };
 
-const getPubResume = async (resumeHash, verify = {}) => {
+const getPubResume = async (resumeHash) => {
   const findResult = await findPublicResume({ resumeHash });
   const { result, success } = findResult;
-  if (!success) {
-    return findResult;
-  }
-
+  if (!success) { return findResult; }
   const { timestamp, maxView, userId } = result;
-  let openShare = result.openShare;
-  if ((verify.userId && verify.userId === userId) || verify.enable) {
-    openShare = true;
-  }
-
-  if (!openShare) {
-    return Promise.resolve({
-      success: false,
-      message: '用户已关闭分享'
-    });
-  }
-
-  // if (!maxView) {
-  //   await deletePubResume(userId, resumeHash);
-  //   return Promise.resolve({
-  //     success: false,
-  //     message: '已超过最大查看次数'
-  //   });
-  // }
-  //
-  // if (!resumeValidation(timestamp)) {
-  //   await deletePubResume(userId, resumeHash);
-  //   return Promise.resolve({
-  //     success: false,
-  //     message: '已过期'
-  //   });
-  // }
-
   return await Resume.getResume(userId);
 };
 
@@ -183,7 +160,6 @@ const clearPubResume = async (userId) => {
   });
 };
 
-
 export default {
   findPublicResume,
   addPubResume,
@@ -192,5 +168,6 @@ export default {
   clearPubResume,
   getPubResume,
   getUpdateTime,
-  checkPubResume
+  getPubResumeInfo,
+  checkResumeShare
 }

@@ -8,7 +8,48 @@ import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import { getGithubSections, getMobileMenu } from './shared';
 
+/* ===================== private ===================== */
+
 const URL = config.get('url');
+
+const getPubResumeInfo = async (ctx) => {
+  const { hash } = ctx.params;
+  const findResume = await ResumePub.getPubResumeInfo({ resumeHash: hash });
+
+  const { name, userId } = findResume.result;
+  const user = await User.findUserById(userId);
+  return {
+    name,
+    login: user.githubInfo.login
+  };
+};
+
+const getResumeShareStatus = (findPubResume, locale) => {
+  const { result, success, message } = findPubResume;
+  if (!success) {
+    return {
+      error: message,
+      success: true,
+      result: null
+    };
+  }
+
+  const { useGithub, resumeHash, openShare, github } = result;
+  return {
+    success: true,
+    result: {
+      github,
+      openShare,
+      useGithub,
+      resumeHash,
+      url: `resume/${resumeHash}?locale=${locale}`,
+      githubUrl: null
+    }
+  }
+};
+
+/* ===================== router handler ===================== */
+
 const getResume = async (ctx, next) => {
   const userId = ctx.session.userId;
   const getResult = await Resume.getResume(userId);
@@ -74,12 +115,10 @@ const downloadResume = async (ctx, next) => {
   };
 };
 
+// TODO: get shared pub resume router: /:hash/pub
 const getPubResume = async (ctx, next) => {
   const { hash, login } = ctx.query;
-  const findResume = await ResumePub.getPubResume(hash, {
-    enable: ctx.session.fromDownload,
-    userId: ctx.session.userId
-  });
+  const findResume = await ResumePub.getPubResume(hash);
   const { success, result, message } = findResume;
 
   ctx.body = {
@@ -89,33 +128,6 @@ const getPubResume = async (ctx, next) => {
   };
 
   await next();
-};
-
-const checkShareEnable = async (ctx) => {
-  const { hash } = ctx.params;
-  const targetUserId = ctx.query.userId;
-  if (targetUserId) {
-    ctx.session.fromDownload = true;
-  }
-
-  const findResume = await ResumePub.checkPubResume({
-    resumeHash: hash
-  }, {
-    userId: targetUserId || ctx.session.userId
-  });
-
-  const { success, result } = findResume;
-  if (!success) {
-    ctx.redirect('/404');
-    return;
-  }
-  const { name, userId } = result;
-  const user = await User.findUserById(userId);
-
-  return {
-    name,
-    login: user.githubInfo.login
-  };
 };
 
 const getResumeSharePage = async (ctx, next) => {
@@ -135,7 +147,7 @@ const getResumeSharePage = async (ctx, next) => {
 
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
-  const user = await checkShareEnable(ctx);
+  const user = await getPubResumeInfo(ctx);
 
   await ctx.render('resume/share', {
     title: ctx.__("resumePage.title", user.name),
@@ -147,7 +159,7 @@ const getPubResumePage = async (ctx, next) => {
 const getPubResumePageMobile = async (ctx, next) => {
   const { hash } = ctx.params;
   const { githubLogin } = ctx.session;
-  const user = await checkShareEnable(ctx);
+  const user = await getPubResumeInfo(ctx);
 
   await ctx.render('user/mobile/resume', {
     title: ctx.__("resumePage.title", user.name),
@@ -158,30 +170,6 @@ const getPubResumePageMobile = async (ctx, next) => {
       isAdmin: user.login === githubLogin
     }
   });
-};
-
-const getResumeShareStatus = (findPubResume, locale) => {
-  const { result, success, message } = findPubResume;
-  if (!success) {
-    return {
-      error: message,
-      success: true,
-      result: null
-    };
-  }
-
-  const { useGithub, resumeHash, openShare, github } = result;
-  return {
-    success: true,
-    result: {
-      github,
-      openShare,
-      useGithub,
-      resumeHash,
-      url: `resume/${resumeHash}?locale=${locale}`,
-      githubUrl: null
-    }
-  }
 };
 
 const getPubResumeStatus = async (ctx, next) => {

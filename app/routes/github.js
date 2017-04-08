@@ -5,6 +5,7 @@ import cache from '../controllers/helper/cache';
 import platform from '../controllers/helper/platform';
 import analyse from '../controllers/helper/analyse';
 import check from '../controllers/helper/check';
+import share from '../controllers/helper/share';
 
 const router = koaRouter({
   prefix: '/github'
@@ -23,15 +24,16 @@ router.get(
 // repos
 router.get(
   '/repos',
+  user.checkIfLogin(),
   cache.get('repos', {
-    keys: ['query.login', 'session.githubLogin']
+    session: ['githubLogin']
   }),
   GitHub.getUserRepos,
   cache.set()
 );
 router.get(
   '/repos/all',
-  user.checkSession(['githubToken', 'githubLogin']),
+  user.checkIfLogin(),
   cache.get('allRepos', {
     keys: ['session.githubLogin']
   }),
@@ -40,85 +42,88 @@ router.get(
 );
 router.get(
   '/repos/initial',
-  user.checkSession(['githubToken', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.fetchRepos,
 );
 
 // commits
 router.get(
   '/commits',
+  user.checkIfLogin(),
   cache.get('commits', {
-    keys: ['query.login', 'session.githubLogin']
+    session: ['githubLogin']
   }),
   GitHub.getUserCommits,
   cache.set()
 );
 router.get(
   '/commits/initial',
-  user.checkSession(['githubToken', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.fetchCommits,
 );
 
 // orgs
 router.get(
   '/orgs',
+  user.checkIfLogin(),
   cache.get('orgs', {
-    keys: ['query.login', 'session.githubLogin']
+    session: ['githubLogin']
   }),
   GitHub.getUserOrgs,
   cache.set()
 );
 router.get(
   '/orgs/initial',
-  user.checkSession(['githubToken', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.fetchOrgs,
 );
 router.get(
   '/share/records',
-  user.checkSession(['userId', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.getStareRecords
 );
 router.get(
   '/updateTime',
-  user.checkSession(['userId', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.getUpdateTime
 );
 
 // refresh github datas
 router.put(
   '/repos/refresh',
-  user.checkSession(['userId', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.refreshRepos,
   cache.del()
 );
 router.put(
   '/commits/refresh',
-  user.checkSession(['userId', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.refreshCommits,
   cache.del()
 );
 router.put(
   '/orgs/refresh',
-  user.checkSession(['userId', 'githubLogin']),
+  user.checkIfLogin(),
   GitHub.refreshOrgs,
   cache.del()
 );
 
 router.get(
   '/user',
-  user.checkSession(['userId']),
+  user.checkIfLogin(),
   GitHub.getUser
 );
 
 router.patch(
   '/share/status',
-  user.checkSession(['userId', 'githubLogin']),
+  user.checkIfLogin(),
   check.body('enable'),
   GitHub.toggleShare,
 );
 
 router.get(
   '/:login',
+  share.githubEnable(),
   platform.checkPlatform,
   platform.checkMobile(),
   analyse.github,
@@ -126,14 +131,43 @@ router.get(
 );
 router.get(
   '/:login/mobile',
+  share.githubEnable(),
   platform.checkPlatform,
   platform.checkMobile(),
   analyse.github,
   GitHub.sharePageMobile
 );
-
+// share page's datas
+router.get(
+  '/:login/repos',
+  share.githubEnable(),
+  cache.get('repos', {
+    params: ['login']
+  }),
+  GitHub.getSharedRepos,
+  cache.set()
+);
+router.get(
+  '/:login/commits',
+  share.githubEnable(),
+  cache.get('commits', {
+    params: ['login']
+  }),
+  GitHub.getSharedCommits,
+  cache.set()
+);
+router.get(
+  '/:login/orgs',
+  share.githubEnable(),
+  cache.get('orgs', {
+    params: ['login']
+  }),
+  GitHub.getSharedOrgs,
+  cache.set()
+);
 router.get(
   '/:login/user',
+  share.githubEnable(),
   cache.get('sharedUser', {
     params: ['login']
   }),
