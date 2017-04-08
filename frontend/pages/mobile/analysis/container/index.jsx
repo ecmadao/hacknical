@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick.min';
 import { Loading, Input, IconButton } from 'light-ui';
 
 import Api from 'API/index';
@@ -12,9 +10,8 @@ import dateHelper from 'UTILS/date';
 import { getValidateViewSources } from 'UTILS/analysis';
 import { LINE_CONFIG, RADAR_CONFIG } from 'SHARED/datas/chart_config';
 import styles from '../styles/analysis.css';
-import { initialSlick } from '../../shared/helper';
 import sharedStyles from '../../shared/styles/mobile.css';
-import MinInfoCard from '../../shared/components/MinInfoCard';
+import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
 import { sortByX } from 'UTILS/helper';
 
@@ -50,7 +47,6 @@ class MobileAnalysis extends React.Component {
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
-    this.slickInitialed = false;
 
     this.onTabChange = this.onTabChange.bind(this);
   }
@@ -67,7 +63,6 @@ class MobileAnalysis extends React.Component {
     }
     if (this.loading) { return }
     this.renderCharts();
-    this.initialCardSlick();
   }
 
   onTabChange(tab) {
@@ -81,7 +76,6 @@ class MobileAnalysis extends React.Component {
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
-    this.slickInitialed = false;
   }
 
   fetchData() {
@@ -115,12 +109,6 @@ class MobileAnalysis extends React.Component {
     };
     const { activeTab } = this.state;
     return objs[activeTab];
-  }
-
-  initialCardSlick() {
-    if (this.slickInitialed) { return }
-    initialSlick('#chart_info_container');
-    this.slickInitialed = true;
   }
 
   renderCharts() {
@@ -207,12 +195,10 @@ class MobileAnalysis extends React.Component {
       viewDevices,
       viewSources
     } = this.dataObj;
-
     const datas = {
       viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
       viewSources: viewSources.sort(sortByCount).slice(0, 6),
     };
-
     return datas[type];
   }
 
@@ -285,46 +271,31 @@ class MobileAnalysis extends React.Component {
       .filter(viewSource => viewSource.count === maxBrowserCount)
       .map(viewSource => viewSource.browser);
 
+    const sliders = [
+      {
+        mainText: viewCount,
+        subText: analysisTexts.pv
+      },
+      {
+        mainText: maxViewPerHour,
+        subText: analysisTexts.maxPvPerHour
+      },
+      {
+        mainText: platforms.slice(0, 2).join(','),
+        subText: analysisTexts.platform
+      },
+      {
+        mainText: browsers.join(','),
+        subText: analysisTexts.browser
+      }
+    ];
+
     return (
-      <div
-        className={cx(
-          sharedStyles["share_info_wrapper"],
-          styles["card_info_wrapper"]
-        )}>
-        <div
-          id="chart_info_container"
-          className={sharedStyles["chart_info_container"]}>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              mainText={viewCount}
-              subText={analysisTexts.pv}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              mainText={maxViewPerHour}
-              subText={analysisTexts.maxPvPerHour}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              mainText={platforms.slice(0, 2).join(',')}
-              subText={analysisTexts.platform}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-          <div className={sharedStyles["chart_info_wrapper"]}>
-            <MinInfoCard
-              mainText={browsers.join(',')}
-              subText={analysisTexts.browser}
-              className={sharedStyles["chart_info_card"]}
-            />
-          </div>
-        </div>
-      </div>
-    )
+      <Slick
+        sliders={sliders}
+        className={styles["card_info_wrapper"]}
+      />
+    );
   }
 
   render() {

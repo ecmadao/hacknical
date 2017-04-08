@@ -1,14 +1,6 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <style>
-    html, body {
-      background-color: #fff;
-    }
-    .share_gray {
-      background-color: #F7F8F9;
-    }
-  </style>
   {% if user.isAdmin %}
     <link href="{{ assetsPath("mobile.css") }}" rel="stylesheet" type="text/css">
   {% endif %}
@@ -37,7 +29,12 @@
           <a href="/dashboard" class="menu">
             <i class="fa fa-github" aria-hidden="true"></i>
             &nbsp;&nbsp;
-            {{ menu.githubAnalysis }}
+            {{ menu.githubShare }}
+          </a>
+          <a href="/resume/sharePage" class="menu">
+            <i class="fa fa-file-code-o" aria-hidden="true"></i>
+            &nbsp;&nbsp;
+            {{ menu.resumeShare }}
           </a>
           <a href="/user/setting/mobile" class="menu">
             <i class="fa fa-cog" aria-hidden="true"></i>

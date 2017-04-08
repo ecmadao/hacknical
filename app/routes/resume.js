@@ -61,11 +61,22 @@ router.patch('/github/section',
   Resume.setGithubShareSection
 );
 
-
+router.get('/sharePage',
+  user.checkSession(session.requiredSessions),
+  platform.checkPlatform,
+  Resume.getResumeSharePage
+);
 router.get('/:hash',
   platform.checkPlatform,
+  platform.checkMobile(),
   analyse.resume,
   Resume.getPubResumePage
+);
+router.get('/:hash/mobile',
+  platform.checkPlatform,
+  platform.checkMobile(),
+  analyse.resume,
+  Resume.getPubResumePageMobile
 );
 
 router.get('/:hash/share',

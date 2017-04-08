@@ -6,12 +6,12 @@ if (process.env.NODE_ENV !== 'production') {
   whyDidYouUpdate(React);
 }
 
-import GitHubMobileShare from './container';
+import ResumeMobileShare from './container';
 
 const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId);
   ReactDOM.render(
-    <GitHubMobileShare {...props} />,
+    <ResumeMobileShare {...props} />,
     DOM
   )
 };

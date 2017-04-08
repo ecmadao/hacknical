@@ -1,0 +1,22 @@
+{% extends "layouts/mobile.html" %}
+
+{% block pageCSS %}
+  <style>
+    .mobile_topbar {
+      box-shadow: none;
+    }
+  </style>
+  <link href="{{ assetsPath("mobile_resume.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+  <div id="resume" class="share_gray"></div>
+{% endblock %}
+
+{% block pageJS %}
+  <script>
+    window.resumeHash = '{{ resumeHash }}';
+    window.login = '{{ login }}';
+  </script>
+  <script src="{{ assetsPath("mobile_resume.js") }}"></script>
+{% endblock %}

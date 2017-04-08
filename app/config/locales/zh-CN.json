@@ -36,7 +36,8 @@
 		"analysis": "分享记录",
 		"menu": {
       "shareDatas": "数据记录",
-      "githubAnalysis": "GitHub 战绩",
+      "githubShare": "GitHub 战绩",
+      "resumeShare": "个人简历",
       "dataRefresh": "相关设置",
       "logout": "退出登录"
     }

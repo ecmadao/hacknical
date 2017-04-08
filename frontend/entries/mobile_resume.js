@@ -1,5 +1,4 @@
-import 'SRC/vendor/shared/loading.css';
-import renderApp from 'PAGES/sharePage/resume';
+import renderApp from 'PAGES/mobile/resume';
 
 $(() => {
   renderApp('resume', {

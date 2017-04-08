@@ -29,7 +29,7 @@ const info = (options) => {
       &nbsp;&nbsp;
       {component ? component : text}
     </div>
-  )
+  );
 };
 
 const linkInfo = (options) => {
@@ -40,7 +40,7 @@ const linkInfo = (options) => {
       <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
       {title}
     </a>
-  ) : (<div className={styles["info_header"]}>{title}</div>)
+  ) : (<div className={styles["info_header"]}>{title}</div>);
 };
 
 const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
@@ -78,20 +78,24 @@ class ResumeComponent extends React.Component {
 
   renderEducations() {
     const { educations } = this.props.resume;
-    if (!educations.length) { return }
 
-    const edus = educations.sort(sortByDate).reverse().map((edu, index) => {
-      const { school, major, education, startTime, endTime} = edu;
-      if (!school) { return }
-      return (
-        <div key={index} className={styles["section_wrapper"]}>
-          <div className={styles["info_header"]}>{school}{education ? `, ${education}` : ''}</div>
-          <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
-          <div className={styles["info_text"]}>{major}</div>
-          {/* <div className={styles["section_dot"]}></div> */}
-        </div>
-      )
-    });
+    const edus = educations
+      .filter(edu => edu.school)
+      .sort(sortByDate)
+      .reverse()
+      .map((edu, index) => {
+        const { school, major, education, startTime, endTime} = edu;
+        return (
+          <div key={index} className={styles["section_wrapper"]}>
+            <div className={styles["info_header"]}>{school}{education ? `, ${education}` : ''}</div>
+            <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
+            <div className={styles["info_text"]}>{major}</div>
+            {/* <div className={styles["section_dot"]}></div> */}
+          </div>
+        );
+      });
+
+    if (!edus.length) { return; }
 
     return (
       <div className={styles["section"]}>
@@ -100,27 +104,31 @@ class ResumeComponent extends React.Component {
           {edus}
         </div>
       </div>
-    )
+    );
   }
 
   renderWorkExperiences() {
     const { workExperiences } = this.props.resume;
-    if (!workExperiences.length) { return }
 
-    const exps = workExperiences.sort(sortByDate).reverse().map((experience, index) => {
-      const { company, url, startTime, endTime, position, projects } = experience;
-      if (!company) { return }
-      const workProjects = this.renderProjects(projects);
-      return (
-        <div key={index} className={styles["section_wrapper"]}>
-          {linkInfo({url, title: company})}
-          {position ? `, ${position}` : ''}
-          <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
-          <div>{workProjects}</div>
-          <div className={styles["section_dot"]}></div>
-        </div>
-      )
-    });
+    const exps = workExperiences
+      .filter(experience => experience.company)
+      .sort(sortByDate)
+      .reverse()
+      .map((experience, index) => {
+        const { company, url, startTime, endTime, position, projects } = experience;
+        const workProjects = this.renderProjects(projects);
+        return (
+          <div key={index} className={styles["section_wrapper"]}>
+            {linkInfo({url, title: company})}
+            {position ? `, ${position}` : ''}
+            <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
+            <div>{workProjects}</div>
+            <div className={styles["section_dot"]}></div>
+          </div>
+        );
+      });
+
+    if (!exps.length) { return; }
 
     return (
       <div className={styles["section"]}>
@@ -129,13 +137,13 @@ class ResumeComponent extends React.Component {
           {exps}
         </div>
       </div>
-    )
+    );
   }
 
   renderProjects(projects) {
     return projects.map((project, index) => {
       const { name, url, details } = project;
-      if (!name) { return }
+      if (!name) { return; }
       const projectDetails = details.map((detail, i) => {
         return (
           <li key={i}>
@@ -150,35 +158,38 @@ class ResumeComponent extends React.Component {
             {projectDetails}
           </ul>
         </div>
-      )
+      );
     });
   }
 
   renderPersonalProjects() {
     const { personalProjects } = this.props.resume;
-    if (!personalProjects.length) { return }
 
-    const projects = personalProjects.map((project, index) => {
-      const { url, desc, techs, title } = project;
-      const projectTechs = techs.map((tech, index) => {
+    const projects = personalProjects
+      .filter(project => project.title)
+      .map((project, index) => {
+        const { url, desc, techs, title } = project;
+        const projectTechs = techs.map((tech, index) => {
+          return (
+            <div key={index} className={styles["info_label"]}>
+              {tech}
+            </div>
+          );
+        });
         return (
-          <div key={index} className={styles["info_label"]}>
-            {tech}
+          <div key={index} className={styles["sec_section"]}>
+            {linkInfo({url, title})}
+            <div className={styles["info_text"]}>
+              {desc}
+            </div>
+            <div className={styles["info_labels"]}>
+              {projectTechs}
+            </div>
           </div>
         );
       });
-      return (
-        <div key={index} className={styles["sec_section"]}>
-          {linkInfo({url, title})}
-          <div className={styles["info_text"]}>
-            {desc}
-          </div>
-          <div className={styles["info_labels"]}>
-            {projectTechs}
-          </div>
-        </div>
-      )
-    });
+
+    if (!projects.length) { return; }
 
     return (
       <div className={styles["section"]}>
@@ -187,20 +198,20 @@ class ResumeComponent extends React.Component {
           {projects}
         </div>
       </div>
-    )
+    );
   }
 
   renderSupplements() {
     const { others } = this.props.resume;
     const { supplements } = others;
-    if (!supplements.length) { return }
+    if (!supplements.length) { return; }
 
     const personalSupplements = supplements.map((supplement, index) => {
       return (
         <li key={index}>
           {supplement}
         </li>
-      )
+      );
     });
 
     return (
@@ -212,7 +223,7 @@ class ResumeComponent extends React.Component {
           </ul>
         </div>
       </div>
-    )
+    );
   }
 
   renderSocialLinks() {
@@ -233,7 +244,7 @@ class ResumeComponent extends React.Component {
                 href={validateUrl(url)}>{url}</a>
             </div>
           </li>
-        )
+        );
       }
     });
 
@@ -246,7 +257,7 @@ class ResumeComponent extends React.Component {
           </ul>
         </div>
       </div>
-    )
+    );
   }
 
   renderLabels() {
@@ -258,7 +269,7 @@ class ResumeComponent extends React.Component {
       if (getSecondsByDate(eduEndTime) >= DATE_NOW_SECONDS) {
         labels.push(
           <div className={styles["info_label"]} key={0}>在校</div>
-        )
+        );
       }
     }
 
@@ -268,7 +279,7 @@ class ResumeComponent extends React.Component {
       if (getSecondsByDate(workEndTime) >= DATE_NOW_SECONDS) {
         labels.push(
           <div className={styles["info_label"]} key={1}>在职</div>
-        )
+        );
       }
     }
 
@@ -277,7 +288,7 @@ class ResumeComponent extends React.Component {
         <div className={styles["info_labels_container"]}>
           {labels}
         </div>
-      )
+      );
     }
   }
 
@@ -312,7 +323,7 @@ class ResumeComponent extends React.Component {
             />
           </div>
         </div>
-      )
+      );
     }
 
     return (
@@ -364,7 +375,7 @@ class ResumeComponent extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
