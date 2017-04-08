@@ -28,6 +28,11 @@
   font-size: var(--mainFontSize);
 }
 
+.minText {
+  composes: sideText;
+  color: var(--oc-gray-5);
+}
+
 .linkText {
   composes: mainText;
   display: block;
@@ -83,7 +88,7 @@
 }
 
 .row-left {
-  composes: sideText;
+  composes: minText;
   text-align: center;
   padding: 15px 0;
   width: 80px;
@@ -117,5 +122,6 @@
 }
 
 .section-list {
-  padding-left: 15px;
+  color: var(--oc-gray-5);
+  padding-left: 20px;
 }

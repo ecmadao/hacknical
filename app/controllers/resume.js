@@ -90,7 +90,7 @@ const getPubResume = async (ctx, next) => {
 
 const checkShareEnable = async (ctx) => {
   const { hash } = ctx.params;
-  const targetUserId = ctx.query.userId;
+  const targetUserId = ctx.query.userId || ctx.session.userId;
   if (targetUserId) {
     ctx.session.fromDownload = true;
   }

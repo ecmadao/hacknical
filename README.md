@@ -37,7 +37,8 @@ Extract dependency：
 - [x] support orgs
 - [ ] support forked repos
 - [ ] support edit resume in mobile
-- [ ] support show resume in mobile
+- [x] support show resume in mobile
+- [x] support export resume to PDF
 
 ## Techs
 

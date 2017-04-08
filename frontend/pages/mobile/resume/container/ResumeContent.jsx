@@ -1,12 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
-import Api from 'API/index';
 import dateHelper from 'UTILS/date';
-import locales from 'LOCALES';
 import Slick from '../../shared/components/Slick';
 import styles from '../styles/resume.css';
 import { sortBySeconds } from 'UTILS/helper';
+import { GENDERS } from 'SHARED/datas/resume';
 
 const sortByDate = sortBySeconds('startTime');
 const validateDate = dateHelper.validator.date;
@@ -240,10 +239,13 @@ class ResumeContent extends React.Component {
       });
     }
     if (gender) {
-      sliders.push({
-        mainText: gender,
-        subText: '性别'
-      });
+      const targetGender = GENDERS.filter(item => item.id === gender)[0];
+      if (targetGender) {
+        sliders.push({
+          mainText: targetGender.value,
+          subText: '性别'
+        });
+      }
     }
 
     return (<Slick sliders={sliders} className={styles.slick}/>);
