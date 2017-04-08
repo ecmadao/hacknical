@@ -110,11 +110,15 @@
 
 .section-projects {
   composes: sideText;
+  border-top: 1px solid var(--sideBg);
 }
 
 .section-project {
   padding: 10px;
-  border-top: 1px solid var(--sideBg);
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--sideBg);
+  }
 }
 
 .project-header {

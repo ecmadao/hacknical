@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import objectAssign from 'object-assign';
+import { Loading } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import Slick from '../../shared/components/Slick';
 import styles from '../styles/resume.css';
@@ -57,7 +58,7 @@ class ResumeContent extends React.Component {
           icon: 'envelope-o'
         }) : ''}
         {dream ? (
-          <div className={styles.mainText}>{dream}</div>
+          <div className={styles.minText}>{dream}</div>
         ) : ''}
       </div>
     );
@@ -163,14 +164,9 @@ class ResumeContent extends React.Component {
       .map((project, index) => {
         const { url, desc, title } = project;
         return (
-          <div className={styles['section-row']} key={index}>
-            <div className={styles['row-left']}>
-              个人项目
-            </div>
-            <div className={styles['row-right']}>
-              <div className={styles.mainText}>{title}</div>
-              {desc ? (<div className={styles.sideText}>{desc}</div>) : ''}
-            </div>
+          <div className={styles['section-project']}>
+            <div className={styles.mainText}>{title}</div>
+            {desc ? (<div className={styles.minText}>{desc}</div>) : ''}
           </div>
         );
       });
@@ -179,7 +175,14 @@ class ResumeContent extends React.Component {
 
     return (
       <div className={styles['resume-section']}>
-        {projects}
+        <div className={styles['section-row']}>
+          <div className={styles['row-left']}>
+            个人项目
+          </div>
+          <div className={cx(styles['row-right'], styles['right-container'])}>
+            {projects}
+          </div>
+        </div>
       </div>
     );
   }
@@ -247,13 +250,13 @@ class ResumeContent extends React.Component {
         });
       }
     }
-
     return (<Slick sliders={sliders} className={styles.slick}/>);
   }
 
   render() {
     return (
       <div className={styles['resume-container']}>
+        {this.props.loading ? (<Loading loading={true} />) : ''}
         <div className={styles['header-section']}>
           {this.renderHeader()}
           {this.renderSlick()}

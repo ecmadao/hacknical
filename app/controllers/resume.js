@@ -76,7 +76,9 @@ const downloadResume = async (ctx, next) => {
 
 const getPubResume = async (ctx, next) => {
   const { hash } = ctx.query;
-  const findResume = await ResumePub.getPubResume(hash);
+  const findResume = await ResumePub.getPubResume(hash, {
+    userId: ctx.query.userId || ctx.session.userId
+  });
   const { success, result, message } = findResume;
 
   ctx.body = {

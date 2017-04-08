@@ -130,14 +130,18 @@ const getUpdateTime = async (resumeHash) => {
   return await Resume.getUpdateTime(userId);
 };
 
-const getPubResume = async (resumeHash) => {
+const getPubResume = async (resumeHash, verify = {}) => {
   const findResult = await findPublicResume({ resumeHash });
   const { result, success } = findResult;
   if (!success) {
     return findResult;
   }
 
-  const { timestamp, maxView, userId, openShare } = result;
+  const { timestamp, maxView, userId } = result;
+  let openShare = result.openShare;
+  if (verify.userId && verify.userId === userId) {
+    openShare = true;
+  }
 
   if (!openShare) {
     return Promise.resolve({
