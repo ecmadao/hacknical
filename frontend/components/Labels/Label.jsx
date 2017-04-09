@@ -16,7 +16,7 @@ const Label = (props) => {
         onClick={onDelete}
         className="fa fa-times-circle"></i>
     </div>
-  )
+  );
 };
 
 export default Label;

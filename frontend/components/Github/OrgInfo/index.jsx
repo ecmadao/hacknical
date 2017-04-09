@@ -110,13 +110,13 @@ class OrgInfo extends React.Component {
               <span>{name || login}</span>
             </div>
           </div>
-        )
+        );
       });
       return (
         <div key={line} className={styles["org_row"]}>
           {orgRows}
         </div>
-      )
+      );
     });
 
     return (
@@ -124,7 +124,7 @@ class OrgInfo extends React.Component {
         {orgDOMs}
         {this.renderOrgDetail()}
       </div>
-    )
+    );
   }
 
   renderOrgDetail() {
@@ -158,7 +158,7 @@ class OrgInfo extends React.Component {
           userLogin={userLogin}
         />
       </div>
-    )
+    );
   }
 
   render() {
@@ -177,7 +177,7 @@ class OrgInfo extends React.Component {
         {cards}
         {component}
       </div>
-    )
+    );
   }
 }
 

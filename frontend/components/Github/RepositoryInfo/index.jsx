@@ -118,7 +118,7 @@ class RepositoryInfo extends React.Component {
     if (commitDatas.length) {
       datasets.push(
         chart.repos.commitsDatasets(userRepos, commitDatas)
-      )
+      );
     }
     this.reposReviewChart = new Chart(reposReview, {
       type: 'bar',
@@ -198,7 +198,7 @@ class RepositoryInfo extends React.Component {
           />
         </CardGroup>
       </CardGroup>
-    )
+    );
   }
 
   renderReposReview() {
@@ -238,7 +238,7 @@ class RepositoryInfo extends React.Component {
           </div>
         ) : ''}
       </div>
-    )
+    );
   }
 
   render() {
@@ -255,7 +255,7 @@ class RepositoryInfo extends React.Component {
       <div className={cx(cardStyles["info_card"], className)}>
         {component}
       </div>
-    )
+    );
   }
 }
 

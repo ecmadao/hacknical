@@ -128,12 +128,6 @@ class LanguageInfo extends React.Component {
     });
   }
 
-  renderEmptyCard() {
-    return (
-      <div></div>
-    )
-  }
-
   renderShowRepos() {
     const { repos } = this.props;
     const { showLanguage } = this.state;
@@ -178,7 +172,7 @@ class LanguageInfo extends React.Component {
         </p>
         {targetRepos}
       </div>
-    )
+    );
   }
 
   renderChartInfo() {
@@ -212,7 +206,7 @@ class LanguageInfo extends React.Component {
           subText={githubTexts.maxStarLanguage}
         />
       </CardGroup>
-    )
+    );
   }
 
   setShowLanguage(language) {
@@ -241,13 +235,13 @@ class LanguageInfo extends React.Component {
           onClick={() => this.setShowLanguage(language)}
           active={language === showLanguage}
         />
-      )
+    );
     });
     return (
       <div className={githubStyles["language_label_wrapper"]}>
         {languages}
       </div>
-    )
+    );
   }
 
   renderLanguageReview() {
@@ -277,7 +271,7 @@ class LanguageInfo extends React.Component {
         {this.renderLanguagesLabel()}
         { showLanguage ? this.renderShowRepos() : ''}
       </div>
-    )
+    );
   }
 
   render() {
@@ -288,7 +282,7 @@ class LanguageInfo extends React.Component {
           <Loading loading={true} />
         ) : this.renderLanguageReview()}
       </div>
-    )
+    );
   }
 }
 

@@ -25,7 +25,7 @@ const UserInfo = (props) => {
       </div>
       <SocialInfo user={user} />
     </div>
-  )
+  );
 };
 
 UserInfo.defaultProps = {

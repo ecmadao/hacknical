@@ -31,7 +31,7 @@ class Hotmap extends React.Component {
       <div id="calendar" className={cx(styles["github_calendar"], className)}>
         <Loading loading={true} />
       </div>
-    )
+    );
   }
 }
 

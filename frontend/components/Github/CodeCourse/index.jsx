@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import { Loading, Label } from 'light-ui';
-
 import {
   randomColor,
   hex2Rgba,
@@ -51,7 +50,7 @@ class CodeCourse extends React.Component {
           {this.renderReposIntros(sortedRepos)}
         </div>
       </div>
-    )
+    );
   }
 
   renderTimeLine(repos) {
@@ -138,7 +137,7 @@ class CodeCourse extends React.Component {
             </div>
           </div>
         </div>
-      )
+      );
     });
   }
 
@@ -162,7 +161,6 @@ class CodeCourse extends React.Component {
               </a><br/>
               <span>{description}</span>
             </div>
-            {/* {isTarget && this.renderReposReadme(readme)} */}
           </div>
         </div>
       );
@@ -177,27 +175,27 @@ class CodeCourse extends React.Component {
       <div className="readme_container">
         <Loading loading={true} />
       </div>
-    )
+    );
   }
 
   render() {
     const { userRepos, loaded, className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading loading={true} />)
+      component = (<Loading loading={true} />);
     } else {
       component = (!userRepos || !userRepos.length) ?
         (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : (
           <div>
             {this.renderChosedRepos()}
           </div>
-        )
+        );
     }
     return (
       <div className={cx(cardStyles["info_card"], className)}>
         {component}
       </div>
-    )
+    );
   }
 }
 

@@ -20,7 +20,7 @@ class WritableGroupWrapper extends React.Component {
   }
 
   handleInputChange(value) {
-    this.setState({ value })
+    this.setState({ value });
   }
 
   clearInput() {
@@ -38,7 +38,7 @@ class WritableGroupWrapper extends React.Component {
       <div>
         {child}
       </div>
-    )
+    );
   }
 }
 

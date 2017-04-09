@@ -70,7 +70,7 @@ class GitHubSection extends React.Component {
         <p>
           <i aria-hidden="true" className={`fa fa-${title.icon}`}></i>
           &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
-          {intro ? (
+          {intro && !isShare ? (
             <Tipso
               className={cardStyles["card_tipso"]}
               tipsoContent={(<span>{intro.text}</span>)}>

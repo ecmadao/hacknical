@@ -30,6 +30,7 @@ router.get('/download',
 );
 
 router.get('/pub',
+  share.resumeEnable('query.hash'),
   check.query('hash'),
   cache.get('resume', {
     query: ['hash']

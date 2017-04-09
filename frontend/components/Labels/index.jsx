@@ -12,7 +12,7 @@ const Labels = (props) => {
       onAdd={props.onAdd}>
       <Wrapper {...wrapperProps} />
     </WritableGroupWrapper>
-  )
+  );
 };
 
 export default Labels;

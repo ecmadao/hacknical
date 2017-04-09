@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Input } from 'light-ui';
-
 import Label from './Label';
 import styles from './labels.css';
 
@@ -27,8 +26,8 @@ class Wrapper extends React.Component {
           color={color}
           onDelete={this.onDelete(index)}
         />
-      )
-    })
+      );
+    });
   }
 
   render() {
@@ -50,7 +49,7 @@ class Wrapper extends React.Component {
           </div>
         ) : ''}
       </div>
-    )
+    );
   }
 }
 

@@ -9,7 +9,7 @@ const ReposBaseInfo = (props) => {
       &nbsp;&nbsp;&nbsp;
       <i className="fa fa-eye" aria-hidden="true"></i>&nbsp;{props.watchers}
     </span>
-  )
+  );
 };
 
 export default ReposBaseInfo;

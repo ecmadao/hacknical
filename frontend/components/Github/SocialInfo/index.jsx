@@ -58,7 +58,7 @@ const SocialInfo = (props) => {
         <span style={sideTextStyle}>{githubTexts.following}</span>
       </a>
     </div>
-  )
+  );
 };
 
 SocialInfo.propTypes = {

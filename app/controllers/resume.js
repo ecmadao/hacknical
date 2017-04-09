@@ -115,9 +115,8 @@ const downloadResume = async (ctx, next) => {
   };
 };
 
-// TODO: get shared pub resume router: /:hash/pub
 const getPubResume = async (ctx, next) => {
-  const { hash, login } = ctx.query;
+  const { hash } = ctx.query;
   const findResume = await ResumePub.getPubResume(hash);
   const { success, result, message } = findResume;
 

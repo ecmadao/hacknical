@@ -85,7 +85,7 @@ class OrgRepos extends React.Component {
           </span>
         </div>
       </div>
-    )
+    );
   }
 
   renderRepos() {
@@ -132,7 +132,7 @@ class OrgRepos extends React.Component {
             />
           ) : ''}
         </div>
-      )
+      );
     });
   }
 
@@ -156,7 +156,7 @@ class OrgRepos extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

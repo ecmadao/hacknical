@@ -186,16 +186,12 @@ class CommitInfo extends React.Component {
           }],
         }
       }
-    })
+    });
   }
 
   renderWeeklyChart() {
     const { commitInfos } = this.props;
     const { dailyCommits } = commitInfos;
-    // const commits = [...dailyCommits.slice(1)];
-    // commits.push(dailyCommits[0]);
-    // const days = DAYS.slice(1);
-    // days.push(DAYS[0]);
     const commitsChart = ReactDOM.findDOMNode(this.commitsWeeklyChart);
     this.commitsWeeklyReviewChart = new Chart(commitsChart, {
       type: 'line',
@@ -310,7 +306,7 @@ class CommitInfo extends React.Component {
           />
         </CardGroup>
       </CardGroup>
-    )
+    );
   }
 
   renderCommitsReview() {
@@ -365,7 +361,7 @@ class CommitInfo extends React.Component {
           ) : ''}
         </div>
       </div>
-    )
+    );
   }
 
   render() {
@@ -384,7 +380,7 @@ class CommitInfo extends React.Component {
       <div className={cx(cardStyles["info_card"], className)}>
         {component}
       </div>
-    )
+    );
   }
 }
 

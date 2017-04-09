@@ -184,7 +184,7 @@ class ContributionChart extends React.Component {
           ) : ''}
         </div>
       </div>
-    )
+    );
   }
 
   render() {
@@ -195,7 +195,7 @@ class ContributionChart extends React.Component {
         </div>
         {this.renderContributionDates()}
       </div>
-    )
+    );
   }
 }
 
