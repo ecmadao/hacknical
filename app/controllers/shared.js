@@ -12,7 +12,7 @@ export const getGithubSections = (datas) => {
   let githubSections = {};
   Object.keys(datas).forEach((key) => {
     if (GITHUB_SECTIONS.some(section => section === key)) {
-      githubSections[key] = body[key];
+      githubSections[key] = datas[key];
     }
   });
   return githubSections;
