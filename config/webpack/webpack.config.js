@@ -93,10 +93,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loaders: ["babel-loader"],
-        // query: {
-        //   presets: ["es2015"]
-        // }
+        loaders: ["babel-loader"]
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,

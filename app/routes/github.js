@@ -175,6 +175,4 @@ router.get(
   cache.set()
 );
 
-
-
 module.exports = router;
