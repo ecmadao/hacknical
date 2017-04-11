@@ -39,18 +39,19 @@ class Rock {
 
   _setCursorAnimation(open = false) {
     return (name) => {
+      const cursorStyle = styles[`cursor-${name}`];
       this.$cursor
         ? (open
-            ? this.$cursor.addClass(styles[`cursor-${name}`])
-            : this.$cursor.removeClass(styles[`cursor-${name}`]))
+            ? this.$cursor.addClass(cursorStyle)
+            : this.$cursor.removeClass(cursorStyle))
         : null;
-    }
+    };
   }
 
   get cursorAnimation() {
     return {
       start: this._setCursorAnimation(true),
-      stop: this._setCursorAnimation(false),
+      stop: this._setCursorAnimation(false)
     };
   }
 
