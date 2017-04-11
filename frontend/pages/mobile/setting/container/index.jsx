@@ -21,6 +21,7 @@ const SwitcherPane = (props) => {
       </div>
       <Switcher
         size="small"
+        version="v2"
         onChange={onChange}
         checked={checked}
         disabled={disabled}
