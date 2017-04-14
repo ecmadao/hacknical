@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
-import 'rc-slider/assets/index.css';
-import Slider from 'rc-slider';
-
+import { Slider } from 'light-ui';
 import styles from './date_slider.css';
 import dateHelper from 'UTILS/date';
 
@@ -12,7 +10,7 @@ const getValidatorDate = dateHelper.validator.date;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
 
-const SECONDS_PER_DAY = 24 * 60 * 60;
+const SECONDS_PER_DAY = 24 * 60 * 60 * 30;
 const VALIDATE_DATE_NOW = getValidatorDate();
 const DATE_NOW = getDateNow();
 
@@ -30,6 +28,8 @@ class DateSlider extends React.Component {
   onChange(seconds) {
     const { onStartChange, onEndChange } = this.props;
     const [startSeconds, endSeconds] = seconds;
+    console.log(`startSeconds: ${startSeconds}`);
+    console.log(`endSeconds: ${endSeconds}`);
     const startDate = getDateBySeconds(startSeconds);
     const endDate = getDateBySeconds(endSeconds);
 
@@ -84,29 +84,25 @@ class DateSlider extends React.Component {
     const validateEndDate = getValidatorDate(endDate);
 
     return (
-      <div className={styles["slider_container"]}>
+      <div className={styles['slider_container']}>
         <Slider
-          range
-          pushable={this.pushInterval}
-          allowCross={false}
           min={getSecondsByDate(minDate)}
           max={getSecondsByDate(maxDate)}
-          defaultValue={[
-            getSecondsByDate(startDate),
-            getSecondsByDate(endDate)
-          ]}
           value={[
             getSecondsByDate(startDate),
             getSecondsByDate(endDate)
           ]}
-          step={SECONDS_PER_DAY}
           tipFormatter={(data) => {
             const date = getDateBySeconds(data);
             const formatDate = getValidatorDate(date);
-            return (maxToday && VALIDATE_DATE_NOW === formatDate) ? '至今' : formatDate;
+            return (
+              <div className={styles['slider_tipso']}>
+                {(maxToday && VALIDATE_DATE_NOW === formatDate) ? '至今' : formatDate}
+              </div>
+            );
           }}
           onChange={this.onChange}
-          tipTransitionName="rc-slider-tooltip-zoom-down"
+          minRange={SECONDS_PER_DAY}
         />
         <div className={styles["slider_tips_container"]}>
           <div className={styles["slider_tips"]}>

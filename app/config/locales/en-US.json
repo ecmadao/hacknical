@@ -7,10 +7,10 @@
   "keywords": "GitHub, GitHub-Contributions, GitHub-Analysis, Resume, Resume-Template, Data-Analysis",
   "loginPage": {
     "title": "hacknical | Make a better resume",
-    "login": "Login",
-    "about": "About",
-    "loginText": "Use GitHub data to make a better resume",
-    "loginButtonText": "login with GitHub"
+    "login": "LOGIN",
+    "about": "ABOUT",
+    "loginText": "USE GITHUB DATA TO MAKE A BETTER RESUME",
+    "loginButtonText": "Login with GitHub"
   },
   "errorPage": {
     "title": "hacknical | not found",

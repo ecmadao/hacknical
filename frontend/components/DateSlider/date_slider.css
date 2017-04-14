@@ -12,6 +12,10 @@
   flex-direction: row;
 }
 
+.slider_tipso {
+  width: 60px;
+}
+
 .slider_tips {
   flex: 1;
   height: 40px;
