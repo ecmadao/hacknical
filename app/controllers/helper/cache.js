@@ -41,4 +41,4 @@ export default {
   get: getCache,
   set: setCache,
   del: removeCache
-}
+};

@@ -38,7 +38,7 @@ class Slick extends React.Component {
             className={sharedStyles["chart_info_card"]}
           />
         </div>
-      )
+      );
     });
   }
 
@@ -57,7 +57,7 @@ class Slick extends React.Component {
           {this.renderSliders()}
         </div>
       </div>
-    )
+    );
   }
 }
 

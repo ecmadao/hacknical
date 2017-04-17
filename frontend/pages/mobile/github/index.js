@@ -13,7 +13,7 @@ const renderApp = (domId, props = {}) => {
   ReactDOM.render(
     <GitHubMobileShare {...props} />,
     DOM
-  )
+  );
 };
 
 export default renderApp;

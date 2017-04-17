@@ -19,8 +19,7 @@ const DATE_NOW = getDateNow();
 const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW);
 
 const info = (options) => {
-  const { text, icon, type } = options;
-  const style = options.style || '';
+  const { text, icon, type, style = '' } = options;
   const component = options.component || null;
 
   return (
@@ -33,14 +32,20 @@ const info = (options) => {
 };
 
 const linkInfo = (options) => {
-  const { url, title } = options;
+  const { url, title, style = '' } = options;
+  const hasUrl = validator.url(url);
+  const headerClass = cx(
+    styles["info_header"],
+    hasUrl && styles.link,
+    style
+  );
 
-  return validator.url(url) ? (
-    <a target="_blank" href={validateUrl(url)} className={cx(styles["info_header"], styles.link)}>
+  return hasUrl ? (
+    <a target="_blank" href={validateUrl(url)} className={headerClass}>
       <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
       {title}
     </a>
-  ) : (<div className={styles["info_header"]}>{title}</div>);
+  ) : (<div className={headerClass}>{title}</div>);
 };
 
 const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
@@ -87,7 +92,9 @@ class ResumeComponent extends React.Component {
         const { school, major, education, startTime, endTime} = edu;
         return (
           <div key={index} className={styles["section_wrapper"]}>
-            <div className={styles["info_header"]}>{school}{education ? `, ${education}` : ''}</div>
+            <div className={cx(styles["info_header"], styles['info_header_large'])}>
+              {school}{education ? `, ${education}` : ''}
+            </div>
             <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
             <div className={styles["info_text"]}>{major}</div>
             {/* <div className={styles["section_dot"]}></div> */}
@@ -119,7 +126,7 @@ class ResumeComponent extends React.Component {
         const workProjects = this.renderProjects(projects);
         return (
           <div key={index} className={styles["section_wrapper"]}>
-            {linkInfo({url, title: company})}
+            {linkInfo({url, title: company, style: styles['info_header_large']})}
             {position ? `, ${position}` : ''}
             <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
             <div>{workProjects}</div>
@@ -153,7 +160,7 @@ class ResumeComponent extends React.Component {
       });
       return (
         <div key={index} className={styles["project_section"]}>
-          {linkInfo({url, title: name})}
+          {linkInfo({url, title: name, style: styles['info_header_mid']})}
           <ul className={styles["info_intro"]}>
             {projectDetails}
           </ul>
@@ -178,7 +185,7 @@ class ResumeComponent extends React.Component {
         });
         return (
           <div key={index} className={styles["sec_section"]}>
-            {linkInfo({url, title})}
+            {linkInfo({url, title, style: styles['info_header_large']})}
             <div className={styles["info_text"]}>
               {desc}
             </div>

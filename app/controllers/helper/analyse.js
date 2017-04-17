@@ -46,4 +46,4 @@ const collectResumeRecord = async (ctx, next) => {
 export default {
   github: collectGithubRecord,
   resume: collectResumeRecord
-}
+};

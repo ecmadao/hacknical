@@ -1,9 +1,9 @@
 @import 'open-color/open-color.css';
 
 :root {
-  --maxFontSize: 16px;
-  --mainFontSize: 14px;
-  --sideFontSize: 12px;
+  --maxFontSize: 2em;
+  --mainFontSize: 16px;
+  --sideFontSize: 14px;
   --mainBg: var(--oc-white);
   --sideBg: var(--oc-gray-1);
   --darkBg: var(--oc-gray-2);
@@ -25,7 +25,7 @@
 .sideText {
   line-height: 1.5em;
   color: var(--oc-gray-7);
-  font-size: var(--mainFontSize);
+  font-size: var(--sideFontSize);
 }
 
 .minText {
@@ -128,4 +128,5 @@
 .section-list {
   color: var(--oc-gray-5);
   padding-left: 20px;
+  line-height: 1.8em;
 }

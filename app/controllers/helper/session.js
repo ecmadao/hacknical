@@ -6,4 +6,4 @@ const REQUIRED_SESSIONS = [
 
 export default {
   requiredSessions: REQUIRED_SESSIONS
-}
+};

@@ -266,7 +266,7 @@ class ResumeContent extends React.Component {
         {this.renderPersonalProjects()}
         {this.renderSupplements()}
       </div>
-    )
+    );
   }
 }
 

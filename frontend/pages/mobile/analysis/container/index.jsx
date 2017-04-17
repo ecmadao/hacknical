@@ -61,7 +61,7 @@ class MobileAnalysis extends React.Component {
       this.reset();
       this.fetchData();
     }
-    if (this.loading) { return }
+    if (this.loading) { return; }
     this.renderCharts();
   }
 
@@ -346,7 +346,7 @@ class MobileAnalysis extends React.Component {
           </div>
         </div> */}
       </div>
-    )
+    );
   }
 }
 

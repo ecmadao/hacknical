@@ -3,13 +3,11 @@ import ResumeComponent from 'SHARED/components/ResumeComponent';
 import ResumeStateWrapper from 'SHARED/components/ResumeStateWrapper';
 import styles from '../styles/share.css';
 
-const ResumeShare = (props) => {
-  return (
-    <ResumeStateWrapper {...props} className={styles.container}>
-      <ResumeComponent />
-    </ResumeStateWrapper>
-  );
-};
+const ResumeShare = (props) => (
+  <ResumeStateWrapper {...props} className={styles.container}>
+    <ResumeComponent />
+  </ResumeStateWrapper>
+);
 
 ResumeShare.propTypes = {
   hash: PropTypes.string,

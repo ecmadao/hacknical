@@ -31,4 +31,4 @@ const resumeEnable = (key = 'params.hash') => async (ctx, next) => {
 export default {
   githubEnable,
   resumeEnable
-}
+};

@@ -26,4 +26,4 @@ const checkMobile = (redirectUrl) => async (ctx, next) => {
 export default {
   checkPlatform,
   checkMobile
-}
+};

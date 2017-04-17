@@ -110,6 +110,7 @@
   color: var(--oc-gray-9);
   font-size: 20px;
   line-height: 40px;
+  font-weight: 600;
 
   & i {
     color: var(--oc-gray-9);
@@ -202,7 +203,6 @@
 .info_header {
   height: 25px;
   line-height: 25px;
-  font-weight: 600;
   display: inline-block;
   composes: baseText from 'STYLES/common.css';
 
@@ -211,18 +211,22 @@
   }
 }
 
+.info_header_large {
+  font-size: 18px;
+}
+
+.info_header_mid {
+  font-size: 16px;
+}
+
 .link {
-  /*transition: color 0.3s;*/
   color: var(--oc-green-7);
   margin-bottom: 5px;
   text-decoration: underline;
 
   &:hover {
-    /*color: var(--oc-green-7);*/
   }
 }
-
-
 
 .info_text {
   font-size: 14px;

@@ -210,7 +210,7 @@ class GitHubMobileShare extends React.Component {
         //   }
         // }
       }
-    })
+    });
   }
 
   renderLanguagesChart() {
@@ -255,7 +255,7 @@ class GitHubMobileShare extends React.Component {
     if (commits.length) {
       datasets.push(
         chart.repos.commitsDatasets(renderedRepos, commits)
-      )
+      );
     }
     const reposReview = ReactDOM.findDOMNode(this.reposReview);
     this.reposChart = new Chart(reposReview, {
@@ -338,7 +338,7 @@ class GitHubMobileShare extends React.Component {
           />
         </CardGroup>
       </CardGroup>
-    )
+    );
   }
 
   renderReposInfo() {
@@ -431,7 +431,7 @@ class GitHubMobileShare extends React.Component {
         <div className={sharedStyles["loading_container"]}>
           <Loading loading={true} />
         </div>
-      )
+      );
     }
 
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
@@ -511,7 +511,7 @@ class GitHubMobileShare extends React.Component {
         ) : ''}
 
       </div>
-    )
+    );
   }
 }
 

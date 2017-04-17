@@ -15,7 +15,7 @@ const MinInfoCard = (props) => {
         {mainText}
       </div>
     </div>
-  )
+  );
 };
 
 MinInfoCard.defaultProps = {

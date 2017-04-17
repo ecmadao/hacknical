@@ -27,7 +27,7 @@ const SwitcherPane = (props) => {
         disabled={disabled}
       />
     </div>
-  )
+  );
 };
 
 class MobileSetting extends React.Component {
@@ -166,7 +166,7 @@ class MobileSetting extends React.Component {
           disabled={resumeInfo.loading}
         />
       </div>
-    )
+    );
   }
 }
 
