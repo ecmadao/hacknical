@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import klawSync from 'klaw-sync';
 
 const sourcePath = path.join(__dirname, '../../public/downloads');
-// const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const waitUntil = (asyncFunc) => {
   return new Promise((resolve, reject) => {
     const wait = () => {

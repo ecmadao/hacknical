@@ -1,5 +1,4 @@
 import User from '../models/users';
-import Resume from '../models/resumes';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
 import languages from '../../utils/languages';

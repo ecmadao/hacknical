@@ -1,5 +1,5 @@
 import Resume from './schema';
-import { DEFAULT_RESUME } from '../../utils/resume';
+import { DEFAULT_RESUME } from '../../utils/datas';
 
 const initialResume = async (userId, options) => {
   const newResume = Object.assign({}, DEFAULT_RESUME);
