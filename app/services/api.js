@@ -12,7 +12,7 @@ const fetchApi = (url, headers = {}, timeout = retryTimes) => {
   const options = {
     url: `${BASE_URL}${url}`,
     headers: Object.assign({}, {
-      'Hacknical-App-Name': APP_NAME
+      'App-Name': APP_NAME
     }, headers)
   };
   return fetch.get(options, timeout);
