@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import config from 'config';
 
-import PATH from '../../config/webpack/path';
+import PATH from '../../config/path';
 import CDN from './cdn';
 
 let manifest = {};

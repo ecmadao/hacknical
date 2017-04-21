@@ -6,7 +6,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const cssImport = require("postcss-import");
 const cssnext = require("postcss-cssnext");
 
-const PATH = require('./path');
+const PATH = require('../../config/path');
 const path = require('path');
 const fs = require('fs');
 const styleVariables = require(path.join(PATH.SOURCE_PATH, 'src/styles/variables'));

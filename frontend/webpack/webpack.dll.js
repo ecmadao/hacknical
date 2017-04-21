@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 
-const PATH = require('./path');
+const PATH = require('../../config/path');
 
 const plugins = [
   new webpack.DllPlugin({
