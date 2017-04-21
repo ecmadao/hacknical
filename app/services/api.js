@@ -2,7 +2,7 @@ import config from 'config';
 import fetch from '../utils/fetch';
 
 const API_URL = config.get('services.api.url');
-const APP_NAME = config.get('services.api.app');
+const APP_NAME = config.get('appName');
 const BASE_URL = `${API_URL}/api/github`;
 const retryTimes = config.get('services.api.timeouts');
 
@@ -30,14 +30,10 @@ const postApi = (url, timeout = retryTimes) => {
 const getZen = async () => fetchApi('/zen');
 const getOctocat = async () => fetchApi('/octocat');
 
-const getVerify = async () => {
-  return fetchApi('/verify');
-};
-
+const getVerify = async () => fetchApi('/verify');
 const getToken = async (code) => fetchApi(`/token?code=${code}`);
 
 const getLogin = async (token) => fetchApi(`/login?token=${token}`);
-
 const getUser = async (login, token) => fetchApi(`/user?login=${login}&token=${token}`);
 
 const getUserRepos = async (login, token) => fetchApi(`/user/repos?login=${login}&token=${token}`);
