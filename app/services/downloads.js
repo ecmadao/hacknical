@@ -20,7 +20,8 @@ const waitUntil = (asyncFunc) => {
     }
     wait();
   });
-}
+};
+
 // makesure folder exist
 fs.ensureDirSync(sourcePath);
 

@@ -28,8 +28,6 @@ class DateSlider extends React.Component {
   onChange(seconds) {
     const { onStartChange, onEndChange } = this.props;
     const [startSeconds, endSeconds] = seconds;
-    console.log(`startSeconds: ${startSeconds}`);
-    console.log(`endSeconds: ${endSeconds}`);
     const startDate = getDateBySeconds(startSeconds);
     const endDate = getDateBySeconds(endSeconds);
 

@@ -1,36 +1,38 @@
-import config from 'config';
 import fetch from '../utils/fetch';
+import config from 'config';
 
-const API_URL = config.get('services.api.url');
-const APP_NAME = config.get('appName');
-const BASE_URL = `${API_URL}/api/github`;
-const retryTimes = config.get('services.api.timeouts');
+const appName = config.get('appName');
+
 
 /* =========================== basic funcs =========================== */
 
-const fetchApi = (url, headers = {}, timeout = retryTimes) => {
+const fetchApi = (url, headers = {}, timeouts) => {
   const options = {
-    url: `${BASE_URL}${url}`,
-    headers: Object.assign({}, {
-      'App-Name': APP_NAME
-    }, headers)
+    headers,
+    url
   };
-  return fetch.get(options, timeout);
+  return fetch.get(options, timeouts);
 };
 
-const postApi = (url, timeout = retryTimes) => {
+const postApi = (url, timeouts) => {
   const options = {
     url
   };
-  return fetch.post(options, timeout);
+  return fetch.post(options, timeouts);
 };
 
 /* =========================== api funcs =========================== */
 
-const getZen = async () => fetchApi('/zen');
-const getOctocat = async () => fetchApi('/octocat');
+const getZen = async () => fetchApi('/zen', {
+  'App-Name': appName
+});
+const getOctocat = async () => fetchApi('/octocat', {
+  'App-Name': appName
+});
 
-const getVerify = async () => fetchApi('/verify');
+const getVerify = async () => fetchApi('/verify', {
+  'App-Name': appName
+});
 const getToken = async (code) => fetchApi(`/token?code=${code}`);
 
 const getLogin = async (token) => fetchApi(`/login?token=${token}`);
@@ -75,4 +77,4 @@ export default {
   refreshUserRepos,
   refreshUserCommits,
   refreshUserOrgs
-}
+};

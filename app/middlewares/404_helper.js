@@ -1,4 +1,4 @@
-import logger from 'koa-logger';
+import log from '../utils/log';
 
 const catch404 = () => async (ctx, next) => {
   try {
@@ -12,7 +12,7 @@ const catch404 = () => async (ctx, next) => {
       await ctx.redirect(`/404?locale=${ctx.session.locale}`);
     }
   } catch(err) {
-    console.log(err);
+    log.error(err);
   }
 }
 

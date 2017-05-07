@@ -20,6 +20,7 @@ import redisCache from '../middlewares/cache_helper';
 import catch404 from '../middlewares/404_helper';
 import checkLocale from '../middlewares/locale_helper';
 import router from '../routes/index';
+import log from '../utils/log';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
@@ -92,7 +93,7 @@ app.use(views(path.join(__dirname, '../templates'), {
 app.use(router.routes(), router.allowedMethods());
 // error
 app.on('error', (err, ctx) => {
-  console.log(err);
+  log.error(err);
 });
 
 app.listen(process.env.PORT || port);

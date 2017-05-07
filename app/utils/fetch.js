@@ -1,4 +1,43 @@
 import request from 'request';
+import config from 'config';
+import log from './log';
+import getSignature from './signature';
+
+const auth = config.get('auth');
+const name = config.get('appName');
+const API_URL = config.get('services.api.url');
+const retryTimes = config.get('services.api.timeouts');
+const REQUEST_JSON_METHODS = ['PUT', 'POST', 'DELETE'];
+const BASE_URL = `${API_URL}/api/github`;
+
+const verify = (options = {}, appName = name) => {
+  if (!options.headers) options.headers = {};
+  const { body } = options;
+  const date = new Date().toString();
+  options.headers['Date'] = date;
+  options.json = true;
+  options.url = `${BASE_URL}${options.url}`;
+
+  try {
+    const app = auth[appName];
+    const { secretKey, publicKey } = app;
+    let contentType = '';
+    if (REQUEST_JSON_METHODS.find(method => method === options.method)) {
+      contentType = 'application/json';
+      options.headers['Content-Type'] = contentType;
+    }
+    const signature = getSignature({
+      ...options,
+      date,
+      secretKey,
+      contentType,
+      body: body ? JSON.stringify(body) : ''
+    });
+    options.headers['Authorization'] = `Bearer ${publicKey}:${signature}`;
+  } catch (e) {
+    log.error(e);
+  }
+};
 
 const fetchData = (options) => {
   return new Promise((resolve, reject) => {
@@ -7,19 +46,20 @@ const fetchData = (options) => {
         reject(err);
       }
       if (body) {
-        const results = JSON.parse(body);
-        resolve(results.success ? results.result : false);
+        resolve(body.success ? body.result : false);
       }
       reject(err);
     });
   });
 };
 
-const fetch = async (options, timeout) => {
+const fetch = async (options, timeouts = retryTimes) => {
+  verify(options);
+
   let err = null;
-  for (let i = 0; i < timeout.length; i++) {
+  for (let i = 0; i < timeouts.length; i++) {
     try {
-      const time = timeout[i];
+      const time = timeouts[i];
       if (time) {
         options.timeout = time;
       }
@@ -30,17 +70,16 @@ const fetch = async (options, timeout) => {
       err = e;
     }
   }
-  console.log(err);
-  if (err) { throw new Error(err) }
+  if (err) { throw new Error(err); }
 };
 
 export default {
-  get: (options, timeout) => {
+  get: (options, timeouts) => {
     options.method = 'GET';
-    return fetch(options, timeout)
+    return fetch(options, timeouts)
   },
-  post: (options, timeout) => {
+  post: (options, timeouts) => {
     options.method = 'POST';
-    return fetch(options, timeout)
+    return fetch(options, timeouts)
   }
-}
+};
