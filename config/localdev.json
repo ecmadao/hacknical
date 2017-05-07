@@ -7,23 +7,12 @@
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"
   },
-  "links": {
-    "github": "https://github.com/ecmadao/hacknical",
-    "issue": "https://github.com/ecmadao/hacknical/issues",
-    "homePage": "https://github.com/ecmadao/hacknical"
-  },
-  "qiniu": {
-    "BucketName": "",
-    "AccessKey": "",
-    "SecretKey": ""
-  },
   "services": {
     "api": {
       "url": "http://127.0.0.1:5002",
       "timeouts": [8000, 8000, 8000]
     }
   },
-  "cdn": "",
   "url": "http://localhost:4000",
   "auth": {
     "hacknical-local": {
