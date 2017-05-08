@@ -15,12 +15,12 @@ const verify = (options = {}, appName = name) => {
   const { body } = options;
   const date = new Date().toString();
   options.headers['Date'] = date;
+  options.headers['App-Name'] = appName;
   options.json = true;
   options.url = `${BASE_URL}${options.url}`;
 
   try {
-    const app = auth[appName];
-    const { secretKey, publicKey } = app;
+    const { secretKey, publicKey } = auth;
     let contentType = '';
     if (REQUEST_JSON_METHODS.find(method => method === options.method)) {
       contentType = 'application/json';
