@@ -15,7 +15,7 @@ const verify = (options = {}, appName = name) => {
   const { body } = options;
   const date = new Date().toString();
   options.headers['Date'] = date;
-  options.headers['App-Name'] = appName;
+  options.headers['X-App-Name'] = appName;
   options.json = true;
   options.url = `${BASE_URL}${options.url}`;
 

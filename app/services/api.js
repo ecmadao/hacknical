@@ -24,14 +24,14 @@ const postApi = (url, timeouts) => {
 /* =========================== api funcs =========================== */
 
 const getZen = async () => fetchApi('/zen', {
-  'App-Name': appName
+  'X-App-Name': appName
 });
 const getOctocat = async () => fetchApi('/octocat', {
-  'App-Name': appName
+  'X-App-Name': appName
 });
 
 const getVerify = async () => fetchApi('/verify', {
-  'App-Name': appName
+  'X-App-Name': appName
 });
 const getToken = async (code) => fetchApi(`/token?code=${code}`);
 
