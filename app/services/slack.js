@@ -47,27 +47,27 @@ class SlackClient {
   }
 
   _signupMsg(data) {
-    const message = `*🎉 New User*\n>${data}`;
+    const message = `*🎉 Signup*\n>${data}`;
     this._sendMsg(message);
   }
 
   _loginMsg(data) {
-    const message = `*😝 User*\n>${data}`;
+    const message = `*😝 Login*\n>${data}`;
     this._sendMsg(message);
   }
 
   _viewMsg(data) {
-    const message = `*👀 Page Viewed*\n>${data}`;
+    const message = `*👀 Page View*\n>${data}`;
     this._sendMsg(message);
   }
 
   _resumeMsg(data) {
-    const message = `*🚀 New Resume*\n>${data}`;
+    const message = `*🚀 Resume*\n>${data}`;
     this._sendMsg(message);
   }
 
   _downloadMsg(data) {
-    const message = `*😎 Download of Resume*\n>${data}`;
+    const message = `*😎 Download*\n>${data}`;
     this._sendMsg(message);
   }
 }

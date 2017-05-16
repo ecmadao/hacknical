@@ -1,4 +1,8 @@
+import config from 'config';
 import ShareAnalyse from '../../models/share-analyse';
+import Slack from '../../services/slack';
+
+const URL = config.get('url');
 
 const updateViewData = async (ctx, options) => {
   const { from } = ctx.query;
@@ -27,6 +31,10 @@ const collectGithubRecord = async (ctx, next) => {
   }
 
   const url = `github/${login}`;
+  Slack.msg({
+    type: 'view',
+    data: `GitHub view of <${URL}/${url}|${login}>`
+  });
   updateViewData(ctx, { login, url });
   await next();
 };
@@ -38,6 +46,10 @@ const collectResumeRecord = async (ctx, next) => {
   if (!notrace || notrace === 'false') {
     const url = `resume/${hash}`;
     updateViewData(ctx, { url });
+    Slack.msg({
+      type: 'view',
+      data: `Resume view of ${URL}/resume/${url}`
+    });
   }
 
   await next();

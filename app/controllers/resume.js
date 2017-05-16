@@ -156,15 +156,7 @@ const getResumeSharePage = async (ctx, next) => {
 
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
-  const { notrace } = ctx.query;
   const user = await getPubResumeInfo(ctx);
-
-  if (!notrace) {
-    Slack.msg({
-      type: 'view',
-      data: `Resume view of ${URL}/resume/${hash}`
-    });
-  }
 
   await ctx.render('resume/share', {
     title: ctx.__("resumePage.title", user.name),
@@ -177,11 +169,6 @@ const getPubResumePageMobile = async (ctx, next) => {
   const { hash } = ctx.params;
   const { githubLogin } = ctx.session;
   const user = await getPubResumeInfo(ctx);
-
-  Slack.msg({
-    type: 'view',
-    data: `Resume view of ${URL}/resume/${hash}/mobile`
-  });
 
   await ctx.render('user/mobile/resume', {
     title: ctx.__("resumePage.title", user.name),

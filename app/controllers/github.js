@@ -1,12 +1,8 @@
-import config from 'config';
 import User from '../models/users';
 import Api from '../services/api';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import { getMobileMenu } from './shared';
-import Slack from '../services/slack';
-
-const URL = config.get('url');
 
 /* ================== private func ====================*/
 
@@ -205,11 +201,6 @@ const sharePageMobile = async (ctx, next) => {
     following
   } = user;
 
-  Slack.msg({
-    type: 'view',
-    data: `GitHub view of <${URL}/github/${login}/mobile|${login}>`
-  });
-
   await ctx.render('user/mobile/github', {
     title,
     user: {
@@ -234,11 +225,6 @@ const sharePage = async (ctx, next) => {
   const user = await _getUser(ctx);
   const { githubLogin } = ctx.session;
   const title = ctx.__("sharePage.github", user.name || user.login);
-
-  Slack.msg({
-    type: 'view',
-    data: `GitHub view of <${URL}/github/${login}|${login}>`
-  });
 
   await ctx.render('github/share', {
     title,
