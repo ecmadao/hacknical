@@ -7,6 +7,7 @@ import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import { getGithubSections, getMobileMenu } from './shared';
+import Slack from '../services/slack';
 
 /* ===================== private ===================== */
 
@@ -62,7 +63,12 @@ const getResume = async (ctx, next) => {
 
 const setResume = async (ctx, next) => {
   const { resume } = ctx.request.body;
-  const { userId } = ctx.session;
+  const { userId, githubLogin } = ctx.session;
+
+  Slack.msg({
+    type: 'resume',
+    data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
+  });
 
   const setResult = await Resume.updateResume(userId, resume);
   let resumeInfo = null;
@@ -104,6 +110,10 @@ const downloadResume = async (ctx, next) => {
   const seconds = dateHelper.getSeconds(result);
 
   const resumeUrl = `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
+  Slack.msg({
+    type: 'download',
+    data: `<${resumeUrl}|${githubLogin} resume>`
+  });
   const resultUrl = await Downloads.resume(resumeUrl, {
     folder: githubLogin,
     title: `${seconds}-resume.pdf`
@@ -146,7 +156,15 @@ const getResumeSharePage = async (ctx, next) => {
 
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
+  const { notrace } = ctx.query;
   const user = await getPubResumeInfo(ctx);
+
+  if (!notrace) {
+    Slack.msg({
+      type: 'view',
+      data: `Resume view of ${URL}/resume/${hash}`
+    });
+  }
 
   await ctx.render('resume/share', {
     title: ctx.__("resumePage.title", user.name),
@@ -159,6 +177,11 @@ const getPubResumePageMobile = async (ctx, next) => {
   const { hash } = ctx.params;
   const { githubLogin } = ctx.session;
   const user = await getPubResumeInfo(ctx);
+
+  Slack.msg({
+    type: 'view',
+    data: `Resume view of ${URL}/resume/${hash}/mobile`
+  });
 
   await ctx.render('user/mobile/resume', {
     title: ctx.__("resumePage.title", user.name),
@@ -304,4 +327,4 @@ export default {
   setResumeGithubStatus,
   setGithubShareSection,
   getShareRecords
-}
+};

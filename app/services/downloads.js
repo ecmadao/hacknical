@@ -2,6 +2,7 @@ import phantom from 'phantom';
 import path from 'path';
 import fs from 'fs-extra';
 import klawSync from 'klaw-sync';
+import logger from '../utils/logger';
 
 const sourcePath = path.join(__dirname, '../../public/downloads');
 
@@ -57,6 +58,7 @@ const downloadResume = async (url, options = {}) => {
     });
   });
   await page.render(filePath);
+  logger.info(`[NEW DOWNLOAD] ${title}`);
   await instance.exit();
   return resultPath;
 };

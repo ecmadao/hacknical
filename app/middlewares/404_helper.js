@@ -1,4 +1,4 @@
-import log from '../utils/log';
+import logger from '../utils/logger';
 
 const catch404 = () => async (ctx, next) => {
   try {
@@ -12,7 +12,7 @@ const catch404 = () => async (ctx, next) => {
       await ctx.redirect(`/404?locale=${ctx.session.locale}`);
     }
   } catch(err) {
-    log.error(err);
+    logger.error(err);
   }
 }
 

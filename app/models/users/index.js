@@ -1,5 +1,6 @@
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
+import Slack from '../../services/slack';
 
 /**
  * private
@@ -91,32 +92,38 @@ const loginWithGithub = async (userInfo) => {
     login,
     url: `github/${login}`
   };
-  const findUser = await findUserByGithubId(id);
-  if (findUser) {
-    shareInfo.userId = findUser._id;
+  let user = await findUserByGithubId(id);
+  const msg = { type: 'login' };
+  if (user) {
+    shareInfo.userId = user._id;
     await createGithubShare(shareInfo);
-    findUser.githubLogin = login;
-    findUser.githubInfo = { login };
-    findUser.lastLoginTime = new Date();
-    await findUser.save();
-    return Promise.resolve({
-      success: true,
-      result: findUser._id
+    user.githubLogin = login;
+    user.githubInfo = { login };
+    user.lastLoginTime = new Date();
+    await user.save();
+
+    msg.data = `<https://github.com/${login}|${login}> logined!`;
+  } else {
+    user = await User.create({
+      email,
+      userName: name,
+      lastLoginTime: new Date(),
+      githubId: id,
+      githubLogin: login,
+      githubInfo: { login }
     });
+    shareInfo.userId = user._id;
+    await createGithubShare(shareInfo);
+
+    msg.type = 'signup';
+    msg.data = `Signup: <https://github.com/${login}|${login}>`;
   }
-  const newUser = await User.create({
-    email,
-    userName: name,
-    lastLoginTime: new Date(),
-    githubId: id,
-    githubLogin: login,
-    githubInfo: { login }
-  });
-  shareInfo.userId = newUser._id;
-  await createGithubShare(shareInfo);
+
+  Slack.msg(msg);
+
   return Promise.resolve({
     success: true,
-    result: newUser._id
+    result: user._id
   });
 };
 
@@ -181,89 +188,4 @@ export default {
   updateGithubSections,
   findPinnedRepos,
   updatePinnedRepos
-}
-
-
-/*
-
-const login = async (email, pwd) => {
-  const findResult = await findUser(email);
-  if (!findResult) {
-    return Promise.resolve({
-      success: false,
-      message: '该邮箱尚未注册'
-    });
-  }
-
-  const { passwordSalt } = findResult;
-  const passwordHash = getHashPwd(passwordSalt, pwd);
-  if (passwordHash !== findResult.passwordHash) {
-    return Promise.resolve({
-      success: false,
-      message: '密码错误'
-    });
-  }
-
-  findResult.lastLoginTime = new Date();
-  await findResult.save();
-
-  const userId = findResult._id;
-  return Promise.resolve({
-    success: true,
-    message: '登录成功',
-    result: userId
-  });
 };
-
-const changePwd = async () => {
-
-};
-
-const remove = async (userId) => {
-  const removeUser = await User.remove({ _id: userId });
-  return Promise.resolve({
-    success: true,
-    message: '删除成功',
-    result: removeUser
-  });
-};
-
-const createUser = async (email, pwd) => {
-  const findResult = await findUser(email);
-  if (findResult) {
-    return Promise.resolve({
-      success: false,
-      message: '该邮箱已存在'
-    });
-  }
-
-  const passwordSalt = crypto.randomBytes(16).toString('base64');
-  const passwordHash = getHashPwd(passwordSalt, pwd);
-
-  const newUser = await User.create({
-    userName: '',
-    lastLoginTime: new Date(),
-    email,
-    passwordSalt,
-    passwordHash
-  });
-
-  return Promise.resolve({
-    success: true,
-    message: '注册成功',
-    result: newUser
-  });
-};
-
-const getHashPwd = (salt, password) => {
-  const bytes = new Buffer(password || '', 'utf16le');
-  const src = new Buffer(salt || '', 'base64');
-  const dst = new Buffer(src.length + bytes.length);
-
-  src.copy(dst, 0, 0, src.length);
-  bytes.copy(dst, src.length, 0, bytes.length);
-
-  return crypto.createHash('sha1').update(dst).digest('base64');
-};
-
- */

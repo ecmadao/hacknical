@@ -1,6 +1,6 @@
 import Koa from 'koa';
 import path from 'path';
-import logger from 'koa-logger';
+import koaLogger from 'koa-logger';
 import convert from 'koa-convert';
 import bodyParser from 'koa-bodyparser';
 import onerror from 'koa-onerror';
@@ -20,7 +20,7 @@ import redisCache from '../middlewares/cache_helper';
 import catch404 from '../middlewares/404_helper';
 import checkLocale from '../middlewares/locale_helper';
 import router from '../routes/index';
-import log from '../utils/log';
+import logger from '../utils/logger';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
@@ -46,8 +46,8 @@ onerror(app);
 app.use(bodyParser());
 // json parse
 app.use(convert(json()));
-// logger
-app.use(convert(logger()));
+// koa logger
+app.use(convert(koaLogger()));
 // session
 app.use(convert(session({
   store: redisStore({
@@ -93,7 +93,7 @@ app.use(views(path.join(__dirname, '../templates'), {
 app.use(router.routes(), router.allowedMethods());
 // error
 app.on('error', (err, ctx) => {
-  log.error(err);
+  logger.error(err);
 });
 
 app.listen(process.env.PORT || port);

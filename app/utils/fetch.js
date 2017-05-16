@@ -1,6 +1,6 @@
 import request from 'request';
 import config from 'config';
-import log from './log';
+import logger from './logger';
 import getSignature from './signature';
 
 const auth = config.get('auth');
@@ -35,7 +35,7 @@ const verify = (options = {}, appName = name) => {
     });
     options.headers['Authorization'] = `Bearer ${publicKey}:${signature}`;
   } catch (e) {
-    log.error(e);
+    logger.error(e);
   }
 };
 

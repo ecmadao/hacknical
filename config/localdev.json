@@ -11,7 +11,8 @@
     "api": {
       "url": "http://127.0.0.1:5002",
       "timeouts": [8000, 8000, 8000]
-    }
+    },
+    "slack": null
   },
   "url": "http://localhost:4000",
   "auth": {
