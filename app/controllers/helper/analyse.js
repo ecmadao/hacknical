@@ -29,11 +29,10 @@ const collectGithubRecord = async (ctx, next) => {
     await next();
     return;
   }
-
   const url = `github/${login}`;
   Slack.msg({
     type: 'view',
-    data: `GitHub view of <${URL}/${url}|${login}>`
+    data: `GitHub view of /${url}`
   });
   updateViewData(ctx, { login, url });
   await next();
@@ -48,7 +47,7 @@ const collectResumeRecord = async (ctx, next) => {
     updateViewData(ctx, { url });
     Slack.msg({
       type: 'view',
-      data: `Resume view of ${URL}/resume/${url}`
+      data: `Resume view of /${url}`
     });
   }
 
