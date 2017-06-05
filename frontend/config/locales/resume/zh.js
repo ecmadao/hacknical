@@ -1,4 +1,5 @@
 const datas = {
+  updateAt: "更新于：",
   buttons: {
     save: '保存',
     preview: '预览',

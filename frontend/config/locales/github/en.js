@@ -1,4 +1,5 @@
 const datas = {
+  updateAt: "Update at: ",
   sections: {
     hotmap: {
       title: 'Hotmap'

@@ -40,10 +40,32 @@ const getUpdateTime = async (userId) => {
 
 const getResume = async (userId) => {
   const getResult = await findResume({ userId });
+  if (!getResult) {
+    return Promise.resolve({
+      success: false,
+      message: '没有查询到结果',
+      result: null
+    });
+  }
+  const { resume, updated_at } = getResult;
+  const {
+    info,
+    others,
+    educations,
+    workExperiences,
+    personalProjects
+  } = resume;
   return Promise.resolve({
-    success: getResult ? true : false,
-    message: getResult ? '' : '没有查询到结果',
-    result: getResult ? getResult.resume : null
+    success: true,
+    message: '',
+    result: {
+      info,
+      others,
+      educations,
+      workExperiences,
+      personalProjects,
+      updateAt: updated_at
+    }
   });
 };
 

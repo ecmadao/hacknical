@@ -7,15 +7,15 @@ import GitHubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHARED/components/ShareModal';
 import USER from 'SRC/data/user';
 import github from 'UTILS/github';
-import {
-  sortRepos
-} from 'UTILS/helper';
+import { sortRepos } from 'UTILS/helper';
 import locales from 'LOCALES';
 import styles from '../styles/github.css';
+import dateHelper from 'UTILS/date';
 
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
+const { hoursBefore } = dateHelper.relative;
 
 class GithubComponent extends React.Component {
   constructor(props) {
@@ -167,15 +167,24 @@ class GithubComponent extends React.Component {
       sections
     } = this.state;
     const { isShare, containerStyle } = this.props;
+
     const origin = window.location.origin;
+    const { login, lastUpdateTime, openShare, shareUrl } = user;
 
     return (
-      <div className={cx(
+      <div
+        className={cx(
           styles.container,
           containerStyle
-      )}>
+        )}
+      >
+        {isShare ? (
+          <div className={styles.shareInfo}>
+            {githubLocales.updateAt}{hoursBefore(lastUpdateTime)}
+          </div>
+        ) : ''}
         <GitHubSection
-          userLogin={user.login}
+          userLogin={login}
           title={{
             text: githubTexts.hotmap.title,
             icon: 'cloud-upload'
@@ -245,7 +254,7 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          userLogin={user.login}
+          userLogin={login}
           title={{
             text: githubTexts.orgs.title,
             icon: 'rocket'
@@ -308,8 +317,8 @@ class GithubComponent extends React.Component {
           <ShareModal
             openModal={openShareModal}
             options={{
-              openShare: user.openShare,
-              link: `${origin}/${user.shareUrl}`,
+              openShare,
+              link: `${origin}/${shareUrl}`,
               text: shareText
             }}
             toggleShare={this.changeShareStatus}
@@ -330,7 +339,7 @@ class GithubComponent extends React.Component {
           />
         ) : ''}
       </div>
-    )
+    );
   }
 }
 

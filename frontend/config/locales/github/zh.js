@@ -1,4 +1,5 @@
 const datas = {
+  updateAt: "更新于：",
   sections: {
     hotmap: {
       title: '活跃度'

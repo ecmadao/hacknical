@@ -1,4 +1,5 @@
 const datas = {
+  updateAt: "Update at: ",
   buttons: {
     save: 'Save',
     preview: 'Preview',

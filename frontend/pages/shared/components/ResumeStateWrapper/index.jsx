@@ -20,6 +20,7 @@ class ResumeStateWrapper extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      updateAt: '',
       info: objectassign({}, INFO),
       educations: [],
       workExperiences: [],
@@ -75,10 +76,13 @@ class ResumeStateWrapper extends React.Component {
       educations,
       workExperiences,
       personalProjects,
-      others
+      others,
+      updateAt
     } = resume;
+
     const state = this.state;
     this.setState({
+      updateAt,
       loading: false,
       info: objectassign(state.info, info),
       educations: [...educations],
@@ -87,7 +91,7 @@ class ResumeStateWrapper extends React.Component {
       others: objectassign(state.others, objectassign(others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]
       }))
-    })
+    });
   }
 
   render() {

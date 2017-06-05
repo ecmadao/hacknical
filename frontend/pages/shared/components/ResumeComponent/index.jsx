@@ -8,12 +8,15 @@ import { LINK_NAMES } from 'SHARED/datas/resume';
 import { objectassign } from 'SHARED/utils/resume';
 import GithubComponent from 'SHARED/components/GithubComponent';
 import styles from './styles/resume.css';
+import locales from 'LOCALES';
 
 const sortByDate = sortBySeconds('startTime');
 const sortByEndDate = sortBySeconds('endTime');
 const validateDate = dateHelper.validator.date;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
+const { hoursBefore } = dateHelper.relative;
+const resumeTexts = locales("resume");
 
 const DATE_NOW = getDateNow();
 const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW);
@@ -302,7 +305,7 @@ class ResumeComponent extends React.Component {
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login } = this.props;
-    const { info, others } = resume;
+    const { info, others, updateAt } = resume;
     const { useGithub, github, githubUrl } = shareInfo;
 
     if (useGithub && showGithub) {
@@ -348,14 +351,17 @@ class ResumeComponent extends React.Component {
           <div className={styles["right"]}>
             {baseInfo(info.name, info.gender, { style: styles["user_title"] })}
             {this.renderLabels()}<br/>
-            {info.phone ? (baseInfo(info.phone, 'mobile', { style: styles["right_info"] })) : ''}
-            {info.email ? (
-              baseInfo(null, 'envelope-o', {
+            {info.phone
+              ? (baseInfo(info.phone, 'mobile', { style: styles["right_info"] }))
+              : ''
+            }
+            {info.email
+              ? (baseInfo(null, 'envelope-o', {
                 component: (
                   <a href={`mailto:${info.email}`} className={styles["right_link"]}>{info.email}</a>
                 )
-              })
-            ) : ''}
+              }))
+              : ''}
             {baseInfo(`${info.location}   ${info.intention}`, 'map-marker', { style: styles["right_info"] })}
             {others.dream ? (
               <div className={styles["user_dream"]}>
@@ -364,20 +370,24 @@ class ResumeComponent extends React.Component {
             ) : ''}
             {useGithub ? (
               baseInfo(null, 'github', {
-                component: githubUrl ? (
-                  <a
-                    href={githubUrl}
-                    className={styles["right_link_info"]}>
-                    查看我的 github 总结报告
-                  </a>
-                ) : (
-                  <a
-                    onClick={() => this.changeShowGithub(true)}
-                    className={styles["right_link_info"]}>
-                    查看我的 github 总结报告
-                  </a>
-                )
+                component: githubUrl ? (<a
+                  href={githubUrl}
+                  className={styles["right_link_info"]}>
+                  查看我的 github 总结报告
+                </a>) : (<a
+                  onClick={() => this.changeShowGithub(true)}
+                  className={styles["right_link_info"]}>
+                  查看我的 github 总结报告
+                </a>)
               })
+            ) : ''}
+            <br />
+            {updateAt ? (
+              baseInfo(
+                `${resumeTexts.updateAt}${hoursBefore(updateAt)}`,
+                'exclamation-circle',
+                { style: styles["right_info_tip"] }
+              )
             ) : ''}
           </div>
         </div>

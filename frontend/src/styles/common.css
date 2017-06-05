@@ -1,5 +1,10 @@
 @import 'open-color/open-color.css';
 
+.minText {
+  color: var(--oc-gray-6);
+  font-size: 14px;
+}
+
 .baseText {
   color: var(--oc-gray-7);
   font-size: 16px;
@@ -119,6 +124,10 @@
 
   .titleIcon {
     font-size: 20px;
+  }
+
+  .minText {
+    font-size: 12px;
   }
 
   .baseText {

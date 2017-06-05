@@ -111,7 +111,10 @@ class DateSlider extends React.Component {
           </div>
           <div className={styles["slider_tips"]}>
             <span>
-              {(maxToday && VALIDATE_DATE_NOW === validateEndDate) ? '至今' : validateEndDate}
+              {(maxToday && VALIDATE_DATE_NOW === validateEndDate)
+                  ? '至今'
+                  : validateEndDate
+              }
             </span>
             {endText}
           </div>

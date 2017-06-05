@@ -12,7 +12,8 @@ const getDateAfterYears = (format) => (after) => moment().add(parseInt(after), '
 export default {
   validator: {
     full: (date) => formatDate()(date), // 2017-01-21T22:23:56+08:00
-    fullFormat: (date) => formatDate('YYYY-MM-DD HH:mm:ss')(date), // 2017.01.21 22:23:56
+    fullFormat: (date) =>
+      formatDate('YYYY-MM-DD HH:mm:ss')(date), // 2017.01.21 22:23:56
     fullDate: (date) => formatDate('YYYY-MM-DD')(date), // 2017.01.21
     fullDateBySeconds: (seconds) => moment.unix(seconds).format(),
     date: (date) => formatDate('YYYY-MM')(date), // 2017.01
@@ -34,8 +35,10 @@ export default {
     now: () => formatDate('YYYY-MM-DD')(),
     beforeYears: getDateBeforeYears('YYYY-MM-DD'),
     afterYears: getDateAfterYears('YYYY-MM-DD'),
-    afterDays: (after, date = null) => moment(date).add(parseInt(after), 'days').format('YYYY-MM-DD'),
-    bySeconds: (seconds, format = 'YYYY-MM-DD') => moment.unix(seconds).format(format),
+    afterDays: (after, date = null) =>
+      moment(date).add(parseInt(after), 'days').format('YYYY-MM-DD'),
+    bySeconds: (seconds, format = 'YYYY-MM-DD') =>
+      moment.unix(seconds).format(format),
     getMonth: (date) => formatDate('M')(date)
   },
   relative: {

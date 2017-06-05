@@ -77,3 +77,10 @@
     }
   }
 }
+
+.shareInfo {
+  composes: minText from 'STYLES/common.css';
+  text-align: right;
+  margin-top: 30px;
+  margin-bottom: -45px;
+}

@@ -76,7 +76,7 @@
 }
 
 .right_info {
-  color: #fff;
+  color: var(--oc-white);
 }
 
 .right_link_info {
@@ -85,19 +85,25 @@
   cursor: pointer;
 }
 
+.right_info_tip {
+  composes: right_info;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
 .right_link {
   color: #f2f2f2;
   transition: color 0.3s;
   margin-bottom: 5px;
 
   &:hover {
-    color: #fff;
+    color: var(--oc-white);
   }
 }
 
 .user_title {
   composes: titleText from 'STYLES/common.css';
-  color: #fff;
+  color: var(--oc-white);
 }
 
 .user_dream {

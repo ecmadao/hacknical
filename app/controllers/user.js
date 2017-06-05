@@ -153,40 +153,4 @@ export default {
   // github sections
   getGithubShareSections,
   setGithubShareSections
-}
-
-
-/*
-
-const login = async (ctx, next) => {
-  const { email, pwd } = ctx.request.body;
-  const loginResult = await User.login(email, pwd);
-  const { message, success, result } = loginResult;
-  if (success) {
-    ctx.session.userId = result;
-  }
-  ctx.body = {
-    message,
-    success
-  };
 };
-
-const signup = async (ctx, next) => {
-  const { email, pwd } = ctx.request.body;
-  const signupResult = await User.createUser(email, pwd);
-  const { message, success, result } = loginResult;
-  if (success) {
-    const { _id, userName, email } = result;
-    ctx.session.userId = _id;
-    await Resume.initialResume(_id, {
-      email,
-      name: userName
-    });
-  }
-  ctx.body = {
-    message,
-    success
-  };
-};
-
- */
