@@ -148,7 +148,7 @@ class ResumeContent extends React.Component {
             <li
               key={i}
               className={cx(
-                hasUrl(detail) && styles['section-li-withlink']
+                hasUrl(detail) && styles['section-withlink']
               )}
             >
               {detail}
@@ -176,7 +176,16 @@ class ResumeContent extends React.Component {
         return (
           <div className={styles['section-project']} key={index}>
             <div className={styles.mainText}>{title}</div>
-            {desc ? (<div className={styles.minText}>{desc}</div>) : ''}
+            {desc ? (
+              <div
+                className={cx(
+                  styles.minText,
+                  hasUrl(desc) && styles['section-withlink']
+                )}
+              >
+                {desc}
+              </div>
+            ) : ''}
           </div>
         );
       });
@@ -207,7 +216,7 @@ class ResumeContent extends React.Component {
         <li
           key={index}
           className={cx(
-            hasUrl(supplement) && styles['section-li-withlink']
+            hasUrl(supplement) && styles['section-withlink']
           )}
         >
           {supplement}
