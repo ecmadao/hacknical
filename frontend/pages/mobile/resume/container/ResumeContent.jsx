@@ -7,9 +7,12 @@ import Slick from '../../shared/components/Slick';
 import styles from '../styles/resume.css';
 import { sortBySeconds } from 'UTILS/helper';
 import { GENDERS } from 'SHARED/datas/resume';
+import locales from 'LOCALES';
 
 const sortByDate = sortBySeconds('startTime');
 const validateDate = dateHelper.validator.date;
+const { hoursBefore } = dateHelper.relative;
+const resumeTexts = locales("resume");
 
 const LINK_OPTIONS = {
   text: '',
@@ -254,6 +257,9 @@ class ResumeContent extends React.Component {
   }
 
   render() {
+    const { resume } = this.props;
+    const { updateAt } = resume;
+
     return (
       <div className={styles['resume-container']}>
         {this.props.loading ? (<Loading loading={true} />) : ''}
@@ -265,6 +271,11 @@ class ResumeContent extends React.Component {
         {this.renderWorkExperiences()}
         {this.renderPersonalProjects()}
         {this.renderSupplements()}
+        {updateAt ? (
+          <div className={styles.resumeTip}>
+            {resumeTexts.updateAt}{hoursBefore(updateAt)}
+          </div>
+        ) : ''}
       </div>
     );
   }

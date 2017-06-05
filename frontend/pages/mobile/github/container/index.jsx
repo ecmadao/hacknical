@@ -24,15 +24,18 @@ import styles from '../styles/github.css';
 import sharedStyles from '../../shared/styles/mobile.css';
 import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
+import USER from 'SRC/data/user';
 
 const sortByLanguageStar = sortByX('star');
-const githubTexts = locales('github').sections;
+const githubLocales = locales('github');
+const githubTexts = githubLocales.sections;
 const getDateBySeconds = dateHelper.date.bySeconds;
 
 class GitHubMobileShare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: objectAssign({}, USER),
       reposLoaded: false,
       commitLoaded: false,
       repos: [],
@@ -53,6 +56,7 @@ class GitHubMobileShare extends React.Component {
   }
 
   componentDidMount() {
+    this.getGithubUser();
     this.getGithubRepos();
   }
 
@@ -64,6 +68,12 @@ class GitHubMobileShare extends React.Component {
     }
     reposLoaded && commitLoaded && this.initialScrollReveal();
     commitLoaded && !preState.commitLoaded && this.renderReposChart();
+  }
+
+  async getGithubUser() {
+    const { login } = this.props;
+    const user = await Api.github.getUser(login);
+    this.setState({ user });
   }
 
   async getGithubCommits() {
@@ -419,12 +429,14 @@ class GitHubMobileShare extends React.Component {
 
   render() {
     const {
+      user,
       commits,
       reposLoaded,
       commitLoaded,
       languageSkills,
       languageDistributions
     } = this.state;
+    const { updated_at } = user;
 
     if (!reposLoaded) {
       return (
@@ -509,7 +521,6 @@ class GitHubMobileShare extends React.Component {
             </div>
           </div>
         ) : ''}
-
       </div>
     );
   }

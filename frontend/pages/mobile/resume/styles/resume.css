@@ -130,3 +130,9 @@
   padding-left: 20px;
   line-height: 1.8em;
 }
+
+.resumeTip {
+  composes: minText;
+  padding: 8px 10px 0;
+  text-align: left;
+}
