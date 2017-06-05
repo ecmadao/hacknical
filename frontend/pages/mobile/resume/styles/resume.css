@@ -136,3 +136,8 @@
   padding: 8px 10px 0;
   text-align: left;
 }
+
+.section-li-withlink {
+  max-width: 200px;
+  overflow: hidden;
+}

@@ -3,6 +3,7 @@ import cx from 'classnames';
 import objectAssign from 'object-assign';
 import { Loading } from 'light-ui';
 import dateHelper from 'UTILS/date';
+import validator from 'UTILS/validator';
 import Slick from '../../shared/components/Slick';
 import styles from '../styles/resume.css';
 import { sortBySeconds } from 'UTILS/helper';
@@ -12,6 +13,7 @@ import locales from 'LOCALES';
 const sortByDate = sortBySeconds('startTime');
 const validateDate = dateHelper.validator.date;
 const { hoursBefore } = dateHelper.relative;
+const { hasUrl } = validator;
 const resumeTexts = locales("resume");
 
 const LINK_OPTIONS = {
@@ -143,7 +145,12 @@ class ResumeContent extends React.Component {
         const { name, url, details } = project;
         const projectDetails = details.map((detail, i) => {
           return (
-            <li key={i}>
+            <li
+              key={i}
+              className={cx(
+                hasUrl(detail) && styles['section-li-withlink']
+              )}
+            >
               {detail}
             </li>
           );
@@ -167,7 +174,7 @@ class ResumeContent extends React.Component {
       .map((project, index) => {
         const { url, desc, title } = project;
         return (
-          <div className={styles['section-project']}>
+          <div className={styles['section-project']} key={index}>
             <div className={styles.mainText}>{title}</div>
             {desc ? (<div className={styles.minText}>{desc}</div>) : ''}
           </div>
@@ -197,7 +204,12 @@ class ResumeContent extends React.Component {
 
     const personalSupplements = supplements.map((supplement, index) => {
       return (
-        <li key={index}>
+        <li
+          key={index}
+          className={cx(
+            hasUrl(supplement) && styles['section-li-withlink']
+          )}
+        >
           {supplement}
         </li>
       );

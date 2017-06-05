@@ -23,11 +23,15 @@ const textarea = (value, max) => validator.isByteLength(value, {
   max: parseInt(max)
 });
 
+const hasUrl = text =>
+  /(https|http|ftp|rtsp|mms)?:\/\/([a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9])(com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])*/i.test(text);
+
 export default {
   email,
   phone,
   url,
   string,
   number,
-  textarea
-}
+  textarea,
+  hasUrl
+};
