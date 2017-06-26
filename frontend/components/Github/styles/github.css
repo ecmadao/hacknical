@@ -562,6 +562,9 @@
 .org_repos_info {
   margin: 5px 0;
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .info_strong {

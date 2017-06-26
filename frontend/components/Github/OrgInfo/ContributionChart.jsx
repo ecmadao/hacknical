@@ -142,6 +142,7 @@ class ContributionChart extends React.Component {
             &nbsp;&nbsp;
             {fork ? (
               <Label
+                min
                 icon="code-fork"
                 text="forked"
                 color="darkLight"

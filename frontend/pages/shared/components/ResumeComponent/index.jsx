@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-
+import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import { sortBySeconds } from 'UTILS/helper';
 import validator from 'UTILS/validator';
@@ -181,9 +181,14 @@ class ResumeComponent extends React.Component {
         const { url, desc, techs, title } = project;
         const projectTechs = techs.map((tech, index) => {
           return (
-            <div key={index} className={styles["info_label"]}>
-              {tech}
-            </div>
+            <Label
+              min
+              key={index}
+              text={tech}
+              clickable={false}
+              color="darkLight"
+              className={styles['info_label']}
+            />
           );
         });
         return (
@@ -278,7 +283,14 @@ class ResumeComponent extends React.Component {
       const eduEndTime = lastEducation.endTime;
       if (getSecondsByDate(eduEndTime) >= DATE_NOW_SECONDS) {
         labels.push(
-          <div className={styles["info_label"]} key={0}>在校</div>
+          <Label
+            min
+            key={0}
+            text="在校"
+            clickable={false}
+            color="light"
+            className={styles['info_label']}
+          />
         );
       }
     }
@@ -288,7 +300,14 @@ class ResumeComponent extends React.Component {
       const workEndTime = lastWorkExperience.endTime;
       if (getSecondsByDate(workEndTime) >= DATE_NOW_SECONDS) {
         labels.push(
-          <div className={styles["info_label"]} key={1}>在职</div>
+          <Label
+            min
+            key={1}
+            text="在职"
+            clickable={false}
+            color="light"
+            className={styles['info_label']}
+          />
         );
       }
     }

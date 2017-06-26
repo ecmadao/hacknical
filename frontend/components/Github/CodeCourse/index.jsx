@@ -117,6 +117,7 @@ class CodeCourse extends React.Component {
                 />
                 {fork ? (
                   <Label
+                    min
                     color="darkLight"
                     text="forked"
                     icon="code-fork"

@@ -150,6 +150,7 @@ class LanguageInfo extends React.Component {
               &nbsp;
               {repository.fork ? (
                 <Label
+                  min
                   icon="code-fork"
                   text="forked"
                   color="darkLight"

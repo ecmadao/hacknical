@@ -23,7 +23,6 @@ class Wrapper extends React.Component {
           key={index}
           text={label}
           color="darkLight"
-          theme="flat"
           deleteable
           className={styles.label}
           onDelete={this.onDelete(index)}
