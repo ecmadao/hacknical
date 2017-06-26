@@ -109,7 +109,7 @@ class CodeCourse extends React.Component {
                   {name}
                 </a>
                 <Label
-                  color="gray"
+                  color="darkLight"
                   theme="ghost"
                   clickable={false}
                   text={`<${language}>`}
@@ -117,15 +117,14 @@ class CodeCourse extends React.Component {
                 />
                 {fork ? (
                   <Label
-                    color="gray"
-                    theme="flat"
+                    color="darkLight"
                     text="forked"
                     icon="code-fork"
                     clickable={false}
-                    style={{ lineHeight: 'normal' }}
+                    className={githubStyles.reposLabel}
                   />
                 ) : ''}
-              </span><br/>
+              </span>
               <div className={githubStyles["tipso_line"]}></div>
               <ReposBaseInfo
                 stargazers={stargazers_count}

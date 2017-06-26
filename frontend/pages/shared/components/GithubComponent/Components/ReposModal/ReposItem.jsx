@@ -25,7 +25,7 @@ class ReposItem extends React.Component {
             <Label
               icon="code-fork"
               text="forked"
-              color="gray"
+              color="darkLight"
               clickable={false}
             />
           ) : ''}

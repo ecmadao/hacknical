@@ -140,20 +140,23 @@ class LanguageInfo extends React.Component {
       return (
         <div className={githubStyles["repos_show"]} key={index}>
           <div className={githubStyles["repos_info"]}>
-            <a
-              target="_blank"
-              href={repository['html_url']}
-              className={githubStyles["repos_info_name"]}>
-              {repository.name}
-            </a>
-            {repository.fork ? (
-              <Label
-                icon="code-fork"
-                text="forked"
-                color="gray"
-                clickable={false}
-              />
-            ) : ''}<br/>
+            <div className={githubStyles.reposTitleContainer}>
+              <a
+                target="_blank"
+                href={repository['html_url']}
+                className={githubStyles["repos_info_name"]}>
+                {repository.name}
+              </a>
+              &nbsp;
+              {repository.fork ? (
+                <Label
+                  icon="code-fork"
+                  text="forked"
+                  color="darkLight"
+                  clickable={false}
+                />
+              ) : ''}
+            </div>
             <span className={githubStyles["repos_short_desc"]}>
               {repository.description}
             </span>
@@ -232,13 +235,14 @@ class LanguageInfo extends React.Component {
             backgroundColor: this.labelColor
           }}
           text={language}
+          className={githubStyles.languageLabel}
           onClick={() => this.setShowLanguage(language)}
           active={language === showLanguage}
         />
-    );
+      );
     });
     return (
-      <div className={githubStyles["language_label_wrapper"]}>
+      <div className={githubStyles['language_label_wrapper']}>
         {languages}
       </div>
     );

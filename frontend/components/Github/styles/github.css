@@ -171,6 +171,9 @@
   & .tipso_title {
     font-size: 16px;
     line-height: 2em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     color: var(--oc-gray-7);
   }
 
@@ -612,4 +615,19 @@
     font-weight: 300;
     padding-top: 10px;
   }
+}
+
+.reposTitleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.reposLabel {
+  padding: 0 7px;
+}
+
+.languageLabel {
+  margin: 5px 7px;
 }

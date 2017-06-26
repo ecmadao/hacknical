@@ -59,3 +59,7 @@
     background-color: var(--oc-gray-5);
   }
 }
+
+.label {
+  margin: 5px;
+}

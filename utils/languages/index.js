@@ -5,7 +5,7 @@ const getLocale = (currentLanguage) => {
   try {
     datas = require(`./${locale}.js`).default;
   } catch (e) {
-    console.log(e)
+    console.log(e);
   } finally {
     return datas;
   }

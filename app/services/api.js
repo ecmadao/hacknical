@@ -36,13 +36,18 @@ const getVerify = async () => fetchApi('/verify', {
 const getToken = async (code) => fetchApi(`/token?code=${code}`);
 
 const getLogin = async (token) => fetchApi(`/login?token=${token}`);
-const getUser = async (login, token) => fetchApi(`/user?login=${login}&token=${token}`);
+const getUser = async (login, token) =>
+  fetchApi(`/user?login=${login}&token=${token}`);
 
-const getUserRepos = async (login, token) => fetchApi(`/user/repos?login=${login}&token=${token}`);
-const getUserCommits = async (login, token) => fetchApi(`/user/commits?login=${login}&token=${token}`);
-const getUserOrgs = async (login, token) => fetchApi(`/user/orgs?login=${login}&token=${token}`);
+const getUserRepos = async (login, token) =>
+  fetchApi(`/user/repos?login=${login}&token=${token}`);
+const getUserCommits = async (login, token) =>
+  fetchApi(`/user/commits?login=${login}&token=${token}`);
+const getUserOrgs = async (login, token) =>
+  fetchApi(`/user/orgs?login=${login}&token=${token}`);
 
-const getUpdateTime = async (login) => fetchApi(`/user/updateTime?login=${login}`);
+const getUpdateTime = async (login) =>
+  fetchApi(`/user/updateTime?login=${login}`);
 
 const refreshUserRepos = async (login, token) => fetchApi(
   `/user/repos/refresh?login=${login}&token=${token}`,

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Input } from 'light-ui';
-import Label from './Label';
+import { Input, Label } from 'light-ui';
 import styles from './labels.css';
 
 class Wrapper extends React.Component {
@@ -22,8 +21,11 @@ class Wrapper extends React.Component {
       return (
         <Label
           key={index}
-          value={label}
-          color={color}
+          text={label}
+          color="darkLight"
+          theme="flat"
+          deleteable
+          className={styles.label}
           onDelete={this.onDelete(index)}
         />
       );
@@ -31,12 +33,19 @@ class Wrapper extends React.Component {
   }
 
   render() {
-    const { value, placeholder, max, labels, onKeyDown, onChange } = this.props;
+    const {
+      max,
+      value,
+      labels,
+      onKeyDown,
+      onChange,
+      placeholder,
+    } = this.props;
     return (
-      <div className={styles["labels_wrapper"]}>
+      <div className={styles['labels_wrapper']}>
         {this.renderLabels()}
         { labels.length < max ? (
-          <div className={styles["label_input_wrapper"]}>
+          <div className={styles['label_input_wrapper']}>
             <Input
               value={value}
               required={false}

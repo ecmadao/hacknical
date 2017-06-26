@@ -6,6 +6,7 @@ import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
 import ContributionChart from './ContributionChart';
 import { contributionLevel } from './helper';
+import githubStyles from '../styles/github.css';
 
 const githubTexts = locales('github').sections.orgs;
 const fullDate = dateHelper.validator.fullDate;
@@ -53,22 +54,21 @@ class OrgRepos extends React.Component {
             </a>
             <Label
               theme="ghost"
-              color="gray"
+              color="darkLight"
               text={`<${language}>`}
               clickable={false}
               style={{ lineHeight: 'normal' }}
             />
             {fork ? (
               <Label
-                color="gray"
-                theme="flat"
+                color="darkLight"
                 text="forked"
                 icon="code-fork"
-                style={{ lineHeight: 'normal' }}
                 clickable={false}
+                className={githubStyles.reposLabel}
               />
             ) : ''}
-          </span><br/>
+          </span>
           <span>{fullDate(created_at)} ~ {fullDate(pushed_at)}</span>
           <div className={styles["tipso_line"]}></div>
           <span>
