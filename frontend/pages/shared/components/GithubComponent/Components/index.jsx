@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { FloatingActionButton } from 'light-ui';
 import Api from 'API/index';
 import GitHubSection from 'COMPONENTS/Github/GithubSection';

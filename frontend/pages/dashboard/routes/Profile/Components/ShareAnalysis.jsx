@@ -4,8 +4,15 @@ import cx from 'classnames';
 import Chart from 'chart.js';
 import Clipboard from 'clipboard';
 import { bindActionCreators } from 'redux';
-import objectAssign from 'object-assign';
-import { Loading, InfoCard, CardGroup, IconButton, Input, Tipso } from 'light-ui';
+import objectAssign from 'UTILS/object-assign';
+import {
+  Input,
+  Tipso,
+  Loading,
+  InfoCard,
+  CardGroup,
+  IconButton,
+} from 'light-ui';
 
 import { sortByX } from 'UTILS/helper';
 import { GREEN_COLORS } from 'UTILS/colors';
@@ -164,7 +171,7 @@ class ShareAnalysis extends React.Component {
       width: 120,
       height: 120,
       colorDark: GREEN_COLORS[1],
-      colorLight : "#ffffff",
+      colorLight : '#ffffff',
       correctLevel : QRCode.CorrectLevel.H
     });
   }
@@ -181,6 +188,8 @@ class ShareAnalysis extends React.Component {
     radarConfig.options.title.text = profileTexts.platformChartTitle;
 
     this.viewDevicesChart = new Chart(viewDevicesChart, radarConfig);
+    // this.updateChart();
+    // this.viewDevicesChart.update();
   }
 
   renderSourcesChart() {
@@ -195,6 +204,13 @@ class ShareAnalysis extends React.Component {
     radarConfig.options.title.text = profileTexts.browserChartTitle;
 
     this.viewSourcesChart = new Chart(viewSourcesChart, radarConfig);
+    // this.updateChart();
+    // this.viewSourcesChart.update();
+  }
+
+  updateChart() {
+    this.viewDevicesChart && this.viewDevicesChart.update();
+    this.viewSourcesChart && this.viewSourcesChart.update();
   }
 
   renderChartInfo() {
@@ -230,7 +246,7 @@ class ShareAnalysis extends React.Component {
           subText={profileTexts.browser}
         />
       </CardGroup>
-    )
+    );
   }
 
   getDatas(type) {
@@ -276,7 +292,7 @@ class ShareAnalysis extends React.Component {
           </div>
         )}
       </div>
-    )
+    );
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { Tipso } from 'light-ui';
 
 import Api from 'API';

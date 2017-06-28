@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import dateHelper from 'UTILS/date';
 
 const initialState = {

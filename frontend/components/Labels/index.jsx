@@ -1,5 +1,5 @@
 import React from 'react';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import Wrapper from './Wrapper';
 import WritableGroupWrapper from '../WritableGroupWrapper';
 

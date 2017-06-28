@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { Loading } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import validator from 'UTILS/validator';

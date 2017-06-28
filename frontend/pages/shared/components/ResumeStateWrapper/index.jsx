@@ -1,5 +1,5 @@
 import React, { cloneElement } from 'react';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import Api from 'API/index';
 import {
   objectassign,

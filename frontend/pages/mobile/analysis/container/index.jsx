@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { Loading, Input, IconButton } from 'light-ui';
 
 import Api from 'API/index';

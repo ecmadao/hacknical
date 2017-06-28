@@ -1,5 +1,5 @@
 
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { SOCIAL_LINKS } from 'SHARED/datas/resume';
 
 export const objectassign = (baseObj, targetObj) => {

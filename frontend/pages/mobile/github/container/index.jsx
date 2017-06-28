@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import ScrollReveal from 'scrollreveal';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
@@ -18,7 +18,7 @@ import {
   sortLanguages
 } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
-import { DAYS } from 'UTILS/const_value';
+import { DAYS } from 'UTILS/const-value';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import styles from '../styles/github.css';
 import sharedStyles from '../../shared/styles/mobile.css';

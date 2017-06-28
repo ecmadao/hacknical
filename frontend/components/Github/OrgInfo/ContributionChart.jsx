@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import ReactDOM from 'react-dom';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { Tipso, Label } from 'light-ui';
 
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import dateHelper from 'UTILS/date';
-import { DAYS } from 'UTILS/const_value';
+import { DAYS } from 'UTILS/const-value';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import locales from 'LOCALES';
 import { contributionLevel } from './helper';

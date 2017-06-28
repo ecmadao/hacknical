@@ -6,7 +6,7 @@ import {
   hex2Rgba,
   MD_COLORS
 } from 'UTILS/colors';
-import { OPACITY } from 'UTILS/const_value';
+import { OPACITY } from 'UTILS/const-value';
 import dateHelper from 'UTILS/date';
 import {
   sortRepos,

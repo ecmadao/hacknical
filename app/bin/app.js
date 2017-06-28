@@ -8,8 +8,7 @@ import csrf from 'koa-csrf';
 import json from 'koa-json';
 import cors from 'kcors';
 import locales from 'koa-locales';
-import redisStore from 'koa-redis';
-import session from 'koa-generic-session';
+import session from 'koa-session';
 import config from 'config';
 import nunjucks from 'nunjucks';
 import views from 'koa-views';
@@ -24,6 +23,9 @@ import logger from '../utils/logger';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
+const appName = config.get('appName');
+const redis = config.get('redis');
+
 const app = new Koa();
 app.proxy = true;
 app.keys = [appKey];
@@ -49,15 +51,17 @@ app.use(convert(json()));
 // koa logger
 app.use(convert(koaLogger()));
 // session
-app.use(convert(session({
-  store: redisStore({
-    url: config.get('redis'),
-  }),
-  ttl: 24 * 60 * 60 * 1000 * 5 * 10
-})));
+const CONFIG = {
+  key: `${appName}:session`, /** cookie key */
+  maxAge: 24 * 60 * 60 * 1000 * 10, /** 10 days */
+  overwrite: true, /** (boolean) can overwrite or not (default true) */
+  httpOnly: true, /** (boolean) httpOnly or not (default true) */
+  signed: true, /** (boolean) signed or not (default true) */
+};
+app.use(convert(session(CONFIG, app)));
 // cache
 app.use(redisCache({
-  url: config.get('redis')
+  url: redis
 }));
 // locale
 app.use(checkLocale());

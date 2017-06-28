@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { IconButton, Switcher } from 'light-ui';
 
 import Api from 'API/index';

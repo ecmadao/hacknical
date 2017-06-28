@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Chart from 'chart.js';
-import objectAssign from 'object-assign';
+import objectAssign from 'UTILS/object-assign';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import dateHelper from 'UTILS/date';
-import { DAYS, MONTHS } from 'UTILS/const_value';
+import { DAYS, MONTHS } from 'UTILS/const-value';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import {
   sortRepos,
