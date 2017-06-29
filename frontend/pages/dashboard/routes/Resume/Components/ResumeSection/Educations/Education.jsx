@@ -30,7 +30,7 @@ class Education extends React.Component {
   }
 
   onDateChange(type) {
-    const {handleEduChange} = this.props;
+    const { handleEduChange } = this.props;
     return (momentTime) => {
       const time = momentTime.format('L');
       handleEduChange && handleEduChange(type)(time);
@@ -38,8 +38,14 @@ class Education extends React.Component {
   }
 
   render() {
-    const {edu, handleEduChange, deleteEdu, index} = this.props;
-    const {entranceOpen, graduationOpen} = this.state;
+    const {
+      edu,
+      handleEduChange,
+      deleteEdu,
+      index,
+      disabled
+    } = this.props;
+    const { entranceOpen, graduationOpen } = this.state;
     const {
       school,
       major,
@@ -57,6 +63,7 @@ class Education extends React.Component {
           <Input
             value={school}
             theme="flat"
+            disabled={disabled}
             placeholder={resumeTexts.school}
             className={styles["single_input"]}
             onChange={handleEduChange('school')}
@@ -66,6 +73,7 @@ class Education extends React.Component {
           <Input
             value={major}
             theme="flat"
+            disabled={disabled}
             placeholder={resumeTexts.major}
             onChange={handleEduChange('major')}
           />
@@ -73,6 +81,7 @@ class Education extends React.Component {
             value={education}
             options={EDUCATIONS}
             theme="flat"
+            disabled={disabled}
             onChange={handleEduChange('education')}
           />
         </div>

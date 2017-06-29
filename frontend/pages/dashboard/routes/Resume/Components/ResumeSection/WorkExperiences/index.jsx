@@ -21,47 +21,48 @@ class WorkExperiences extends React.Component {
   }
 
   handleExperienceChange(index) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (type) => (value) => {
       actions.handleWorkExperienceChange({[type]: value}, index);
-    }
+    };
   }
 
   deleteExperience(index) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return () => {
       actions.deleteWorkExperience(index);
-    }
+    };
   }
 
   addProject(workIndex) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return () => {
       actions.addWorkProject(workIndex);
-    }
+    };
   }
 
   deleteProject(workIndex) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (projectIndex) => () => {
       actions.deleteWorkProject(workIndex, projectIndex);
-    }
+    };
   }
 
   handleProjectChange(workIndex) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (projectIndex) => (workProject) => {
       actions.handleWorkProjectChange(workProject, workIndex, projectIndex);
-    }
+    };
   }
 
   renderExperience() {
-    const {workExperiences} = this.props;
+    const { workExperiences, disabled } = this.props;
     return workExperiences.map((workExperience, index) => {
       return (
         <WorkExperience
           key={index}
           index={index}
+          disabled={disabled}
           workExperience={workExperience}
           deleteExperience={this.deleteExperience(index)}
           handleExperienceChange={this.handleExperienceChange(index)}
@@ -69,32 +70,34 @@ class WorkExperiences extends React.Component {
           deleteProject={this.deleteProject(index)}
           handleProjectChange={this.handleProjectChange(index)}
         />
-      )
+      );
     });
   }
 
   render() {
-    const { actions } = this.props;
+    const { actions, disabled } = this.props;
     return (
       <SectionWrapper
+        disabled={disabled}
         title={resumeTexts.title}
         button={resumeTexts.mainButton}
-        onClick={actions.addWorkExperience}>
+        onClick={actions.addWorkExperience}
+      >
         {this.renderExperience()}
       </SectionWrapper>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   const { workExperiences } = state.resume;
-  return { workExperiences }
+  return { workExperiences };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WorkExperiences);

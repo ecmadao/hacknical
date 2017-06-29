@@ -48,13 +48,14 @@ class WorkProject extends React.Component {
   }
 
   render() {
-    const { project, onChange, onDelete } = this.props;
+    const { project, onChange, onDelete, disabled } = this.props;
     return (
       <div className={styles["project_container"]}>
         <div className={styles["project_name_wrapper"]}>
           <InputGroup
             theme="flat"
             value={project.name}
+            disabled={disabled}
             className={styles["last_input"]}
             placeholder={resumeTexts.projectName}
             onChange={this.handleProjectChange('name')}
@@ -72,6 +73,7 @@ class WorkProject extends React.Component {
                 required={false}
                 theme="borderless"
                 subTheme="underline"
+                disabled={disabled}
                 placeholder={resumeTexts.projectHomepage}
                 onChange={this.handleProjectChange('url')}
                 className={styles['tipso_input_long']}

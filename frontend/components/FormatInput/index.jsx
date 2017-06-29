@@ -27,7 +27,7 @@ class FormatInput extends React.Component {
   render() {
     return (
       <Input {...this.props} />
-    )
+    );
   }
 }
 

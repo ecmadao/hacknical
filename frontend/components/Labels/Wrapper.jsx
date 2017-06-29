@@ -12,11 +12,11 @@ class Wrapper extends React.Component {
     const { onDelete } = this.props;
     return () => {
       onDelete && onDelete(index);
-    }
+    };
   }
 
   renderLabels() {
-    const { labels, color } = this.props;
+    const { labels, color, disabled } = this.props;
     return labels.map((label, index) => {
       return (
         <Label
@@ -24,6 +24,7 @@ class Wrapper extends React.Component {
           text={label}
           color="darkLight"
           deleteable
+          disabled={disabled}
           clickable={false}
           className={styles.label}
           onDelete={this.onDelete(index)}
@@ -37,6 +38,7 @@ class Wrapper extends React.Component {
       max,
       value,
       labels,
+      disabled,
       onKeyDown,
       onChange,
       placeholder,
@@ -54,6 +56,7 @@ class Wrapper extends React.Component {
               placeholder={placeholder}
               onChange={onChange}
               onKeyDown={onKeyDown}
+              disabled={disabled}
             />
           </div>
         ) : ''}

@@ -28,7 +28,7 @@ class PersonalProjects extends React.Component {
   }
 
   renderProjects() {
-    const { personalProjects } = this.props;
+    const { personalProjects, disabled } = this.props;
     return personalProjects.map((personalProject, index) => {
       const { url, desc, techs, title } = personalProject;
       return (
@@ -40,6 +40,7 @@ class PersonalProjects extends React.Component {
             <InputGroup
               value={title}
               theme="flat"
+              disabled={disabled}
               placeholder={resumeTexts.projectName}
               tipsoStyle={{
                 left: '0',
@@ -49,6 +50,7 @@ class PersonalProjects extends React.Component {
               onChange={this.handleProjectChange(index)('title')}>
               <TipsoInput
                 value={url}
+                disabled={disabled}
                 placeholder={resumeTexts.homepage}
                 className={styles['tipso_input_long']}
                 onChange={this.handleProjectChange(index)('url')}
@@ -59,6 +61,7 @@ class PersonalProjects extends React.Component {
             <Textarea
               max="200"
               value={desc}
+              disabled={disabled}
               placeholder={resumeTexts.projectDesc}
               type="textarea"
               onChange={this.handleProjectChange(index)('desc')}
@@ -70,6 +73,7 @@ class PersonalProjects extends React.Component {
               onAdd={this.addTech(index)}
               onDelete={this.deleteTech(index)}
               max={5}
+              disabled={disabled}
               placeholder={`+ ${resumeTexts.technologies}`}
             />
           </div>
@@ -98,27 +102,29 @@ class PersonalProjects extends React.Component {
   }
 
   render() {
-    const { actions } = this.props;
+    const { actions, disabled } = this.props;
     return (
       <SectionWrapper
+        disabled={disabled}
         title={resumeTexts.title}
         button={resumeTexts.mainButton}
-        onClick={actions.addPersonalProject}>
+        onClick={actions.addPersonalProject}
+      >
         {this.renderProjects()}
       </SectionWrapper>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   const { personalProjects } = state.resume;
-  return { personalProjects }
+  return { personalProjects };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonalProjects);

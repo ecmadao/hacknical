@@ -4,6 +4,7 @@ import Educations from './Educations';
 import WorkExperiences from './WorkExperiences';
 import PersonalProjects from './PersonalProjects';
 import Others from './Others';
+import objectAssign from 'UTILS/object-assign';
 
 const sections = {
   info: Info,
@@ -15,7 +16,11 @@ const sections = {
 
 const ResumeSection = (props) => {
   const Section = sections[props.section];
-  return <Section />
-}
+  const newProps = objectAssign({}, props);
+  delete newProps.section;
+  return (
+    <Section {...newProps} />
+  );
+};
 
 export default ResumeSection;

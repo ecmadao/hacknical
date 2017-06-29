@@ -18,56 +18,59 @@ class Educations extends React.Component {
   }
 
   handleEduChange(index) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (type) => (value) => {
       actions.handleEduChange({[type]: value}, index);
-    }
+    };
   }
 
   deleteEdu(index) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return () => {
       actions.deleteEducation(index);
-    }
+    };
   }
 
   renderEdu() {
-    const {educations} = this.props;
+    const { educations, disabled } = this.props;
     return educations.map((edu, index) => {
       return (
         <Education
           key={index}
           edu={edu}
           index={index}
+          disabled={disabled}
           deleteEdu={this.deleteEdu(index)}
           handleEduChange={this.handleEduChange(index)}
         />
-      )
+      );
     });
   }
 
   render() {
-    const { actions } = this.props;
+    const { actions, disabled } = this.props;
     return (
       <SectionWrapper
+        disabled={disabled}
         title={resumeTexts.title}
         button={resumeTexts.mainButton}
-        onClick={actions.addEducation}>
+        onClick={actions.addEducation}
+      >
         {this.renderEdu()}
       </SectionWrapper>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   const { educations } = state.resume;
-  return { educations }
+  return { educations };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Educations);

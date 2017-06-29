@@ -10,7 +10,8 @@ export const TipsoInput = (props) => {
     required,
     placeholder,
     onChange,
-    className
+    className,
+    disabled = false
   } = props;
   return (
     <div className={styles["project_link_wrapper"]}>
@@ -19,6 +20,7 @@ export const TipsoInput = (props) => {
       <Input
         value={value}
         type={type}
+        disabled={disabled}
         required={required}
         theme="borderless"
         subTheme="underline"
@@ -39,7 +41,8 @@ TipsoInput.defaultProps = {
   required: false,
   placeholder: '',
   className: '',
-  onChange: () => {}
+  onChange: () => {},
+  disabled: false,
 };
 
 export const SectionWrapper = (props) => {
@@ -55,6 +58,7 @@ export const SectionWrapper = (props) => {
         <Button
           theme="flat"
           value={props.button}
+          disabled={props.disabled}
           leftIcon={(
             <i className="fa fa-plus-circle" aria-hidden="true"></i>
           )}
@@ -62,5 +66,13 @@ export const SectionWrapper = (props) => {
         />
       </div>
     </div>
-  )
+  );
+};
+
+SectionWrapper.defaultProps = {
+  title: '',
+  children: null,
+  button: '',
+  disabled: false,
+  onClick: () => {}
 };

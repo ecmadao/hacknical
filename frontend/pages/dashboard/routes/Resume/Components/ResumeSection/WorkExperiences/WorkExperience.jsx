@@ -35,7 +35,7 @@ class WorkExperience extends React.Component {
   }
 
   onDateChange(type) {
-    const {handleExperienceChange} = this.props;
+    const { handleExperienceChange } = this.props;
     return (momentTime) => {
       const time = momentTime.format('L');
       handleExperienceChange && handleExperienceChange(type)(time);
@@ -43,27 +43,29 @@ class WorkExperience extends React.Component {
   }
 
   renderWorkProjects(projects) {
-    const { handleProjectChange, deleteProject } = this.props;
+    const { handleProjectChange, deleteProject, disabled } = this.props;
     return projects.map((project, index) => {
       return (
         <WorkProject
           key={index}
           project={project}
+          disabled={disabled}
           onDelete={deleteProject(index)}
           onChange={handleProjectChange(index)}
         />
-      )
-    })
+      );
+    });
   }
 
   render() {
-    const {startOpen, endOpen} = this.state;
+    const { startOpen, endOpen } = this.state;
     const {
       index,
       workExperience,
       deleteExperience,
       handleExperienceChange,
-      addProject
+      addProject,
+      disabled
     } = this.props;
     const {
       url,
@@ -74,7 +76,9 @@ class WorkExperience extends React.Component {
       projects
     } = workExperience;
 
-    const endText = getSecondsByDate(endTime) >= getSecondsByDate(DATE_NOW) ? resumeTexts.untilNow : resumeTexts.dimissionAt;
+    const endText = getSecondsByDate(endTime) >= getSecondsByDate(DATE_NOW)
+      ? resumeTexts.untilNow
+      : resumeTexts.dimissionAt;
 
     return (
       <div className={styles["resume_piece_container"]}>
@@ -85,6 +89,7 @@ class WorkExperience extends React.Component {
           <InputGroup
             value={company}
             theme="flat"
+            disabled={disabled}
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}>
             <TipsoInput
@@ -97,6 +102,7 @@ class WorkExperience extends React.Component {
           <Input
             value={position}
             theme="flat"
+            disabled={disabled}
             placeholder={resumeTexts.position}
             className={styles["last_input"]}
             onChange={handleExperienceChange('position')}

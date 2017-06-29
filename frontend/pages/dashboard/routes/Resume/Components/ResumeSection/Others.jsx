@@ -67,7 +67,8 @@ class Others extends React.Component {
       expectSalary,
       expectPosition,
       supplements,
-      expectLocation
+      expectLocation,
+      disabled
     } = this.props;
 
     return (
@@ -83,12 +84,14 @@ class Others extends React.Component {
               formatType="number"
               theme="flat"
               id="input-expect-salary"
+              disabled={disabled}
               onChange={this.handleOthersChange('expectSalary')}
             />
             <Input
               value={expectLocation}
               placeholder={resumeTexts.expectCity}
               theme="flat"
+              disabled={disabled}
               onChange={this.handleOthersChange('expectLocation')}
             />
           </div>
@@ -97,6 +100,7 @@ class Others extends React.Component {
               value={dream}
               placeholder={resumeTexts.yourDream}
               theme="flat"
+              disabled={disabled}
               onChange={this.handleOthersChange('dream')}
             />
           </div>
@@ -119,19 +123,19 @@ class Others extends React.Component {
         </div>
         <div/>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   const { others } = state.resume;
-  return { ...others }
+  return { ...others };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Others);

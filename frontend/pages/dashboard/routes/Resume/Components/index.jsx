@@ -180,7 +180,7 @@ class Resume extends React.Component {
   render() {
     const { activeSection, openModal, openIntroModal, openShareModal } = this.state;
     const { resume, actions } = this.props;
-    const { shareInfo, downloadDisabled } = resume;
+    const { shareInfo, downloadDisabled, loading } = resume;
     const { url, openShare } = shareInfo;
 
     const origin = window.location.origin;
@@ -238,7 +238,7 @@ class Resume extends React.Component {
           </div>
         </div>
         <div className={styles["resume_sections"]}>
-          <ResumeSection section={activeSection} />
+          <ResumeSection section={activeSection} disabled={loading} />
           <div className={cx(styles["resume_operations"], styles["bottom"])}>
             <div className={styles["operations_wrapper"]}>
               {currentIndex > 0 && (

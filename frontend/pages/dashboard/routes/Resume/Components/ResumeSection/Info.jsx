@@ -34,7 +34,8 @@ class Info extends React.Component {
       gender,
       location,
       intention,
-      avator
+      avator,
+      disabled
     } = this.props;
     return (
       <div className={styles["resume_piece_container"]}>
@@ -46,12 +47,14 @@ class Info extends React.Component {
             value={name}
             placeholder={resumeTexts.name}
             theme="flat"
+            disabled={disabled}
             onChange={this.handleInfoChange('name')}
           />
           <SelectorV2
             value={gender}
             options={GENDERS}
             theme="flat"
+            disabled={disabled}
             onChange={this.handleInfoChange('gender')}
           />
         </div>
@@ -61,6 +64,7 @@ class Info extends React.Component {
             value={email}
             placeholder={resumeTexts.email}
             theme="flat"
+            disabled={disabled}
             onChange={this.handleInfoChange('email')}
           />
           <Input
@@ -69,6 +73,7 @@ class Info extends React.Component {
             placeholder={resumeTexts.phone}
             theme="flat"
             formatType="phone"
+            disabled={disabled}
             onChange={this.handleInfoChange('phone')}
           />
         </div>
@@ -77,29 +82,31 @@ class Info extends React.Component {
             value={intention}
             placeholder={resumeTexts.job}
             theme="flat"
+            disabled={disabled}
             onChange={this.handleInfoChange('intention')}
           />
           <Input
             value={location}
             placeholder={resumeTexts.position}
             theme="flat"
+            disabled={disabled}
             onChange={this.handleInfoChange('location')}
           />
         </div>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   const { info } = state.resume;
-  return { ...info }
+  return { ...info };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Info);
