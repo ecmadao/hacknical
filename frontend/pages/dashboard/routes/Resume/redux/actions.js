@@ -7,7 +7,7 @@ import Api from 'API';
  */
 const togglePosting = createAction('TOGGLE_POSTING');
 const initialResume = createAction('INITIAL_RESUME');
-const fetchResume = () => (dispatch, getState) => {
+const fetchResume = () => (dispatch) => {
   Api.resume.getResume().then((result) => {
     result && dispatch(initialResume(result));
   });
@@ -16,13 +16,14 @@ const fetchResume = () => (dispatch, getState) => {
 const saveResume = () => (dispatch, getState) => {
   const { resume } = getState();
   const { posting } = resume;
-  if (posting) { return }
+  if (posting) { return; }
 
   dispatch(togglePosting(true));
 
   const postResume = objectAssign({}, resume);
   delete postResume.loading;
   delete postResume.posting;
+  delete postResume.edited;
   delete postResume.shareInfo;
 
   Api.resume.setResume(postResume).then((result) => {
@@ -98,7 +99,8 @@ const {
   deleteLocation,
   addSupplement,
   deleteSupplement,
-  toggleDownloadButton
+  toggleDownloadButton,
+  resetEdited,
 } = createActions(
   {
     CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index }),
@@ -109,7 +111,8 @@ const {
   'DELETE_LOCATION',
   'ADD_SUPPLEMENT',
   'DELETE_SUPPLEMENT',
-  'TOGGLE_DOWNLOAD_BUTTON'
+  'TOGGLE_DOWNLOAD_BUTTON',
+  'RESET_EDITED'
 );
 
 // resume share
@@ -150,6 +153,8 @@ export default {
   saveResume,
   // loading
   toggleLoading,
+  togglePosting,
+  resetEdited,
   // info
   handleInfoChange,
   // edu
@@ -187,4 +192,4 @@ export default {
   // resume download
   downloadResume,
   toggleDownloadButton
-}
+};

@@ -1,5 +1,6 @@
 const datas = {
   updateAt: "更新于：",
+  editedConfirm: "简历已编辑，不保存吗？",
   buttons: {
     save: '保存',
     preview: '预览',

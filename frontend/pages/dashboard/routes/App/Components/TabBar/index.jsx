@@ -5,6 +5,9 @@ import AppAction from '../../redux/actions';
 import TABS from 'SRC/data/tab';
 import styles from 'SRC/vendor/tabBar/index.css';
 import Tab from './Tab';
+import locales from 'LOCALES';
+
+const resumeTexts = locales("resume");
 
 /**
  * TODO: Add animation
@@ -23,8 +26,8 @@ class TabBar extends React.Component {
   }
 
   changeActiveTab(e, id, enable) {
-    const { changeActiveTab } = this.props;
-    if (!enable) {
+    const { changeActiveTab, edited } = this.props;
+    if ((edited && !window.confirm(resumeTexts.editedConfirm)) || !enable) {
       e.stopPropagation();
       e.preventDefault();
       return false;
@@ -33,7 +36,7 @@ class TabBar extends React.Component {
   }
 
   renderTab() {
-    const { changeActiveTab, activeTab } = this.props;
+    const { activeTab } = this.props;
 
     return TABS.map((tab, index) => {
       return (
@@ -43,8 +46,8 @@ class TabBar extends React.Component {
           active={activeTab === tab.id}
           onChange={this.changeActiveTab}
         />
-      )
-    })
+      );
+    });
   }
 
   render() {
@@ -54,16 +57,18 @@ class TabBar extends React.Component {
           {this.renderTab()}
         </div>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   const { tabBarActive, activeTab } = state.app;
+  const { resume } = state;
   return {
     tabBarActive,
-    activeTab
-  }
+    activeTab,
+    edited: resume && resume.edited
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -71,7 +76,7 @@ function mapDispatchToProps(dispatch) {
     changeActiveTab: (tab) => {
       dispatch(AppAction.changeTab(tab));
     }
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabBar);

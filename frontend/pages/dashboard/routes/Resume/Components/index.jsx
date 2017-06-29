@@ -17,6 +17,7 @@ import locales from 'LOCALES';
 
 const message = new Message();
 const resumeTexts = locales("resume");
+const editedConfirm = resumeTexts.editedConfirm
 const INTROS = [
   {
     title: '使用说明',
@@ -45,6 +46,7 @@ class Resume extends React.Component {
       openShareModal: false,
       activeSection: RESUME_SECTIONS[0].id
     };
+    this.onBeforeUnload = this.onBeforeUnload.bind(this);
     this.downloadResume = this.downloadResume.bind(this);
     this.handleModalStatus = this.handleModalStatus.bind(this);
     this.handleShareModalStatus = this.handleShareModalStatus.bind(this);
@@ -77,6 +79,32 @@ class Resume extends React.Component {
     this.props.actions.fetchResume();
     this.props.actions.fetchPubResumeStatus();
     this.bindHotkeys();
+
+    if (window.addEventListener) {
+      window.addEventListener('beforeunload', this.onBeforeUnload, true);
+    } else {
+      window.attachEvent('onbeforeunload', this.onBeforeUnload);
+    }
+  }
+
+  componentWillUnmount() {
+    const { actions } = this.props;
+    actions.resetEdited();
+    if (window.removeEventListener) {
+      window.removeEventListener('beforeunload', this.onBeforeUnload, true);
+    } else {
+      window.detachEvent('onbeforeunload', this.onBeforeUnload);
+    }
+  }
+
+  onBeforeUnload(e) {
+    const { resume } = this.props;
+    if (!resume.edited) return;
+    e = e || window.event;
+    if (e) {
+      e.returnValue = editedConfirm;
+    }
+    return editedConfirm;
   }
 
   downloadResume() {

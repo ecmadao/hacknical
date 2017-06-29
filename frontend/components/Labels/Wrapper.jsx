@@ -24,6 +24,7 @@ class Wrapper extends React.Component {
           text={label}
           color="darkLight"
           deleteable
+          clickable={false}
           className={styles.label}
           onDelete={this.onDelete(index)}
         />

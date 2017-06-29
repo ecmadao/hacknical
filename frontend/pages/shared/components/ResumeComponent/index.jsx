@@ -45,7 +45,7 @@ const linkInfo = (options) => {
 
   return hasUrl ? (
     <a target="_blank" href={validateUrl(url)} className={headerClass}>
-      <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
+      <i className="fa fa-link" aria-hidden="true"></i>&nbsp;
       {title}
     </a>
   ) : (<div className={headerClass}>{title}</div>);
