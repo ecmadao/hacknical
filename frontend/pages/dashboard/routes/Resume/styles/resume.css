@@ -378,5 +378,6 @@
 }
 
 .tipso_input_long {
+  composes: tipso_input;
   width: 260px;
 }

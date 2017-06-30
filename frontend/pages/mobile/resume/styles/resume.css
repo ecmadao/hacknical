@@ -53,6 +53,16 @@
   }
 }
 
+.mainLinkText {
+}
+
+.sideLinkText {
+  font-size: var(--sideFontSize);
+  line-height: 1.5em;
+  text-decoration: none;
+  color: var(--oc-green-5);
+}
+
 .container {
   font-size: var(--mainFontSize);
 }
@@ -88,6 +98,10 @@
   &:not(:last-child) {
     border-bottom: 1px solid var(--darkBg);
   }
+}
+
+.stress {
+  color: var(--oc-gray-7) !important;
 }
 
 .row-left {

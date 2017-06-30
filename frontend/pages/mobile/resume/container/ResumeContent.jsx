@@ -23,8 +23,15 @@ const LINK_OPTIONS = {
   icon: null,
   className: ''
 };
+
 const LinkInfo = (options = LINK_OPTIONS) => {
-  const { text, url, showIcon, icon, className } = objectAssign({}, LINK_OPTIONS, options);
+  const {
+    text,
+    url,
+    showIcon,
+    icon,
+    className
+  } = objectAssign({}, LINK_OPTIONS, options);
   return (
     <a target="_blank" href={url} className={cx(styles.linkText, className)}>
       {showIcon ? (
@@ -36,6 +43,15 @@ const LinkInfo = (options = LINK_OPTIONS) => {
       ) : ''}
       {text}
     </a>
+  );
+};
+
+const HeaderInfo = (options = {}) => {
+  const { url, text, showIcon } = options;
+  if (showIcon === undefined) options.showIcon = false;
+  if (url) return LinkInfo(options);
+  return (
+    <div className={styles['project-header']}>{text}</div>
   );
 };
 
@@ -109,7 +125,14 @@ class ResumeContent extends React.Component {
       .sort(sortByDate)
       .reverse()
       .map((experience, index) => {
-        const { company, url, startTime, endTime, position, projects } = experience;
+        const {
+          url,
+          company,
+          startTime,
+          endTime,
+          position,
+          projects
+        } = experience;
         const workProjects = this.renderWorkProjects(projects);
         return (
           <div className={styles['section-row']} key={index}>
@@ -118,7 +141,11 @@ class ResumeContent extends React.Component {
             </div>
             <div className={cx(styles['row-right'], styles['right-container'])}>
               <div className={styles['right-header']}>
-                <div className={styles.mainText}>{company}</div>
+                {HeaderInfo({
+                  url,
+                  text: company,
+                  className: styles.mainLinkText
+                })}
                 {position ? (<div className={styles.sideText}>{position}</div>) : ''}
               </div>
               <div className={styles['section-projects']}>
@@ -157,7 +184,11 @@ class ResumeContent extends React.Component {
         });
         return (
           <div key={index} className={styles['section-project']}>
-            <div className={styles['project-header']}>{name}</div>
+            {HeaderInfo({
+              url,
+              text: name,
+              className: styles.sideLinkText
+            })}
             <ul className={styles['section-list']}>
               {projectDetails}
             </ul>
@@ -231,7 +262,11 @@ class ResumeContent extends React.Component {
             自我评价
           </div>
           <div className={styles['row-right']}>
-            <ul className={cx(styles['section-list'], styles.sideText)}>
+            <ul className={cx(
+                styles['section-list'],
+                styles.sideText,
+                styles.stress
+              )}>
               {personalSupplements}
             </ul>
           </div>
@@ -274,7 +309,7 @@ class ResumeContent extends React.Component {
         });
       }
     }
-    return (<Slick sliders={sliders} className={styles.slick}/>);
+    return (<Slick sliders={sliders} className={styles.slick} />);
   }
 
   render() {

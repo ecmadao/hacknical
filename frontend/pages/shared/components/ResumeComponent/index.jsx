@@ -380,8 +380,12 @@ class ResumeComponent extends React.Component {
                   <a href={`mailto:${info.email}`} className={styles["right_link"]}>{info.email}</a>
                 )
               }))
-              : ''}
-            {baseInfo(`${info.location}   ${info.intention}`, 'map-marker', { style: styles["right_info"] })}
+              : ''
+            }
+            {info.location
+              ? baseInfo(`${info.location}   ${info.intention}`, 'map-marker', { style: styles["right_info"] })
+              : ''
+            }
             {others.dream ? (
               <div className={styles["user_dream"]}>
                 {baseInfo(others.dream, 'quote-left', { style: styles["right_info"] })}
