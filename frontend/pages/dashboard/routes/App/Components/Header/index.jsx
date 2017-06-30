@@ -71,35 +71,41 @@ class Header extends React.Component {
               position="bottom"
               className={styles["menu_tipso"]}
               tipsoContent={(<span>{headers.about}</span>)}>
-              <a
-                href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale || 'en'}.md`}
-                target="_blank"
-                className={styles["header_menu_icon_right"]}>
-                <i className="fa fa-question-circle" aria-hidden="true"></i>
-              </a>
+              <div className={styles.headerMenuWrapper}>
+                <a
+                  href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale || 'en'}.md`}
+                  target="_blank"
+                  className={styles["header_menu_icon_right"]}>
+                  <i className="fa fa-question-circle" aria-hidden="true"></i>
+                </a>
+              </div>
             </Tipso>
             <Tipso
               theme="dark"
               position="bottom"
               className={styles["menu_tipso"]}
               tipsoContent={(<span>{headers.feedback}</span>)}>
-              <a
-                href="https://github.com/ecmadao/hacknical/issues"
-                target="_blank"
-                className={styles["header_menu_icon_right"]}>
-                <i className="fa fa-info-circle" aria-hidden="true"></i>
-              </a>
+              <div className={styles.headerMenuWrapper}>
+                <a
+                  href="https://github.com/ecmadao/hacknical/issues"
+                  target="_blank"
+                  className={styles["header_menu_icon_right"]}>
+                  <i className="fa fa-info-circle" aria-hidden="true"></i>
+                </a>
+              </div>
             </Tipso>
             <Tipso
               theme="dark"
               position="bottom"
               className={styles["menu_tipso"]}
               tipsoContent={(<span>{headers.logout}</span>)}>
-              <a
-                href="/user/logout"
-                className={styles["header_menu_icon_right"]}>
-                <i className="fa fa-sign-out" aria-hidden="true"></i>
-              </a>
+              <div className={styles.headerMenuWrapper}>
+                <a
+                  href="/user/logout"
+                  className={styles["header_menu_icon_right"]}>
+                  <i className="fa fa-sign-out" aria-hidden="true"></i>
+                </a>
+              </div>
             </Tipso>
           </div>
         </div>

@@ -1,5 +1,9 @@
 @import 'open-color/open-color.css';
 
+:root {
+  --dashboardHeaderHeight: 50px;
+}
+
 /* main */
 .app {
   width: 100%;
@@ -18,8 +22,8 @@
 .app_header {
   background-color: var(--oc-white);
   color: var(--oc-gray-7);
-  height: 50px;
-  line-height: 50px;
+  height: var(--dashboardHeaderHeight);
+  line-height: var(--dashboardHeaderHeight);
 }
 
 .app_header_container {
@@ -28,7 +32,7 @@
   max-width: 1248px;
   display: flex;
   max-width: 750px;
-  height: 50px;
+  height: var(--dashboardHeaderHeight);
 }
 
 /* tabbar */
@@ -108,6 +112,14 @@
   line-height: normal;
 }
 
+.headerMenuWrapper {
+  height: var(--dashboardHeaderHeight);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .header_menu_icon_right {
   composes: header_menu_icon;
   position: relative;
@@ -148,13 +160,11 @@
 }
 
 .menu_tipso {
-  min-width: 50px !important;
-  transform: translate(-50%, 15px);
+  min-width: var(--dashboardHeaderHeight) !important;
   z-index: var(--zIndex999) !important;
 }
 
 .zen_tipso {
-  transform: translate(-50%, 0px);
   z-index: var(--zIndex999) !important;
   min-width: 90px !important;
 }

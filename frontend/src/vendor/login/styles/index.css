@@ -178,7 +178,7 @@
   color: var(--oc-gray-7);
   text-align: left;
   padding: 10px 20px;
-  min-width: 170px;
+  min-width: 190px;
   line-height: 1.5em;
 
   &::before,
