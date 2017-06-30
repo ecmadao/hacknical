@@ -3,6 +3,7 @@ import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
 import languages from '../../utils/languages';
 import { getMobileMenu, getGithubSections } from './shared';
+import logger from '../utils/logger';
 
 const logout = async (ctx, next) => {
   ctx.session.userId = null;
@@ -26,7 +27,12 @@ const loginPage = async (ctx, next) => {
     languageText: ctx.__("language.text"),
     languageId: ctx.__("language.id"),
     isMobile: ctx.state.isMobile,
-    clientId: clientId
+    clientId: clientId,
+    statistic: {
+      developers: ctx.__("loginPage.statistic.developers"),
+      pageview: ctx.__("loginPage.statistic.pageview"),
+      resumes: ctx.__("loginPage.statistic.resumes"),
+    }
   });
 };
 
@@ -38,8 +44,9 @@ const githubLogin = async (ctx, next) => {
     if (userInfo.login) {
       ctx.session.githubToken = githubToken;
       ctx.session.githubLogin = userInfo.login;
-      const loginResult = await User.loginWithGithub(userInfo);
+      const loginResult = await User.loginWithGithub(userInfo, ctx.cache);
       if (loginResult.success) {
+        logger.info(`[USER:LOGIN][${userInfo.login}]`);
         ctx.session.userId = loginResult.result;
         return ctx.redirect('/dashboard');
       }
@@ -56,6 +63,7 @@ const initialFinished = async (ctx, next) => {
     userId,
     initialed: true
   });
+  ctx.cache.hincrby('github', 'count', 1);
 
   return ctx.body = {
     success: true,
@@ -152,5 +160,5 @@ export default {
   mobileSetting,
   // github sections
   getGithubShareSections,
-  setGithubShareSections
+  setGithubShareSections,
 };

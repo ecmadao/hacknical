@@ -5,7 +5,7 @@ const getCache = (key, options = {}) => async (ctx, next) => {
   const cacheKey = getCacheKey(ctx)(key, options);
   const result = await ctx.cache.get(cacheKey);
   if (result) {
-    logger.debug(`[CACHE:GET] [KEY: ${cacheKey}]`);
+    logger.debug(`[CACHE:GET][${cacheKey}]`);
     return ctx.body = {
       success: true,
       result
@@ -24,7 +24,7 @@ const setCache = (options = {}) => async (ctx, next) => {
   if (cacheKeys && cacheKeys.length && result && shouldCache) {
     for (let i = 0; i < cacheKeys.length; i++) {
       const cacheKey = cacheKeys[i];
-      logger.debug(`[CACHE:SET] [KEY: ${cacheKey}]`);
+      logger.debug(`[CACHE:SET][${cacheKey}]`);
       await ctx.cache.set(cacheKey, result, { expire });
     }
   }
@@ -33,7 +33,7 @@ const setCache = (options = {}) => async (ctx, next) => {
 const removeCache = (keys = []) => async (ctx, next) => {
   const targetKeys = ctx.query.deleteKeys || keys;
   for(let i = 0; i < targetKeys.length; i++) {
-    logger.debug(`[CACHE:DEL] [KEY: ${targetKeys[i]}]`);
+    logger.debug(`[CACHE:DEL][${targetKeys[i]}]`);
     await ctx.cache.del(targetKeys[i]);
   }
 };

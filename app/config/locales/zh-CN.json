@@ -10,7 +10,12 @@
 		"login": "登录",
 		"about": "关于",
 		"loginText": "用 GitHub 数据辅助你进行简历投递",
-		"loginButtonText": "通过 GitHub 登录"
+		"loginButtonText": "通过 GitHub 登录",
+		"statistic": {
+			"developers": " 位开发者在此",
+			"pageview": " 次页面浏览量",
+			"resumes": " 个简历被创建"
+		}
 	},
 	"errorPage": {
 		"title": "hacknical | 没有找到页面",

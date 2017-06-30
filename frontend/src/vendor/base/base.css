@@ -18,7 +18,7 @@ input, button, textarea, select {
 }
 
 body,html, input, textarea, pre {
-  font-family: 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Lato', 'Microsoft YaHei', sans-serif;
+  font-family: 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
 }
 
 ::-webkit-scrollbar {

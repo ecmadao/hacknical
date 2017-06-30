@@ -15,7 +15,7 @@ import views from 'koa-views';
 import userAgent from 'koa-useragent';
 
 import assetsPath from '../middlewares/assets_helper';
-import redisCache from '../middlewares/cache_helper';
+import { redisMiddleware } from '../middlewares/cache_helper';
 import catch404 from '../middlewares/404_helper';
 import checkLocale from '../middlewares/locale_helper';
 import router from '../routes/index';
@@ -60,9 +60,10 @@ const CONFIG = {
 };
 app.use(convert(session(CONFIG, app)));
 // cache
-app.use(redisCache({
+app.use(redisMiddleware({
   url: redis
 }));
+
 // locale
 app.use(checkLocale());
 // catch 404

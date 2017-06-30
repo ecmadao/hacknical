@@ -29,6 +29,25 @@
     <span>
       {{ loginText }}
     </span>
+    {% if not isMobile %}
+      <div class="statistic-container">
+        <div class="statistic">
+          <span class="statistic-count statistic-users"></span>
+          ·
+          <span class="statistic-count statistic-pv"></span>
+          ·
+          <span class="statistic-count statistic-resume"></span>
+        </div>
+        <div class="statistic-modal">
+          <strong class="statistic-users">2719</strong>
+          {{ statistic.developers }}<br />
+          <strong class="statistic-pv">219816</strong>
+          {{ statistic.pageview }}<br />
+          <strong class="statistic-resume">102</strong>
+          {{ statistic.resumes }}<br />
+        </div>
+      </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

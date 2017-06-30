@@ -29,5 +29,9 @@ router.get(
   '/initial',
   Home.initial
 );
+router.get(
+  '/statistic',
+  Home.statistic
+);
 
 export default router;

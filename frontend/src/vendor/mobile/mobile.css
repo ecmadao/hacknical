@@ -42,7 +42,7 @@ html, body {
   justify-content: center;
   margin-right: var(--topbarHeight);
   font-size: 1.6em;
-  font-family: 'VT323', 'Lato', monospace, sans-serif;
+  font-family: 'Righteous', monospace, sans-serif;
 }
 
 .mobile_menu_wrapper {

@@ -79,7 +79,7 @@ class CommitInfo extends React.Component {
 
     /* weekly commits chart view */
     if (chartType === 'week') {
-      if (this.weeklyCommits) { return this.weeklyCommits }
+      if (this.weeklyCommits) { return this.weeklyCommits; }
       commits.forEach((item, index) => {
         commitDates.push(item.total);
         dateLabels.push(
@@ -95,7 +95,7 @@ class CommitInfo extends React.Component {
 
     /* daily commits chart view */
     if (chartType === 'day') {
-      if (this.dailyCommits) { return this.dailyCommits }
+      if (this.dailyCommits) { return this.dailyCommits; }
       commits.forEach((item, index) => {
         item.days.forEach((day, dayIndex) => {
           commitDates.push(day);
@@ -119,17 +119,23 @@ class CommitInfo extends React.Component {
       const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
 
       const thisMonthKey = `${year}-${parseInt(month, 10)}`;
-      const totalCommits = item.days.slice(sliceIndex).reduce((pre, next) => pre + next, 0);
+      const totalCommits = item.days.slice(sliceIndex).reduce(
+        (pre, next) => pre + next, 0);
       const targetCommits = monthlyCommits[thisMonthKey];
-      monthlyCommits[thisMonthKey] = isNaN(targetCommits) ? totalCommits : totalCommits + targetCommits;
+      monthlyCommits[thisMonthKey] = isNaN(targetCommits)
+        ? totalCommits
+        : totalCommits + targetCommits;
 
       if (sliceIndex > 0) {
-        const preMonthKey = parseInt(month, 10) - 1 <= 0 ?
-          `${parseInt(year, 10) - 1}-12` :
-          `${year}-${parseInt(month, 10) - 1}`;
-        const preTotalCommits = item.days.slice(0, sliceIndex).reduce((pre, next) => pre + next, 0);
+        const preMonthKey = parseInt(month, 10) - 1 <= 0
+          ? `${parseInt(year, 10) - 1}-12`
+          : `${year}-${parseInt(month, 10) - 1}`;
+        const preTotalCommits = item.days.slice(0, sliceIndex).reduce(
+          (pre, next) => pre + next, 0);
         const preTargetCommits = monthlyCommits[preMonthKey];
-        monthlyCommits[preMonthKey] = isNaN(preTargetCommits) ? preTotalCommits : preTotalCommits + preTargetCommits;
+        monthlyCommits[preMonthKey] = isNaN(preTargetCommits)
+          ? preTotalCommits
+          : preTotalCommits + preTargetCommits;
       }
     });
 
@@ -149,8 +155,10 @@ class CommitInfo extends React.Component {
     const { commitDates, dateLabels } = this.yearlyChartDatas;
     this.commitsYearlyReviewChart.data.labels = dateLabels;
     this.commitsYearlyReviewChart.data.datasets[0].data = commitDates;
-    this.commitsYearlyReviewChart.data.datasets[0].pointBorderWidth = chartType === 'day' ? 0 : 2;
-    this.commitsYearlyReviewChart.data.datasets[0].pointRadius = chartType === 'day' ? 0 : 3;
+    this.commitsYearlyReviewChart.data.datasets[0].pointBorderWidth =
+      chartType === 'day' ? 0 : 2;
+    this.commitsYearlyReviewChart.data.datasets[0].pointRadius =
+      chartType === 'day' ? 0 : 3;
     this.commitsYearlyReviewChart.update();
   }
 

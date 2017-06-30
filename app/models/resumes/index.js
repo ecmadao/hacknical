@@ -24,7 +24,11 @@ const addResume = async (userId, resume = DEFAULT_RESUME) => {
   });
 };
 
-const updateResume = async (userId, resume) => {
+const updateResume = async (userId, resume, cache) => {
+  const findResult = await findResume(userId);
+  if (!findResult) {
+    ctx.cache.hincrby('resume', 'count', 1);
+  }
   await Resume.remove({ userId });
   return await addResume(userId, resume);
 };
@@ -69,9 +73,9 @@ const getResume = async (userId) => {
   });
 };
 
-const removeAll = async () => {
-  await Resume.remove();
-};
+const removeAll = async () => await Resume.remove();
+
+const findAll = async () => await Resume.find({});
 
 export default {
   initialResume,
@@ -79,5 +83,6 @@ export default {
   getResume,
   getUpdateTime,
   updateResume,
-  removeAll
-}
+  removeAll,
+  findAll,
+};

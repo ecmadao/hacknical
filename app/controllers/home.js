@@ -44,9 +44,25 @@ const initial = async (ctx, next) => {
   });
 };
 
+const statistic = async (ctx) => {
+  const usersCount = await ctx.cache.get('users');
+  const githubHashFields = await ctx.cache.hgetall('github');
+  const resumeHashFields = await ctx.cache.hgetall('resume');
+
+  ctx.body = {
+    success: true,
+    result: {
+      users: usersCount,
+      github: githubHashFields,
+      resume: resumeHashFields
+    }
+  };
+};
+
 export default {
   index,
   handle404,
   dashboard,
-  initial
-}
+  initial,
+  statistic
+};

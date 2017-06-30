@@ -112,6 +112,8 @@ const updateShare = async (options) => {
   });
 };
 
+const findAll = async () => await ShareAnalyse.find({});
+
 export default {
   findShare,
   disableShare,
@@ -120,5 +122,6 @@ export default {
   updateShare,
   updateViewData,
   checkShareEnable,
-  changeShareStatus
-}
+  changeShareStatus,
+  findAll,
+};

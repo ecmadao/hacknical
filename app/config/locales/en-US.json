@@ -10,7 +10,12 @@
     "login": "LOGIN",
     "about": "ABOUT",
     "loginText": "USE GITHUB DATA TO MAKE A BETTER RESUME",
-    "loginButtonText": "Login with GitHub"
+    "loginButtonText": "Login with GitHub",
+    "statistic": {
+			"developers": " developers here.",
+			"pageview": " shared pageview count.",
+			"resumes": " resumes were created."
+		}
   },
   "errorPage": {
     "title": "hacknical | not found",

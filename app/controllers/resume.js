@@ -8,6 +8,7 @@ import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import { getGithubSections, getMobileMenu } from './shared';
 import Slack from '../services/slack';
+import logger from '../utils/logger';
 
 /* ===================== private ===================== */
 
@@ -70,7 +71,8 @@ const setResume = async (ctx, next) => {
     data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
   });
 
-  const setResult = await Resume.updateResume(userId, resume);
+  const setResult = await Resume.updateResume(userId, resume, ctx.cache);
+  logger.info(`[RESUME:UPDATE][${githubLogin}]`);
   let resumeInfo = null;
   if (setResult.success) {
     // check & add resume share info
@@ -109,11 +111,14 @@ const downloadResume = async (ctx, next) => {
   const { result } = await ResumePub.getUpdateTime(hash);
   const seconds = dateHelper.getSeconds(result);
 
-  const resumeUrl = `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
+  const resumeUrl =
+    `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
   Slack.msg({
     type: 'download',
     data: `<${resumeUrl}|${githubLogin} resume>`
   });
+  logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
+  ctx.cache.hincrby('resume', 'download', 1);
   const resultUrl = await Downloads.resume(resumeUrl, {
     folder: githubLogin,
     title: `${seconds}-resume.pdf`
@@ -191,7 +196,8 @@ const getPubResumeStatus = async (ctx, next) => {
   if (success && result && fromDownload) {
     const { userId } = findPubResume.result;
     const user = await User.findUserById(userId);
-    shareResult.result.githubUrl = `${URL}/github/${user.githubLogin}?locale=${locale}`;
+    shareResult.result.githubUrl =
+      `${URL}/github/${user.githubLogin}?locale=${locale}`;
   }
 
   return ctx.body = shareResult;
@@ -286,7 +292,11 @@ const getShareRecords = async (ctx, next) => {
     return;
   }
 
-  const shareAnalyse = await ShareAnalyse.findShare({ url: `resume/${result.resumeHash}`, userId });
+  const shareAnalyse =
+    await ShareAnalyse.findShare({
+      url: `resume/${result.resumeHash}`,
+      userId
+    });
   const { viewDevices, viewSources, pageViews } = shareAnalyse;
   ctx.body = {
     success: true,

@@ -1,17 +1,37 @@
+import config from 'config';
 import Redis from 'redis';
 import wrapper from 'co-redis';
+import logger from '../utils/logger';
 
+/*
+ * Hash: resume
+ * ---------> count: Number
+ * ---------> download: Number
+ * ---------> pageview: Number
+ *
+ * Hash: github
+ * ---------> count: Number
+ * ---------> pageview: Number
+ *
+ * String: user
+ * ---------> Number
+ */
 
-const redisCache = (redisUrl, options = {}) => {
-  const prefix = options.prefix || 'hawkeye-cache:';
-  const expire = options.expire || 86400; // one day
+const ONE_DAY = 86400;
+const FOREVER = -1;
+
+const redisCache = (options = {}) => {
+  const prefix = options.prefix || `${config.get('appName')}:`;
+  const expire = options.expire || FOREVER;
+  const url = options.url;
 
   let redisAvailable = false;
 
-  const redisClient = wrapper(Redis.createClient(redisUrl, {
+  const redisClient = wrapper(Redis.createClient({ url }, {
     prefix,
     parser: 'hiredis'
   }));
+  logger.info(`[REDIS:CONNECT] Connected to redis: ${url}`);
   redisClient.on('error', (err)=> { redisAvailable = false; });
   redisClient.on('end', () => { redisAvailable = false; });
   redisClient.on('connect', () => { redisAvailable = true; });
@@ -23,7 +43,7 @@ const redisCache = (redisUrl, options = {}) => {
     if (value === null) {
       return;
     }
-    const ttl = option.expire || expire;
+    const ttl = option.expire || ONE_DAY;
 
     await redisClient.setex(`${prefix}${key}`, ttl, JSON.stringify(value));
   };
@@ -36,7 +56,7 @@ const redisCache = (redisUrl, options = {}) => {
     if (!data) {
       return null;
     }
-    return JSON.parse(data.toString())
+    return JSON.parse(data.toString());
   };
 
   const removeCache = async (key) => {
@@ -46,16 +66,66 @@ const redisCache = (redisUrl, options = {}) => {
     await redisClient.del(`${prefix}${key}`);
   };
 
-  const cacheMiddleware = async function(ctx, next) {
-    ctx.cache = {
-      get: getCache,
-      set: setCache,
-      del: removeCache
-    };
-    await next();
+  const incrCache = async (key) => {
+    if (!redisAvailable) {
+      return;
+    }
+    await redisClient.incr(`${prefix}${key}`);
   };
 
-  return cacheMiddleware;
+  const incrByCache = async (key, value) => {
+    if (!redisAvailable) {
+      return;
+    }
+    await redisClient.incrby(`${prefix}${key}`, value);
+  };
+
+  const hincrbyCahce = async (key, field, increment) => {
+    if (!redisAvailable) {
+      return;
+    }
+    await redisClient.hincrby(`${prefix}${key}`, field, increment);
+  };
+
+  const hgetCache = async (key, field) => {
+    if (!redisAvailable) {
+      return;
+    }
+    return await redisClient.hget(`${prefix}${key}`, field);
+  };
+
+  const hgetallCache = async (key) => {
+    if (!redisAvailable) {
+      return;
+    }
+    return await redisClient.hgetall(`${prefix}${key}`);
+  };
+
+  return {
+    get: getCache,
+    set: setCache,
+    del: removeCache,
+    incr: incrCache,
+    incrby: incrByCache,
+    hincrby: hincrbyCahce,
+    hget: hgetCache,
+    hgetall: hgetallCache,
+  };
 };
 
-export default redisCache;
+let instance = null;
+
+export const getRedis = (...params) => {
+  if (instance) return instance;
+  instance = new redisCache(...params);
+  return instance;
+};
+
+export const redisMiddleware = (...params) => {
+  const cache = getRedis(...params);
+  const cacheMiddleware = async function(ctx, next) {
+    ctx.cache = cache;
+    await next();
+  };
+  return cacheMiddleware;
+};

@@ -1,5 +1,18 @@
 @import 'open-color/open-color.css';
 
+:root {
+  --triangleWidth: 8px;
+  --triangleHeight: 8px;
+  --triangleOffset: 6px;
+  --tipso-triangle-back: rgba(212, 212, 212, 0.3);
+
+  --speed: .2s;
+  --easing: cubic-bezier(.55,0,.1,1);
+  --modalContentOpacity: 0;
+  --scale: scale(0.8);
+  --scaleActive: scale(1);
+}
+
 #login {
   background-color: var(--bgDark);
 
@@ -107,9 +120,89 @@
 
 .title,
 .github_login_link {
-  font-family: 'VT323', 'Lato', monospace, sans-serif;
+  font-family: 'Righteous', monospace, sans-serif;
 }
 
 .github_login_link {
   font-size: 14px;
+}
+
+.statistic-container {
+  margin-top: 50px;
+  position: relative;
+
+  &:hover {
+    & .statistic {
+      opacity: 1;
+    }
+
+    & .statistic-modal {
+      z-index: var(--zIndex99);
+      visibility: visible;
+      opacity: 1;
+      transform: var(--scaleActive) translateY(-50%) translateX(20px);
+    }
+  }
+}
+
+.statistic {
+  font-family: 'Righteous', monospace, sans-serif;
+  color: var(--oc-gray-1);
+  opacity: 0.5;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.statistic-count {
+  font-size: 2.5em !important;
+}
+
+.statistic-modal {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%) translateX(10px);
+  max-width: 250px;
+  background-color: var(--bg);
+  border-radius: 2px;
+  box-shadow: var(--shadow3);
+
+  z-index: var(--zIndex0);
+  opacity: var(--modalContentOpacity);
+  visibility: hidden;
+  backface-visibility: hidden;
+  transform: var(--scale) translateY(-50%) translateX(10px);
+  transition: all var(--speed) var(--easing);
+
+  color: var(--oc-gray-7);
+  text-align: left;
+  padding: 10px 20px;
+  min-width: 170px;
+  line-height: 1.5em;
+
+  &::before,
+  &::after {
+    width: 0;
+    height: 0;
+    top: 50%;
+    content: '';
+    display: block;
+    position: absolute;
+    transform: translateY(-50%);
+    border-top: var(--triangleWidth) solid transparent;
+    border-bottom: var(--triangleWidth) solid transparent;
+  }
+
+  &::after {
+    z-index: var(--zIndex1);
+    left: -var(--triangleHeight);
+    border-right: var(--triangleHeight) solid var(--oc-white);
+  }
+
+  &::before {
+    z-index: var(--zIndexHidden);
+    left: -var(--triangleOffset);
+    border-right: var(--triangleHeight) solid var(--tipso-triangle-back);
+  }
 }

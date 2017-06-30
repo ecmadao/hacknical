@@ -256,7 +256,7 @@ class MobileAnalysis extends React.Component {
     const { pageViews, viewDevices, viewSources } = this.dataObj;
     const pageViewCounts = pageViews.map(item => item.count);
 
-    const viewCount = pageViewCounts.reduce((prev, current, index) => {
+    const viewCount = pageViewCounts.reduce((prev, current) => {
       return current + prev
     }, 0);
     const maxViewPerHour = Math.max(...pageViewCounts);

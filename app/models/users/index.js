@@ -1,6 +1,7 @@
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 import Slack from '../../services/slack';
+import logger from '../../utils/logger';
 
 /**
  * private
@@ -17,7 +18,7 @@ const getGithubInfo = (userInfo) => {
     login,
     name,
     email
-  }
+  };
 };
 
 const findUser = async (email) => {
@@ -81,7 +82,7 @@ const updateUserOrgs = async (login, orgs = []) => {
   });
 };
 
-const loginWithGithub = async (userInfo) => {
+const loginWithGithub = async (userInfo, cache) => {
   const {
     id,
     login,
@@ -95,8 +96,6 @@ const loginWithGithub = async (userInfo) => {
   let user = await findUserByGithubId(id);
   const msg = { type: 'login' };
   if (user) {
-    shareInfo.userId = user._id;
-    await createGithubShare(shareInfo);
     user.githubLogin = login;
     user.githubInfo = { login };
     user.lastLoginTime = new Date();
@@ -112,13 +111,14 @@ const loginWithGithub = async (userInfo) => {
       githubLogin: login,
       githubInfo: { login }
     });
-    shareInfo.userId = user._id;
-    await createGithubShare(shareInfo);
 
     msg.type = 'signup';
     msg.data = `Signup: <https://github.com/${login}|${login}>`;
-  }
 
+    cache.incr('users');
+  }
+  shareInfo.userId = user._id;
+  createGithubShare(shareInfo);
   Slack.msg(msg);
 
   return Promise.resolve({
@@ -132,6 +132,7 @@ const findPinnedRepos = async (login) => {
     const user = await findUserByLogin(login);
     return Promise.resolve(user.pinnedRepos);
   } catch (err) {
+    logger.error(err);
     return Promise.resolve({});
   }
 };
@@ -145,6 +146,7 @@ const updatePinnedRepos = async (login, repos) => {
       success: true
     });
   } catch (err) {
+    logger.error(err);
     return Promise.resolve({
       success: false
     });
@@ -156,6 +158,7 @@ const findGithubSections = async (login) => {
     const user = await findUserByLogin(login);
     return Promise.resolve(user.githubSections);
   } catch (err) {
+    logger.error(err);
     return Promise.resolve({});
   }
 };
@@ -169,10 +172,15 @@ const updateGithubSections = async (login, sections) => {
       success: true
     });
   } catch (err) {
+    logger.error(err);
     return Promise.resolve({
       success: false
     });
   }
+};
+
+const findAll = async () => {
+  return await User.find({});
 };
 
 export default {
@@ -187,5 +195,6 @@ export default {
   findGithubSections,
   updateGithubSections,
   findPinnedRepos,
-  updatePinnedRepos
+  updatePinnedRepos,
+  findAll,
 };
