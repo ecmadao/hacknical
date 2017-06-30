@@ -29,11 +29,13 @@ const init = async () => {
     allAnalyse.forEach((analyse) => {
       const { login, pageViews } = analyse;
       const viewCount = pageViews.reduce((prev, current, index) => {
+        let count = parseInt(current.count, 10);
+        if (isNaN(count)) count = 0;
         if (index === 0) {
-          return current.count;
+          return count;
         }
-        return current.count + prev;
-      }, '');
+        return count + prev;
+      }, 0);
       if (login) {
         githubPageview += viewCount;
       } else {
