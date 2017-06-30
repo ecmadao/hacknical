@@ -216,7 +216,8 @@ class RepositoryInfo extends React.Component {
             <div className={githubStyles["repos_chart"]}>
               <canvas
                 className={githubStyles["pie_chart"]}
-                ref={ref => this.reposForks = ref}></canvas>
+                ref={ref => this.reposForks = ref}
+              />
               <div className={githubStyles["chart_center"]}>
                 {parseInt(userRepos.length * 100 / (userRepos.length + forkedRepos.length), 10)}%<br/>
                 {githubTexts.originalRepos}
@@ -225,7 +226,8 @@ class RepositoryInfo extends React.Component {
             <div className={githubStyles["repos_chart"]}>
               <canvas
                 className={githubStyles["pie_chart"]}
-                ref={ref => this.reposStars = ref}></canvas>
+                ref={ref => this.reposStars = ref}
+              />
               <div className={githubStyles["chart_center"]}>
                 {githubTexts.starPercentage}
               </div>
@@ -234,7 +236,10 @@ class RepositoryInfo extends React.Component {
         ) : ''}
         {userRepos.length ? (
           <div className={chartStyles["canvas_container"]}>
-            <canvas className={githubStyles["repos_review"]} ref={ref => this.reposReview = ref}></canvas>
+            <canvas
+              className={githubStyles["repos_review"]}
+              ref={ref => this.reposReview = ref}
+            />
           </div>
         ) : ''}
       </div>
@@ -245,10 +250,11 @@ class RepositoryInfo extends React.Component {
     const { userRepos, loaded, className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading loading={true} />)
+      component = (<Loading loading={true} />);
     } else {
-      component = (!userRepos || !userRepos.length) ?
-        (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : this.renderReposReview()
+      component = (!userRepos || !userRepos.length)
+        ? (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>)
+        : this.renderReposReview();
     }
 
     return (

@@ -24,6 +24,8 @@ export const RADAR_CONFIG = {
     },
     legend: {
       display: false,
+    },
+    tooltips: {
     }
   }
 };

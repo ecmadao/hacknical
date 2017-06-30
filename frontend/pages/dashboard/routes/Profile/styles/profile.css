@@ -177,6 +177,10 @@
   max-width: 45%;
 }
 
+.viewDevicesChart {}
+
+.viewSourcesChart {}
+
 .qrcode_container {
   font-size: 14px;
   display: flex;

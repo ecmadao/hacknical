@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import Clipboard from 'clipboard';
-import { bindActionCreators } from 'redux';
-import objectAssign from 'UTILS/object-assign';
+import deepcopy from 'deepcopy';
 import {
   Input,
   Tipso,
@@ -13,7 +12,7 @@ import {
   CardGroup,
   IconButton,
 } from 'light-ui';
-
+import objectAssign from 'UTILS/object-assign';
 import { sortByX } from 'UTILS/helper';
 import { GREEN_COLORS } from 'UTILS/colors';
 import { RADAR_CONFIG, LINE_CONFIG } from 'SHARED/datas/chart_config';
@@ -46,7 +45,7 @@ class ShareAnalysis extends React.Component {
 
   componentDidUpdate() {
     const { loading } = this.props;
-    if (loading) { return }
+    if (loading) { return; }
     !this.pageViewsChart && this.renderViewsChart();
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
@@ -101,7 +100,9 @@ class ShareAnalysis extends React.Component {
     const validatePageViews = [];
     pageViews.forEach((pageView) => {
       const { count, date } = pageView;
-      const filterPageViews = validatePageViews.filter(validatePageView => validatePageView.date === date);
+      const filterPageViews = validatePageViews.filter(
+        validatePageView => validatePageView.date === date
+      );
       if(filterPageViews.length) {
         filterPageViews[0].count += count;
       } else {
@@ -182,14 +183,12 @@ class ShareAnalysis extends React.Component {
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
 
-    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    const radarConfig = deepcopy(RADAR_CONFIG);
     radarConfig.data.labels = labels;
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = profileTexts.platformChartTitle;
 
     this.viewDevicesChart = new Chart(viewDevicesChart, radarConfig);
-    // this.updateChart();
-    // this.viewDevicesChart.update();
   }
 
   renderSourcesChart() {
@@ -198,19 +197,12 @@ class ShareAnalysis extends React.Component {
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
 
-    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    const radarConfig = deepcopy(RADAR_CONFIG);
     radarConfig.data.labels = labels;
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = profileTexts.browserChartTitle;
 
     this.viewSourcesChart = new Chart(viewSourcesChart, radarConfig);
-    // this.updateChart();
-    // this.viewSourcesChart.update();
-  }
-
-  updateChart() {
-    this.viewDevicesChart && this.viewDevicesChart.update();
-    this.viewSourcesChart && this.viewSourcesChart.update();
   }
 
   renderChartInfo() {
@@ -265,8 +257,8 @@ class ShareAnalysis extends React.Component {
   render() {
     const { actions, loading, info, title } = this.props;
     const controllerClass = cx(
-      styles["share_controller_card"],
-      !info.openShare && styles["disabled"]
+      styles['share_controller_card'],
+      !info.openShare && styles.disabled
     );
     return (
       <div className={styles["card_container"]}>
@@ -276,18 +268,33 @@ class ShareAnalysis extends React.Component {
           </div>
         )}
         {loading ? (<Loading loading={true} />) : (
-          <div className={styles["card"]}>
+          <div className={styles.card}>
             {this.renderChartInfo()}
-            <div className={styles["chart_container"]}>
-              <div className={styles["radar_chart"]}>
-                <canvas ref={ref => this.viewDevices = ref}></canvas>
+            <div className={styles['chart_container']}>
+              <div className={cx(
+                  styles['radar_chart'],
+                  styles.viewDevicesChart
+                )}>
+                <canvas
+                  ref={ref => this.viewDevices = ref}
+                />
               </div>
-              <div className={styles["radar_chart"]}>
-                <canvas ref={ref => this.viewSources = ref}></canvas>
+              <div className={cx(
+                  styles['radar_chart'],
+                  styles.viewSourcesChart
+                )}>
+                <canvas
+                  ref={ref => this.viewSources = ref}
+                />
               </div>
             </div>
-            <div className={cx(styles["chart_container"], styles["pageview_chart_container"])}>
-              <canvas ref={ref => this.pageViews = ref}/>
+            <div
+              className={cx(
+                styles['chart_container'],
+                styles['pageview_chart_container']
+              )}
+            >
+              <canvas ref={ref => this.pageViews = ref} />
             </div>
           </div>
         )}
