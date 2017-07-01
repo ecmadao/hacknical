@@ -21,7 +21,15 @@
 
     <div class="mobile_menu_wrapper">
       <div class="mobile_menu">
-        <div class="menu_top">
+        <div class="mobile_top">
+          <div class="mobile_menu_logo">
+            hacknical
+          </div>
+          <div class="mobile_menu_close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="menu_wrapper">
           <a href="/user/analysis/mobile" class="menu">
             <i class="fa fa-user-circle" aria-hidden="true"></i>
             &nbsp;&nbsp;
@@ -42,13 +50,13 @@
             &nbsp;&nbsp;
             {{ menu.dataRefresh }}
           </a>
-        </div>
-        <div class="menu_bottom">
-          <a href="/user/logout" class="menu menu_logout">
-            <i class="fa fa-sign-out" aria-hidden="true"></i>
-            &nbsp;&nbsp;
-            {{ menu.logout }}
-          </a>
+          <div class="menu_bottom">
+            <a href="/user/logout" class="menu menu_logout">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              &nbsp;&nbsp;
+              {{ menu.logout }}
+            </a>
+          </div>
         </div>
       </div>
     </div>

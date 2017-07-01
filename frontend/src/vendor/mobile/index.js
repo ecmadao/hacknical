@@ -15,6 +15,7 @@ $(() => {
   });
 
   const $menuIcon = $('.mobile_menu_icon');
+  const $closeIcon = $('.mobile_menu_close');
   const $menuWrapper = $('.mobile_menu_wrapper');
 
   const changeOverflow = (overflow) => {
@@ -27,13 +28,11 @@ $(() => {
   };
 
   $menuIcon.on('click', () => {
-    changeMenuIcon('close');
     $menuWrapper.addClass('active');
     changeOverflow('hidden');
   });
 
-  $menuWrapper.on('click', () => {
-    changeMenuIcon('navicon');
+  $closeIcon.on('click', () => {
     $menuWrapper.removeClass('active');
     changeOverflow('auto');
   });
