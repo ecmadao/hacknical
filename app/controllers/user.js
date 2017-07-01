@@ -30,7 +30,8 @@ const loginPage = async (ctx, next) => {
     clientId: clientId,
     statistic: {
       developers: ctx.__("loginPage.statistic.developers"),
-      pageview: ctx.__("loginPage.statistic.pageview"),
+      githubPageview: ctx.__("loginPage.statistic.githubPageview"),
+      resumePageview: ctx.__("loginPage.statistic.resumePageview"),
       resumes: ctx.__("loginPage.statistic.resumes"),
     }
   });

@@ -13,8 +13,9 @@
     "loginButtonText": "Login with GitHub",
     "statistic": {
 			"developers": " developers here.",
-			"pageview": " shared pageview count.",
-			"resumes": " resumes were created."
+			"resumes": " resumes were created or download",
+      "githubPageview": " count that GitHub analysis page was shared.",
+			"resumePageview": " count that resume page was shared."
 		}
   },
   "errorPage": {

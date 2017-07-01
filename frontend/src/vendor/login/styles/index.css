@@ -152,10 +152,10 @@
   pointer-events: auto;
   cursor: pointer;
   transition: opacity 0.2s;
-}
 
-.statistic-count {
-  font-size: 2.5em !important;
+  & span {
+    font-size: 2.5em;
+  }
 }
 
 .statistic-modal {
