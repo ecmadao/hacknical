@@ -118,8 +118,7 @@
   font-size: 4em;
 }
 
-.title,
-.github_login_link {
+.title {
   font-family: 'Righteous', monospace, sans-serif;
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
+import deepcopy from 'deepcopy';
 import objectAssign from 'UTILS/object-assign';
 import { Loading, Input, IconButton } from 'light-ui';
 
@@ -209,7 +210,7 @@ class MobileAnalysis extends React.Component {
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
 
-    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    const radarConfig = deepcopy(RADAR_CONFIG);
     radarConfig.data.labels = labels;
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = analysisTexts.platformChartTitle;
@@ -223,7 +224,7 @@ class MobileAnalysis extends React.Component {
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
 
-    const radarConfig = objectAssign({}, RADAR_CONFIG);
+    const radarConfig = deepcopy(RADAR_CONFIG);
     radarConfig.data.labels = labels;
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = analysisTexts.browserChartTitle;

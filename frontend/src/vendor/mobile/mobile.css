@@ -150,7 +150,9 @@ html, body {
 
 .menu_bottom {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(241, 243, 245, 0.18);
 }
 
 .menu {
@@ -178,6 +180,4 @@ html, body {
 }
 
 .menu_logout {
-  border-top: 1px solid var(--oc-gray-1);
-  padding-top: 15px;
 }
