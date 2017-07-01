@@ -24,6 +24,8 @@ const LINK_OPTIONS = {
   className: ''
 };
 
+const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
+
 const LinkInfo = (options = LINK_OPTIONS) => {
   const {
     text,
@@ -33,7 +35,7 @@ const LinkInfo = (options = LINK_OPTIONS) => {
     className
   } = objectAssign({}, LINK_OPTIONS, options);
   return (
-    <a target="_blank" href={url} className={cx(styles.linkText, className)}>
+    <a target="_blank" href={validateUrl(url)} className={cx(styles.linkText, className)}>
       {showIcon ? (
         icon ? (
           <i className={`fa fa-${icon}`} aria-hidden="true"></i>
@@ -203,7 +205,7 @@ class ResumeContent extends React.Component {
     const projects = personalProjects
       .filter(project => project.title)
       .map((project, index) => {
-        const { url, desc, title } = project;
+        const { desc, title } = project;
         return (
           <div className={styles['section-project']} key={index}>
             <div className={styles.mainText}>{title}</div>
@@ -336,5 +338,6 @@ class ResumeContent extends React.Component {
     );
   }
 }
+
 
 export default ResumeContent;
