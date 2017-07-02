@@ -17,6 +17,10 @@ html, body {
   background-color: #F7F8F9;
 }
 
+.mobile_content {
+  min-height: 100%;
+}
+
 .mobile_topbar {
   height: var(--topbarHeight);
   width: 100%;
@@ -180,4 +184,8 @@ html, body {
 }
 
 .menu_logout {
+}
+
+.github_shared {
+  display: block !important;
 }

@@ -26,7 +26,6 @@ const loginPage = async (ctx, next) => {
     loginButtonText: ctx.__("loginPage.loginButtonText"),
     languageText: ctx.__("language.text"),
     languageId: ctx.__("language.id"),
-    isMobile: ctx.state.isMobile,
     clientId: clientId,
     statistic: {
       developers: ctx.__("loginPage.statistic.developers"),

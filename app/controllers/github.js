@@ -18,7 +18,8 @@ const _getUser = async (ctx) => {
 const _getRepos = async (login, token) => {
   const { repos } = await Api.getUserRepos(login, token);
   const pinned = await User.findPinnedRepos(login);
-  const checkPinned = (repository) => pinned.some(item => item === repository.reposId);
+  const checkPinned = (repository) =>
+    pinned.some(item => item === repository.reposId);
   const pinnedRepos = pinned.length
     ? repos.filter(repository => checkPinned(repository) || repository.fork)
     : repos;
@@ -97,15 +98,16 @@ const fetchOrgs = async (ctx, next) => {
 const getAllRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const { repos } = await Api.getUserRepos(githubLogin, githubToken);
-  const result = repos.filter(repository => !repository.fork).map((repository) => {
-    const { reposId, name, language, stargazers_count } = repository;
-    return {
-      name,
-      reposId,
-      language,
-      stargazers_count
-    }
-  });
+  const result = repos.filter(repository => !repository.fork)
+    .map((repository) => {
+      const { reposId, name, language, stargazers_count } = repository;
+      return {
+        name,
+        reposId,
+        language,
+        stargazers_count
+      }
+    });
 
   ctx.body = {
     success: true,

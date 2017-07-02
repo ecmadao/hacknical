@@ -76,7 +76,12 @@ app.use(async (ctx, next) => {
     assetsPath,
     csrf: ctx.csrf,
     isMobile: false,
-    env: process.env.NODE_ENV
+    env: process.env.NODE_ENV,
+    footer: {
+      about: ctx.__("dashboard.about"),
+      feedback: ctx.__("dashboard.feedback"),
+      code: ctx.__("dashboard.code"),
+    },
   });
   await next();
 });

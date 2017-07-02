@@ -26,9 +26,6 @@ const dashboard = async (ctx, next) => {
 
   await ctx.render('user/dashboard', {
     title: ctx.__("dashboard.title", githubLogin),
-    about: ctx.__("dashboard.about"),
-    feedback: ctx.__("dashboard.feedback"),
-    code: ctx.__("dashboard.code"),
   });
 };
 

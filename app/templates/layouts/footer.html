@@ -7,13 +7,18 @@
         hacknical
       </div>
     </div>
+
     <div class="footer-section footer-right">
-      <span class="footer-intro">
-        Build by <a href="https://github.com/ecmadao" target="_blank">ecmadao</a> with ❤️
-      </span>&nbsp;&nbsp;&nbsp;
-      <a href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-zh.md" target="_blank">{{ about }}</a>&nbsp;&nbsp;
-      <a href="https://github.com/ecmadao/hacknical/issues" target="_blank">{{ feedback }}</a>&nbsp;&nbsp;
-      <a href="https://github.com/ecmadao/hacknical" target="_blank">{{ code }}</a>
+      {% if not isMobile %}
+        <span class="footer-intro">
+          Build by <a href="https://github.com/ecmadao" target="_blank">ecmadao</a> with ❤️
+        </span>&nbsp;&nbsp;&nbsp;
+      {% endif %}
+      <a href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-zh.md" target="_blank">{{ footer.about }}</a>&nbsp;&nbsp;
+      {% if not isMobile %}
+        <a href="https://github.com/ecmadao/hacknical/issues" target="_blank">{{ footer.feedback }}</a>&nbsp;&nbsp;
+        <a href="https://github.com/ecmadao/hacknical" target="_blank">{{ footer.code }}</a>
+      {% endif %}
     </div>
   </div>
 </div>
