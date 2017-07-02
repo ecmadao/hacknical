@@ -54,11 +54,6 @@ const setResume = async (ctx, next) => {
   const { resume } = ctx.request.body;
   const { userId, githubLogin } = ctx.session;
 
-  Slack.msg({
-    type: 'resume',
-    data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
-  });
-
   const setResult = await Resume.updateResume(userId, resume, ctx.cache);
   logger.info(`[RESUME:UPDATE][${githubLogin}]`);
   let resumeInfo = null;
@@ -83,6 +78,11 @@ const setResume = async (ctx, next) => {
       cacheKey(`resume.${hash}`)
     ];
   }
+
+  Slack.msg({
+    type: 'resume',
+    data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
+  });
 
   ctx.body = {
     success: true,
