@@ -14,18 +14,6 @@ import logger from '../utils/logger';
 
 const URL = config.get('url');
 
-const getPubResumeInfo = async (ctx) => {
-  const { hash } = ctx.params;
-  const findResume = await ResumePub.getPubResumeInfo({ resumeHash: hash });
-
-  const { name, userId } = findResume.result;
-  const user = await User.findUserById(userId);
-  return {
-    name,
-    login: user.githubInfo.login
-  };
-};
-
 const getResumeShareStatus = (findPubResume, locale) => {
   const { result, success, message } = findPubResume;
   if (!success) {
@@ -161,27 +149,26 @@ const getResumeSharePage = async (ctx, next) => {
 
 const getPubResumePage = async (ctx, next) => {
   const { hash } = ctx.params;
-  const user = await getPubResumeInfo(ctx);
+  const { userName, userLogin } = ctx.query;
 
   await ctx.render('resume/share', {
-    title: ctx.__("resumePage.title", user.name),
+    title: ctx.__("resumePage.title", userName),
     resumeHash: hash,
-    login: user.login
+    login: userLogin
   });
 };
 
 const getPubResumePageMobile = async (ctx, next) => {
   const { hash } = ctx.params;
-  const { githubLogin } = ctx.session;
-  const user = await getPubResumeInfo(ctx);
+  const { isAdmin, userName, userLogin } = ctx.query;
 
   await ctx.render('user/mobile/resume', {
-    title: ctx.__("resumePage.title", user.name),
+    title: ctx.__("resumePage.title", userName),
     resumeHash: hash,
-    login: user.login,
+    login: userLogin,
     menu: getMobileMenu(ctx),
     user: {
-      isAdmin: user.login === githubLogin
+      isAdmin
     }
   });
 };
@@ -224,7 +211,9 @@ const setResumeShareStatus = async (ctx, next) => {
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     openShare: enable
   });
-  const resultMessage = Boolean(enable) == true ? "messages.share.toggleOpen" : "messages.share.toggleClose";
+  const resultMessage = Boolean(enable) == true
+    ? "messages.share.toggleOpen"
+    : "messages.share.toggleClose";
   ctx.body = {
     success: true,
     message: ctx.__(resultMessage)
@@ -245,7 +234,9 @@ const setResumeGithubStatus = async (ctx, next) => {
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     useGithub: enable
   });
-  const resultMessage = Boolean(enable) == true ? "messages.resume.linkGithub" : "messages.resume.unlinkGithub";
+  const resultMessage = Boolean(enable) == true
+    ? "messages.resume.linkGithub"
+    : "messages.resume.unlinkGithub";
   ctx.body = {
     success: true,
     message: ctx.__(resultMessage)
