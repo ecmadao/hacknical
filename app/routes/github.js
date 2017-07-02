@@ -25,7 +25,7 @@ router.get(
 router.get(
   '/repos',
   user.checkIfLogin(),
-  cache.get('repos', {
+  cache.get('formattedRepos', {
     session: ['githubLogin']
   }),
   GitHub.getUserRepos,
@@ -50,7 +50,7 @@ router.get(
 router.get(
   '/commits',
   user.checkIfLogin(),
-  cache.get('commits', {
+  cache.get('formattedCommits', {
     session: ['githubLogin']
   }),
   GitHub.getUserCommits,
@@ -141,7 +141,7 @@ router.get(
 router.get(
   '/:login/repos',
   share.githubEnable(),
-  cache.get('repos', {
+  cache.get('formattedRepos', {
     params: ['login']
   }),
   GitHub.getSharedRepos,
@@ -150,7 +150,7 @@ router.get(
 router.get(
   '/:login/commits',
   share.githubEnable(),
-  cache.get('commits', {
+  cache.get('formattedCommits', {
     params: ['login']
   }),
   GitHub.getSharedCommits,

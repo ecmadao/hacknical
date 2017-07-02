@@ -79,29 +79,37 @@ class GitHubMobileShare extends React.Component {
   async getGithubCommits() {
     const { login } = this.props;
     const result = await Api.github.getCommits(login);
-    this.setGithubCommits(result.commits);
+    this.setGithubCommits(result);
   }
 
   async getGithubRepos() {
     const { login } = this.props;
     const result = await Api.github.getRepos(login);
-    this.setGithubRepos(result.repos);
+    this.setGithubRepos(result);
   }
 
-  setGithubCommits(commits = []) {
+  setGithubCommits(result) {
+    const {
+      commits = [],
+      formatCommits = {}
+    } = result;
     this.setState({
-      commitLoaded: true,
       commits,
-      commitDatas: github.combineReposCommits(commits),
+      commitLoaded: true,
+      commitDatas: formatCommits
     });
   }
 
-  setGithubRepos(repos = []) {
+  setGithubRepos(result) {
+    const {
+      repos = [],
+      reposLanguages = []
+    } = result;
     this.setState({
+      reposLanguages: [...reposLanguages],
       repos: repos.sort(sortRepos()),
       languageDistributions: github.getLanguageDistribution(repos),
       languageSkills: github.getLanguageSkill(repos),
-      reposLanguages: [...github.getReposLanguages(repos)],
       languageUsed: github.getLanguageUsed(repos),
       reposLoaded: true,
     });

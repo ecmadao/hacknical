@@ -24,5 +24,9 @@ export default {
   getDateNow: () => formatDate()('YYYY-MM-DD'),
   getHourNow: () => formatDate()('HH'),
   getDateAfterDays: (days) => moment().add(parseInt(days), 'days').format('L'),
-  getDateBeforeYears: (years) => moment().add(-parseInt(years), 'years').format('L')
-}
+  getDateBeforeYears: (years) =>
+    moment().add(-parseInt(years), 'years').format('L'),
+  getMonth: (date) => formatDate(date)('M'),
+  getDateBySeconds: (seconds, format = 'YYYY-MM-DD') =>
+    moment.unix(seconds).format(format),
+};

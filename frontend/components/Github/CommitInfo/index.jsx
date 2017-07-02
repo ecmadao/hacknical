@@ -239,9 +239,15 @@ class CommitInfo extends React.Component {
 
   renderChartInfo() {
     const { commitDatas, commitInfos } = this.props;
-    const { commits, dailyCommits, total, monthReview } = commitInfos;
+    const {
+      total,
+      commits,
+      dailyCommits,
+      monthReview,
+      totalDailyCommits
+    } = commitInfos;
     // day info
-    const maxIndex = getMaxIndex(dailyCommits);
+    const maxIndex = getMaxIndex(totalDailyCommits);
     const dayName = DAYS[maxIndex];
     // first commit
     const [firstCommitWeek, firstCommitIndex] = getFirstMatchTarget(commits, (item) => item.total);

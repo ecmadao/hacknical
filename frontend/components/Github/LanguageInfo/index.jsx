@@ -44,11 +44,6 @@ class LanguageInfo extends React.Component {
 
   componentDidUpdate(preProps) {
     const { languageUsed } = this.props;
-    // if (!Object.keys(preProps.languageUsed).length && Object.keys(languageUsed).length) {
-    //   this.setState({
-    //     showLanguage: this.sortedLanguages[0]
-    //   });
-    // }
     this.renderCharts();
   }
 

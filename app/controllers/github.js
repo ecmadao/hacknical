@@ -3,6 +3,10 @@ import Api from '../services/api';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import { getMobileMenu } from './shared';
+import {
+  getReposLanguages,
+  combineReposCommits
+} from './helper/github';
 
 /* ================== private func ====================*/
 
@@ -121,7 +125,10 @@ const getSharedRepos = async (ctx, next) => {
   const repos = await _getRepos(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
-    result: { repos }
+    result: {
+      repos,
+      reposLanguages: getReposLanguages(repos),
+    }
   };
   await next();
 };
@@ -131,16 +138,23 @@ const getUserRepos = async (ctx, next) => {
   const repos = await _getRepos(githubLogin, githubToken);
   ctx.body = {
     success: true,
-    result: { repos }
+    result: {
+      repos,
+      reposLanguages: getReposLanguages(repos),
+    }
   };
   await next();
 };
 
 const getSharedCommits = async (ctx, next) => {
   const commits = await _getCommits(ctx.params.login, ctx.session.githubToken);
+  const formatCommits = combineReposCommits(commits);
   ctx.body = {
     success: true,
-    result: { commits }
+    result: {
+      commits,
+      formatCommits
+    }
   };
   await next();
 };
@@ -152,9 +166,13 @@ const getUserCommits = async (ctx, next) => {
   if (!commits.length) {
     ctx.query.shouldCache = false;
   }
+  const formatCommits = combineReposCommits(commits);
   ctx.body = {
     success: true,
-    result: { commits }
+    result: {
+      commits,
+      formatCommits,
+    }
   };
   await next();
 };

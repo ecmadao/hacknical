@@ -42,7 +42,7 @@ const updateViewData = async (ctx, options) => {
     ctx.cache.hincrby(type, 'pageview', 1);
     Slack.msg({
       type: 'view',
-      data: `[${type.toUpperCase()}:VIEW][/${url}]`
+      data: `【${type.toUpperCase()}:VIEW】【/${url}】`
     });
   }
   logger.info(`[${type.toUpperCase()}:VIEW][${url}]`);

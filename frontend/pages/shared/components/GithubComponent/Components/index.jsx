@@ -79,7 +79,7 @@ class GithubComponent extends React.Component {
 
   async getGithubRepos(login = '') {
     const result = await Api.github.getRepos(login);
-    this.setGithubRepos(result.repos);
+    this.setGithubRepos(result);
   }
 
   async getGithubSections(login = '') {
@@ -89,23 +89,31 @@ class GithubComponent extends React.Component {
 
   async getGithubCommits(login = '') {
     const result = await Api.github.getCommits(login);
-    this.setGithubCommits(result.commits);
+    this.setGithubCommits(result);
   }
 
-  setGithubRepos(repos = []) {
+  setGithubRepos(result) {
+    const {
+      repos = [],
+      reposLanguages = []
+    } = result;
     this.setState({
       reposLoaded: true,
       repos: [...repos],
-      reposLanguages: [...github.getReposLanguages(repos)]
-    })
+      reposLanguages: [...reposLanguages],
+    });
   }
 
-  setGithubCommits(commits = []) {
+  setGithubCommits(result) {
+    const {
+      commits = [],
+      formatCommits = {}
+    } = result;
     this.setState({
       commitLoaded: true,
       commitDatas: [...commits],
-      commitInfos: github.combineReposCommits([...commits])
-    })
+      commitInfos: formatCommits,
+    });
   }
 
   async changeShareStatus() {
@@ -148,7 +156,9 @@ class GithubComponent extends React.Component {
   hideSection(section) {
     const { sections } = this.state;
     const { isShare, githubSection } = this.props;
-    const shareSections = Object.keys(githubSection).length ? githubSection : sections;
+    const shareSections = Object.keys(githubSection).length
+      ? githubSection
+      : sections;
     return isShare && shareSections[section] === false;
   }
 

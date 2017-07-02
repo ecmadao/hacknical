@@ -1,5 +1,13 @@
 @import 'open-color/open-color.css';
 
+:root {
+  --speed: .2s;
+  --easing: cubic-bezier(.55,0,.1,1);
+  --modalContentOpacity: 0;
+  --scale: scale(0.8);
+  --scaleActive: scale(1);
+}
+
 .operations_container {
   position: absolute;
   left: -10px;
@@ -14,7 +22,7 @@
   border-radius: 50%;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s;
+  transition: all var(--speed) var(--easing);
 
   & i {
     position: absolute;
@@ -36,16 +44,21 @@
   border-radius: 2px;
   background-color: var(--oc-white);
   top: 100%;
-  transform: translateY(10px);
-  opacity: 0;
-  transition: opacity 0.3s;
   font-size: 12px;
-  composes: hidden-z-index from 'STYLES/common.css';
+
+  z-index: var(--zIndex0);
+  opacity: var(--modalContentOpacity);
+  visibility: hidden;
+  backface-visibility: hidden;
+  transform: var(--scale) translateY(10px);
+  transition: all var(--speed) var(--easing);
 }
 
 .operations_menu_active {
+  z-index: var(--zIndex99);
+  visibility: visible;
   opacity: 1;
-  composes: common-z-index from 'STYLES/common.css';
+  transform: var(--scaleActive) translateY(10px);
 }
 
 .operation_item {
