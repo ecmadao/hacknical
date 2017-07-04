@@ -233,6 +233,13 @@ const setResumeShareTemplate = async (ctx) => {
   const { template } = ctx.request.body;
   const { userId } = ctx.session;
   const findPubResume = await ResumePub.findPublicResume({ userId });
+  const { result, success, message } = findPubResume;
+  if (!success) {
+    return ctx.body = {
+      error: message,
+      success: true
+    };
+  }
   await ResumePub.updatePubResume(userId, result.resumeHash, {
     template
   });

@@ -9,7 +9,8 @@ const datas = {
   },
   messages: {
     download: 'Resume is rendering, please wait later.',
-    downloadTip: 'Please save your changes before download resume'
+    downloadTip: 'Please save your changes before download resume',
+    templateTip: 'Change resume template'
   },
   modal: {
     shareText: 'to share your resume'

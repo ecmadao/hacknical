@@ -10,6 +10,7 @@ import { RESUME_SECTIONS } from 'SHARED/datas/resume';
 import ShareModal from 'SHARED/components/ShareModal';
 import ResumeSection from './ResumeSection';
 import ResumeModalV2 from './ResumeModal/v2';
+import TemplateModal from './TemplateModal';
 import IntroModal from './IntroModal';
 import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
@@ -44,12 +45,14 @@ class Resume extends React.Component {
       openModal: false,
       openIntroModal: false,
       openShareModal: false,
+      openTemplateModal: false,
       activeSection: RESUME_SECTIONS[0].id
     };
     this.onBeforeUnload = this.onBeforeUnload.bind(this);
     this.downloadResume = this.downloadResume.bind(this);
     this.handleModalStatus = this.handleModalStatus.bind(this);
     this.handleShareModalStatus = this.handleShareModalStatus.bind(this);
+    this.handleTemplateModalStatus = this.handleTemplateModalStatus.bind(this);
     this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this);
     this.handleSectionChange = this.handleSectionChange.bind(this);
     this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this);
@@ -128,6 +131,10 @@ class Resume extends React.Component {
     this.setState({ openShareModal });
   }
 
+  handleTemplateModalStatus(openTemplateModal) {
+    this.setState({ openTemplateModal });
+  }
+
   handleIntroModalStatus(openIntroModal) {
     this.setState({ openIntroModal });
   }
@@ -180,13 +187,14 @@ class Resume extends React.Component {
   render() {
     const {
       openModal,
+      activeSection,
       openIntroModal,
       openShareModal,
-      activeSection,
+      openTemplateModal,
     } = this.state;
     const { resume, actions } = this.props;
     const { shareInfo, downloadDisabled, loading } = resume;
-    const { url, openShare } = shareInfo;
+    const { url, openShare, template } = shareInfo;
 
     const origin = window.location.origin;
     const currentIndex = this.currentIndex;
@@ -205,6 +213,17 @@ class Resume extends React.Component {
               className={styles["icon_button"]}
               onClick={() => this.handleIntroModalStatus(true)}
             />
+            <Tipso
+              trigger="hover"
+              className={styles["icon_button_tipso"]}
+              tipsoContent={(<span>{resumeTexts.messages.templateTip}</span>)}>
+              <IconButton
+                color="gray"
+                icon="file-o"
+                className={styles["icon_button"]}
+                onClick={() => this.handleTemplateModalStatus(true)}
+              />
+            </Tipso>
             <Tipso
               trigger="hover"
               className={styles["icon_button_tipso"]}
@@ -293,6 +312,14 @@ class Resume extends React.Component {
             }}
             toggleShare={actions.postShareStatus}
             onClose={() => this.handleShareModalStatus(false)}
+          />
+        ) : ''}
+        {openTemplateModal ? (
+          <TemplateModal
+            openModal={openTemplateModal}
+            template={template}
+            onClose={() => this.handleTemplateModalStatus(false)}
+            onTemplateChange={actions.postShareTemplate}
           />
         ) : ''}
       </div>

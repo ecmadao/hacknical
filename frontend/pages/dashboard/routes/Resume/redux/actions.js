@@ -83,9 +83,11 @@ const {
   addPersonalProject,
   deletePersonalProject
 } = createActions({
-  HANDLE_PERSONAL_PROJECT_CHANGE: (personalProject, index) => ({ personalProject, index }),
+  HANDLE_PERSONAL_PROJECT_CHANGE: (personalProject, index) =>
+    ({ personalProject, index }),
   ADD_PROJECT_TECH: (tech, index) => ({ tech, index }),
-  DELETE_PROJECT_TECH: (projectIndex, techIndex) => ({ projectIndex, techIndex })
+  DELETE_PROJECT_TECH: (projectIndex, techIndex) =>
+    ({ projectIndex, techIndex })
 }, 'ADD_PERSONAL_PROJECT', 'DELETE_PERSONAL_PROJECT');
 
 /**

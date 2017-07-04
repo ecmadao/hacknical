@@ -9,7 +9,8 @@ const datas = {
   },
   messages: {
     download: '简历生成中，请稍后（初次生成所需的时间稍长）',
-    downloadTip: '如简历有更新，请先保存再下载'
+    downloadTip: '如简历有更新，请先保存再下载',
+    templateTip: '改变简历模板'
   },
   modal: {
     shareText: '分享你的个人简历'

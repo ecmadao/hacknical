@@ -1,7 +1,11 @@
 import React, { PropTypes } from 'react';
-import { ShortMessage, FloatingActionButton, PortalModal } from 'light-ui';
+import {
+  PortalModal,
+  ShortMessage,
+  FloatingActionButton,
+} from 'light-ui';
 import ResumeComponent from 'SHARED/components/ResumeComponent';
-import styles from '../../styles/resume_modal_v2.css';
+import styles from '../../styles/modal.css';
 
 const ResumeModalV2 = (props) => {
   const {
@@ -16,8 +20,9 @@ const ResumeModalV2 = (props) => {
   return (
     <PortalModal
       showModal={openModal}
-      onClose={onClose}>
-      <div className={styles["modal_container"]}>
+      onClose={onClose}
+    >
+      <div className={styles.modalContainer}>
         <ResumeComponent
           resume={resume}
           shareInfo={shareInfo}
