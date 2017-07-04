@@ -22,7 +22,7 @@
 
 .container {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   position: relative;
   background-color: var(--oc-white);
   box-shadow: var(--shadow1);

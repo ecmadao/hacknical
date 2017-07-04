@@ -219,7 +219,7 @@ class Resume extends React.Component {
               tipsoContent={(<span>{resumeTexts.messages.templateTip}</span>)}>
               <IconButton
                 color="gray"
-                icon="file-o"
+                icon="file-text"
                 className={styles["icon_button"]}
                 onClick={() => this.handleTemplateModalStatus(true)}
               />
