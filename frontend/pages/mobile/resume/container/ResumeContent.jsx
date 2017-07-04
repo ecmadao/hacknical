@@ -35,7 +35,11 @@ const LinkInfo = (options = LINK_OPTIONS) => {
     className
   } = objectAssign({}, LINK_OPTIONS, options);
   return (
-    <a target="_blank" href={validateUrl(url)} className={cx(styles.linkText, className)}>
+    <a
+      target="_blank"
+      href={validateUrl(url)}
+      className={cx(styles.linkText, className)}
+    >
       {showIcon ? (
         icon ? (
           <i className={`fa fa-${icon}`} aria-hidden="true"></i>

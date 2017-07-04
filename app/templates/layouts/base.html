@@ -68,7 +68,9 @@
     <img id="wechat-image" src="{{ assetsPath("vendor/images/github.png") }}"/>
     {% block body %}
     {% endblock %}
-    {% include "layouts/footer.html" %}
+    {% if not hideFooter %}
+      {% include "layouts/footer.html" %}
+    {% endif %}
   </body>
   <script>
     window.locale = "{{ locale }}";

@@ -154,7 +154,8 @@ const getPubResumePage = async (ctx, next) => {
   await ctx.render('resume/share', {
     title: ctx.__("resumePage.title", userName),
     resumeHash: hash,
-    login: userLogin
+    login: userLogin,
+    hideFooter: true
   });
 };
 
@@ -169,7 +170,8 @@ const getPubResumePageMobile = async (ctx, next) => {
     menu: getMobileMenu(ctx),
     user: {
       isAdmin
-    }
+    },
+    hideFooter: true
   });
 };
 

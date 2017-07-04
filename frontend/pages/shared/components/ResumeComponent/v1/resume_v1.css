@@ -165,22 +165,6 @@
     position: absolute;
     border: 2px solid var(--oc-gray-7);
   }
-
-  /*&:last-child {
-    &::after {
-      bottom: 18px;
-    }
-
-    & .section_dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      left: -33px;
-      bottom: 5px;
-      position: absolute;
-      border: 2px solid var(--oc-gray-7);
-    }
-  }*/
 }
 
 .info_wrapper {
