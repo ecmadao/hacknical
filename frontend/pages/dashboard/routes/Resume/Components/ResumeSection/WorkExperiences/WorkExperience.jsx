@@ -12,6 +12,7 @@ import locales from 'LOCALES';
 const resumeTexts = locales("resume").sections.work;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
+const DATE_NOW = getDateNow();
 
 class WorkExperience extends React.Component {
   constructor(props) {
@@ -36,7 +37,6 @@ class WorkExperience extends React.Component {
   handleEndTimeChange(endTime) {
     const { handleExperienceChange } = this.props;
     handleExperienceChange('endTime')(endTime);
-    const DATE_NOW = getDateNow();
     if (getSecondsByDate(endTime) >= getSecondsByDate(DATE_NOW)) {
       handleExperienceChange('untilNow')(true);
     }
@@ -74,7 +74,6 @@ class WorkExperience extends React.Component {
       projects,
       untilNow,
     } = workExperience;
-    const DATE_NOW = getDateNow();
 
     return (
       <div className={styles["resume_piece_container"]}>

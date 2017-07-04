@@ -136,7 +136,7 @@ class ResumeComponentV1 extends React.PureComponent {
           projects,
           untilNow
         } = experience;
-        const validateEnd = untilNow ? getDateNow() : validateDate(endTime);
+        const validateEnd = untilNow ? DATE_NOW : validateDate(endTime);
         const workProjects = this.renderProjects(projects);
         return (
           <div key={index} className={styles["section_wrapper"]}>

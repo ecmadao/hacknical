@@ -9,7 +9,9 @@ import { LINK_NAMES } from 'SHARED/datas/resume';
 import GithubComponent from 'SHARED/components/GithubComponent';
 
 const validateDate = dateHelper.validator.date;
+const getDateNow = dateHelper.date.now;
 const sortByDate = sortBySeconds('startTime');
+const DATE_NOW = getDateNow();
 
 const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
 
@@ -178,10 +180,12 @@ const renderWorkExperienceRow = (options = {}) => {
     startTime,
     endTime,
     position,
-    projects
+    projects,
+    untilNow,
   } = options;
 
   const workProjects = renderProjects(projects);
+  const validateEnd = untilNow ? DATE_NOW : validateDate(endTime);
   return (
     <div className={styles.row} key={index}>
       <div className={cx(styles.rowLeft, styles.textRight)}>
@@ -192,7 +196,7 @@ const renderWorkExperienceRow = (options = {}) => {
         })}
         <br />
         <span className={styles.subText}>
-          {validateDate(startTime)}  ~  {validateDate(endTime)}
+          {validateDate(startTime)}  ~  {validateEnd}
         </span>
       </div>
       <div className={styles.rowRight}>

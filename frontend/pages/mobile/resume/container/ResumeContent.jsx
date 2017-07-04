@@ -12,9 +12,11 @@ import locales from 'LOCALES';
 
 const sortByDate = sortBySeconds('startTime');
 const validateDate = dateHelper.validator.date;
+const getDateNow = dateHelper.date.now;
 const { hoursBefore } = dateHelper.relative;
 const { hasUrl } = validator;
 const resumeTexts = locales("resume");
+const DATE_NOW = getDateNow();
 
 const LINK_OPTIONS = {
   text: '',
@@ -141,13 +143,17 @@ class ResumeContent extends React.Component {
           startTime,
           endTime,
           position,
-          projects
+          projects,
+          untilNow,
         } = experience;
         const workProjects = this.renderWorkProjects(projects);
+        const validateEnd = untilNow ? DATE_NOW : validateDate(endTime);
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
-              {validateDate(startTime)}<br/>~<br/>{validateDate(endTime)}
+              {validateDate(startTime)}
+              <br/>~<br/>
+              {validateEnd}
             </div>
             <div className={cx(styles['row-right'], styles['right-container'])}>
               <div className={styles['right-header']}>
