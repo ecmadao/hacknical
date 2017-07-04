@@ -20,14 +20,11 @@
   background-repeat: no-repeat;
   cursor: pointer;
   transition: box-shadow 0.2s;
+  box-shadow: var(--MDShadow1);
   width: 150px;
   height: 195px;
   background-position: center;
   background-size: contain;
-
-  &:hover {
-    box-shadow: var(--MDShadow2);
-  }
 }
 
 .templatev1 {
