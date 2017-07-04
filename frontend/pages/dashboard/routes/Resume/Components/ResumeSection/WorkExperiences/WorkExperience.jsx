@@ -12,7 +12,6 @@ import locales from 'LOCALES';
 const resumeTexts = locales("resume").sections.work;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
-const DATE_NOW = getDateNow();
 
 class WorkExperience extends React.Component {
   constructor(props) {
@@ -21,9 +20,9 @@ class WorkExperience extends React.Component {
       startOpen: false,
       endOpen: false
     };
-    this.onDateChange = this.onDateChange.bind(this);
     this.handleStartFocus = this.handleStartFocus.bind(this);
     this.handleEndFocus = this.handleEndFocus.bind(this);
+    this.handleEndTimeChange = this.handleEndTimeChange.bind(this);
   }
 
   handleStartFocus({ focused: startOpen }) {
@@ -34,38 +33,37 @@ class WorkExperience extends React.Component {
     this.setState({ endOpen });
   }
 
-  onDateChange(type) {
+  handleEndTimeChange(endTime) {
     const { handleExperienceChange } = this.props;
-    return (momentTime) => {
-      const time = momentTime.format('L');
-      handleExperienceChange && handleExperienceChange(type)(time);
+    handleExperienceChange('endTime')(endTime);
+    const DATE_NOW = getDateNow();
+    if (getSecondsByDate(endTime) >= getSecondsByDate(DATE_NOW)) {
+      handleExperienceChange('untilNow')(true);
     }
   }
 
   renderWorkProjects(projects) {
     const { handleProjectChange, deleteProject, disabled } = this.props;
-    return projects.map((project, index) => {
-      return (
-        <WorkProject
-          key={index}
-          project={project}
-          disabled={disabled}
-          onDelete={deleteProject(index)}
-          onChange={handleProjectChange(index)}
-        />
-      );
-    });
+    return projects.map((project, index) => (
+      <WorkProject
+        key={index}
+        project={project}
+        disabled={disabled}
+        onDelete={deleteProject(index)}
+        onChange={handleProjectChange(index)}
+      />
+    ));
   }
 
   render() {
     const { startOpen, endOpen } = this.state;
     const {
       index,
+      disabled,
+      addProject,
       workExperience,
       deleteExperience,
       handleExperienceChange,
-      addProject,
-      disabled
     } = this.props;
     const {
       url,
@@ -73,12 +71,10 @@ class WorkExperience extends React.Component {
       position,
       startTime,
       endTime,
-      projects
+      projects,
+      untilNow,
     } = workExperience;
-
-    const endText = getSecondsByDate(endTime) >= getSecondsByDate(DATE_NOW)
-      ? resumeTexts.untilNow
-      : resumeTexts.dimissionAt;
+    const DATE_NOW = getDateNow();
 
     return (
       <div className={styles["resume_piece_container"]}>
@@ -114,11 +110,11 @@ class WorkExperience extends React.Component {
         <div className={styles["resume_wrapper"]}>
           <DateSlider
             initialStart={startTime}
-            initialEnd={endTime}
+            initialEnd={untilNow ? DATE_NOW : endTime}
             startText={resumeTexts.entriedAt}
-            endText={endText}
+            endText={resumeTexts.dimissionAt}
             onStartChange={handleExperienceChange('startTime')}
-            onEndChange={handleExperienceChange('endTime')}
+            onEndChange={this.handleEndTimeChange}
           />
         </div>
         <div className={styles["project_wrapper"]}>

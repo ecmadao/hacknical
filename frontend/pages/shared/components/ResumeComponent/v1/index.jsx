@@ -133,16 +133,20 @@ class ResumeComponentV1 extends React.PureComponent {
           startTime,
           endTime,
           position,
-          projects
+          projects,
+          untilNow
         } = experience;
+        const validateEnd = untilNow ? getDateNow() : validateDate(endTime);
         const workProjects = this.renderProjects(projects);
         return (
           <div key={index} className={styles["section_wrapper"]}>
             {linkInfo({url, title: company, style: styles['info_header_large']})}
             {position ? `, ${position}` : ''}
-            <div className={styles["info_text"]}>{validateDate(startTime)}  ~  {validateDate(endTime)}</div>
+            <div className={styles["info_text"]}>
+              {validateDate(startTime)}  ~  {validateEnd}
+            </div>
             <div>{workProjects}</div>
-            <div className={styles["section_dot"]}></div>
+            <div className={styles["section_dot"]} />
           </div>
         );
       });
@@ -307,7 +311,8 @@ class ResumeComponentV1 extends React.PureComponent {
     if (workExperiences.length) {
       const lastWorkExperience = workExperiences.sort(sortByEndDate).reverse()[0];
       const workEndTime = lastWorkExperience.endTime;
-      if (getSecondsByDate(workEndTime) >= DATE_NOW_SECONDS) {
+      const untilNow = lastWorkExperience.untilNow;
+      if (untilNow || getSecondsByDate(workEndTime) >= DATE_NOW_SECONDS) {
         labels.push(
           <Label
             min

@@ -26,6 +26,7 @@ const ResumeSchema = new Schema({
       url: String,
       startTime: String,
       endTime: String,
+      untilNow: { type: Boolean, default: false },
       position: String,
       projects: [{
         name: String,
