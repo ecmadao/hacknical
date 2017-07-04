@@ -69,7 +69,8 @@
     },
     "resume": {
       "linkGithub": "Resume linked with GitHub",
-      "unlinkGithub": "Resume unlinked with GitHub"
+      "unlinkGithub": "Resume unlinked with GitHub",
+      "template": "Resume template successfully changed"
 	  }
   }
 }

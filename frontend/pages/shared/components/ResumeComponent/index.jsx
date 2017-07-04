@@ -8,7 +8,8 @@ const ResumeViews = {
 };
 
 const ResumeComponent = (props) => {
-  const ResumeView = ResumeViews[props.viewId];
+  const { shareInfo } = props;
+  const ResumeView = ResumeViews[shareInfo.template];
   return (
     <ResumeView
       {...props}

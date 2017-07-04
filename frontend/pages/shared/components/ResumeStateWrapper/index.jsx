@@ -29,7 +29,8 @@ class ResumeStateWrapper extends React.Component {
       shareInfo: {
         github: {},
         useGithub: true,
-        githubUrl: null
+        githubUrl: null,
+        template: 'v1'
       }
     };
   }

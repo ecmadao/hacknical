@@ -53,6 +53,11 @@ router.patch('/share/status',
   check.body('enable'),
   Resume.setResumeShareStatus
 );
+router.patch('/share/template',
+  user.checkSession(session.requiredSessions),
+  check.body('template'),
+  Resume.setResumeShareTemplate
+);
 router.patch('/share/github',
   user.checkSession(session.requiredSessions),
   check.body('enable'),

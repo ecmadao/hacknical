@@ -130,6 +130,17 @@ const postShareStatus = () => (dispatch, getState) => {
   });
 };
 
+// resume template
+const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');
+const postShareTemplate = (template) => (dispatch, getState) => {
+  if (template !== getState().resume.shareInfo) {
+    // dispatch(setPubResumeTemplate(template));
+    Api.resume.postPubResumeTemplate(template).then(() => {
+      dispatch(setPubResumeTemplate(template));
+    });
+  }
+};
+
 // resume download
 const downloadResume = () => (dispatch, getState) => {
   dispatch(toggleDownloadButton(true));
@@ -189,6 +200,8 @@ export default {
   initialPubResumeStatus,
   fetchPubResumeStatus,
   postShareStatus,
+  setPubResumeTemplate,
+  postShareTemplate,
   // resume download
   downloadResume,
   toggleDownloadButton

@@ -178,7 +178,12 @@ class Resume extends React.Component {
   }
 
   render() {
-    const { activeSection, openModal, openIntroModal, openShareModal } = this.state;
+    const {
+      openModal,
+      openIntroModal,
+      openShareModal,
+      activeSection,
+    } = this.state;
     const { resume, actions } = this.props;
     const { shareInfo, downloadDisabled, loading } = resume;
     const { url, openShare } = shareInfo;
@@ -291,20 +296,20 @@ class Resume extends React.Component {
           />
         ) : ''}
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
     resume: state.resume
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Resume);

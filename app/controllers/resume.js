@@ -24,18 +24,25 @@ const getResumeShareStatus = (findPubResume, locale) => {
     };
   }
 
-  const { useGithub, resumeHash, openShare, github } = result;
+  const {
+    github,
+    template,
+    useGithub,
+    resumeHash,
+    openShare,
+  } = result;
   return {
     success: true,
     result: {
       github,
+      template,
       openShare,
       useGithub,
       resumeHash,
       url: `resume/${resumeHash}?locale=${locale}`,
       githubUrl: null
     }
-  }
+  };
 };
 
 /* ===================== router handler ===================== */
@@ -222,6 +229,19 @@ const setResumeShareStatus = async (ctx, next) => {
   };
 };
 
+const setResumeShareTemplate = async (ctx) => {
+  const { template } = ctx.request.body;
+  const { userId } = ctx.session;
+  const findPubResume = await ResumePub.findPublicResume({ userId });
+  await ResumePub.updatePubResume(userId, result.resumeHash, {
+    template
+  });
+  ctx.body = {
+    success: true,
+    message: ctx.__("messages.resume.template")
+  };
+};
+
 const setResumeGithubStatus = async (ctx, next) => {
   const { enable } = ctx.request.body;
   const { userId } = ctx.session;
@@ -314,6 +334,7 @@ export default {
   getResumeStatus,
   getPubResumeStatus,
   setResumeShareStatus,
+  setResumeShareTemplate,
   setResumeGithubStatus,
   setGithubShareSection,
   getShareRecords

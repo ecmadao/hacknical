@@ -31,7 +31,8 @@ const initialState = {
     github: {},
     openShare: false,
     useGithub: false,
-    resumeHash: ''
+    resumeHash: '',
+    template: 'v1',
   },
   downloadDisabled: false
 };
@@ -440,6 +441,15 @@ const reducers = handleActions({
     return ({
       ...state,
       shareInfo: objectassign(shareInfo, { openShare })
+    });
+  },
+
+  SET_PUB_RESUME_TEMPLATE(state, action) {
+    const template = action.payload;
+    const { shareInfo } = state;
+    return ({
+      ...state,
+      shareInfo: objectassign(shareInfo, { template })
     });
   },
 

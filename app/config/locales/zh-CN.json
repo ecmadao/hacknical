@@ -69,7 +69,8 @@
     },
 		"resume": {
 			"linkGithub": "已开启简历和 GitHub 的关联",
-			"unlinkGithub": "已关闭简历和 GitHub 的关联"
+			"unlinkGithub": "已关闭简历和 GitHub 的关联",
+			"template": "简历模板更改成功"
 		}
   }
 }
