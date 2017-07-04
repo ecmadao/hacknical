@@ -147,7 +147,9 @@ class ResumeContent extends React.Component {
           untilNow,
         } = experience;
         const workProjects = this.renderWorkProjects(projects);
-        const validateEnd = untilNow ? DATE_NOW : validateDate(endTime);
+        const validateEnd = untilNow
+          ? validateDate(DATE_NOW)
+          : validateDate(endTime);
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>

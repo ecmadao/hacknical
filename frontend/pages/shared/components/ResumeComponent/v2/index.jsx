@@ -7,11 +7,14 @@ import styles from './resume_v2.css';
 import validator from 'UTILS/validator';
 import { LINK_NAMES } from 'SHARED/datas/resume';
 import GithubComponent from 'SHARED/components/GithubComponent';
+import locales from 'LOCALES';
 
 const validateDate = dateHelper.validator.date;
 const getDateNow = dateHelper.date.now;
+const { hoursBefore } = dateHelper.relative;
 const sortByDate = sortBySeconds('startTime');
 const DATE_NOW = getDateNow();
+const resumeTexts = locales("resume");
 
 const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
 
@@ -185,7 +188,7 @@ const renderWorkExperienceRow = (options = {}) => {
   } = options;
 
   const workProjects = renderProjects(projects);
-  const validateEnd = untilNow ? DATE_NOW : validateDate(endTime);
+  const validateEnd = untilNow ? validateDate(DATE_NOW) : validateDate(endTime);
   return (
     <div className={styles.row} key={index}>
       <div className={cx(styles.rowLeft, styles.textRight)}>
@@ -358,20 +361,35 @@ class ResumeComponentV2 extends React.PureComponent {
   }
 
   renderSupplementsAndLinks() {
+    const { resume } = this.props;
+    const { others } = resume;
+
     const supplements = this.renderSupplements();
     const otherLinks = this.renderLinks();
     let titles = [];
     if (!supplements && !otherLinks) return null;
     if (supplements) titles.push('自我评价');
     if (otherLinks) titles.push('其他链接');
-    return section({
-      title: titles.join('与'),
-      rows: (
-        <div className={styles.row}>
-          {supplements}
-          {otherLinks}
+
+    const rows = [
+      (<div className={styles.row}>
+        {supplements}
+        {otherLinks}
+      </div>)
+    ];
+    if (others.dream) {
+      rows.push((
+        <div className={cx(styles.row, styles.dreamRow)}>
+          <div className={styles.sectionColumn}>
+            <span className={styles.subText}>我的梦想</span>
+            <div className={styles.dream}>{others.dream}</div>
+          </div>
         </div>
-      )
+      ));
+    }
+    return section({
+      rows,
+      title: titles.join('与'),
     });
   }
 
@@ -464,9 +482,11 @@ class ResumeComponentV2 extends React.PureComponent {
           {this.renderPersonalProjects()}
           {this.renderSupplementsAndLinks()}
         </div>
-        <div className={styles.footer}>
-          {others.dream}
-        </div>
+        {updateAt ? (
+          <div className={styles.footer}>
+            {resumeTexts.updateAt}{hoursBefore(updateAt)}
+          </div>
+        ) : ''}
       </div>
     );
   }

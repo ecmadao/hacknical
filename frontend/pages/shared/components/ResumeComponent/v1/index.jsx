@@ -102,7 +102,6 @@ class ResumeComponentV1 extends React.PureComponent {
               {validateDate(startTime)}  ~  {validateDate(endTime)}
             </div>
             <div className={styles["info_text"]}>{major}</div>
-            {/* <div className={styles["section_dot"]}></div> */}
           </div>
         );
       });
@@ -136,7 +135,9 @@ class ResumeComponentV1 extends React.PureComponent {
           projects,
           untilNow
         } = experience;
-        const validateEnd = untilNow ? DATE_NOW : validateDate(endTime);
+        const validateEnd = untilNow
+          ? validateDate(DATE_NOW)
+          : validateDate(endTime);
         const workProjects = this.renderProjects(projects);
         return (
           <div key={index} className={styles["section_wrapper"]}>

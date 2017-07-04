@@ -56,15 +56,16 @@
 }
 
 .footer {
-  width: 100%;
   height: 40px;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   flex-direction: row;
-  background-color: var(--oc-gray-7);
+  background-color: var(--oc-gray-6);
   color: var(--oc-white);
+  opacity: 0.5;
   display: flex;
   font-size: 14px;
+  padding: 0 25px;
 }
 
 .headerContainer {
@@ -125,6 +126,10 @@
   &:not(:last-child) {
     margin-bottom: 10px;
   }
+}
+
+.dreamRow {
+  margin-top: 25px;
 }
 
 .projectRow {
@@ -237,4 +242,9 @@
     color: var(--oc-green-7);
     display: inline-block;
   }
+}
+
+.dream {
+  composes: mainText;
+  color: var(--oc-gray-6);
 }
