@@ -112,13 +112,13 @@ export const getFirstMatchIndex = (array, target) => {
   return index;
 };
 
-export const sortRepos = (key = 'stargazers_count', func = parseInt) => (firstRepos, secRepos) => {
-  return func(secRepos[key]) - func(firstRepos[key]);
-};
+export const sortRepos = (key = 'stargazers_count', func = parseInt) =>
+  (firstRepos, secRepos) =>
+    func(secRepos[key]) - func(firstRepos[key]);
 
-export const sortLanguages = (obj) => (firstLanguage, secLanguage) => {
-  return obj[secLanguage] - obj[firstLanguage];
-};
+export const sortLanguages = (obj) =>
+  (firstLanguage, secLanguage) =>
+    obj[secLanguage] - obj[firstLanguage];
 
 export const getOffsetLeft = (start, end) => (left) => {
   const length = end - start;
@@ -130,8 +130,13 @@ export const getOffsetRight = (start, end) => (right) => {
   return `${Math.floor((end - right) * 100 / length)}%`;
 };
 
-export const sortBySeconds = (key) => (thisObj, nextObj) => getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
-export const sortByX = (key) => (thisObj, nextObj) => thisObj[key] - nextObj[key];
+export const sortBySeconds = (key) =>
+  (thisObj, nextObj) =>
+    getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
+
+export const sortByX = (key) =>
+  (thisObj, nextObj) =>
+    thisObj[key] - nextObj[key];
 
 /*
  * example:

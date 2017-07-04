@@ -24,7 +24,8 @@ const INTROS = [
     title: '使用说明',
     texts: [
       '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
-      '点击 "预览"（或 cmd/win + p ）以预览当前简历'
+      'cmd/win + <-/-> 切换上一步/下一步',
+      '点击 "预览"（或 cmd/win + p ）以预览当前简历',
     ]
   },
   {
@@ -120,7 +121,15 @@ class Resume extends React.Component {
     const hotkeys = new Hotkeys();
     hotkeys
       .save(this.props.actions.saveResume)
-      .preview(() => this.handleModalStatus(true));
+      .preview(() => this.handleModalStatus(true))
+      .next(() => {
+        const currentIndex = this.currentIndex;
+        this.handleSectionIndexChange(currentIndex + 1);
+      })
+      .previous(() => {
+        const currentIndex = this.currentIndex;
+        this.handleSectionIndexChange(currentIndex - 1);
+      });
   }
 
   handleModalStatus(openModal) {

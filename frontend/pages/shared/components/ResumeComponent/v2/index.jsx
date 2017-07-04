@@ -14,10 +14,13 @@ const sortByDate = sortBySeconds('startTime');
 const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
 
 const section = (options) => {
-  const { title, rows } = options;
+  const { title, rows, className = '' } = options;
 
   return (
-    <div className={styles.section}>
+    <div className={cx(
+        styles.section,
+        className
+      )}>
       <div className={styles.sectionHeader}>
         <div className={styles.sectionTitle}>
           {title}
@@ -135,7 +138,13 @@ const renderPersonalProjectsRow = (options = {}) => {
     );
   });
   return (
-    <div className={styles.row} key={index}>
+    <div
+      className={cx(
+        styles.row,
+        styles.projectRow
+      )}
+      key={index}
+    >
       <div className={cx(styles.rowLeft, styles.textRight)}>
         {renderBaseInfo({
           url,
@@ -247,7 +256,8 @@ class ResumeComponentV2 extends React.PureComponent {
 
     return section({
       title: '教育经历',
-      rows: edus
+      rows: edus,
+      className: styles.firstSection
     });
   }
 

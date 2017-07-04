@@ -30,7 +30,7 @@ class ResumeStateWrapper extends React.Component {
         github: {},
         useGithub: true,
         githubUrl: null,
-        template: 'v1'
+        template: 'v0'
       }
     };
   }

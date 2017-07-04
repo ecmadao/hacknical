@@ -95,6 +95,10 @@
   padding: 15px 30px;
 }
 
+.firstSection {
+  padding-top: 0;
+}
+
 .sectionHeader {
   composes: titleText;
   margin: 30px 0;
@@ -117,6 +121,16 @@
 .row {
   display: flex;
   flex-direction: row;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.projectRow {
+  &:not(:last-child) {
+    margin-bottom: 25px;
+  }
 }
 
 .sectionColumn {

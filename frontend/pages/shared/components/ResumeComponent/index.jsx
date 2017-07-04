@@ -10,6 +10,7 @@ const ResumeViews = {
 const ResumeComponent = (props) => {
   const { shareInfo } = props;
   const ResumeView = ResumeViews[shareInfo.template];
+  if (!ResumeView) return null;
   return (
     <ResumeView
       {...props}
@@ -21,7 +22,7 @@ ResumeComponent.defaultProps = {
   resume: {},
   shareInfo: {},
   login: '',
-  viewId: 'v2',
+  viewId: 'v0',
 };
 
 export default ResumeComponent;
