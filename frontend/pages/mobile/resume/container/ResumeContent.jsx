@@ -30,14 +30,15 @@ const LinkInfo = (options = LINK_OPTIONS) => {
   const {
     text,
     url,
-    showIcon,
     icon,
+    type,
+    showIcon,
     className
   } = objectAssign({}, LINK_OPTIONS, options);
   return (
     <a
       target="_blank"
-      href={validateUrl(url)}
+      href={type === 'link' ? validateUrl(url) : url}
       className={cx(styles.linkText, className)}
     >
       {showIcon ? (
@@ -55,7 +56,10 @@ const LinkInfo = (options = LINK_OPTIONS) => {
 const HeaderInfo = (options = {}) => {
   const { url, text, showIcon } = options;
   if (showIcon === undefined) options.showIcon = false;
-  if (url) return LinkInfo(options);
+  if (url) {
+    options.type = 'link';
+    return LinkInfo(options);
+  };
   return (
     <div className={styles['project-header']}>{text}</div>
   );

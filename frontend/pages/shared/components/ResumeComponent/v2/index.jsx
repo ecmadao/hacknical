@@ -34,20 +34,28 @@ const renderBaseInfo = (options = {}) => {
     url,
     icon,
     value,
-    type = 'normal'
+    type = 'normal',
+    className = ''
   } = options;
   if (!value)return null;
   const iconDOM = icon
     ? (<i className={`fa fa-${icon}`} aria-hidden="true"></i>)
     : '';
+
+  const linkClass = cx(
+    styles.baseLink,
+    styles.baseInfo,
+    className
+  );
+  const textClass = cx(
+    styles.baseInfo,
+    className
+  );
   if (type === 'email') {
     return (
       <a
         href={`mailto:${url}`}
-        className={cx(
-          styles.baseLink,
-          styles.baseInfo
-        )}
+        className={linkClass}
       >
         {iconDOM}
         {value}
@@ -58,10 +66,7 @@ const renderBaseInfo = (options = {}) => {
       <a
         href={`tel:${url}`}
         target="_blank"
-        className={cx(
-          styles.baseLink,
-          styles.baseInfo
-        )}
+        className={linkClass}
       >
         {iconDOM}
         {value}
@@ -70,12 +75,9 @@ const renderBaseInfo = (options = {}) => {
   } else if (url) {
     return (
       <a
-        href={url}
+        href={validateUrl(url)}
         target="_blank"
-        className={cx(
-          styles.baseLink,
-          styles.baseInfo
-        )}
+        className={linkClass}
       >
         {iconDOM}
         {value}
@@ -84,7 +86,7 @@ const renderBaseInfo = (options = {}) => {
   }
 
   return (
-    <span className={styles.baseInfo}>
+    <span className={textClass}>
       {iconDOM}
       {value}
     </span>
@@ -104,7 +106,11 @@ const renderProjects = (projects = []) => {
     });
     return (
       <div key={index} className={styles.projectSection}>
-        <span className={styles.subText}>{name}</span>
+        {renderBaseInfo({
+          url,
+          value: name,
+          className: styles.subText
+        })}
         <ul className={styles.list}>
           {projectDetails}
         </ul>
@@ -131,7 +137,11 @@ const renderPersonalProjectsRow = (options = {}) => {
   return (
     <div className={styles.row} key={index}>
       <div className={cx(styles.rowLeft, styles.textRight)}>
-        <span className={styles.mainText}>{title}</span>
+        {renderBaseInfo({
+          url,
+          value: title,
+          className: styles.mainText
+        })}
       </div>
       <div className={styles.rowRight}>
         <span
@@ -166,7 +176,12 @@ const renderWorkExperienceRow = (options = {}) => {
   return (
     <div className={styles.row} key={index}>
       <div className={cx(styles.rowLeft, styles.textRight)}>
-        <span className={styles.mainText}>{company}</span><br />
+        {renderBaseInfo({
+          url,
+          value: company,
+          className: styles.mainText
+        })}
+        <br />
         <span className={styles.subText}>
           {validateDate(startTime)}  ~  {validateDate(endTime)}
         </span>
