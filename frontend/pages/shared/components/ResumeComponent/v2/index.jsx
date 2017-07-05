@@ -1,22 +1,13 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import { Label } from 'light-ui';
-import { sortBySeconds } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
 import styles from './resume_v2.css';
-import validator from 'UTILS/validator';
 import { LINK_NAMES } from 'SHARED/datas/resume';
+import { validateUrl } from 'UTILS/helper';
 import GithubComponent from 'SHARED/components/GithubComponent';
-import locales from 'LOCALES';
 
-const validateDate = dateHelper.validator.date;
-const getDateNow = dateHelper.date.now;
 const { hoursBefore } = dateHelper.relative;
-const sortByDate = sortBySeconds('startTime');
-const DATE_NOW = getDateNow();
-const resumeTexts = locales("resume");
-
-const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
 
 const section = (options) => {
   const { title, rows, className = '' } = options;
@@ -104,7 +95,6 @@ const renderBaseInfo = (options = {}) => {
 const renderProjects = (projects = []) => {
   return projects.map((project, index) => {
     const { name, url, details } = project;
-    if (!name) { return; }
     const projectDetails = details.map((detail, i) => {
       return (
         <li key={i}>
@@ -184,11 +174,9 @@ const renderWorkExperienceRow = (options = {}) => {
     endTime,
     position,
     projects,
-    untilNow,
   } = options;
 
   const workProjects = renderProjects(projects);
-  const validateEnd = untilNow ? validateDate(DATE_NOW) : validateDate(endTime);
   return (
     <div className={styles.row} key={index}>
       <div className={cx(styles.rowLeft, styles.textRight)}>
@@ -199,7 +187,7 @@ const renderWorkExperienceRow = (options = {}) => {
         })}
         <br />
         <span className={styles.subText}>
-          {validateDate(startTime)}  ~  {validateEnd}
+          {startTime}  ~  {endTime}
         </span>
       </div>
       <div className={styles.rowRight}>
@@ -226,7 +214,7 @@ const renderEduRow = (options = {}) => {
       <div className={cx(styles.rowLeft, styles.textRight)}>
         <span className={styles.mainText}>{school}</span><br />
         <span className={styles.subText}>
-          {validateDate(startTime)}  ~  {validateDate(endTime)}
+          {startTime}  ~  {endTime}
         </span>
       </div>
       <div className={styles.rowRight}>
@@ -253,9 +241,6 @@ class ResumeComponentV2 extends React.PureComponent {
   renderEdu() {
     const { educations } = this.props.resume;
     const edus = educations
-      .filter(edu => edu.school)
-      .sort(sortByDate)
-      .reverse()
       .map((edu, index) => renderEduRow({
         ...edu,
         index
@@ -271,9 +256,6 @@ class ResumeComponentV2 extends React.PureComponent {
   renderWorkExperience() {
     const { workExperiences } = this.props.resume;
     const exps = workExperiences
-      .filter(experience => experience.company)
-      .sort(sortByDate)
-      .reverse()
       .map((experience, index) => renderWorkExperienceRow({
         ...experience,
         index
@@ -289,7 +271,6 @@ class ResumeComponentV2 extends React.PureComponent {
     const { personalProjects } = this.props.resume;
 
     const projects = personalProjects
-      .filter(project => project.title)
       .map((project, index) => renderPersonalProjectsRow({
         ...project,
         index
@@ -330,25 +311,23 @@ class ResumeComponentV2 extends React.PureComponent {
     if (!socialLinks.length) { return null; }
 
     const socials = socialLinks.map((social, index) => {
-      if (validator.url(social.url)) {
-        const { url, name, text } = social;
-        return (
-          <li key={index}>
-            <div className={styles["link_wrapper"]}>
-              {text || LINK_NAMES[name] || name}
-              &nbsp;:&nbsp;&nbsp;&nbsp;
-              <a
-                target="_blank"
-                className={styles["list_link"]}
-                href={validateUrl(url)}>{url}</a>
-            </div>
-          </li>
-        );
-      } else {
-        return null;
-      }
-    }).filter(item => item);
-    if (!socials.length) { return null; }
+      const { url, validateUrl, text } = social;
+      return (
+        <li key={index}>
+          <div className={styles["link_wrapper"]}>
+            {text}
+            &nbsp;:&nbsp;&nbsp;&nbsp;
+            <a
+              target="_blank"
+              className={styles["list_link"]}
+              href={validateUrl}
+            >
+              {url}
+            </a>
+          </div>
+        </li>
+      );
+    });
 
     return (
       <div className={styles.sectionColumn}>
@@ -372,21 +351,21 @@ class ResumeComponentV2 extends React.PureComponent {
     if (otherLinks) titles.push('其他链接');
 
     const rows = [
-      (<div className={styles.row}>
+      (<div className={styles.row} key={0}>
         {supplements}
         {otherLinks}
       </div>)
     ];
-    if (others.dream) {
-      rows.push((
-        <div className={cx(styles.row, styles.dreamRow)}>
-          <div className={styles.sectionColumn}>
-            <span className={styles.subText}>我的梦想</span>
-            <div className={styles.dream}>{others.dream}</div>
-          </div>
-        </div>
-      ));
-    }
+    // if (others.dream) {
+    //   rows.push((
+    //     <div className={cx(styles.row, styles.dreamRow)} key={1}>
+    //       <div className={styles.sectionColumn}>
+    //         <span className={styles.subText}>我的梦想</span>
+    //         <div className={styles.dream}>{others.dream}</div>
+    //       </div>
+    //     </div>
+    //   ));
+    // }
     return section({
       rows,
       title: titles.join('与'),
@@ -395,7 +374,7 @@ class ResumeComponentV2 extends React.PureComponent {
 
   render() {
     const { showGithub } = this.state;
-    const { resume, shareInfo, login } = this.props;
+    const { resume, shareInfo, login, updateText } = this.props;
     const { info, others, updateAt } = resume;
     const { useGithub, github, githubUrl } = shareInfo;
 
@@ -482,11 +461,16 @@ class ResumeComponentV2 extends React.PureComponent {
           {this.renderPersonalProjects()}
           {this.renderSupplementsAndLinks()}
         </div>
-        {updateAt ? (
-          <div className={styles.footer}>
-            {resumeTexts.updateAt}{hoursBefore(updateAt)}
+        <div className={styles.footer}>
+          <div className={styles.footerLeft}>
+            {others.dream}
           </div>
-        ) : ''}
+          {updateAt ? (
+            <div className={styles.footerRight}>
+              {updateText}{hoursBefore(updateAt)}
+            </div>
+          ) : ''}
+        </div>
       </div>
     );
   }

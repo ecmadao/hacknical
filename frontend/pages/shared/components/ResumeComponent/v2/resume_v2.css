@@ -60,12 +60,23 @@
   justify-content: flex-end;
   align-items: center;
   flex-direction: row;
-  background-color: var(--oc-gray-6);
-  color: var(--oc-white);
-  opacity: 0.5;
+  background-color: var(--oc-gray-7);
+  color: rgba(255, 255, 255, 0.6);
   display: flex;
   font-size: 14px;
-  padding: 0 25px;
+  padding: 0 30px;
+}
+
+.footerLeft {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.footerRight {
+  width: 150px;
+  text-align: right;
 }
 
 .headerContainer {

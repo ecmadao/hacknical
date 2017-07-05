@@ -6,17 +6,11 @@ import dateHelper from 'UTILS/date';
 import validator from 'UTILS/validator';
 import Slick from '../../shared/components/Slick';
 import styles from '../styles/resume.css';
-import { sortBySeconds } from 'UTILS/helper';
 import { GENDERS } from 'SHARED/datas/resume';
-import locales from 'LOCALES';
+import { validateUrl } from 'UTILS/helper';
 
-const sortByDate = sortBySeconds('startTime');
-const validateDate = dateHelper.validator.date;
-const getDateNow = dateHelper.date.now;
 const { hoursBefore } = dateHelper.relative;
 const { hasUrl } = validator;
-const resumeTexts = locales("resume");
-const DATE_NOW = getDateNow();
 
 const LINK_OPTIONS = {
   text: '',
@@ -25,8 +19,6 @@ const LINK_OPTIONS = {
   icon: null,
   className: ''
 };
-
-const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
 
 const LinkInfo = (options = LINK_OPTIONS) => {
   const {
@@ -101,15 +93,12 @@ class ResumeContent extends React.Component {
     const { educations } = this.props.resume;
 
     const edus = educations
-      .filter(edu => edu.school)
-      .sort(sortByDate)
-      .reverse()
       .map((edu, index) => {
-        const { school, major, education, startTime, endTime} = edu;
+        const { school, major, education, startTime, endTime } = edu;
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
-              {validateDate(startTime)}<br/>~<br/>{validateDate(endTime)}
+              {startTime}<br/>~<br/>{endTime}
             </div>
             <div className={styles['row-right']}>
               <div className={styles.mainText}>{school}</div>
@@ -133,9 +122,6 @@ class ResumeContent extends React.Component {
     const { workExperiences } = this.props.resume;
 
     const exps = workExperiences
-      .filter(experience => experience.company)
-      .sort(sortByDate)
-      .reverse()
       .map((experience, index) => {
         const {
           url,
@@ -144,18 +130,14 @@ class ResumeContent extends React.Component {
           endTime,
           position,
           projects,
-          untilNow,
         } = experience;
         const workProjects = this.renderWorkProjects(projects);
-        const validateEnd = untilNow
-          ? validateDate(DATE_NOW)
-          : validateDate(endTime);
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
-              {validateDate(startTime)}
+              {startTime}
               <br/>~<br/>
-              {validateEnd}
+              {endTime}
             </div>
             <div className={cx(styles['row-right'], styles['right-container'])}>
               <div className={styles['right-header']}>
@@ -219,7 +201,6 @@ class ResumeContent extends React.Component {
     const { personalProjects } = this.props.resume;
 
     const projects = personalProjects
-      .filter(project => project.title)
       .map((project, index) => {
         const { desc, title } = project;
         return (
@@ -331,7 +312,7 @@ class ResumeContent extends React.Component {
   }
 
   render() {
-    const { resume } = this.props;
+    const { resume, updateText } = this.props;
     const { updateAt } = resume;
 
     return (
@@ -347,7 +328,7 @@ class ResumeContent extends React.Component {
         {this.renderSupplements()}
         {updateAt ? (
           <div className={styles.resumeTip}>
-            {resumeTexts.updateAt}{hoursBefore(updateAt)}
+            {updateText}{hoursBefore(updateAt)}
           </div>
         ) : ''}
       </div>

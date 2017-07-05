@@ -176,3 +176,6 @@ export const splitArray = (array, size = 1) => {
     return array.slice(index * size, (index + 1) * size)
   });
 };
+
+
+export const validateUrl = url => /^http/.test(url) ? url : `//${url}`;

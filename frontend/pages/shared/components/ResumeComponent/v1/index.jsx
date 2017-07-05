@@ -2,21 +2,16 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
-import { sortBySeconds } from 'UTILS/helper';
+import { sortBySeconds, validateUrl } from 'UTILS/helper';
 import validator from 'UTILS/validator';
-import { LINK_NAMES } from 'SHARED/datas/resume';
 import { objectassign } from 'SHARED/utils/resume';
 import GithubComponent from 'SHARED/components/GithubComponent';
 import styles from './resume_v1.css';
-import locales from 'LOCALES';
 
-const sortByDate = sortBySeconds('startTime');
 const sortByEndDate = sortBySeconds('endTime');
-const validateDate = dateHelper.validator.date;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
 const { hoursBefore } = dateHelper.relative;
-const resumeTexts = locales("resume");
 
 const DATE_NOW = getDateNow();
 const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW);
@@ -27,14 +22,14 @@ const info = (options) => {
 
   return (
     <div className={cx(styles[`${type}_info`], style)}>
-      <i className={cx(`fa fa-${icon}`, styles[`${type}_icon`])} aria-hidden="true"></i>
+      <i
+        className={cx(`fa fa-${icon}`, styles[`${type}_icon`])} aria-hidden="true"
+      />
       &nbsp;&nbsp;
       {component ? component : text}
     </div>
   );
 };
-
-const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
 
 const linkInfo = (options) => {
   const { url, title, style = '' } = options;
@@ -88,18 +83,15 @@ class ResumeComponentV1 extends React.PureComponent {
     const { educations } = this.props.resume;
 
     const edus = educations
-      .filter(edu => edu.school)
-      .sort(sortByDate)
-      .reverse()
       .map((edu, index) => {
-        const { school, major, education, startTime, endTime} = edu;
+        const { school, major, education, startTime, endTime } = edu;
         return (
           <div key={index} className={styles["section_wrapper"]}>
             <div className={cx(styles["info_header"], styles['info_header_large'])}>
               {school}{education ? `, ${education}` : ''}
             </div>
             <div className={styles["info_text"]}>
-              {validateDate(startTime)}  ~  {validateDate(endTime)}
+              {startTime}  ~  {endTime}
             </div>
             <div className={styles["info_text"]}>{major}</div>
           </div>
@@ -122,9 +114,6 @@ class ResumeComponentV1 extends React.PureComponent {
     const { workExperiences } = this.props.resume;
 
     const exps = workExperiences
-      .filter(experience => experience.company)
-      .sort(sortByDate)
-      .reverse()
       .map((experience, index) => {
         const {
           url,
@@ -133,18 +122,14 @@ class ResumeComponentV1 extends React.PureComponent {
           endTime,
           position,
           projects,
-          untilNow
         } = experience;
-        const validateEnd = untilNow
-          ? validateDate(DATE_NOW)
-          : validateDate(endTime);
         const workProjects = this.renderProjects(projects);
         return (
           <div key={index} className={styles["section_wrapper"]}>
             {linkInfo({url, title: company, style: styles['info_header_large']})}
             {position ? `, ${position}` : ''}
             <div className={styles["info_text"]}>
-              {validateDate(startTime)}  ~  {validateEnd}
+              {startTime}  ~  {endTime}
             </div>
             <div>{workProjects}</div>
             <div className={styles["section_dot"]} />
@@ -167,7 +152,6 @@ class ResumeComponentV1 extends React.PureComponent {
   renderProjects(projects) {
     return projects.map((project, index) => {
       const { name, url, details } = project;
-      if (!name) { return; }
       const projectDetails = details.map((detail, i) => {
         return (
           <li key={i}>
@@ -190,7 +174,6 @@ class ResumeComponentV1 extends React.PureComponent {
     const { personalProjects } = this.props.resume;
 
     const projects = personalProjects
-      .filter(project => project.title)
       .map((project, index) => {
         const { url, desc, techs, title } = project;
         const projectTechs = techs.map((tech, index) => {
@@ -258,23 +241,22 @@ class ResumeComponentV1 extends React.PureComponent {
   renderSocialLinks() {
     const { others } = this.props.resume;
     const { socialLinks } = others;
+    if (!socialLinks.length) { return null; }
 
     const socials = socialLinks.map((social, index) => {
-      if (validator.url(social.url)) {
-        const { url, name, text } = social;
-        return (
-          <li key={index}>
-            <div className={styles["link_wrapper"]}>
-              {text || LINK_NAMES[name] || name}
-              &nbsp;:&nbsp;&nbsp;&nbsp;
-              <a
-                target="_blank"
-                className={styles["list_link"]}
-                href={validateUrl(url)}>{url}</a>
-            </div>
-          </li>
-        );
-      }
+      const { url, validateUrl, text } = social;
+      return (
+        <li key={index}>
+          <div className={styles["link_wrapper"]}>
+            {text}
+            &nbsp;:&nbsp;&nbsp;&nbsp;
+            <a
+              target="_blank"
+              className={styles["list_link"]}
+              href={validateUrl}>{url}</a>
+          </div>
+        </li>
+      );
     });
 
     return (
@@ -310,7 +292,8 @@ class ResumeComponentV1 extends React.PureComponent {
     }
 
     if (workExperiences.length) {
-      const lastWorkExperience = workExperiences.sort(sortByEndDate).reverse()[0];
+      const lastWorkExperience =
+        workExperiences.sort(sortByEndDate).reverse()[0];
       const workEndTime = lastWorkExperience.endTime;
       const untilNow = lastWorkExperience.untilNow;
       if (untilNow || getSecondsByDate(workEndTime) >= DATE_NOW_SECONDS) {
@@ -338,7 +321,7 @@ class ResumeComponentV1 extends React.PureComponent {
 
   render() {
     const { showGithub } = this.state;
-    const { resume, shareInfo, login } = this.props;
+    const { resume, shareInfo, login, updateText } = this.props;
     const { info, others, updateAt } = resume;
     const { useGithub, github, githubUrl } = shareInfo;
 
@@ -422,7 +405,7 @@ class ResumeComponentV1 extends React.PureComponent {
             <br />
             {updateAt ? (
               baseInfo(
-                `${resumeTexts.updateAt}${hoursBefore(updateAt)}`,
+                `${updateText}${hoursBefore(updateAt)}`,
                 'exclamation-circle',
                 { style: styles["right_info_tip"] }
               )
