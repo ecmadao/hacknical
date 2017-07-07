@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 .share_modal_container {
-  background-color: var(--oc-white);
+  background-color: var(--bg);
   box-shadow: var(--shadow4);
   width: 500px;
   margin: 0 auto;

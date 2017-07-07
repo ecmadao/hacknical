@@ -1,10 +1,24 @@
+:root {
+  --speed: .2s;
+  --easing: cubic-bezier(.55,0,.1,1);
+  --modalContentOpacity: 0;
+  --scale: scale(0.8);
+  --scaleActive: scale(1);
+}
+
 .modalWrapper {
   display: flex;
   width: 100%;
-  height: 100%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
+}
+
+.header {
+  height: 40px;
+  line-height: 40px;
+  font-size: 1.3em;
 }
 
 .modalSection {
@@ -16,13 +30,53 @@
   align-items: center;
 }
 
-.template {
-  background-repeat: no-repeat;
+.templateContainer {
   cursor: pointer;
   transition: box-shadow 0.2s;
   box-shadow: var(--MDShadow1);
   width: 150px;
   height: 195px;
+  border-radius: 3px;
+  position: relative;
+}
+
+.templateContainerActive {
+  cursor: default;
+  box-shadow: var(--MDShadow3);
+
+  & .templateWrapper {
+    z-index: var(--zIndex99);
+    visibility: visible;
+    opacity: 1;
+    /*transform: var(--scaleActive);*/
+  }
+}
+
+.templateWrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: var(--zIndex0);
+  opacity: var(--modalContentOpacity);
+  visibility: hidden;
+  backface-visibility: hidden;
+  /*transform: var(--scale);*/
+  transition: all var(--speed) var(--easing);
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5em;
+}
+
+.template {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
@@ -33,9 +87,4 @@
 
 .templatev2 {
   background-image: url("./images/v2.png");
-}
-
-.templateActive {
-  cursor: default;
-  box-shadow: var(--MDShadow4);
 }

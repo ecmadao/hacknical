@@ -21,26 +21,43 @@ const TemplateModal = (props) => {
           modalStyles.modalContainer,
           modalStyles.modalSmall,
         )}>
+        <div className={styles.header}>
+          简历模板选择
+        </div>
         <div className={styles.modalWrapper}>
           <div className={styles.modalSection}>
-            <div
-              className={cx(
-                styles.template,
-                styles.templatev1,
-                template === 'v1' && styles.templateActive
-              )}
-              onClick={() => onTemplateChange('v1')}
-            />
+            <div className={cx(
+                styles.templateContainer,
+                template === 'v1' && styles.templateContainerActive
+              )}>
+              <div
+                className={cx(
+                  styles.template,
+                  styles.templatev1,
+                )}
+                onClick={() => onTemplateChange('v1')}
+              />
+              <div className={styles.templateWrapper}>
+                <i className="fa fa-check-circle" aria-hidden="true" />
+              </div>
+            </div>
           </div>
           <div className={styles.modalSection}>
-            <div
-              className={cx(
-                styles.template,
-                styles.templatev2,
-                template === 'v2' && styles.templateActive
-              )}
-              onClick={() => onTemplateChange('v2')}
-            />
+            <div className={cx(
+                styles.templateContainer,
+                template === 'v2' && styles.templateContainerActive
+              )}>
+              <div
+                className={cx(
+                  styles.template,
+                  styles.templatev2,
+                )}
+                onClick={() => onTemplateChange('v2')}
+              />
+              <div className={styles.templateWrapper}>
+                <i className="fa fa-check-circle" aria-hidden="true" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

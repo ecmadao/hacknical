@@ -6,9 +6,7 @@ import {
 import validator from 'UTILS/validator';
 import dateHelper from 'UTILS/date';
 import { sortBySeconds, validateUrl } from 'UTILS/helper';
-import {
-  LINK_NAMES
-} from 'SHARED/datas/resume';
+import { LINK_NAMES } from 'SHARED/datas/resume';
 
 const getDateNow = dateHelper.date.now;
 const validateDate = dateHelper.validator.date;

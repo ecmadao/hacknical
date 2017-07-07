@@ -2,7 +2,7 @@
 
 
 .repos_modal_container {
-  background-color: var(--oc-white);
+  background-color: var(--bg);
   box-shadow: var(--shadow4);
   padding: 30px;
   width: 50%;
