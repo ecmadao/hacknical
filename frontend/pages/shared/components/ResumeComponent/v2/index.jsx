@@ -3,7 +3,6 @@ import cx from 'classnames';
 import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import styles from './resume_v2.css';
-import { LINK_NAMES } from 'SHARED/datas/resume';
 import { validateUrl } from 'UTILS/helper';
 import GithubComponent from 'SHARED/components/GithubComponent';
 
@@ -356,16 +355,6 @@ class ResumeComponentV2 extends React.PureComponent {
         {otherLinks}
       </div>)
     ];
-    // if (others.dream) {
-    //   rows.push((
-    //     <div className={cx(styles.row, styles.dreamRow)} key={1}>
-    //       <div className={styles.sectionColumn}>
-    //         <span className={styles.subText}>我的梦想</span>
-    //         <div className={styles.dream}>{others.dream}</div>
-    //       </div>
-    //     </div>
-    //   ));
-    // }
     return section({
       rows,
       title: titles.join('与'),

@@ -15,6 +15,7 @@ import IntroModal from './IntroModal';
 import actions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
+import ResumeFormatter from 'SHARED/components/ResumeStateWrapper/ResumeFormatter';
 
 const message = new Message();
 const resumeTexts = locales("resume");
@@ -298,14 +299,16 @@ class Resume extends React.Component {
             </div>
           </div>
         </div>
-        <ResumeModalV2
+        <ResumeFormatter
           resume={resume}
           shareInfo={shareInfo}
           openModal={openModal}
           onShare={() => this.handleShareModalStatus(true)}
           onClose={() => this.handleModalStatus(false)}
           onDownload={this.downloadResume}
-        />
+        >
+          <ResumeModalV2 />
+        </ResumeFormatter>
         <IntroModal
           openModal={openIntroModal}
           onClose={() => this.handleIntroModalStatus(false)}
