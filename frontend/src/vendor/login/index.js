@@ -62,7 +62,7 @@ const renderStatistic = async () => {
     resume = {},
   } = statistic;
   $('.statistic-loading').remove();
-  $('.statistic-container').append(statisticTemplate);
+  $('.statistic-container').prepend(statisticTemplate);
   await sleep(100);
 
   const $statisticUsers = $('.statistic-users');
