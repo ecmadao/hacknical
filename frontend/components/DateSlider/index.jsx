@@ -7,20 +7,20 @@ import dateHelper from 'UTILS/date';
 const getDateBySeconds = dateHelper.date.bySeconds;
 const getDateBeforeYears = dateHelper.date.beforeYears;
 const getValidatorDate = dateHelper.validator.date;
+const getValidatorFullDate = dateHelper.validator.fullDate;
 const getSecondsByDate = dateHelper.seconds.getByDate;
-const getDateNow = dateHelper.date.now;
+const afterDays = dateHelper.date.afterDays;
 
 const SECONDS_PER_DAY = 24 * 60 * 60 * 30;
-const VALIDATE_DATE_NOW = getValidatorDate();
-const DATE_NOW = getDateNow();
+const MAX_DATE = afterDays(1);
 
 class DateSlider extends React.Component {
   constructor(props) {
     super(props);
-    const { initialStart, initialEnd } = this.props;
+    const { initialStart, initialEnd, maxDate } = this.props;
     this.state = {
       startDate: initialStart,
-      endDate: initialEnd
+      endDate: initialEnd || maxDate
     }
     this.onChange = this.onChange.bind(this);
   }
@@ -32,7 +32,7 @@ class DateSlider extends React.Component {
     const endDate = getDateBySeconds(endSeconds);
 
     onStartChange && onStartChange(startDate);
-    onEndChange && onEndChange(endDate);
+    onEndChange && onEndChange(endDate, endDate === MAX_DATE);
     this.setState({
       startDate,
       endDate
@@ -77,9 +77,7 @@ class DateSlider extends React.Component {
       startDate,
       endDate
     } = this.state;
-
-    const maxToday = maxDate === DATE_NOW;
-    const validateEndDate = getValidatorDate(endDate);
+    const validateEndDate = getValidatorFullDate(endDate);
 
     return (
       <div className={styles['slider_container']}>
@@ -90,12 +88,12 @@ class DateSlider extends React.Component {
             getSecondsByDate(startDate),
             getSecondsByDate(endDate)
           ]}
-          tipFormatter={(data) => {
-            const date = getDateBySeconds(data);
-            const formatDate = getValidatorDate(date);
+          tipFormatter={(seconds) => {
+            const date = getDateBySeconds(seconds);
+            const fullDate = getValidatorFullDate(date);
             return (
               <div className={styles['slider_tipso']}>
-                {(maxToday && VALIDATE_DATE_NOW === formatDate) ? '至今' : formatDate}
+                {MAX_DATE === fullDate ? '至今' : getValidatorDate(date)}
               </div>
             );
           }}
@@ -111,9 +109,9 @@ class DateSlider extends React.Component {
           </div>
           <div className={styles["slider_tips"]}>
             <span>
-              {(maxToday && VALIDATE_DATE_NOW === validateEndDate)
+              {MAX_DATE === validateEndDate
                   ? '至今'
-                  : validateEndDate
+                  : getValidatorDate(endDate)
               }
             </span>
             {endText}
@@ -139,7 +137,7 @@ DateSlider.propTypes = {
 DateSlider.defaultProps = {
   pushInterval: 'day',
   minDate: getDateBeforeYears(10),
-  maxDate: DATE_NOW,
+  maxDate: MAX_DATE,
   initialStart: getDateBeforeYears(2),
   initialEnd: getDateBeforeYears(1),
   startText: '开始时间',

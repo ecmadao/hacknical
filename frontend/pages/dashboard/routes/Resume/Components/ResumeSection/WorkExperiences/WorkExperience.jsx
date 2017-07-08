@@ -1,18 +1,13 @@
 import React from 'react';
 import { InputGroup, Input } from 'light-ui';
-
 import DateSlider from 'COMPONENTS/DateSlider';
 import { EDUCATIONS } from 'SHARED/datas/resume';
 import WorkProject from './WorkProject';
 import { TipsoInput } from '../components';
 import styles from '../../../styles/resume.css';
-import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
 
 const resumeTexts = locales("resume").sections.work;
-const getSecondsByDate = dateHelper.seconds.getByDate;
-const getDateNow = dateHelper.date.now;
-const DATE_NOW = getDateNow();
 
 class WorkExperience extends React.Component {
   constructor(props) {
@@ -34,10 +29,10 @@ class WorkExperience extends React.Component {
     this.setState({ endOpen });
   }
 
-  handleEndTimeChange(endTime) {
+  handleEndTimeChange(endTime, untilNow = false) {
     const { handleExperienceChange } = this.props;
     handleExperienceChange('endTime')(endTime);
-    if (getSecondsByDate(endTime) >= getSecondsByDate(DATE_NOW)) {
+    if (untilNow) {
       handleExperienceChange('untilNow')(true);
     }
   }
@@ -109,7 +104,7 @@ class WorkExperience extends React.Component {
         <div className={styles["resume_wrapper"]}>
           <DateSlider
             initialStart={startTime}
-            initialEnd={untilNow ? DATE_NOW : endTime}
+            initialEnd={untilNow ? null : endTime}
             startText={resumeTexts.entriedAt}
             endText={resumeTexts.dimissionAt}
             onStartChange={handleExperienceChange('startTime')}

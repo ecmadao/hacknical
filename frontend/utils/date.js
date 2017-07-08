@@ -6,8 +6,10 @@ moment.locale(locale);
 
 const formatDate = (format) => (date) => moment(date).format(format);
 const getSeconds = (date) => parseInt(formatDate('X')(date));
-const getDateBeforeYears = (format) => (before) => moment().add(-parseInt(before), 'years').format(format)
-const getDateAfterYears = (format) => (after) => moment().add(parseInt(after), 'years').format(format)
+const getDateBeforeYears = (format) => (before) =>
+  moment().add(-parseInt(before), 'years').format(format)
+const getDateAfterYears = (format) => (after) =>
+  moment().add(parseInt(after), 'years').format(format)
 
 export default {
   validator: {
@@ -35,7 +37,7 @@ export default {
     now: () => formatDate('YYYY-MM-DD')(),
     beforeYears: getDateBeforeYears('YYYY-MM-DD'),
     afterYears: getDateAfterYears('YYYY-MM-DD'),
-    afterDays: (after, date = null) =>
+    afterDays: (after, date) =>
       moment(date).add(parseInt(after), 'days').format('YYYY-MM-DD'),
     bySeconds: (seconds, format = 'YYYY-MM-DD') =>
       moment.unix(seconds).format(format),
