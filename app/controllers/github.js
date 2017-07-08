@@ -296,7 +296,7 @@ const refreshRepos = async (ctx, next) => {
   // set cache keys to remove
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
-    cacheKey('repos', {
+    cacheKey('formattedRepos', {
       session: ['githubLogin']
     }),
     cacheKey('allRepos', {
@@ -329,7 +329,7 @@ const refreshCommits = async (ctx, next) => {
   // set cache keys to remove
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
-    cacheKey('commits', {
+    cacheKey('formattedCommits', {
       session: ['githubLogin']
     })
   ];
