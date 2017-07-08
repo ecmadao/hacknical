@@ -140,9 +140,56 @@
       visibility: visible;
       opacity: 1;
       transform: var(--scaleActive) translateY(-50%) translateX(20px);
+
+      &.statistic-modal-bottom {
+        transform: var(--scaleActive) translateY(10px) translateX(-50%) !important;
+      }
     }
   }
 }
+
+/* loading */
+@-webkit-keyframes ball-beat {
+  50% {
+    opacity: 0.2;
+    transform: scale(0.75);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ball-beat {
+  50% {
+    opacity: 0.2;
+    transform: scale(0.75);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.statistic-loading {
+  opacity: 0.5;
+}
+
+.statistic-loading > div {
+  background-color: var(--oc-gray-5);
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  margin: 2px;
+  animation-fill-mode: both;
+  display: inline-block;
+  animation: ball-beat 0.7s 0s infinite linear;
+}
+
+.statistic-loading > div:nth-child(2n-1) {
+  animation-delay: -0.35s !important;
+}
+
 
 .statistic {
   font-family: 'Righteous', monospace, sans-serif;
@@ -161,7 +208,6 @@
   position: absolute;
   top: 50%;
   left: 100%;
-  transform: translateY(-50%) translateX(10px);
   max-width: 250px;
   background-color: var(--bg);
   border-radius: 2px;
@@ -203,5 +249,56 @@
     z-index: var(--zIndexHidden);
     left: -var(--triangleOffset);
     border-right: var(--triangleHeight) solid var(--tipso-triangle-back);
+  }
+}
+
+.statistic-modal-bottom {
+  top: 100%;
+  left: 50%;
+  transform: var(--scaleActive) translateY(10px) translateX(-50%) !important;
+
+  &::before,
+  &::after {
+    left: 50%;
+    transform: translateX(-50%);
+    border-top: none;
+    border-left: var(--triangleWidth) solid transparent;
+    border-right: var(--triangleWidth) solid transparent;
+  }
+
+  &::after {
+    z-index: var(--zIndex1);
+    top: -var(--triangleHeight);
+    border-bottom: var(--triangleHeight) solid var(--oc-white);
+  }
+
+  &::before {
+    z-index: var(--zIndexHidden);
+    top: -var(--triangleOffset);
+    border-bottom: var(--triangleHeight) solid var(--tipso-triangle-back);
+  }
+}
+
+@media (max-width: 800px) {
+  .statistic {
+    & span {
+      font-size: 2em;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .statistic {
+    & span {
+      font-size: 1.8em;
+    }
+  }
+}
+
+@media (max-width: 300px) {
+  .statistic {
+    & span {
+      font-size: 1.5em;
+    }
   }
 }

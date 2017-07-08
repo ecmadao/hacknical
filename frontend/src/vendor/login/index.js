@@ -1,6 +1,7 @@
 import 'particles.js';
 import './styles/index.css';
 import Api from 'API';
+import { sleep } from 'UTILS/helper';
 
 const formatNumber = (number) => {
   if (number.length <= 3) return number;
@@ -43,23 +44,36 @@ const countUp = (options = {}) => {
   requestAnimationFrame(startCount);
 };
 
+const statisticTemplate = `
+  <div class="statistic">
+    <span class="statistic-count statistic-users"></span>
+    <span>·</span>
+    <span class="statistic-count statistic-pv"></span>
+    <span>·</span>
+    <span class="statistic-count statistic-resume"></span>
+  </div>
+`;
+
 const renderStatistic = async () => {
   const statistic = await Api.home.statistic();
   const {
     users,
-    github,
-    resume
+    github = {},
+    resume = {},
   } = statistic;
+  $('.statistic-loading').remove();
+  $('.statistic-container').append(statisticTemplate);
+  await sleep(100);
+
   const $statisticUsers = $('.statistic-users');
   const $statisticPv = $('.statistic-pv');
   const $statisticResume = $('.statistic-resume');
-  const $modal = $('.statistic-modal');
 
   const usersCount = users || 0;
-  const githubPageview = github.pageview || 0;
-  const resumePageview = resume.pageview || 0;
-  const resumeCount = resume.count || 0;
-  const resumeDownload = resume.download || 0;
+  const githubPageview = (github && github.pageview) || 0;
+  const resumePageview = (resume && resume.pageview) || 0;
+  const resumeCount = (resume && resume.count) || 0;
+  const resumeDownload = (resume && resume.download) || 0;
 
   countUp({
     elem: $statisticUsers[0],
@@ -74,10 +88,13 @@ const renderStatistic = async () => {
     endVal: Number(resumeCount) + Number(resumeDownload)
   });
 
-  $($statisticUsers[1]).text(usersCount);
-  $($statisticPv[1]).text(githubPageview);
-  $($statisticPv[2]).text(resumePageview);
-  $($statisticResume[1]).text(Number(resumeCount) + Number(resumeDownload));
+  const $modal = $('.statistic-modal');
+  if ($modal[0]) {
+    $($statisticUsers[1]).text(usersCount);
+    $($statisticPv[1]).text(githubPageview);
+    $($statisticPv[2]).text(resumePageview);
+    $($statisticResume[1]).text(Number(resumeCount) + Number(resumeDownload));
+  }
 };
 
 $(() => {

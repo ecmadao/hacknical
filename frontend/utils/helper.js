@@ -172,10 +172,14 @@ export const splitArray = (array, size = 1) => {
     return [array];
   }
   const loop = Math.floor(length / size) + 1;
-  return Array.from(new Array(5), (item, index) => 0).map((i, index) => {
-    return array.slice(index * size, (index + 1) * size)
-  });
+  return Array
+    .from(new Array(5), (item, index) => 0)
+    .map((i, index) => array.slice(index * size, (index + 1) * size));
 };
 
 
-export const validateUrl = url => /^http/.test(url) ? url : `//${url}`;
+export const validateUrl = url =>
+  /^http/.test(url) ? url : `//${url}`;
+
+export const sleep = ms =>
+  new Promise(resolve => setTimeout(resolve, ms));
