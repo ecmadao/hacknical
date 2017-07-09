@@ -38,7 +38,7 @@ const formatResume = (resume) => {
       } = experience;
 
       const validateEnd = untilNow
-        ? validateDate(DATE_NOW)
+        ? '至今'
         : validateDate(endTime);
 
       return {

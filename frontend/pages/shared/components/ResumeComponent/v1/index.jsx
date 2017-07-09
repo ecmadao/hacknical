@@ -2,13 +2,12 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
-import { sortBySeconds, validateUrl } from 'UTILS/helper';
+import { validateUrl } from 'UTILS/helper';
 import validator from 'UTILS/validator';
 import { objectassign } from 'SHARED/utils/resume';
 import GithubComponent from 'SHARED/components/GithubComponent';
 import styles from './resume_v1.css';
 
-const sortByEndDate = sortBySeconds('endTime');
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
 const { hoursBefore } = dateHelper.relative;
@@ -275,7 +274,7 @@ class ResumeComponentV1 extends React.PureComponent {
     const { educations, workExperiences } = this.props.resume;
     const labels = [];
     if (educations.length) {
-      const lastEducation = educations.sort(sortByEndDate).reverse()[0];
+      const lastEducation = educations[0];
       const eduEndTime = lastEducation.endTime;
       if (getSecondsByDate(eduEndTime) >= DATE_NOW_SECONDS) {
         labels.push(
@@ -290,13 +289,11 @@ class ResumeComponentV1 extends React.PureComponent {
         );
       }
     }
-
     if (workExperiences.length) {
-      const lastWorkExperience =
-        workExperiences.sort(sortByEndDate).reverse()[0];
+      const lastWorkExperience = workExperiences[0];
       const workEndTime = lastWorkExperience.endTime;
       const untilNow = lastWorkExperience.untilNow;
-      if (untilNow || getSecondsByDate(workEndTime) >= DATE_NOW_SECONDS) {
+      if (untilNow) {
         labels.push(
           <Label
             min
