@@ -11,7 +11,6 @@
 
 .maxText {
   color: var(--oc-gray-9);
-  line-height: 2.5em;
   font-weight: bold;
   font-size: var(--maxFontSize);
   overflow: hidden;
@@ -19,21 +18,28 @@
   white-space: nowrap;
 }
 
+.userName {
+  padding: 15px 0;
+}
+
 .mainText {
   composes: maxText;
   line-height: 2em;
+  font-weight: normal;
   font-size: var(--mainFontSize);
 }
 
 .sideText {
   line-height: 1.5em;
   color: var(--oc-gray-7);
+  font-weight: normal;
   font-size: var(--sideFontSize);
 }
 
 .minText {
   composes: sideText;
-  color: var(--oc-gray-5);
+  font-weight: normal;
+  color: var(--oc-gray-6);
 }
 
 .linkText {
@@ -44,13 +50,10 @@
   & i {
     margin-right: 5px;
   }
+}
 
-  &.phone {
-    & i {
-      font-size: 1.5em;
-      margin-right: 10px;
-    }
-  }
+.contact {
+  line-height: 1.5em;
 }
 
 .mainLinkText {
@@ -94,6 +97,7 @@
 .section-row {
   display: flex;
   flex-direction: row;
+  overflow-x: hidden;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--darkBg);
@@ -144,7 +148,7 @@
 }
 
 .section-list {
-  color: var(--oc-gray-5);
+  color: var(--oc-gray-6);
   padding-left: 20px;
   line-height: 1.8em;
 }

@@ -106,7 +106,7 @@ const renderProjects = (projects = []) => {
         {renderBaseInfo({
           url,
           value: name,
-          className: styles.subText
+          className: styles.subTextDark
         })}
         <ul className={styles.list}>
           {projectDetails}
@@ -296,7 +296,7 @@ class ResumeComponentV2 extends React.PureComponent {
 
     return (
       <div className={styles.sectionColumn}>
-        <span className={styles.subText}>自我评价</span>
+        <span className={styles.subTextDark}>自我评价</span>
         <ul className={styles.list}>
           {personalSupplements}
         </ul>
@@ -330,7 +330,7 @@ class ResumeComponentV2 extends React.PureComponent {
 
     return (
       <div className={styles.sectionColumn}>
-        <span className={styles.subText}>其他链接</span>
+        <span className={styles.subTextDark}>其他链接</span>
         <ul className={styles.list}>
           {socials}
         </ul>
@@ -408,20 +408,24 @@ class ResumeComponentV2 extends React.PureComponent {
                 value: info.phone,
                 icon: 'mobile',
                 type: 'mobile',
+                className: styles.headerInfo,
               })}
               {renderBaseInfo({
                 url: info.email,
                 value: info.email,
                 icon: 'envelope-o',
                 type: 'email',
+                className: styles.headerInfo,
               })}
             </div>
             <div className={styles.info}>
               {renderBaseInfo({
                 value: info.location,
+                className: styles.headerInfo,
               })}
               {renderBaseInfo({
                 value: info.intention,
+                className: styles.headerInfo,
               })}
               {
                 useGithub ? (

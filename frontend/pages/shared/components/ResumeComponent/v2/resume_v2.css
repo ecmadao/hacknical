@@ -17,6 +17,7 @@
 }
 
 .subTextDark {
+  font-size: 1em;
   color: var(--oc-gray-7);
 }
 
@@ -64,7 +65,7 @@
   color: rgba(255, 255, 255, 0.6);
   display: flex;
   font-size: 14px;
-  padding: 0 30px;
+  padding: 0 40px;
 }
 
 .footerLeft {
@@ -104,7 +105,7 @@
 }
 
 .section {
-  padding: 15px 30px;
+  padding: 15px 40px;
 }
 
 .firstSection {
@@ -186,10 +187,7 @@
 .baseLink {
   transition: color 0.2s;
   cursor: pointer;
-
-  &:hover {
-    color: var(--oc-green-7);
-  }
+  color: var(--oc-green-7) !important;
 }
 
 .baseInfo {
@@ -198,12 +196,16 @@
   justify-content: center;
   align-items: center;
 
-  &:not(:last-child) {
-    margin-right: 10px;
-  }
-
   & i {
     margin-right: 7px;
+  }
+}
+
+.headerInfo {
+  composes: baseInfo;
+
+  &:not(:last-child) {
+    margin-right: 18px;
   }
 }
 

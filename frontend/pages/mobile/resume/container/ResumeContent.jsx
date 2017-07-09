@@ -68,23 +68,26 @@ class ResumeContent extends React.Component {
 
     return (
       <div className={styles['section-header']}>
-        <div className={styles.maxText}>{name}</div>
+        <div className={styles.userName}>
+          <div className={styles.maxText}>{name}</div>
+          {dream ? (
+            <div className={styles.minText}>{dream}</div>
+          ) : ''}
+        </div>
         {phone ? LinkInfo({
           text: phone,
           url: `tel:${phone}`,
           icon: 'mobile',
           showIcon: false,
-          className: styles.phone
+          className: styles.contact
         }) : ''}
         {email ? LinkInfo({
           text: email,
           url: `mailto:${email}`,
           showIcon: false,
-          icon: 'envelope-o'
+          icon: 'envelope-o',
+          className: styles.contact
         }) : ''}
-        {dream ? (
-          <div className={styles.minText}>{dream}</div>
-        ) : ''}
       </div>
     );
   }
