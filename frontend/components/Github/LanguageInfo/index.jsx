@@ -190,6 +190,7 @@ class LanguageInfo extends React.Component {
           tipso={{
             text: githubTexts.maxReposCountLanguageTip.replace(/\$/, reposCount[maxReposCountIndex])
           }}
+          tipsoTheme="dark"
           mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
           subText={githubTexts.maxReposCountLanguage}
         />
@@ -197,10 +198,12 @@ class LanguageInfo extends React.Component {
           tipso={{
             text: githubTexts.maxUsageLanguageTip.replace(/\$/, (100 * languageUsed[maxUsedLanguage] / total).toFixed(2))
           }}
+          tipsoTheme="dark"
           mainText={maxUsedLanguage}
           subText={githubTexts.maxUsageLanguage}
         />
         <InfoCard
+          tipsoTheme="dark"
           mainText={Object.keys(languageSkills)[maxStarCountIndex]}
           subText={githubTexts.maxStarLanguage}
         />

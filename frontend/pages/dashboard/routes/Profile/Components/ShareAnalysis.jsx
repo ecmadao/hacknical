@@ -75,7 +75,8 @@ class ShareAnalysis extends React.Component {
               <div id={`qrcode-${index}`}></div>
               <span>{text}</span>
             </div>
-          )}>
+          )}
+        >
           <div className={styles["share_container"]}>
             <Input
               theme="flat"
@@ -226,14 +227,17 @@ class ShareAnalysis extends React.Component {
     return (
       <CardGroup className={styles['card_group']}>
         <InfoCard
+          tipsoTheme="dark"
           mainText={viewCount}
           subText={profileTexts.pv}
         />
         <InfoCard
+          tipsoTheme="dark"
           mainText={platforms.slice(0, 2).join(',')}
           subText={profileTexts.platform}
         />
         <InfoCard
+          tipsoTheme="dark"
           mainText={browsers.join(',')}
           subText={profileTexts.browser}
         />

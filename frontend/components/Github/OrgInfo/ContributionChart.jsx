@@ -166,6 +166,7 @@ class ContributionChart extends React.Component {
             &nbsp;&nbsp;&nbsp;
             {percentage > 30 ? (
               <Tipso
+                theme="dark"
                 className={cx(cardStyles["card_tipso"], styles["info_tipso"])}
                 tipsoContent={(<span>{githubTexts.coreDeveloperIntro}</span>)}>
                 <span

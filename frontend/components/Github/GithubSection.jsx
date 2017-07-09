@@ -72,6 +72,7 @@ class GitHubSection extends React.Component {
           &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
           {intro && !isShare ? (
             <Tipso
+              theme="dark"
               className={cardStyles["card_tipso"]}
               tipsoContent={(<span>{intro.text}</span>)}>
               <span

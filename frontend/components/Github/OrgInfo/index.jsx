@@ -74,16 +74,19 @@ class OrgInfo extends React.Component {
       <CardGroup className={cardStyles['card_group']}>
         <InfoCard
           icon="group"
+          tipsoTheme="dark"
           mainText={orgs.length}
           subText={githubTexts.orgsCount}
         />
         <InfoCard
           icon="heart-o"
+          tipsoTheme="dark"
           mainText={filterRepos.length}
           subText={githubTexts.reposCount}
         />
         <InfoCard
           icon="star-o"
+          tipsoTheme="dark"
           mainText={totalStar}
           subText={githubTexts.starsCount}
         />

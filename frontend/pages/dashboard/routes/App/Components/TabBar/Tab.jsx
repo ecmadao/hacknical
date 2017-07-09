@@ -22,9 +22,11 @@ const Tab = (props) => {
       tipsoStyle={{
         transform: 'translate(-50%, 13px)'
       }}
+      theme="dark"
       tipsoContent={tipso ? (
         <span className={styles['tab_tipso']}>{tipso}</span>
-      ) : null}>
+      ) : null}
+    >
       <Link
         to={`${PATH.BASE_PATH}/${id}`}
         className={styles['app_tab']}

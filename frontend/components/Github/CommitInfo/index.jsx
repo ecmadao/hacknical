@@ -277,18 +277,22 @@ class CommitInfo extends React.Component {
       <CardGroup className={cardStyles['card_group']}>
         <CardGroup>
           <InfoCard
+            tipsoTheme="dark"
             mainText={dayName}
             subText={githubTexts.maxDay}
           />
           <InfoCard
+            tipsoTheme="dark"
             mainText={(total / commits.length).toFixed(2)}
             subText={githubTexts.averageCount}
           />
           <InfoCard
+            tipsoTheme="dark"
             mainText={firstCommitDate}
             subText={githubTexts.firstCommit}
           />
           <InfoCard
+            tipsoTheme="dark"
             mainText={maxCommitDate}
             subText={githubTexts.maxCommitDate}
           />
@@ -298,6 +302,7 @@ class CommitInfo extends React.Component {
             tipso={{
               text: githubTexts.maxCommitReposTip.replace(/\$/, maxCommitRepos.totalCommits)
             }}
+            tipsoTheme="dark"
             mainText={maxCommitRepos.name}
             subText={githubTexts.maxCommitRepos}
           />
@@ -308,6 +313,7 @@ class CommitInfo extends React.Component {
               },
               text: `${githubTexts.maxReposCountMonthTip.replace(/\$/, allReposThisMonth)}`
             }}
+            tipsoTheme="dark"
             mainText={MONTHS[maxReposCountMonth]}
             subText={githubTexts.maxReposCountMonth}
           />
@@ -315,6 +321,7 @@ class CommitInfo extends React.Component {
             tipso={{
               text: `${githubTexts.maxCommitsCountMonthTip.replace(/\$/, maxCommitsCount)}`
             }}
+            tipsoTheme="dark"
             mainText={MONTHS[maxCommitsCountMonth]}
             subText={githubTexts.maxCommitsCountMonth}
           />

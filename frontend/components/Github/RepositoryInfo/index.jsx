@@ -165,16 +165,19 @@ class RepositoryInfo extends React.Component {
         <CardGroup>
           <InfoCard
             icon="star-o"
+            tipsoTheme="dark"
             mainText={totalStar}
             subText={githubTexts.starsCount}
           />
           <InfoCard
             icon="code-fork"
+            tipsoTheme="dark"
             mainText={totalFork}
             subText={githubTexts.forksCount}
           />
           <InfoCard
             icon="cubes"
+            tipsoTheme="dark"
             mainText={yearlyRepos.length}
             subText={githubTexts.reposCount}
           />
@@ -185,6 +188,7 @@ class RepositoryInfo extends React.Component {
             tipso={{
               text: githubTexts.popularestReposTip.replace(/\$/, maxStaredRepos['stargazers_count'])
             }}
+            tipsoTheme="dark"
             mainText={maxStaredRepos.name}
             subText={githubTexts.popularestRepos}
           />
@@ -193,7 +197,10 @@ class RepositoryInfo extends React.Component {
             tipso={{
               text: maxTimeRepos.name
             }}
-            mainText={`${getValidateDate(startTime)}~${getValidateDate(pushTime)}`}
+            tipsoTheme="dark"
+            mainText={
+              `${getValidateDate(startTime)}~${getValidateDate(pushTime)}`
+            }
             subText={githubTexts.longgestRepos}
           />
         </CardGroup>

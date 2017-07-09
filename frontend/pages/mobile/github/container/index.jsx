@@ -333,11 +333,13 @@ class GitHubMobileShare extends React.Component {
         )}>
         <CardGroup>
           <InfoCard
+            tipsoTheme="dark"
             mainText={parseInt(total / 52, 10)}
             subText={githubTexts.commits.averageCount}
             mainTextStyle={sharedStyles["main_text"]}
           />
           <InfoCard
+            tipsoTheme="dark"
             mainText={totalCommits}
             subText={githubTexts.commits.maxCommitCount}
             mainTextStyle={sharedStyles["main_text"]}
@@ -345,11 +347,13 @@ class GitHubMobileShare extends React.Component {
         </CardGroup>
         <CardGroup>
           <InfoCard
+            tipsoTheme="dark"
             mainText={dayName}
             subText={githubTexts.commits.maxDay}
             mainTextStyle={sharedStyles["main_text"]}
           />
           <InfoCard
+            tipsoTheme="dark"
             mainText={firstCommitDate}
             subText={githubTexts.commits.firstCommit}
             mainTextStyle={sharedStyles["main_text"]}
@@ -499,11 +503,13 @@ class GitHubMobileShare extends React.Component {
               sharedStyles["info_share"]
             )}>
             <InfoCard
+              tipsoTheme="dark"
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
               subText={githubTexts.languages.maxReposCountLanguage}
             />
             <InfoCard
+              tipsoTheme="dark"
               mainTextStyle={sharedStyles["main_text"]}
               mainText={Object.keys(languageSkills)[maxStarCountIndex]}
               subText={githubTexts.languages.maxStarLanguage}
@@ -517,7 +523,11 @@ class GitHubMobileShare extends React.Component {
         </div>
 
         {commitLoaded && commits.length ? (
-          <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"], styles["mobile_card_no_bottom"])}>
+          <div
+            className={cx(
+              styles["mobile_card_full"], sharedStyles["mobile_card_with_info"], styles["mobile_card_no_bottom"]
+            )}
+          >
             {this.renderCommitsInfo()}
             <div
               id="commits_chart"

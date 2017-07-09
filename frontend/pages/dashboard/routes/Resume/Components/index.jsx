@@ -225,8 +225,10 @@ class Resume extends React.Component {
             />
             <Tipso
               trigger="hover"
+              theme="dark"
               className={styles["icon_button_tipso"]}
-              tipsoContent={(<span>{resumeTexts.messages.templateTip}</span>)}>
+              tipsoContent={(<span>{resumeTexts.messages.templateTip}</span>)}
+            >
               <IconButton
                 color="gray"
                 icon="file-text"
@@ -236,8 +238,10 @@ class Resume extends React.Component {
             </Tipso>
             <Tipso
               trigger="hover"
+              theme="dark"
               className={styles["icon_button_tipso"]}
-              tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}>
+              tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}
+            >
               <IconButton
                 color="gray"
                 icon="download"
