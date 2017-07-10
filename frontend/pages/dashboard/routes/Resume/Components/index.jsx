@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,7 +26,7 @@ const INTROS = [
     title: '使用说明',
     texts: [
       '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
-      'cmd/win + <-/-> 切换上一步/下一步',
+      'shift + <-/-> 切换上一步/下一步',
       '点击 "预览"（或 cmd/win + p ）以预览当前简历',
     ]
   },
@@ -211,7 +212,9 @@ class Resume extends React.Component {
     const max = RESUME_SECTIONS.length;
 
     return (
-      <div className={styles["resume_container"]}>
+      <div
+        className={styles["resume_container"]}
+      >
         <div id="resume_navigation" className={styles["resume_navigation"]}>
           {this.renderNavigation()}
         </div>
