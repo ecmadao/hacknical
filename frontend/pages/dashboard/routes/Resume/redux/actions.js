@@ -9,7 +9,11 @@ const togglePosting = createAction('TOGGLE_POSTING');
 const initialResume = createAction('INITIAL_RESUME');
 const fetchResume = () => (dispatch) => {
   Api.resume.getResume().then((result) => {
-    result && dispatch(initialResume(result));
+    if (result) {
+      dispatch(initialResume(result));
+    } else {
+      dispatch(toggleLoading(false));
+    }
   });
 };
 
