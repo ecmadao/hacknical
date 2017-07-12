@@ -72,7 +72,7 @@ class MessageQueue {
 
   wrapMsg(msg) {
     const message = {
-      data: this.formatter(msg),
+      data: this.formatter.format(msg),
       channel: {
         type: 'slack',
         url: slack.url
