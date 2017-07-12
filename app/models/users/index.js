@@ -1,6 +1,5 @@
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
-import Slack from '../../services/slack';
 import logger from '../../utils/logger';
 
 /**
@@ -82,7 +81,7 @@ const updateUserOrgs = async (login, orgs = []) => {
   });
 };
 
-const loginWithGithub = async (userInfo, cache) => {
+const loginWithGithub = async (userInfo, cache, mq) => {
   const {
     id,
     login,
@@ -119,7 +118,7 @@ const loginWithGithub = async (userInfo, cache) => {
   }
   shareInfo.userId = user._id;
   createGithubShare(shareInfo);
-  Slack.msg(msg);
+  mq.sendMessage(msg);
 
   return Promise.resolve({
     success: true,

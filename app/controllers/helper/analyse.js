@@ -1,6 +1,5 @@
 import config from 'config';
 import ShareAnalyse from '../../models/share-analyse';
-import Slack from '../../services/slack';
 import logger from '../../utils/logger';
 import User from '../../models/users';
 import ResumePub from '../../models/resume-pub';
@@ -40,9 +39,9 @@ const updateViewData = async (ctx, options) => {
   });
   if (type) {
     ctx.cache.hincrby(type, 'pageview', 1);
-    Slack.msg({
+    ctx.mq.sendMessage({
       type: 'view',
-      data: `【${type.toUpperCase()}:VIEW】【/${url}】`
+      data: `【${type.toUpperCase()}:/${url}】`
     });
   }
   logger.info(`[${type.toUpperCase()}:VIEW][${url}]`);

@@ -105,7 +105,6 @@
     "nodemon": "^1.10.2"
   },
   "dependencies": {
-    "@slack/client": "^3.9.0",
     "babel-core": "^6.14.0",
     "babel-polyfill": "^6.16.0",
     "chart.js": "^2.4.0",

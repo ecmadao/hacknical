@@ -18,6 +18,7 @@ import assetsPath from '../middlewares/assets_helper';
 import { redisMiddleware } from '../middlewares/cache_helper';
 import catch404 from '../middlewares/404_helper';
 import checkLocale from '../middlewares/locale_helper';
+import mqMiddleware from '../middlewares/mq_middleware';
 import router from '../routes/index';
 import logger from '../utils/logger';
 
@@ -63,7 +64,8 @@ app.use(convert(session(CONFIG, app)));
 app.use(redisMiddleware({
   url: redis
 }));
-
+// mq
+app.use(mqMiddleware());
 // locale
 app.use(checkLocale());
 // catch 404

@@ -12,11 +12,22 @@
       "url": "http://127.0.0.1:5002",
       "timeouts": [20000, 20000, 20000]
     },
-    "slack": null
+    "slack": {
+      "url": null
+    }
   },
   "url": "http://localhost:4000",
   "auth": {
     "publicKey": "07a9c1c",
     "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
+  },
+  "mq": {
+    "config": {
+      "host": "127.0.0.1",
+      "port": 6379,
+      "ns": "geeknical",
+      "options": {}
+    },
+    "qname": "messenger-dev"
   }
 }

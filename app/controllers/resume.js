@@ -7,7 +7,6 @@ import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import { getGithubSections, getMobileMenu } from './shared';
-import Slack from '../services/slack';
 import logger from '../utils/logger';
 
 /* ===================== private ===================== */
@@ -86,7 +85,7 @@ const setResume = async (ctx, next) => {
     ];
   }
 
-  Slack.msg({
+  ctx.mq.sendMessage({
     type: 'resume',
     data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
   });
@@ -108,9 +107,9 @@ const downloadResume = async (ctx, next) => {
 
   const resumeUrl =
     `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
-  Slack.msg({
+  ctx.mq.sendMessage({
     type: 'download',
-    data: `<${resumeUrl}|${githubLogin} resume>`
+    data: `【${githubLogin}:${hash}】`
   });
   logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
   ctx.cache.hincrby('resume', 'download', 1);

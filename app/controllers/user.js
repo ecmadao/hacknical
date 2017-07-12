@@ -44,7 +44,11 @@ const githubLogin = async (ctx, next) => {
     if (userInfo.login) {
       ctx.session.githubToken = githubToken;
       ctx.session.githubLogin = userInfo.login;
-      const loginResult = await User.loginWithGithub(userInfo, ctx.cache);
+      const loginResult = await User.loginWithGithub(
+        userInfo,
+        ctx.cache,
+        ctx.mq
+      );
       if (loginResult.success) {
         logger.info(`[USER:LOGIN][${userInfo.login}]`);
         ctx.session.userId = loginResult.result;
