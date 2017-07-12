@@ -114,7 +114,7 @@ class Resume extends React.Component {
   }
 
   downloadResume() {
-    message.notice(resumeTexts.messages.download);
+    message.notice(resumeTexts.messages.download, 1800);
     const { actions } = this.props;
     actions.downloadResume();
   }

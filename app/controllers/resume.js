@@ -100,8 +100,15 @@ const setResume = async (ctx, next) => {
 };
 
 const downloadResume = async (ctx, next) => {
-  const { hash } = ctx.query;
   const { userId, githubLogin } = ctx.session;
+  const checkPubResume = await ResumePub.findPublicResume({ userId });
+  if (!checkPubResume.success) {
+    return ctx.body = {
+      error: ctx.__("messages.error.download"),
+      success: true
+    };
+  }
+  const hash = checkPubResume.result.resumeHash;
   const { result } = await ResumePub.getUpdateTime(hash);
   const seconds = dateHelper.getSeconds(result);
 
@@ -235,7 +242,7 @@ const setResumeShareTemplate = async (ctx) => {
   const { result, success, message } = findPubResume;
   if (!success) {
     return ctx.body = {
-      error: message,
+      error: '请先创建简历',
       success: true
     };
   }
@@ -244,7 +251,8 @@ const setResumeShareTemplate = async (ctx) => {
   });
   ctx.body = {
     success: true,
-    message: ctx.__("messages.resume.template")
+    result: template,
+    message: ctx.__("messages.resume.template"),
   };
 };
 

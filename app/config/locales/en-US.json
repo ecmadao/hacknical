@@ -52,7 +52,8 @@
     "error": {
       "findUser": "Find user failed",
       "frequent": "Too many attempts, please retry later",
-      "update": "Update failed"
+      "update": "Update failed",
+      "download": "Can not find your resume"
     },
     "success": {
       "save": "Save succeeded",

@@ -25,7 +25,6 @@ router.put('/edit',
 
 router.get('/download',
   user.checkSession(session.requiredSessions),
-  check.query('hash'),
   Resume.downloadResume
 );
 

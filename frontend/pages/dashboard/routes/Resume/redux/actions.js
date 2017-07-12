@@ -140,9 +140,8 @@ const postShareStatus = () => (dispatch, getState) => {
 const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');
 const postShareTemplate = (template) => (dispatch, getState) => {
   if (template !== getState().resume.shareInfo) {
-    // dispatch(setPubResumeTemplate(template));
-    Api.resume.postPubResumeTemplate(template).then(() => {
-      dispatch(setPubResumeTemplate(template));
+    Api.resume.postPubResumeTemplate(template).then((result) => {
+      result && dispatch(setPubResumeTemplate(result));
     });
   }
 };
@@ -154,10 +153,12 @@ const downloadResume = () => (dispatch, getState) => {
   const { resumeHash } = shareInfo;
   const { name } = info;
   Api.resume.download(resumeHash).then((result) => {
-    const a = document.createElement('a');
-    a.href = result;
-    a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`;
-    a.click();
+    if (result) {
+      const a = document.createElement('a');
+      a.href = result;
+      a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`;
+      a.click();
+    }
     dispatch(toggleDownloadButton(false));
   });
 };

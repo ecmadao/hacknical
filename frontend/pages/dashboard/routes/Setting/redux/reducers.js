@@ -9,12 +9,14 @@ const initialState = {
     loading: true,
     useGithub: false,
     openShare: false,
-    github: {}
+    github: {},
+    disabled: true,
   },
   githubInfo: {
     loading: true,
     openShare: true,
-    openModal: false
+    openModal: false,
+    disabled: true,
   }
 };
 
@@ -54,7 +56,8 @@ const reducers = handleActions({
       ...state,
       githubInfo: objectAssign({}, githubInfo, {
         openShare,
-        loading: false
+        loading: false,
+        disabled: false,
       })
     });
   },
@@ -68,8 +71,12 @@ const reducers = handleActions({
       openShare: result.openShare,
       useGithub: result.useGithub,
       loading: false,
-      github: result.github
-    }) : null;
+      disabled: false,
+      github: result.github,
+    }) : objectAssign({}, info, {
+      loading: false,
+      disabled: true,
+    });
     return ({
       ...state,
       resumeInfo: newResumeInfo

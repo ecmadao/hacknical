@@ -73,7 +73,9 @@ const postResumeShareStatus = () => (dispatch, getState) => {
 
 const postResumeShareSection = (section, checked) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
-  Api.resume.postPubResumeGithubSection({ [section]: checked }).then((result) => {
+  Api.resume.postPubResumeGithubSection({
+    [section]: checked
+  }).then((result) => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       github: objectAssign({}, resumeInfo.github, { [section]: checked })
     })));
@@ -98,4 +100,4 @@ export default {
   postResumeGithubStatus,
   postResumeShareStatus,
   postResumeShareSection,
-}
+};

@@ -27,7 +27,7 @@ const addResume = async (userId, resume = DEFAULT_RESUME) => {
 const updateResume = async (userId, resume, cache) => {
   const findResult = await findResume({ userId });
   if (!findResult) {
-    ctx.cache.hincrby('resume', 'count', 1);
+    cache.hincrby('resume', 'count', 1);
   }
   await Resume.remove({ userId });
   return await addResume(userId, resume);

@@ -11,7 +11,13 @@ import locales from 'LOCALES';
 const settingTexts = locales('dashboard').setting;
 
 const SwitcherPane = (props) => {
-  const { id, onChange, checked, text } = props;
+  const {
+    id,
+    text,
+    checked,
+    onChange,
+    disabled = false
+  } = props;
   return (
     <div className={styles['info_container']}>
       <div className={styles.info}>
@@ -21,9 +27,10 @@ const SwitcherPane = (props) => {
         onChange={onChange}
         checked={checked}
         version="v2"
+        disabled={disabled}
       />
     </div>
-  )
+  );
 };
 
 const CheckPane = (props) => {
@@ -42,7 +49,7 @@ const CheckPane = (props) => {
         <i aria-hidden="true" className={`fa fa-${checked ? 'check-square' : 'square-o'}`}></i>
       </div>
     </div>
-  )
+  );
 };
 
 class Setting extends React.Component {
@@ -91,7 +98,7 @@ class Setting extends React.Component {
             onChange={shareSection('commits')}
           />
         </div>
-      )
+      );
     }
   }
 
@@ -110,7 +117,7 @@ class Setting extends React.Component {
           />
           {this.renderGithubShareSectionsSetting()}
         </div>
-      )
+      );
     }
   }
 
@@ -171,7 +178,13 @@ class Setting extends React.Component {
           </div>
         </div>
         <div className={styles['card_container']}>
-          <p><i aria-hidden="true" className="fa fa-file-code-o"></i>&nbsp;&nbsp;{settingTexts.resume.title}</p>
+          <p>
+            <i
+              aria-hidden="true"
+              className="fa fa-file-code-o"
+            />
+            &nbsp;&nbsp;{settingTexts.resume.title}
+          </p>
           <div className={styles.card}>
             {!resumeInfo ? (
               <Loading className={styles['info_loading']} loading={true} />
@@ -183,7 +196,10 @@ class Setting extends React.Component {
                 <SwitcherPane
                   id='resume-share-switch'
                   text={settingTexts.resume.openShare}
-                  onChange={resumeInfoLoading ? () => {} : actions.postResumeShareStatus}
+                  onChange={resumeInfoLoading
+                      ? () => {}
+                      : actions.postResumeShareStatus}
+                  disabled={resumeInfo.disabled}
                   checked={(resumeInfo && resumeInfo.openShare) || false}
                 />
                 {this.renderResumeGithubSetting()}
@@ -196,18 +212,20 @@ class Setting extends React.Component {
           onClose={() => actions.toggleGithubModal(false)}
         />
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  return {...state.setting}
+  return {
+    ...state.setting
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Setting);
