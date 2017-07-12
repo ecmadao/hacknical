@@ -13,7 +13,12 @@ const settingTexts = locales('dashboard').setting;
 const paneStyle = cx(sharedStyles["mobile_card"], styles["setting_section"]);
 
 const SwitcherPane = (props) => {
-  const { onChange, checked, text, disabled } = props;
+  const {
+    text,
+    checked,
+    onChange,
+    disabled = false
+  } = props;
   return (
     <div className={paneStyle}>
       <div className={styles["pane_text_container"]}>
@@ -38,12 +43,14 @@ class MobileSetting extends React.Component {
       updateTime: null,
       githubInfo: {
         loading: true,
-        openShare: true
+        openShare: true,
+        disabled: true,
       },
       resumeInfo: {
         loading: true,
-        openShare: true
-      }
+        openShare: true,
+        disabled: true,
+      },
     };
 
     this.refreshGithubDatas = this.refreshGithubDatas.bind(this);
@@ -87,17 +94,25 @@ class MobileSetting extends React.Component {
   initialInfo(key) {
     const obj = this.state[key];
     return (datas) => {
-      const { openShare } = datas;
+      const { openShare, disabled = false } = datas;
       this.setState({
         [key]: objectAssign({}, obj, {
           loading: false,
-          openShare
+          disabled,
+          openShare,
         })
       });
     }
   }
 
-  initialResumeInfo(datas) {
+  initialResumeInfo(result) {
+    const datas = result ? {
+      openShare: result.openShare,
+      disabled: false,
+    } : {
+      openShare: false,
+      disabled: true,
+    };
     const initial = this.initialInfo('resumeInfo');
     initial(datas);
   }
@@ -157,13 +172,13 @@ class MobileSetting extends React.Component {
           text={settingTexts.github.openShare}
           onChange={this.postGithubShareStatus}
           checked={githubInfo.openShare}
-          disabled={githubInfo.loading}
+          disabled={githubInfo.loading || githubInfo.disabled}
         />
         <SwitcherPane
           text={settingTexts.resume.openShare}
           onChange={this.postResumeShareStatus}
           checked={resumeInfo.openShare}
-          disabled={resumeInfo.loading}
+          disabled={resumeInfo.loading || resumeInfo.disabled}
         />
       </div>
     );
