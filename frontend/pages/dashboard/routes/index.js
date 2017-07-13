@@ -1,3 +1,4 @@
+/* eslint new-cap: "off" */
 import { injectReducer } from '../redux/reducer/index';
 import reducer from './App/redux/reducers';
 import App from './App/index';

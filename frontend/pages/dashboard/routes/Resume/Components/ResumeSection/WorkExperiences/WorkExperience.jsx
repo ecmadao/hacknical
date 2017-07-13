@@ -1,13 +1,12 @@
 import React from 'react';
 import { InputGroup, Input } from 'light-ui';
 import DateSlider from 'COMPONENTS/DateSlider';
-import { EDUCATIONS } from 'SHARED/datas/resume';
 import WorkProject from './WorkProject';
 import { TipsoInput } from '../components';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales("resume").sections.work;
+const resumeTexts = locales('resume').sections.work;
 
 class WorkExperience extends React.Component {
   constructor(props) {
@@ -51,9 +50,7 @@ class WorkExperience extends React.Component {
   }
 
   render() {
-    const { startOpen, endOpen } = this.state;
     const {
-      index,
       disabled,
       addProject,
       workExperience,
@@ -71,22 +68,23 @@ class WorkExperience extends React.Component {
     } = workExperience;
 
     return (
-      <div className={styles["resume_piece_container"]}>
-        <div className={styles["section_second_title"]}>
+      <div className={styles.resume_piece_container}>
+        <div className={styles.section_second_title}>
           {resumeTexts.companyInfo}
         </div>
-        <div className={styles["resume_wrapper"]}>
+        <div className={styles.resume_wrapper}>
           <InputGroup
             value={company}
             theme="flat"
             disabled={disabled}
             placeholder={resumeTexts.companyName}
-            onChange={handleExperienceChange('company')}>
+            onChange={handleExperienceChange('company')}
+          >
             <TipsoInput
               value={url}
               placeholder={resumeTexts.homepage}
               onChange={handleExperienceChange('url')}
-              className={styles['tipso_input_long']}
+              className={styles.tipso_input_long}
             />
           </InputGroup>
           <Input
@@ -94,14 +92,14 @@ class WorkExperience extends React.Component {
             theme="flat"
             disabled={disabled}
             placeholder={resumeTexts.position}
-            className={styles["last_input"]}
+            className={styles.last_input}
             onChange={handleExperienceChange('position')}
           />
-          <div className={styles["resume_delete"]} onClick={deleteExperience}>
-            <i className="fa fa-trash-o" aria-hidden="true"></i>
+          <div className={styles.resume_delete} onClick={deleteExperience}>
+            <i className="fa fa-trash-o" aria-hidden="true" />
           </div>
         </div>
-        <div className={styles["resume_wrapper"]}>
+        <div className={styles.resume_wrapper}>
           <DateSlider
             initialStart={startTime}
             initialEnd={untilNow ? null : endTime}
@@ -111,21 +109,22 @@ class WorkExperience extends React.Component {
             onEndChange={this.handleEndTimeChange}
           />
         </div>
-        <div className={styles["project_wrapper"]}>
-          <div className={styles["section_second_title"]}>
+        <div className={styles.project_wrapper}>
+          <div className={styles.section_second_title}>
             {resumeTexts.joinedProjects}
           </div>
           {this.renderWorkProjects(projects)}
           <div
-            className={styles["resume_add"]}
-            onClick={addProject}>
-            <i className="fa fa-plus-circle" aria-hidden="true"></i>
+            className={styles.resume_add}
+            onClick={addProject}
+          >
+            <i className="fa fa-plus-circle" aria-hidden="true" />
             &nbsp;&nbsp;&nbsp;
             {resumeTexts.sideButton}
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

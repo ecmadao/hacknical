@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import cx from 'classnames';
-import { ShortMessage, FloatingActionButton, PortalModal } from 'light-ui';
+import { PortalModal } from 'light-ui';
 import styles from '../../styles/template_modal.css';
 import modalStyles from '../../styles/modal.css';
 
@@ -17,19 +17,23 @@ const TemplateModal = (props) => {
       showModal={openModal}
       onClose={onClose}
     >
-      <div className={cx(
+      <div
+        className={cx(
           modalStyles.modalContainer,
           modalStyles.modalSmall,
-        )}>
+        )}
+      >
         <div className={styles.header}>
           简历模板选择
         </div>
         <div className={styles.modalWrapper}>
           <div className={styles.modalSection}>
-            <div className={cx(
+            <div
+              className={cx(
                 styles.templateContainer,
                 template === 'v1' && styles.templateContainerActive
-              )}>
+              )}
+            >
               <div
                 className={cx(
                   styles.template,
@@ -43,10 +47,12 @@ const TemplateModal = (props) => {
             </div>
           </div>
           <div className={styles.modalSection}>
-            <div className={cx(
+            <div
+              className={cx(
                 styles.templateContainer,
                 template === 'v2' && styles.templateContainerActive
-              )}>
+              )}
+            >
               <div
                 className={cx(
                   styles.template,

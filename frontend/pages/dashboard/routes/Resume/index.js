@@ -10,4 +10,4 @@ export default store => ({
       cb(null, require('./Components/index').default)
     });
   }
-})
+});

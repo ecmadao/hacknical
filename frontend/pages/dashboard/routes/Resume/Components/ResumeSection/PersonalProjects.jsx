@@ -6,11 +6,11 @@ import { InputGroup, Textarea } from 'light-ui';
 
 import Labels from 'COMPONENTS/Labels';
 import styles from '../../styles/resume.css';
-import actions from '../../redux/actions';
+import resumeActions from '../../redux/actions';
 import locales from 'LOCALES';
 import { TipsoInput, SectionWrapper } from './components';
 
-const resumeTexts = locales("resume").sections.projects;
+const resumeTexts = locales('resume').sections.projects;
 
 class PersonalProjects extends React.Component {
   constructor(props) {
@@ -32,10 +32,12 @@ class PersonalProjects extends React.Component {
     return personalProjects.map((personalProject, index) => {
       const { url, desc, techs, title } = personalProject;
       return (
-        <div className={styles["resume_piece_container"]} key={index}>
-          <div className={cx(styles["resume_wrapper"], styles["with_margin"])}>
-            <div className={styles["resume_delete"]} onClick={this.deleteProject(index)}>
-              <i className="fa fa-trash-o" aria-hidden="true"></i>
+        <div className={styles.resume_piece_container} key={index}>
+          <div className={cx(styles.resume_wrapper, styles.with_margin)}>
+            <div
+              className={styles.resume_delete} onClick={this.deleteProject(index)}
+            >
+              <i className="fa fa-trash-o" aria-hidden="true" />
             </div>
             <InputGroup
               value={title}
@@ -46,18 +48,19 @@ class PersonalProjects extends React.Component {
                 left: '0',
                 transform: 'translateX(0)'
               }}
-              wrapperClassName={cx(styles["input_group"], styles["single_input"])}
-              onChange={this.handleProjectChange(index)('title')}>
+              wrapperClassName={cx(styles.input_group, styles.single_input)}
+              onChange={this.handleProjectChange(index)('title')}
+            >
               <TipsoInput
                 value={url}
                 disabled={disabled}
                 placeholder={resumeTexts.homepage}
-                className={styles['tipso_input_long']}
+                className={styles.tipso_input_long}
                 onChange={this.handleProjectChange(index)('url')}
               />
             </InputGroup>
           </div>
-          <div className={styles["resume_wrapper"]}>
+          <div className={styles.resume_wrapper}>
             <Textarea
               max="200"
               value={desc}
@@ -67,7 +70,7 @@ class PersonalProjects extends React.Component {
               onChange={this.handleProjectChange(index)('desc')}
             />
           </div>
-          <div className={styles["resume_wrapper"]}>
+          <div className={styles.resume_wrapper}>
             <Labels
               labels={techs}
               onAdd={this.addTech(index)}
@@ -96,9 +99,9 @@ class PersonalProjects extends React.Component {
 
   handleProjectChange(index) {
     const { actions } = this.props;
-    return (type) => (value) => {
-      actions.handlePersonalProjectChange({[type]: value}, index);
-    }
+    return type => (value) => {
+      actions.handlePersonalProjectChange({ [type]: value }, index);
+    };
   }
 
   render() {
@@ -123,7 +126,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(resumeActions, dispatch)
   };
 }
 

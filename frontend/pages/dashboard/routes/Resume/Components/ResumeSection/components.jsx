@@ -14,8 +14,8 @@ export const TipsoInput = (props) => {
     disabled = false
   } = props;
   return (
-    <div className={styles["project_link_wrapper"]}>
-      <i className="fa fa-link" aria-hidden="true"></i>
+    <div className={styles.project_link_wrapper}>
+      <i className="fa fa-link" aria-hidden="true" />
       &nbsp;&nbsp;
       <Input
         value={value}
@@ -25,14 +25,14 @@ export const TipsoInput = (props) => {
         theme="borderless"
         subTheme="underline"
         className={cx(
-          styles['tipso_input'],
+          styles.tipso_input,
           className
         )}
         placeholder={placeholder}
         onChange={onChange}
       />
     </div>
-  )
+  );
 };
 
 TipsoInput.defaultProps = {
@@ -45,29 +45,27 @@ TipsoInput.defaultProps = {
   disabled: false,
 };
 
-export const SectionWrapper = (props) => {
-  return (
-    <div className={styles["resume_section_container"]}>
-      <div className={styles["section_title"]}>
-        {props.title}
-      </div>
-      <div>
-        {props.children}
-      </div>
-      <div className={styles["resume_button_container"]}>
-        <Button
-          theme="flat"
-          value={props.button}
-          disabled={props.disabled}
-          leftIcon={(
-            <i className="fa fa-plus-circle" aria-hidden="true"></i>
-          )}
-          onClick={props.onClick}
-        />
-      </div>
+export const SectionWrapper = props => (
+  <div className={styles.resume_section_container}>
+    <div className={styles.section_title}>
+      {props.title}
     </div>
-  );
-};
+    <div>
+      {props.children}
+    </div>
+    <div className={styles.resume_button_container}>
+      <Button
+        theme="flat"
+        value={props.button}
+        disabled={props.disabled}
+        leftIcon={(
+          <i className="fa fa-plus-circle" aria-hidden="true" />
+        )}
+        onClick={props.onClick}
+      />
+    </div>
+  </div>
+);
 
 SectionWrapper.defaultProps = {
   title: '',

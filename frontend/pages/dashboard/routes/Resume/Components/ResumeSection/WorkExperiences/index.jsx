@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import actions from '../../../redux/actions';
+import resumeActions from '../../../redux/actions';
 import WorkExperience from './WorkExperience';
-import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 import { SectionWrapper } from '../components';
 
-const resumeTexts = locales("resume").sections.work;
+const resumeTexts = locales('resume').sections.work;
 
 class WorkExperiences extends React.Component {
   constructor(props) {
@@ -22,8 +21,8 @@ class WorkExperiences extends React.Component {
 
   handleExperienceChange(index) {
     const { actions } = this.props;
-    return (type) => (value) => {
-      actions.handleWorkExperienceChange({[type]: value}, index);
+    return type => (value) => {
+      actions.handleWorkExperienceChange({ [type]: value }, index);
     };
   }
 
@@ -43,35 +42,33 @@ class WorkExperiences extends React.Component {
 
   deleteProject(workIndex) {
     const { actions } = this.props;
-    return (projectIndex) => () => {
+    return projectIndex => () => {
       actions.deleteWorkProject(workIndex, projectIndex);
     };
   }
 
   handleProjectChange(workIndex) {
     const { actions } = this.props;
-    return (projectIndex) => (workProject) => {
+    return projectIndex => (workProject) => {
       actions.handleWorkProjectChange(workProject, workIndex, projectIndex);
     };
   }
 
   renderExperience() {
     const { workExperiences, disabled } = this.props;
-    return workExperiences.map((workExperience, index) => {
-      return (
-        <WorkExperience
-          key={index}
-          index={index}
-          disabled={disabled}
-          workExperience={workExperience}
-          deleteExperience={this.deleteExperience(index)}
-          handleExperienceChange={this.handleExperienceChange(index)}
-          addProject={this.addProject(index)}
-          deleteProject={this.deleteProject(index)}
-          handleProjectChange={this.handleProjectChange(index)}
-        />
-      );
-    });
+    return workExperiences.map((workExperience, index) => (
+      <WorkExperience
+        key={index}
+        index={index}
+        disabled={disabled}
+        workExperience={workExperience}
+        deleteExperience={this.deleteExperience(index)}
+        handleExperienceChange={this.handleExperienceChange(index)}
+        addProject={this.addProject(index)}
+        deleteProject={this.deleteProject(index)}
+        handleProjectChange={this.handleProjectChange(index)}
+      />
+    ));
   }
 
   render() {
@@ -96,7 +93,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(resumeActions, dispatch)
   };
 }
 

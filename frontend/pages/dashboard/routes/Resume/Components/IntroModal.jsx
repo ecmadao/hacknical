@@ -7,9 +7,7 @@ class IntroModal extends React.Component {
     const { intros } = this.props;
     return intros.map((intro, index) => {
       const { texts, title } = intro;
-      const lis = texts.map((text, i) => {
-        return (<li key={i}>{text}</li>);
-      });
+      const lis = texts.map((text, i) => (<li key={i}>{text}</li>));
 
       return (
         <div className={styles['container-wrapper']} key={index}>
@@ -18,7 +16,7 @@ class IntroModal extends React.Component {
             {lis}
           </ul>
         </div>
-      )
+      );
     });
   }
 
@@ -28,12 +26,13 @@ class IntroModal extends React.Component {
     return (
       <PortalModal
         showModal={openModal}
-        onClose={onClose}>
+        onClose={onClose}
+      >
         <div className={styles.container}>
           {this.renderIntros()}
         </div>
       </PortalModal>
-    )
+    );
   }
 }
 

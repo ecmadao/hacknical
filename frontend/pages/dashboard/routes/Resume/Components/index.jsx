@@ -1,5 +1,6 @@
+/* eslint no-param-reassign: "off" */
+
 import React from 'react';
-import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,13 +14,13 @@ import ResumeSection from './ResumeSection';
 import ResumeModalV2 from './ResumeModal/v2';
 import TemplateModal from './TemplateModal';
 import IntroModal from './IntroModal';
-import actions from '../redux/actions';
+import resumeActions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
 import ResumeFormatter from 'SHARED/components/ResumeStateWrapper/ResumeFormatter';
 
 const message = new Message();
-const resumeTexts = locales("resume");
+const resumeTexts = locales('resume');
 const editedConfirm = resumeTexts.editedConfirm
 const INTROS = [
   {
@@ -164,14 +165,15 @@ class Resume extends React.Component {
     return RESUME_SECTIONS.map((section, index) => {
       const { id, text } = section;
       const sectionClass = cx(
-        styles["resume_section"],
-        activeSection === id && styles["active"]
+        styles.resume_section,
+        activeSection === id && styles.active
       );
       return (
         <div className={sectionClass} key={index}>
           <div
-            className={styles["section_wrapper"]}
-            onClick={() => this.handleSectionChange(id)}>
+            className={styles.section_wrapper}
+            onClick={() => this.handleSectionChange(id)}
+          >
             {text}
           </div>
         </div>
@@ -213,42 +215,42 @@ class Resume extends React.Component {
 
     return (
       <div
-        className={styles["resume_container"]}
+        className={styles.resume_container}
       >
-        <div id="resume_navigation" className={styles["resume_navigation"]}>
+        <div id="resume_navigation" className={styles.resume_navigation}>
           {this.renderNavigation()}
         </div>
-        <div className={styles["resume_operations"]}>
-          <div className={styles["operations_wrapper"]}>
+        <div className={styles.resume_operations}>
+          <div className={styles.operations_wrapper}>
             <IconButton
               color="gray"
               icon="question"
-              className={styles["icon_button"]}
+              className={styles.icon_button}
               onClick={() => this.handleIntroModalStatus(true)}
             />
             <Tipso
               trigger="hover"
               theme="dark"
-              className={styles["icon_button_tipso"]}
+              className={styles.icon_button_tipso}
               tipsoContent={(<span>{resumeTexts.messages.templateTip}</span>)}
             >
               <IconButton
                 color="gray"
                 icon="file-text"
-                className={styles["icon_button"]}
+                className={styles.icon_button}
                 onClick={() => this.handleTemplateModalStatus(true)}
               />
             </Tipso>
             <Tipso
               trigger="hover"
               theme="dark"
-              className={styles["icon_button_tipso"]}
+              className={styles.icon_button_tipso}
               tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}
             >
               <IconButton
                 color="gray"
                 icon="download"
-                className={styles["icon_button"]}
+                className={styles.icon_button}
                 onClick={this.downloadResume}
                 disabled={downloadDisabled}
               />
@@ -256,7 +258,7 @@ class Resume extends React.Component {
             <IconButton
               color="gray"
               icon="share-alt"
-              className={styles["icon_button"]}
+              className={styles.icon_button}
               onClick={() => this.handleShareModalStatus(true)}
             />
             <Button
@@ -265,7 +267,7 @@ class Resume extends React.Component {
               onClick={() => this.handleModalStatus(true)}
               className={styles.operation}
               leftIcon={(
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                <i className="fa fa-file-text-o" aria-hidden="true" />
               )}
             />
             <Button
@@ -273,15 +275,15 @@ class Resume extends React.Component {
               className={styles.operation}
               onClick={actions.saveResume}
               leftIcon={(
-                <i className="fa fa-save" aria-hidden="true"></i>
+                <i className="fa fa-save" aria-hidden="true" />
               )}
             />
           </div>
         </div>
-        <div className={styles["resume_sections"]}>
+        <div className={styles.resume_sections}>
           <ResumeSection section={activeSection} disabled={loading} />
-          <div className={cx(styles["resume_operations"], styles["bottom"])}>
-            <div className={styles["operations_wrapper"]}>
+          <div className={cx(styles.resume_operations, styles.bottom)}>
+            <div className={styles.operations_wrapper}>
               {currentIndex > 0 && (
                 <Button
                   value={resumeTexts.buttons.pre}
@@ -289,7 +291,7 @@ class Resume extends React.Component {
                   className={styles.operation}
                   onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
                   leftIcon={(
-                    <i className="fa fa-angle-left" aria-hidden="true"></i>
+                    <i className="fa fa-angle-left" aria-hidden="true" />
                   )}
                 />
               )}
@@ -299,7 +301,7 @@ class Resume extends React.Component {
                   className={styles.operation}
                   onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
                   rightIcon={(
-                    <i className="fa fa-angle-right" aria-hidden="true"></i>
+                    <i className="fa fa-angle-right" aria-hidden="true" />
                   )}
                 />
               )}
@@ -354,7 +356,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(resumeActions, dispatch)
   };
 }
 

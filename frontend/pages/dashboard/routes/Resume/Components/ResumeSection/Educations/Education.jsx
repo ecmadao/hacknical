@@ -7,7 +7,7 @@ import { EDUCATIONS } from 'SHARED/datas/resume';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales("resume").sections.edu;
+const resumeTexts = locales('resume').sections.edu;
 
 class Education extends React.Component {
   constructor(props) {
@@ -42,10 +42,8 @@ class Education extends React.Component {
       edu,
       handleEduChange,
       deleteEdu,
-      index,
       disabled
     } = this.props;
-    const { entranceOpen, graduationOpen } = this.state;
     const {
       school,
       major,
@@ -55,21 +53,21 @@ class Education extends React.Component {
     } = edu;
 
     return (
-      <div className={styles["resume_piece_container"]}>
-        <div className={styles["resume_wrapper"]}>
-          <div className={styles["resume_delete"]} onClick={deleteEdu}>
-            <i className="fa fa-trash-o" aria-hidden="true"></i>
+      <div className={styles.resume_piece_container}>
+        <div className={styles.resume_wrapper}>
+          <div className={styles.resume_delete} onClick={deleteEdu}>
+            <i className="fa fa-trash-o" aria-hidden="true" />
           </div>
           <Input
             value={school}
             theme="flat"
             disabled={disabled}
             placeholder={resumeTexts.school}
-            className={styles["single_input"]}
+            className={styles.single_input}
             onChange={handleEduChange('school')}
           />
         </div>
-        <div className={styles["resume_wrapper"]}>
+        <div className={styles.resume_wrapper}>
           <Input
             value={major}
             theme="flat"
@@ -85,7 +83,7 @@ class Education extends React.Component {
             onChange={handleEduChange('education')}
           />
         </div>
-        <div className={styles["resume_wrapper"]}>
+        <div className={styles.resume_wrapper}>
           <DateSlider
             initialStart={startTime}
             initialEnd={endTime}
@@ -98,7 +96,7 @@ class Education extends React.Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }
 

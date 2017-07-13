@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import actions from '../../../redux/actions';
+import resumeActions from '../../../redux/actions';
 import Education from './Education';
-import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 import { SectionWrapper } from '../components';
 
-const resumeTexts = locales("resume").sections.edu;
+const resumeTexts = locales('resume').sections.edu;
 
 class Educations extends React.Component {
   constructor(props) {
@@ -19,8 +18,8 @@ class Educations extends React.Component {
 
   handleEduChange(index) {
     const { actions } = this.props;
-    return (type) => (value) => {
-      actions.handleEduChange({[type]: value}, index);
+    return type => (value) => {
+      actions.handleEduChange({ [type]: value }, index);
     };
   }
 
@@ -33,18 +32,16 @@ class Educations extends React.Component {
 
   renderEdu() {
     const { educations, disabled } = this.props;
-    return educations.map((edu, index) => {
-      return (
-        <Education
-          key={index}
-          edu={edu}
-          index={index}
-          disabled={disabled}
-          deleteEdu={this.deleteEdu(index)}
-          handleEduChange={this.handleEduChange(index)}
-        />
-      );
-    });
+    return educations.map((edu, index) => (
+      <Education
+        key={index}
+        edu={edu}
+        index={index}
+        disabled={disabled}
+        deleteEdu={this.deleteEdu(index)}
+        handleEduChange={this.handleEduChange(index)}
+      />
+    ));
   }
 
   render() {
@@ -69,7 +66,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(resumeActions, dispatch)
   };
 }
 

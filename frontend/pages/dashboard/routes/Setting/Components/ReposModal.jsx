@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: "off" */
+
 import React, { PropTypes } from 'react';
 import { PortalModal, Button, Loading, Input } from 'light-ui';
 import Api from 'API';
@@ -59,7 +61,7 @@ class ReposModal extends React.Component {
   }
 
   onCheckAll() {
-    const { checkAll, pinned } = this.state;
+    const { checkAll } = this.state;
     const newPinned = !checkAll ? this.defaultPinned() : [];
     this.changeState({
       checkAll: !checkAll,
@@ -68,7 +70,7 @@ class ReposModal extends React.Component {
   }
 
   defaultPinned(repos = null) {
-    repos = repos ? repos : this.state.repos;
+    repos = repos || this.state.repos;
     return repos.map(repository => repository.reposId);
   }
 
@@ -120,17 +122,15 @@ class ReposModal extends React.Component {
     const { repos, pinned, query } = this.state;
     const pattern = new RegExp(query);
     const filterRepos = query ? repos.filter(repository => pattern.test(repository.name)) : repos;
-    return filterRepos.map((repository, index) => {
-      return (
-        <ReposCard
-          key={index}
-          repository={repository}
-          onRemove={this.removePinnedRepos}
-          onPinned={this.addPinnedRepos}
-          pinned={pinned.some(item => item === repository.reposId)}
-        />
-      )
-    })
+    return filterRepos.map((repository, index) => (
+      <ReposCard
+        key={index}
+        repository={repository}
+        onRemove={this.removePinnedRepos}
+        onPinned={this.addPinnedRepos}
+        pinned={pinned.some(item => item === repository.reposId)}
+      />
+    ))
   }
 
   render() {
@@ -139,29 +139,34 @@ class ReposModal extends React.Component {
     return (
       <PortalModal
         showModal={openModal}
-        onClose={this.onClose}>
-        <div className={styles['modal_container']}>
-          <div className={styles['modal_header']}>
-            <div className={styles['header']}>
+        onClose={this.onClose}
+      >
+        <div className={styles.modal_container}>
+          <div className={styles.modal_header}>
+            <div className={styles.header}>
               {settingTexts.customize.title}
             </div>
-            <div className={styles['header_button']}>
+            <div className={styles.header_button}>
               <div
                 onClick={this.onCheckAll}
-                className={styles['button_check']}>
-                <i aria-hidden="true" className={`fa fa-${checkAll ? 'check-square' : 'square-o'}`}></i>
+                className={styles.button_check}
+              >
+                <i
+                  aria-hidden="true"
+                  className={`fa fa-${checkAll ? 'check-square' : 'square-o'}`}
+                />
                 &nbsp;{settingTexts.customize.checkAll}
               </div>
               <Button
                 value={settingTexts.customize.confirm}
                 color="dark"
                 onClick={this.onSubmit}
-                className={styles['button']}
+                className={styles.button}
               />
             </div>
           </div>
-          <div className={styles['search_repos']}>
-            <div className={styles['search_wrapper']}>
+          <div className={styles.search_repos}>
+            <div className={styles.search_wrapper}>
               <Input
                 theme="flat"
                 value={this.state.query}
@@ -171,12 +176,12 @@ class ReposModal extends React.Component {
               />
             </div>
           </div>
-          <div className={styles['user_repos']}>
-            <div className={styles['repos_container']}>
+          <div className={styles.user_repos}>
+            <div className={styles.repos_container}>
               {loading ? (
-                <Loading loading={true} />
+                <Loading loading />
               ) : (
-                <div className={styles['repos_wrapper']}>
+                <div className={styles.repos_wrapper}>
                   {this.renderRepos()}
                 </div>
               )}
@@ -191,8 +196,6 @@ class ReposModal extends React.Component {
 ReposModal.propTypes = {
   openModal: PropTypes.bool,
   onClose: PropTypes.func,
-  fetchData: PropTypes.func,
-  repos: PropTypes.array
 }
 
 ReposModal.defaultProps = {

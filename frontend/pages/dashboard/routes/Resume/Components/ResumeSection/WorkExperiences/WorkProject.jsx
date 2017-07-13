@@ -6,7 +6,7 @@ import WritableList from 'COMPONENTS/WritableList';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales("resume").sections.work;
+const resumeTexts = locales('resume').sections.work;
 
 class WorkProject extends React.Component {
   constructor(props) {
@@ -43,29 +43,30 @@ class WorkProject extends React.Component {
   handleProjectChange(type) {
     const { onChange } = this.props;
     return (value) => {
-      onChange && onChange({[type]: value})
-    }
+      onChange && onChange({ [type]: value })
+    };
   }
 
   render() {
-    const { project, onChange, onDelete, disabled } = this.props;
+    const { project, onDelete, disabled } = this.props;
     return (
-      <div className={styles["project_container"]}>
-        <div className={styles["project_name_wrapper"]}>
+      <div className={styles.project_container}>
+        <div className={styles.project_name_wrapper}>
           <InputGroup
             theme="flat"
             value={project.name}
             disabled={disabled}
-            className={styles["last_input"]}
+            className={styles.last_input}
             placeholder={resumeTexts.projectName}
             onChange={this.handleProjectChange('name')}
             tipsoStyle={{
               left: '0',
               transform: 'translateX(0)'
             }}
-            wrapperClassName={cx(styles["input_group"], styles["single_input"])}>
-            <div className={styles["project_link_wrapper"]}>
-              <i className="fa fa-link" aria-hidden="true"></i>
+            wrapperClassName={cx(styles.input_group, styles.single_input)}
+          >
+            <div className={styles.project_link_wrapper}>
+              <i className="fa fa-link" aria-hidden="true" />
               &nbsp;&nbsp;
               <Input
                 value={project.url}
@@ -76,12 +77,12 @@ class WorkProject extends React.Component {
                 disabled={disabled}
                 placeholder={resumeTexts.projectHomepage}
                 onChange={this.handleProjectChange('url')}
-                className={styles['tipso_input_long']}
+                className={styles.tipso_input_long}
               />
             </div>
           </InputGroup>
-          <div className={styles["project_delete"]} onClick={onDelete}>
-            <i className="fa fa-trash-o" aria-hidden="true"></i>
+          <div className={styles.project_delete} onClick={onDelete}>
+            <i className="fa fa-trash-o" aria-hidden="true" />
           </div>
         </div>
         <WritableList
@@ -93,8 +94,8 @@ class WorkProject extends React.Component {
           onChange={this.changeDetail}
         />
       </div>
-    )
+    );
   }
 }
 
-export default WorkProject
+export default WorkProject;

@@ -1,15 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Input, SelectorV2 } from 'light-ui';
 
-import actions from '../../redux/actions';
+import resumeActions from '../../redux/actions';
 import { GENDERS } from 'SHARED/datas/resume';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales("resume").sections.info;
+const resumeTexts = locales('resume').sections.info;
 
 class Info extends React.Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class Info extends React.Component {
   }
 
   handleInfoChange(type) {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (value) => {
       actions.handleInfoChange({
         [type]: value
@@ -34,15 +33,14 @@ class Info extends React.Component {
       gender,
       location,
       intention,
-      avator,
       disabled
     } = this.props;
     return (
-      <div className={styles["resume_piece_container"]}>
-        <div className={styles["resume_title"]}>
+      <div className={styles.resume_piece_container}>
+        <div className={styles.resume_title}>
           {resumeTexts.title}
         </div>
-        <div className={styles["resume_wrapper"]}>
+        <div className={styles.resume_wrapper}>
           <Input
             value={name}
             placeholder={resumeTexts.name}
@@ -58,7 +56,7 @@ class Info extends React.Component {
             onChange={this.handleInfoChange('gender')}
           />
         </div>
-        <div className={styles["resume_wrapper"]}>
+        <div className={styles.resume_wrapper}>
           <Input
             type="email"
             value={email}
@@ -77,7 +75,7 @@ class Info extends React.Component {
             onChange={this.handleInfoChange('phone')}
           />
         </div>
-        <div className={styles["resume_wrapper"]}>
+        <div className={styles.resume_wrapper}>
           <Input
             value={intention}
             placeholder={resumeTexts.job}
@@ -105,7 +103,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(resumeActions, dispatch)
   };
 }
 

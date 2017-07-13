@@ -13,7 +13,7 @@ class AppContainer extends React.Component {
           {routes}
         </Router>
       </Provider>
-    )
+    );
   }
 }
 
@@ -23,4 +23,4 @@ AppContainer.propTypes = {
   store: PropTypes.object.isRequired,
 };
 
-export default AppContainer
+export default AppContainer;

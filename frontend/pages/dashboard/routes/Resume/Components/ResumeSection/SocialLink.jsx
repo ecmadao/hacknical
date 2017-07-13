@@ -1,5 +1,6 @@
+/* eslint global-require: "off" */
+
 import React from 'react';
-import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { Tipso } from 'light-ui';
 import validator from 'UTILS/validator';
@@ -10,8 +11,8 @@ const SocialLink = (props) => {
   const { onChange, social } = props;
   const { icon, name, url, text } = social;
   const itemClass = cx(
-    styles["resume_link"],
-    validator.url(url) && styles["active"]
+    styles.resume_link,
+    validator.url(url) && styles.active
   );
 
   return (
@@ -19,15 +20,15 @@ const SocialLink = (props) => {
       trigger="click"
       tipsoContent={(
         <TipsoInput
+          required
           value={url}
-          required={true}
           placeholder={`Add ${text || name} link`}
           onChange={onChange}
         />
-      )}>
-      <div
-        className={itemClass}>
-        <img src={require(`SRC/images/${icon}`)} alt={name}/>
+      )}
+    >
+      <div className={itemClass}>
+        <img src={require(`SRC/images/${icon}`)} alt={name} />
       </div>
     </Tipso>
   )

@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { Loading, Button, Switcher, PortalModal } from 'light-ui';
+import { Loading, Button, Switcher } from 'light-ui';
 import ReposModal from './ReposModal';
-import actions from '../redux/actions';
+import settingActions from '../redux/actions';
 import styles from '../styles/setting.css';
 import locales from 'LOCALES';
 
@@ -12,14 +12,13 @@ const settingTexts = locales('dashboard').setting;
 
 const SwitcherPane = (props) => {
   const {
-    id,
     text,
     checked,
     onChange,
     disabled = false
   } = props;
   return (
-    <div className={styles['info_container']}>
+    <div className={styles.info_container}>
       <div className={styles.info}>
         {text}
       </div>
@@ -39,14 +38,18 @@ const CheckPane = (props) => {
     <div
       onClick={() => onChange(!checked)}
       className={cx(
-        styles['info_container_large'],
-        styles['check_info_container']
-      )}>
+        styles.info_container_large,
+        styles.check_info_container
+      )}
+    >
       <div className={styles.info}>
         {text}
       </div>
-      <div className={styles['check_container']}>
-        <i aria-hidden="true" className={`fa fa-${checked ? 'check-square' : 'square-o'}`}></i>
+      <div className={styles.check_container}>
+        <i
+          aria-hidden="true"
+          className={`fa fa-${checked ? 'check-square' : 'square-o'}`}
+        />
       </div>
     </div>
   );
@@ -62,11 +65,12 @@ class Setting extends React.Component {
 
   renderGithubShareSectionsSetting() {
     const { resumeInfo, actions } = this.props;
-    const shareSection = (section) => (checked) => actions.postResumeShareSection(section, checked);
+    const shareSection = section => checked =>
+      actions.postResumeShareSection(section, checked);
 
     if (resumeInfo.useGithub && resumeInfo.github) {
       return (
-        <div className={styles['info_container_wrapper']}>
+        <div className={styles.info_container_wrapper}>
           <CheckPane
             text={settingTexts.resume.showHotmap}
             checked={resumeInfo.github.hotmap}
@@ -108,14 +112,18 @@ class Setting extends React.Component {
 
     if (resumeInfo && resumeInfo.openShare) {
       return (
-        <div className={styles['base_container']}>
+        <div className={styles.base_container}>
           <SwitcherPane
-            id='use-github-switch'
+            id="use-github-switch"
             text={settingTexts.resume.useGithub}
             onChange={resumeInfoLoading ? () => {} : actions.postResumeGithubStatus}
             checked={(resumeInfo && resumeInfo.useGithub) || false}
+            disabled={resumeInfoLoading}
           />
-          {this.renderGithubShareSectionsSetting()}
+          {resumeInfoLoading
+            ? null
+            : this.renderGithubShareSectionsSetting()
+          }
         </div>
       );
     }
@@ -134,24 +142,26 @@ class Setting extends React.Component {
 
     return (
       <div className={styles.container}>
-        <div className={styles['card_container']}>
-          <p><i aria-hidden="true" className="fa fa-github"></i>&nbsp;&nbsp;{settingTexts.github.title}</p>
+        <div className={styles.card_container}>
+          <p>
+            <i aria-hidden="true" className="fa fa-github" />
+            &nbsp;&nbsp;{settingTexts.github.title}
+          </p>
           <div className={styles.card}>
-            <div className={styles['info_container_wrapper']}>
-              {githubInfo.loading ? '' : (
-                <SwitcherPane
-                  id='github-share-switch'
-                  text={settingTexts.github.openShare}
-                  onChange={actions.postGithubShareStatus}
-                  checked={githubInfo.openShare}
-                />
-              )}
+            <div className={styles.info_container_wrapper}>
+              <SwitcherPane
+                id="github-share-switch"
+                text={settingTexts.github.openShare}
+                onChange={actions.postGithubShareStatus}
+                checked={githubInfo.openShare}
+                disabled={githubInfo.loading}
+              />
             </div>
-            <div className={styles['info_container_wrapper']}>
+            <div className={styles.info_container_wrapper}>
               {loading ? (
-                <Loading className={styles['info_loading']} loading={true} />
+                <Loading className={styles.info_loading} loading />
               ) : ''}
-              <div className={styles['info_container']}>
+              <div className={styles.info_container}>
                 <div className={styles.info}>
                   {settingTexts.github.lastUpdate}: {updateTime}
                 </div>
@@ -163,8 +173,8 @@ class Setting extends React.Component {
                 />
               </div>
             </div>
-            <div className={styles['info_container_wrapper']}>
-              <div className={styles['info_container']}>
+            <div className={styles.info_container_wrapper}>
+              <div className={styles.info_container}>
                 <div className={styles.info}>
                   {settingTexts.github.customize.title}
                 </div>
@@ -177,7 +187,7 @@ class Setting extends React.Component {
             </div>
           </div>
         </div>
-        <div className={styles['card_container']}>
+        <div className={styles.card_container}>
           <p>
             <i
               aria-hidden="true"
@@ -187,24 +197,20 @@ class Setting extends React.Component {
           </p>
           <div className={styles.card}>
             {!resumeInfo ? (
-              <Loading className={styles['info_loading']} loading={true} />
+              <Loading className={styles.info_loading} loading />
             ) : ''}
-            {resumeInfoLoading ? (
-              <Loading className={styles['info_loading']} loading={true} />
-            ) : (
-              <div className={styles['info_container_wrapper']}>
-                <SwitcherPane
-                  id='resume-share-switch'
-                  text={settingTexts.resume.openShare}
-                  onChange={resumeInfoLoading
-                      ? () => {}
-                      : actions.postResumeShareStatus}
-                  disabled={resumeInfo.disabled}
-                  checked={(resumeInfo && resumeInfo.openShare) || false}
-                />
-                {this.renderResumeGithubSetting()}
-              </div>
-            )}
+            <div className={styles.info_container_wrapper}>
+              <SwitcherPane
+                id="resume-share-switch"
+                text={settingTexts.resume.openShare}
+                onChange={resumeInfoLoading
+                    ? () => {}
+                    : actions.postResumeShareStatus}
+                disabled={resumeInfoLoading || resumeInfo.disabled}
+                checked={(resumeInfo && resumeInfo.openShare) || false}
+              />
+              {this.renderResumeGithubSetting()}
+            </div>
           </div>
         </div>
         <ReposModal
@@ -224,7 +230,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(settingActions, dispatch)
   };
 }
 

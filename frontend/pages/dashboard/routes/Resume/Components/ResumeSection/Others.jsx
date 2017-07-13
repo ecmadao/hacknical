@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Input } from 'light-ui';
 
-import actions from '../../redux/actions';
+import resumeActions from '../../redux/actions';
 import WritableList from 'COMPONENTS/WritableList';
 import FormatInput from 'COMPONENTS/FormatInput';
 import SocialLink from './SocialLink';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales("resume").sections.others;
+const resumeTexts = locales('resume').sections.others;
 
 class Others extends React.Component {
   constructor(props) {
@@ -26,8 +25,8 @@ class Others extends React.Component {
   handleOthersChange(key) {
     const { actions } = this.props;
     return (value) => {
-      actions.handleOthersInfoChange({[key]: value})
-    }
+      actions.handleOthersInfoChange({ [key]: value });
+    };
   }
 
   addSupplement(value) {
@@ -50,22 +49,19 @@ class Others extends React.Component {
 
   renderSocialLinks() {
     const { socialLinks } = this.props;
-    return socialLinks.map((social, index) => {
-      return (
-        <SocialLink
-          key={index}
-          social={social}
-          onChange={this.changeSocialLink(index)}
-        />
-      );
-    });
+    return socialLinks.map((social, index) => (
+      <SocialLink
+        key={index}
+        social={social}
+        onChange={this.changeSocialLink(index)}
+      />
+    ));
   }
 
   render() {
     const {
       dream,
       expectSalary,
-      expectPosition,
       supplements,
       expectLocation,
       disabled
@@ -73,11 +69,11 @@ class Others extends React.Component {
 
     return (
       <div>
-        <div className={styles["resume_piece_container"]}>
-          <div className={styles["resume_title"]}>
+        <div className={styles.resume_piece_container}>
+          <div className={styles.resume_title}>
             {resumeTexts.title}
           </div>
-          <div className={styles["resume_wrapper"]}>
+          <div className={styles.resume_wrapper}>
             <FormatInput
               value={expectSalary}
               placeholder={resumeTexts.expectSalary}
@@ -95,7 +91,7 @@ class Others extends React.Component {
               onChange={this.handleOthersChange('expectLocation')}
             />
           </div>
-          <div className={styles["resume_wrapper"]}>
+          <div className={styles.resume_wrapper}>
             <Input
               value={dream}
               placeholder={resumeTexts.yourDream}
@@ -113,15 +109,14 @@ class Others extends React.Component {
             placeholder={resumeTexts.personalIntro}
           />
         </div>
-        <div className={styles["resume_piece_container"]}>
-          <div className={styles["resume_title"]}>
+        <div className={styles.resume_piece_container}>
+          <div className={styles.resume_title}>
             {resumeTexts.links.title}
           </div>
-          <div className={styles["resume_wrapper"]}>
+          <div className={styles.resume_wrapper}>
             {this.renderSocialLinks()}
           </div>
         </div>
-        <div/>
       </div>
     );
   }
@@ -134,7 +129,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(resumeActions, dispatch)
   };
 }
 
