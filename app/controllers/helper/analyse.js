@@ -1,10 +1,9 @@
-import config from 'config';
+
 import ShareAnalyse from '../../models/share-analyse';
 import logger from '../../utils/logger';
 import User from '../../models/users';
 import ResumePub from '../../models/resume-pub';
-
-const URL = config.get('url');
+import SlackMsg from '../../services/slack';
 
 const getPubResumeInfo = async (ctx) => {
   const { hash } = ctx.params;
@@ -39,7 +38,7 @@ const updateViewData = async (ctx, options) => {
   });
   if (type) {
     ctx.cache.hincrby(type, 'pageview', 1);
-    ctx.mq.sendMessage({
+    new SlackMsg(ctx.mq).send({
       type: 'view',
       data: `【${type.toUpperCase()}:/${url}】`
     });
@@ -67,7 +66,7 @@ const collectResumeRecord = async (ctx, next) => {
   const user = await getPubResumeInfo(ctx);
   const isAdmin = user.login === githubLogin;
 
-  if (!isAdmin && !notrace || notrace === 'false') {
+  if ((!isAdmin && !notrace) || notrace === 'false') {
     const url = `resume/${hash}`;
     updateViewData(ctx, { url, type: 'resume' });
   }

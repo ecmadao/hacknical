@@ -1,7 +1,8 @@
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 import logger from '../../utils/logger';
-
+import SlackMsg from '../../services/slack';
+import EmailMsg from '../../services/email';
 /**
  * private
  */
@@ -20,22 +21,17 @@ const getGithubInfo = (userInfo) => {
   };
 };
 
-const findUser = async (email) => {
-  return await User.findOne({ email });
-};
+const findUser = async email =>
+  await User.findOne({ email });
 
-const findUserById = async (userId) => {
-  return await User.findOne({ _id: userId });
-};
+const findUserById = async userId =>
+  await User.findOne({ _id: userId });
 
-const findUserByLogin = async (login) => {
-  return await User.findOne({ 'githubInfo.login': login });
-};
+const findUserByLogin = async login =>
+  await User.findOne({ 'githubInfo.login': login });
 
-
-const findUserByGithubId = async (githubId) => {
-  return await User.findOne({ githubId });
-};
+const findUserByGithubId = async githubId =>
+  await User.findOne({ githubId });
 
 const createGithubShare = async (options) => {
   await ShareAnalyse.createShare(options);
@@ -57,9 +53,9 @@ const updateUser = async (userInfo) => {
   const newGithubInfo = getGithubInfo(userInfo);
   const lastUpdateTime = new Date();
   newGithubInfo.lastUpdateTime = lastUpdateTime;
-  const findUser = await findUserByGithubId(userInfo.id);
-  findUser.githubInfo = newGithubInfo;
-  await findUser.save();
+  const findUserResult = await findUserByGithubId(userInfo.id);
+  findUserResult.githubInfo = newGithubInfo;
+  await findUserResult.save();
   return Promise.resolve({
     success: true,
     result: lastUpdateTime
@@ -115,10 +111,17 @@ const loginWithGithub = async (userInfo, cache, mq) => {
     msg.data = `Signup: <https://github.com/${login}|${login}>`;
 
     cache.incr('users');
+    // new EmailMsg(mq).send({
+    //   to: email,
+    // });
   }
+  new EmailMsg(mq).send({
+    to: email,
+  });
   shareInfo.userId = user._id;
   createGithubShare(shareInfo);
-  mq.sendMessage(msg);
+
+  new SlackMsg(mq).send(msg);
 
   return Promise.resolve({
     success: true,
@@ -178,9 +181,7 @@ const updateGithubSections = async (login, sections) => {
   }
 };
 
-const findAll = async () => {
-  return await User.find({});
-};
+const findAll = async () => await User.find({});
 
 export default {
   findUser,

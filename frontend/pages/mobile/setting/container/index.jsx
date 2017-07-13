@@ -10,7 +10,7 @@ import sharedStyles from '../../shared/styles/mobile.css';
 import locales from 'LOCALES';
 
 const settingTexts = locales('dashboard').setting;
-const paneStyle = cx(sharedStyles["mobile_card"], styles["setting_section"]);
+const paneStyle = cx(sharedStyles.mobile_card, styles.setting_section);
 
 const SwitcherPane = (props) => {
   const {
@@ -21,7 +21,7 @@ const SwitcherPane = (props) => {
   } = props;
   return (
     <div className={paneStyle}>
-      <div className={styles["pane_text_container"]}>
+      <div className={styles.pane_text_container}>
         {text}
       </div>
       <Switcher
@@ -125,7 +125,7 @@ class MobileSetting extends React.Component {
   postGithubShareStatus() {
     const { githubInfo } = this.state;
     const { openShare } = githubInfo;
-    Api.github.toggleShare(!openShare).then((result) => {
+    Api.github.toggleShare(!openShare).then(() => {
       this.setState({
         githubInfo: {
           loading: false,
@@ -138,7 +138,7 @@ class MobileSetting extends React.Component {
   postResumeShareStatus() {
     const { resumeInfo } = this.state;
     const { openShare } = resumeInfo;
-    Api.resume.postPubResumeShareStatus(!openShare).then((result) => {
+    Api.resume.postPubResumeShareStatus(!openShare).then(() => {
       this.setState({
         resumeInfo: {
           loading: false,
@@ -152,10 +152,10 @@ class MobileSetting extends React.Component {
     const { loading, updateTime, githubInfo, resumeInfo } = this.state;
 
     return (
-      <div className={styles["setting"]}>
+      <div className={styles.setting}>
         <div className={paneStyle}>
-          <div className={styles["pane_text_container"]}>
-            {updateTime}<br/>
+          <div className={styles.pane_text_container}>
+            {updateTime}<br />
             <span>
               {settingTexts.github.lastUpdate}
             </span>
@@ -164,7 +164,7 @@ class MobileSetting extends React.Component {
             color="gray"
             icon="refresh"
             disabled={loading}
-            className={styles["icon_button"]}
+            className={styles.icon_button}
             onClick={this.refreshGithubDatas}
           />
         </div>

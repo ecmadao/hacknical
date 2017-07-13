@@ -5,22 +5,20 @@ import klawSync from 'klaw-sync';
 
 const sourcePath = path.join(__dirname, '../../public/downloads');
 
-const waitUntil = (asyncFunc) => {
-  return new Promise((resolve, reject) => {
-    const wait = () => {
-      asyncFunc().then((value) => {
-        if (value === true) {
-          resolve();
-        } else {
-          setTimeout(wait, 100);
-        }
-      }).catch(function(e) {
-        reject();
-      });
-    }
-    wait();
-  });
-};
+const waitUntil = asyncFunc => new Promise((resolve, reject) => {
+  const wait = () => {
+    asyncFunc().then((value) => {
+      if (value === true) {
+        resolve();
+      } else {
+        setTimeout(wait, 100);
+      }
+    }).catch((e) => {
+      reject(e);
+    });
+  }
+  wait();
+});
 
 // makesure folder exist
 fs.ensureDirSync(sourcePath);
@@ -40,7 +38,7 @@ const downloadResume = async (url, options = {}) => {
 
   // clear files
   const files = klawSync(resultFloder, { nodir: true });
-  for(let i = 0; i < files.length; i++) {
+  for (let i = 0; i < files.length; i += 1) {
     const file = files[i].path;
     fs.removeSync(file);
   }
@@ -49,18 +47,13 @@ const downloadResume = async (url, options = {}) => {
   const page = await instance.createPage();
 
   await page.property('viewportSize', { width: 1024, height: 600 });
-  const status = await page.open(url);
+  await page.open(url);
 
-  await waitUntil(() => {
-    return page.evaluate(function() {
-      return window.done;
-    });
-  });
+  await waitUntil(() => page.evaluate(() => window.done));
   await page.render(filePath);
   await instance.exit();
   return resultPath;
 };
-
 
 export default {
   resume: downloadResume

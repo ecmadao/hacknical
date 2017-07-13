@@ -14,7 +14,7 @@ const verify = (options = {}, appName = name) => {
   if (!options.headers) options.headers = {};
   const { body } = options;
   const date = new Date().toString();
-  options.headers['Date'] = date;
+  options.headers.Date = date;
   options.headers['X-App-Name'] = appName;
   options.json = true;
   options.url = `${BASE_URL}${options.url}`;
@@ -33,31 +33,29 @@ const verify = (options = {}, appName = name) => {
       contentType,
       body: body ? JSON.stringify(body) : ''
     });
-    options.headers['Authorization'] = `Bearer ${publicKey}:${signature}`;
+    options.headers.Authorization = `Bearer ${publicKey}:${signature}`;
   } catch (e) {
     logger.error(e);
   }
 };
 
-const fetchData = (options) => {
-  return new Promise((resolve, reject) => {
-    request(options, (err, httpResponse, body) => {
-      if (err) {
-        reject(err);
-      }
-      if (body) {
-        resolve(body.success ? body.result : false);
-      }
+const fetchData = options => new Promise((resolve, reject) => {
+  request(options, (err, httpResponse, body) => {
+    if (err) {
       reject(err);
-    });
+    }
+    if (body) {
+      resolve(body.success ? body.result : false);
+    }
+    reject(err);
   });
-};
+});
 
 const fetch = async (options, timeouts = retryTimes) => {
   verify(options);
 
   let err = null;
-  for (let i = 0; i < timeouts.length; i++) {
+  for (let i = 0; i < timeouts.length; i += 1) {
     try {
       const time = timeouts[i];
       if (time) {
@@ -70,16 +68,19 @@ const fetch = async (options, timeouts = retryTimes) => {
       err = e;
     }
   }
-  if (err) { throw new Error(err); }
+  if (err) {
+    logger.error(err);
+    throw new Error(err);
+  }
 };
 
 export default {
   get: (options, timeouts) => {
     options.method = 'GET';
-    return fetch(options, timeouts)
+    return fetch(options, timeouts);
   },
   post: (options, timeouts) => {
     options.method = 'POST';
-    return fetch(options, timeouts)
+    return fetch(options, timeouts);
   }
 };

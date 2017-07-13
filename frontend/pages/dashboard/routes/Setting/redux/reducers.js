@@ -41,7 +41,9 @@ const reducers = handleActions({
 
   SET_UPDATE_TIME(state, action) {
     const updateRawTime = action.payload;
-    const updateTime = updateRawTime ? dateHelper.relative.secondsBefore(updateRawTime) : state.updateTime;
+    const updateTime = updateRawTime
+      ? dateHelper.relative.secondsBefore(updateRawTime)
+      : state.updateTime;
     return ({
       ...state,
       updateTime,
@@ -66,7 +68,7 @@ const reducers = handleActions({
   INITIAL_RESUME_SHARE_INFO(state, action) {
     const { resumeInfo } = state;
     const result = action.payload;
-    let info = resumeInfo ? resumeInfo : {};
+    const info = resumeInfo || {};
     const newResumeInfo = result ? objectAssign({}, info, {
       openShare: result.openShare,
       useGithub: result.useGithub,

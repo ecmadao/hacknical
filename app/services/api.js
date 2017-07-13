@@ -14,12 +14,12 @@ const fetchApi = (url, headers = {}, timeouts) => {
   return fetch.get(options, timeouts);
 };
 
-const postApi = (url, timeouts) => {
-  const options = {
-    url
-  };
-  return fetch.post(options, timeouts);
-};
+// const postApi = (url, timeouts) => {
+//   const options = {
+//     url
+//   };
+//   return fetch.post(options, timeouts);
+// };
 
 /* =========================== api funcs =========================== */
 
@@ -33,9 +33,9 @@ const getOctocat = async () => fetchApi('/octocat', {
 const getVerify = async () => fetchApi('/verify', {
   'X-App-Name': appName
 });
-const getToken = async (code) => fetchApi(`/token?code=${code}`);
+const getToken = async code => fetchApi(`/token?code=${code}`);
 
-const getLogin = async (token) => fetchApi(`/login?token=${token}`);
+const getLogin = async token => fetchApi(`/login?token=${token}`);
 const getUser = async (login, token) =>
   fetchApi(`/user?login=${login}&token=${token}`);
 
@@ -46,7 +46,7 @@ const getUserCommits = async (login, token) =>
 const getUserOrgs = async (login, token) =>
   fetchApi(`/user/orgs?login=${login}&token=${token}`);
 
-const getUpdateTime = async (login) =>
+const getUpdateTime = async login =>
   fetchApi(`/user/updateTime?login=${login}`);
 
 const refreshUserRepos = async (login, token) => fetchApi(
