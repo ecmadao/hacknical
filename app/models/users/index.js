@@ -111,13 +111,12 @@ const loginWithGithub = async (userInfo, cache, mq) => {
     msg.data = `Signup: <https://github.com/${login}|${login}>`;
 
     cache.incr('users');
-    // new EmailMsg(mq).send({
-    //   to: email,
-    // });
+    if (email) {
+      new EmailMsg(mq).send({
+        to: email,
+      });
+    }
   }
-  new EmailMsg(mq).send({
-    to: email,
-  });
   shareInfo.userId = user._id;
   createGithubShare(shareInfo);
 
