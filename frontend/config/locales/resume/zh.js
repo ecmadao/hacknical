@@ -1,6 +1,6 @@
 const datas = {
-  updateAt: "更新于：",
-  editedConfirm: "简历已编辑，不保存吗？",
+  updateAt: '更新于：',
+  editedConfirm: '简历已编辑，不保存吗？',
   buttons: {
     save: '保存',
     preview: '预览',
@@ -10,14 +10,16 @@ const datas = {
   messages: {
     download: '简历生成中，请稍后（初次生成所需的时间稍长）',
     downloadTip: '如简历有更新，请先保存再下载',
-    templateTip: '改变简历模板'
+    templateTip: '改变简历模板',
+    downloadSuccess: '简历生成完毕，正在下载',
+    downloadError: '简历生成失败'
   },
   modal: {
     shareText: '分享你的个人简历'
   },
   sections: {
     info: {
-      title: "基本信息",
+      title: '基本信息',
       name: '姓名',
       email: '邮箱',
       phone: '电话',

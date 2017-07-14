@@ -146,6 +146,7 @@
     "koa-useragent": "^0.1.5",
     "koa-views": "^5.1.2",
     "light-ui": "0.0.33",
+    "log4js": "^1.1.1",
     "moment": "^2.17.0",
     "mongoose": "^4.7.2",
     "normalize.css": "^5.0.0",
@@ -155,12 +156,12 @@
     "pangu": "^3.3.0",
     "particles.js": "^2.0.0",
     "phantom": "^4.0.1",
+    "push.js": "^1.0.4",
     "redis": "^2.6.3",
     "request": "^2.75.0",
     "rsmq": "^0.8.2",
     "scrollreveal": "^3.3.2",
     "slick-carousel": "^1.6.0",
-    "validator": "^6.2.0",
-    "log4js": "^1.1.1"
+    "validator": "^6.2.0"
   }
 }

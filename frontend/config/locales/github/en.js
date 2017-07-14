@@ -1,5 +1,11 @@
 const datas = {
-  updateAt: "Update at: ",
+  updateAt: 'Update at: ',
+  message: {
+    update: {
+      header: 'Update succeed',
+      body: 'GitHub data successfully update'
+    },
+  },
   sections: {
     hotmap: {
       title: 'Hotmap'

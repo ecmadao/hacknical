@@ -1,6 +1,11 @@
-import { createAction, createActions } from 'redux-actions';
+import { createActions } from 'redux-actions';
+import Push from 'push.js';
 import objectAssign from 'UTILS/object-assign';
 import Api from 'API/index';
+import locales from 'LOCALES';
+
+const githubLocales = locales('github');
+const updateMsg = githubLocales.message.update;
 
 const {
   toggleGithubModal,
@@ -17,19 +22,26 @@ const {
 );
 
 // github data update
-const fetchGithubUpdateTime = () => (dispatch, getState) => {
+const fetchGithubUpdateTime = () => (dispatch) => {
   Api.github.getUpdateTime().then((result) => {
     dispatch(setUpdateTime(result));
   });
 };
 
-const refreshGithubDatas = () => (dispatch, getState) => {
+const refreshGithubDatas = () => (dispatch) => {
   dispatch(toggleSettingLoading(true));
-  Api.github.refresh().then((result) => dispatch(setUpdateTime(result)));
+  Api.github.refresh().then((result) => {
+    dispatch(setUpdateTime(result));
+    Push.create(updateMsg.header, {
+      body: updateMsg.body,
+      icon: '/vendor/images/hacknical-logo-nofity.png',
+      timeout: 3000,
+    });
+  });
 };
 
 // github share
-const fetchGithubShareInfo = () => (dispatch, getState) => {
+const fetchGithubShareInfo = () => (dispatch) => {
   Api.github.getShareRecords().then((result) => {
     dispatch(initialGithubShareInfo(result));
   });
@@ -37,7 +49,7 @@ const fetchGithubShareInfo = () => (dispatch, getState) => {
 
 const postGithubShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().setting.githubInfo;
-  Api.github.toggleShare(!openShare).then((result) => {
+  Api.github.toggleShare(!openShare).then(() => {
     dispatch(initialGithubShareInfo({
       openShare: !openShare
     }));
@@ -45,7 +57,7 @@ const postGithubShareStatus = () => (dispatch, getState) => {
 };
 
 // resume
-const fetchResumeShareInfo = () => (dispatch, getState) => {
+const fetchResumeShareInfo = () => (dispatch) => {
   Api.resume.getPubResumeStatus().then((result) => {
     dispatch(initialResumeShareInfo(result));
   });
@@ -54,7 +66,7 @@ const fetchResumeShareInfo = () => (dispatch, getState) => {
 const postResumeGithubStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { useGithub } = resumeInfo;
-  Api.resume.postPubResumeGithubStatus(!useGithub).then((result) => {
+  Api.resume.postPubResumeGithubStatus(!useGithub).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       useGithub: !useGithub
     })));
@@ -64,7 +76,7 @@ const postResumeGithubStatus = () => (dispatch, getState) => {
 const postResumeShareStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { openShare } = resumeInfo;
-  Api.resume.postPubResumeShareStatus(!openShare).then((result) => {
+  Api.resume.postPubResumeShareStatus(!openShare).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       openShare: !openShare
     })));
@@ -75,7 +87,7 @@ const postResumeShareSection = (section, checked) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   Api.resume.postPubResumeGithubSection({
     [section]: checked
-  }).then((result) => {
+  }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       github: objectAssign({}, resumeInfo.github, { [section]: checked })
     })));

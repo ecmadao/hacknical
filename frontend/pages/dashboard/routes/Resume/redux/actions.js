@@ -1,6 +1,14 @@
 import { createAction, createActions } from 'redux-actions';
+import Push from 'push.js';
 import objectAssign from 'UTILS/object-assign';
 import Api from 'API';
+import locales from 'LOCALES';
+
+const resumeLocales = locales('resume');
+const {
+  downloadSuccess,
+  downloadError
+} = resumeLocales.messages;
 
 /**
  * initial
@@ -71,9 +79,12 @@ const {
   addWorkProject
 } = createActions({
   DELETE_WORK_PROJECT: (workIndex, projectIndex) => ({ workIndex, projectIndex }),
-  ADD_WORK_PROJECT_DETAIL: (detail, workIndex, projectIndex) => ({ detail, workIndex, projectIndex }),
-  DELETE_WORK_PROJECT_DETAIL: (workIndex, projectIndex, detailIndex) => ({ workIndex, projectIndex, detailIndex }),
-  HANDLE_WORK_PROJECT_CHANGE: (workProject, workIndex, projectIndex) => ({ workProject, workIndex, projectIndex }),
+  ADD_WORK_PROJECT_DETAIL: (detail, workIndex, projectIndex) =>
+    ({ detail, workIndex, projectIndex }),
+  DELETE_WORK_PROJECT_DETAIL: (workIndex, projectIndex, detailIndex) =>
+    ({ workIndex, projectIndex, detailIndex }),
+  HANDLE_WORK_PROJECT_CHANGE: (workProject, workIndex, projectIndex) =>
+    ({ workProject, workIndex, projectIndex }),
   HANDLE_WORK_EXPERIENCE_CHANGE: (workExperience, index) => ({ workExperience, index })
 }, 'ADD_WORK_EXPERIENCE', 'DELETE_WORK_EXPERIENCE', 'ADD_WORK_PROJECT');
 
@@ -124,7 +135,7 @@ const {
 // resume share
 const setPubResumeStatus = createAction('SET_PUB_RESUME_STATUS');
 const initialPubResumeStatus = createAction('INITIAL_PUB_RESUME_STATUS');
-const fetchPubResumeStatus = () => (dispatch, getState) => {
+const fetchPubResumeStatus = () => (dispatch) => {
   Api.resume.getPubResumeStatus().then((result) => {
     result && dispatch(initialPubResumeStatus(result));
   });
@@ -138,7 +149,7 @@ const postShareStatus = () => (dispatch, getState) => {
 
 // resume template
 const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');
-const postShareTemplate = (template) => (dispatch, getState) => {
+const postShareTemplate = template => (dispatch, getState) => {
   if (template !== getState().resume.shareInfo) {
     Api.resume.postPubResumeTemplate(template).then((result) => {
       result && dispatch(setPubResumeTemplate(result));
@@ -154,10 +165,19 @@ const downloadResume = () => (dispatch, getState) => {
   const { name } = info;
   Api.resume.download(resumeHash).then((result) => {
     if (result) {
+      Push.create(downloadSuccess, {
+        icon: '/vendor/images/hacknical-logo-nofity.png',
+        timeout: 3000,
+      });
       const a = document.createElement('a');
       a.href = result;
       a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`;
       a.click();
+    } else {
+      Push.create(downloadError, {
+        icon: '/vendor/images/hacknical-logo-nofity.png',
+        timeout: 3000,
+      });
     }
     dispatch(toggleDownloadButton(false));
   });

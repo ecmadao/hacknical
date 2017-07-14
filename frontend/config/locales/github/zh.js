@@ -1,5 +1,11 @@
 const datas = {
-  updateAt: "更新于：",
+  updateAt: '更新于：',
+  message: {
+    update: {
+      header: '更新完成',
+      body: 'GitHub 数据更新完成，请刷新页面'
+    },
+  },
   sections: {
     hotmap: {
       title: '活跃度'

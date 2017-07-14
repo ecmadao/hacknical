@@ -1,5 +1,5 @@
 const datas = {
-  updateAt: "Update at: ",
+  updateAt: 'Update at: ',
   editedConfirm: "Resume edited, don't wanna save?",
   buttons: {
     save: 'Save',
@@ -10,7 +10,9 @@ const datas = {
   messages: {
     download: 'Resume is rendering, please wait later.',
     downloadTip: 'Please save your changes before download resume',
-    templateTip: 'Change resume template'
+    templateTip: 'Change resume template',
+    downloadSuccess: 'Successfully created, downloading now',
+    downloadError: 'Resume create failed'
   },
   modal: {
     shareText: 'to share your resume'
@@ -33,7 +35,7 @@ const datas = {
       graduateAt: 'Graduate at'
     },
     work: {
-      title: "Work Experience",
+      title: 'Work Experience',
       mainButton: 'Add work experience',
       sideButton: 'Add project you joined',
       companyInfo: 'Company Info',
@@ -50,7 +52,7 @@ const datas = {
       introText: 'Wirte the project desc then press enter to create it'
     },
     projects: {
-      title: "Personal Projects",
+      title: 'Personal Projects',
       projectName: 'Project name',
       homepage: 'Talk is cheap, show me your code',
       projectDesc: 'Project desc',
@@ -58,7 +60,7 @@ const datas = {
       mainButton: 'Add personal projects'
     },
     others: {
-      title: "Others Info",
+      title: 'Others Info',
       expectSalary: 'Expect salary',
       expectCity: 'Expect city',
       yourDream: 'Your dream?',
@@ -75,11 +77,11 @@ const datas = {
     }
   },
   navs: {
-    info: "Info",
-    edu: "Edu",
-    work: "Jobs",
-    projects: "Projects",
-    others: "Other"
+    info: 'Info',
+    edu: 'Edu',
+    work: 'Jobs',
+    projects: 'Projects',
+    others: 'Other'
   },
   options: {
     genders: {
