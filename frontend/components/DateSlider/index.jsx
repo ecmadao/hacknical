@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import moment from 'moment';
 import { Slider } from 'light-ui';
 import styles from './date_slider.css';
 import dateHelper from 'UTILS/date';
@@ -50,18 +49,18 @@ class DateSlider extends React.Component {
   get pushInterval() {
     const { pushInterval } = this.props;
     switch (pushInterval) {
-    case 'day':
-      return SECONDS_PER_DAY;
-    case 'month':
-      return SECONDS_PER_DAY * 30;
-    case 'halfYear':
-      return SECONDS_PER_DAY * 30 * 6;
-    case 'year':
-      return SECONDS_PER_DAY * 30 * 12;
-    case '2year':
-      return SECONDS_PER_DAY * 30 * 24;
-    default:
-      return SECONDS_PER_DAY * 30;
+      case 'day':
+        return SECONDS_PER_DAY;
+      case 'month':
+        return SECONDS_PER_DAY * 30;
+      case 'halfYear':
+        return SECONDS_PER_DAY * 30 * 6;
+      case 'year':
+        return SECONDS_PER_DAY * 30 * 12;
+      case '2year':
+        return SECONDS_PER_DAY * 30 * 24;
+      default:
+        return SECONDS_PER_DAY * 30;
     }
   }
 
@@ -80,7 +79,7 @@ class DateSlider extends React.Component {
     const validateEndDate = getValidatorFullDate(endDate);
 
     return (
-      <div className={styles['slider_container']}>
+      <div className={styles.slider_container}>
         <Slider
           min={getSecondsByDate(minDate)}
           max={getSecondsByDate(maxDate)}
@@ -92,7 +91,7 @@ class DateSlider extends React.Component {
             const date = getDateBySeconds(seconds);
             const fullDate = getValidatorFullDate(date);
             return (
-              <div className={styles['slider_tipso']}>
+              <div className={styles.slider_tipso}>
                 {MAX_DATE === fullDate ? '至今' : getValidatorDate(date)}
               </div>
             );
@@ -100,14 +99,14 @@ class DateSlider extends React.Component {
           onChange={this.onChange}
           minRange={SECONDS_PER_DAY}
         />
-        <div className={styles["slider_tips_container"]}>
-          <div className={styles["slider_tips"]}>
+        <div className={styles.slider_tips_container}>
+          <div className={styles.slider_tips}>
             {startText}
             <span>
               {getValidatorDate(startDate)}
             </span>
           </div>
-          <div className={styles["slider_tips"]}>
+          <div className={styles.slider_tips}>
             <span>
               {MAX_DATE === validateEndDate
                   ? '至今'

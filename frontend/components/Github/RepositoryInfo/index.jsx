@@ -27,13 +27,13 @@ const CHART_OPTIONS = {
     xAxes: [{
       display: false,
       gridLines: {
-        display:false
+        display: false
       }
     }],
     yAxes: [{
       display: false,
       gridLines: {
-        display:false
+        display: false
       }
     }],
   }
@@ -85,9 +85,11 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposStarsChart() {
-    const { userRepos, forkedRepos } = this.props;
+    const { userRepos } = this.props;
     const reposStars = ReactDOM.findDOMNode(this.reposStars);
-    const datas = [], labels = [], colors = [];
+    const datas = [];
+    const labels = [];
+    const colors = [];
     const standardStarCount = userRepos[0].stargazers_count;
 
     userRepos.forEach((userRepo) => {
@@ -96,7 +98,7 @@ class RepositoryInfo extends React.Component {
       labels.push(name);
       let opacity = stargazers_count / standardStarCount;
       opacity = opacity === 1 ? opacity : opacity * 0.8;
-      colors.push(`rgba(55, 178, 77, ${ opacity < 0.1 ? 0.1 : opacity })`)
+      colors.push(`rgba(55, 178, 77, ${opacity < 0.1 ? 0.1 : opacity})`);
     });
     this.reposStarsChart = new Chart(reposStars, {
       type: 'doughnut',
@@ -156,12 +158,12 @@ class RepositoryInfo extends React.Component {
     const [totalStar, totalFork] = github.getTotalCount(userRepos);
     const maxStaredRepos = userRepos[0];
     const maxTimeRepos = github.longestContributeRepos(userRepos);
-    const startTime = maxTimeRepos['created_at'].split('T')[0];
-    const pushTime = maxTimeRepos['pushed_at'].split('T')[0];
+    const startTime = maxTimeRepos.created_at.split('T')[0];
+    const pushTime = maxTimeRepos.pushed_at.split('T')[0];
     const yearlyRepos = github.getYearlyRepos(userRepos);
 
     return (
-      <CardGroup className={cardStyles['card_group']}>
+      <CardGroup className={cardStyles.card_group}>
         <CardGroup>
           <InfoCard
             icon="star-o"
@@ -186,7 +188,7 @@ class RepositoryInfo extends React.Component {
           <InfoCard
             icon="cube"
             tipso={{
-              text: githubTexts.popularestReposTip.replace(/\$/, maxStaredRepos['stargazers_count'])
+              text: githubTexts.popularestReposTip.replace(/\$/, maxStaredRepos.stargazers_count)
             }}
             tipsoTheme="dark"
             mainText={maxStaredRepos.name}
@@ -209,43 +211,46 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposReview() {
-    const { userRepos, forkedRepos, commitDatas, loaded } = this.props;
+    const { userRepos, forkedRepos, loaded } = this.props;
     const chartContainer = cx(
-      githubStyles["repos_chart_container"],
-      githubStyles["with_chart"],
-      githubStyles["small_margin"]
+      githubStyles.repos_chart_container,
+      githubStyles.with_chart,
+      githubStyles.small_margin
     );
     return (
       <div>
         {this.renderChartInfo()}
         {loaded ? (
           <div className={chartContainer}>
-            <div className={githubStyles["repos_chart"]}>
+            <div className={githubStyles.repos_chart}>
               <canvas
-                className={githubStyles["pie_chart"]}
-                ref={ref => this.reposForks = ref}
+                className={githubStyles.pie_chart}
+                ref={ref => (this.reposForks = ref)}
               />
-              <div className={githubStyles["chart_center"]}>
-                {parseInt(userRepos.length * 100 / (userRepos.length + forkedRepos.length), 10)}%<br/>
+              <div className={githubStyles.chart_center}>
+                {parseInt(
+                  (userRepos.length * 100) / (userRepos.length + forkedRepos.length),
+                  10
+                )}%<br />
                 {githubTexts.originalRepos}
               </div>
             </div>
-            <div className={githubStyles["repos_chart"]}>
+            <div className={githubStyles.repos_chart}>
               <canvas
-                className={githubStyles["pie_chart"]}
-                ref={ref => this.reposStars = ref}
+                className={githubStyles.pie_chart}
+                ref={ref => (this.reposStars = ref)}
               />
-              <div className={githubStyles["chart_center"]}>
+              <div className={githubStyles.chart_center}>
                 {githubTexts.starPercentage}
               </div>
             </div>
           </div>
         ) : ''}
         {userRepos.length ? (
-          <div className={chartStyles["canvas_container"]}>
+          <div className={chartStyles.canvas_container}>
             <canvas
-              className={githubStyles["repos_review"]}
-              ref={ref => this.reposReview = ref}
+              className={githubStyles.repos_review}
+              ref={ref => (this.reposReview = ref)}
             />
           </div>
         ) : ''}
@@ -257,15 +262,15 @@ class RepositoryInfo extends React.Component {
     const { userRepos, loaded, className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading loading={true} />);
+      component = (<Loading loading />);
     } else {
       component = (!userRepos || !userRepos.length)
-        ? (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>)
+        ? (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>)
         : this.renderReposReview();
     }
 
     return (
-      <div className={cx(cardStyles["info_card"], className)}>
+      <div className={cx(cardStyles.info_card, className)}>
         {component}
       </div>
     );

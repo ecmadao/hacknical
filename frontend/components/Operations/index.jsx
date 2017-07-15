@@ -51,7 +51,6 @@ class Operations extends React.Component {
 
   handleOutsideClick(e) {
     e = e || window.event;
-    const mouseTarget = (typeof e.which !== "undefined") ? e.which : e.button;
     const menu = ReactDOM.findDOMNode(this.operationMenu);
     const isDescendantOfRoot = menu && menu.contains(e.target);
     if (!isDescendantOfRoot) {
@@ -61,14 +60,12 @@ class Operations extends React.Component {
 
   renderMenus() {
     const { items } = this.props;
-    return items.map((item, index) => {
-      return (
-        <OperationItem
-          key={index}
-          item={item}
-        />
-      )
-    });
+    return items.map((item, index) => (
+      <OperationItem
+        key={index}
+        item={item}
+      />
+    ));
   }
 
   render() {
@@ -76,33 +73,36 @@ class Operations extends React.Component {
     const { className } = this.props;
 
     const containerClass = cx(
-      styles["operations_container"],
+      styles.operations_container,
       className
     );
     const moreIconClass = cx(
-      styles["operations_more"],
-      showOperations && styles["active"]
+      styles.operations_more,
+      showOperations && styles.active
     );
     const menuClass = cx(
-      styles["operations_menu"],
-      showOperations && styles["operations_menu_active"]
+      styles.operations_menu,
+      showOperations && styles.operations_menu_active
     );
     return (
       <div className={containerClass}>
         <div
           className={moreIconClass}
-          onClick={this.showOperationMenu}>
+          onClick={this.showOperationMenu}
+        >
           <i
             className="fa fa-ellipsis-h"
-            aria-hidden="true"></i>
+            aria-hidden="true"
+          />
         </div>
         <div
           className={menuClass}
-          ref={ref => this.operationMenu = ref}>
+          ref={ref => (this.operationMenu = ref)}
+        >
           {this.renderMenus()}
         </div>
       </div>
-    )
+    );
   }
 }
 

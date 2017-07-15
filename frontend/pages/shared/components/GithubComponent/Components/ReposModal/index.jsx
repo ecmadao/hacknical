@@ -24,7 +24,8 @@ class ReposModal extends React.Component {
   renderRepos() {
     const { selectedLanguage, selectedItems } = this.state;
     const { repos } = this.props;
-    return repos.filter(repository => repository.language === selectedLanguage).map((item, index) => {
+    return repos.filter(repository => repository.language === selectedLanguage)
+    .map((item, index) => {
       const active = selectedItems.some(id => id === item.reposId);
       return (
         <ReposItem
@@ -32,19 +33,17 @@ class ReposModal extends React.Component {
           active={active}
           repository={item}
         />
-      )
+      );
     });
   }
 
   renderSelector() {
     const { languages } = this.props;
     const { selectedLanguage } = this.state;
-    const selectorOptions = languages.map((language) => {
-      return {
-        id: language,
-        value: language || 'null'
-      }
-    });
+    const selectorOptions = languages.map(language => ({
+      id: language,
+      value: language || 'null'
+    }));
     return (
       <SelectorV2
         value={selectedLanguage}
@@ -63,24 +62,24 @@ class ReposModal extends React.Component {
 
   removeItem(id) {
     const { selectedItems } = this.state;
-    const filterResult = selectedItems.filter(item => parseInt(id) !== parseInt(item));
+    const filterResult = selectedItems.filter(
+      item => parseInt(id, 10) !== parseInt(item, 10)
+    );
     this.setState({
       selectedItems: [...filterResult]
     });
   }
 
   renderSelectedRepos() {
-    return this.selectedRepos.map((repos, index) => {
-      return (
-        <SelectedRepos
-          key={index}
-          name={repos.name}
-          id={repos.reposId}
-          language={repos.language}
-          onRemove={this.removeItem}
-        />
-      )
-    });
+    return this.selectedRepos.map((repos, index) => (
+      <SelectedRepos
+        key={index}
+        name={repos.name}
+        id={repos.reposId}
+        language={repos.language}
+        onRemove={this.removeItem}
+      />
+    ));
   }
 
   render() {
@@ -88,7 +87,8 @@ class ReposModal extends React.Component {
     return (
       <PortalModal
         showModal={openModal}
-        onClose={onClose}>
+        onClose={onClose}
+      >
         <div className="repos_modal_container">
           <div className="repos_modal_header">
             已选择的仓库
@@ -113,7 +113,6 @@ class ReposModal extends React.Component {
 ReposModal.propTypes = {
   openModal: PropTypes.bool,
   onClose: PropTypes.func,
-  onSave: PropTypes.func,
   selectedItems: PropTypes.array,
   repos: PropTypes.array,
   languages: PropTypes.array
@@ -122,7 +121,6 @@ ReposModal.propTypes = {
 ReposModal.defaultProps = {
   openModal: false,
   onClose: () => {},
-  onSave: () => {},
   selectedItems: [],
   repos: [],
   languages: []

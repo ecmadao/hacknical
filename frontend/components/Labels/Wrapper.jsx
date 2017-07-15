@@ -16,21 +16,19 @@ class Wrapper extends React.Component {
   }
 
   renderLabels() {
-    const { labels, color, disabled } = this.props;
-    return labels.map((label, index) => {
-      return (
-        <Label
-          key={index}
-          text={label}
-          color="darkLight"
-          deleteable
-          disabled={disabled}
-          clickable={false}
-          className={styles.label}
-          onDelete={this.onDelete(index)}
-        />
-      );
-    });
+    const { labels, disabled } = this.props;
+    return labels.map((label, index) => (
+      <Label
+        key={index}
+        text={label}
+        color="darkLight"
+        deleteable
+        disabled={disabled}
+        clickable={false}
+        className={styles.label}
+        onDelete={this.onDelete(index)}
+      />
+    ));
   }
 
   render() {
@@ -44,10 +42,10 @@ class Wrapper extends React.Component {
       placeholder,
     } = this.props;
     return (
-      <div className={styles['labels_wrapper']}>
+      <div className={styles.labels_wrapper}>
         {this.renderLabels()}
         { labels.length < max ? (
-          <div className={styles['label_input_wrapper']}>
+          <div className={styles.label_input_wrapper}>
             <Input
               value={value}
               required={false}
@@ -66,21 +64,17 @@ class Wrapper extends React.Component {
 }
 
 Wrapper.propTypes = {
-  color: PropTypes.string,
   placeholder: PropTypes.string,
   labels: PropTypes.array,
   onDelete: PropTypes.func,
-  onAdd: PropTypes.func,
   max: PropTypes.number
 };
 
 Wrapper.defaultProps = {
   labels: [],
   max: 10,
-  color: 'grey',
   placeholder: '',
   onDelete: () => {},
-  onAdd: () => {}
 };
 
 export default Wrapper;

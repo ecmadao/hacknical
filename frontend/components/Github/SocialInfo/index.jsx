@@ -1,3 +1,4 @@
+/* eslint no-script-url: "off" */
 import React, { PropTypes } from 'react';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
@@ -7,17 +8,18 @@ import locales from 'LOCALES';
 const githubTexts = locales('github').sections.social;
 
 const getUserCardColor = (user) => {
-  const {public_repos, followers, following} = user;
+  const { public_repos, followers, following } = user;
   const obj = {
     public_repos,
     followers,
     following
   };
-  Object.keys(obj).sort((thisKey, nextKey) => {
-    return parseInt(obj[nextKey]) - parseInt(obj[thisKey]);
-  }).forEach((key, index) => {
-    obj[key] = GREEN_COLORS[index] || GREEN_COLORS.slice(-1)[0];
-  });
+  Object.keys(obj)
+    .sort(
+      (thisKey, nextKey) => parseInt(obj[nextKey], 10) -    parseInt(obj[thisKey], 10))
+    .forEach((key, index) => {
+      obj[key] = GREEN_COLORS[index] || GREEN_COLORS.slice(-1)[0];
+    });
   return obj;
 };
 
@@ -32,28 +34,34 @@ const SocialInfo = (props) => {
   const userCardColor = getUserCardColor(user);
 
   return (
-    <div className={styles["info_content"]}>
+    <div className={styles.info_content}>
       <a
         target="_blank"
-        className={styles["info_social"]}
-        style={style || { backgroundColor: userCardColor['public_repos'] }}
-        href={showLink ? `${github.baseUrl}/${user.login}?tab=repositories` : 'javascript:void(0)'}>
-        <span style={mainTextStyle}>{user['public_repos']}</span>&nbsp;
+        rel="noopener noreferrer"
+        className={styles.info_social}
+        style={style || { backgroundColor: userCardColor.public_repos }}
+        href={showLink ? `${github.baseUrl}/${user.login}?tab=repositories` : 'javascript:void(0)'}
+      >
+        <span style={mainTextStyle}>{user.public_repos}</span>&nbsp;
         <span style={sideTextStyle}>{githubTexts.repositories}</span>
       </a>
       <a
         target="_blank"
-        className={styles["info_social"]}
-        style={style || { backgroundColor: userCardColor['followers'] }}
-        href={showLink ? `${github.baseUrl}/${user.login}?tab=followers` : 'javascript:void(0)'}>
+        rel="noopener noreferrer"
+        className={styles.info_social}
+        style={style || { backgroundColor: userCardColor.followers }}
+        href={showLink ? `${github.baseUrl}/${user.login}?tab=followers` : 'javascript:void(0)'}
+      >
         <span style={mainTextStyle}>{user.followers}</span>&nbsp;
         <span style={sideTextStyle}>{githubTexts.followers}</span>
       </a>
       <a
         target="_blank"
-        className={styles["info_social"]}
-        style={style || { backgroundColor: userCardColor['following'] }}
-        href={showLink ? `${github.baseUrl}/${user.login}?tab=following`: 'javascript:void(0)'}>
+        rel="noopener noreferrer"
+        className={styles.info_social}
+        style={style || { backgroundColor: userCardColor.following }}
+        href={showLink ? `${github.baseUrl}/${user.login}?tab=following` : 'javascript:void(0)'}
+      >
         <span style={mainTextStyle}>{user.following}</span>&nbsp;
         <span style={sideTextStyle}>{githubTexts.following}</span>
       </a>

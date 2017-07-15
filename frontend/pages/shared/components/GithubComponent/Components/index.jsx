@@ -166,15 +166,13 @@ class GithubComponent extends React.Component {
     const {
       user,
       repos,
-      openModal,
-      openShareModal,
-      reposLanguages,
-      showedReposId,
+      sections,
       commitDatas,
       commitInfos,
       reposLoaded,
       commitLoaded,
-      sections
+      openShareModal,
+      showedReposId,
     } = this.state;
     const { isShare, containerStyle } = this.props;
 
@@ -200,9 +198,9 @@ class GithubComponent extends React.Component {
             icon: 'cloud-upload'
           }}
           section="hotmap"
-          sectionStatus={sections["hotmap"]}
-          hide={this.hideSection("hotmap")}
-          disabled={this.disabledSection("hotmap")}
+          sectionStatus={sections.hotmap}
+          hide={this.hideSection('hotmap')}
+          disabled={this.disabledSection('hotmap')}
           isShare={isShare}
           callback={this.changeGithubSection}
         />
@@ -214,9 +212,9 @@ class GithubComponent extends React.Component {
           }}
           section="info"
           key="github-section-info"
-          sectionStatus={sections["info"]}
-          hide={this.hideSection("info")}
-          disabled={this.disabledSection("info")}
+          sectionStatus={sections.info}
+          hide={this.hideSection('info')}
+          disabled={this.disabledSection('info')}
           isShare={isShare}
           callback={this.changeGithubSection}
         />
@@ -232,9 +230,9 @@ class GithubComponent extends React.Component {
           }}
           section="repos"
           key="github-section-repos"
-          sectionStatus={sections["repos"]}
-          hide={this.hideSection("repos")}
-          disabled={this.disabledSection("repos")}
+          sectionStatus={sections.repos}
+          hide={this.hideSection('repos')}
+          disabled={this.disabledSection('repos')}
           intro={{
             icon: 'question-circle',
             text: githubTexts.repos.tipso
@@ -253,9 +251,9 @@ class GithubComponent extends React.Component {
           }}
           section="course"
           key="github-section-course"
-          sectionStatus={sections["course"]}
-          hide={this.hideSection("course")}
-          disabled={this.disabledSection("course")}
+          sectionStatus={sections.course}
+          hide={this.hideSection('course')}
+          disabled={this.disabledSection('course')}
           intro={{
             icon: 'question-circle',
             text: githubTexts.course.tipso
@@ -271,9 +269,9 @@ class GithubComponent extends React.Component {
           }}
           section="orgs"
           key="github-section-orgs"
-          sectionStatus={sections["orgs"]}
-          hide={this.hideSection("orgs")}
-          disabled={this.disabledSection("orgs")}
+          sectionStatus={sections.orgs}
+          hide={this.hideSection('orgs')}
+          disabled={this.disabledSection('orgs')}
           intro={{
             icon: 'question-circle',
             text: githubTexts.orgs.tipso
@@ -295,9 +293,9 @@ class GithubComponent extends React.Component {
           }}
           section="languages"
           key="github-section-languages"
-          sectionStatus={sections["languages"]}
-          hide={this.hideSection("languages")}
-          disabled={this.disabledSection("languages")}
+          sectionStatus={sections.languages}
+          hide={this.hideSection('languages')}
+          disabled={this.disabledSection('languages')}
           isShare={isShare}
           callback={this.changeGithubSection}
         />
@@ -317,9 +315,9 @@ class GithubComponent extends React.Component {
           }}
           section="commits"
           key="github-section-commits"
-          sectionStatus={sections["commits"]}
-          hide={this.hideSection("commits")}
-          disabled={this.disabledSection("commits")}
+          sectionStatus={sections.commits}
+          hide={this.hideSection('commits')}
+          disabled={this.disabledSection('commits')}
           isShare={isShare}
           callback={this.changeGithubSection}
         />

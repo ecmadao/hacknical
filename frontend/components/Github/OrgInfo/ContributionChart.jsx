@@ -8,7 +8,6 @@ import { Tipso, Label } from 'light-ui';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import dateHelper from 'UTILS/date';
-import { DAYS } from 'UTILS/const-value';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import locales from 'LOCALES';
 import { contributionLevel } from './helper';
@@ -35,14 +34,14 @@ class ContributionChart extends React.Component {
     if (contribution) {
       if (!this.contributionReviewChart) {
         return this.renderContributionChart(contribution.weeks);
-      } else {
-        return this.updateCharts(contribution.weeks);
       }
+      return this.updateCharts(contribution.weeks);
     }
   }
 
   updateCharts(contributions) {
-    const data = [], labels = [];
+    const data = [];
+    const labels = [];
     contributions.forEach((contribution) => {
       data.push(contribution.data);
       labels.push(dateHelper.date.bySeconds(contribution.week));
@@ -53,7 +52,8 @@ class ContributionChart extends React.Component {
   }
 
   renderContributionChart(contributions) {
-    const data = [], labels = [];
+    const data = [];
+    const labels = [];
     contributions.forEach((contribution) => {
       data.push(contribution.data);
       labels.push(dateHelper.date.bySeconds(contribution.week));
@@ -88,19 +88,19 @@ class ContributionChart extends React.Component {
           xAxes: [{
             display: false,
             gridLines: {
-              display:false
+              display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }],
           yAxes: [{
             display: false,
             gridLines: {
-              display:false
+              display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }],
         }
@@ -118,25 +118,29 @@ class ContributionChart extends React.Component {
     // repos info
     const {
       name,
-      description,
-      stargazers_count,
-      contributors,
-      forks_count,
+      fork,
       language,
       html_url,
-      fork,
-      watchers_count
+      forks_count,
+      description,
+      watchers_count,
+      stargazers_count,
     } = repository;
 
     return (
-      <div className={styles["repos_details"]}>
-        <div className={styles["contribution_dates"]}>
-          <div className={styles["contribution_date"]}>{startDate}</div>
-          <div className={styles["contribution_date"]}>{endDate}</div>
+      <div className={styles.repos_details}>
+        <div className={styles.contribution_dates}>
+          <div className={styles.contribution_date}>{startDate}</div>
+          <div className={styles.contribution_date}>{endDate}</div>
         </div>
-        <div className={styles["org_repos_infos"]}>
-          <div className={styles["org_repos_info"]}>
-            <a className={styles["repos_title"]} href={html_url} target="_blank">
+        <div className={styles.org_repos_infos}>
+          <div className={styles.org_repos_info}>
+            <a
+              className={styles.repos_title}
+              href={html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {name}
             </a>
             &nbsp;&nbsp;
@@ -150,7 +154,7 @@ class ContributionChart extends React.Component {
               />
             ) : ''}
           </div>
-          <div className={styles["org_repos_info"]}>
+          <div className={styles.org_repos_info}>
             <ReposBaseInfo
               stargazers={stargazers_count}
               forks={forks_count}
@@ -162,25 +166,32 @@ class ContributionChart extends React.Component {
               &nbsp;&nbsp;&nbsp;
             <i className="fa fa-eye" aria-hidden="true"></i>&nbsp;{watchers_count} */}
             &nbsp;&nbsp;&nbsp;
-            <i className="fa fa-code" aria-hidden="true"></i>&nbsp;{language || 'NULL'}
+            <i className="fa fa-code" aria-hidden="true" />
+            &nbsp;{language || 'NULL'}
             &nbsp;&nbsp;&nbsp;
             {percentage > 30 ? (
               <Tipso
                 theme="dark"
-                className={cx(cardStyles["card_tipso"], styles["info_tipso"])}
-                tipsoContent={(<span>{githubTexts.coreDeveloperIntro}</span>)}>
+                className={cx(cardStyles.card_tipso, styles.info_tipso)}
+                tipsoContent={(<span>{githubTexts.coreDeveloperIntro}</span>)}
+              >
                 <span
                   className={cx(
-                    styles["info_strong"],
+                    styles.info_strong,
                     styles[`strong-${contributionLevel(percentage)}`]
-                  )}>
-                  <i className="fa fa-trophy" aria-hidden="true"></i>&nbsp;{githubTexts.coreDeveloper}
+                  )}
+                >
+                  <i
+                    className="fa fa-trophy"
+                    aria-hidden="true"
+                  />
+                  &nbsp;{githubTexts.coreDeveloper}
                 </span>
               </Tipso>
             ) : ''}
           </div>
           {description ? (
-            <div className={styles["org_repos_desc_info"]}>
+            <div className={styles.org_repos_desc_info}>
               <blockquote>{description}</blockquote>
             </div>
           ) : ''}
@@ -191,9 +202,9 @@ class ContributionChart extends React.Component {
 
   render() {
     return (
-      <div className={styles["contributions_chart_container"]}>
-        <div className={styles["chart_container"]}>
-          <canvas ref={ref => this.contributionChart = ref}></canvas>
+      <div className={styles.contributions_chart_container}>
+        <div className={styles.chart_container}>
+          <canvas ref={ref => (this.contributionChart = ref)} />
         </div>
         {this.renderContributionDates()}
       </div>

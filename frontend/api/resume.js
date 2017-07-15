@@ -1,34 +1,33 @@
-import { postData, getData, putData, patchData } from './base';
+import { getData, putData, patchData } from './base';
 
 const getResume = () => getData('/resume/edit');
 
-const setResume = (resume) =>
+const setResume = resume =>
   putData('/resume/edit', { resume });
 
 const download = (hash = window.resumeHash) =>
   getData('/resume/download', { hash });
 
-const getPubResume = (hash) => getData(`/resume/pub`, { hash });
+const getPubResume = hash => getData('/resume/pub', { hash });
 
 const getPubResumeStatus = (hash) => {
   if (hash) {
     return getData(`/resume/${hash}/share`);
-  } else {
-    return getData(`/resume/share`);
   }
+  return getData('/resume/share');
 };
 
-const postPubResumeShareStatus = (enable) =>
-  patchData(`/resume/share/status`, { enable });
+const postPubResumeShareStatus = enable =>
+  patchData('/resume/share/status', { enable });
 
-const postPubResumeGithubStatus = (enable) =>
-  patchData(`/resume/share/github`, { enable });
+const postPubResumeGithubStatus = enable =>
+  patchData('/resume/share/github', { enable });
 
-const postPubResumeGithubSection = (option) =>
-  patchData(`/resume/github/section`, option);
+const postPubResumeGithubSection = option =>
+  patchData('/resume/github/section', option);
 
-const postPubResumeTemplate = (template) =>
-  patchData(`/resume/share/template`, { template });
+const postPubResumeTemplate = template =>
+  patchData('/resume/share/template', { template });
 
 const getShareRecords = () =>
   getData('/resume/share/records');

@@ -25,7 +25,7 @@ const info = (options) => {
         className={cx(`fa fa-${icon}`, styles[`${type}_icon`])} aria-hidden="true"
       />
       &nbsp;&nbsp;
-      {component ? component : text}
+      {component || text}
     </div>
   );
 };
@@ -34,36 +34,37 @@ const linkInfo = (options) => {
   const { url, title, style = '' } = options;
   const hasUrl = validator.url(url);
   const headerClass = cx(
-    styles["info_header"],
+    styles.info_header,
     hasUrl && styles.link,
     style
   );
 
   return hasUrl ? (
-    <a target="_blank" href={validateUrl(url)} className={headerClass}>
-      <i className="fa fa-link" aria-hidden="true"></i>&nbsp;
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href={validateUrl(url)}
+      className={headerClass}
+    >
+      <i className="fa fa-link" aria-hidden="true" />&nbsp;
       {title}
     </a>
   ) : (<div className={headerClass}>{title}</div>);
 };
 
-const baseInfo = (text, icon, options = {}) => {
-  return info(objectassign({}, {
-    text,
-    icon,
-    type: 'base',
-    ...options
-  }));
-};
+const baseInfo = (text, icon, options = {}) => info(objectassign({}, {
+  text,
+  icon,
+  type: 'base',
+  ...options
+}))
 
-const titleInfo = (text, icon, options = {}) => {
-  return info(objectassign({}, {
-    text,
-    icon,
-    type: 'title',
-    ...options
-  }));
-};
+const titleInfo = (text, icon, options = {}) => info(objectassign({}, {
+  text,
+  icon,
+  type: 'title',
+  ...options
+}));
 
 class ResumeComponentV1 extends React.PureComponent {
   constructor(props) {
@@ -85,14 +86,14 @@ class ResumeComponentV1 extends React.PureComponent {
       .map((edu, index) => {
         const { school, major, education, startTime, endTime } = edu;
         return (
-          <div key={index} className={styles["section_wrapper"]}>
-            <div className={cx(styles["info_header"], styles['info_header_large'])}>
+          <div key={index} className={styles.section_wrapper}>
+            <div className={cx(styles.info_header, styles.info_header_large)}>
               {school}{education ? `, ${education}` : ''}
             </div>
-            <div className={styles["info_text"]}>
+            <div className={styles.info_text}>
               {startTime}  ~  {endTime}
             </div>
-            <div className={styles["info_text"]}>{major}</div>
+            <div className={styles.info_text}>{major}</div>
           </div>
         );
       });
@@ -100,9 +101,9 @@ class ResumeComponentV1 extends React.PureComponent {
     if (!edus.length) { return; }
 
     return (
-      <div className={styles["section"]}>
+      <div className={styles.section}>
         {titleInfo('教育经历', 'university')}
-        <div className={styles["info_timeline"]}>
+        <div className={styles.info_timeline}>
           {edus}
         </div>
       </div>
@@ -124,14 +125,14 @@ class ResumeComponentV1 extends React.PureComponent {
         } = experience;
         const workProjects = this.renderProjects(projects);
         return (
-          <div key={index} className={styles["section_wrapper"]}>
-            {linkInfo({url, title: company, style: styles['info_header_large']})}
+          <div key={index} className={styles.section_wrapper}>
+            {linkInfo({ url, title: company, style: styles.info_header_large })}
             {position ? `, ${position}` : ''}
-            <div className={styles["info_text"]}>
+            <div className={styles.info_text}>
               {startTime}  ~  {endTime}
             </div>
             <div>{workProjects}</div>
-            <div className={styles["section_dot"]} />
+            <div className={styles.section_dot} />
           </div>
         );
       });
@@ -139,9 +140,9 @@ class ResumeComponentV1 extends React.PureComponent {
     if (!exps.length) { return; }
 
     return (
-      <div className={styles["section"]}>
+      <div className={styles.section}>
         {titleInfo('工作经历', 'file-text-o')}
-        <div className={styles["info_timeline"]}>
+        <div className={styles.info_timeline}>
           {exps}
         </div>
       </div>
@@ -151,17 +152,15 @@ class ResumeComponentV1 extends React.PureComponent {
   renderProjects(projects) {
     return projects.map((project, index) => {
       const { name, url, details } = project;
-      const projectDetails = details.map((detail, i) => {
-        return (
-          <li key={i}>
-            {detail}
-          </li>
-        );
-      });
+      const projectDetails = details.map((detail, i) => (
+        <li key={i}>
+          {detail}
+        </li>
+      ));
       return (
-        <div key={index} className={styles["project_section"]}>
-          {linkInfo({url, title: name, style: styles['info_header_mid']})}
-          <ul className={styles["info_intro"]}>
+        <div key={index} className={styles.project_section}>
+          {linkInfo({ url, title: name, style: styles.info_header_mid })}
+          <ul className={styles.info_intro}>
             {projectDetails}
           </ul>
         </div>
@@ -175,25 +174,23 @@ class ResumeComponentV1 extends React.PureComponent {
     const projects = personalProjects
       .map((project, index) => {
         const { url, desc, techs, title } = project;
-        const projectTechs = techs.map((tech, index) => {
-          return (
-            <Label
-              min
-              key={index}
-              text={tech}
-              clickable={false}
-              color="darkLight"
-              className={styles['info_label']}
-            />
-          );
-        });
+        const projectTechs = techs.map((tech, i) => (
+          <Label
+            min
+            key={i}
+            text={tech}
+            clickable={false}
+            color="darkLight"
+            className={styles.info_label}
+          />
+        ));
         return (
-          <div key={index} className={styles["sec_section"]}>
-            {linkInfo({url, title, style: styles['info_header_large']})}
-            <div className={styles["info_text"]}>
+          <div key={index} className={styles.sec_section}>
+            {linkInfo({ url, title, style: styles.info_header_large })}
+            <div className={styles.info_text}>
               {desc}
             </div>
-            <div className={styles["info_labels"]}>
+            <div className={styles.info_labels}>
               {projectTechs}
             </div>
           </div>
@@ -203,9 +200,9 @@ class ResumeComponentV1 extends React.PureComponent {
     if (!projects.length) { return; }
 
     return (
-      <div className={styles["section"]}>
+      <div className={styles.section}>
         {titleInfo('个人项目', 'code')}
-        <div className={styles["info_wrapper"]}>
+        <div className={styles.info_wrapper}>
           {projects}
         </div>
       </div>
@@ -217,19 +214,17 @@ class ResumeComponentV1 extends React.PureComponent {
     const { supplements } = others;
     if (!supplements.length) { return; }
 
-    const personalSupplements = supplements.map((supplement, index) => {
-      return (
-        <li key={index}>
-          {supplement}
-        </li>
-      );
-    });
+    const personalSupplements = supplements.map((supplement, index) => (
+      <li key={index}>
+        {supplement}
+      </li>
+    ));
 
     return (
-      <div className={styles["section"]}>
+      <div className={styles.section}>
         {titleInfo('自我评价', 'quote-left')}
-        <div className={styles["info_wrapper"]}>
-          <ul className={styles["info_intro"]}>
+        <div className={styles.info_wrapper}>
+          <ul className={styles.info_intro}>
             {personalSupplements}
           </ul>
         </div>
@@ -243,26 +238,30 @@ class ResumeComponentV1 extends React.PureComponent {
     if (!socialLinks.length) { return null; }
 
     const socials = socialLinks.map((social, index) => {
-      const { url, validateUrl, text } = social;
+      const { url, text } = social;
       return (
         <li key={index}>
-          <div className={styles["link_wrapper"]}>
+          <div className={styles.link_wrapper}>
             {text}
             &nbsp;:&nbsp;&nbsp;&nbsp;
             <a
               target="_blank"
-              className={styles["list_link"]}
-              href={validateUrl}>{url}</a>
+              rel="noopener noreferrer"
+              className={styles.list_link}
+              href={social.validateUrl}
+            >
+              {url}
+            </a>
           </div>
         </li>
       );
     });
 
     return (
-      <div className={styles["section"]}>
+      <div className={styles.section}>
         {titleInfo('其他链接', 'link')}
-        <div className={styles["info_wrapper"]}>
-          <ul className={styles["info_intro"]}>
+        <div className={styles.info_wrapper}>
+          <ul className={styles.info_intro}>
             {socials}
           </ul>
         </div>
@@ -284,14 +283,13 @@ class ResumeComponentV1 extends React.PureComponent {
             text="在校"
             clickable={false}
             color="light"
-            className={styles['info_label']}
+            className={styles.info_label}
           />
         );
       }
     }
     if (workExperiences.length) {
       const lastWorkExperience = workExperiences[0];
-      const workEndTime = lastWorkExperience.endTime;
       const untilNow = lastWorkExperience.untilNow;
       if (untilNow) {
         labels.push(
@@ -301,7 +299,7 @@ class ResumeComponentV1 extends React.PureComponent {
             text="在职"
             clickable={false}
             color="light"
-            className={styles['info_label']}
+            className={styles.info_label}
           />
         );
       }
@@ -309,7 +307,7 @@ class ResumeComponentV1 extends React.PureComponent {
 
     if (labels.length) {
       return (
-        <div className={styles["info_labels_container"]}>
+        <div className={styles.info_labels_container}>
           {labels}
         </div>
       );
@@ -319,30 +317,33 @@ class ResumeComponentV1 extends React.PureComponent {
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login, updateText } = this.props;
-    const { info, others, updateAt } = resume;
+    const { others, updateAt } = resume;
+    const resumeInfo = resume.info;
     const { useGithub, github, githubUrl } = shareInfo;
 
     if (useGithub && showGithub) {
       return (
-        <div className={styles["container"]}>
+        <div className={styles.container}>
           <div
             className={cx(
-              styles["github_wrapper"],
-              showGithub && styles["github_wrapper_active"]
-            )}>
+              styles.github_wrapper,
+              showGithub && styles.github_wrapper_active
+            )}
+          >
             {baseInfo(null, 'arrow-left', {
-              style: styles["base_info_header"],
+              style: styles.base_info_header,
               component: (
                 <span
-                  onClick={() => this.changeShowGithub(false)}>
+                  onClick={() => this.changeShowGithub(false)}
+                >
                   返回
                 </span>
               )
             })}
             <GithubComponent
-              isShare={true}
+              isShare
               githubSection={github}
-              containerStyle={styles["github_container"]}
+              containerStyle={styles.github_container}
               login={login}
             />
           </div>
@@ -351,52 +352,65 @@ class ResumeComponentV1 extends React.PureComponent {
     }
 
     return (
-      <div className={styles["container"]}>
-        <div className={cx(
-            styles["wrapper"]
-        )}>
-          <div className={styles["left"]}>
+      <div className={styles.container}>
+        <div
+          className={cx(
+            styles.wrapper
+          )}
+        >
+          <div className={styles.left}>
             {this.renderEducations()}
             {this.renderWorkExperiences()}
             {this.renderPersonalProjects()}
             {this.renderSupplements()}
             {this.renderSocialLinks()}
           </div>
-          <div className={styles["right"]}>
-            {baseInfo(info.name, info.gender, { style: styles["user_title"] })}
-            {this.renderLabels()}<br/>
-            {info.phone
-              ? (baseInfo(info.phone, 'mobile', { style: styles["right_info"] }))
+          <div className={styles.right}>
+            {baseInfo(resumeInfo.name, resumeInfo.gender, { style: styles.user_title })}
+            {this.renderLabels()}<br />
+            {resumeInfo.phone
+              ? (baseInfo(resumeInfo.phone, 'mobile', { style: styles.right_info }))
               : ''
             }
-            {info.email
+            {resumeInfo.email
               ? (baseInfo(null, 'envelope-o', {
                 component: (
-                  <a href={`mailto:${info.email}`} className={styles["right_link"]}>{info.email}</a>
+                  <a
+                    href={`mailto:${resumeInfo.email}`}
+                    className={styles.right_link}
+                  >
+                    {resumeInfo.email}
+                  </a>
                 )
               }))
               : ''
             }
-            {info.location
-              ? baseInfo(`${info.location}   ${info.intention}`, 'map-marker', { style: styles["right_info"] })
+            {resumeInfo.location
+              ? baseInfo(`${resumeInfo.location}   ${resumeInfo.intention}`, 'map-marker', { style: styles.right_info })
               : ''
             }
             {others.dream ? (
-              <div className={styles["user_dream"]}>
-                {baseInfo(others.dream, 'quote-left', { style: styles["right_info"] })}
+              <div className={styles.user_dream}>
+                {baseInfo(others.dream, 'quote-left', { style: styles.right_info })}
               </div>
             ) : ''}
             {useGithub ? (
               baseInfo(null, 'github', {
-                component: githubUrl ? (<a
-                  href={githubUrl}
-                  className={styles["right_link_info"]}>
+                component: githubUrl ? (
+                  <a
+                    href={githubUrl}
+                    className={styles.right_link_info}
+                  >
                   查看我的 GitHub 总结报告
-                </a>) : (<a
-                  onClick={() => this.changeShowGithub(true)}
-                  className={styles["right_link_info"]}>
+                  </a>
+                ) : (
+                  <a
+                    onClick={() => this.changeShowGithub(true)}
+                    className={styles.right_link_info}
+                  >
                   查看我的 GitHub 总结报告
-                </a>)
+                  </a>
+                )
               })
             ) : ''}
             <br />
@@ -404,7 +418,7 @@ class ResumeComponentV1 extends React.PureComponent {
               baseInfo(
                 `${updateText}${hoursBefore(updateAt)}`,
                 'exclamation-circle',
-                { style: styles["right_info_tip"] }
+                { style: styles.right_info_tip }
               )
             ) : ''}
           </div>

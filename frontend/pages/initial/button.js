@@ -1,16 +1,14 @@
 import styles from './styles/button.css';
 
-const baseButton = (value = 'BOOM!') => {
-  return `
-    <div class="${styles['button-container']}">
-      <div class="${styles['button-wrapper']}">
-        <div class="${styles.button}">${value}</div>
-      </div>
+const baseButton = (value = 'BOOM!') => `
+  <div class="${styles['button-container']}">
+    <div class="${styles['button-wrapper']}">
+      <div class="${styles.button}">${value}</div>
     </div>
-  `;
-};
+  </div>
+`;
 
-const Button = (value) => ({
+const Button = value => ({
   renderIn: (dom, callback = () => {}) => {
     const $buttonContainer = $(baseButton(value));
     const resetButtonPress = () => {

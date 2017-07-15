@@ -1,3 +1,4 @@
+/* eslint new-cap: "off" */
 import Api from 'API';
 import 'SRC/vendor/initial/index.css';
 import Rock from 'PAGES/initial';
@@ -12,12 +13,10 @@ const EMOJI = {
   fireworks: '🎉',
   rock: '🤘'
 };
-const redirect = (url = '/') => (e) => window.location = url;
+const redirect = (url = '/') => () => (window.location = url);
 
 $(() => {
-  $(document).bind("contextmenu", (e) => {
-    return false;
-  });
+  $(document).bind('contextmenu', () => false);
   Api.user.initialed();
 
   const $content = $('.content-wrapper');
@@ -38,5 +37,7 @@ $(() => {
     .then(() => Api.github.fetchOrgs())
     .then(result => rock.roll(`${result} ${EMOJI.smiling}`))
     .then(instance => instance.roll(`fetch finished!!! ${EMOJI.rock}${EMOJI.fireworks}${EMOJI.rock}`))
-    .then(() => Button(`BOOM!${EMOJI.fireworks}${EMOJI.fireworks}`).renderIn($content, redirect()));
+    .then(() =>
+      Button(`BOOM!${EMOJI.fireworks}${EMOJI.fireworks}`).renderIn($content, redirect())
+    );
 });

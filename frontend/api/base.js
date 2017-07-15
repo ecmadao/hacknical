@@ -1,9 +1,12 @@
+/* eslint no-param-reassign: "off" */
+
 import { polyfill } from 'es6-promise';
 import param from 'jquery-param';
 import 'isomorphic-fetch';
 import NProgress from 'nprogress';
-require('nprogress/nprogress.css');
 import { Message } from 'light-ui/lib/raw';
+
+require('nprogress/nprogress.css');
 
 polyfill();
 const rnoContent = /^(?:GET|HEAD)$/;
@@ -12,7 +15,7 @@ const message = new Message();
 const fetchApi = (url, method, data) => {
   NProgress.start();
   NProgress.set(0.4);
-  let options = {
+  const options = {
     method,
     credentials: 'same-origin',
     headers: {
@@ -61,16 +64,21 @@ const getCsrf = (resolve) => {
 };
 
 const verifyToFetch = (url, method, data) => (csrf) => {
-  data['_csrf'] = csrf;
+  data._csrf = csrf;
   return fetchApi(url, method, data);
 };
 
-export const postData = (url, data = {}) => getCsrf(verifyToFetch(url, 'POST', data));
+export const postData = (url, data = {}) =>
+  getCsrf(verifyToFetch(url, 'POST', data));
 
-export const getData = (url, data = {}) => fetchApi(url, 'GET', data);
+export const getData = (url, data = {}) =>
+  fetchApi(url, 'GET', data);
 
-export const deleteData = (url, data = {}) => getCsrf(verifyToFetch(url, 'DELETE', data));
+export const deleteData = (url, data = {}) =>
+  getCsrf(verifyToFetch(url, 'DELETE', data));
 
-export const putData = (url, data = {}) => getCsrf(verifyToFetch(url, 'PUT', data));
+export const putData = (url, data = {}) =>
+  getCsrf(verifyToFetch(url, 'PUT', data));
 
-export const patchData = (url, data = {}) => getCsrf(verifyToFetch(url, 'PATCH', data));
+export const patchData = (url, data = {}) =>
+  getCsrf(verifyToFetch(url, 'PATCH', data));

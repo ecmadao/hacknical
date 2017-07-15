@@ -8,9 +8,7 @@ import dateHelper from 'UTILS/date';
 import { sortBySeconds, validateUrl } from 'UTILS/helper';
 import { LINK_NAMES } from 'SHARED/datas/resume';
 
-const getDateNow = dateHelper.date.now;
 const validateDate = dateHelper.validator.date;
-const DATE_NOW = getDateNow();
 const sortByDate = sortBySeconds('startTime');
 
 const formatResume = (resume) => {
@@ -56,7 +54,7 @@ const formatResume = (resume) => {
     .filter(edu => edu.school)
     .sort(sortByDate)
     .reverse()
-    .map((edu, index) => {
+    .map((edu) => {
       const {
         school,
         major,

@@ -11,7 +11,8 @@ const WritableList = (props) => {
 
   return (
     <WritableGroupWrapper
-      onAdd={props.onAdd}>
+      onAdd={props.onAdd}
+    >
       <Wrapper {...wrapperProps} />
     </WritableGroupWrapper>
   )

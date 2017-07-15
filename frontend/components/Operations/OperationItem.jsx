@@ -7,12 +7,14 @@ class OperationItem extends React.Component {
     const { text, icon, onClick } = item;
     return (
       <div
-        className={styles["operation_item"]}
-        onClick={onClick}>
+        className={styles.operation_item}
+        onClick={onClick}
+      >
         { icon ? (
           <i
             className={`fa fa-${icon}`}
-            aria-hidden="true"></i>
+            aria-hidden="true"
+          />
         ) : '' }
         {text}
       </div>

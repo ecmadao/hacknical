@@ -2,18 +2,13 @@ import React from 'react';
 import objectAssign from 'UTILS/object-assign';
 import Api from 'API/index';
 import {
-  EDU,
   INFO,
   OTHERS,
-  WORK_EXPERIENCE,
-  WORK_PROJECT,
-  PERSONAL_PROJECT,
-  SOCIAL_LINKS,
 } from 'SHARED/datas/resume';
 import locales from 'LOCALES';
 import ResumeFormatter from './ResumeFormatter';
 
-const resumeTexts = locales("resume");
+const resumeTexts = locales('resume');
 
 class ResumeStateWrapper extends React.Component {
   constructor(props) {
@@ -43,7 +38,7 @@ class ResumeStateWrapper extends React.Component {
 
   componentDidUpdate(preProps, preState) {
     const { loading } = this.state;
-    if(!loading && preState.loading) {
+    if (!loading && preState.loading) {
       window.done = true;
     }
   }

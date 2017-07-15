@@ -10,16 +10,24 @@ const githubTexts = locales('github').sections.baseInfo;
 
 const UserInfo = (props) => {
   const { user, className } = props;
-  if (!user) { return (<div></div>) }
+  if (!user) { return (<div />); }
   return (
-    <div className={cx(styles["info_card"], className)}>
-      <div className={styles["info_header"]}>
-        <div className={styles["info_avator"]}>
-          <img src={user['avatar_url']} />
+    <div className={cx(styles.info_card, className)}>
+      <div className={styles.info_header}>
+        <div className={styles.info_avator}>
+          <img src={user.avatar_url} />
         </div>
-        <div className={styles["info_user"]}>
-          <a href={`${github.baseUrl}/${user.login}`} target="_blank">{user.name || user.login}</a>
-          <span>{githubTexts.joinedAt}{dateHelper.validator.fullDate(user['created_at'])}</span>
+        <div className={styles.info_user}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`${github.baseUrl}/${user.login}`}
+          >
+            {user.name || user.login}
+          </a>
+          <span>
+            {githubTexts.joinedAt}{dateHelper.validator.fullDate(user.created_at)}
+          </span>
           {user.bio ? <blockquote>{user.bio}</blockquote> : ''}
         </div>
       </div>

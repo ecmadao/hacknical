@@ -1,3 +1,5 @@
+/* eslint global-require: "off" */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -13,7 +15,7 @@ const renderApp = (domId, props) => {
   ReactDOM.render(
     <ResumeShare {...props} />,
     DOM
-  )
+  );
 };
 
 export default renderApp;

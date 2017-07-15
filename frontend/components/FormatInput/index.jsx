@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+/* eslint no-new: "off" */
+import React from 'react';
 import Cleave from 'cleave.js';
 import 'cleave.js/dist/addons/cleave-phone.cn';
 import { Input } from 'light-ui';

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import ResumeComponentV1 from './v1';
 import ResumeComponentV2 from './v2';
 

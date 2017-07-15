@@ -3,7 +3,7 @@ import ResumeComponent from 'SHARED/components/ResumeComponent';
 import ResumeStateWrapper from 'SHARED/components/ResumeStateWrapper';
 import styles from '../styles/share.css';
 
-const ResumeShare = (props) => (
+const ResumeShare = props => (
   <ResumeStateWrapper {...props} className={styles.container}>
     <ResumeComponent />
   </ResumeStateWrapper>

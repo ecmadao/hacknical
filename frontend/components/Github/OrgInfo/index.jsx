@@ -58,20 +58,21 @@ class OrgInfo extends React.Component {
     const { userLogin } = this.props;
     const filterRepos = [];
     orgs.forEach((organizations) => {
-      const repos = organizations.repos.filter((repository) => {
-        return repository.contributors.some((contributor) => contributor.login === userLogin);
-      });
+      const repos = organizations.repos
+        .filter(repository => repository.contributors.some(contributor =>
+            contributor.login === userLogin)
+        );
       filterRepos.push(...repos);
     });
     const totalStar = filterRepos.reduce((prev, current, index) => {
       if (index === 0) {
-        return current['stargazers_count'];
+        return current.stargazers_count;
       }
-      return current['stargazers_count'] + prev;
+      return current.stargazers_count + prev;
     }, '');
 
     return (
-      <CardGroup className={cardStyles['card_group']}>
+      <CardGroup className={cardStyles.card_group}>
         <InfoCard
           icon="group"
           tipsoTheme="dark"
@@ -101,14 +102,15 @@ class OrgInfo extends React.Component {
       const orgRows = organizations.map((organization, index) => {
         const { avatar_url, name, login } = organization;
         const itemClass = cx(
-          styles["org_item"],
-          activeIndex === index && styles["org_item_active"]
+          styles.org_item,
+          activeIndex === index && styles.org_item_active
         );
         return (
-          <div key={index} className={styles["org_item_container"]}>
+          <div key={index} className={styles.org_item_container}>
             <div
               className={itemClass}
-              onClick={() => this.changeAcitveOrg(index)}>
+              onClick={() => this.changeAcitveOrg(index)}
+            >
               <img src={avatar_url} />
               <span>{name || login}</span>
             </div>
@@ -116,14 +118,14 @@ class OrgInfo extends React.Component {
         );
       });
       return (
-        <div key={line} className={styles["org_row"]}>
+        <div key={line} className={styles.org_row}>
           {orgRows}
         </div>
       );
     });
 
     return (
-      <div className={styles["orgs_container"]}>
+      <div className={styles.orgs_container}>
         {orgDOMs}
         {this.renderOrgDetail()}
       </div>
@@ -139,20 +141,26 @@ class OrgInfo extends React.Component {
     const repos = [...activeOrg.repos] || [];
 
     return (
-      <div className={styles["org_detail"]}>
-        <div className={styles["org_info"]}>
-          <i className="fa fa-rocket" aria-hidden="true"></i>&nbsp;
+      <div className={styles.org_detail}>
+        <div className={styles.org_info}>
+          <i className="fa fa-rocket" aria-hidden="true" />&nbsp;
           {githubTexts.createdAt}{fullDate(created_at)}
         </div>
         {blog ? (
-          <div className={styles["org_info"]}>
-            <i className="fa fa-link" aria-hidden="true"></i>&nbsp;&nbsp;
-            <a href={blog} target="_blank">{blog}</a>
+          <div className={styles.org_info}>
+            <i className="fa fa-link" aria-hidden="true" />&nbsp;&nbsp;
+            <a
+              href={blog}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {blog}
+            </a>
           </div>
         ) : ''}
         {description ? (
-          <div className={styles["org_info"]}>
-            <i className="fa fa-quote-left" aria-hidden="true"></i>&nbsp;&nbsp;
+          <div className={styles.org_info}>
+            <i className="fa fa-quote-left" aria-hidden="true" />&nbsp;&nbsp;
             {description}
           </div>
         ) : ''}
@@ -169,14 +177,18 @@ class OrgInfo extends React.Component {
     const { className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading loading={true} />);
+      component = (<Loading loading />);
     } else {
       component = !orgs.length ?
-        (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>) : this.renderOrgsReview();
+        (
+          <div className={cardStyles.empty_card}>
+            {githubTexts.emptyText}
+          </div>
+        ) : this.renderOrgsReview();
     }
     const cards = loaded && orgs.length ? this.renderOrgsCard() : '';
     return (
-      <div className={cx(cardStyles["info_card"], className)}>
+      <div className={cx(cardStyles.info_card, className)}>
         {cards}
         {component}
       </div>

@@ -1,5 +1,5 @@
+/* eslint no-new: "off" */
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import cx from 'classnames';
 import Clipboard from 'clipboard';
 import { IconButton, Input, PortalModal } from 'light-ui';
@@ -12,17 +12,25 @@ const modalTexts = locales('shareModal');
 const DARK_COLORS = MD_COLORS.slice(-2);
 
 class ShareModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.copyUrl = this.copyUrl.bind(this);
+  }
+
   componentDidMount() {
     this.renderQrcode();
     this.clipboard = new Clipboard('#copyButton', {
-      text: () => $("#shareUrl").val()
+      text: () => $('#shareUrl').val()
     });
   }
 
   componentDidUpdate(preProps) {
     const { options } = this.props;
     const preOptions = preProps.options;
-    if ((!options.openShare && preOptions.openShare) || (options.openShare && !preOptions.openShare)) {
+    if (
+      (!options.openShare && preOptions.openShare)
+      || (options.openShare && !preOptions.openShare)
+    ) {
       this.renderQrcode();
     }
   }
@@ -35,47 +43,48 @@ class ShareModal extends React.Component {
     const { options } = this.props;
     const colorDark = options.openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
     $('#qrcode').empty();
-    const qrcode = new QRCode(document.getElementById("qrcode"), {
+    new QRCode(document.getElementById('qrcode'), {
       text: options.link,
       width: 120,
       height: 120,
       colorDark,
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
     });
   }
 
   copyUrl() {
-    document.querySelector("#shareUrl").select();
+    document.querySelector('#shareUrl').select();
   }
 
   render() {
     const { openModal, onClose, options } = this.props;
     const { link, openShare, text } = options;
     const modalClass = cx(
-      styles["share_modal_container"],
-      !openShare && styles["disabled"]
+      styles.share_modal_container,
+      !openShare && styles.disabled
     );
     const statusText = openShare ? modalTexts.openTitle : modalTexts.closeTitle;
     const statusClass = cx(
-      styles["share_status"],
-      !openShare && styles["not_open"]
+      styles.share_status,
+      !openShare && styles.not_open
     );
 
     return (
       <PortalModal
         showModal={openModal}
-        onClose={onClose}>
+        onClose={onClose}
+      >
         <div className={modalClass}>
-          <div className={styles["share_qrcode"]}>
-            <div id="qrcode"></div>
+          <div className={styles.share_qrcode}>
+            <div id="qrcode" />
           </div>
-          <div className={styles["share_info"]}>
-            <div className={styles["share_controller"]}>
+          <div className={styles.share_info}>
+            <div className={styles.share_controller}>
               <div className={statusClass}>{statusText}</div>
             </div>
-            <blockquote>{modalTexts.text}<br/>{text}</blockquote>
-            <div className={styles["share_container"]}>
+            <blockquote>{modalTexts.text}<br />{text}</blockquote>
+            <div className={styles.share_container}>
               <Input
                 id="shareUrl"
                 theme="flat"
@@ -85,7 +94,7 @@ class ShareModal extends React.Component {
                 color="gray"
                 icon="clipboard"
                 id="copyButton"
-                onClick={this.copyUrl.bind(this)}
+                onClick={this.copyUrl}
               />
             </div>
           </div>
@@ -98,7 +107,6 @@ class ShareModal extends React.Component {
 ShareModal.propTypes = {
   openModal: PropTypes.bool,
   options: PropTypes.object,
-  toggleShare: PropTypes.func,
   onClose: PropTypes.func,
 };
 
@@ -109,7 +117,6 @@ ShareModal.defaultProps = {
     link: '',
     text: ''
   },
-  toggleShare: () => {},
   onClose: () => {},
 }
 

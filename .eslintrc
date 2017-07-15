@@ -16,6 +16,7 @@
   },
   "rules": {
     "semi": 0,
+    "camelcase": 0,
     "comma-dangle": 0,
     "no-underscore-dangle": 0,
     "no-multi-spaces": 0,
@@ -43,6 +44,7 @@
   "globals": {
     "require": true,
     "$": true,
-    "window": true
+    "window": true,
+    "QRCode": true
   }
 }

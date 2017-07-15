@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { Tipso } from 'light-ui';
 
@@ -9,11 +8,7 @@ import cardStyles from './styles/info_card.css';
 import locales from 'LOCALES';
 
 const operationTexts = locales('github').operations;
-const EmptyDOM = (props) => {
-  return (
-    <div></div>
-  )
-};
+const EmptyDOM = () => (<div />);
 
 class GitHubSection extends React.Component {
   constructor(props) {
@@ -63,21 +58,21 @@ class GitHubSection extends React.Component {
     if (hide) { return <EmptyDOM />; }
 
     const Section = config[section] || EmptyDOM;
-    const disabledClass = disabled ? cardStyles["info_card_disabled"] : '';
+    const disabledClass = disabled ? cardStyles.info_card_disabled : '';
 
     return (
-      <div className={cx(cardStyles["info_card_container"], className)}>
+      <div className={cx(cardStyles.info_card_container, className)}>
         <p>
-          <i aria-hidden="true" className={`fa fa-${title.icon}`}></i>
+          <i aria-hidden="true" className={`fa fa-${title.icon}`} />
           &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
           {intro && !isShare ? (
             <Tipso
               theme="dark"
-              className={cardStyles["card_tipso"]}
-              tipsoContent={(<span>{intro.text}</span>)}>
-              <span
-                className={cardStyles["card_intro"]}>
-                <i className={`fa fa-${intro.icon}`} aria-hidden="true"></i>
+              className={cardStyles.card_tipso}
+              tipsoContent={(<span>{intro.text}</span>)}
+            >
+              <span className={cardStyles.card_intro}>
+                <i className={`fa fa-${intro.icon}`} aria-hidden="true" />
               </span>
             </Tipso>
           ) : ''}
@@ -85,14 +80,14 @@ class GitHubSection extends React.Component {
         <Section {...this.props} className={disabledClass} />
         {!isShare ? (
           <Operations
-            className={cardStyles["card_operation"]}
+            className={cardStyles.card_operation}
             items={this.operationItems}
             showOperations={showOperations}
             onFocusChange={this.onOperationFocusChange}
           />
         ) : ''}
       </div>
-    )
+    );
   }
 }
 

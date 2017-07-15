@@ -1,3 +1,5 @@
+/* eslint global-require: "off" */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -8,13 +10,13 @@ if (process.env.NODE_ENV !== 'production') {
 
 import GithubComponent from 'SHARED/components/GithubComponent';
 
-const renderApp = (domId, state = {}) => {
+const renderApp = (domId) => {
   ReactDOM.render(
-      <GithubComponent
-        login={window.login}
-        isShare={window.isShare}
-      />,
-      document.getElementById(domId)
+    <GithubComponent
+      login={window.login}
+      isShare={window.isShare}
+    />,
+    document.getElementById(domId)
   );
 };
 

@@ -80,10 +80,10 @@ class CommitInfo extends React.Component {
     /* weekly commits chart view */
     if (chartType === 'week') {
       if (this.weeklyCommits) { return this.weeklyCommits; }
-      commits.forEach((item, index) => {
+      commits.forEach((item) => {
         commitDates.push(item.total);
         dateLabels.push(
-          `${getDateBySeconds(item.week - 7 * 24 * 60 * 60)} ~ ${getDateBySeconds(item.week)}`
+          `${getDateBySeconds(item.week - (7 * 24 * 60 * 60))} ~ ${getDateBySeconds(item.week)}`
         );
       });
       this.weeklyCommits = {
@@ -96,10 +96,10 @@ class CommitInfo extends React.Component {
     /* daily commits chart view */
     if (chartType === 'day') {
       if (this.dailyCommits) { return this.dailyCommits; }
-      commits.forEach((item, index) => {
+      commits.forEach((item) => {
         item.days.forEach((day, dayIndex) => {
           commitDates.push(day);
-          const date = getDateBySeconds(item.week - (7 - dayIndex) * 24 * 60 * 60);
+          const date = getDateBySeconds(item.week - ((7 - dayIndex) * 24 * 60 * 60));
           dateLabels.push(date);
         });
       });
@@ -181,15 +181,15 @@ class CommitInfo extends React.Component {
           xAxes: [{
             display: false,
             gridLines: {
-              display:false
+              display: false
             }
           }],
           yAxes: [{
             gridLines: {
-              display:false
+              display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }],
         }
@@ -222,15 +222,13 @@ class CommitInfo extends React.Component {
               display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }],
         },
         tooltips: {
           callbacks: {
-            label: (item, data) => {
-              return `${item.yLabel} commits`
-            }
+            label: item => `${item.yLabel} commits`
           }
         }
       }
@@ -242,7 +240,6 @@ class CommitInfo extends React.Component {
     const {
       total,
       commits,
-      dailyCommits,
       monthReview,
       totalDailyCommits
     } = commitInfos;
@@ -250,18 +247,22 @@ class CommitInfo extends React.Component {
     const maxIndex = getMaxIndex(totalDailyCommits);
     const dayName = DAYS[maxIndex];
     // first commit
-    const [firstCommitWeek, firstCommitIndex] = getFirstMatchTarget(commits, (item) => item.total);
-    const [firstCommitDay, dayIndex] = getFirstMatchTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = getDateBySeconds(firstCommitWeek.week - (7 - dayIndex) * 24 * 60 * 60);
+    const firstCommitWeek = getFirstMatchTarget(commits, item => item.total)[0];
+    const dayIndex = getFirstMatchTarget(firstCommitWeek.days, day => day > 0)[1];
+    const firstCommitDate = getDateBySeconds(
+      firstCommitWeek.week - ((7 - dayIndex) * (24 * 60 * 60))
+    );
     // max commit repos
     commitDatas.sort(sortRepos('totalCommits'));
     const maxCommitRepos = commitDatas[0];
 
     // max commits day
-    const [maxDailyCommits, maxDailyCommitsIndex] = getMaxTarget(commits, item => item.days);
+    const maxDailyCommitsIndex = getMaxTarget(commits, item => item.days)[1];
     const maxCommitsWeek = commits[maxDailyCommitsIndex];
     const dailyIndex = getMaxIndex(maxCommitsWeek.days);
-    const maxCommitDate = getDateBySeconds(maxCommitsWeek.week - (7 - dailyIndex) * 24 * 60 * 60);
+    const maxCommitDate = getDateBySeconds(
+      maxCommitsWeek.week - ((7 - dailyIndex) * (24 * 60 * 60))
+    );
 
     // max repos count month
     const monthlyReposCounts = Object.keys(monthReview).map(key => monthReview[key].repos.length);
@@ -274,7 +275,7 @@ class CommitInfo extends React.Component {
     const maxCommitsCount = monthReview[maxCommitsCountMonth].commitsCount;
 
     return (
-      <CardGroup className={cardStyles['card_group']}>
+      <CardGroup className={cardStyles.card_group}>
         <CardGroup>
           <InfoCard
             tipsoTheme="dark"
@@ -337,45 +338,54 @@ class CommitInfo extends React.Component {
     return (
       <div>
         {this.renderChartInfo()}
-        <div className={chartStyles["canvas_container"]}>
-          <canvas id="commits_weekly_review" ref={ref => this.commitsWeeklyChart = ref}></canvas>
+        <div className={chartStyles.canvas_container}>
+          <canvas
+            id="commits_weekly_review"
+            ref={ref => (this.commitsWeeklyChart = ref)}
+          />
         </div>
-        <div className={chartStyles["canvas_container"]}>
-          <div className={chartStyles["chart_controllers"]}>
+        <div className={chartStyles.canvas_container}>
+          <div className={chartStyles.chart_controllers}>
             <span
               className={cx(
-                chartStyles["chart_controller"],
-                chartType === 'month' && chartStyles["controller_active"]
+                chartStyles.chart_controller,
+                chartType === 'month' && chartStyles.controller_active
               )}
-              onClick={() => this.changeChartType('month')}>
+              onClick={() => this.changeChartType('month')}
+            >
               {githubTexts.monthlyView}
             </span>
             &nbsp;/&nbsp;
             <span
               className={cx(
-                chartStyles["chart_controller"],
-                chartType === 'week' && chartStyles["controller_active"]
+                chartStyles.chart_controller,
+                chartType === 'week' && chartStyles.controller_active
               )}
-              onClick={() => this.changeChartType('week')}>
+              onClick={() => this.changeChartType('week')}
+            >
               {githubTexts.weeklyView}
             </span>
             &nbsp;/&nbsp;
             <span
               className={cx(
-                chartStyles["chart_controller"],
-                chartType === 'day' && chartStyles["controller_active"]
+                chartStyles.chart_controller,
+                chartType === 'day' && chartStyles.controller_active
               )}
-              onClick={() => this.changeChartType('day')}>
+              onClick={() => this.changeChartType('day')}
+            >
               {githubTexts.dailyView}
             </span>
           </div>
-          <canvas id="commits_yearly_review" ref={ref => this.commitsYearlyChart = ref}></canvas>
+          <canvas
+            id="commits_yearly_review"
+            ref={ref => (this.commitsYearlyChart = ref)}
+          />
           {commits && commits.length ? (
-            <div className={chartStyles["chart_bottom_container"]}>
-              <div className={chartStyles["chart_bottom"]}>
-                {getDateBySeconds(commits[0].week - 7 * 24 * 60 * 60)}
+            <div className={chartStyles.chart_bottom_container}>
+              <div className={chartStyles.chart_bottom}>
+                {getDateBySeconds(commits[0].week - (7 * 24 * 60 * 60))}
               </div>
-              <div className={chartStyles["chart_bottom"]}>
+              <div className={chartStyles.chart_bottom}>
                 {getDateBySeconds(commits[commits.length - 1].week)}
               </div>
             </div>
@@ -389,16 +399,16 @@ class CommitInfo extends React.Component {
     const { hasCommits, loaded, className } = this.props;
     let component;
     if (!loaded) {
-      component = (<Loading loading={true} />);
+      component = (<Loading loading />);
+    } else if (!hasCommits) {
+      component = (
+        <div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>
+      );
     } else {
-      if (!hasCommits) {
-        component = (<div className={cardStyles["empty_card"]}>{githubTexts.emptyText}</div>);
-      } else {
-        component = this.renderCommitsReview();
-      }
+      component = this.renderCommitsReview();
     }
     return (
-      <div className={cx(cardStyles["info_card"], className)}>
+      <div className={cx(cardStyles.info_card, className)}>
         {component}
       </div>
     );

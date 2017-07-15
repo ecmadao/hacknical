@@ -8,11 +8,12 @@ class SelectedRepos extends React.Component {
         <i
           aria-hidden="true"
           onClick={() => onRemove(id)}
-          className="fa fa-times-circle"></i>
-        {name}<br/>
+          className="fa fa-times-circle"
+        />
+        {name}<br />
         <span>{language}</span>
       </div>
-    )
+    );
   }
 }
 

@@ -1,6 +1,6 @@
 import locales from 'LOCALES';
 
-const resumeTexts = locales("resume");
+const resumeTexts = locales('resume');
 const navTexts = resumeTexts.navs;
 const genderTexts = resumeTexts.options.genders;
 const eduTexts = resumeTexts.options.edus;

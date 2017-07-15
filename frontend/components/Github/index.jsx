@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import GitHubSection from './GithubSection';
 
 
-const Github = (options) => (props) => {
+const Github = options => (props) => {
   const { isShare, callback } = options;
   return (
     <GitHubSection

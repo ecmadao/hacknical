@@ -40,11 +40,11 @@ class Rock {
   _setCursorAnimation(open = false) {
     return (name) => {
       const cursorStyle = styles[`cursor-${name}`];
-      this.$cursor
-        ? (open
-            ? this.$cursor.addClass(cursorStyle)
-            : this.$cursor.removeClass(cursorStyle))
-        : null;
+      if (this.$cursor && open) {
+        this.$cursor.addClass(cursorStyle);
+      } else if (this.$cursor) {
+        this.$cursor.removeClass(cursorStyle);
+      }
     };
   }
 
@@ -65,7 +65,7 @@ class Rock {
   }
 
   async _renderChars(chars, time = this.waitTime) {
-    for (let i = 0; i < chars.length; i++) {
+    for (let i = 0; i < chars.length; i += 1) {
       const char = chars[i];
       await this.wait(time);
       await this._setChar(char);

@@ -12,10 +12,12 @@ const section = (options) => {
   const { title, rows, className = '' } = options;
 
   return (
-    <div className={cx(
+    <div
+      className={cx(
         styles.section,
         className
-      )}>
+      )}
+    >
       <div className={styles.sectionHeader}>
         <div className={styles.sectionTitle}>
           {title}
@@ -35,9 +37,9 @@ const renderBaseInfo = (options = {}) => {
     type = 'normal',
     className = ''
   } = options;
-  if (!value)return null;
+  if (!value) return null;
   const iconDOM = icon
-    ? (<i className={`fa fa-${icon}`} aria-hidden="true"></i>)
+    ? (<i className={`fa fa-${icon}`} aria-hidden="true" />)
     : '';
 
   const linkClass = cx(
@@ -64,6 +66,7 @@ const renderBaseInfo = (options = {}) => {
       <a
         href={`tel:${url}`}
         target="_blank"
+        rel="noopener noreferrer"
         className={linkClass}
       >
         {iconDOM}
@@ -75,6 +78,7 @@ const renderBaseInfo = (options = {}) => {
       <a
         href={validateUrl(url)}
         target="_blank"
+        rel="noopener noreferrer"
         className={linkClass}
       >
         {iconDOM}
@@ -91,16 +95,14 @@ const renderBaseInfo = (options = {}) => {
   );
 };
 
-const renderProjects = (projects = []) => {
-  return projects.map((project, index) => {
+const renderProjects = (projects = []) =>
+  projects.map((project, index) => {
     const { name, url, details } = project;
-    const projectDetails = details.map((detail, i) => {
-      return (
-        <li key={i}>
-          {detail}
-        </li>
-      );
-    });
+    const projectDetails = details.map((detail, i) => (
+      <li key={i}>
+        {detail}
+      </li>
+    ));
     return (
       <div key={index} className={styles.projectSection}>
         {renderBaseInfo({
@@ -114,23 +116,21 @@ const renderProjects = (projects = []) => {
       </div>
     );
   });
-};
+
 
 const renderPersonalProjectsRow = (options = {}) => {
   const { url, desc, techs, title, index } = options;
 
-  const projectTechs = techs.map((tech, i) => {
-    return (
-      <Label
-        min
-        key={i}
-        text={tech}
-        clickable={false}
-        color="darkLight"
-        className={styles.label}
-      />
-    );
-  });
+  const projectTechs = techs.map((tech, i) => (
+    <Label
+      min
+      key={i}
+      text={tech}
+      clickable={false}
+      color="darkLight"
+      className={styles.label}
+    />
+  ));
   return (
     <div
       className={cx(
@@ -286,13 +286,11 @@ class ResumeComponentV2 extends React.PureComponent {
     const { supplements } = others;
     if (!supplements.length) { return null; }
 
-    const personalSupplements = supplements.map((supplement, index) => {
-      return (
-        <li key={index}>
-          {supplement}
-        </li>
-      );
-    });
+    const personalSupplements = supplements.map((supplement, index) => (
+      <li key={index}>
+        {supplement}
+      </li>
+    ));
 
     return (
       <div className={styles.sectionColumn}>
@@ -310,16 +308,17 @@ class ResumeComponentV2 extends React.PureComponent {
     if (!socialLinks.length) { return null; }
 
     const socials = socialLinks.map((social, index) => {
-      const { url, validateUrl, text } = social;
+      const { url, text } = social;
       return (
         <li key={index}>
-          <div className={styles["link_wrapper"]}>
+          <div className={styles.link_wrapper}>
             {text}
             &nbsp;:&nbsp;&nbsp;&nbsp;
             <a
               target="_blank"
-              className={styles["list_link"]}
-              href={validateUrl}
+              rel="noopener noreferrer"
+              className={styles.list_link}
+              href={social.validateUrl}
             >
               {url}
             </a>
@@ -339,12 +338,9 @@ class ResumeComponentV2 extends React.PureComponent {
   }
 
   renderSupplementsAndLinks() {
-    const { resume } = this.props;
-    const { others } = resume;
-
     const supplements = this.renderSupplements();
     const otherLinks = this.renderLinks();
-    let titles = [];
+    const titles = [];
     if (!supplements && !otherLinks) return null;
     if (supplements) titles.push('自我评价');
     if (otherLinks) titles.push('其他链接');
@@ -372,9 +368,10 @@ class ResumeComponentV2 extends React.PureComponent {
         <div className={styles.container}>
           <div
             className={cx(
-              styles["github_wrapper"],
-              showGithub && styles["github_wrapper_active"]
-            )}>
+              styles.github_wrapper,
+              showGithub && styles.github_wrapper_active
+            )}
+          >
             <a
               onClick={() => this.changeShowGithub(false)}
               className={cx(
@@ -383,14 +380,14 @@ class ResumeComponentV2 extends React.PureComponent {
                 styles.githubBack
               )}
             >
-              <i className="fa fa-arrow-left" aria-hidden="true"></i>
+              <i className="fa fa-arrow-left" aria-hidden="true" />
               返回
             </a>
             <GithubComponent
-              isShare={true}
-              githubSection={github}
-              containerStyle={styles["github_container"]}
+              isShare
               login={login}
+              githubSection={github}
+              containerStyle={styles.github_container}
             />
           </div>
         </div>
@@ -428,7 +425,7 @@ class ResumeComponentV2 extends React.PureComponent {
                 className: styles.headerInfo,
               })}
               {
-                useGithub ? (
+                useGithub && (
                   githubUrl ? renderBaseInfo({
                     url: githubUrl,
                     icon: 'github',
@@ -441,11 +438,11 @@ class ResumeComponentV2 extends React.PureComponent {
                         styles.baseInfo
                       )}
                     >
-                      <i className="fa fa-github" aria-hidden="true"></i>
+                      <i className="fa fa-github" aria-hidden="true" />
                       查看我的 GitHub 总结报告
                     </a>
                   )
-                ) : ''
+                )
               }
             </div>
           </div>
