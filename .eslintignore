@@ -2,3 +2,4 @@ dist/**
 node_modules/**
 src/assets/**
 static/**
+frontend/webpack/*

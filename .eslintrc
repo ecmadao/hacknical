@@ -45,6 +45,7 @@
     "require": true,
     "$": true,
     "window": true,
-    "QRCode": true
+    "QRCode": true,
+    "particlesJS": true
   }
 }

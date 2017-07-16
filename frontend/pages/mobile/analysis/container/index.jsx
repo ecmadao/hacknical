@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 import cx from 'classnames';
 import deepcopy from 'deepcopy';
 import objectAssign from 'UTILS/object-assign';
-import { Loading, Input, IconButton } from 'light-ui';
+import { Loading } from 'light-ui';
 
 import Api from 'API/index';
 import dateHelper from 'UTILS/date';
@@ -124,8 +124,10 @@ class MobileAnalysis extends React.Component {
     const validatePageViews = [];
     pageViews.forEach((pageView) => {
       const { count, date } = pageView;
-      const filterPageViews = validatePageViews.filter(validatePageView => validatePageView.date === date);
-      if(filterPageViews.length) {
+      const filterPageViews = validatePageViews.filter(
+        validatePageView => validatePageView.date === date
+      );
+      if (filterPageViews.length) {
         filterPageViews[0].count += count;
       } else {
         validatePageViews.push({
@@ -179,12 +181,8 @@ class MobileAnalysis extends React.Component {
         },
         tooltips: {
           callbacks: {
-            title: (item, data) => {
-              return item[0].xLabel
-            },
-            label: (item, data) => {
-              return `${item.yLabel} PV`
-            }
+            title: item => item[0].xLabel,
+            label: item => `${item.yLabel} PV`
           }
         }
       }
@@ -257,9 +255,9 @@ class MobileAnalysis extends React.Component {
     const { pageViews, viewDevices, viewSources } = this.dataObj;
     const pageViewCounts = pageViews.map(item => item.count);
 
-    const viewCount = pageViewCounts.reduce((prev, current) => {
-      return current + prev
-    }, 0);
+    const viewCount = pageViewCounts.reduce(
+      (prev, current) => current + prev, 0
+    );
     const maxViewPerHour = Math.max(...pageViewCounts);
 
     const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count));
@@ -294,7 +292,7 @@ class MobileAnalysis extends React.Component {
     return (
       <Slick
         sliders={sliders}
-        className={styles["card_info_wrapper"]}
+        className={styles.card_info_wrapper}
       />
     );
   }
@@ -303,38 +301,40 @@ class MobileAnalysis extends React.Component {
     const { activeTab } = this.state;
 
     return (
-      <div className={styles["analysis"]}>
+      <div className={styles.analysis}>
 
         <div className={styles.tabs}>
-          <div className={styles['tabs_wrapper']}>
+          <div className={styles.tabs_wrapper}>
             <div
               onClick={() => this.onTabChange('github')}
-              className={cx(styles.tab, activeTab === 'github' && styles.tabActive)}>
+              className={cx(styles.tab, activeTab === 'github' && styles.tabActive)}
+            >
               GitHub
             </div>
             <div
               onClick={() => this.onTabChange('resume')}
-              className={cx(styles.tab, activeTab === 'resume' && styles.tabActive)}>
+              className={cx(styles.tab, activeTab === 'resume' && styles.tabActive)}
+            >
               简历
             </div>
           </div>
         </div>
 
-        {this.loading ? (<Loading loading={true} />) : this.renderCardInfo()}
-        <div className={sharedStyles["mobile_card"]}>
-          <div
-            className={styles["share_info_chart"]}>
+        {this.loading ? (<Loading loading />) : this.renderCardInfo()}
+        <div className={sharedStyles.mobile_card}>
+          <div className={styles.share_info_chart}>
             <canvas
-              className={sharedStyles["min_canvas"]}
-              ref={ref => this.viewDevices = ref}></canvas>
+              className={sharedStyles.min_canvas}
+              ref={ref => (this.viewDevices = ref)}
+            />
           </div>
         </div>
-        <div className={sharedStyles["mobile_card"]}>
-          <div
-            className={styles["share_info_chart"]}>
+        <div className={sharedStyles.mobile_card}>
+          <div className={styles.share_info_chart}>
             <canvas
-              className={sharedStyles["min_canvas"]}
-              ref={ref => this.viewSources = ref}></canvas>
+              className={sharedStyles.min_canvas}
+              ref={ref => (this.viewSources = ref)}
+            />
           </div>
         </div>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import actions from '../redux/actions';
+import profileActions from '../redux/actions';
 import styles from '../styles/profile.css';
 import locales from 'LOCALES';
 import ShareAnalysis from './ShareAnalysis';
@@ -23,7 +23,7 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "resume"
+      activeTab: 'resume'
     };
     this.changeActiveTab = this.changeActiveTab.bind(this);
   }
@@ -43,8 +43,9 @@ class Profile extends React.Component {
       return (
         <div className={sectionClass} key={index}>
           <div
-            className={styles["section_wrapper"]}
-            onClick={() => this.changeActiveTab(id)}>
+            className={styles.section_wrapper}
+            onClick={() => this.changeActiveTab(id)}
+          >
             {text}
           </div>
         </div>
@@ -61,7 +62,7 @@ class Profile extends React.Component {
         <div className={styles.navigation}>
           {this.renderNavigation()}
         </div>
-        {activeTab === "resume" ? (
+        {activeTab === 'resume' ? (
           <ShareAnalysis
             actions={{
               fetchShareData: actions.fetchResumeShareData,
@@ -88,13 +89,15 @@ class Profile extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {...state.profile}
+  return {
+    ...state.profile
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
-  }
+    actions: bindActionCreators(profileActions, dispatch)
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

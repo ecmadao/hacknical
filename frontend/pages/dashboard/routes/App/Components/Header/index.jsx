@@ -1,5 +1,4 @@
-import React, { PropTypes } from 'react';
-import objectAssign from 'UTILS/object-assign';
+import React from 'react';
 import { Tipso } from 'light-ui';
 
 import Api from 'API';
@@ -27,21 +26,20 @@ class Header extends React.Component {
   }
 
   renderLanguageOptions(options) {
-    const optionDOMs = options.map((option, index) => {
-      return (
-        <a
-          key={index}
-          href={`/?locale=${option.id}`}
-          className={styles["dropdown_item"]}>
-          {option.text}
-        </a>
-      )
-    });
+    const optionDOMs = options.map((option, index) => (
+      <a
+        key={index}
+        href={`/?locale=${option.id}`}
+        className={styles.dropdown_item}
+      >
+        {option.text}
+      </a>
+    ));
     return (
-      <div className={styles["dropdown_wrapper"]}>
+      <div className={styles.dropdown_wrapper}>
         {optionDOMs}
       </div>
-    )
+    );
   }
 
   render() {
@@ -50,67 +48,75 @@ class Header extends React.Component {
     const languageOptions = languages(locale);
 
     return (
-      <div className={styles["app_header"]}>
-        <div className={styles["app_header_container"]}>
-          <div className={styles["header_zen"]}>
+      <div className={styles.app_header}>
+        <div className={styles.app_header_container}>
+          <div className={styles.header_zen}>
             <Tipso
               theme="dark"
               position="bottom"
-              className={styles["zen_tipso"]}
-              tipsoContent={(<span>{headers.zen}</span>)}>
-              <span
-                className={styles.zen}>
+              className={styles.zen_tipso}
+              tipsoContent={(<span>{headers.zen}</span>)}
+            >
+              <span className={styles.zen}>
                 {zen}
               </span>
             </Tipso>
           </div>
-          <div className={styles["header_menus"]}>
+          <div className={styles.header_menus}>
             {this.renderLanguageOptions(languageOptions)}
             <Tipso
               theme="dark"
               position="bottom"
-              className={styles["menu_tipso"]}
-              tipsoContent={(<span>{headers.about}</span>)}>
+              className={styles.menu_tipso}
+              tipsoContent={(<span>{headers.about}</span>)}
+            >
               <div className={styles.headerMenuWrapper}>
                 <a
                   href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale || 'en'}.md`}
                   target="_blank"
-                  className={styles["header_menu_icon_right"]}>
-                  <i className="fa fa-question-circle" aria-hidden="true"></i>
+                  rel="noopener noreferrer"
+                  className={styles.header_menu_icon_right}
+                >
+                  <i className="fa fa-question-circle" aria-hidden="true" />
                 </a>
               </div>
             </Tipso>
             <Tipso
               theme="dark"
               position="bottom"
-              className={styles["menu_tipso"]}
-              tipsoContent={(<span>{headers.feedback}</span>)}>
+              className={styles.menu_tipso}
+              tipsoContent={(<span>{headers.feedback}</span>)}
+            >
               <div className={styles.headerMenuWrapper}>
                 <a
-                  href="https://github.com/ecmadao/hacknical/issues"
                   target="_blank"
-                  className={styles["header_menu_icon_right"]}>
-                  <i className="fa fa-info-circle" aria-hidden="true"></i>
+                  rel="noopener noreferrer"
+                  className={styles.header_menu_icon_right}
+                  href="https://github.com/ecmadao/hacknical/issues"
+                >
+                  <i className="fa fa-info-circle" aria-hidden="true" />
                 </a>
               </div>
             </Tipso>
             <Tipso
               theme="dark"
               position="bottom"
-              className={styles["menu_tipso"]}
-              tipsoContent={(<span>{headers.logout}</span>)}>
+              className={styles.menu_tipso}
+              tipsoContent={(<span>{headers.logout}</span>)}
+            >
               <div className={styles.headerMenuWrapper}>
                 <a
                   href="/user/logout"
-                  className={styles["header_menu_icon_right"]}>
-                  <i className="fa fa-sign-out" aria-hidden="true"></i>
+                  className={styles.header_menu_icon_right}
+                >
+                  <i className="fa fa-sign-out" aria-hidden="true" />
                 </a>
               </div>
             </Tipso>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

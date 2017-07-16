@@ -1,3 +1,5 @@
+/* eslint new-cap: "off" */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
@@ -152,7 +154,9 @@ class GitHubMobileShare extends React.Component {
       const thisMonthKey = `${year}-${parseInt(month, 10)}`;
       const totalCommits = item.days.slice(sliceIndex).reduce((pre, next) => pre + next, 0);
       const targetCommits = monthlyCommits[thisMonthKey];
-      monthlyCommits[thisMonthKey] = isNaN(targetCommits) ? totalCommits : totalCommits + targetCommits;
+      monthlyCommits[thisMonthKey] = isNaN(targetCommits)
+        ? totalCommits
+        : totalCommits + targetCommits;
 
       if (sliceIndex > 0) {
         const preMonthKey = parseInt(month, 10) - 1 <= 0 ?
@@ -160,7 +164,9 @@ class GitHubMobileShare extends React.Component {
           `${year}-${parseInt(month, 10) - 1}`;
         const preTotalCommits = item.days.slice(0, sliceIndex).reduce((pre, next) => pre + next, 0);
         const preTargetCommits = monthlyCommits[preMonthKey];
-        monthlyCommits[preMonthKey] = isNaN(preTargetCommits) ? preTotalCommits : preTotalCommits + preTargetCommits;
+        monthlyCommits[preMonthKey] = isNaN(preTargetCommits)
+          ? preTotalCommits
+          : preTotalCommits + preTargetCommits;
       }
     });
 
@@ -234,8 +240,13 @@ class GitHubMobileShare extends React.Component {
   renderLanguagesChart() {
     const { languageSkills } = this.state;
 
-    const languages = [], skills = [];
-    const languageArray = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null').slice(0, 6).map(language => ({ star: languageSkills[language], language })).sort(sortByLanguageStar);
+    const languages = [];
+    const skills = [];
+    const languageArray = Object.keys(languageSkills)
+      .filter(language => languageSkills[language] && language !== 'null')
+      .slice(0, 6)
+      .map(language => ({ star: languageSkills[language], language }))
+      .sort(sortByLanguageStar);
     languageArray.forEach((obj) => {
       languages.push(obj.language);
       skills.push(obj.star);
@@ -294,16 +305,16 @@ class GitHubMobileShare extends React.Component {
           xAxes: [{
             display: false,
             gridLines: {
-              display:false
+              display: false
             }
           }],
           yAxes: [{
             display: false,
             gridLines: {
-              display:false
+              display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }]
         },
@@ -320,29 +331,36 @@ class GitHubMobileShare extends React.Component {
     const maxIndex = getMaxIndex(dailyCommits);
     const dayName = DAYS[maxIndex];
     // first commit
-    const [firstCommitWeek, firstCommitIndex] = getFirstMatchTarget(commitDatas.commits, (item) => item.total);
-    const [firstCommitDay, dayIndex] = getFirstMatchTarget(firstCommitWeek.days, (day) => day > 0);
-    const firstCommitDate = getDateBySeconds(firstCommitWeek.week + dayIndex * 24 * 60 * 60);
+    const firstCommitWeek = getFirstMatchTarget(
+      commitDatas.commits, item => item.total
+    )[0];
+    const dayIndex = getFirstMatchTarget(
+      firstCommitWeek.days, day => day > 0
+    )[1];
+    const firstCommitDate = getDateBySeconds(
+      firstCommitWeek.week + (dayIndex * 24 * 60 * 60)
+    );
 
     return (
       <CardGroup
         id="commits_wrapper"
         className={cx(
-          styles["info_with_chart_wrapper"],
-          sharedStyles["info_share"]
-        )}>
+          styles.info_with_chart_wrapper,
+          sharedStyles.info_share
+        )}
+      >
         <CardGroup>
           <InfoCard
             tipsoTheme="dark"
             mainText={parseInt(total / 52, 10)}
             subText={githubTexts.commits.averageCount}
-            mainTextStyle={sharedStyles["main_text"]}
+            mainTextStyle={sharedStyles.main_text}
           />
           <InfoCard
             tipsoTheme="dark"
             mainText={totalCommits}
             subText={githubTexts.commits.maxCommitCount}
-            mainTextStyle={sharedStyles["main_text"]}
+            mainTextStyle={sharedStyles.main_text}
           />
         </CardGroup>
         <CardGroup>
@@ -350,13 +368,13 @@ class GitHubMobileShare extends React.Component {
             tipsoTheme="dark"
             mainText={dayName}
             subText={githubTexts.commits.maxDay}
-            mainTextStyle={sharedStyles["main_text"]}
+            mainTextStyle={sharedStyles.main_text}
           />
           <InfoCard
             tipsoTheme="dark"
             mainText={firstCommitDate}
             subText={githubTexts.commits.firstCommit}
-            mainTextStyle={sharedStyles["main_text"]}
+            mainTextStyle={sharedStyles.main_text}
           />
         </CardGroup>
       </CardGroup>
@@ -368,7 +386,7 @@ class GitHubMobileShare extends React.Component {
     const [totalStar, totalFork] = github.getTotalCount(repos);
 
     const maxStaredRepos = repos[0] ? repos[0].name : '';
-    const maxStaredPerRepos = repos[0] ? repos[0]['stargazers_count'] : 0;
+    const maxStaredPerRepos = repos[0] ? repos[0].stargazers_count : 0;
     const yearlyRepos = github.getYearlyRepos(repos);
 
     const sliders = [
@@ -420,18 +438,20 @@ class GitHubMobileShare extends React.Component {
         opacity: `${(languagesCount - index) / languagesCount}`,
       };
       const barStyle = {
-        width: `${(languageUsed[language] * 100 / maxUsedCounts).toFixed(2)}%`
+        width: `${((languageUsed[language] * 100) / maxUsedCounts).toFixed(2)}%`
       };
       return (
-        <div className={styles["repos_item"]} key={index}>
+        <div className={styles.repos_item} key={index}>
           <div
             style={barStyle}
-            className={styles["item_chart"]}>
+            className={styles.item_chart}
+          >
             <div
               style={style}
-              className={styles["commit_bar"]}></div>
+              className={styles.commit_bar}
+            />
           </div>
-          <div className={styles["item_data"]}>
+          <div className={styles.item_data}>
             {language}
           </div>
         </div>
@@ -441,101 +461,120 @@ class GitHubMobileShare extends React.Component {
 
   render() {
     const {
-      user,
       commits,
       reposLoaded,
       commitLoaded,
       languageSkills,
       languageDistributions
     } = this.state;
-    const { updated_at } = user;
 
     if (!reposLoaded) {
       return (
-        <div className={sharedStyles["loading_container"]}>
-          <Loading loading={true} />
+        <div className={sharedStyles.loading_container}>
+          <Loading loading />
         </div>
       );
     }
 
-    const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
-    const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
+    const reposCount = Object.keys(languageDistributions)
+      .map(key => languageDistributions[key]);
+    const starCount = Object.keys(languageSkills)
+      .map(key => languageSkills[key]);
     const maxReposCountIndex = getMaxIndex(reposCount);
     const maxStarCountIndex = getMaxIndex(starCount);
 
     return (
-      <div className={styles["not_admin"]}>
-        <div className={cx(sharedStyles["mobile_card"], styles["mobile_card_full"])}>
+      <div className={styles.not_admin}>
+        <div className={cx(sharedStyles.mobile_card, styles.mobile_card_full)}>
           <div
             id="repos_chart"
-            className={cx(sharedStyles["info_chart"], styles["repos_chart"])}>
+            className={cx(sharedStyles.info_chart, styles.repos_chart)}
+          >
             <canvas
-              className={styles["max_canvas"]}
-              ref={ref => this.reposReview = ref}></canvas>
+              className={styles.max_canvas}
+              ref={ref => (this.reposReview = ref)}
+            />
           </div>
           {this.renderReposInfo()}
         </div>
 
-        <div className={
-          cx(
-            sharedStyles["mobile_card"],
-            styles["mobile_card_full"],
-            styles["languages_line"]
-          )
-        }>
-          <div className={styles["repos_wrapper"]}>
-            <div className={styles["repos_contents_wrapper"]}>
-              <div className={styles["repos_contents"]}>
+        <div
+          className={cx(
+            sharedStyles.mobile_card,
+            styles.mobile_card_full,
+            styles.languages_line
+          )}
+        >
+          <div className={styles.repos_wrapper}>
+            <div className={styles.repos_contents_wrapper}>
+              <div className={styles.repos_contents}>
                 {reposLoaded ? this.renderLanguageLines() : ''}
               </div>
-              <div className={styles["repos_yAxes"]}>
-                <div className={styles["yAxes_text"]}>{githubTexts.languages.frequency}</div>
+              <div className={styles.repos_yAxes}>
+                <div className={styles.yAxes_text}>
+                  {githubTexts.languages.frequency}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className={cx(styles["mobile_card_full"], sharedStyles["mobile_card_with_info"])}>
+        <div
+          className={cx(
+            styles.mobile_card_full,
+            sharedStyles.mobile_card_with_info
+          )}
+        >
           <CardGroup
             id="language_wrapper"
             className={cx(
-              sharedStyles["info_with_chart"],
-              sharedStyles["info_share"]
-            )}>
+              sharedStyles.info_with_chart,
+              sharedStyles.info_share
+            )}
+          >
             <InfoCard
               tipsoTheme="dark"
-              mainTextStyle={sharedStyles["main_text"]}
+              mainTextStyle={sharedStyles.main_text}
               mainText={Object.keys(languageDistributions)[maxReposCountIndex]}
               subText={githubTexts.languages.maxReposCountLanguage}
             />
             <InfoCard
               tipsoTheme="dark"
-              mainTextStyle={sharedStyles["main_text"]}
+              mainTextStyle={sharedStyles.main_text}
               mainText={Object.keys(languageSkills)[maxStarCountIndex]}
               subText={githubTexts.languages.maxStarLanguage}
             />
           </CardGroup>
           <div
             id="skill_chart"
-            className={sharedStyles["info_chart"]} style={{ marginTop: '15px' }}>
-            <canvas ref={ref => this.languageSkill = ref} className={sharedStyles["min_canvas"]}></canvas>
+            className={sharedStyles.info_chart}
+            style={{ marginTop: '15px' }}
+          >
+            <canvas
+              ref={ref => (this.languageSkill = ref)}
+              className={sharedStyles.min_canvas}
+            />
           </div>
         </div>
 
         {commitLoaded && commits.length ? (
           <div
             className={cx(
-              styles["mobile_card_full"], sharedStyles["mobile_card_with_info"], styles["mobile_card_no_bottom"]
+              styles.mobile_card_full,
+              sharedStyles.mobile_card_with_info,
+              styles.mobile_card_no_bottom
             )}
           >
             {this.renderCommitsInfo()}
             <div
               id="commits_chart"
-              className={sharedStyles["info_chart"]}>
+              className={sharedStyles.info_chart}
+            >
               <strong>{githubTexts.commits.monthlyCommitChartTitle}</strong>
               <canvas
-                className={sharedStyles["max_canvas"]}
-                ref={ref => this.commitsYearlyChart = ref}></canvas>
+                className={sharedStyles.max_canvas}
+                ref={ref => (this.commitsYearlyChart = ref)}
+              />
             </div>
           </div>
         ) : ''}

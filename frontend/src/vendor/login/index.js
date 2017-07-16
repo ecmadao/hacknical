@@ -10,7 +10,7 @@ const formatNumber = (number) => {
   const offset = numberString.length % 3;
   let result = '';
   for (let i = loop - 1; i >= 0; i -= 1) {
-    const start = offset + 3 * i;
+    const start = offset + (3 * i);
     const end = start + 3;
     const section = numberString.slice(start, end);
     result = `,${section}${result}`;
@@ -30,12 +30,13 @@ const countUp = (options = {}) => {
   } = options;
   let startTime = 0;
   const dec = Math.pow(10, 0);
-  let progress, value;
+  let progress;
+  let value;
   elem.innerHTML = '';
   const startCount = (timestamp) => {
-    if(!startTime) startTime = timestamp;
+    if (!startTime) startTime = timestamp;
     progress = timestamp - startTime;
-    value = startVal + (endVal - startVal) * (progress / duration);
+    value = startVal + ((endVal - startVal) * (progress / duration));
     value = (value > endVal) ? endVal : value;
     value = Math.floor(value * dec) / dec;
     elem.innerHTML = formatNumber(value);

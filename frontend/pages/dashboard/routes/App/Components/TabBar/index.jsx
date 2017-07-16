@@ -1,13 +1,12 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Headroom from 'headroom.js';
 import AppAction from '../../redux/actions';
 import TABS from 'SRC/data/tab';
-import styles from 'SRC/vendor/tabBar/index.css';
 import Tab from './Tab';
 import locales from 'LOCALES';
 
-const resumeTexts = locales("resume");
+const resumeTexts = locales('resume');
 
 /**
  * TODO: Add animation
@@ -38,21 +37,19 @@ class TabBar extends React.Component {
   renderTab() {
     const { activeTab } = this.props;
 
-    return TABS.map((tab, index) => {
-      return (
-        <Tab
-          key={index}
-          tab={tab}
-          active={activeTab === tab.id}
-          onChange={this.changeActiveTab}
-        />
-      );
-    });
+    return TABS.map((tab, index) => (
+      <Tab
+        key={index}
+        tab={tab}
+        active={activeTab === tab.id}
+        onChange={this.changeActiveTab}
+      />
+    ));
   }
 
   render() {
     return (
-      <div className="app_tabs" ref={ref => this.headroom = ref}>
+      <div className="app_tabs" ref={ref => (this.headroom = ref)}>
         <div className="app_tabs_container">
           {this.renderTab()}
         </div>

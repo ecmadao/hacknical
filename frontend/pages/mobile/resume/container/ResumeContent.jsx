@@ -32,14 +32,15 @@ const LinkInfo = (options = LINK_OPTIONS) => {
   return (
     <a
       target="_blank"
+      rel="noopener noreferrer"
       href={type === 'link' ? validateUrl(url) : url}
       className={cx(styles.linkText, className)}
     >
       {showIcon ? (
         icon ? (
-          <i className={`fa fa-${icon}`} aria-hidden="true"></i>
+          <i className={`fa fa-${icon}`} aria-hidden="true" />
         ) : (
-          <i className="fa fa-link" aria-hidden="true"></i>
+          <i className="fa fa-link" aria-hidden="true" />
         )
       ) : ''}
       {text}
@@ -53,7 +54,7 @@ const HeaderInfo = (options = {}) => {
   if (url) {
     options.type = 'link';
     return LinkInfo(options);
-  };
+  }
   return (
     <div className={styles['project-header']}>{text}</div>
   );
@@ -101,7 +102,7 @@ class ResumeContent extends React.Component {
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
-              {startTime}<br/>~<br/>{endTime}
+              {startTime}<br />~<br />{endTime}
             </div>
             <div className={styles['row-right']}>
               <div className={styles.mainText}>{school}</div>
@@ -139,7 +140,7 @@ class ResumeContent extends React.Component {
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
               {startTime}
-              <br/>~<br/>
+              <br />~<br />
               {endTime}
             </div>
             <div className={cx(styles['row-right'], styles['right-container'])}>
@@ -173,18 +174,16 @@ class ResumeContent extends React.Component {
       .filter(project => project.name)
       .map((project, index) => {
         const { name, url, details } = project;
-        const projectDetails = details.map((detail, i) => {
-          return (
-            <li
-              key={i}
-              className={cx(
-                hasUrl(detail) && styles['section-withlink']
-              )}
-            >
-              {detail}
-            </li>
-          );
-        });
+        const projectDetails = details.map((detail, i) => (
+          <li
+            key={i}
+            className={cx(
+              hasUrl(detail) && styles['section-withlink']
+            )}
+          >
+            {detail}
+          </li>
+        ));
         return (
           <div key={index} className={styles['section-project']}>
             {HeaderInfo({
@@ -244,18 +243,16 @@ class ResumeContent extends React.Component {
     const { supplements } = others;
     if (!supplements.length) { return; }
 
-    const personalSupplements = supplements.map((supplement, index) => {
-      return (
-        <li
-          key={index}
-          className={cx(
-            hasUrl(supplement) && styles['section-withlink']
-          )}
-        >
-          {supplement}
-        </li>
-      );
-    });
+    const personalSupplements = supplements.map((supplement, index) => (
+      <li
+        key={index}
+        className={cx(
+          hasUrl(supplement) && styles['section-withlink']
+        )}
+      >
+        {supplement}
+      </li>
+    ));
 
     return (
       <div className={styles['resume-section']}>
@@ -264,11 +261,13 @@ class ResumeContent extends React.Component {
             自我评价
           </div>
           <div className={styles['row-right']}>
-            <ul className={cx(
+            <ul
+              className={cx(
                 styles['section-list'],
                 styles.sideText,
                 styles.stress
-              )}>
+              )}
+            >
               {personalSupplements}
             </ul>
           </div>
@@ -320,7 +319,7 @@ class ResumeContent extends React.Component {
 
     return (
       <div className={styles['resume-container']}>
-        {this.props.loading ? (<Loading loading={true} />) : ''}
+        {this.props.loading ? (<Loading loading />) : ''}
         <div className={styles['header-section']}>
           {this.renderHeader()}
           {this.renderSlick()}

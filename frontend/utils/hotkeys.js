@@ -53,6 +53,8 @@ class Hotkeys {
       case 'right':
         targetCode = 39;
         break;
+      default:
+        targetCode = null;
     }
     return (e) => {
       const { keyCode } = e;

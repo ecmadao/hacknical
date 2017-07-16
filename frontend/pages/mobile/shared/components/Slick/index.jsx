@@ -14,7 +14,7 @@ class Slick extends React.Component {
     }
   }
 
-  componentDidUpdate(preProps, preState) {
+  componentDidUpdate(preProps) {
     const { sliders } = this.props;
     if (sliders !== preProps.sliders) {
       this.initialSlick();
@@ -26,20 +26,19 @@ class Slick extends React.Component {
   }
 
   renderSliders() {
-    return this.props.sliders.map((slider, index) => {
-      return (
-        <div
-          key={index}
-          className={sharedStyles["chart_info_wrapper"]}>
-          <MinInfoCard
-            icon={slider.icon}
-            mainText={slider.mainText}
-            subText={slider.subText}
-            className={sharedStyles["chart_info_card"]}
-          />
-        </div>
-      );
-    });
+    return this.props.sliders.map((slider, index) => (
+      <div
+        key={index}
+        className={sharedStyles.chart_info_wrapper}
+      >
+        <MinInfoCard
+          icon={slider.icon}
+          mainText={slider.mainText}
+          subText={slider.subText}
+          className={sharedStyles.chart_info_card}
+        />
+      </div>
+    ));
   }
 
   render() {
@@ -48,12 +47,14 @@ class Slick extends React.Component {
       <div
         id={wrapperId}
         className={cx(
-          sharedStyles["share_info_wrapper"],
+          sharedStyles.share_info_wrapper,
           className
-        )}>
+        )}
+      >
         <div
           id={slickId}
-          className={sharedStyles["chart_info_container"]}>
+          className={sharedStyles.chart_info_container}
+        >
           {this.renderSliders()}
         </div>
       </div>

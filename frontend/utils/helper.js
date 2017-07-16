@@ -44,7 +44,7 @@ export const getMaxTarget = (array, func = item => [item]) => {
   let resultIndex = 0;
   let result = 0;
 
-  array.forEach((item, index) => {
+  array.forEach((item) => {
     const target = func(item);
     const currentMaxIndex = getMaxIndex(target);
     const currentMax = parseInt(target[currentMaxIndex], 10);
@@ -60,7 +60,7 @@ export const getFirstMatchTarget = (array, target) => {
   let index = 0;
   let result = array[index];
 
-  for(let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     const item = array[i];
     if (typeof target === 'object') {
       const check = Object.keys(target).every(key => item[key] === target[key]);
@@ -75,12 +75,10 @@ export const getFirstMatchTarget = (array, target) => {
         index = i;
         break;
       }
-    } else {
-      if (item === target) {
-        result = item;
-        index = i;
-        break;
-      }
+    } else if (item === target) {
+      result = item;
+      index = i;
+      break;
     }
   }
   return [result, index];
@@ -89,7 +87,7 @@ export const getFirstMatchTarget = (array, target) => {
 export const getFirstMatchIndex = (array, target) => {
   let index = 0;
 
-  for(let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     const item = array[i];
     if (typeof target === 'object') {
       const check = Object.keys(target).every(key => item[key] === target[key]);
@@ -102,11 +100,9 @@ export const getFirstMatchIndex = (array, target) => {
         index = i;
         break;
       }
-    } else {
-      if (item === target) {
-        index = i;
-        break;
-      }
+    } else if (item === target) {
+      index = i;
+      break;
     }
   }
   return index;
@@ -116,25 +112,25 @@ export const sortRepos = (key = 'stargazers_count', func = parseInt) =>
   (firstRepos, secRepos) =>
     func(secRepos[key]) - func(firstRepos[key]);
 
-export const sortLanguages = (obj) =>
+export const sortLanguages = obj =>
   (firstLanguage, secLanguage) =>
     obj[secLanguage] - obj[firstLanguage];
 
 export const getOffsetLeft = (start, end) => (left) => {
   const length = end - start;
-  return `${Math.floor((left - start) * 100 / length)}%`;
+  return `${Math.floor(((left - start) * 100) / length)}%`;
 };
 
 export const getOffsetRight = (start, end) => (right) => {
   const length = end - start;
-  return `${Math.floor((end - right) * 100 / length)}%`;
+  return `${Math.floor(((end - right) * 100) / length)}%`;
 };
 
-export const sortBySeconds = (key) =>
+export const sortBySeconds = key =>
   (thisObj, nextObj) =>
     getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
 
-export const sortByX = (key) =>
+export const sortByX = key =>
   (thisObj, nextObj) =>
     thisObj[key] - nextObj[key];
 
@@ -173,7 +169,7 @@ export const splitArray = (array, size = 1) => {
   }
   const loop = Math.floor(length / size) + 1;
   return Array
-    .from(new Array(5), (item, index) => 0)
+    .from(new Array(5), () => 0)
     .map((i, index) => array.slice(index * size, (index + 1) * size));
 };
 

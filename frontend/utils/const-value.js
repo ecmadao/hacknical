@@ -1,4 +1,3 @@
-import { GREEN_COLORS } from './colors';
 import locales from 'LOCALES';
 
 const days = locales('datas').days;

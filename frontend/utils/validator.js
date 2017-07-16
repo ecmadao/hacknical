@@ -4,7 +4,7 @@ const email = value => validator.isEmail(value);
 
 const phone = value => validator.isMobilePhone(value, 'zh-CN');
 
-const empty = value => validator.isEmpty(value);
+// const empty = value => validator.isEmpty(value);
 
 const number = value => validator.isInt(value, {
   min: 1000,
@@ -20,10 +20,11 @@ const string = value => validator.isByteLength(value, {
 
 const textarea = (value, max) => validator.isByteLength(value, {
   min: 0,
-  max: parseInt(max)
+  max: parseInt(max, 10)
 });
 
-const URL_REG = /(https|http|ftp|rtsp|mms)?:\/\/([a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9])(com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])*/i;
+const URL_REG =
+  /(https|http|ftp|rtsp|mms)?:\/\/([a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9])(com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])*/i;
 
 const hasUrl = text => URL_REG.test(text);
 

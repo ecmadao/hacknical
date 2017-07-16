@@ -7,7 +7,6 @@ import {
   WORK_EXPERIENCE,
   WORK_PROJECT,
   PERSONAL_PROJECT,
-  SOCIAL_LINKS
 } from 'SHARED/datas/resume';
 import {
   objectassign,
@@ -74,7 +73,7 @@ const reducers = handleActions({
       posting: action.payload
     });
   },
-  RESET_EDITED(state, action) {
+  RESET_EDITED(state) {
     return ({
       ...state,
       edited: false,
@@ -91,7 +90,7 @@ const reducers = handleActions({
   },
 
   // educations
-  ADD_EDUCATION(state, action) {
+  ADD_EDUCATION(state) {
     const { educations } = state;
     const newEdu = objectassign(EDU, {
       startTime: getDateBeforeYears(1),
@@ -128,7 +127,7 @@ const reducers = handleActions({
   },
 
   // workExperiences
-  ADD_WORK_EXPERIENCE(state, action) {
+  ADD_WORK_EXPERIENCE(state) {
     const { workExperiences } = state;
     return ({
       ...state,
@@ -265,7 +264,7 @@ const reducers = handleActions({
   },
 
   // personalProjects
-  ADD_PERSONAL_PROJECT(state, action) {
+  ADD_PERSONAL_PROJECT(state) {
     const { personalProjects } = state;
     return ({
       ...state,

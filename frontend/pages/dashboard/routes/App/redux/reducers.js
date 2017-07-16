@@ -15,7 +15,7 @@ const reducers = handleActions({
     });
   },
 
-  LOGOUT_USER(state, action) {
+  LOGOUT_USER(state) {
     return ({
       ...state,
       userId: null

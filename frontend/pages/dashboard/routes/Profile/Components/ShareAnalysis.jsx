@@ -17,12 +17,10 @@ import { sortByX } from 'UTILS/helper';
 import { GREEN_COLORS } from 'UTILS/colors';
 import { RADAR_CONFIG, LINE_CONFIG } from 'SHARED/datas/chart_config';
 import dateHelper from 'UTILS/date';
-import WECHAT from 'SRC/data/wechat';
 import styles from '../styles/profile.css';
 import locales from 'LOCALES';
 
 const profileTexts = locales('dashboard').profile.common;
-const WECHAT_FROM = Object.keys(WECHAT);
 const sortByCount = sortByX('count');
 
 class ShareAnalysis extends React.Component {
@@ -62,22 +60,22 @@ class ShareAnalysis extends React.Component {
   }
 
   renderShareController() {
-    const { actions, info, index, text } = this.props;
+    const { info, index, text } = this.props;
     const { url } = info;
 
     return (
-      <div className={styles["share_controller"]}>
+      <div className={styles.share_controller}>
         <Tipso
           position="bottom"
-          wrapperClass={styles["share_container_wrapper"]}
+          wrapperClass={styles.share_container_wrapper}
           tipsoContent={(
-            <div className={styles["qrcode_container"]}>
-              <div id={`qrcode-${index}`}></div>
+            <div className={styles.qrcode_container}>
+              <div id={`qrcode-${index}`} />
               <span>{text}</span>
             </div>
           )}
         >
-          <div className={styles["share_container"]}>
+          <div className={styles.share_container}>
             <Input
               theme="flat"
               id={`shareGithubUrl-${index}`}
@@ -87,7 +85,7 @@ class ShareAnalysis extends React.Component {
               color="gray"
               icon="clipboard"
               id={`copyLinkButton-${index}`}
-              onClick={this.copyUrl.bind(this)}
+              onClick={this.copyUrl}
             />
           </div>
         </Tipso>
@@ -104,7 +102,7 @@ class ShareAnalysis extends React.Component {
       const filterPageViews = validatePageViews.filter(
         validatePageView => validatePageView.date === date
       );
-      if(filterPageViews.length) {
+      if (filterPageViews.length) {
         filterPageViews[0].count += count;
       } else {
         validatePageViews.push({
@@ -145,18 +143,14 @@ class ShareAnalysis extends React.Component {
               display: false
             },
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }],
         },
         tooltips: {
           callbacks: {
-            title: (item, data) => {
-              return item[0].xLabel
-            },
-            label: (item, data) => {
-              return `浏览量：${item.yLabel} PV`
-            }
+            title: item => item[0].xLabel,
+            label: item => `浏览量：${item.yLabel} PV`
           }
         }
       }
@@ -173,8 +167,8 @@ class ShareAnalysis extends React.Component {
       width: 120,
       height: 120,
       colorDark: GREEN_COLORS[1],
-      colorLight : '#ffffff',
-      correctLevel : QRCode.CorrectLevel.H
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
     });
   }
 
@@ -225,7 +219,7 @@ class ShareAnalysis extends React.Component {
       .map(viewSource => viewSource.browser);
 
     return (
-      <CardGroup className={styles['card_group']}>
+      <CardGroup className={styles.card_group}>
         <InfoCard
           tipsoTheme="dark"
           mainText={viewCount}
@@ -259,46 +253,50 @@ class ShareAnalysis extends React.Component {
   }
 
   render() {
-    const { actions, loading, info, title } = this.props;
+    const { loading, info } = this.props;
     const controllerClass = cx(
-      styles['share_controller_card'],
+      styles.share_controller_card,
       !info.openShare && styles.disabled
     );
     return (
-      <div className={styles["card_container"]}>
+      <div className={styles.card_container}>
         {loading ? '' : (
           <div className={controllerClass}>
             {this.renderShareController()}
           </div>
         )}
-        {loading ? (<Loading loading={true} />) : (
+        {loading ? (<Loading loading />) : (
           <div className={styles.card}>
             {this.renderChartInfo()}
-            <div className={styles['chart_container']}>
-              <div className={cx(
-                  styles['radar_chart'],
+            <div className={styles.chart_container}>
+              <div
+                className={cx(
+                  styles.radar_chart,
                   styles.viewDevicesChart
-                )}>
+                )}
+              >
                 <canvas
-                  ref={ref => this.viewDevices = ref}
+                  ref={ref => (this.viewDevices = ref)}
                 />
               </div>
-              <div className={cx(
-                  styles['radar_chart'],
+              <div
+                className={cx(
+                  styles.radar_chart,
                   styles.viewSourcesChart
-                )}>
+                )}
+              >
                 <canvas
-                  ref={ref => this.viewSources = ref}
+                  ref={ref => (this.viewSources = ref)}
                 />
               </div>
             </div>
             <div
               className={cx(
-                styles['chart_container'],
-                styles['pageview_chart_container']
+                styles.chart_container,
+                styles.pageview_chart_container
               )}
             >
-              <canvas ref={ref => this.pageViews = ref} />
+              <canvas ref={ref => (this.pageViews = ref)} />
             </div>
           </div>
         )}
@@ -308,9 +306,8 @@ class ShareAnalysis extends React.Component {
 }
 
 ShareAnalysis.propTypes = {
-  index: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+  index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   loading: PropTypes.bool,
-  title: PropTypes.element,
   text: PropTypes.string,
   info: PropTypes.object,
   actions: PropTypes.object,
@@ -322,7 +319,6 @@ ShareAnalysis.propTypes = {
 ShareAnalysis.defaultProps = {
   index: 0,
   loading: true,
-  title: (<p></p>),
   text: '',
   info: {
     openShare: false,

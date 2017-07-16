@@ -22,11 +22,6 @@ $(() => {
     $('body').css('overflow-y', overflow);
   };
 
-  const changeMenuIcon = (iconClass) => {
-    const $icon = $menuIcon.find('i');
-    $icon.removeClass().addClass(`fa fa-${iconClass}`);
-  };
-
   $menuIcon.on('click', () => {
     $menuWrapper.addClass('active');
     changeOverflow('hidden');

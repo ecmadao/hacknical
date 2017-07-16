@@ -10,7 +10,7 @@ const Tab = (props) => {
   const { id, name, icon, enable, tipso } = tab;
 
   const containerClass = cx(
-    styles['tab_container'],
+    styles.tab_container,
     enable && styles.enable,
     active && styles.active
   );
@@ -24,14 +24,16 @@ const Tab = (props) => {
       }}
       theme="dark"
       tipsoContent={tipso ? (
-        <span className={styles['tab_tipso']}>{tipso}</span>
+        <span className={styles.tab_tipso}>{tipso}</span>
       ) : null}
     >
       <Link
         to={`${PATH.BASE_PATH}/${id}`}
-        className={styles['app_tab']}
-        onClick={(e) => onChange(e, id, enable)}>
-        <i aria-hidden="true" className={`fa ${icon}`}></i>&nbsp;
+        className={styles.app_tab}
+        onClick={e => onChange(e, id, enable)}
+      >
+        <i aria-hidden="true" className={`fa ${icon}`} />
+        &nbsp;
         {name}
       </Link>
     </Tipso>

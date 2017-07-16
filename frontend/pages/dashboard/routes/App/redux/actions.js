@@ -7,7 +7,7 @@ const {
   toggleTabBar,
   changeActiveTab
 } = createActions({
-  'LOGOUT_USER': () => null
+  LOGOUT_USER: () => null
 },
   'LOGIN_USER',
   'TOGGLE_LOADING',
@@ -15,7 +15,7 @@ const {
   'CHANGE_ACTIVE_TAB'
 );
 
-const changeTab = (tab) => (dispatch) => {
+const changeTab = tab => (dispatch) => {
   dispatch(changeActiveTab(tab));
 };
 

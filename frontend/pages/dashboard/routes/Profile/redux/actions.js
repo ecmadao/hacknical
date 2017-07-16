@@ -1,5 +1,4 @@
 import { createActions } from 'redux-actions';
-import objectAssign from 'UTILS/object-assign';
 import Api from 'API/index';
 
 const {
@@ -17,14 +16,14 @@ const {
 );
 
 // github
-const fetchGithubShareData = () => (dispatch, getState) => {
+const fetchGithubShareData = () => (dispatch) => {
   Api.github.getShareRecords().then((result) => {
     dispatch(initialGithubShareData(result));
   });
 };
 
 // resume
-const fetchResumeShareData = () => (dispatch, getState) => {
+const fetchResumeShareData = () => (dispatch) => {
   Api.resume.getShareRecords().then((result) => {
     dispatch(initialResumeShareData(result));
   });
@@ -39,4 +38,4 @@ export default {
   toggleResumeLoading,
   initialResumeShareData,
   fetchResumeShareData,
-}
+};
