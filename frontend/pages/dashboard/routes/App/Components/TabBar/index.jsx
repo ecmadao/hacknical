@@ -1,3 +1,4 @@
+/* eslint no-alert: "off" */
 import React from 'react';
 import { connect } from 'react-redux';
 import Headroom from 'headroom.js';
@@ -5,6 +6,7 @@ import AppAction from '../../redux/actions';
 import TABS from 'SRC/data/tab';
 import Tab from './Tab';
 import locales from 'LOCALES';
+import 'SRC/vendor/tabBar/index.css';
 
 const resumeTexts = locales('resume');
 

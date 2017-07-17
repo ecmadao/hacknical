@@ -1,7 +1,8 @@
 import User from '../models/users';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
-import languages from '../../utils/languages';
+import languages from '../../locales/languages';
+
 import { getMobileMenu, getGithubSections } from './shared';
 import logger from '../utils/logger';
 

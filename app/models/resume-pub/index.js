@@ -17,9 +17,10 @@ const getResumeHash = (userId) => {
   bytes.copy(dst, src.length, 0, bytes.length);
 
   const hash = crypto.createHash('sha1').update(dst).digest('base64');
-  return hash.split('/').join('');
+  return hash.split('/').join('').replace(/=/g, '');
 };
 
+/*
 const resumeValidation = (timestamp) => {
   const secondsNow = getSeconds();
   if (secondsNow > timestamp) {
@@ -27,6 +28,8 @@ const resumeValidation = (timestamp) => {
   }
   return true;
 };
+*/
+
 
 const createResumeShare = async (options) => {
   await ShareAnalyse.createShare(options);
