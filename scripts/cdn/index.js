@@ -15,7 +15,8 @@ qiniu.conf.SECRET_KEY = SecretKey;
 const getFiles = () => {
   const files = klawSync(PATH.PUBLIC_PATH, { nodir: true })
     .map(item => item.path)
-    .filter(path => path.split('/').slice(-1)[0][0] !== '.');
+    .filter(path => path.split('/').slice(-1)[0][0] !== '.')
+    .filter(path => !/\/downloads\//.test(path));
   return files;
 };
 
