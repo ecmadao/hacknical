@@ -1,3 +1,4 @@
+/* eslint eqeqeq: "off" */
 import config from 'config';
 import Resume from '../models/resumes';
 import User from '../models/users';

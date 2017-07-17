@@ -5,38 +5,38 @@ import languages from '../../utils/languages';
 import { getMobileMenu, getGithubSections } from './shared';
 import logger from '../utils/logger';
 
-const logout = async (ctx, next) => {
+const logout = async (ctx) => {
   ctx.session.userId = null;
   ctx.session.githubToken = null;
   ctx.session.githubLogin = null;
   ctx.redirect('/');
 };
 
-const loginPage = async (ctx, next) => {
-  const locale = ctx.__("language.id");
+const loginPage = async (ctx) => {
+  const locale = ctx.__('language.id');
   const locales = languages(locale);
   const clientId = await Api.getVerify();
   await ctx.render('user/login', {
     locale,
     locales,
-    title: ctx.__("loginPage.title"),
-    login: ctx.__("loginPage.login"),
-    about: ctx.__("loginPage.about"),
-    loginText: ctx.__("loginPage.loginText"),
-    loginButtonText: ctx.__("loginPage.loginButtonText"),
-    languageText: ctx.__("language.text"),
-    languageId: ctx.__("language.id"),
-    clientId: clientId,
+    clientId,
+    title: ctx.__('loginPage.title'),
+    login: ctx.__('loginPage.login'),
+    about: ctx.__('loginPage.about'),
+    loginText: ctx.__('loginPage.loginText'),
+    loginButtonText: ctx.__('loginPage.loginButtonText'),
+    languageText: ctx.__('language.text'),
+    languageId: ctx.__('language.id'),
     statistic: {
-      developers: ctx.__("loginPage.statistic.developers"),
-      githubPageview: ctx.__("loginPage.statistic.githubPageview"),
-      resumePageview: ctx.__("loginPage.statistic.resumePageview"),
-      resumes: ctx.__("loginPage.statistic.resumes"),
+      developers: ctx.__('loginPage.statistic.developers'),
+      githubPageview: ctx.__('loginPage.statistic.githubPageview'),
+      resumePageview: ctx.__('loginPage.statistic.resumePageview'),
+      resumes: ctx.__('loginPage.statistic.resumes'),
     }
   });
 };
 
-const githubLogin = async (ctx, next) => {
+const githubLogin = async (ctx) => {
   const { code } = ctx.request.query;
   try {
     const githubToken = await Api.getToken(code);
@@ -61,7 +61,7 @@ const githubLogin = async (ctx, next) => {
   }
 };
 
-const initialFinished = async (ctx, next) => {
+const initialFinished = async (ctx) => {
   const { userId } = ctx.session;
   await User.updateUserInfo({
     userId,
@@ -69,16 +69,16 @@ const initialFinished = async (ctx, next) => {
   });
   ctx.cache.hincrby('github', 'count', 1);
 
-  return ctx.body = {
+  ctx.body = {
     success: true,
     result: ''
   };
 };
 
 // user analysis mobile
-const mobileAnalysis = async (ctx, next) => {
+const mobileAnalysis = async (ctx) => {
   await ctx.render('user/mobile/analysis', {
-    title: ctx.__("mobilePage.analysis"),
+    title: ctx.__('mobilePage.analysis'),
     user: {
       isAdmin: true
     },
@@ -86,9 +86,9 @@ const mobileAnalysis = async (ctx, next) => {
   });
 };
 
-const mobileSetting = async (ctx, next) => {
+const mobileSetting = async (ctx) => {
   await ctx.render('user/mobile/setting', {
-    title: ctx.__("mobilePage.setting"),
+    title: ctx.__('mobilePage.setting'),
     user: {
       isAdmin: true
     },
@@ -96,30 +96,27 @@ const mobileSetting = async (ctx, next) => {
   });
 };
 
-const getGithubShareSections = async (ctx, next) => {
-  const { githubLogin } = ctx.session;
+const getGithubShareSections = async (ctx) => {
   const { login } = ctx.query;
-  const sections = await User.findGithubSections(login || githubLogin);
+  const sections = await User.findGithubSections(login || ctx.session.githubLogin);
   ctx.body = {
     success: true,
     result: sections
   };
 };
 
-const setGithubShareSections = async (ctx, next) => {
-  const { githubLogin } = ctx.session;
+const setGithubShareSections = async (ctx) => {
   const githubSections = getGithubSections(ctx.request.body);
 
-  await User.updateGithubSections(githubLogin, githubSections);
-  return ctx.body = {
+  await User.updateGithubSections(ctx.session.githubLogin, githubSections);
+  ctx.body = {
     success: true
   };
 };
 
-const getPinnedRepos = async (ctx, next) => {
-  const { githubLogin } = ctx.session;
+const getPinnedRepos = async (ctx) => {
   const { login } = ctx.query;
-  const pinnedRepos = await User.findPinnedRepos(login || githubLogin);
+  const pinnedRepos = await User.findPinnedRepos(login || ctx.session.githubLogin);
   ctx.body = {
     success: true,
     result: pinnedRepos
@@ -127,11 +124,11 @@ const getPinnedRepos = async (ctx, next) => {
 };
 
 const setPinnedRepos = async (ctx, next) => {
-  const { githubLogin } = ctx.session;
+  const login = ctx.session.githubLogin;
   const { pinnedRepos } = ctx.request.body;
   const repos = pinnedRepos.split(',');
 
-  await User.updatePinnedRepos(githubLogin, repos);
+  await User.updatePinnedRepos(login, repos);
 
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
@@ -141,7 +138,7 @@ const setPinnedRepos = async (ctx, next) => {
     cacheKey('commits', {
       session: ['githubLogin']
     }),
-    cacheKey(`sharedUser.${githubLogin}`)
+    cacheKey(`sharedUser.${login}`)
   ];
 
   ctx.body = {

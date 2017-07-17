@@ -4,7 +4,7 @@ import koaLogger from 'koa-logger';
 import convert from 'koa-convert';
 import bodyParser from 'koa-bodyparser';
 import onerror from 'koa-onerror';
-import csrf from 'koa-csrf';
+import Csrf from 'koa-csrf';
 import json from 'koa-json';
 import cors from 'kcors';
 import locales from 'koa-locales';
@@ -35,9 +35,9 @@ const options = {
   defaultLocale: 'zh-CN',
   dirs: [path.join(__dirname, '../config/locales')],
   localeAlias: {
-    'en': 'en-US',
-    'fr': 'fr-FR',
-    'zh': 'zh-CN'
+    en: 'en-US',
+    fr: 'fr-FR',
+    zh: 'zh-CN'
   }
 };
 locales(app, options);
@@ -71,7 +71,7 @@ app.use(checkLocale());
 // catch 404
 app.use(catch404());
 // csrf
-app.use(new csrf());
+app.use(new Csrf());
 // helper func
 app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
@@ -80,9 +80,9 @@ app.use(async (ctx, next) => {
     isMobile: false,
     env: process.env.NODE_ENV,
     footer: {
-      about: ctx.__("dashboard.about"),
-      feedback: ctx.__("dashboard.feedback"),
-      code: ctx.__("dashboard.code"),
+      about: ctx.__('dashboard.about'),
+      feedback: ctx.__('dashboard.feedback'),
+      code: ctx.__('dashboard.code'),
     },
   });
   await next();
@@ -95,7 +95,7 @@ app.use(convert(userAgent()));
 nunjucks.configure(path.join(__dirname, '../templates'), { autoescape: true });
 // frontend static file
 app.use(convert(require('koa-static')(path.join(__dirname, '../../public'))));
-//views with nunjucks
+// views with nunjucks
 app.use(views(path.join(__dirname, '../templates'), {
   map: {
     html: 'nunjucks'
@@ -104,7 +104,7 @@ app.use(views(path.join(__dirname, '../templates'), {
 // router
 app.use(router.routes(), router.allowedMethods());
 // error
-app.on('error', (err, ctx) => {
+app.on('error', (err) => {
   logger.error(err);
 });
 

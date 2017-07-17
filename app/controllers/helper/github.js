@@ -27,12 +27,12 @@ export const combineReposCommits = (reposCommits) => {
   };
 
   if (!reposCommits.length) {
-    logger.error(`[COMMITS:EMPTY]`);
+    logger.error('[COMMITS:EMPTY]');
     return result;
   }
 
   // initial monthReview
-  for(let i = 1; i < 13; i++) {
+  for (let i = 1; i < 13; i += 1) {
     result.dailyCommits[(i - 1) % 7] = [];
     result.monthReview[i] = {
       repos: [],
@@ -40,8 +40,8 @@ export const combineReposCommits = (reposCommits) => {
     };
   }
 
-  reposCommits.forEach((repository, repositoryIndex) => {
-    const { created_at, pushed_at, commits, name } = repository;
+  reposCommits.forEach((repository) => {
+    const { created_at, commits, name } = repository;
     const month = getMonth(created_at);
     result.monthReview[month].repos.push(name);
 
@@ -66,9 +66,9 @@ export const combineReposCommits = (reposCommits) => {
         targetCommit.days[i] += day;
         weeklyCommits[i] += day;
 
-        const daySeconds = week - (7 - i) * 24 * 60 * 60;
-        const month = getDateBySeconds(daySeconds, 'M');
-        result.monthReview[month].commitsCount += day;
+        const daySeconds = week - ((7 - i) * 24 * 60 * 60);
+        const targetMonth = getDateBySeconds(daySeconds, 'M');
+        result.monthReview[targetMonth].commitsCount += day;
       });
     });
     weeklyCommits.forEach((commit, index) => {

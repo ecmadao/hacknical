@@ -1,19 +1,19 @@
 
 import User from '../models/users/index';
 
-const index = async (ctx, next) => {
+const index = async (ctx) => {
   ctx.redirect('/dashboard');
 };
 
-const handle404 = async (ctx, next) => {
+const handle404 = async (ctx) => {
   await ctx.render('error/404', {
-    title: ctx.__("errorPage.title"),
-    text: ctx.__("errorPage.text"),
-    redirectText: ctx.__("errorPage.redirectText")
+    title: ctx.__('errorPage.title'),
+    text: ctx.__('errorPage.text'),
+    redirectText: ctx.__('errorPage.redirectText')
   });
 };
 
-const dashboard = async (ctx, next) => {
+const dashboard = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   const user = await User.findUserById(userId);
   if (!user.initialed) {
@@ -25,11 +25,11 @@ const dashboard = async (ctx, next) => {
   }
 
   await ctx.render('user/dashboard', {
-    title: ctx.__("dashboard.title", githubLogin),
+    title: ctx.__('dashboard.title', githubLogin),
   });
 };
 
-const initial = async (ctx, next) => {
+const initial = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   const user = await User.findUserById(userId);
   if (user.initialed) {

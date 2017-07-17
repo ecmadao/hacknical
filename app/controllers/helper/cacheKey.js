@@ -7,13 +7,13 @@ const OPTIONS = {
   keys: []
 };
 
-const getCacheKey = (ctx) => (key, options = {}) => {
+const getCacheKey = ctx => (key, options = {}) => {
   let cacheKey = key;
   const cachekeys = Object.assign({}, OPTIONS, options);
   const { params, session, query, keys } = cachekeys;
 
   let result = null;
-  for(let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < keys.length; i += 1) {
     const keyPath = keys[i];
     result = getValue(ctx, keyPath);
     if (result) { break; }

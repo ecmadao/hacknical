@@ -7,7 +7,7 @@ const checkPlatform = async (ctx, next) => {
   await next();
 };
 
-const checkMobile = (redirectUrl) => async (ctx, next) => {
+const checkMobile = redirectUrl => async (ctx, next) => {
   const { path, querystring } = ctx.request;
   const { isMobile } = ctx.state;
   const requestMobile = /\/mobile/.test(path);
