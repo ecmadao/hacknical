@@ -1,7 +1,6 @@
 import qiniu from 'qiniu';
 import config from 'config';
 import klawSync from 'klaw-sync';
-import path from 'path';
 import PATH from '../path.js';
 
 const appName = config.get('appName');
@@ -25,10 +24,10 @@ const uptoken = (bucket, key) => {
   return putPolicy.token();
 };
 
-const uploadFile = (uptoken, key, localFile) => {
+const uploadFile = (token, key, localFile) => {
   const extra = new qiniu.io.PutExtra();
-  qiniu.io.putFile(uptoken, key, localFile, extra, (err, ret) => {
-    if(!err) {
+  qiniu.io.putFile(token, key, localFile, extra, (err, ret) => {
+    if (!err) {
       // 上传成功， 处理返回值
       console.log('Upload success!', ret.hash, ret.key);
     } else {
@@ -40,7 +39,7 @@ const uploadFile = (uptoken, key, localFile) => {
 
 const deployCdn = () => {
   const files = getFiles();
-  for (let i = 0; i < files.length; i++) {
+  for (let i = 0; i < files.length; i += 1) {
     const fullpath = files[i];
     const file = fullpath.replace(PATH.PUBLIC_PATH, '');
     const key = appVersion ? `${appName}/${appVersion}${file}` : `${appName}${file}`;

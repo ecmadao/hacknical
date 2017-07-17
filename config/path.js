@@ -1,5 +1,4 @@
 const path = require('path');
-const config = require('config');
 const CDN = require('../app/middlewares/cdn');
 
 const CURRENT_PATH = path.resolve(__dirname); // 获取到当前目录

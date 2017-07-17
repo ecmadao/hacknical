@@ -24,8 +24,8 @@ const checkLocale = () => async (ctx, next) => {
 
   const sessionLocale = ctx.session.locale;
   ctx.state.locale = sessionLocale;
-  ctx.state.description = ctx.__("description");
-  ctx.state.keywords = ctx.__("keywords");
+  ctx.state.description = ctx.__('description');
+  ctx.state.keywords = ctx.__('keywords');
 
   await next();
 };

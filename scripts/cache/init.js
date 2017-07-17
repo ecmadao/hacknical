@@ -46,10 +46,10 @@ const init = async () => {
     await cache.hincrby('resume', 'pageview', resumePageview);
 
     console.log('cache initial infished!');
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
-  // process.exit(0);
+  process.exit(0);
 };
 
 init();

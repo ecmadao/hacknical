@@ -1,6 +1,7 @@
+/* eslint global-require: "off" */
+
 import path from 'path';
 import fs from 'fs';
-import config from 'config';
 
 import PATH from '../../config/path';
 import CDN from './cdn';

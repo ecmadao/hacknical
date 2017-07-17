@@ -1,3 +1,5 @@
+/* eslint arrow-body-style: "off" */
+
 import dateHelper from './date';
 
 const getSeconds = dateHelper.seconds.getByDate;
@@ -169,13 +171,14 @@ export const splitArray = (array, size = 1) => {
   }
   const loop = Math.floor(length / size) + 1;
   return Array
-    .from(new Array(5), () => 0)
+    .from(new Array(loop), () => 0)
     .map((i, index) => array.slice(index * size, (index + 1) * size));
 };
 
 
-export const validateUrl = url =>
-  /^http/.test(url) ? url : `//${url}`;
+export const validateUrl = (url) => {
+  return /^http/.test(url) ? url : `//${url}`;
+};
 
 export const sleep = ms =>
   new Promise(resolve => setTimeout(resolve, ms));

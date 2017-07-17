@@ -1,9 +1,8 @@
 import ShareAnalyse from './schema';
 import dateHelper, { getValidateDate } from '../../utils/date';
 
-const findShare = async (options) => {
-  return await ShareAnalyse.findOne(options);
-};
+const findShare = async options =>
+  await ShareAnalyse.findOne(options);
 
 const createShare = async (options) => {
   const findResult = await findShare(options);
@@ -64,7 +63,9 @@ const updateViewData = async (options) => {
     targetDevices[0].count += 1;
   }
 
-  const targetSources = viewSources.filter(source => source.browser === browser && source.from === from);
+  const targetSources = viewSources.filter(
+    source => source.browser === browser && source.from === from
+  );
   if (!targetSources.length) {
     viewSources.push({
       from,

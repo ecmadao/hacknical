@@ -47,10 +47,10 @@ const getValue = (object, key) => {
  */
 export const getPlanObject = (object, keys) => {
   const planObject = {};
-  keys.forEach((key, index) => {
+  keys.forEach((key) => {
     const result = getValue(object, key);
     if (result !== object) {
-      planObject[sections.slice(-1)[0]] = result;
+      planObject[keys.slice(-1)[0]] = result;
     }
   });
   return planObject;

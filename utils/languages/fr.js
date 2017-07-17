@@ -1,11 +1,11 @@
 const options = [
   {
-    text: "中文",
-    id: "zh"
+    text: '中文',
+    id: 'zh'
   },
   {
-    text: "En",
-    id: "en"
+    text: 'En',
+    id: 'en'
   }
 ];
 

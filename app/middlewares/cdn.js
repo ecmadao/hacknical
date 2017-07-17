@@ -9,4 +9,4 @@ const URL = APP_VERSION ? `${CDN_URL}/${APP_VERSION}` : CDN_URL;
 
 module.exports = {
   URL: CDN ? URL : ''
-}
+};

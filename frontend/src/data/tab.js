@@ -1,4 +1,5 @@
 import locales from 'LOCALES';
+
 const tabs = locales('dashboard').tabs;
 
 const TABS = [

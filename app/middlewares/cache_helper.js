@@ -18,11 +18,11 @@ import logger from '../utils/logger';
  */
 
 const ONE_DAY = 86400;
-const FOREVER = -1;
+// const FOREVER = -1;
 
-const redisCache = (options = {}) => {
+const RedisCache = (options = {}) => {
   const prefix = options.prefix || `${config.get('appName')}:`;
-  const expire = options.expire || FOREVER;
+  // const expire = options.expire || FOREVER;
   const url = options.url;
 
   let redisAvailable = false;
@@ -32,12 +32,12 @@ const redisCache = (options = {}) => {
     parser: 'hiredis'
   }));
   logger.info(`[REDIS:CONNECT] Connected to redis: ${url}`);
-  redisClient.on('error', (err)=> { redisAvailable = false; });
+  redisClient.on('error', () => { redisAvailable = false; });
   redisClient.on('end', () => { redisAvailable = false; });
   redisClient.on('connect', () => { redisAvailable = true; });
 
   const setCache = async (key, value, option = {}) => {
-    if(!redisAvailable){
+    if (!redisAvailable) {
       return;
     }
     if (value === null) {
@@ -49,7 +49,7 @@ const redisCache = (options = {}) => {
   };
 
   const getCache = async (key) => {
-    if(!redisAvailable){
+    if (!redisAvailable) {
       return;
     }
     const data = await redisClient.get(`${prefix}${key}`);
@@ -117,13 +117,13 @@ let instance = null;
 
 export const getRedis = (...params) => {
   if (instance) return instance;
-  instance = new redisCache(...params);
+  instance = new RedisCache(...params);
   return instance;
 };
 
 export const redisMiddleware = (...params) => {
   const cache = getRedis(...params);
-  const cacheMiddleware = async function(ctx, next) {
+  const cacheMiddleware = async (ctx, next) => {
     ctx.cache = cache;
     await next();
   };

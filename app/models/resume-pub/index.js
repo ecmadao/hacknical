@@ -22,7 +22,7 @@ const getResumeHash = (userId) => {
 
 const resumeValidation = (timestamp) => {
   const secondsNow = getSeconds();
-  if(secondsNow > timestamp) {
+  if (secondsNow > timestamp) {
     return false;
   }
   return true;
@@ -78,7 +78,7 @@ const addPubResume = async (userId, options = {}) => {
 
 const updatePubResume = async (userId, resumeHash, options) => {
   const findResult = await findPublicResume({ userId, resumeHash });
-  let { result, success } = findResult;
+  const { result, success } = findResult;
   if (!success) {
     return findResult;
   }
@@ -142,7 +142,7 @@ const getPubResume = async (resumeHash) => {
   const findResult = await findPublicResume({ resumeHash });
   const { result, success } = findResult;
   if (!success) { return findResult; }
-  const { timestamp, maxView, userId } = result;
+  const { userId } = result;
   return await Resume.getResume(userId);
 };
 
@@ -170,4 +170,4 @@ export default {
   getUpdateTime,
   getPubResumeInfo,
   checkResumeShare
-}
+};

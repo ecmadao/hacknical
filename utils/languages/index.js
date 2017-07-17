@@ -1,14 +1,15 @@
+/* eslint global-require: "off" */
+
 const getLocale = (currentLanguage) => {
-  let locale = currentLanguage || 'zh';
+  const locale = currentLanguage || 'zh';
   if (locale === 'fr') { locale === 'en' }
   let datas = {};
   try {
     datas = require(`./${locale}.js`).default;
   } catch (e) {
     console.log(e);
-  } finally {
-    return datas;
   }
+  return datas;
 };
 
 export default getLocale;

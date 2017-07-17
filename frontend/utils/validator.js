@@ -1,3 +1,5 @@
+/* eslint max-len: "off" */
+
 import validator from 'validator';
 
 const email = value => validator.isEmail(value);

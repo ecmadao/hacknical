@@ -8,9 +8,8 @@ const initialResume = async (userId, options) => {
   return await addResume(userId, newResume);
 };
 
-const findResume = async (options) => {
-  return await Resume.findOne(options);
-};
+const findResume = async options =>
+  await Resume.findOne(options);
 
 const addResume = async (userId, resume = DEFAULT_RESUME) => {
   const addResult = await Resume.create({
@@ -18,7 +17,7 @@ const addResume = async (userId, resume = DEFAULT_RESUME) => {
     resume
   });
   return Promise.resolve({
-    success: addResult ? true : false,
+    success: addResult,
     message: '新增简历成功',
     result: addResult || null
   });
@@ -36,7 +35,7 @@ const updateResume = async (userId, resume, cache) => {
 const getUpdateTime = async (userId) => {
   const getResult = await findResume({ userId });
   return Promise.resolve({
-    success: getResult ? true : false,
+    success: getResult,
     message: '',
     result: getResult ? getResult.updated_at : ''
   });
