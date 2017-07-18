@@ -41,16 +41,13 @@ class ShareAnalysis extends React.Component {
     });
   }
 
-  componentDidUpdate(preProps) {
-    const { loading, viewType } = this.props;
+  componentDidUpdate() {
+    const { loading } = this.props;
     if (loading) { return; }
+    !this.pageViewsChart && this.renderViewsChart();
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
     !this.qrcode && this.renderQrcode();
-
-    if (!this.pageViewsChart || preProps.viewType !== viewType) {
-      this.renderViewsChart();
-    }
   }
 
   componentWillUnmount() {
@@ -300,7 +297,10 @@ class ShareAnalysis extends React.Component {
       const isActive = ID === viewType;
       const onClick = isActive
         ? () => {}
-        : () => actions.onViewTypeChange(ID);
+        : () => {
+          this.pageViewsChart = null;
+          actions.onViewTypeChange(ID);
+        };
 
       controllers.push((
         <span

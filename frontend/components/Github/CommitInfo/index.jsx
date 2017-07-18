@@ -34,14 +34,11 @@ class CommitInfo extends React.Component {
     this.changeChartType = this.changeChartType.bind(this);
   }
 
-  componentDidMount() {
-    this.renderCharts();
-  }
-
   componentDidUpdate(preProps, preState) {
     const { loaded } = this.props;
     const { chartType } = this.state;
-    if (chartType !== preState.chartType && loaded) {
+    if (!loaded) { return; }
+    if (chartType !== preState.chartType) {
       this.commitsYearlyReviewChart && this.updateYearlyChart();
     } else {
       this.renderCharts();
@@ -58,8 +55,7 @@ class CommitInfo extends React.Component {
   }
 
   renderCharts() {
-    const { loaded, commitInfos } = this.props;
-    if (!loaded) { return }
+    const { commitInfos } = this.props;
     const { commits, dailyCommits } = commitInfos;
     if (dailyCommits.length) {
       !this.commitsWeeklyReviewChart && this.renderWeeklyChart();

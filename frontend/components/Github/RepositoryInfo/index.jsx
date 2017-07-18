@@ -46,24 +46,19 @@ class RepositoryInfo extends React.Component {
     this.reposStarsChart = null;
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.renderCharts();
-  }
-
-  componentDidUpdate(preProps) {
-    this.renderCharts();
-    const { commitDatas, userRepos } = this.props;
-    if (commitDatas.length && userRepos.length && !preProps.commitDatas.length) {
-      this.renderReposReviewChart(userRepos.slice(0, 10));
-    }
   }
 
   renderCharts() {
-    const { userRepos, forkedRepos } = this.props;
+    const { userRepos, forkedRepos, commitDatas } = this.props;
     if (userRepos.length || forkedRepos.length) {
-      !this.reposReviewChart && this.renderReposReviewChart(userRepos.slice(0, 10));
       !this.reposForksChart && this.renderReposForksChart();
       !this.reposStarsChart && this.renderReposStarsChart();
+
+      if (commitDatas && commitDatas.length) {
+        !this.reposReviewChart && this.renderReposReviewChart(userRepos.slice(0, 10));
+      }
     }
   }
 
