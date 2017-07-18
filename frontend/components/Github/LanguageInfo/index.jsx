@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import {
@@ -50,10 +49,10 @@ class LanguageInfo extends React.Component {
     const { loaded } = this.props;
     if (loaded) {
       !this.languageUsedChart
-        && ReactDOM.findDOMNode(this.languageUsed)
+        && this.languageUsed
         && this.renderLanguageUsedChart();
       !this.languageSkillChart
-        && ReactDOM.findDOMNode(this.languageSkill)
+        && this.languageSkill
         && this.renderLanguageSkillsChart();
     }
   }
@@ -65,8 +64,7 @@ class LanguageInfo extends React.Component {
     languages.forEach(key => (total += languageUsed[key]));
     const languagePercentage = languages.map(language => languageUsed[language] / total);
 
-    const languageUsedDOM = ReactDOM.findDOMNode(this.languageUsed);
-    this.languageUsedChart = new Chart(languageUsedDOM, {
+    this.languageUsedChart = new Chart(this.languageUsed, {
       type: 'radar',
       data: {
         labels: languages,
@@ -103,8 +101,7 @@ class LanguageInfo extends React.Component {
       skills.push(obj.star);
     });
 
-    const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
-    this.languageSkillChart = new Chart(languageSkill, {
+    this.languageSkillChart = new Chart(this.languageSkill, {
       type: 'polarArea',
       data: {
         labels: languages,

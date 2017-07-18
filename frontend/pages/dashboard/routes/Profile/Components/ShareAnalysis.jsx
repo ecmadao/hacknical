@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import Clipboard from 'clipboard';
@@ -19,6 +18,7 @@ import { RADAR_CONFIG, LINE_CONFIG } from 'SHARED/datas/chart_config';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/profile.css';
 import locales from 'LOCALES';
+import { VIEW_TYPES } from '../shared/data';
 
 const profileTexts = locales('dashboard').profile.common;
 const sortByCount = sortByX('count');
@@ -41,13 +41,16 @@ class ShareAnalysis extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    const { loading } = this.props;
+  componentDidUpdate(preProps) {
+    const { loading, viewType } = this.props;
     if (loading) { return; }
-    !this.pageViewsChart && this.renderViewsChart();
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
     !this.qrcode && this.renderQrcode();
+
+    if (!this.pageViewsChart || preProps.viewType !== viewType) {
+      this.renderViewsChart();
+    }
   }
 
   componentWillUnmount() {
@@ -93,38 +96,73 @@ class ShareAnalysis extends React.Component {
     )
   }
 
-  renderViewsChart() {
+  get pageViewsData() {
+    const { viewType } = this.props;
+    const views = {
+      [VIEW_TYPES.HOURLY.ID]: this.hourlyPageViews(VIEW_TYPES.HOURLY.TEXT),
+      [VIEW_TYPES.DAILY.ID]: this.dailyPageViews(VIEW_TYPES.DAILY.TEXT),
+      [VIEW_TYPES.MONTHLY.ID]: this.monthlyPageViews(VIEW_TYPES.MONTHLY.TEXT),
+    };
+    return views[viewType]();
+  }
+
+  getPageViewDate(date) {
+    const { viewType } = this.props;
+    const dates = {
+      [VIEW_TYPES.HOURLY.ID]: () =>
+        `${dateHelper.validator.fullDate(date)} ${dateHelper.validator.hour(date)}:00`,
+      [VIEW_TYPES.DAILY.ID]: () => dateHelper.validator.fullDate(date),
+      [VIEW_TYPES.MONTHLY.ID]: () => dateHelper.validator.date(date),
+    };
+    return dates[viewType]();
+  }
+
+  basePageViews(title) {
     const { pageViews } = this.props;
-    const viewsChart = ReactDOM.findDOMNode(this.pageViews);
-    const validatePageViews = [];
+    const validatePageViews = {};
+
     pageViews.forEach((pageView) => {
       const { count, date } = pageView;
-      const filterPageViews = validatePageViews.filter(
-        validatePageView => validatePageView.date === date
-      );
-      if (filterPageViews.length) {
-        filterPageViews[0].count += count;
-      } else {
-        validatePageViews.push({
-          count,
-          date
-        });
-      }
+      const validateDate = this.getPageViewDate(date);
+      const targetPageViews = validatePageViews[validateDate] || 0;
+      validatePageViews[validateDate] = targetPageViews + count;
     });
-    const dateLabels = validatePageViews.map((pageView) => {
-      const { date } = pageView;
-      return `${dateHelper.validator.fullDate(date)} ${dateHelper.validator.hour(date)}:00`;
-    });
-    const viewDates = validatePageViews.map(pageView => pageView.count);
+    const dateLabels = Object.keys(validatePageViews);
+    const viewDates = dateLabels.map(key => validatePageViews[key]);
+
     const datasetsConfig = {
       data: viewDates,
-      label: profileTexts.hourlyViewChartTitle
+      label: title
     };
-    if (viewDates.length >= 20) {
+    return {
+      dateLabels,
+      datasetsConfig,
+    };
+  }
+
+  hourlyPageViews(title) {
+    return () => this.basePageViews(title);
+  }
+
+  dailyPageViews(title) {
+    return () => this.basePageViews(title);
+  }
+
+  monthlyPageViews(title) {
+    return () => this.basePageViews(title);
+  }
+
+  renderViewsChart() {
+    const {
+      dateLabels,
+      datasetsConfig,
+    } = this.pageViewsData;
+
+    if (dateLabels.length >= 20) {
       datasetsConfig.pointBorderWidth = 0;
       datasetsConfig.pointRadius = 0;
     }
-    this.pageViewsChart = new Chart(viewsChart, {
+    this.pageViewsChart = new Chart(this.pageViews, {
       type: 'line',
       data: {
         labels: dateLabels,
@@ -174,7 +212,6 @@ class ShareAnalysis extends React.Component {
 
   renderDevicesChart() {
     const viewDevices = this.getDatas('viewDevices');
-    const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
 
@@ -183,12 +220,11 @@ class ShareAnalysis extends React.Component {
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = profileTexts.platformChartTitle;
 
-    this.viewDevicesChart = new Chart(viewDevicesChart, radarConfig);
+    this.viewDevicesChart = new Chart(this.viewDevices, radarConfig);
   }
 
   renderSourcesChart() {
     const viewSources = this.getDatas('viewSources');
-    const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
 
@@ -197,7 +233,7 @@ class ShareAnalysis extends React.Component {
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = profileTexts.browserChartTitle;
 
-    this.viewSourcesChart = new Chart(viewSourcesChart, radarConfig);
+    this.viewSourcesChart = new Chart(this.viewSources, radarConfig);
   }
 
   renderChartInfo() {
@@ -252,6 +288,47 @@ class ShareAnalysis extends React.Component {
     return datas[type];
   }
 
+  renderPVChartController() {
+    const { viewType, actions } = this.props;
+    const controllers = [];
+    const viewTypeKeys = Object.keys(VIEW_TYPES);
+    viewTypeKeys.forEach((key, i) => {
+      const {
+        ID,
+        SHORT,
+      } = VIEW_TYPES[key];
+      const isActive = ID === viewType;
+      const onClick = isActive
+        ? () => {}
+        : () => actions.onViewTypeChange(ID);
+
+      controllers.push((
+        <span
+          key={controllers.length}
+          className={cx(
+            styles.chart_controller,
+            isActive && styles.controller_active
+          )}
+          onClick={onClick}
+        >
+          {SHORT}
+        </span>
+      ));
+      if (i !== viewTypeKeys.length - 1) {
+        controllers.push((
+          <span key={controllers.length}>
+            &nbsp;/&nbsp;
+          </span>
+        ));
+      }
+    })
+    return (
+      <div className={styles.chart_controllers}>
+        {controllers}
+      </div>
+    );
+  }
+
   render() {
     const { loading, info } = this.props;
     const controllerClass = cx(
@@ -296,6 +373,7 @@ class ShareAnalysis extends React.Component {
                 styles.pageview_chart_container
               )}
             >
+              {this.renderPVChartController()}
               <canvas ref={ref => (this.pageViews = ref)} />
             </div>
           </div>
@@ -313,7 +391,8 @@ ShareAnalysis.propTypes = {
   actions: PropTypes.object,
   pageViews: PropTypes.array,
   viewDevices: PropTypes.array,
-  viewSources: PropTypes.array
+  viewSources: PropTypes.array,
+  viewType: PropTypes.string,
 };
 
 ShareAnalysis.defaultProps = {
@@ -327,7 +406,8 @@ ShareAnalysis.defaultProps = {
   actions: {},
   pageViews: [],
   viewDevices: [],
-  viewSources: []
+  viewSources: [],
+  viewType: '',
 };
 
 export default ShareAnalysis;

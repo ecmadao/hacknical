@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import OperationItem from './OperationItem';
 import cx from 'classnames';
 import styles from './operations.css';
@@ -45,14 +44,13 @@ class Operations extends React.Component {
   componentDidUpdate() {
     const { showOperations } = this.props;
     if (showOperations !== this.state.showOperations) {
-      this.setState({ showOperations })
+      this.setState({ showOperations });
     }
   }
 
   handleOutsideClick(e) {
-    e = e || window.event;
-    const menu = ReactDOM.findDOMNode(this.operationMenu);
-    const isDescendantOfRoot = menu && menu.contains(e.target);
+    const event = e || window.event;
+    const isDescendantOfRoot = this.operationMenu && this.operationMenu.contains(event.target);
     if (!isDescendantOfRoot) {
       this.changeOperationStatus(false);
     }

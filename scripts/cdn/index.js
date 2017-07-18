@@ -27,25 +27,50 @@ const uptoken = (bucket, key) => {
 
 const uploadFile = (token, key, localFile) => {
   const extra = new qiniu.io.PutExtra();
-  qiniu.io.putFile(token, key, localFile, extra, (err, ret) => {
-    if (!err) {
-      // 上传成功， 处理返回值
-      console.log('Upload success!', ret.hash, ret.key);
-    } else {
-      // 上传失败， 处理返回代码
-      console.log('Upload Error!', err);
-    }
+  return new Promise((resolve, reject) => {
+    qiniu.io.putFile(token, key, localFile, extra, (err, ret) => {
+      if (!err) {
+        // 上传成功， 处理返回值
+        console.log('Upload success!', ret.hash, ret.key);
+        resolve(true);
+      } else {
+        // 上传失败， 处理返回代码
+        console.log('Upload Error!', err);
+        reject(false);
+      }
+    });
   });
 }
 
-const deployCdn = () => {
+const pushToCDN = async () => {
   const files = getFiles();
   for (let i = 0; i < files.length; i += 1) {
     const fullpath = files[i];
     const file = fullpath.replace(PATH.PUBLIC_PATH, '');
-    const key = appVersion ? `${appName}/${appVersion}${file}` : `${appName}${file}`;
+    const key = appVersion
+      ? `${appName}/${appVersion}${file}`
+      : `${appName}${file}`;
     const token = uptoken(BucketName, key);
-    uploadFile(token, key, fullpath);
+
+    try {
+      await uploadFile(token, key, fullpath);
+    } catch (e) {
+      console.log('PushToCDN Error!', e);
+      return false;
+    }
+  }
+  return true;
+};
+
+const deployCdn = async (times = 3) => {
+  let result = true;
+  for (let i = 0; i < times; i += 1) {
+    console.log(`[DEPLOY TO CDN][TYRING ${i + 1} TIMES]`);
+    result = await pushToCDN();
+    if (result) break;
+  }
+  if (!result) {
+    console.log('[DEPLOY TO CDN][ERROR:PLEASE RETRY LATER]');
   }
 };
 

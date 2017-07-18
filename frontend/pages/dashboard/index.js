@@ -5,10 +5,9 @@ import {
   browserHistory,
 } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-
 import AppContainer from './AppContainer';
-import AppStore from './redux/store/index';
-import createRoutes from './routes/index';
+import AppStore from './redux/store';
+import routes from './routes';
 
 const history = syncHistoryWithStore(browserHistory, AppStore);
 
@@ -23,7 +22,7 @@ const renderApp = (id) => {
     <AppContainer
       store={AppStore}
       history={history}
-      routes={createRoutes(AppStore)}
+      routes={routes(AppStore)}
     />,
     ROOT_DOM
   );

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import objectAssign from 'UTILS/object-assign';
@@ -163,10 +162,9 @@ class CommitInfo extends React.Component {
   }
 
   renderYearlyChart() {
-    const commitsChart = ReactDOM.findDOMNode(this.commitsYearlyChart);
     const { commitDates, dateLabels } = this.yearlyChartDatas;
 
-    this.commitsYearlyReviewChart = new Chart(commitsChart, {
+    this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChart, {
       type: 'line',
       data: {
         labels: dateLabels,
@@ -200,8 +198,7 @@ class CommitInfo extends React.Component {
   renderWeeklyChart() {
     const { commitInfos } = this.props;
     const { dailyCommits } = commitInfos;
-    const commitsChart = ReactDOM.findDOMNode(this.commitsWeeklyChart);
-    this.commitsWeeklyReviewChart = new Chart(commitsChart, {
+    this.commitsWeeklyReviewChart = new Chart(this.commitsWeeklyChart, {
       type: 'line',
       data: {
         labels: DAYS,

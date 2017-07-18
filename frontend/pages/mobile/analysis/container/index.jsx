@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import deepcopy from 'deepcopy';
@@ -120,7 +119,6 @@ class MobileAnalysis extends React.Component {
 
   renderViewsChart() {
     const { pageViews } = this.dataObj;
-    const viewsChart = ReactDOM.findDOMNode(this.pageViews);
     const validatePageViews = [];
     pageViews.forEach((pageView) => {
       const { count, date } = pageView;
@@ -148,7 +146,7 @@ class MobileAnalysis extends React.Component {
       pointRadius: 0
     };
 
-    this.pageViewsChart = new Chart(viewsChart, {
+    this.pageViewsChart = new Chart(this.pageViews, {
       type: 'line',
       data: {
         labels: dateLabels,
@@ -204,7 +202,6 @@ class MobileAnalysis extends React.Component {
 
   renderDevicesChart() {
     const viewDevices = this.getDatas('viewDevices');
-    const viewDevicesChart = ReactDOM.findDOMNode(this.viewDevices);
     const labels = viewDevices.map(viewDevice => viewDevice.platform);
     const datas = viewDevices.map(viewDevice => viewDevice.count);
 
@@ -213,12 +210,11 @@ class MobileAnalysis extends React.Component {
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = analysisTexts.platformChartTitle;
 
-    this.viewDevicesChart = new Chart(viewDevicesChart, radarConfig);
+    this.viewDevicesChart = new Chart(this.viewDevices, radarConfig);
   }
 
   renderSourcesChart() {
     const viewSources = this.getDatas('viewSources');
-    const viewSourcesChart = ReactDOM.findDOMNode(this.viewSources);
     const labels = viewSources.map(viewSource => viewSource.browser);
     const datas = viewSources.map(viewSource => viewSource.count);
 
@@ -227,7 +223,7 @@ class MobileAnalysis extends React.Component {
     radarConfig.data.datasets[0].data = datas;
     radarConfig.options.title.text = analysisTexts.browserChartTitle;
 
-    this.viewSourcesChart = new Chart(viewSourcesChart, radarConfig);
+    this.viewSourcesChart = new Chart(this.viewSources, radarConfig);
   }
 
   initialState(datas) {

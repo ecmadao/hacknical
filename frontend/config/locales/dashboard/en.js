@@ -35,11 +35,16 @@ const datas = {
     common: {
       pv: 'Total PV',
       maxPvPerHour: 'Max PV per hour',
-      platform: 'Max Platform',
-      browser: 'Max Browser',
+      platform: 'Max platform',
+      browser: 'Max browser',
       platformChartTitle: 'Platforms',
       browserChartTitle: 'Browsers',
-      hourlyViewChartTitle: 'Hourly View'
+      hourlyViewChartTitle: 'Hourly view count',
+      dailyViewChartTitle: 'Daily view count',
+      monthlyViewChartTitle: 'Monthly view count',
+      hourlyViewChart: 'Hourly',
+      dailyViewChart: 'Daily',
+      monthlyViewChart: 'Monthly',
     }
   },
   setting: {

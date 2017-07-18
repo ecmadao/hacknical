@@ -7,12 +7,14 @@ const {
   initialGithubShareData,
   // resume
   toggleResumeLoading,
-  initialResumeShareData
+  initialResumeShareData,
+  onPageViewTypeChange,
 } = createActions(
   'TOGGLE_GITHUB_LOADING',
   'INITIAL_GITHUB_SHARE_DATA',
   'TOGGLE_RESUME_LOADING',
   'INITIAL_RESUME_SHARE_DATA',
+  'ON_PAGE_VIEW_TYPE_CHANGE',
 );
 
 // github
@@ -38,4 +40,5 @@ export default {
   toggleResumeLoading,
   initialResumeShareData,
   fetchResumeShareData,
+  onPageViewTypeChange,
 };

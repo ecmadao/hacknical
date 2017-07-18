@@ -39,7 +39,12 @@ const datas = {
       browser: '使用最多的浏览器',
       platformChartTitle: '浏览量来源平台',
       browserChartTitle: '浏览器分布',
-      hourlyViewChartTitle: '每小时浏览量'
+      hourlyViewChartTitle: '每小时浏览量',
+      dailyViewChartTitle: '每日浏览量',
+      monthlyViewChartTitle: '每月浏览量',
+      hourlyViewChart: '每小时',
+      dailyViewChart: '每日',
+      monthlyViewChart: '每月',
     }
   },
   setting: {

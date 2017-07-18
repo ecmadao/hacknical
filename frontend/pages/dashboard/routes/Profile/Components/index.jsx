@@ -6,18 +6,9 @@ import profileActions from '../redux/actions';
 import styles from '../styles/profile.css';
 import locales from 'LOCALES';
 import ShareAnalysis from './ShareAnalysis';
+import { PROFILE_SECTIONS } from '../shared/data';
 
 const profileTexts = locales('dashboard').profile;
-const PROFILE_SECTIONS = [
-  {
-    id: 'resume',
-    text: profileTexts.resume.title
-  },
-  {
-    id: 'github',
-    text: profileTexts.github.title
-  }
-];
 
 class Profile extends React.Component {
   constructor(props) {
@@ -26,6 +17,7 @@ class Profile extends React.Component {
       activeTab: 'resume'
     };
     this.changeActiveTab = this.changeActiveTab.bind(this);
+    this.onViewTypeChange = this.onViewTypeChange.bind(this);
   }
 
   changeActiveTab(activeTab) {
@@ -53,6 +45,15 @@ class Profile extends React.Component {
     });
   }
 
+  onViewTypeChange(viewType) {
+    const { actions } = this.props;
+    const { activeTab } = this.state;
+    actions.onPageViewTypeChange({
+      viewType,
+      activeTab,
+    });
+  }
+
   render() {
     const { activeTab } = this.state;
     const { github, resume, actions } = this.props;
@@ -66,6 +67,7 @@ class Profile extends React.Component {
           <ShareAnalysis
             actions={{
               fetchShareData: actions.fetchResumeShareData,
+              onViewTypeChange: this.onViewTypeChange,
             }}
             index={0}
             key={0}
@@ -76,6 +78,7 @@ class Profile extends React.Component {
           <ShareAnalysis
             actions={{
               fetchShareData: actions.fetchGithubShareData,
+              onViewTypeChange: this.onViewTypeChange,
             }}
             index={1}
             key={1}

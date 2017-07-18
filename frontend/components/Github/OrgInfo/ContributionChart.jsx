@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import Chart from 'chart.js';
 import cx from 'classnames';
-import ReactDOM from 'react-dom';
 import objectAssign from 'UTILS/object-assign';
 import { Tipso, Label } from 'light-ui';
 
@@ -58,8 +57,7 @@ class ContributionChart extends React.Component {
       data.push(contribution.data);
       labels.push(dateHelper.date.bySeconds(contribution.week));
     });
-    const contributionChart = ReactDOM.findDOMNode(this.contributionChart);
-    this.contributionReviewChart = new Chart(contributionChart, {
+    this.contributionReviewChart = new Chart(this.contributionChart, {
       type: 'line',
       data: {
         labels,

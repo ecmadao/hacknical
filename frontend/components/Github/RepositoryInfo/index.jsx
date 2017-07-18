@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
@@ -70,8 +69,7 @@ class RepositoryInfo extends React.Component {
 
   renderReposForksChart() {
     const { userRepos, forkedRepos } = this.props;
-    const reposForks = ReactDOM.findDOMNode(this.reposForks);
-    this.reposForksChart = new Chart(reposForks, {
+    this.reposForksChart = new Chart(this.reposForks, {
       type: 'doughnut',
       data: {
         datasets: [chart.doughnut(
@@ -86,7 +84,6 @@ class RepositoryInfo extends React.Component {
 
   renderReposStarsChart() {
     const { userRepos } = this.props;
-    const reposStars = ReactDOM.findDOMNode(this.reposStars);
     const datas = [];
     const labels = [];
     const colors = [];
@@ -100,7 +97,7 @@ class RepositoryInfo extends React.Component {
       opacity = opacity === 1 ? opacity : opacity * 0.8;
       colors.push(`rgba(55, 178, 77, ${opacity < 0.1 ? 0.1 : opacity})`);
     });
-    this.reposStarsChart = new Chart(reposStars, {
+    this.reposStarsChart = new Chart(this.reposStars, {
       type: 'doughnut',
       data: {
         datasets: [chart.doughnut(datas, colors)],
@@ -112,7 +109,6 @@ class RepositoryInfo extends React.Component {
 
   renderReposReviewChart(userRepos) {
     const { commitDatas } = this.props;
-    const reposReview = ReactDOM.findDOMNode(this.reposReview);
     const datasets = [
       chart.repos.starsDatasets(userRepos),
       chart.repos.forksDatasets(userRepos)
@@ -122,7 +118,7 @@ class RepositoryInfo extends React.Component {
         chart.repos.commitsDatasets(userRepos, commitDatas)
       );
     }
-    this.reposReviewChart = new Chart(reposReview, {
+    this.reposReviewChart = new Chart(this.reposReview, {
       type: 'bar',
       data: {
         datasets,

@@ -165,6 +165,7 @@
 .pageview_chart_container {
   margin: 0 3% 15px 3%;
   width: 94%;
+  position: relative;
 }
 
 .chart_info_container {
@@ -198,4 +199,25 @@
   width: 100%;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+/* chart controller */
+.chart_controllers {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  z-index: var(--zIndex9);
+  border-radius: 2px;
+  background-color: var(--oc-gray-7);
+  font-size: 12px;
+  padding: 7px;
+  color: var(--oc-gray-5);
+}
+
+.chart_controller {
+  cursor: pointer;
+
+  &.controller_active {
+    color: var(--oc-white);
+  }
 }

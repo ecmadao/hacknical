@@ -1,7 +1,6 @@
 /* eslint new-cap: "off" */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
@@ -141,7 +140,6 @@ class GitHubMobileShare extends React.Component {
   }
 
   renderYearlyChart(commits) {
-    const commitsChart = ReactDOM.findDOMNode(this.commitsYearlyChart);
     const commitDates = [];
     const dateLabels = [];
 
@@ -185,7 +183,7 @@ class GitHubMobileShare extends React.Component {
     //     `${getDateBySeconds(item.week - 7 * 24 * 60 * 60)} ~ ${getDateBySeconds(item.week)}`
     //   );
     // });
-    this.commitsYearlyReviewChart = new Chart(commitsChart, {
+    this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChart, {
       type: 'line',
       data: {
         labels: dateLabels,
@@ -252,8 +250,7 @@ class GitHubMobileShare extends React.Component {
       skills.push(obj.star);
     });
 
-    const languageSkill = ReactDOM.findDOMNode(this.languageSkill);
-    this.languageSkillChart = new Chart(languageSkill, {
+    this.languageSkillChart = new Chart(this.languageSkill, {
       type: 'radar',
       data: {
         labels: languages,
@@ -286,8 +283,7 @@ class GitHubMobileShare extends React.Component {
         chart.repos.commitsDatasets(renderedRepos, commits)
       );
     }
-    const reposReview = ReactDOM.findDOMNode(this.reposReview);
-    this.reposChart = new Chart(reposReview, {
+    this.reposChart = new Chart(this.reposReview, {
       type: 'bar',
       data: {
         datasets,

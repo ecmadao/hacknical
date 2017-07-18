@@ -27,10 +27,10 @@
   right: 20px;
   z-index: var(--zIndex9);
   border-radius: 2px;
-  background-color: var(--oc-gray-5);
+  background-color: var(--oc-gray-7);
   font-size: 12px;
   padding: 7px;
-  color: var(--oc-gray-3);
+  color: var(--oc-gray-5);
 }
 
 .chart_controller {

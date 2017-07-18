@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'UTILS/object-assign';
 import { getValidateViewSources } from 'UTILS/analysis';
+import { VIEW_TYPES } from '../shared/data';
 
 const initialState = {
   resume: {
@@ -11,7 +12,8 @@ const initialState = {
     },
     viewDevices: [],
     viewSources: [],
-    pageViews: []
+    pageViews: [],
+    viewType: VIEW_TYPES.HOURLY.ID
   },
   github: {
     loading: true,
@@ -21,7 +23,8 @@ const initialState = {
     },
     viewDevices: [],
     viewSources: [],
-    pageViews: []
+    pageViews: [],
+    viewType: VIEW_TYPES.HOURLY.ID
   }
 };
 
@@ -86,6 +89,17 @@ const reducers = handleActions({
     return ({
       ...state,
       resume: objectAssign({}, resume, newResume)
+    });
+  },
+
+  ON_PAGE_VIEW_TYPE_CHANGE(state, action) {
+    const { viewType, activeTab } = action.payload;
+    const obj = state[activeTab];
+    return ({
+      ...state,
+      [activeTab]: objectAssign({}, obj, {
+        viewType
+      })
     });
   },
 }, initialState);
