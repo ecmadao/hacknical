@@ -68,13 +68,11 @@ const addPubResume = async (userId, options = {}) => {
   if (saveResult) {
     return Promise.resolve({
       success: true,
-      message: '创建成功',
       result: saveResult
     });
   }
   return Promise.resolve({
     success: false,
-    message: '创建失败',
     result: null
   });
 };
@@ -115,17 +113,17 @@ const checkResumeShare = async (options, verify = {}) => {
 
 const getPubResumeInfo = async (options) => {
   const findResult = await findPublicResume(options);
-  if (!findResult.success) { return findResult; }
+  if (!findResult.success) return findResult;
   const { userId } = findResult.result;
 
   const findResume = await Resume.getResume(userId);
-  if (!findResume.success) { return findResume }
+  if (!findResume.success) return findResume;
 
   return Promise.resolve({
     success: true,
     result: {
+      userId,
       name: findResume.result.info.name,
-      userId
     }
   });
 };
@@ -133,9 +131,7 @@ const getPubResumeInfo = async (options) => {
 const getUpdateTime = async (resumeHash) => {
   const findResult = await findPublicResume({ resumeHash });
   const { result, success } = findResult;
-  if (!success) {
-    return findResult;
-  }
+  if (!success) return findResult;
 
   const { userId } = result;
   return await Resume.getUpdateTime(userId);
@@ -172,5 +168,5 @@ export default {
   getPubResume,
   getUpdateTime,
   getPubResumeInfo,
-  checkResumeShare
+  checkResumeShare,
 };

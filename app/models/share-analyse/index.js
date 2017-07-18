@@ -91,7 +91,6 @@ const updateShare = async (options) => {
   if (!analyse.enable) {
     return Promise.resolve({
       success: false,
-      message: '该分享已被关闭'
     });
   }
   const { pageViews } = analyse;

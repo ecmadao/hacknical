@@ -9,12 +9,14 @@ const getPubResumeInfo = async (ctx) => {
   const { hash } = ctx.params;
   const findResume = await ResumePub.getPubResumeInfo({ resumeHash: hash });
 
-  const { name, userId } = findResume.result;
-  const user = await User.findUserById(userId);
-  return {
-    name,
-    login: user.githubInfo.login
-  };
+  if (findResume.success) {
+    const { name, userId } = findResume.result;
+    const user = await User.findUserById(userId);
+    return {
+      name,
+      login: user.githubInfo.login
+    };
+  }
 };
 
 const updateViewData = async (ctx, options) => {
@@ -64,7 +66,7 @@ const collectResumeRecord = async (ctx, next) => {
 
   const { githubLogin } = ctx.session;
   const user = await getPubResumeInfo(ctx);
-  const isAdmin = user.login === githubLogin;
+  const isAdmin = user && user.login === githubLogin;
 
   if ((!isAdmin && !notrace) || notrace === 'false') {
     const url = `resume/${hash}`;
@@ -72,8 +74,8 @@ const collectResumeRecord = async (ctx, next) => {
   }
 
   ctx.query.isAdmin = isAdmin;
-  ctx.query.userName = user.name;
-  ctx.query.userLogin = user.login;
+  ctx.query.userName = user ? user.name : '';
+  ctx.query.userLogin = user ? user.login : '';
   await next();
 };
 

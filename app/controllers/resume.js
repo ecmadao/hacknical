@@ -53,8 +53,8 @@ const getResume = async (ctx) => {
   const getResult = await Resume.getResume(userId);
   const { result } = getResult;
   ctx.body = {
+    result,
     success: true,
-    result
   };
 };
 
@@ -106,7 +106,7 @@ const downloadResume = async (ctx) => {
   const checkPubResume = await ResumePub.findPublicResume({ userId });
   if (!checkPubResume.success) {
     ctx.body = {
-      error: ctx.__('messages.error.download'),
+      error: ctx.__('messages.error.resume'),
       success: true
     };
     return;
@@ -139,12 +139,13 @@ const downloadResume = async (ctx) => {
 const getPubResume = async (ctx, next) => {
   const { hash } = ctx.query;
   const findResume = await ResumePub.getPubResume(hash);
-  const { result, message } = findResume;
+  const { result, success } = findResume;
+  const error = success ? '' : ctx.__('messages.error.resume');
 
   ctx.body = {
-    message,
     result,
-    success: true
+    error,
+    success: true,
   };
 
   await next();
@@ -248,8 +249,8 @@ const setResumeShareTemplate = async (ctx) => {
   const { result, success } = findPubResume;
   if (!success) {
     ctx.body = {
-      error: '请先创建简历',
-      success: true
+      success: true,
+      error: ctx.__('messages.error.emptyResume')
     };
     return;
   }
@@ -360,5 +361,5 @@ export default {
   setResumeShareTemplate,
   setResumeGithubStatus,
   setGithubShareSection,
-  getShareRecords
+  getShareRecords,
 };

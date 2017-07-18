@@ -1,6 +1,17 @@
 import Resume from './schema';
 import { DEFAULT_RESUME } from '../../utils/datas';
 
+const addResume = async (userId, resume = DEFAULT_RESUME) => {
+  const addResult = await Resume.create({
+    userId,
+    resume
+  });
+  return Promise.resolve({
+    success: addResult,
+    result: addResult || null
+  });
+};
+
 const initialResume = async (userId, options) => {
   const newResume = Object.assign({}, DEFAULT_RESUME);
   newResume.info.name = options.name || '';
@@ -10,18 +21,6 @@ const initialResume = async (userId, options) => {
 
 const findResume = async options =>
   await Resume.findOne(options);
-
-const addResume = async (userId, resume = DEFAULT_RESUME) => {
-  const addResult = await Resume.create({
-    userId,
-    resume
-  });
-  return Promise.resolve({
-    success: addResult,
-    message: '新增简历成功',
-    result: addResult || null
-  });
-};
 
 const updateResume = async (userId, resume, cache) => {
   const findResult = await findResume({ userId });
@@ -46,7 +45,6 @@ const getResume = async (userId) => {
   if (!getResult) {
     return Promise.resolve({
       success: false,
-      message: '没有查询到结果',
       result: null
     });
   }
@@ -60,7 +58,6 @@ const getResume = async (userId) => {
   } = resume;
   return Promise.resolve({
     success: true,
-    message: '',
     result: {
       info,
       others,
@@ -78,7 +75,6 @@ const findAll = async () => await Resume.find({});
 
 export default {
   initialResume,
-  addResume,
   getResume,
   getUpdateTime,
   updateResume,

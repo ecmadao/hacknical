@@ -17,7 +17,7 @@ const getGithubInfo = (userInfo) => {
     id,
     login,
     name,
-    email
+    email,
   };
 };
 

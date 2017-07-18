@@ -53,7 +53,8 @@
       "findUser": "Find user failed",
       "frequent": "Too many attempts, please retry later",
       "update": "Update failed",
-      "download": "Can not find your resume"
+      "resume": "Can not find your resume",
+      "emptyResume": "Please create your resume"
     },
     "success": {
       "save": "Save succeeded",
