@@ -2,43 +2,40 @@ import { createActions } from 'redux-actions';
 import Api from 'API/index';
 
 const {
-  // github
-  toggleGithubLoading,
-  initialGithubShareData,
-  // resume
-  toggleResumeLoading,
-  initialResumeShareData,
+  onAnalysisDataTabChange,
+  toggleAnalysisDataLoading,
+  initialAnalysisData,
   onPageViewTypeChange,
 } = createActions(
-  'TOGGLE_GITHUB_LOADING',
-  'INITIAL_GITHUB_SHARE_DATA',
-  'TOGGLE_RESUME_LOADING',
-  'INITIAL_RESUME_SHARE_DATA',
+  'ON_ANALYSIS_DATA_TAB_CHANGE',
+  'TOGGLE_ANALYSIS_DATA_LOADING',
+  'INITIAL_ANALYSIS_DATA',
   'ON_PAGE_VIEW_TYPE_CHANGE',
 );
 
 // github
 const fetchGithubShareData = () => (dispatch) => {
+  dispatch(toggleAnalysisDataLoading(true));
   Api.github.getShareRecords().then((result) => {
-    dispatch(initialGithubShareData(result));
+    dispatch(initialAnalysisData(result));
   });
 };
 
 // resume
 const fetchResumeShareData = () => (dispatch) => {
+  dispatch(toggleAnalysisDataLoading(true));
   Api.resume.getShareRecords().then((result) => {
-    dispatch(initialResumeShareData(result));
+    dispatch(initialAnalysisData(result));
   });
 };
 
 export default {
+  onAnalysisDataTabChange,
+  toggleAnalysisDataLoading,
+  initialAnalysisData,
+  onPageViewTypeChange,
   // github
-  toggleGithubLoading,
-  initialGithubShareData,
   fetchGithubShareData,
   // resume
-  toggleResumeLoading,
-  initialResumeShareData,
   fetchResumeShareData,
-  onPageViewTypeChange,
 };

@@ -20,13 +20,13 @@ export const VIEW_TYPES = {
   },
 };
 
-export const PROFILE_SECTIONS = [
-  {
-    id: 'resume',
-    text: profileTexts.resume.title
+export const PROFILE_SECTIONS = {
+  RESUME: {
+    ID: 'resume',
+    TEXT: profileTexts.resume.title
   },
-  {
-    id: 'github',
-    text: profileTexts.github.title
-  }
-];
+  GITHUB: {
+    ID: 'github',
+    TEXT: profileTexts.github.title
+  },
+};

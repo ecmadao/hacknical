@@ -4,8 +4,10 @@ import { getValidateViewSources } from 'UTILS/analysis';
 import { VIEW_TYPES } from '../shared/data';
 
 const initialState = {
+  activeTab: 'resume',
   resume: {
-    loading: true,
+    loading: false,
+    fetched: false,
     info: {
       url: '',
       openShare: false
@@ -16,7 +18,8 @@ const initialState = {
     viewType: VIEW_TYPES.HOURLY.ID
   },
   github: {
-    loading: true,
+    loading: false,
+    fetched: false,
     info: {
       url: '',
       openShare: false
@@ -30,15 +33,46 @@ const initialState = {
 
 
 const reducers = handleActions({
-  // github
-  TOGGLE_GITHUB_LOADING(state, action) {
-    const { github } = state;
+  ON_ANALYSIS_DATA_TAB_CHANGE(state, action) {
     return ({
       ...state,
-      github: objectAssign({}, github, { loading: action.payload })
+      activeTab: action.payload
+    });
+  },
+  TOGGLE_ANALYSIS_DATA_LOADING(state, action) {
+    const { activeTab } = state;
+    return ({
+      ...state,
+      [activeTab]: objectAssign({}, state[activeTab], {
+        loading: action.payload
+      })
     });
   },
 
+  INITIAL_ANALYSIS_DATA(state, action) {
+    const { activeTab } = state;
+    const obj = state[activeTab];
+    const {
+      url,
+      openShare,
+      viewDevices,
+      viewSources,
+      pageViews
+    } = action.payload;
+    return ({
+      ...state,
+      [activeTab]: objectAssign({}, obj, {
+        loading: false,
+        fetched: true,
+        info: objectAssign({}, obj.info, { url, openShare }),
+        viewDevices: [...viewDevices],
+        viewSources: getValidateViewSources(viewSources),
+        pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+      })
+    });
+  },
+
+  // github
   INITIAL_GITHUB_SHARE_DATA(state, action) {
     const { github } = state;
     const {
@@ -50,6 +84,7 @@ const reducers = handleActions({
     } = action.payload;
     const newGithub = {
       loading: false,
+      fetched: true,
       info: objectAssign({}, github.info, { url, openShare }),
       viewDevices: [...viewDevices],
       viewSources: getValidateViewSources(viewSources),
@@ -62,14 +97,6 @@ const reducers = handleActions({
   },
 
   // resume
-  TOGGLE_RESUME_LOADING(state, action) {
-    const { resume } = state;
-    return ({
-      ...state,
-      resume: objectAssign({}, resume, { loading: action.payload })
-    });
-  },
-
   INITIAL_RESUME_SHARE_DATA(state, action) {
     const { resume } = state;
     const {
@@ -81,6 +108,7 @@ const reducers = handleActions({
     } = action.payload;
     const newResume = {
       loading: false,
+      fetched: true,
       info: objectAssign({}, resume.info, { url, openShare }),
       viewDevices: [...viewDevices],
       viewSources: getValidateViewSources(viewSources),
@@ -93,12 +121,12 @@ const reducers = handleActions({
   },
 
   ON_PAGE_VIEW_TYPE_CHANGE(state, action) {
-    const { viewType, activeTab } = action.payload;
+    const { activeTab } = state;
     const obj = state[activeTab];
     return ({
       ...state,
       [activeTab]: objectAssign({}, obj, {
-        viewType
+        viewType: action.payload
       })
     });
   },

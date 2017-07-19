@@ -11,83 +11,66 @@ import { PROFILE_SECTIONS } from '../shared/data';
 const profileTexts = locales('dashboard').profile;
 
 class Profile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: 'resume'
-    };
-    this.changeActiveTab = this.changeActiveTab.bind(this);
-    this.onViewTypeChange = this.onViewTypeChange.bind(this);
-  }
-
-  changeActiveTab(activeTab) {
-    this.setState({ activeTab });
-  }
-
   renderNavigation() {
-    const { activeTab } = this.state;
-    return PROFILE_SECTIONS.map((section, index) => {
-      const { id, text } = section;
+    const { activeTab, actions } = this.props;
+    return Object.keys(PROFILE_SECTIONS).map((key, index) => {
+      const { ID, TEXT } = PROFILE_SECTIONS[key];
       const sectionClass = cx(
         styles.section,
-        activeTab === id && styles.active
+        activeTab === ID && styles.active
       );
       return (
         <div className={sectionClass} key={index}>
           <div
             className={styles.section_wrapper}
-            onClick={() => this.changeActiveTab(id)}
+            onClick={() => actions.onAnalysisDataTabChange(ID)}
           >
-            {text}
+            {TEXT}
           </div>
         </div>
       )
     });
   }
 
-  onViewTypeChange(viewType) {
-    const { actions } = this.props;
-    const { activeTab } = this.state;
-    actions.onPageViewTypeChange({
-      viewType,
-      activeTab,
-    });
+  get actions() {
+    const { actions, activeTab } = this.props;
+    const sectionActions = {
+      [PROFILE_SECTIONS.RESUME.ID]: {
+        fetchShareData: actions.fetchResumeShareData,
+      },
+      [PROFILE_SECTIONS.GITHUB.ID]: {
+        fetchShareData: actions.fetchGithubShareData,
+      },
+    };
+    return {
+      ...sectionActions[activeTab],
+      onViewTypeChange: actions.onPageViewTypeChange,
+    };
+  }
+
+  get analysisProps() {
+    const { activeTab } = this.props;
+    return {
+      ...this.props[activeTab],
+      text: profileTexts[activeTab].shareText,
+    };
   }
 
   render() {
-    const { activeTab } = this.state;
-    const { github, resume, actions } = this.props;
+    const { activeTab } = this.props;
 
     return (
       <div className={styles.container}>
         <div className={styles.navigation}>
           {this.renderNavigation()}
         </div>
-        {activeTab === 'resume' ? (
-          <ShareAnalysis
-            actions={{
-              fetchShareData: actions.fetchResumeShareData,
-              onViewTypeChange: this.onViewTypeChange,
-            }}
-            index={0}
-            key={0}
-            text={profileTexts.resume.shareText}
-            {...resume}
-          />
-        ) : (
-          <ShareAnalysis
-            actions={{
-              fetchShareData: actions.fetchGithubShareData,
-              onViewTypeChange: this.onViewTypeChange,
-            }}
-            index={1}
-            key={1}
-            text={profileTexts.github.shareText}
-            {...github}
-          />
-        )}
+        <ShareAnalysis
+          actions={this.actions}
+          index={activeTab}
+          {...this.analysisProps}
+        />
       </div>
-    )
+    );
   }
 }
 

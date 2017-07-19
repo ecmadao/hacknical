@@ -27,6 +27,7 @@ class ShareAnalysis extends React.Component {
   constructor(props) {
     super(props);
     this.qrcode = null;
+    this.clipboard = null;
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
@@ -34,24 +35,42 @@ class ShareAnalysis extends React.Component {
   }
 
   componentDidMount() {
-    const { actions, index } = this.props;
-    actions.fetchShareData();
-    this.clipboard = new Clipboard(`#copyLinkButton-${index}`, {
-      text: () => $(`#shareGithubUrl-${index}`).val()
-    });
+    const { loading, actions, fetched } = this.props;
+    if (!loading && !fetched) actions.fetchShareData();
   }
 
   componentDidUpdate() {
-    const { loading } = this.props;
-    if (loading) { return; }
+    const { loading, actions, fetched } = this.props;
+    if (!loading && !fetched) actions.fetchShareData();
+    if (loading || !fetched) { return; }
     !this.pageViewsChart && this.renderViewsChart();
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
     !this.qrcode && this.renderQrcode();
+    !this.clipboard && this.renderClipboard();
   }
 
-  componentWillUnmount() {
-    this.clipboard && this.clipboard.destroy();
+  componentWillUpdate(nextProps) {
+    const { index } = this.props;
+    if (index !== nextProps.index) {
+      this.pageViewsChart && this.pageViewsChart.destroy();
+      this.viewDevicesChart && this.viewDevicesChart.destroy();
+      this.viewSourcesChart && this.viewSourcesChart.destroy();
+      this.clipboard && this.clipboard.destroy();
+
+      this.pageViewsChart = null;
+      this.viewDevicesChart = null;
+      this.viewSourcesChart = null;
+      this.qrcode = null;
+      this.clipboard = null;
+    }
+  }
+
+  renderClipboard() {
+    const { index } = this.props;
+    this.clipboard = new Clipboard(`#copyLinkButton-${index}`, {
+      text: () => $(`#shareGithubUrl-${index}`).val()
+    });
   }
 
   copyUrl() {
@@ -128,8 +147,8 @@ class ShareAnalysis extends React.Component {
     const viewDates = dateLabels.map(key => validatePageViews[key]);
 
     const datasetsConfig = {
+      label: title,
       data: viewDates,
-      label: title
     };
     return {
       dateLabels,
@@ -163,7 +182,9 @@ class ShareAnalysis extends React.Component {
       type: 'line',
       data: {
         labels: dateLabels,
-        datasets: [objectAssign({}, LINE_CONFIG, datasetsConfig)]
+        datasets: [
+          objectAssign({}, LINE_CONFIG, datasetsConfig)
+        ]
       },
       options: {
         scales: {
@@ -241,12 +262,16 @@ class ShareAnalysis extends React.Component {
       }
       return current.count + prev;
     }, '');
-    const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count));
+    const maxPlatformCount = Math.max(
+      ...viewDevices.map(viewDevice => viewDevice.count)
+    );
     const platforms = viewDevices
       .filter(viewDevice => viewDevice.count === maxPlatformCount)
       .map(viewDevice => viewDevice.platform);
 
-    const maxBrowserCount = Math.max(...viewSources.map(viewSource => viewSource.count));
+    const maxBrowserCount = Math.max(
+      ...viewSources.map(viewSource => viewSource.count)
+    );
     const browsers = viewSources
       .filter(viewSource => viewSource.count === maxBrowserCount)
       .map(viewSource => viewSource.browser);
@@ -298,6 +323,7 @@ class ShareAnalysis extends React.Component {
       const onClick = isActive
         ? () => {}
         : () => {
+          this.pageViewsChart.destroy();
           this.pageViewsChart = null;
           actions.onViewTypeChange(ID);
         };
