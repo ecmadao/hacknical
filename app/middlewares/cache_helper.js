@@ -31,7 +31,7 @@ const RedisCache = (options = {}) => {
     prefix,
     parser: 'hiredis'
   }));
-  logger.info(`[REDIS:CONNECT] Connected to redis: ${url}`);
+  logger.info(`[REDIS:CONNECT][Connected to redis: ${url}]`);
   redisClient.on('error', () => { redisAvailable = false; });
   redisClient.on('end', () => { redisAvailable = false; });
   redisClient.on('connect', () => { redisAvailable = true; });

@@ -21,7 +21,7 @@
 	"errorPage": {
 		"title": "hacknical | 没有找到页面",
     "404": "没有找到页面",
-		"text": "阿西吧!你进入了未知区域",
+		"text": "阿西吧！你进入了未知区域",
 		"redirectText": "即将回到首页"
 	},
 	"dashboard": {
