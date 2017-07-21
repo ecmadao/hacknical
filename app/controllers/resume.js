@@ -64,6 +64,12 @@ const setResume = async (ctx, next) => {
 
   const setResult = await Resume.updateResume(userId, resume, ctx.cache);
   logger.info(`[RESUME:UPDATE][${githubLogin}]`);
+  if (resume.info && resume.info.email) {
+    User.updateUserInfo({
+      userId,
+      email: resume.info.email
+    });
+  }
   let resumeInfo = null;
   if (setResult.success) {
     // check & add resume share info

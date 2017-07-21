@@ -32,7 +32,11 @@ const UserSchema = new Schema({
     orgs: { type: Boolean, default: true },
     course: { type: Boolean, default: true }
   },
-  initialed: { type: Boolean, default: false }
+  initialed: { type: Boolean, default: false },
+  notification: {
+    weekly: { type: Boolean, default: true },
+    update: { type: Boolean, default: true },
+  },
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });

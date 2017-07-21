@@ -11,12 +11,15 @@
     <div class="footer-section footer-right">
       {% if not isMobile %}
         <span class="footer-intro">
-          Build by <a href="https://github.com/ecmadao" target="_blank">ecmadao</a> with ❤️
-        </span>&nbsp;&nbsp;&nbsp;
+          <i class="fa fa-code" aria-hidden="true"></i> by <a href="https://github.com/ecmadao" target="_blank">ecmadao</a> with <i class="fa fa-heart" aria-hidden="true"></i>
+        </span>
+        &nbsp;&nbsp;&nbsp;
       {% endif %}
-      <a href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-zh.md" target="_blank">{{ footer.about }}</a>&nbsp;&nbsp;
+      <a href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-zh.md" target="_blank">{{ footer.about }}</a>
+      &nbsp;&nbsp;
       {% if not isMobile %}
-        <a href="https://github.com/ecmadao/hacknical/issues" target="_blank">{{ footer.feedback }}</a>&nbsp;&nbsp;
+        <a href="https://github.com/ecmadao/hacknical/issues" target="_blank">{{ footer.feedback }}</a>
+        &nbsp;&nbsp;
         <a href="https://github.com/ecmadao/hacknical" target="_blank">{{ footer.code }}</a>
       {% endif %}
     </div>
