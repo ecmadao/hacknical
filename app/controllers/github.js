@@ -215,9 +215,6 @@ const getUserCommits = async (ctx, next) => {
     formatCommits
   } = await _getCommits(githubLogin, githubToken);
 
-  if (!commits.length) {
-    ctx.query.shouldCache = false;
-  }
   ctx.body = {
     success: true,
     result: {

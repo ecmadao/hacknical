@@ -16,13 +16,14 @@ const history = syncHistoryWithStore(browserHistory, AppStore);
 //   whyDidYouUpdate(React);
 // }
 
-const renderApp = (id) => {
+const renderApp = (id, props = {}) => {
   const ROOT_DOM = document.getElementById(id);
   ReactDOM.render(
     <AppContainer
       store={AppStore}
       history={history}
       routes={routes(AppStore)}
+      {...props}
     />,
     ROOT_DOM
   );

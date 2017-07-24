@@ -26,8 +26,8 @@ class OrgInfo extends React.Component {
   }
 
   componentDidUpdate(preProps) {
-    const { userLogin } = this.props;
-    if (!preProps.userLogin && userLogin) {
+    const { userLogin, login } = this.props;
+    if (!preProps.login && login) {
       this.getGithubOrgs(userLogin);
     }
   }
@@ -55,12 +55,12 @@ class OrgInfo extends React.Component {
 
   renderOrgsCard() {
     const { orgs } = this.state;
-    const { userLogin } = this.props;
+    const { login } = this.props;
     const filterRepos = [];
     orgs.forEach((organizations) => {
       const repos = organizations.repos
         .filter(repository => repository.contributors.some(contributor =>
-            contributor.login === userLogin)
+            contributor.login === login)
         );
       filterRepos.push(...repos);
     });
@@ -134,7 +134,7 @@ class OrgInfo extends React.Component {
 
   renderOrgDetail() {
     const { activeIndex, orgs } = this.state;
-    const { userLogin } = this.props;
+    const { login } = this.props;
     if (!orgs.length) { return '' }
     const activeOrg = orgs[activeIndex];
     const { created_at, description, blog } = activeOrg;
@@ -166,7 +166,7 @@ class OrgInfo extends React.Component {
         ) : ''}
         <OrgRepos
           repos={repos.sort(sortByStar).reverse()}
-          userLogin={userLogin}
+          login={login}
         />
       </div>
     );
@@ -198,10 +198,12 @@ class OrgInfo extends React.Component {
 
 OrgInfo.propTypes = {
   className: PropTypes.string,
-  userLogin: PropTypes.string
+  userLogin: PropTypes.string,
+  login: PropTypes.string,
 };
 
 OrgInfo.defaultProps = {
+  login: '',
   userLogin: '',
   className: ''
 };

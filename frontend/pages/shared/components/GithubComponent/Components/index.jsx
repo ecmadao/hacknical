@@ -51,15 +51,16 @@ class GithubComponent extends React.Component {
       reposLoaded,
       commitLoaded
     } = this.state;
+    const { login } = this.props;
 
     this.removeLoading('#loading');
 
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
-      !reposLoaded && this.getGithubRepos(user.login);
+      !reposLoaded && this.getGithubRepos(login);
     }
     if (reposLoaded && !preState.reposLoaded) {
-      !commitLoaded && this.getGithubCommits(user.login);
+      !commitLoaded && this.getGithubCommits(login);
     }
   }
 
@@ -137,7 +138,7 @@ class GithubComponent extends React.Component {
   }
 
   toggleShareModal(openShareModal) {
-    this.setState({ openShareModal })
+    this.setState({ openShareModal });
   }
 
   async changeGithubSection(sections) {
@@ -192,7 +193,7 @@ class GithubComponent extends React.Component {
           </div>
         ) : ''}
         <GitHubSection
-          userLogin={login}
+          login={login}
           title={{
             text: githubTexts.hotmap.title,
             icon: 'cloud-upload'
@@ -221,7 +222,9 @@ class GithubComponent extends React.Component {
         <GitHubSection
           loaded={reposLoaded || commitLoaded}
           commitDatas={commitDatas}
-          userRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
+          userRepos={
+            repos.filter(repository => !repository.fork).sort(sortRepos())
+          }
           forkedRepos={repos.filter(repository => repository.fork)}
 
           title={{
@@ -243,8 +246,9 @@ class GithubComponent extends React.Component {
         <GitHubSection
           loaded={reposLoaded}
           showedReposId={showedReposId}
-          userRepos={repos.filter(repository => !repository.fork).sort(sortRepos())}
-
+          userRepos={
+            repos.filter(repository => !repository.fork).sort(sortRepos())
+          }
           title={{
             text: githubTexts.course.title,
             icon: 'trophy'
@@ -262,7 +266,8 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          userLogin={login}
+          userLogin={this.props.login}
+          login={login}
           title={{
             text: githubTexts.orgs.title,
             icon: 'rocket'
@@ -359,7 +364,7 @@ GithubComponent.propTypes = {
 };
 
 GithubComponent.defaultProps = {
-  login: '',
+  login: window.login,
   isShare: false,
   githubSection: {},
   containerStyle: '',

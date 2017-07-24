@@ -10,11 +10,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 import GithubComponent from 'SHARED/components/GithubComponent';
 
-const renderApp = (domId) => {
+const renderApp = (domId, props = {}) => {
   ReactDOM.render(
     <GithubComponent
-      login={window.login}
-      isShare={window.isShare}
+      {...props}
     />,
     document.getElementById(domId)
   );

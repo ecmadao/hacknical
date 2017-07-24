@@ -1,3 +1,5 @@
+/* eslint new-cap: "off" */
+
 import React from 'react';
 import cx from 'classnames';
 import { Loading } from 'light-ui';
@@ -13,10 +15,10 @@ class Hotmap extends React.Component {
   }
 
   componentDidUpdate() {
-    const { userLogin } = this.props;
-    if (!this.githubCalendar && userLogin) {
+    const { login } = this.props;
+    if (!this.githubCalendar && login) {
       this.githubCalendar = true;
-      $('#calendar') && GitHubCalendar('#calendar', userLogin);
+      $('#calendar') && GitHubCalendar('#calendar', login);
     }
   }
 

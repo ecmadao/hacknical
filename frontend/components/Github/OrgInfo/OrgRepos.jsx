@@ -100,13 +100,13 @@ class OrgRepos extends React.Component {
 
   renderRepos() {
     const { activeReposIndex } = this.state;
-    const { repos, userLogin } = this.props;
+    const { repos, login } = this.props;
 
     const activeIndex = activeReposIndex >= repos.length ? 0 : activeReposIndex;
     return repos.map((repository, index) => {
       const { contributors } = repository;
       const filterContributions = contributors
-        .filter(contributor => contributor.login === userLogin);
+        .filter(contributor => contributor.login === login);
       const totalContributions = contributors.reduce((prev, current, i) => {
         if (i === 0) {
           return current.total;
@@ -183,12 +183,12 @@ class OrgRepos extends React.Component {
 
 OrgRepos.propTypes = {
   repos: PropTypes.array,
-  userLogin: PropTypes.string,
+  login: PropTypes.string,
 };
 
 OrgRepos.defaultProps = {
   repos: [],
-  userLogin: ''
+  login: ''
 };
 
 export default OrgRepos;
