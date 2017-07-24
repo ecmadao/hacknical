@@ -15,10 +15,12 @@ const getAllRepos = () => fetchInfo('/repos/all');
 const fetchRepos = () => fetchInfo('/repos/initial');
 const fetchCommits = () => fetchInfo('/commits/initial');
 const fetchOrgs = () => fetchInfo('/orgs/initial');
-const getRepos = (login = null) => fetchInfo(routerAdapter('repos', login));
-const getCommits = (login = null) => fetchInfo(routerAdapter('commits', login));
-const getOrgs = (login = null) => fetchInfo(routerAdapter('orgs', login));
-const getUser = (login = null) => fetchInfo(routerAdapter('user', login));
+const getRepos = login => fetchInfo(routerAdapter('repos', login));
+const getContributed = login =>
+  fetchInfo(routerAdapter('contributed', login));
+const getCommits = login => fetchInfo(routerAdapter('commits', login));
+const getOrgs = login => fetchInfo(routerAdapter('orgs', login));
+const getUser = login => fetchInfo(routerAdapter('user', login));
 
 
 /* toggle user github share */
@@ -37,8 +39,12 @@ const zen = () => fetchInfo('/zen');
 const octocat = () => fetchInfo('/octocat');
 
 export default {
+  zen,
+  octocat,
+  refresh,
   getUser,
   getRepos,
+  getContributed,
   getAllRepos,
   getCommits,
   getOrgs,
@@ -48,7 +54,4 @@ export default {
   toggleShare,
   getShareRecords,
   getUpdateTime,
-  refresh,
-  zen,
-  octocat
 };

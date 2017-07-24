@@ -29,12 +29,25 @@ const _getRepos = async (login, token) => {
     ? repos.filter(repository => checkPinned(repository) || repository.fork)
     : repos;
 
-  return pinnedRepos;
+  const reposLanguages = getReposLanguages(pinnedRepos);
+  return {
+    repos: pinnedRepos,
+    reposLanguages,
+  };
+};
+
+const _getContributed = async (login, token) => {
+  const { repos } = await Api.getUserRepos(login, token);
+  return repos;
 };
 
 const _getCommits = async (login, token) => {
   const { commits } = await Api.getUserCommits(login, token);
-  return commits;
+  const formatCommits = combineReposCommits(commits);
+  return {
+    commits,
+    formatCommits,
+  };
 };
 
 const _getOrgs = async (login, token) => {
@@ -124,13 +137,40 @@ const getAllRepos = async (ctx, next) => {
   await next();
 };
 
-const getSharedRepos = async (ctx, next) => {
-  const repos = await _getRepos(ctx.params.login, ctx.session.githubToken);
+const getSharedContributed = async (ctx, next) => {
+  const repos =
+    await _getContributed(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
     result: {
       repos,
-      reposLanguages: getReposLanguages(repos),
+    }
+  };
+  await next();
+};
+
+const getUserContributed = async (ctx, next) => {
+  const { githubLogin, githubToken } = ctx.session;
+  const repos = await _getContributed(githubLogin, githubToken);
+  ctx.body = {
+    success: true,
+    result: {
+      repos,
+    }
+  };
+  await next();
+};
+
+const getSharedRepos = async (ctx, next) => {
+  const {
+    repos,
+    reposLanguages,
+  } = await _getRepos(ctx.params.login, ctx.session.githubToken);
+  ctx.body = {
+    success: true,
+    result: {
+      repos,
+      reposLanguages,
     }
   };
   await next();
@@ -138,20 +178,26 @@ const getSharedRepos = async (ctx, next) => {
 
 const getUserRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const repos = await _getRepos(githubLogin, githubToken);
+  const {
+    repos,
+    reposLanguages,
+  } = await _getRepos(githubLogin, githubToken);
   ctx.body = {
     success: true,
     result: {
       repos,
-      reposLanguages: getReposLanguages(repos),
+      reposLanguages,
     }
   };
   await next();
 };
 
 const getSharedCommits = async (ctx, next) => {
-  const commits = await _getCommits(ctx.params.login, ctx.session.githubToken);
-  const formatCommits = combineReposCommits(commits);
+  const {
+    commits,
+    formatCommits
+  } = await _getCommits(ctx.params.login, ctx.session.githubToken);
+
   ctx.body = {
     success: true,
     result: {
@@ -164,12 +210,14 @@ const getSharedCommits = async (ctx, next) => {
 
 const getUserCommits = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const commits = await _getCommits(githubLogin, githubToken);
+  const {
+    commits,
+    formatCommits
+  } = await _getCommits(githubLogin, githubToken);
 
   if (!commits.length) {
     ctx.query.shouldCache = false;
   }
-  const formatCommits = combineReposCommits(commits);
   ctx.body = {
     success: true,
     result: {
@@ -404,8 +452,10 @@ export default {
   getAllRepos,
   getUserRepos,
   getUserCommits,
+  getUserContributed,
   getUserOrgs,
   getSharedRepos,
+  getSharedContributed,
   getSharedCommits,
   getSharedOrgs,
   toggleShare,

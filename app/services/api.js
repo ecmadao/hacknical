@@ -6,64 +6,75 @@ const appName = config.get('appName');
 
 /* =========================== basic funcs =========================== */
 
-const fetchApi = (url, headers = {}, timeouts) => {
-  const options = {
+const fetchApi = (url, options = {}) => {
+  const {
+    qs,
+    timeouts,
+    headers = {},
+  } = options;
+  headers['X-App-Name'] = appName;
+  return fetch.get({
+    qs,
+    url,
     headers,
-    url
-  };
-  return fetch.get(options, timeouts);
+  }, timeouts);
 };
-
-// const postApi = (url, timeouts) => {
-//   const options = {
-//     url
-//   };
-//   return fetch.post(options, timeouts);
-// };
 
 /* =========================== api funcs =========================== */
 
-const getZen = async () => fetchApi('/zen', {
-  'X-App-Name': appName
-});
-const getOctocat = async () => fetchApi('/octocat', {
-  'X-App-Name': appName
+const getZen = async () => fetchApi('/zen');
+const getOctocat = async () => fetchApi('/octocat');
+
+const getVerify = async () => fetchApi('/verify');
+const getToken = async code => fetchApi('/token', {
+  qs: { code }
 });
 
-const getVerify = async () => fetchApi('/verify', {
-  'X-App-Name': appName
+const getLogin = async token => fetchApi('/login', {
+  qs: { token }
 });
-const getToken = async code => fetchApi(`/token?code=${code}`);
-
-const getLogin = async token => fetchApi(`/login?token=${token}`);
 const getUser = async (login, token) =>
-  fetchApi(`/user?login=${login}&token=${token}`);
+  fetchApi('/user', {
+    qs: { login, token }
+  });
 
 const getUserRepos = async (login, token) =>
-  fetchApi(`/user/repos?login=${login}&token=${token}`);
+  fetchApi('/user/repos', {
+    qs: { login, token }
+  });
+const getUserContributed = async (login, token) =>
+  fetchApi('/user/contributed', {
+    qs: { login, token }
+  });
 const getUserCommits = async (login, token) =>
-  fetchApi(`/user/commits?login=${login}&token=${token}`);
+  fetchApi('/user/commits', {
+    qs: { login, token }
+  });
 const getUserOrgs = async (login, token) =>
-  fetchApi(`/user/orgs?login=${login}&token=${token}`);
+  fetchApi('/user/orgs', {
+    qs: { login, token }
+  });
 
 const getUpdateTime = async login =>
-  fetchApi(`/user/updateTime?login=${login}`);
+  fetchApi('/user/updateTime', {
+    qs: { login }
+  });
 
-const refreshUserRepos = async (login, token) => fetchApi(
-  `/user/repos/refresh?login=${login}&token=${token}`,
-  {},
-  [null]
-);
-const refreshUserCommits = async (login, token) => fetchApi(
-  `/user/commits/refresh?login=${login}&token=${token}`,
-  {},
-  [null]
-);
-const refreshUserOrgs = async (login, token) => fetchApi(
-  `/user/orgs/refresh?login=${login}&token=${token}`,
-  {},
-  [null]
-);
+const refreshUserRepos = async (login, token) =>
+  fetchApi('/user/repos/refresh', {
+    qs: { login, token },
+    timeouts: [null]
+  });
+const refreshUserCommits = async (login, token) =>
+  fetchApi('/user/commits/refresh', {
+    qs: { login, token },
+    timeouts: [null]
+  });
+const refreshUserOrgs = async (login, token) =>
+  fetchApi('/user/orgs/refresh', {
+    qs: { login, token },
+    timeouts: [null]
+  });
 
 export default {
   /* ===== */
@@ -78,8 +89,9 @@ export default {
   getUserRepos,
   getUserCommits,
   getUserOrgs,
+  getUserContributed,
   getUpdateTime,
   refreshUserRepos,
   refreshUserCommits,
-  refreshUserOrgs
+  refreshUserOrgs,
 };

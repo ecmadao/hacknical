@@ -32,6 +32,15 @@ router.get(
   cache.set()
 );
 router.get(
+  '/contributed',
+  user.checkIfLogin(),
+  cache.get('contributed', {
+    session: ['githubLogin']
+  }),
+  GitHub.getUserContributed,
+  cache.set()
+);
+router.get(
   '/repos/all',
   user.checkIfLogin(),
   cache.get('allRepos', {
@@ -145,6 +154,15 @@ router.get(
     params: ['login']
   }),
   GitHub.getSharedRepos,
+  cache.set()
+);
+router.get(
+  '/:login/contributed',
+  share.githubEnable(),
+  cache.get('contributed', {
+    params: ['login']
+  }),
+  GitHub.getSharedContributed,
   cache.set()
 );
 router.get(
