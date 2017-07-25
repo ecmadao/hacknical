@@ -45,7 +45,7 @@ const fetchData = options => new Promise((resolve, reject) => {
       reject(err);
     }
     if (body) {
-      resolve(body.success ? body.result : body);
+      resolve(body.result);
     }
     reject(null);
   });

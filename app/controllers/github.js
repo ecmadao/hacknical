@@ -409,6 +409,7 @@ const refreshCommits = async (ctx, next) => {
 const refreshOrgs = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserOrgs(githubLogin, githubToken);
+
   if (!result.success) {
     const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
     ctx.body = {
