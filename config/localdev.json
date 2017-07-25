@@ -36,5 +36,11 @@
       "options": {}
     },
     "qname": "messenger-dev"
+  },
+  "opbeat": {
+    "appId": "",
+    "organizationId": "",
+    "secretToken": "",
+    "active": false
   }
 }
