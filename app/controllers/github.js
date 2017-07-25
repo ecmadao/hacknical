@@ -345,10 +345,11 @@ const refreshRepos = async (ctx, next) => {
   const result = await Api.refreshUserRepos(githubLogin, githubToken);
 
   if (!result.success) {
+    const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
     ctx.body = {
+      error,
       result: null,
       success: true,
-      error: ctx.__('messages.error.frequent').replace(/%s/, result.result),
     };
     return;
   }
@@ -379,10 +380,11 @@ const refreshCommits = async (ctx, next) => {
   const result = await Api.refreshUserCommits(githubLogin, githubToken);
 
   if (!result.success) {
+    const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
     ctx.body = {
+      error,
       result: null,
       success: true,
-      error: ctx.__('messages.error.frequent').replace(/%s/, result.result),
     };
     return;
   }
@@ -408,10 +410,11 @@ const refreshOrgs = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserOrgs(githubLogin, githubToken);
   if (!result.success) {
+    const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
     ctx.body = {
+      error,
       result: null,
       success: true,
-      error: ctx.__('messages.error.frequent').replace(/%s/, result.result),
     };
     return;
   }
