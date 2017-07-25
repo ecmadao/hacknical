@@ -41,6 +41,11 @@ const datas = {
       title: 'Code Course',
       tipso: 'Timelines from the first repository you created'
     },
+    contributed: {
+      title: 'Contributed repositories',
+      tipso: 'Issue, PR for others repos will be marked as contributions',
+      emptyText: 'No repositories info, please refresh later',
+    },
     orgs: {
       title: 'Orgs Info',
       createdAt: 'Created at ',

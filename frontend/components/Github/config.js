@@ -5,6 +5,7 @@ import OrgInfo from './OrgInfo';
 import UserInfo from './UserInfo';
 import Hotmap from './Hotmap';
 import CodeCourse from './CodeCourse';
+import ContributedInfo from './ContributedInfo';
 
 export default {
   hotmap: Hotmap,
@@ -13,5 +14,6 @@ export default {
   orgs: OrgInfo,
   languages: LanguageInfo,
   commits: CommitInfo,
-  course: CodeCourse
+  course: CodeCourse,
+  contributed: ContributedInfo,
 };

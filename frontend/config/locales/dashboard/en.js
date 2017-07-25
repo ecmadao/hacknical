@@ -70,7 +70,8 @@ const datas = {
       showCourse: 'Show course',
       showOrgs: 'Show orgs',
       showLanguages: 'Show languages',
-      showCommits: 'Show commits'
+      showCommits: 'Show commits',
+      showContributed: 'Show contributed repos',
     }
   }
 };

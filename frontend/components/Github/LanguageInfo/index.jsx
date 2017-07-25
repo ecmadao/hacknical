@@ -7,7 +7,6 @@ import {
   CardGroup,
   Label
 } from 'light-ui';
-
 import github from 'UTILS/github';
 import { randomColor } from 'UTILS/colors';
 import {
@@ -17,9 +16,9 @@ import {
 } from 'UTILS/helper';
 import locales from 'LOCALES';
 import chart from 'UTILS/chart';
-
 import githubStyles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
+import ReposRowInfo from '../ReposRowInfo';
 
 const sortByLanguageStar = sortByX('star');
 const githubTexts = locales('github').sections.languages;
@@ -117,13 +116,6 @@ class LanguageInfo extends React.Component {
         legend: {
           display: false,
         },
-        // tooltips: {
-        //   callbacks: {
-        //     label: (item, data) => {
-        //       return `${githubTexts.starChart.label}${item.yLabel}`
-        //     }
-        //   }
-        // }
       }
     });
   }
@@ -131,48 +123,14 @@ class LanguageInfo extends React.Component {
   renderShowRepos() {
     const { repos } = this.props;
     const { showLanguage } = this.state;
-    const targetRepos = github.getReposByLanguage(repos, showLanguage).map((repository, index) => {
-      const stargazersCount = repository.stargazers_count;
-      const starClass = cx(
-        githubStyles.repos_star,
-        stargazersCount > 0 && githubStyles.active
-      );
-      return (
-        <div className={githubStyles.repos_show} key={index}>
-          <div className={githubStyles.repos_info}>
-            <div className={githubStyles.reposTitleContainer}>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={repository.html_url}
-                className={githubStyles.repos_info_name}
-              >
-                {repository.name}
-              </a>
-              &nbsp;
-              {repository.fork ? (
-                <Label
-                  min
-                  icon="code-fork"
-                  text="forked"
-                  color="darkLight"
-                  clickable={false}
-                />
-              ) : ''}
-            </div>
-            <span className={githubStyles.repos_short_desc}>
-              {repository.description}
-            </span>
-          </div>
-          <div className={starClass}>
-            <i
-              className={`fa ${stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"
-            />
-            &nbsp;{stargazersCount}
-          </div>
-        </div>
-      )
-    });
+    const targetRepos = github
+      .getReposByLanguage(repos, showLanguage)
+      .map((repository, index) => (
+        <ReposRowInfo
+          key={index}
+          repository={repository}
+        />
+      ));
     return (
       <div className={githubStyles.repos_show_container}>
         <p className={githubStyles.repos_show_title}>

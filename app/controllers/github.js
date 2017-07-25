@@ -21,7 +21,7 @@ const _getUser = async (ctx) => {
 };
 
 const _getRepos = async (login, token) => {
-  const { repos } = await Api.getUserRepos(login, token);
+  const repos = await Api.getUserRepos(login, token);
   const pinned = await User.findPinnedRepos(login);
   const checkPinned = repository =>
     pinned.some(item => item === repository.reposId);
@@ -37,12 +37,12 @@ const _getRepos = async (login, token) => {
 };
 
 const _getContributed = async (login, token) => {
-  const { repos } = await Api.getUserRepos(login, token);
+  const repos = await Api.getUserContributed(login, token);
   return repos;
 };
 
 const _getCommits = async (login, token) => {
-  const { commits } = await Api.getUserCommits(login, token);
+  const commits = await Api.getUserCommits(login, token);
   const formatCommits = combineReposCommits(commits);
   return {
     commits,
@@ -84,8 +84,8 @@ const getUser = async (ctx) => {
   result.openShare = shareAnalyse.enable;
   result.shareUrl = `github/${login}?locale=${ctx.session.locale}`;
   ctx.body = {
+    result,
     success: true,
-    result
   };
 };
 
@@ -118,7 +118,7 @@ const fetchOrgs = async (ctx) => {
 
 const getAllRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const { repos } = await Api.getUserRepos(githubLogin, githubToken);
+  const repos = await Api.getUserRepos(githubLogin, githubToken);
   const result = repos.filter(repository => !repository.fork)
     .map((repository) => {
       const { reposId, name, language, stargazers_count } = repository;
@@ -213,7 +213,7 @@ const getUserCommits = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const {
     commits,
-    formatCommits
+    formatCommits,
   } = await _getCommits(githubLogin, githubToken);
 
   ctx.body = {
@@ -314,11 +314,11 @@ const getStareRecords = async (ctx) => {
   ctx.body = {
     success: true,
     result: {
-      url: `${url}?locale=${ctx.session.locale}`,
+      pageViews,
       viewDevices,
       viewSources,
-      pageViews,
-      openShare: enable
+      openShare: enable,
+      url: `${url}?locale=${ctx.session.locale}`,
     }
   };
 };

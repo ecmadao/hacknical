@@ -266,8 +266,27 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          userLogin={this.props.login}
           login={login}
+          userLogin={this.props.login}
+          title={{
+            text: githubTexts.contributed.title,
+            icon: 'plug'
+          }}
+          section="contributed"
+          key="github-section-contributed"
+          sectionStatus={sections.contributed}
+          hide={this.hideSection('contributed')}
+          disabled={this.disabledSection('contributed')}
+          intro={{
+            icon: 'question-circle',
+            text: githubTexts.contributed.tipso
+          }}
+          isShare={isShare}
+          callback={this.changeGithubSection}
+        />
+        <GitHubSection
+          login={login}
+          userLogin={this.props.login}
           title={{
             text: githubTexts.orgs.title,
             icon: 'rocket'

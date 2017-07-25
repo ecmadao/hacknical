@@ -41,6 +41,11 @@ const datas = {
       title: '编码历程',
       tipso: '从第一个创建的仓库到现今的编程历程'
     },
+    contributed: {
+      title: '贡献的仓库',
+      tipso: '对他人仓库的 Issue, PR 都会被记为贡献',
+      emptyText: '暂未抓取到贡献信息，请稍后刷新重试',
+    },
     orgs: {
       title: '隶属组织',
       createdAt: '创建于 ',

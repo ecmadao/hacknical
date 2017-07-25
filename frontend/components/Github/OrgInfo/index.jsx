@@ -111,7 +111,7 @@ class OrgInfo extends React.Component {
               className={itemClass}
               onClick={() => this.changeAcitveOrg(index)}
             >
-              <img src={avatar_url} />
+              <img src={avatar_url} alt="org-avatar" />
               <span>{name || login}</span>
             </div>
           </div>
@@ -135,7 +135,6 @@ class OrgInfo extends React.Component {
   renderOrgDetail() {
     const { activeIndex, orgs } = this.state;
     const { login } = this.props;
-    if (!orgs.length) { return '' }
     const activeOrg = orgs[activeIndex];
     const { created_at, description, blog } = activeOrg;
     const repos = [...activeOrg.repos] || [];

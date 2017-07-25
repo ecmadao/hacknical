@@ -70,7 +70,8 @@ const datas = {
       showCourse: '展示 编码历程',
       showOrgs: '展示 组织信息',
       showLanguages: '展示 语言概览',
-      showCommits: '展示 commit 概览'
+      showCommits: '展示 commit 概览',
+      showContributed: '展示 对他人仓库的贡献',
     }
   }
 };

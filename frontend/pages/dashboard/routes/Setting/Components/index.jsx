@@ -101,6 +101,11 @@ class Setting extends React.Component {
             checked={resumeInfo.github.commits}
             onChange={shareSection('commits')}
           />
+          <CheckPane
+            text={settingTexts.resume.showContributed}
+            checked={resumeInfo.github.contributed}
+            onChange={shareSection('contributed')}
+          />
         </div>
       );
     }
