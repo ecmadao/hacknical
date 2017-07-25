@@ -343,8 +343,7 @@ const getUpdateTime = async (ctx) => {
 const refreshRepos = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserRepos(githubLogin, githubToken);
-
-  if (!result.success) {
+  if (result.success === false) {
     const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
     ctx.body = {
       error,
@@ -379,7 +378,7 @@ const refreshCommits = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserCommits(githubLogin, githubToken);
 
-  if (!result.success) {
+  if (result.success === false) {
     const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
     ctx.body = {
       error,
@@ -410,7 +409,7 @@ const refreshOrgs = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserOrgs(githubLogin, githubToken);
 
-  if (!result.success) {
+  if (result.success === false) {
     const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
     ctx.body = {
       error,
