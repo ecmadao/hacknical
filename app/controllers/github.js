@@ -199,6 +199,10 @@ const getSharedCommits = async (ctx, next) => {
     formatCommits
   } = await _getCommits(ctx.params.login, ctx.session.githubToken);
 
+  if (!commits.length) {
+    ctx.query.shouldCache = false;
+  }
+
   ctx.body = {
     success: true,
     result: {
@@ -215,6 +219,10 @@ const getUserCommits = async (ctx, next) => {
     commits,
     formatCommits,
   } = await _getCommits(githubLogin, githubToken);
+
+  if (!commits.length) {
+    ctx.query.shouldCache = false;
+  }
 
   ctx.body = {
     success: true,

@@ -7,6 +7,7 @@ import styles from '../styles/github.css';
 import locales from 'LOCALES';
 import { sortByX } from 'UTILS/helper';
 import ReposRowInfo from '../ReposRowInfo';
+import objectAssign from 'UTILS/object-assign';
 
 const githubTexts = locales('github').sections.contributed;
 const sortByStar = sortByX('stargazers_count');
@@ -48,7 +49,9 @@ class ContributedInfo extends React.Component {
     const reposRows = repos.map((repository, index) => (
       <ReposRowInfo
         key={index}
-        repository={repository}
+        repository={objectAssign({}, repository, {
+          name: repository.full_name
+        })}
       />
     ));
     return (
