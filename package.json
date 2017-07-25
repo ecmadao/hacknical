@@ -114,6 +114,7 @@
   },
   "dependencies": {
     "babel-core": "^6.14.0",
+    "babel-plugin-add-react-displayname": "0.0.4",
     "babel-polyfill": "^6.16.0",
     "chart.js": "^2.4.0",
     "cleave.js": "^0.7.14",
@@ -152,6 +153,7 @@
     "normalize.css": "^5.0.0",
     "nprogress": "^0.2.0",
     "nunjucks": "^2.5.2",
+    "opbeat-react": "^3.4.0",
     "open-color": "^1.4.0",
     "pangu": "^3.3.0",
     "particles.js": "^2.0.0",

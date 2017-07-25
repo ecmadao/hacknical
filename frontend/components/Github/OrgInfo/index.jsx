@@ -142,12 +142,14 @@ class OrgInfo extends React.Component {
     return (
       <div className={styles.org_detail}>
         <div className={styles.org_info}>
-          <i className="fa fa-rocket" aria-hidden="true" />&nbsp;
+          <i className="fa fa-rocket" aria-hidden="true" />
+          &nbsp;
           {githubTexts.createdAt}{fullDate(created_at)}
         </div>
         {blog ? (
           <div className={styles.org_info}>
-            <i className="fa fa-link" aria-hidden="true" />&nbsp;&nbsp;
+            <i className="fa fa-link" aria-hidden="true" />
+            &nbsp;&nbsp;
             <a
               href={blog}
               target="_blank"
@@ -159,7 +161,8 @@ class OrgInfo extends React.Component {
         ) : ''}
         {description ? (
           <div className={styles.org_info}>
-            <i className="fa fa-quote-left" aria-hidden="true" />&nbsp;&nbsp;
+            <i className="fa fa-quote-left" aria-hidden="true" />
+            &nbsp;&nbsp;
             {description}
           </div>
         ) : ''}
@@ -178,14 +181,15 @@ class OrgInfo extends React.Component {
     if (!loaded) {
       component = (<Loading loading />);
     } else {
-      component = !orgs.length ?
-        (
-          <div className={cardStyles.empty_card}>
-            {githubTexts.emptyText}
-          </div>
-        ) : this.renderOrgsReview();
+      component = !orgs.length
+        ? (<div className={cardStyles.empty_card}>
+          {githubTexts.emptyText}
+        </div>)
+        : this.renderOrgsReview();
     }
-    const cards = loaded && orgs.length ? this.renderOrgsCard() : '';
+    const cards = loaded && orgs.length
+      ? this.renderOrgsCard()
+      : '';
     return (
       <div className={cx(cardStyles.info_card, className)}>
         {cards}
