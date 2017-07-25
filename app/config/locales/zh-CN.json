@@ -51,7 +51,7 @@
   "messages": {
     "error": {
       "findUser": "查找用户失败",
-      "frequent": "更新过于频繁，请稍后重试",
+      "frequent": "更新过于频繁，请在 %s 分钟后稍后重试",
       "update": "数据更新失败",
 			"resume": "没有找到简历",
 			"emptyResume": "请先创建简历"

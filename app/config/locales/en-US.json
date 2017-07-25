@@ -51,7 +51,7 @@
   "messages": {
     "error": {
       "findUser": "Find user failed",
-      "frequent": "Too many attempts, please retry later",
+      "frequent": "Request frequently, please retry %s min later",
       "update": "Update failed",
       "resume": "Can not find your resume",
       "emptyResume": "Please create your resume"

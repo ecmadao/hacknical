@@ -335,19 +335,20 @@ const getUpdateTime = async (ctx) => {
   const { githubLogin } = ctx.session;
   const result = await Api.getUpdateTime(githubLogin);
   ctx.body = {
+    result,
     success: true,
-    result
   };
 };
 
 const refreshRepos = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserRepos(githubLogin, githubToken);
-  if (result === false) {
+
+  if (!result.success) {
     ctx.body = {
+      result: null,
       success: true,
-      error: ctx.__('messages.error.frequent'),
-      result: null
+      error: ctx.__('messages.error.frequent').replace(/%s/, result.result),
     };
     return;
   }
@@ -365,9 +366,9 @@ const refreshRepos = async (ctx, next) => {
   ];
 
   ctx.body = {
+    result,
     success: true,
     message: ctx.__('messages.success.updateRepos'),
-    result
   };
 
   await next();
@@ -377,11 +378,11 @@ const refreshCommits = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserCommits(githubLogin, githubToken);
 
-  if (result === false) {
+  if (!result.success) {
     ctx.body = {
+      result: null,
       success: true,
-      error: ctx.__('messages.error.frequent'),
-      result: null
+      error: ctx.__('messages.error.frequent').replace(/%s/, result.result),
     };
     return;
   }
@@ -395,9 +396,9 @@ const refreshCommits = async (ctx, next) => {
   ];
 
   ctx.body = {
+    result,
     success: true,
     message: ctx.__('messages.success.updateCommits'),
-    result
   };
 
   await next();
@@ -406,11 +407,11 @@ const refreshCommits = async (ctx, next) => {
 const refreshOrgs = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   const result = await Api.refreshUserOrgs(githubLogin, githubToken);
-  if (result === false) {
+  if (!result.success) {
     ctx.body = {
+      result: null,
       success: true,
-      error: ctx.__('messages.error.frequent'),
-      result: null
+      error: ctx.__('messages.error.frequent').replace(/%s/, result.result),
     };
     return;
   }
@@ -424,9 +425,9 @@ const refreshOrgs = async (ctx, next) => {
   ];
 
   ctx.body = {
+    result,
     success: true,
     message: ctx.__('messages.success.updateOrgs'),
-    result
   };
 
   await next();
@@ -435,16 +436,16 @@ const refreshOrgs = async (ctx, next) => {
 const getZen = async (ctx) => {
   const result = await Api.getZen();
   ctx.body = {
+    result,
     success: true,
-    result
   };
 };
 
 const getOctocat = async (ctx) => {
   const result = await Api.getOctocat();
   ctx.body = {
+    result,
     success: true,
-    result
   };
 };
 
