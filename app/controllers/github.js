@@ -77,7 +77,8 @@ const getUser = async (ctx) => {
   const { githubLogin, githubToken } = ctx.session;
   const user = await Api.getUser(githubLogin, githubToken);
   const login = user.login;
-  const shareAnalyse = await ShareAnalyse.findShare({ login, url: `github/${login}` });
+  const shareAnalyse =
+    await ShareAnalyse.findShare({ login, url: `github/${login}` });
 
   const result = Object.assign({}, user);
   result.openShare = shareAnalyse.enable;
@@ -126,12 +127,12 @@ const getAllRepos = async (ctx, next) => {
         reposId,
         language,
         stargazers_count
-      }
+      };
     });
 
   ctx.body = {
+    result,
     success: true,
-    result
   };
 
   await next();
@@ -262,11 +263,11 @@ const sharePageMobile = async (ctx) => {
   const {
     bio,
     name,
-    created_at,
-    avatar_url,
-    public_repos,
     followers,
-    following
+    following,
+    avatar_url,
+    created_at,
+    public_repos,
   } = user;
 
   await ctx.render('user/mobile/github', {
@@ -307,7 +308,8 @@ const sharePage = async (ctx) => {
 const getStareRecords = async (ctx) => {
   const { githubLogin } = ctx.session;
   const url = `github/${githubLogin}`;
-  const shareAnalyse = await ShareAnalyse.findShare({ login: githubLogin, url });
+  const shareAnalyse =
+    await ShareAnalyse.findShare({ login: githubLogin, url });
   const { viewDevices, viewSources, pageViews, enable } = shareAnalyse;
   ctx.body = {
     success: true,

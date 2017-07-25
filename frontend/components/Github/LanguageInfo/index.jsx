@@ -62,7 +62,9 @@ class LanguageInfo extends React.Component {
     const languages = this.sortedLanguages;
     let total = 0;
     languages.forEach(key => (total += languageUsed[key]));
-    const languagePercentage = languages.map(language => languageUsed[language] / total);
+    const languagePercentage = languages.map(
+      language => languageUsed[language] / total
+    );
 
     this.languageUsedChart = new Chart(this.languageUsed, {
       type: 'radar',

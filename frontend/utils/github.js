@@ -50,7 +50,7 @@ const getLanguageUsed = (repos) => {
   const result = {};
   repos.forEach((repository) => {
     const { languages } = repository;
-    if (!languages) { return }
+    if (!languages) { return; }
     Object.keys(languages).forEach((language) => {
       if (result[language]) {
         result[language] += languages[language];
