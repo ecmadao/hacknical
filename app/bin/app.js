@@ -8,11 +8,13 @@ import Csrf from 'koa-csrf';
 import json from 'koa-json';
 import cors from 'kcors';
 import locales from 'koa-locales';
-import session from 'koa-session';
+// import session from 'koa-session';
 import config from 'config';
 import nunjucks from 'nunjucks';
 import views from 'koa-views';
 import userAgent from 'koa-useragent';
+import redisStore from 'koa-redis';
+import session from 'koa-generic-session';
 
 import assetsPath from '../middlewares/assets_helper';
 import { redisMiddleware } from '../middlewares/cache_helper';
@@ -24,7 +26,7 @@ import logger from '../utils/logger';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
-const appName = config.get('appName');
+// const appName = config.get('appName');
 const redis = config.get('redis');
 
 const app = new Koa();
@@ -52,14 +54,21 @@ app.use(convert(json()));
 // koa logger
 app.use(convert(koaLogger()));
 // session
-const CONFIG = {
-  key: `${appName}:session`, /** cookie key */
-  maxAge: 24 * 60 * 60 * 1000 * 10, /** 10 days */
-  overwrite: true, /** (boolean) can overwrite or not (default true) */
-  httpOnly: true, /** (boolean) httpOnly or not (default true) */
-  signed: true, /** (boolean) signed or not (default true) */
-};
-app.use(convert(session(CONFIG, app)));
+// const CONFIG = {
+//   key: `${appName}:session`, /** cookie key */
+//   maxAge: 24 * 60 * 60 * 1000 * 10, /** 10 days */
+//   overwrite: true, /** (boolean) can overwrite or not (default true) */
+//   httpOnly: true, /** (boolean) httpOnly or not (default true) */
+//   signed: true, /** (boolean) signed or not (default true) */
+// };
+// app.use(convert(session(CONFIG, app)));
+
+app.use(convert(session({
+  store: redisStore({
+    url: redis,
+  }),
+})));
+
 // cache
 app.use(redisMiddleware({
   url: redis
