@@ -1,9 +1,10 @@
-// import uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 import logger from '../../utils/logger';
 import SlackMsg from '../../services/slack';
 import EmailMsg from '../../services/email';
+
 /**
  * private
  */
@@ -22,22 +23,18 @@ const getGithubInfo = (userInfo) => {
   };
 };
 
-const findUser = async email =>
-  await User.findOne({ email });
-
-const findUserById = async userId =>
-  await User.findOne({ _id: userId });
+const findUser = async options =>
+  await User.findOne(options);
 
 const findUserByLogin = async login =>
-  await User.findOne({ 'githubInfo.login': login });
+  await findUser({ 'githubInfo.login': login });
 
 const createGithubShare = async (options) => {
   await ShareAnalyse.createShare(options);
 };
 
 const updateUserInfo = async (options = {}) => {
-  const user = await findUserById(options.userId);
-  delete options.userId;
+  const user = await findUser({ userId: options.userId });
   Object.keys(options).forEach((key) => {
     user[key] = options[key];
   });
@@ -98,6 +95,7 @@ const loginWithGithub = async (userInfo, cache, mq) => {
   } else {
     user = await User.create({
       email,
+      userId: uuid(),
       userName: name,
       lastLoginTime: new Date(),
       githubLogin: login,
@@ -122,14 +120,14 @@ const loginWithGithub = async (userInfo, cache, mq) => {
       cache.hincrby('email-welcome', email, 1);
     }
   }
-  shareInfo.userId = user._id;
+  shareInfo.userId = user.userId;
   createGithubShare(shareInfo);
 
   new SlackMsg(mq).send(msg);
 
   return Promise.resolve({
     success: true,
-    result: user._id
+    result: user.userId
   });
 };
 
@@ -188,9 +186,7 @@ const updateGithubSections = async (login, sections) => {
 const findAll = async () => await User.find({});
 
 export default {
-  findUser,
   loginWithGithub,
-  findUserById,
   findUserByLogin,
   updateUser,
   updateUserInfo,
@@ -200,4 +196,5 @@ export default {
   findPinnedRepos,
   updatePinnedRepos,
   findAll,
+  findOne: findUser,
 };

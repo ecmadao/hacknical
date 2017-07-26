@@ -35,6 +35,9 @@ const createResumeShare = async (options) => {
   await ShareAnalyse.createShare(options);
 };
 
+const findPublicResumes = async options =>
+  await ResumePub.find(options);
+
 const findPublicResume = async (options) => {
   const findResult = await ResumePub.findOne(options);
   if (!findResult) {
@@ -116,7 +119,7 @@ const getPubResumeInfo = async (options) => {
   if (!findResult.success) return findResult;
   const { userId } = findResult.result;
 
-  const findResume = await Resume.getResume(userId);
+  const findResume = await Resume.findOne(userId);
   if (!findResume.success) return findResume;
 
   return Promise.resolve({
@@ -142,7 +145,7 @@ const getPubResume = async (resumeHash) => {
   const { result, success } = findResult;
   if (!success) { return findResult; }
   const { userId } = result;
-  return await Resume.getResume(userId);
+  return await Resume.findOne(userId);
 };
 
 const deletePubResume = async (userId, resumeHash) => {
@@ -160,7 +163,6 @@ const clearPubResume = async (userId) => {
 };
 
 export default {
-  findPublicResume,
   addPubResume,
   updatePubResume,
   deletePubResume,
@@ -169,4 +171,6 @@ export default {
   getUpdateTime,
   getPubResumeInfo,
   checkResumeShare,
+  find: findPublicResumes,
+  findOne: findPublicResume,
 };

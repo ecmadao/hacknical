@@ -4,6 +4,9 @@ import dateHelper, { getValidateDate } from '../../utils/date';
 const findShare = async options =>
   await ShareAnalyse.findOne(options);
 
+const findShares = async options =>
+  await ShareAnalyse.find(options);
+
 const createShare = async (options) => {
   const findResult = await findShare(options);
   if (findResult) {
@@ -115,7 +118,6 @@ const updateShare = async (options) => {
 const findAll = async () => await ShareAnalyse.find({});
 
 export default {
-  findShare,
   disableShare,
   enableShare,
   createShare,
@@ -124,4 +126,6 @@ export default {
   checkShareEnable,
   changeShareStatus,
   findAll,
+  find: findShares,
+  findOne: findShare,
 };

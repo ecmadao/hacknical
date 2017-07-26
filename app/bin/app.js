@@ -16,7 +16,7 @@ import userAgent from 'koa-useragent';
 
 import assetsPath from '../middlewares/assets_helper';
 import { redisMiddleware } from '../middlewares/cache_helper';
-import catch404 from '../middlewares/404_helper';
+import catchError from '../middlewares/error_helper';
 import checkLocale from '../middlewares/locale_helper';
 import mqMiddleware from '../middlewares/mq_middleware';
 import router from '../routes/index';
@@ -68,8 +68,8 @@ app.use(redisMiddleware({
 app.use(mqMiddleware());
 // locale
 app.use(checkLocale());
-// catch 404
-app.use(catch404());
+// catch error
+app.use(catchError());
 // csrf
 app.use(new Csrf());
 // helper func

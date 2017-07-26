@@ -50,7 +50,7 @@ const getResumeShareStatus = (findPubResume, locale) => {
 
 const getResume = async (ctx) => {
   const userId = ctx.session.userId;
-  const getResult = await Resume.getResume(userId);
+  const getResult = await Resume.findOne(userId);
   const { result } = getResult;
   ctx.body = {
     result,
@@ -73,7 +73,7 @@ const setResume = async (ctx, next) => {
   let resumeInfo = null;
   if (setResult.success) {
     // check & add resume share info
-    let checkResult = await ResumePub.findPublicResume({ userId });
+    let checkResult = await ResumePub.findOne({ userId });
     if (!checkResult.success) {
       checkResult = await ResumePub.addPubResume(userId);
     }
@@ -84,7 +84,7 @@ const setResume = async (ctx, next) => {
     } : null;
   }
 
-  const checkPubResume = await ResumePub.findPublicResume({ userId });
+  const checkPubResume = await ResumePub.findOne({ userId });
   if (checkPubResume.success) {
     const hash = checkPubResume.result.resumeHash;
     const cacheKey = getCacheKey(ctx);
@@ -109,7 +109,7 @@ const setResume = async (ctx, next) => {
 
 const downloadResume = async (ctx) => {
   const { userId, githubLogin } = ctx.session;
-  const checkPubResume = await ResumePub.findPublicResume({ userId });
+  const checkPubResume = await ResumePub.findOne({ userId });
   if (!checkPubResume.success) {
     ctx.body = {
       error: ctx.__('messages.error.resume'),
@@ -159,7 +159,7 @@ const getPubResume = async (ctx, next) => {
 
 const getResumeSharePage = async (ctx) => {
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const findPubResume = await ResumePub.findOne({ userId });
   const { result, success } = findPubResume;
   if (!success) {
     return ctx.redirect('/404');
@@ -203,13 +203,13 @@ const getPubResumePageMobile = async (ctx) => {
 const getPubResumeStatus = async (ctx) => {
   const { hash } = ctx.params;
   const { fromDownload, locale } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ resumeHash: hash });
+  const findPubResume = await ResumePub.findOne({ resumeHash: hash });
   const shareResult = getResumeShareStatus(findPubResume, locale);
 
   const { success, result } = shareResult;
   if (success && result && fromDownload) {
     const { userId } = findPubResume.result;
-    const user = await User.findUserById(userId);
+    const user = await User.findOne({ userId });
     shareResult.result.githubUrl =
       `${URL}/github/${user.githubLogin}?locale=${locale}`;
   }
@@ -219,7 +219,7 @@ const getPubResumeStatus = async (ctx) => {
 
 const getResumeStatus = async (ctx) => {
   const { userId, locale } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const findPubResume = await ResumePub.findOne({ userId });
 
   ctx.body = getResumeShareStatus(findPubResume, locale);
 };
@@ -227,7 +227,7 @@ const getResumeStatus = async (ctx) => {
 const setResumeShareStatus = async (ctx) => {
   const { enable } = ctx.request.body;
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const findPubResume = await ResumePub.findOne({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
     ctx.body = {
@@ -251,7 +251,7 @@ const setResumeShareStatus = async (ctx) => {
 const setResumeShareTemplate = async (ctx) => {
   const { template } = ctx.request.body;
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const findPubResume = await ResumePub.findOne({ userId });
   const { result, success } = findPubResume;
   if (!success) {
     ctx.body = {
@@ -273,7 +273,7 @@ const setResumeShareTemplate = async (ctx) => {
 const setResumeGithubStatus = async (ctx) => {
   const { enable } = ctx.request.body;
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const findPubResume = await ResumePub.findOne({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
     ctx.body = {
@@ -296,7 +296,7 @@ const setResumeGithubStatus = async (ctx) => {
 
 const setGithubShareSection = async (ctx) => {
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const findPubResume = await ResumePub.findOne({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
     ctx.body = {
@@ -318,7 +318,7 @@ const setGithubShareSection = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findPublicResume({ userId });
+  const findPubResume = await ResumePub.findOne({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
     ctx.body = {
@@ -336,7 +336,7 @@ const getShareRecords = async (ctx) => {
   }
 
   const shareAnalyse =
-    await ShareAnalyse.findShare({
+    await ShareAnalyse.findOne({
       url: `resume/${result.resumeHash}`,
       userId
     });

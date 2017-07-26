@@ -15,7 +15,11 @@ const handle404 = async (ctx) => {
 
 const dashboard = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
-  const user = await User.findUserById(userId);
+  const user = await User.findOne({ userId });
+
+  if (!user) {
+    ctx.redirect('/user/logout');
+  }
   if (!user.initialed) {
     ctx.redirect('/initial');
   }
@@ -31,7 +35,7 @@ const dashboard = async (ctx) => {
 
 const initial = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
-  const user = await User.findUserById(userId);
+  const user = await User.findOne({ userId });
   if (user.initialed) {
     ctx.redirect('/dashboard');
   }

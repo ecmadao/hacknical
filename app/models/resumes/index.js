@@ -22,6 +22,9 @@ const initialResume = async (userId, options) => {
 const findResume = async options =>
   await Resume.findOne(options);
 
+const findResumes = async options =>
+  await Resume.find(options);
+
 const updateResume = async (userId, resume, cache) => {
   const findResult = await findResume({ userId });
   if (!findResult) {
@@ -80,4 +83,6 @@ export default {
   updateResume,
   removeAll,
   findAll,
+  find: findResumes,
+  findOne: getResume,
 };

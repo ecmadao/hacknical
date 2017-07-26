@@ -1,6 +1,6 @@
 import logger from '../utils/logger';
 
-const catch404 = () => async (ctx, next) => {
+const catchError = () => async (ctx, next) => {
   try {
     await next();
     const url = ctx.url;
@@ -13,7 +13,8 @@ const catch404 = () => async (ctx, next) => {
     }
   } catch (err) {
     logger.error(err);
+    ctx.redirect('/user/logout');
   }
 }
 
-export default catch404;
+export default catchError;

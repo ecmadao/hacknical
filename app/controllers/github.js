@@ -78,7 +78,7 @@ const getUser = async (ctx) => {
   const user = await Api.getUser(githubLogin, githubToken);
   const login = user.login;
   const shareAnalyse =
-    await ShareAnalyse.findShare({ login, url: `github/${login}` });
+    await ShareAnalyse.findOne({ login, url: `github/${login}` });
 
   const result = Object.assign({}, user);
   result.openShare = shareAnalyse.enable;
@@ -317,7 +317,7 @@ const getStareRecords = async (ctx) => {
   const { githubLogin } = ctx.session;
   const url = `github/${githubLogin}`;
   const shareAnalyse =
-    await ShareAnalyse.findShare({ login: githubLogin, url });
+    await ShareAnalyse.findOne({ login: githubLogin, url });
   const { viewDevices, viewSources, pageViews, enable } = shareAnalyse;
   ctx.body = {
     success: true,

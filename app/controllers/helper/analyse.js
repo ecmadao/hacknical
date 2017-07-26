@@ -11,7 +11,7 @@ const getPubResumeInfo = async (ctx) => {
 
   if (findResume.success) {
     const { name, userId } = findResume.result;
-    const user = await User.findUserById(userId);
+    const user = await User.findOne({ userId });
     return {
       name,
       login: user.githubInfo.login
