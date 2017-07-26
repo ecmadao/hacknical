@@ -12,9 +12,9 @@ const UserSchema = new Schema({
   },
   email: String,
   openShare: { type: Boolean, default: true },
-  githubId: { type: String, default: '' },
   githubLogin: { type: String, default: '' },
   githubInfo: {
+    id: { type: String, default: '' },
     login: { type: String, default: '' }
   },
   orgs: [{

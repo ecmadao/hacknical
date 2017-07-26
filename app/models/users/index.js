@@ -1,3 +1,4 @@
+// import uuid from 'uuid/v4';
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 import logger from '../../utils/logger';
@@ -30,9 +31,6 @@ const findUserById = async userId =>
 const findUserByLogin = async login =>
   await User.findOne({ 'githubInfo.login': login });
 
-const findUserByGithubId = async githubId =>
-  await User.findOne({ githubId });
-
 const createGithubShare = async (options) => {
   await ShareAnalyse.createShare(options);
 };
@@ -53,7 +51,7 @@ const updateUser = async (userInfo) => {
   const newGithubInfo = getGithubInfo(userInfo);
   const lastUpdateTime = new Date();
   newGithubInfo.lastUpdateTime = lastUpdateTime;
-  const findUserResult = await findUserByGithubId(userInfo.id);
+  const findUserResult = await findUserByLogin(userInfo.login);
   findUserResult.githubInfo = newGithubInfo;
   await findUserResult.save();
   return Promise.resolve({
@@ -88,7 +86,7 @@ const loginWithGithub = async (userInfo, cache, mq) => {
     login,
     url: `github/${login}`
   };
-  let user = await findUserByGithubId(id);
+  let user = await findUserByLogin(login);
   const msg = { type: 'login' };
   if (user) {
     user.githubLogin = login;
@@ -102,9 +100,11 @@ const loginWithGithub = async (userInfo, cache, mq) => {
       email,
       userName: name,
       lastLoginTime: new Date(),
-      githubId: id,
       githubLogin: login,
-      githubInfo: { login }
+      githubInfo: {
+        id,
+        login
+      }
     });
 
     msg.type = 'signup';
@@ -190,7 +190,6 @@ const findAll = async () => await User.find({});
 export default {
   findUser,
   loginWithGithub,
-  findUserByGithubId,
   findUserById,
   findUserByLogin,
   updateUser,
