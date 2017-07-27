@@ -1,7 +1,7 @@
 .headroom {
   left: 0;
   transition: transform 0.5s;
-  z-index: var(--zIndex99);
+  z-index: var(--zIndex9);
 }
 
 .headroom--pinned,

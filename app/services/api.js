@@ -22,7 +22,9 @@ const fetchApi = (url, options = {}) => {
 
 /* =========================== api funcs =========================== */
 
-const getZen = async () => fetchApi('/zen');
+const getZen = async token => fetchApi('/zen', {
+  qs: { token }
+});
 const getOctocat = async () => fetchApi('/octocat');
 
 const getVerify = async () => fetchApi('/verify');

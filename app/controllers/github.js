@@ -8,6 +8,7 @@ import {
   getReposLanguages,
   combineReposCommits
 } from './helper/github';
+import { is } from '../utils/helper';
 
 /* ================== private func ====================*/
 
@@ -437,7 +438,9 @@ const refreshOrgs = async (ctx, next) => {
 };
 
 const getZen = async (ctx) => {
-  const result = await Api.getZen();
+  const { githubToken } = ctx.session;
+  const val = await Api.getZen(githubToken);
+  const result = is.object(val) ? '' : val;
   ctx.body = {
     result,
     success: true,

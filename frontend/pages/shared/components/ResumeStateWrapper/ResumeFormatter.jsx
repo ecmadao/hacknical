@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react';
+import { cloneElement } from 'react';
 import objectAssign from 'UTILS/object-assign';
 import {
   validateSocialLinks

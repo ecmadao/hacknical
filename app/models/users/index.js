@@ -113,7 +113,7 @@ const loginWithGithub = async (userInfo, cache, mq) => {
 
   if (email) {
     const checkSend = await cache.hget('email-welcome', email);
-    if (!checkSend || checkSend !== 1) {
+    if (!checkSend) {
       new EmailMsg(mq).send({
         to: email,
       });

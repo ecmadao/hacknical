@@ -9,10 +9,12 @@ const renderOctocat = async () => {
 };
 
 $(() => {
-  initOpbeat({
-    orgId: 'ea3776fa17c44d5b8d8de26870279506',
-    appId: '11b2f81d96'
-  });
+  if (process.env.NODE_ENV === 'production') {
+    initOpbeat({
+      orgId: 'ea3776fa17c44d5b8d8de26870279506',
+      appId: '11b2f81d96'
+    });
+  }
   renderApp('root');
   renderOctocat();
 });
