@@ -30,7 +30,6 @@ class GithubComponent extends React.Component {
       repos: [],
       reposLanguages: [],
       chosedRepos: [],
-      showedReposId: null,
       commitDatas: [],
       commitInfos: [],
       sections: {}
@@ -173,7 +172,6 @@ class GithubComponent extends React.Component {
       reposLoaded,
       commitLoaded,
       openShareModal,
-      showedReposId,
     } = this.state;
     const { isShare, containerStyle } = this.props;
 
@@ -245,7 +243,6 @@ class GithubComponent extends React.Component {
         />
         <GitHubSection
           loaded={reposLoaded}
-          showedReposId={showedReposId}
           userRepos={
             repos.filter(repository => !repository.fork).sort(sortRepos())
           }
@@ -306,7 +303,6 @@ class GithubComponent extends React.Component {
         <GitHubSection
           repos={repos}
           loaded={reposLoaded}
-          showedReposId={showedReposId}
           languageDistributions={github.getLanguageDistribution(repos)}
           languageUsed={github.getLanguageUsed(repos)}
           languageSkills={github.getLanguageSkill(repos)}

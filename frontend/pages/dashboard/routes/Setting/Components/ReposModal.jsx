@@ -71,7 +71,7 @@ class ReposModal extends React.Component {
 
   defaultPinned(repos = null) {
     repos = repos || this.state.repos;
-    return repos.map(repository => repository.reposId);
+    return repos.map(repository => repository.name);
   }
 
   async fetchRepos() {
@@ -128,7 +128,7 @@ class ReposModal extends React.Component {
         repository={repository}
         onRemove={this.removePinnedRepos}
         onPinned={this.addPinnedRepos}
-        pinned={pinned.some(item => item === repository.reposId)}
+        pinned={pinned.some(item => item === repository.name)}
       />
     ))
   }

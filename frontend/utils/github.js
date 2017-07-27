@@ -87,26 +87,26 @@ const getMaxDate = (repos) => {
 const sortByDate = repos =>
   repos.sort(sortRepos('created_at', getSecondsByDate)).reverse();
 
-const getReposByIds = (repos, ids) =>
+const getReposByX = x => (repos, items) =>
   repos.filter(
-    repository => ids.some(
-      id => parseInt(id, 10) === parseInt(repository.reposId, 10)
+    repository => items.some(
+      item => item === repository[x]
     )
   );
 
 const getReposInfo = (commits, repos) => commits.map((commit) => {
-  const { reposId } = commit;
+  const { name } = commit;
   const targetRepos = repos.filter(
-    repository => repository.reposId === reposId);
+    repository => repository.name === name);
   if (!targetRepos.length) {
     return commit;
   }
   const {
-    forks_count,
     language,
-    stargazers_count,
     html_url,
-    full_name
+    full_name,
+    forks_count,
+    stargazers_count,
   } = targetRepos[0];
   commit.forks_count = forks_count;
   commit.language = language;
@@ -118,7 +118,7 @@ const getReposInfo = (commits, repos) => commits.map((commit) => {
 
 const getReposCommits = (repos, commits) => repos.map((repository) => {
   const targetRepos = commits.filter(
-    commit => commit.reposId === repository.reposId);
+    commit => commit.name === repository.name);
   if (targetRepos.length) {
     return targetRepos[0].totalCommits;
   }
@@ -173,7 +173,7 @@ export default {
   getMinDate,
   getMaxDate,
   sortByDate,
-  getReposByIds,
+  getReposByX,
   getReposInfo,
   getReposCommits,
   getTotalCount,

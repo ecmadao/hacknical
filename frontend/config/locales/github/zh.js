@@ -28,7 +28,7 @@ const datas = {
       popularestReposTip: '总共收获 $ 个 star',
       maxStarPerRepos: '单个仓库最多 star 数',
       longgestRepos: '贡献时间最久的仓库',
-      chartTitle: '仓库 fork/star/一年内 commits 数一览（取前十）',
+      chartTitle: '仓库 fork/star/过去一年内 commits 数一览（取前十）',
       emptyText: '暂未抓取到仓库信息，请稍后刷新重试',
       originalRepos: '原创仓库',
       starPercentage: 'Star 比例',

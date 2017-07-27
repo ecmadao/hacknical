@@ -54,9 +54,9 @@ export const combineReposCommits = (reposCommits) => {
 
       if (!targetCommit) {
         targetCommit = {
+          week,
           total: 0,
           days: [...BASE_DAYS],
-          week
         };
         result.commits.push(targetCommit);
       }

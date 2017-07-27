@@ -59,7 +59,7 @@ class CodeCourse extends React.Component {
   }
 
   renderTimeLine(repos) {
-    const { showedReposId } = this.props;
+    const { showedRepository } = this.props;
     const minDate = getSecondsByDate(this.minDate);
     const maxDate = getSecondsByDate(this.maxDate);
 
@@ -69,7 +69,6 @@ class CodeCourse extends React.Component {
       const {
         name,
         fork,
-        reposId,
         language,
         html_url,
         created_at,
@@ -87,7 +86,7 @@ class CodeCourse extends React.Component {
         repository.color = color;
       }
 
-      const isActive = showedReposId === reposId;
+      const isActive = showedRepository === name;
       const wrapperClass = cx(
         githubStyles.repos_timeline_wrapper,
         isActive && githubStyles.active
@@ -142,7 +141,9 @@ class CodeCourse extends React.Component {
                 watchers={watchers_count}
               />
               <br />
-              <span>{getValidateDate(created_at)} ~ {getValidateDate(pushed_at)}</span>
+              <span>
+                {getValidateDate(created_at)} ~ {getValidateDate(pushed_at)}
+              </span>
             </div>
           </div>
         </div>
@@ -151,11 +152,11 @@ class CodeCourse extends React.Component {
   }
 
   renderReposIntros(repos) {
-    const { showedReposId } = this.props;
+    const { showedRepository } = this.props;
     return repos.map((repository, index) => {
-      const { name, description, color, id, html_url } = repository;
+      const { name, description, color, html_url } = repository;
       const rgb = hex2Rgba(color);
-      const isTarget = id === showedReposId;
+      const isTarget = name === showedRepository;
       const opacity = isTarget ? OPACITY.min : OPACITY.max;
       const infoClass = cx(
         githubStyles.intro_info,
@@ -216,7 +217,12 @@ class CodeCourse extends React.Component {
         );
     }
     return (
-      <div className={cx(cardStyles.info_card, className)}>
+      <div
+        className={cx(
+          cardStyles.info_card,
+          className)
+        }
+      >
         {component}
       </div>
     );
@@ -226,7 +232,8 @@ class CodeCourse extends React.Component {
 CodeCourse.defaultProps = {
   loaded: false,
   userRepos: [],
-  className: ''
+  className: '',
+  showedRepository: null,
 };
 
 export default CodeCourse;

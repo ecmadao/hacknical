@@ -1,20 +1,19 @@
 import React from 'react';
 
-class SelectedRepos extends React.Component {
-  render() {
-    const { name, id, language, onRemove } = this.props;
-    return (
-      <div className="selected_repos">
-        <i
-          aria-hidden="true"
-          onClick={() => onRemove(id)}
-          className="fa fa-times-circle"
-        />
-        {name}<br />
-        <span>{language}</span>
-      </div>
-    );
-  }
-}
+const SelectedRepos = (props) => {
+  const { name, language, onRemove } = props;
+  return (
+    <div className="selected_repos">
+      <i
+        aria-hidden="true"
+        onClick={() => onRemove(name)}
+        className="fa fa-times-circle"
+      />
+      {name}
+      <br />
+      <span>{language}</span>
+    </div>
+  );
+};
 
 export default SelectedRepos;

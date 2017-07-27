@@ -25,7 +25,7 @@ const _getRepos = async (login, token) => {
   const repos = await Api.getUserRepos(login, token);
   const pinned = await User.findPinnedRepos(login);
   const checkPinned = repository =>
-    pinned.some(item => item === repository.reposId);
+    pinned.some(item => item === repository.name);
   const pinnedRepos = pinned.length
     ? repos.filter(repository => checkPinned(repository) || repository.fork)
     : repos;
@@ -122,12 +122,15 @@ const getAllRepos = async (ctx, next) => {
   const repos = await Api.getUserRepos(githubLogin, githubToken);
   const result = repos.filter(repository => !repository.fork)
     .map((repository) => {
-      const { reposId, name, language, stargazers_count } = repository;
-      return {
+      const {
         name,
-        reposId,
         language,
         stargazers_count
+      } = repository;
+      return {
+        name,
+        language,
+        stargazers_count,
       };
     });
 

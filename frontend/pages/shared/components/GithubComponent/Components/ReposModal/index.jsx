@@ -5,6 +5,8 @@ import SelectedRepos from './SelectedRepos';
 import '../../styles/repos_modal.css';
 import github from 'UTILS/github';
 
+const getReposByName = github.getReposByX('name');
+
 class ReposModal extends React.Component {
   constructor(props) {
     super(props);
@@ -24,17 +26,18 @@ class ReposModal extends React.Component {
   renderRepos() {
     const { selectedLanguage, selectedItems } = this.state;
     const { repos } = this.props;
-    return repos.filter(repository => repository.language === selectedLanguage)
-    .map((item, index) => {
-      const active = selectedItems.some(id => id === item.reposId);
-      return (
-        <ReposItem
-          key={index}
-          active={active}
-          repository={item}
-        />
-      );
-    });
+    return repos
+      .filter(repository => repository.language === selectedLanguage)
+      .map((item, index) => {
+        const active = selectedItems.some(selected => selected === item.name);
+        return (
+          <ReposItem
+            key={index}
+            active={active}
+            repository={item}
+          />
+        );
+      });
   }
 
   renderSelector() {
@@ -57,7 +60,7 @@ class ReposModal extends React.Component {
   get selectedRepos() {
     const { repos } = this.props;
     const { selectedItems } = this.state;
-    return github.getReposByIds(repos, selectedItems);
+    return getReposByName(repos, selectedItems);
   }
 
   removeItem(id) {
@@ -75,7 +78,6 @@ class ReposModal extends React.Component {
       <SelectedRepos
         key={index}
         name={repos.name}
-        id={repos.reposId}
         language={repos.language}
         onRemove={this.removeItem}
       />

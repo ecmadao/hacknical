@@ -4,8 +4,8 @@ import styles from '../styles/modal.css';
 
 const ReposCard = (props) => {
   const { repository, pinned, onRemove, onPinned } = props;
-  const { name, reposId, stargazers_count, language } = repository;
-  const onClick = pinned ? () => onRemove(reposId) : () => onPinned(reposId);
+  const { name, stargazers_count, language } = repository;
+  const onClick = pinned ? () => onRemove(name) : () => onPinned(name);
   const reposClass = cx(
     styles.repository,
     pinned && styles.active
