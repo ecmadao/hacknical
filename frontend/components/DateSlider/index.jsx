@@ -39,10 +39,10 @@ class DateSlider extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialStart, initialEnd } = nextProps;
+    const { initialStart, initialEnd, maxDate } = nextProps;
     this.setState({
       startDate: initialStart,
-      endDate: initialEnd
+      endDate: initialEnd || maxDate
     });
   }
 
