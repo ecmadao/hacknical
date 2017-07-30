@@ -1,5 +1,6 @@
 
 import User from '../models/users/index';
+import getLanguages from '../config/languages';
 
 const index = async (ctx) => {
   ctx.redirect('/dashboard');
@@ -60,10 +61,21 @@ const statistic = async (ctx) => {
   };
 };
 
+const languages = async (ctx) => {
+  const locale = ctx.__('language.id');
+  const avaliableLanguages = getLanguages(locale);
+
+  ctx.body = {
+    success: true,
+    result: avaliableLanguages
+  };
+};
+
 export default {
   index,
   handle404,
   dashboard,
   initial,
-  statistic
+  statistic,
+  languages,
 };

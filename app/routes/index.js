@@ -35,5 +35,9 @@ router.get(
   '/statistic',
   Home.statistic
 );
+router.get(
+  '/languages',
+  Home.languages
+);
 
 export default router;

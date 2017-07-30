@@ -8,9 +8,9 @@
 <div id="login" class="login-main">
   <div class="topbar">
     <div class="topbar-selector">
-      {% for item in locales %}
-        <a href="/user/login?locale={{ item.id }}">
-          {{ item.text }}
+      {% for language in languages %}
+        <a href="/user/login?locale={{ language.id }}">
+          {{ language.text }}
         </a>
       {% endfor %}
     </div>

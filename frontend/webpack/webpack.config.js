@@ -118,7 +118,6 @@ module.exports = {
       API: path.join(PATH.SOURCE_PATH, 'api'),
       SHARED: path.join(PATH.SOURCE_PATH, 'pages/shared'),
       LOCALES: path.join(PATH.SOURCE_PATH, 'config/locales'),
-      LANGUAGES: path.join(PATH.ROOT_PATH, 'locales/languages')
     }
   },
   postcss: postcssPlugin,

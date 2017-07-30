@@ -3,7 +3,7 @@ import reducer from './redux/reducers';
 import PATH from '../shared/path';
 
 export default store => ({
-  path: `${PATH.BASE_PATH}/profile`,
+  path: `${PATH.RAW_PATH}/profile`,
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'profile', reducer });

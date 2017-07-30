@@ -1,7 +1,7 @@
 import User from '../models/users';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
-import languages from '../../locales/languages';
+import getLanguages from '../config/languages';
 
 import { getMobileMenu, getGithubSections } from './shared';
 import logger from '../utils/logger';
@@ -15,11 +15,11 @@ const logout = async (ctx) => {
 
 const loginPage = async (ctx) => {
   const locale = ctx.__('language.id');
-  const locales = languages(locale);
+  const languages = getLanguages(locale);
   const clientId = await Api.getVerify();
   await ctx.render('user/login', {
     locale,
-    locales,
+    languages,
     clientId,
     title: ctx.__('loginPage.title'),
     login: ctx.__('loginPage.login'),

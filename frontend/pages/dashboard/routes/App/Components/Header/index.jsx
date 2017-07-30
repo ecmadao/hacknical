@@ -1,9 +1,7 @@
 import React from 'react';
 import { Tipso } from 'light-ui';
-
 import Api from 'API';
 import locales from 'LOCALES';
-import languages from 'LANGUAGES';
 import styles from '../../styles/app.css';
 
 const headers = locales('dashboard').headers;
@@ -12,12 +10,14 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      zen: ''
+      zen: '',
+      languages: [],
     };
   }
 
   componentDidMount() {
     this.getZen();
+    this.getLanguages();
   }
 
   async getZen() {
@@ -25,7 +25,13 @@ class Header extends React.Component {
     this.setState({ zen });
   }
 
-  renderLanguageOptions(options) {
+  async getLanguages() {
+    const languages = await Api.home.languages();
+    this.setState({ languages });
+  }
+
+  renderLanguageOptions(options = []) {
+    if (!options.length) return null;
     const optionDOMs = options.map((option, index) => (
       <a
         key={index}
@@ -43,9 +49,8 @@ class Header extends React.Component {
   }
 
   render() {
-    const { zen } = this.state;
+    const { zen, languages } = this.state;
     const locale = window.locale || 'en';
-    const languageOptions = languages(locale);
 
     return (
       <div className={styles.app_header}>
@@ -63,7 +68,7 @@ class Header extends React.Component {
             </Tipso>
           </div>
           <div className={styles.header_menus}>
-            {this.renderLanguageOptions(languageOptions)}
+            {this.renderLanguageOptions(languages)}
             <Tipso
               theme="dark"
               position="bottom"

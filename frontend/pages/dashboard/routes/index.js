@@ -21,13 +21,13 @@ export const createRoutes = (store) => {
       {
         path: `${PATH.RAW_PATH}/`,
         onEnter: (nextState, replace) => {
-          replace('github');
+          replace(`${PATH.RAW_PATH}/github`);
         }
       },
       {
         path: PATH.RAW_PATH,
         onEnter: (nextState, replace) => {
-          replace(`${PATH.RAW_PATH}/`);
+          replace(`${PATH.RAW_PATH}/github`);
         }
       },
     ]

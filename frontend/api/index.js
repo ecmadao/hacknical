@@ -7,5 +7,5 @@ export default {
   user,
   resume,
   github,
-  home
+  home,
 };

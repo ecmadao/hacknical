@@ -1,15 +1,16 @@
 /* eslint global-require: "off" */
+import logger from '../../utils/logger';
 
-const getLocale = (currentLanguage) => {
+const getLanguages = (currentLanguage) => {
   const locale = currentLanguage || 'zh';
   if (locale === 'fr') { locale === 'en' }
-  let datas = {};
+  let datas = [];
   try {
     datas = require(`./${locale}.js`).default;
   } catch (e) {
-    console.log(e);
+    logger.error(e);
   }
   return datas;
 };
 
-export default getLocale;
+export default getLanguages;
