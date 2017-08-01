@@ -57,21 +57,6 @@ const updateUser = async (userInfo) => {
   });
 };
 
-const updateUserOrgs = async (login, orgs = []) => {
-  const user = await findUserByLogin(login);
-  if (!user) {
-    return Promise.resolve({
-      success: false
-    });
-  }
-  user.orgs = [...orgs];
-  await user.save();
-  return Promise.resolve({
-    success: true,
-    result: user
-  });
-};
-
 const loginWithGithub = async (userInfo, cache, mq) => {
   const {
     id,
@@ -190,7 +175,6 @@ export default {
   findUserByLogin,
   updateUser,
   updateUserInfo,
-  updateUserOrgs,
   findGithubSections,
   updateGithubSections,
   findPinnedRepos,

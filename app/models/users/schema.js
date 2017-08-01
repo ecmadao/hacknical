@@ -18,11 +18,6 @@ const UserSchema = new Schema({
     id: { type: String, default: '' },
     login: { type: String, default: '' }
   },
-  orgs: [{
-    login: String,
-    avatar_url: String,
-    description: String
-  }],
   pinnedRepos: { type: Array, default: [] },
   githubSections: {
     hotmap: { type: Boolean, default: true },

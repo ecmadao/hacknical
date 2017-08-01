@@ -4,12 +4,12 @@
 
 > hacknical 通过抓取用户的 github 数据，来形成一个可视化展示的 github 分析报告，以此辅助用户更好的完善自己的简历。
 
-[English Version of README](./README.md)
+[English Version of README](../README.md)
 
 抽离依赖：
 
 - UI 组件 --> [light-ui](https://github.com/ecmadao/light-ui)
-- GitHub API 爬虫 --> [hacknical-api](https://github.com/ecmadao/hacknical-api)
+- GitHub API 爬虫 --> [hacknical-github](https://github.com/ecmadao/hacknical-github)
 
 ## 案例
 
@@ -37,7 +37,7 @@
 hacknical 目前拆分成为了两个 server，以及一个 UI 组件库：
 
 - [hacknical](https://github.com/ecmadao/hacknical) 主 server，除去前端渲染等作用外，链接用户管理、用户简历等数据库
-- [hacknical-api](https://github.com/ecmadao/hacknical-api) 负责提供 GitHub 数据的 server，负责用户 GitHub 数据的抓取、存储
+- [hacknical-github](https://github.com/ecmadao/hacknical-github) 负责提供 GitHub 数据的 server，负责用户 GitHub 数据的抓取、存储
 - [light-ui](https://github.com/ecmadao/light-ui) 一个 React UI 组件库
 
 在储存方面，使用 redis 做缓存，并统一使用 MongoDB 作为数据库储存。
@@ -46,11 +46,11 @@ hacknical 目前拆分成为了两个 server，以及一个 UI 组件库：
 
 ```bash
 $ git clone git@github.com:ecmadao/hacknical.git
-$ git clone git@github.com:ecmadao/hacknical-api.git
+$ git clone git@github.com:ecmadao/hacknical-github.git
 
 $ cd hacknical
 $ npm i
-$ cd hacknical-api
+$ cd hacknical-github
 $ npm i
 
 # 安装 redis 以及 MongoDB
@@ -65,29 +65,31 @@ Homepage URL: http://localhost:4000/
 Authorization callback URL: http://localhost:4000/user/login/github
 ```
 
-注册成功之后，将获取的 `Client ID` 、`Client Secret` 以及 `Application name` 填充至 `hacknical-api/config/localdev.json` 文件中：
+注册成功之后，将获取的 `Client ID` 、`Client Secret` 以及 `Application name` 填充至 `hacknical-github/config/localdev.json` 文件中：
 
 ```json
-// hacknical-api/config/localdev.json
+// hacknical-github/config/localdev.json
 {
   "production": false,
   "port": "5002",
-  "appKey": "hacknical-local",
-  "appName": "hacknical-local",
+  "appKey": "hacknical-github-local",
+  "appName": "hacknical-github-local",
   "redis": "redis://localhost:6379/3",
   "database": {
-    "url": "mongodb://localhost:27017/hacknical-api"
+    "url": "mongodb://localhost:27017/hacknical-github"
   },
-  "github": {
-    "clientId": "将你的 Client ID 填充至此",
-    "clientSecret": "将你的 Client Secret 填充至此",
-    "appName": "hacknical-local",
-    "timeouts": [4000, 4000, 4000]
+  "app": {
+    "hacknical-local": {
+      "clientId": "将你的 Client ID 填充至此",
+      "clientSecret": "将你的 Client Secret 填充至此",
+      "appName": "hacknical-local",
+      "token": ""
+    }
   }
 }
 ```
 
-除此以外，还可以在 `hacknical/config/localdev.json` 以及 `hacknical-api/config/localdev.json` 中修改数据库链接、server 端口等配置。
+除此以外，还可以在 `hacknical/config/localdev.json` 以及 `hacknical-github/config/localdev.json` 中修改数据库链接、server 端口等配置。
 
 ### 提交说明
 
