@@ -25,6 +25,18 @@ const uptoken = (bucket, key) => {
   return putPolicy.token();
 };
 
+const fileUploader = async (token, key, localFile) => {
+  for (let i = 0; i < 3; i += 1) {
+    try {
+      await uploadFile(token, key, localFile);
+      return true;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+  throw new Error('Upload error');
+};
+
 const uploadFile = (token, key, localFile) => {
   const extra = new qiniu.io.PutExtra();
   return new Promise((resolve, reject) => {
@@ -53,7 +65,7 @@ const pushToCDN = async () => {
     const token = uptoken(BucketName, key);
 
     try {
-      await uploadFile(token, key, fullpath);
+      await fileUploader(token, key, fullpath);
     } catch (e) {
       console.log('PushToCDN Error!', e);
       return false;

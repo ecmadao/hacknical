@@ -1,3 +1,5 @@
+import pangu from 'pangu';
+
 const checkType = (val, result) =>
   Object.prototype.toString.call(val) === result
 
@@ -5,6 +7,42 @@ export const is = {
   object: val => checkType(val, '[object Object]'),
   array: val => Array.isArray(val),
   func: val => checkType(val, '[object Function]'),
+  string: val => checkType(val, '[object String]'),
+};
+
+const reValueObject = (object, key) => value => (object[key] = value);
+
+const loopObject = (object) => {
+  if (is.object(object)) {
+    Object.keys(object).forEach((key) => {
+      const value = object[key];
+      formatString(value, reValueObject(object, key));
+    });
+  }
+
+  if (is.array(object)) {
+    object.forEach((item, index) => {
+      formatString(item, reValueObject(object, index));
+    });
+  }
+};
+
+const formatString = (value, callback = null) => {
+  const func = pangu.spacing;
+  if (is.string(value)) {
+    const result = func(value);
+    if (is.func(callback)) {
+      callback(result)
+    }
+  } else {
+    loopObject(value, func);
+  }
+};
+
+export const formatObject = (object = {}) => {
+  const result = Object.assign({}, object);
+  formatString(result);
+  return result;
 };
 
 /*

@@ -10,6 +10,9 @@ import dateHelper from '../utils/date';
 import { getGithubSections, getMobileMenu } from './shared';
 import logger from '../utils/logger';
 import SlackMsg from '../services/slack';
+import {
+  formatObject
+} from '../utils/helper';
 
 /* ===================== private ===================== */
 
@@ -62,8 +65,11 @@ const setResume = async (ctx, next) => {
   const { resume } = ctx.request.body;
   const { userId, githubLogin } = ctx.session;
 
-  const setResult = await Resume.updateResume(userId, resume, ctx.cache);
+  const targetResume = formatObject(resume);
+  const setResult = await Resume.updateResume(userId, targetResume, ctx.cache);
+
   logger.info(`[RESUME:UPDATE][${githubLogin}]`);
+
   if (resume.info && resume.info.email) {
     User.updateUserInfo({
       userId,

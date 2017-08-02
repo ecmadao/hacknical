@@ -12,11 +12,10 @@
     "deploy-cdn": "APP_VERSION=$npm_package_version NODE_ENV=production node ./scripts/deploy-cdn.js",
     "start-dev": "npm run build-dll && npm run start-app",
     "start-app": "bnr local:app:start & bnr local:build:src",
-    "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run pm2:restart && npm run notify-opbeat",
-    "pm2": "APP_VERSION=$npm_package_version bnr pro:app:start",
-    "pm2:restart": "NODE_ENV=production pm2 restart \"hacknical\"",
-    "pm2:stop": "NODE_ENV=production pm2 stop \"hacknical\"",
-    "pm2:logs": "NODE_ENV=production pm2 logs \"hacknical\"",
+    "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run restart && npm run notify-opbeat",
+    "start": "bnr pro:app:start",
+    "stop": "bnr pro:app:stop",
+    "restart": "npm run stop && npm run start",
     "notify-opbeat": "sh ./scripts/opbeat.sh"
   },
   "betterScripts": {
@@ -45,7 +44,13 @@
       }
     },
     "pro:app:start": {
-      "command": "pm2 start dist/bin/app.js -i 3 --name \"hacknical\" --max-memory-restart 300M --merge-logs --log-date-format=\"YYYY-MM-DD HH:mm Z\" --output=\"log/production.log\"",
+      "command": "forever start --killSignal=SIGTERM -a -l /home/ecmadao/log/Hawkeye/forever_log -e /home/ecmadao/log/Hawkeye/error_log dist/bin/app.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "pro:app:stop": {
+      "command": "forever stop dist/bin/app.js",
       "env": {
         "NODE_ENV": "production"
       }
@@ -138,12 +143,8 @@
     "koa-bodyparser": "^3.2.0",
     "koa-convert": "^1.2.0",
     "koa-csrf": "^3.0.3",
-    "koa-generic-session": "^2.0.0",
-    "koa-json": "^1.1.3",
     "koa-locales": "^1.5.2",
     "koa-logger": "^1.3.0",
-    "koa-onerror": "^2.0.0",
-    "koa-redis": "^3.0.0",
     "koa-router": "^7.0.1",
     "koa-session": "^3.4.0",
     "koa-static": "^2.0.0",
