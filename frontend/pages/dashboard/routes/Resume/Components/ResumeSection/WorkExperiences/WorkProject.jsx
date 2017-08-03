@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
-import { Input, InputGroup } from 'light-ui';
+import { InputGroup } from 'light-ui';
+import { TipsoInput } from '../components';
 
 import WritableList from 'COMPONENTS/WritableList';
 import styles from '../../../styles/resume.css';
@@ -54,6 +55,7 @@ class WorkProject extends React.Component {
         <div className={styles.project_name_wrapper}>
           <InputGroup
             theme="flat"
+            tipsoTheme="dark"
             value={project.name}
             disabled={disabled}
             className={styles.last_input}
@@ -65,21 +67,15 @@ class WorkProject extends React.Component {
             }}
             wrapperClassName={cx(styles.input_group, styles.single_input)}
           >
-            <div className={styles.project_link_wrapper}>
-              <i className="fa fa-link" aria-hidden="true" />
-              &nbsp;&nbsp;
-              <Input
-                value={project.url}
-                type="url"
-                required={false}
-                theme="borderless"
-                subTheme="underline"
-                disabled={disabled}
-                placeholder={resumeTexts.projectHomepage}
-                onChange={this.handleProjectChange('url')}
-                className={styles.tipso_input_long}
-              />
-            </div>
+            <TipsoInput
+              value={project.url}
+              placeholder={resumeTexts.projectHomepage}
+              onChange={this.handleProjectChange('url')}
+              className={cx(
+                styles.tipso_input_long,
+                styles.tipso_input_dark
+              )}
+            />
           </InputGroup>
           <div className={styles.project_delete} onClick={onDelete}>
             <i className="fa fa-trash-o" aria-hidden="true" />

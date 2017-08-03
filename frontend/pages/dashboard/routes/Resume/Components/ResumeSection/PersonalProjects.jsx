@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 import { InputGroup, Textarea } from 'light-ui';
-
 import Labels from 'COMPONENTS/Labels';
 import styles from '../../styles/resume.css';
 import resumeActions from '../../redux/actions';
@@ -42,6 +41,7 @@ class PersonalProjects extends React.Component {
             <InputGroup
               value={title}
               theme="flat"
+              tipsoTheme="dark"
               disabled={disabled}
               placeholder={resumeTexts.projectName}
               tipsoStyle={{
@@ -55,7 +55,10 @@ class PersonalProjects extends React.Component {
                 value={url}
                 disabled={disabled}
                 placeholder={resumeTexts.homepage}
-                className={styles.tipso_input_long}
+                className={cx(
+                  styles.tipso_input_long,
+                  styles.tipso_input_dark
+                )}
                 onChange={this.handleProjectChange(index)('url')}
               />
             </InputGroup>
@@ -75,7 +78,7 @@ class PersonalProjects extends React.Component {
               labels={techs}
               onAdd={this.addTech(index)}
               onDelete={this.deleteTech(index)}
-              max={5}
+              max={7}
               disabled={disabled}
               placeholder={`+ ${resumeTexts.technologies}`}
             />

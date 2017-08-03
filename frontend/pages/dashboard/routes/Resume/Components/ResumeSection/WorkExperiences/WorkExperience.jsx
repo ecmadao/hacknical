@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { InputGroup, Input } from 'light-ui';
 import DateSlider from 'COMPONENTS/DateSlider';
 import WorkProject from './WorkProject';
@@ -76,6 +77,7 @@ class WorkExperience extends React.Component {
           <InputGroup
             value={company}
             theme="flat"
+            tipsoTheme="dark"
             disabled={disabled}
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}
@@ -84,7 +86,10 @@ class WorkExperience extends React.Component {
               value={url}
               placeholder={resumeTexts.homepage}
               onChange={handleExperienceChange('url')}
-              className={styles.tipso_input_long}
+              className={cx(
+                styles.tipso_input_long,
+                styles.tipso_input_dark
+              )}
             />
           </InputGroup>
           <Input

@@ -7,11 +7,12 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const PATH = require('../../config/path');
 const env = process.env.NODE_ENV || 'localdev';
 const isProduction = env === 'production';
+const libraryName = isProduction ? '[name]_[chunkhash]_library' : '[name]_library';
 
 const plugins = [
   new webpack.DllPlugin({
     path: path.join(PATH.BUILD_PATH, '[name]-manifest.json'),
-    name: '[name]_library'
+    name: libraryName
   }),
   new CleanPlugin(PATH.BUILD_PATH, {
     root: PATH.ROOT_PATH,
@@ -71,8 +72,8 @@ module.exports = {
   output: {
     path: PATH.BUILD_PATH,
     publicPath: PATH.PUBLIC_PATH,
-    filename: '[name].dll.js',
-    library: '[name]_library'
+    filename: isProduction ? '[name].[chunkhash].dll.js' : '[name].dll.js',
+    library: libraryName
   },
   plugins
 };
