@@ -4,7 +4,7 @@ upstream hacknical {
 server {
   listen 80;
   server_name hacknical.com www.hacknical.com;
-  root /home/ecmadao/www/Hawkeye/public;
+  root /home/ecmadao/www/hacknical/public;
   location / {
     index  index.html index.htm;
     proxy_pass http://hacknical;
@@ -12,7 +12,7 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   }
   location ~* ^/assets/ {
-    root /home/ecmadao/www/Hawkeye/public;
+    root /home/ecmadao/www/hacknical/public;
     expires 1y;
     add_header Cache-Control public;
 

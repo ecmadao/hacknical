@@ -44,7 +44,7 @@
       }
     },
     "pro:app:start": {
-      "command": "forever start --killSignal=SIGTERM -a -l /home/ecmadao/log/Hawkeye/forever_log -e /home/ecmadao/log/Hawkeye/error_log dist/bin/app.js",
+      "command": "forever start --killSignal=SIGTERM -a -l /home/ecmadao/log/hacknical/forever_log -e /home/ecmadao/log/hacknical/error_log dist/bin/app.js",
       "env": {
         "NODE_ENV": "production"
       }
