@@ -12,7 +12,7 @@
     "deploy-cdn": "APP_VERSION=$npm_package_version NODE_ENV=production node ./scripts/deploy-cdn.js",
     "start-dev": "npm run build-dll && npm run start-app",
     "start-app": "bnr local:app:start & bnr local:build:src",
-    "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run restart && npm run notify-opbeat",
+    "deploy": "git checkout master && git pull origin master && yarn && npm run build-app && npm run build-static && npm run deploy-cdn && npm run restart && npm run notify-opbeat",
     "start": "bnr pro:app:start",
     "stop": "bnr pro:app:stop",
     "restart": "npm run stop && npm run start",
@@ -115,8 +115,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
-    "webpack-manifest-plugin": "^1.1.0",
-    "why-did-you-update": "0.0.8"
+    "webpack-manifest-plugin": "^1.1.0"
   },
   "dependencies": {
     "babel-core": "^6.14.0",

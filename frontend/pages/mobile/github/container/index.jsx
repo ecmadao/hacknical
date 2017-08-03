@@ -12,11 +12,8 @@ import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import { randomColor } from 'UTILS/colors';
 import {
-  sortByX,
-  sortRepos,
   getMaxIndex,
   getFirstMatchTarget,
-  sortLanguages
 } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
 import { DAYS } from 'UTILS/const-value';
@@ -27,7 +24,7 @@ import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
 import USER from 'SRC/data/user';
 
-const sortByLanguageStar = sortByX('star');
+const sortByLanguageStar = github.sortByX('star');
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const getDateBySeconds = dateHelper.date.bySeconds;
@@ -108,7 +105,7 @@ class GitHubMobileShare extends React.Component {
     } = result;
     this.setState({
       reposLanguages: [...reposLanguages],
-      repos: repos.sort(sortRepos()),
+      repos: github.sortByStar(repos),
       languageDistributions: github.getLanguageDistribution(repos),
       languageSkills: github.getLanguageSkill(repos),
       languageUsed: github.getLanguageUsed(repos),
@@ -427,7 +424,9 @@ class GitHubMobileShare extends React.Component {
   renderLanguageLines() {
     const { languageUsed } = this.state;
     const color = randomColor();
-    const languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).slice(0, 9);
+    const languages = Object.keys(languageUsed)
+      .sort(github.sortByLanguage(languageUsed))
+      .slice(0, 9);
     const maxUsedCounts = languageUsed[languages[0]];
     const languagesCount = languages.length;
 

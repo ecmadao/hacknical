@@ -12,7 +12,7 @@ import {
   IconButton,
 } from 'light-ui';
 import objectAssign from 'UTILS/object-assign';
-import { sortByX } from 'UTILS/helper';
+import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
 import { RADAR_CONFIG, LINE_CONFIG } from 'SHARED/datas/chart_config';
 import dateHelper from 'UTILS/date';
@@ -21,7 +21,7 @@ import locales from 'LOCALES';
 import { VIEW_TYPES } from '../shared/data';
 
 const profileTexts = locales('dashboard').profile.common;
-const sortByCount = sortByX('count');
+const sortByCount = github.sortByX('count');
 
 class ShareAnalysis extends React.Component {
   constructor(props) {

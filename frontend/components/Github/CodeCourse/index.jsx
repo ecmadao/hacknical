@@ -31,7 +31,8 @@ class CodeCourse extends React.Component {
 
   renderChosedRepos() {
     const { userRepos } = this.props;
-    const sortedRepos = github.sortByDate(userRepos.slice(0, 10));
+    const sortedRepos = github.sortByDate(userRepos.slice(0, 20));
+
     this.minDate = dateHelper.validator.full(sortedRepos[0].created_at);
     this.maxDate = github.getMaxDate(sortedRepos);
     return (

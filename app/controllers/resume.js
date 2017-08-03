@@ -55,6 +55,7 @@ const getResume = async (ctx) => {
   const userId = ctx.session.userId;
   const getResult = await Resume.findOne(userId);
   const { result } = getResult;
+
   ctx.body = {
     result,
     success: true,

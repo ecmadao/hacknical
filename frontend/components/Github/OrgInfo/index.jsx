@@ -7,12 +7,12 @@ import OrgRepos from './OrgRepos';
 import cardStyles from '../styles/info_card.css';
 import styles from '../styles/github.css';
 import locales from 'LOCALES';
-import { splitArray, sortByX } from 'UTILS/helper';
+import { splitArray } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
+import github from 'UTILS/github';
 
 const fullDate = dateHelper.validator.fullDate;
 const githubTexts = locales('github').sections.orgs;
-const sortByStar = sortByX('stargazers_count');
 
 class OrgInfo extends React.Component {
   constructor(props) {
@@ -167,7 +167,7 @@ class OrgInfo extends React.Component {
           </div>
         ) : ''}
         <OrgRepos
-          repos={repos.sort(sortByStar).reverse()}
+          repos={github.sortByStar(repos)}
           login={login}
         />
       </div>

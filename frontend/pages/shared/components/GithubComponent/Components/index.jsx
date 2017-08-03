@@ -7,7 +7,6 @@ import GitHubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHARED/components/ShareModal';
 import USER from 'SRC/data/user';
 import github from 'UTILS/github';
-import { sortRepos } from 'UTILS/helper';
 import locales from 'LOCALES';
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
@@ -177,6 +176,7 @@ class GithubComponent extends React.Component {
 
     const origin = window.location.origin;
     const { login, lastUpdateTime, openShare, shareUrl } = user;
+    const ownedRepos = repos.filter(repository => !repository.fork);
 
     return (
       <div
@@ -221,7 +221,7 @@ class GithubComponent extends React.Component {
           loaded={reposLoaded || commitLoaded}
           commitDatas={commitDatas}
           userRepos={
-            repos.filter(repository => !repository.fork).sort(sortRepos())
+            github.sortByStar(ownedRepos)
           }
           forkedRepos={repos.filter(repository => repository.fork)}
 
@@ -243,9 +243,7 @@ class GithubComponent extends React.Component {
         />
         <GitHubSection
           loaded={reposLoaded}
-          userRepos={
-            repos.filter(repository => !repository.fork).sort(sortRepos())
-          }
+          userRepos={ownedRepos}
           title={{
             text: githubTexts.course.title,
             icon: 'trophy'

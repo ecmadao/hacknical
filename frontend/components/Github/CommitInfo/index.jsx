@@ -8,11 +8,11 @@ import dateHelper from 'UTILS/date';
 import { DAYS, MONTHS } from 'UTILS/const-value';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import {
-  sortRepos,
   getMaxIndex,
   getMaxTarget,
   getFirstMatchTarget
 } from 'UTILS/helper';
+import github from 'UTILS/github';
 import locales from 'LOCALES';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
@@ -263,7 +263,7 @@ class CommitInfo extends React.Component {
       firstCommitWeek.week - ((7 - dayIndex) * (24 * 60 * 60))
     );
     // max commit repos
-    commitDatas.sort(sortRepos('totalCommits'));
+    github.baseSortBy(commitDatas)('totalCommits', parseInt);
     const maxCommitRepos = commitDatas[0];
 
     // max commits day

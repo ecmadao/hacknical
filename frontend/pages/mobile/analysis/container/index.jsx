@@ -13,9 +13,9 @@ import styles from '../styles/analysis.css';
 import sharedStyles from '../../shared/styles/mobile.css';
 import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
-import { sortByX } from 'UTILS/helper';
+import github from 'UTILS/github';
 
-const sortByCount = sortByX('count');
+const sortByCount = github.sortByX('count');
 const analysisTexts = locales('dashboard').profile.common;
 
 class MobileAnalysis extends React.Component {

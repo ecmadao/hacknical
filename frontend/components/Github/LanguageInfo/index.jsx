@@ -10,9 +10,7 @@ import {
 import github from 'UTILS/github';
 import { randomColor } from 'UTILS/colors';
 import {
-  sortByX,
   getMaxIndex,
-  sortLanguages
 } from 'UTILS/helper';
 import locales from 'LOCALES';
 import chart from 'UTILS/chart';
@@ -20,7 +18,7 @@ import githubStyles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import ReposRowInfo from '../ReposRowInfo';
 
-const sortByLanguageStar = sortByX('star');
+const sortByLanguageStar = github.sortByX('star');
 const githubTexts = locales('github').sections.languages;
 
 class LanguageInfo extends React.Component {
@@ -192,7 +190,9 @@ class LanguageInfo extends React.Component {
   get sortedLanguages() {
     if (this.languages.length) { return this.languages }
     const { languageUsed } = this.props;
-    this.languages = Object.keys(languageUsed).sort(sortLanguages(languageUsed)).slice(0, 6);
+    this.languages = Object.keys(languageUsed)
+      .sort(github.sortByLanguage(languageUsed))
+      .slice(0, 6);
     return this.languages;
   }
 

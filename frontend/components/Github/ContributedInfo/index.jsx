@@ -5,12 +5,11 @@ import Api from 'API';
 import cardStyles from '../styles/info_card.css';
 import styles from '../styles/github.css';
 import locales from 'LOCALES';
-import { sortByX } from 'UTILS/helper';
+import github from 'UTILS/github';
 import ReposRowInfo from '../ReposRowInfo';
 import objectAssign from 'UTILS/object-assign';
 
 const githubTexts = locales('github').sections.contributed;
-const sortByStar = sortByX('stargazers_count');
 
 class ContributedInfo extends React.Component {
   constructor(props) {
@@ -40,7 +39,7 @@ class ContributedInfo extends React.Component {
     );
     this.setState({
       loaded: true,
-      repos: filtered.sort(sortByStar).reverse()
+      repos: github.sortByStar(filtered)
     });
   }
 

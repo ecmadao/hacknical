@@ -11,11 +11,6 @@ import routes from './routes';
 
 const history = syncHistoryWithStore(browserHistory, AppStore);
 
-// if (process.env.NODE_ENV !== 'production') {
-//   const { whyDidYouUpdate } = require('why-did-you-update')
-//   whyDidYouUpdate(React);
-// }
-
 const renderApp = (id, props = {}) => {
   const ROOT_DOM = document.getElementById(id);
   ReactDOM.render(

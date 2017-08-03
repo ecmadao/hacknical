@@ -1,4 +1,3 @@
-import { sortRepos } from './helper';
 import dateHelper from './date';
 
 const getFullDateBySecond = dateHelper.validator.fullDateBySeconds;
@@ -62,13 +61,16 @@ const getLanguageUsed = (repos) => {
   return result;
 };
 
-const getReposByLanguage = (repos, targetLanguage) => repos.filter((repository) => {
-  const { languages, language } = repository;
-  if (!languages) {
-    return language === targetLanguage;
-  }
-  return Object.keys(languages).some(key => key === targetLanguage);
-}).sort(sortRepos('stargazers_count'));
+const getReposByLanguage = (repos, targetLanguage) => {
+  const filtered = repos.filter((repository) => {
+    const { languages, language } = repository;
+    if (!languages) {
+      return language === targetLanguage;
+    }
+    return Object.keys(languages).some(key => key === targetLanguage);
+  });
+  return sortByStar(filtered);
+};
 
 const getMinDate = (repos) => {
   const createDates = repos.map(
@@ -84,8 +86,26 @@ const getMaxDate = (repos) => {
   return getFullDateBySecond(Math.max(...pushDates));
 };
 
+const sortByX = (key, func = null) =>
+  (first, second) => {
+    if (func) {
+      return func(second[key]) - func(first[key]);
+    }
+    return second[key] - first[key];
+  };
+
+const baseSortBy = array => (key, func) =>
+  array.sort(sortByX(key, func));
+
 const sortByDate = repos =>
-  repos.sort(sortRepos('created_at', getSecondsByDate)).reverse();
+  repos.sort(sortByX('created_at', getSecondsByDate)).reverse();
+
+const sortByStar = repos =>
+  repos.sort(sortByX('stargazers_count', parseInt));
+
+const sortByLanguage = obj =>
+  (firstLanguage, secLanguage) =>
+    obj[secLanguage] - obj[firstLanguage];
 
 const getReposByX = x => (repos, items) =>
   repos.filter(
@@ -172,7 +192,13 @@ export default {
   getReposByLanguage,
   getMinDate,
   getMaxDate,
+  /* sort */
+  sortByX,
+  baseSortBy,
   sortByDate,
+  sortByStar,
+  sortByLanguage,
+  /* ================== */
   getReposByX,
   getReposInfo,
   getReposCommits,
