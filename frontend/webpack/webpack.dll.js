@@ -47,18 +47,16 @@ module.exports = {
       'react-redux',
       'react-router',
       'react-router-redux',
-      'react-portal',
       'redux',
       'redux-actions',
       'redux-thunk',
       'redux-logger',
-      'prop-types',
-      'create-react-class'
     ],
     runtime: [
       'babel-polyfill',
       'moment',
       'classnames',
+      'prop-types',
     ]
   },
   output: {
