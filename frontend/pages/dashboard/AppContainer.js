@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { wrapRouter } from 'opbeat-react';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
@@ -19,11 +18,5 @@ class AppContainer extends React.Component {
     );
   }
 }
-
-AppContainer.propTypes = {
-  history: PropTypes.object.isRequired,
-  routes: PropTypes.object.isRequired,
-  store: PropTypes.object.isRequired,
-};
 
 export default AppContainer;
