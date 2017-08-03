@@ -1,5 +1,6 @@
 /* eslint no-new: "off" */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Clipboard from 'clipboard';
 import { IconButton, Input, PortalModal } from 'light-ui';

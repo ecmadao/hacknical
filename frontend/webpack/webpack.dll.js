@@ -48,11 +48,11 @@ module.exports = {
       'react-router',
       'react-router-redux',
       'react-portal',
-      'react-addons-shallow-compare',
       'redux',
       'redux-actions',
       'redux-thunk',
-      'redux-logger'
+      'redux-logger',
+      'prop-types'
     ],
     runtime: [
       'babel-polyfill',

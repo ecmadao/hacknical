@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Slider } from 'light-ui';
 import styles from './date_slider.css';
 import dateHelper from 'UTILS/date';

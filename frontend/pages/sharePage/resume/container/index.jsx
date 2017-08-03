@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ResumeComponent from 'SHARED/components/ResumeComponent';
 import ResumeStateWrapper from 'SHARED/components/ResumeStateWrapper';
 import styles from '../styles/share.css';

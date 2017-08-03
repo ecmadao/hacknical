@@ -1,6 +1,7 @@
 /* eslint no-param-reassign: "off" */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { PortalModal, Button, Loading, Input } from 'light-ui';
 import Api from 'API';
 import ReposCard from './ReposCard';

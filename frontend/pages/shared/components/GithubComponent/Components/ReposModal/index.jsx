@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { SelectorV2, PortalModal } from 'light-ui';
 import ReposItem from './ReposItem';
 import SelectedRepos from './SelectedRepos';

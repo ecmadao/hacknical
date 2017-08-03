@@ -1,5 +1,6 @@
 /* eslint no-script-url: "off" */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
 import styles from './social_info.css';

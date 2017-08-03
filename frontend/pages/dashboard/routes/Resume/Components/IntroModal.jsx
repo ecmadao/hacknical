@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { PortalModal } from 'light-ui';
 import styles from '../styles/intro_modal.css';
 
