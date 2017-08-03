@@ -25,7 +25,7 @@ const plugins = [
   })
 ];
 
-if (process.env.NODE_ENV === 'production') {
+if (isProduction) {
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -71,8 +71,8 @@ module.exports = {
   output: {
     path: PATH.BUILD_PATH,
     publicPath: PATH.PUBLIC_PATH,
-    filename: isProduction ? '[name].[chunkhash].dll.js' : '[name].dll.js',
-    library: isProduction ? '[name]_[chunkhash]_library' : '[name]_library'
+    filename: '[name].dll.js',
+    library: '[name]_library'
   },
   plugins
 };
