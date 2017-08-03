@@ -6,14 +6,14 @@
   "scripts": {
     "build-app": "babel app -d dist --copy-files",
     "build-static": "npm run build-dll-pro && npm run build-src",
-    "build-src": "APP_VERSION=$npm_package_version bnr pro:build:src",
+    "build-src": "bnr pro:build:src",
     "build-dll": "bnr local:build:dll",
     "build-dll-pro": "bnr pro:build:dll",
-    "deploy-cdn": "APP_VERSION=$npm_package_version NODE_ENV=production node ./scripts/deploy-cdn.js",
+    "deploy-cdn": "NODE_ENV=production node ./scripts/deploy-cdn.js",
     "start-dev": "npm run build-dll && npm run start-app",
     "start-app": "bnr local:app:start & bnr local:build:src",
     "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run restart && npm run notify-opbeat",
-    "start": "APP_VERSION=$npm_package_version bnr pro:app:start",
+    "start": "bnr pro:app:start",
     "stop": "bnr pro:app:stop",
     "restart": "npm run stop && npm run start",
     "notify-opbeat": "sh ./scripts/opbeat.sh"
@@ -94,6 +94,7 @@
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "git-rev-sync": "^1.9.1",
     "html-webpack-plugin": "^2.24.1",
     "klaw-sync": "^1.0.2",
     "nodemon": "^1.10.2",
@@ -114,10 +115,10 @@
     "redux-thunk": "^2.1.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1",
-    "webpack-manifest-plugin": "^1.1.0"
+    "webpack": "^1.13.1"
   },
   "dependencies": {
+    "assets-webpack-plugin": "^3.5.1",
     "babel-core": "^6.14.0",
     "babel-plugin-add-react-displayname": "0.0.4",
     "babel-polyfill": "^6.16.0",

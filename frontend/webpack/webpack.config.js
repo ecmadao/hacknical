@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const AssetsPlugin = require('assets-webpack-plugin');
 const cssImport = require("postcss-import");
 const cssnext = require("postcss-cssnext");
 
@@ -12,7 +12,6 @@ const fs = require('fs');
 const styleVariables = require(path.join(PATH.SOURCE_PATH, 'src/styles/variables'));
 
 const entryFiles = fs.readdirSync(PATH.ENTRY_PATH);
-
 const files = [];
 const entries = {};
 
@@ -60,7 +59,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: PATH.BUILD_PATH,
-    publicPath: PATH.SERVER_PATH
+    publicPath: PATH.PUBLIC_PATH
   },
   module: {
     loaders: [
@@ -127,24 +126,21 @@ module.exports = {
       jQuery: "jquery",
       "window.jQuery": "jquery"
     }),
-    new CleanPlugin(PATH.BUILD_PATH, {
-      root: PATH.ROOT_PATH,
-      verbose: true
-    }),
-    new ManifestPlugin({
-      fileName: 'webpack_manifest.json',
-      publicPath: PATH.SERVER_PATH
+    new AssetsPlugin({
+      path: PATH.BUILD_PATH,
+      filename: 'webpack-assets.json',
+      update: true,
+      prettyPrint: true
     }),
     new webpack.DllReferencePlugin({
       context: PATH.ROOT_PATH,
-      manifest: require(path.join(PATH.DLL_PATH, 'react-manifest.json'))
+      manifest: require(path.join(PATH.BUILD_PATH, 'react-manifest.json'))
     }),
     new webpack.DllReferencePlugin({
       context: PATH.ROOT_PATH,
-      manifest: require(path.join(PATH.DLL_PATH, 'runtime-manifest.json'))
+      manifest: require(path.join(PATH.BUILD_PATH, 'runtime-manifest.json'))
     }),
     new webpack.DefinePlugin({
-      'process.env.APP_VERSION': JSON.stringify(process.env.APP_VERSION || ''),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ],

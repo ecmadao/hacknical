@@ -2,26 +2,25 @@
 
 import path from 'path';
 import fs from 'fs';
-
 import PATH from '../../config/path';
-import CDN from './cdn';
 
 let manifest = {};
-const manifestPath = path.resolve(PATH.BUILD_PATH, 'webpack_manifest.json');
+const manifestPath = path.resolve(PATH.BUILD_PATH, 'webpack-assets.json');
 if (fs.existsSync(manifestPath)) {
   manifest = require(`${manifestPath}`);
 }
 
-function getAssetName(asset) {
-  return manifest[asset];
-}
+const getAssetName = asset => manifest[asset];
 
 const assetsPath = (assetsName) => {
-  const publicAsset = getAssetName(assetsName);
-  if (!publicAsset) {
-    return `${CDN.URL}/${assetsName}`;
+  const sections = assetsName.split('.');
+  const name = sections.slice(0, -1).join('.');
+  const type = sections.slice(-1)[0];
+  const publicAsset = getAssetName(name);
+  if (!publicAsset || !publicAsset[type]) {
+    return `${PATH.CDN_URL}${assetsName}`;
   }
-  return publicAsset;
+  return publicAsset[type];
 };
 
 export default assetsPath;

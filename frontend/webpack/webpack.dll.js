@@ -1,18 +1,27 @@
 const path = require('path');
 const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
+const AssetsPlugin = require('assets-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 
 const PATH = require('../../config/path');
+const env = process.env.NODE_ENV || 'localdev';
+const isProduction = env === 'production';
 
 const plugins = [
   new webpack.DllPlugin({
-    path: path.join(PATH.DLL_PATH, '[name]-manifest.json'),
+    path: path.join(PATH.BUILD_PATH, '[name]-manifest.json'),
     name: '[name]_library'
   }),
-  new CleanPlugin(PATH.DLL_PATH, {
+  new CleanPlugin(PATH.BUILD_PATH, {
     root: PATH.ROOT_PATH,
     verbose: true
+  }),
+  new AssetsPlugin({
+    includeManifest: 'manifest',
+    path: PATH.BUILD_PATH,
+    filename: 'webpack-assets.json',
+    prettyPrint: true
   })
 ];
 
@@ -26,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+      'process.env.NODE_ENV': JSON.stringify(env)
     }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new CompressionPlugin({
@@ -60,9 +69,10 @@ module.exports = {
     ]
   },
   output: {
-    path: PATH.DLL_PATH,
-    filename: '[name].dll.js',
-    library: '[name]_library'
+    path: PATH.BUILD_PATH,
+    publicPath: PATH.PUBLIC_PATH,
+    filename: isProduction ? '[name].[chunkhash].dll.js' : '[name].dll.js',
+    library: isProduction ? '[name]_[chunkhash]_library' : '[name]_library'
   },
   plugins
 };
