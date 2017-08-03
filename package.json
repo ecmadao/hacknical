@@ -13,7 +13,7 @@
     "start-dev": "npm run build-dll && npm run start-app",
     "start-app": "bnr local:app:start & bnr local:build:src",
     "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run restart && npm run notify-opbeat",
-    "start": "bnr pro:app:start",
+    "start": "APP_VERSION=$npm_package_version bnr pro:app:start",
     "stop": "bnr pro:app:stop",
     "restart": "npm run stop && npm run start",
     "notify-opbeat": "sh ./scripts/opbeat.sh"
@@ -87,7 +87,7 @@
     "eslint-config-airbnb": "^12.0.0",
     "eslint-import-resolver-webpack": "^0.7.0",
     "eslint-loader": "^1.7.1",
-    "eslint-plugin-import": "^2.1.0",
+    "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.5.0",
     "exports-loader": "^0.6.3",

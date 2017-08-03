@@ -52,7 +52,8 @@ module.exports = {
       'redux-actions',
       'redux-thunk',
       'redux-logger',
-      'prop-types'
+      'prop-types',
+      'create-react-class'
     ],
     runtime: [
       'babel-polyfill',
