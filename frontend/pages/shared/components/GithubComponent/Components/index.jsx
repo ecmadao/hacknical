@@ -28,7 +28,6 @@ class GithubComponent extends React.Component {
       openShareModal: false,
       user: objectAssign({}, USER),
       repos: [],
-      reposLanguages: [],
       chosedRepos: [],
       commitDatas: [],
       commitInfos: [],
@@ -95,12 +94,10 @@ class GithubComponent extends React.Component {
   setGithubRepos(result) {
     const {
       repos = [],
-      reposLanguages = []
     } = result;
     this.setState({
       reposLoaded: true,
       repos: [...repos],
-      reposLanguages: [...reposLanguages],
     });
   }
 
@@ -177,7 +174,17 @@ class GithubComponent extends React.Component {
 
     const origin = window.location.origin;
     const { login, lastUpdateTime, openShare, shareUrl } = user;
-    const ownedRepos = repos.filter(repository => !repository.fork);
+
+    const forkedRepos = [];
+    const ownedRepos = [];
+    for (let i = 0; i < repos.length; i += 1) {
+      const repository = repos[i];
+      if (repository.fork) {
+        forkedRepos.push(repository);
+      } else {
+        ownedRepos.push(repository);
+      }
+    }
 
     return (
       <div
@@ -221,11 +228,8 @@ class GithubComponent extends React.Component {
         <GitHubSection
           loaded={reposLoaded || commitLoaded}
           commitDatas={commitDatas}
-          userRepos={
-            github.sortByStar(ownedRepos)
-          }
-          forkedRepos={repos.filter(repository => repository.fork)}
-
+          userRepos={ownedRepos}
+          forkedRepos={forkedRepos}
           title={{
             text: githubTexts.repos.title,
             icon: 'bar-chart'
@@ -305,7 +309,6 @@ class GithubComponent extends React.Component {
           languageDistributions={github.getLanguageDistribution(repos)}
           languageUsed={github.getLanguageUsed(repos)}
           languageSkills={github.getLanguageSkill(repos)}
-
           title={{
             text: githubTexts.languages.title,
             icon: 'code'
@@ -323,7 +326,6 @@ class GithubComponent extends React.Component {
           commitDatas={commitDatas}
           commitInfos={commitInfos}
           hasCommits={commitDatas.length > 0}
-
           title={{
             text: githubTexts.commits.title,
             icon: 'git'

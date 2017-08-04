@@ -12,7 +12,6 @@ import {
   getMaxTarget,
   getFirstMatchTarget
 } from 'UTILS/helper';
-import github from 'UTILS/github';
 import locales from 'LOCALES';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
@@ -262,8 +261,8 @@ class CommitInfo extends React.Component {
     const firstCommitDate = getDateBySeconds(
       firstCommitWeek.week - ((7 - dayIndex) * (24 * 60 * 60))
     );
+
     // max commit repos
-    github.baseSortBy(commitDatas)('totalCommits', parseInt);
     const maxCommitRepos = commitDatas[0];
 
     // max commits day

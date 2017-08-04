@@ -1,6 +1,6 @@
 import ShareAnalyse from '../../models/share-analyse';
 import ResumePub from '../../models/resume-pub';
-import getValue from '../../utils/helper';
+import { getValue } from '../../utils/helper';
 
 const githubEnable = (key = 'params.login') => async (ctx, next) => {
   const login = getValue(ctx, key);

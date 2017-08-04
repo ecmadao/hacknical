@@ -5,10 +5,9 @@ import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import { getMobileMenu } from './shared';
 import {
-  getReposLanguages,
   combineReposCommits
 } from './helper/github';
-import { is } from '../utils/helper';
+import { is, sortBy } from '../utils/helper';
 
 /* ================== private func ====================*/
 
@@ -30,21 +29,23 @@ const _getRepos = async (login, token) => {
     ? repos.filter(repository => checkPinned(repository) || repository.fork)
     : repos;
 
-  const reposLanguages = getReposLanguages(pinnedRepos);
+  pinnedRepos.sort(sortBy.star);
   return {
     repos: pinnedRepos,
-    reposLanguages,
   };
 };
 
 const _getContributed = async (login, token) => {
   const repos = await Api.getUserContributed(login, token);
+  repos.sort(sortBy.star);
   return repos;
 };
 
 const _getCommits = async (login, token) => {
   const commits = await Api.getUserCommits(login, token);
   const formatCommits = combineReposCommits(commits);
+  commits.sort(sortBy.x('totalCommits', parseInt));
+
   return {
     commits,
     formatCommits,
@@ -169,13 +170,11 @@ const getUserContributed = async (ctx, next) => {
 const getSharedRepos = async (ctx, next) => {
   const {
     repos,
-    reposLanguages,
   } = await _getRepos(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
     result: {
       repos,
-      reposLanguages,
     }
   };
   await next();
@@ -185,13 +184,11 @@ const getUserRepos = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const {
     repos,
-    reposLanguages,
   } = await _getRepos(githubLogin, githubToken);
   ctx.body = {
     success: true,
     result: {
       repos,
-      reposLanguages,
     }
   };
   await next();

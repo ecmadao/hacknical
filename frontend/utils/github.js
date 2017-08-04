@@ -69,7 +69,7 @@ const getReposByLanguage = (repos, targetLanguage) => {
     }
     return Object.keys(languages).some(key => key === targetLanguage);
   });
-  return sortByStar(filtered);
+  return filtered;
 };
 
 const getMinDate = (repos) => {
@@ -94,14 +94,8 @@ const sortByX = (key, func = null) =>
     return second[key] - first[key];
   };
 
-const baseSortBy = array => (key, func) =>
-  array.sort(sortByX(key, func));
-
 const sortByDate = repos =>
   repos.sort(sortByX('created_at', getSecondsByDate)).reverse();
-
-const sortByStar = repos =>
-  repos.sort(sortByX('stargazers_count', parseInt));
 
 const sortByLanguage = obj =>
   (firstLanguage, secLanguage) =>
@@ -194,9 +188,7 @@ export default {
   getMaxDate,
   /* sort */
   sortByX,
-  baseSortBy,
   sortByDate,
-  sortByStar,
   sortByLanguage,
   /* ================== */
   getReposByX,

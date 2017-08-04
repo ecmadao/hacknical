@@ -1,4 +1,4 @@
-import getValue from '../../utils/helper';
+import { getValue } from '../../utils/helper';
 
 const OPTIONS = {
   params: [],

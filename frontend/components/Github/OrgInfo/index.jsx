@@ -10,7 +10,6 @@ import styles from '../styles/github.css';
 import locales from 'LOCALES';
 import { splitArray } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
-import github from 'UTILS/github';
 
 const fullDate = dateHelper.validator.fullDate;
 const githubTexts = locales('github').sections.orgs;
@@ -168,7 +167,7 @@ class OrgInfo extends React.Component {
           </div>
         ) : ''}
         <OrgRepos
-          repos={github.sortByStar(repos)}
+          repos={repos}
           login={login}
         />
       </div>

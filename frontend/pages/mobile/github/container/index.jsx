@@ -43,7 +43,6 @@ class GitHubMobileShare extends React.Component {
         total: 0,
         commits: []
       },
-      reposLanguages: [],
       languageDistributions: {},
       languageSkills: [],
       languageUsed: {}
@@ -101,11 +100,9 @@ class GitHubMobileShare extends React.Component {
   setGithubRepos(result) {
     const {
       repos = [],
-      reposLanguages = []
     } = result;
     this.setState({
-      reposLanguages: [...reposLanguages],
-      repos: github.sortByStar(repos),
+      repos: [...repos],
       languageDistributions: github.getLanguageDistribution(repos),
       languageSkills: github.getLanguageSkill(repos),
       languageUsed: github.getLanguageUsed(repos),

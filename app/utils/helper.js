@@ -10,6 +10,20 @@ export const is = {
   string: val => checkType(val, '[object String]'),
 };
 
+/* ======================= SORT ======================== */
+const sortByX = (key, func = null) =>
+  (first, second) => {
+    if (func) {
+      return func(second[key]) - func(first[key]);
+    }
+    return second[key] - first[key];
+  };
+
+export const sortBy = {
+  x: sortByX,
+  star: sortByX('stargazers_count', parseInt),
+};
+
 const reValueObject = (object, key) => value => (object[key] = value);
 
 const loopObject = (object) => {
@@ -59,7 +73,7 @@ export const formatObject = (object = {}) => {
   *
   * RETURN: 2
  */
-const getValue = (object, key) => {
+export const getValue = (object, key) => {
   const sections = key.split('.');
   let result = object;
   sections.forEach((section) => {
@@ -102,5 +116,3 @@ export const getPlanObject = (object, keys) => {
   });
   return planObject;
 };
-
-export default getValue;

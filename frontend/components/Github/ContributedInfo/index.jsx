@@ -6,7 +6,6 @@ import Api from 'API';
 import cardStyles from '../styles/info_card.css';
 import styles from '../styles/github.css';
 import locales from 'LOCALES';
-import github from 'UTILS/github';
 import ReposRowInfo from '../ReposRowInfo';
 import objectAssign from 'UTILS/object-assign';
 
@@ -40,7 +39,7 @@ class ContributedInfo extends React.Component {
     );
     this.setState({
       loaded: true,
-      repos: github.sortByStar(filtered)
+      repos: [...filtered]
     });
   }
 
