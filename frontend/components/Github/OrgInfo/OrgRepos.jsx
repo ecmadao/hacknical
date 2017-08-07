@@ -155,28 +155,34 @@ class OrgRepos extends React.Component {
   }
 
   render() {
+    const { repos } = this.props;
+
     return (
       <div>
         <div className={styles.org_info_title}>
           {githubTexts.joinedRepos}
         </div>
-        <div className={styles.orgs_coordinate}>
-          <div className={styles.repos_xAxes}>
-            <div
-              className={styles.xAxes_text}
-            >
-              {githubTexts.contributionPercentage}
+        {repos.length ? (
+          <div className={styles.orgs_coordinate}>
+            <div className={styles.repos_xAxes}>
+              <div
+                className={styles.xAxes_text}
+              >
+                {githubTexts.contributionPercentage}
+              </div>
+            </div>
+            <div className={styles.repos_wrapper}>
+              <div className={styles.repos}>
+                {this.renderRepos()}
+              </div>
+              <div className={styles.repos_yAxes}>
+                <div className={styles.yAxes_text}>stars</div>
+              </div>
             </div>
           </div>
-          <div className={styles.repos_wrapper}>
-            <div className={styles.repos}>
-              {this.renderRepos()}
-            </div>
-            <div className={styles.repos_yAxes}>
-              <div className={styles.yAxes_text}>stars</div>
-            </div>
-          </div>
-        </div>
+        ) : (
+          <div className={styles.orgs_coordinate}>暂无数据</div>
+        )}
       </div>
     );
   }

@@ -1,5 +1,5 @@
-import fetch from '../utils/fetch';
 import config from 'config';
+import fetch from '../utils/fetch';
 
 const appName = config.get('appName');
 
@@ -67,6 +67,11 @@ const refreshUserRepos = async (login, token) =>
     qs: { login, token },
     timeouts: [null]
   });
+const refreshUserContributed = async (login, token) =>
+  fetchApi('/user/contributed/refresh', {
+    qs: { login, token },
+    timeouts: [null]
+  });
 const refreshUserCommits = async (login, token) =>
   fetchApi('/user/commits/refresh', {
     qs: { login, token },
@@ -93,7 +98,9 @@ export default {
   getUserOrgs,
   getUserContributed,
   getUpdateTime,
+  /* ===== */
   refreshUserRepos,
   refreshUserCommits,
   refreshUserOrgs,
+  refreshUserContributed,
 };

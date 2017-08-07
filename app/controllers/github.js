@@ -354,10 +354,15 @@ const refreshRepos = async (ctx, next) => {
     return;
   }
 
+  await Api.refreshUserContributed(githubLogin, githubToken);
+
   // set cache keys to remove
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
     cacheKey('formattedRepos', {
+      session: ['githubLogin']
+    }),
+    cacheKey('contributed', {
       session: ['githubLogin']
     }),
     cacheKey('allRepos', {
@@ -481,5 +486,5 @@ export default {
   refreshCommits,
   /* ========== */
   getZen,
-  getOctocat
+  getOctocat,
 };
