@@ -8,8 +8,8 @@ const appName = config.get('appName');
 
 const fetchApi = (url, options = {}) => {
   const {
-    qs,
     timeouts,
+    qs = {},
     headers = {},
   } = options;
   headers['X-App-Name'] = appName;
@@ -36,50 +36,48 @@ const getLogin = async token => fetchApi('/login', {
   qs: { token }
 });
 const getUser = async (login, token) =>
-  fetchApi('/user', {
-    qs: { login, token }
+  fetchApi(`/${login}`, {
+    qs: { token }
   });
 
 const getUserRepos = async (login, token) =>
-  fetchApi('/user/repos', {
-    qs: { login, token }
+  fetchApi(`/${login}/repositories`, {
+    qs: { token }
   });
 const getUserContributed = async (login, token) =>
-  fetchApi('/user/contributed', {
-    qs: { login, token }
+  fetchApi(`/${login}/contributed`, {
+    qs: { token }
   });
 const getUserCommits = async (login, token) =>
-  fetchApi('/user/commits', {
-    qs: { login, token }
+  fetchApi(`/${login}/commits`, {
+    qs: { token }
   });
 const getUserOrgs = async (login, token) =>
-  fetchApi('/user/orgs', {
-    qs: { login, token }
+  fetchApi(`/${login}/organizations`, {
+    qs: { token }
   });
 
 const getUpdateTime = async login =>
-  fetchApi('/user/updateTime', {
-    qs: { login }
-  });
+  fetchApi(`/${login}/updateTime`);
 
 const refreshUserRepos = async (login, token) =>
-  fetchApi('/user/repos/refresh', {
-    qs: { login, token },
+  fetchApi(`/${login}/repositories/refresh`, {
+    qs: { token },
     timeouts: [null]
   });
 const refreshUserContributed = async (login, token) =>
-  fetchApi('/user/contributed/refresh', {
-    qs: { login, token },
+  fetchApi(`/${login}/contributed/refresh`, {
+    qs: { token },
     timeouts: [null]
   });
 const refreshUserCommits = async (login, token) =>
-  fetchApi('/user/commits/refresh', {
-    qs: { login, token },
+  fetchApi(`/${login}/commits/refresh`, {
+    qs: { token },
     timeouts: [null]
   });
 const refreshUserOrgs = async (login, token) =>
-  fetchApi('/user/orgs/refresh', {
-    qs: { login, token },
+  fetchApi(`/${login}/organizations/refresh`, {
+    qs: { token },
     timeouts: [null]
   });
 
