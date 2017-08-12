@@ -9,6 +9,7 @@ import locales from 'LOCALES';
 import ReposRowInfo from '../ReposRowInfo';
 import objectAssign from 'UTILS/object-assign';
 
+const DEFAULT_REPOSITORIES = 5;
 const githubTexts = locales('github').sections.contributed;
 
 class ContributedInfo extends React.Component {
@@ -17,7 +18,9 @@ class ContributedInfo extends React.Component {
     this.state = {
       repos: [],
       loaded: false,
+      showMore: false,
     };
+    this.showMore = this.showMore.bind(this);
   }
 
   componentDidUpdate(preProps) {
@@ -32,6 +35,18 @@ class ContributedInfo extends React.Component {
     this.setGithubContributed(repos);
   }
 
+  showMore() {
+    const { showMore } = this.state;
+    this.setState({
+      showMore: !showMore
+    });
+  }
+
+  get buttonText() {
+    const { showMore } = this.state;
+    return !showMore ? githubTexts.showMore : githubTexts.hideMore;
+  }
+
   setGithubContributed(repos = []) {
     const { login } = this.props;
     const filtered = repos.filter(
@@ -44,18 +59,23 @@ class ContributedInfo extends React.Component {
   }
 
   renderContributedRepos() {
-    const { repos } = this.state;
-    const reposRows = repos.map((repository, index) => (
-      <ReposRowInfo
-        key={index}
-        repository={objectAssign({}, repository, {
-          name: repository.full_name
-        })}
-      />
-    ));
+    const { repos, showMore } = this.state;
+    const max = !showMore ? DEFAULT_REPOSITORIES : repos.length;
+    const reposRows = repos.slice(0, max)
+      .map((repository, index) => (
+        <ReposRowInfo
+          key={index}
+          repository={objectAssign({}, repository, {
+            name: repository.full_name
+          })}
+        />
+      ));
     return (
       <div className={styles.reposRows}>
         {reposRows}
+        <div className={styles.showMoreButton} onClick={this.showMore}>
+          {this.buttonText}
+        </div>
       </div>
     );
   }

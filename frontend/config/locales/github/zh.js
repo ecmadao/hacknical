@@ -43,6 +43,8 @@ const datas = {
     },
     contributed: {
       title: '贡献的仓库',
+      showMore: '展现更多',
+      hideMore: '收起',
       tipso: '对他人仓库的 Issue, PR 都会被记为贡献',
       emptyText: '暂未抓取到贡献信息，请稍后刷新重试',
     },

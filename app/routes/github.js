@@ -23,7 +23,7 @@ router.get(
 
 // repos
 router.get(
-  '/repos',
+  '/repositories',
   user.checkIfLogin(),
   cache.get('formattedRepos', {
     session: ['githubLogin']
@@ -41,7 +41,7 @@ router.get(
   cache.set()
 );
 router.get(
-  '/repos/all',
+  '/repositories/all',
   user.checkIfLogin(),
   cache.get('allRepos', {
     keys: ['session.githubLogin']
@@ -50,7 +50,7 @@ router.get(
   cache.set()
 );
 router.get(
-  '/repos/initial',
+  '/repositories/initial',
   user.checkIfLogin(),
   GitHub.fetchRepos,
 );
@@ -73,7 +73,7 @@ router.get(
 
 // orgs
 router.get(
-  '/orgs',
+  '/organizations',
   user.checkIfLogin(),
   cache.get('orgs', {
     session: ['githubLogin']
@@ -82,7 +82,7 @@ router.get(
   cache.set()
 );
 router.get(
-  '/orgs/initial',
+  '/organizations/initial',
   user.checkIfLogin(),
   GitHub.fetchOrgs,
 );
@@ -99,7 +99,7 @@ router.get(
 
 // refresh github datas
 router.put(
-  '/repos/refresh',
+  '/repositories/refresh',
   user.checkIfLogin(),
   GitHub.refreshRepos,
   cache.del()
@@ -111,7 +111,7 @@ router.put(
   cache.del()
 );
 router.put(
-  '/orgs/refresh',
+  '/organizations/refresh',
   user.checkIfLogin(),
   GitHub.refreshOrgs,
   cache.del()
@@ -148,7 +148,7 @@ router.get(
 );
 // share page's datas
 router.get(
-  '/:login/repos',
+  '/:login/repositories',
   share.githubEnable(),
   cache.get('formattedRepos', {
     params: ['login']
@@ -175,7 +175,7 @@ router.get(
   cache.set()
 );
 router.get(
-  '/:login/orgs',
+  '/:login/organizations',
   share.githubEnable(),
   cache.get('orgs', {
     params: ['login']

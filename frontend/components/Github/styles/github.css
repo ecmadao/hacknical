@@ -641,3 +641,17 @@
   justify-content: center;
   padding: 15px;
 }
+
+.showMoreButton {
+  height: 30px;
+  line-height: 30px;
+  color: var(--oc-gray-5);
+  cursor: pointer;
+  text-align: center;
+  background-color: transparent;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--oc-gray-1);
+  }
+}
