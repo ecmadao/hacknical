@@ -24,7 +24,8 @@ const datas = {
       email: '邮箱',
       phone: '电话',
       job: '意向职位',
-      position: '坐标'
+      position: '坐标',
+      hireAvailable: '正在求职',
     },
     edu: {
       title: '教育经历',

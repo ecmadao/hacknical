@@ -6,6 +6,7 @@ import dateHelper from 'UTILS/date';
 import styles from './resume_v2.css';
 import { validateUrl } from 'UTILS/helper';
 import GithubComponent from 'SHARED/components/GithubComponent';
+import statusLabels from '../shared/StatusLabels';
 
 const { hoursBefore } = dateHelper.relative;
 
@@ -361,7 +362,7 @@ class ResumeComponentV2 extends React.PureComponent {
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login, updateText } = this.props;
-    const { info, others, updateAt } = resume;
+    const { info, others, updateAt, educations, workExperiences } = resume;
     const { useGithub, github, githubUrl } = shareInfo;
 
     if (useGithub && showGithub) {
@@ -400,7 +401,13 @@ class ResumeComponentV2 extends React.PureComponent {
         <div className={styles.wrapper}>
           <div className={styles.headerContainer}>
             <div className={styles.name}>{info.name}</div>
-            <div className={styles.contact}>
+            {statusLabels({
+              educations,
+              workExperiences,
+              labelColor: 'dark',
+              resumeInfo: info || {}
+            })}
+            <div className={styles.headerInfoContainer}>
               {renderBaseInfo({
                 url: info.phone,
                 value: info.phone,
@@ -416,7 +423,7 @@ class ResumeComponentV2 extends React.PureComponent {
                 className: styles.headerInfo,
               })}
             </div>
-            <div className={styles.info}>
+            <div className={styles.headerInfoContainer}>
               {renderBaseInfo({
                 value: info.location,
                 className: styles.headerInfo,

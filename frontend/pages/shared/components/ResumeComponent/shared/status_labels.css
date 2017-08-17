@@ -1,0 +1,9 @@
+.info_label {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.info_labels_container {
+  display: flex;
+  margin: 5px 0;
+}

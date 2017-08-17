@@ -16,7 +16,8 @@ export const DEFAULT_RESUME = {
     gender: 'male',
     location: '',
     avator: '',
-    intention: ''
+    intention: '',
+    hireAvailable: false,
   },
   educations: [],
   workExperiences: [],

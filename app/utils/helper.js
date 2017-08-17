@@ -1,5 +1,7 @@
 import pangu from 'pangu';
 
+const spacing = pangu.spacing;
+
 const checkType = (val, result) =>
   Object.prototype.toString.call(val) === result
 
@@ -42,14 +44,13 @@ const loopObject = (object) => {
 };
 
 const formatString = (value, callback = null) => {
-  const func = pangu.spacing;
   if (is.string(value)) {
-    const result = func(value);
+    const result = spacing(value);
     if (is.func(callback)) {
       callback(result)
     }
   } else {
-    loopObject(value, func);
+    loopObject(value, spacing);
   }
 };
 

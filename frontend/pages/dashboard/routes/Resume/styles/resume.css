@@ -143,6 +143,12 @@
   }
 }
 
+.resume_switcherWrapper {
+  composes: resume_wrapper;
+  font-size: 14px;
+  justify-content: flex-end;
+}
+
 .resume_title {
   color: var(--oc-gray-7);
   padding-left: 10px;

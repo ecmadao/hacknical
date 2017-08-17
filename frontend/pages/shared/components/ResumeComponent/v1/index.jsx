@@ -8,13 +8,9 @@ import validator from 'UTILS/validator';
 import { objectassign } from 'SHARED/utils/resume';
 import GithubComponent from 'SHARED/components/GithubComponent';
 import styles from './resume_v1.css';
+import statusLabels from '../shared/StatusLabels';
 
-const getSecondsByDate = dateHelper.seconds.getByDate;
-const getDateNow = dateHelper.date.now;
 const { hoursBefore } = dateHelper.relative;
-
-const DATE_NOW = getDateNow();
-const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW);
 
 const info = (options) => {
   const { text, icon, type, style = '' } = options;
@@ -191,7 +187,7 @@ class ResumeComponentV1 extends React.PureComponent {
             <div className={styles.info_text}>
               {desc}
             </div>
-            <div className={styles.info_labels}>
+            <div className={styles.project_labels}>
               {projectTechs}
             </div>
           </div>
@@ -270,56 +266,11 @@ class ResumeComponentV1 extends React.PureComponent {
     );
   }
 
-  renderLabels() {
-    const { educations, workExperiences } = this.props.resume;
-    const labels = [];
-    if (educations.length) {
-      const lastEducation = educations[0];
-      const eduEndTime = lastEducation.endTime;
-      if (getSecondsByDate(eduEndTime) >= DATE_NOW_SECONDS) {
-        labels.push(
-          <Label
-            min
-            key={0}
-            text="在校"
-            clickable={false}
-            color="light"
-            className={styles.info_label}
-          />
-        );
-      }
-    }
-    if (workExperiences.length) {
-      const lastWorkExperience = workExperiences[0];
-      const untilNow = lastWorkExperience.untilNow;
-      if (untilNow) {
-        labels.push(
-          <Label
-            min
-            key={1}
-            text="在职"
-            clickable={false}
-            color="light"
-            className={styles.info_label}
-          />
-        );
-      }
-    }
-
-    if (labels.length) {
-      return (
-        <div className={styles.info_labels_container}>
-          {labels}
-        </div>
-      );
-    }
-  }
-
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login, updateText } = this.props;
-    const { others, updateAt } = resume;
-    const resumeInfo = resume.info;
+    const { others, updateAt, educations, workExperiences } = resume;
+    const resumeInfo = resume.info || {};
     const { useGithub, github, githubUrl } = shareInfo;
 
     if (useGithub && showGithub) {
@@ -368,7 +319,12 @@ class ResumeComponentV1 extends React.PureComponent {
           </div>
           <div className={styles.right}>
             {baseInfo(resumeInfo.name, resumeInfo.gender, { style: styles.user_title })}
-            {this.renderLabels()}<br />
+            {statusLabels({
+              educations,
+              resumeInfo,
+              workExperiences
+            })}
+            <br />
             {resumeInfo.phone
               ? (baseInfo(resumeInfo.phone, 'mobile', { style: styles.right_info }))
               : ''

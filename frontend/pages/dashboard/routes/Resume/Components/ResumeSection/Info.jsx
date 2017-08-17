@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, SelectorV2 } from 'light-ui';
+import { Input, SelectorV2, Switcher } from 'light-ui';
 
 import resumeActions from '../../redux/actions';
 import { GENDERS } from 'SHARED/datas/resume';
@@ -14,6 +14,7 @@ class Info extends React.Component {
   constructor(props) {
     super(props);
     this.handleInfoChange = this.handleInfoChange.bind(this);
+    this.handleAvailableChange = this.handleAvailableChange.bind(this);
   }
 
   handleInfoChange(type) {
@@ -25,6 +26,13 @@ class Info extends React.Component {
     }
   }
 
+  handleAvailableChange() {
+    const { actions, hireAvailable } = this.props;
+    actions.handleInfoChange({
+      hireAvailable: !hireAvailable
+    });
+  }
+
   render() {
     const {
       email,
@@ -33,7 +41,8 @@ class Info extends React.Component {
       gender,
       location,
       intention,
-      disabled
+      disabled,
+      hireAvailable,
     } = this.props;
     return (
       <div className={styles.resume_piece_container}>
@@ -89,6 +98,16 @@ class Info extends React.Component {
             theme="flat"
             disabled={disabled}
             onChange={this.handleInfoChange('location')}
+          />
+        </div>
+        <div className={styles.resume_switcherWrapper}>
+          {resumeTexts.hireAvailable}
+          &nbsp;&nbsp;
+          <Switcher
+            onChange={this.handleAvailableChange}
+            checked={hireAvailable}
+            version="v2"
+            disabled={disabled}
           />
         </div>
       </div>

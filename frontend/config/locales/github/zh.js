@@ -42,7 +42,7 @@ const datas = {
       tipso: '从第一个创建的仓库到现今的编程历程'
     },
     contributed: {
-      title: '贡献的仓库',
+      title: '参与贡献的仓库',
       showMore: '展现更多',
       hideMore: '收起',
       tipso: '对他人仓库的 Issue, PR 都会被记为贡献',

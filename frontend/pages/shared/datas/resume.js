@@ -114,7 +114,8 @@ export const INFO = {
   gender: 'male',
   location: '',
   avator: '',
-  intention: ''
+  intention: '',
+  hireAvailable: false,
 };
 
 export const EDU = {

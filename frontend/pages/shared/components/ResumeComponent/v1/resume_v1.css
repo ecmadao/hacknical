@@ -254,16 +254,11 @@
   margin: 20px 0;
 }
 
-.info_labels {
+.project_labels {
   margin: 10px 0;
 }
 
 .info_label {
   font-size: 12px;
   margin-bottom: 5px;
-}
-
-.info_labels_container {
-  display: flex;
-  margin: 5px 0;
 }

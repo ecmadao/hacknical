@@ -24,7 +24,8 @@ const datas = {
       email: 'Email',
       phone: 'Phone',
       job: 'Wanted job',
-      position: 'City'
+      position: 'City',
+      hireAvailable: 'Available for hire',
     },
     edu: {
       title: 'Education Experience',

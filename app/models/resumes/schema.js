@@ -12,7 +12,8 @@ const ResumeSchema = new Schema({
       gender: String,
       location: String,
       avator: String,
-      intention: String
+      intention: String,
+      hireAvailable: { type: Boolean, default: false },
     },
     educations: [{
       school: String,
