@@ -21,6 +21,8 @@ const getContributed = login =>
 const getCommits = login => fetchInfo(routerAdapter('commits', login));
 const getOrgs = login => fetchInfo(routerAdapter('organizations', login));
 const getUser = login => fetchInfo(routerAdapter('user', login));
+const getUserScientific = login => fetchInfo(routerAdapter('scientific', login));
+const getUserPredictions = login => fetchInfo(routerAdapter('predictions', login));
 
 
 /* toggle user github share */
@@ -54,4 +56,6 @@ export default {
   toggleShare,
   getShareRecords,
   getUpdateTime,
+  getUserScientific,
+  getUserPredictions,
 };

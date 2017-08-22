@@ -40,7 +40,7 @@ const getUser = async (login, token) =>
     qs: { token }
   });
 
-const getUserRepos = async (login, token) =>
+const getUserRepositories = async (login, token) =>
   fetchApi(`/${login}/repositories`, {
     qs: { token }
   });
@@ -52,7 +52,7 @@ const getUserCommits = async (login, token) =>
   fetchApi(`/${login}/commits`, {
     qs: { token }
   });
-const getUserOrgs = async (login, token) =>
+const getUserOrganizations = async (login, token) =>
   fetchApi(`/${login}/organizations`, {
     qs: { token }
   });
@@ -60,22 +60,32 @@ const getUserOrgs = async (login, token) =>
 const getUpdateTime = async login =>
   fetchApi(`/${login}/updateTime`);
 
-const refreshUserRepos = async (login, token) =>
+const getUserScientific = async (login, token) =>
+  fetchApi(`/${login}/scientific`, {
+    qs: { token }
+  });
+
+const getUserPredictions = async (login, token) =>
+  fetchApi(`/${login}/predictions`, {
+    qs: { token }
+  });
+
+const refreshRepositories = async (login, token) =>
   fetchApi(`/${login}/repositories/refresh`, {
     qs: { token },
     timeouts: [null]
   });
-const refreshUserContributed = async (login, token) =>
+const refreshContributed = async (login, token) =>
   fetchApi(`/${login}/contributed/refresh`, {
     qs: { token },
     timeouts: [null]
   });
-const refreshUserCommits = async (login, token) =>
+const refreshCommits = async (login, token) =>
   fetchApi(`/${login}/commits/refresh`, {
     qs: { token },
     timeouts: [null]
   });
-const refreshUserOrgs = async (login, token) =>
+const refreshOrganizations = async (login, token) =>
   fetchApi(`/${login}/organizations/refresh`, {
     qs: { token },
     timeouts: [null]
@@ -91,14 +101,16 @@ export default {
   getLogin,
   /* ===== */
   getUser,
-  getUserRepos,
+  getUserRepositories,
   getUserCommits,
-  getUserOrgs,
+  getUserOrganizations,
   getUserContributed,
+  getUserScientific,
+  getUserPredictions,
   getUpdateTime,
   /* ===== */
-  refreshUserRepos,
-  refreshUserCommits,
-  refreshUserOrgs,
-  refreshUserContributed,
+  refreshRepositories,
+  refreshCommits,
+  refreshOrganizations,
+  refreshContributed,
 };

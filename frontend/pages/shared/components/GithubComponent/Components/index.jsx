@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
 import { FloatingActionButton } from 'light-ui';
-import Api from 'API/index';
+import Api from 'API';
 import GitHubSection from 'COMPONENTS/Github/GithubSection';
 import ShareModal from 'SHARED/components/ShareModal';
 import USER from 'SRC/data/user';
@@ -49,16 +49,16 @@ class GithubComponent extends React.Component {
       reposLoaded,
       commitLoaded
     } = this.state;
-    const { login } = this.props;
 
     this.removeLoading('#loading');
 
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
-      !reposLoaded && this.getGithubRepos(login);
+      this.getGithubScientific(user.login);
+      !reposLoaded && this.getGithubRepos(user.login);
     }
     if (reposLoaded && !preState.reposLoaded) {
-      !commitLoaded && this.getGithubCommits(login);
+      !commitLoaded && this.getGithubCommits(user.login);
     }
   }
 
@@ -68,6 +68,13 @@ class GithubComponent extends React.Component {
 
   changeState(newState) {
     this.setState(newState);
+  }
+
+  async getGithubScientific(login = '') {
+    const scientific = await Api.github.getUserScientific(login);
+    console.log(scientific);
+    const predictions = await Api.github.getUserPredictions(login);
+    console.log(predictions);
   }
 
   async getGithubUser(login = '') {

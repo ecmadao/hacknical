@@ -17,6 +17,9 @@
 {% endblock %}
 
 {% block js %}
+  <script>
+    window.login = "{{ login }}";
+  </script>
   <script src="{{ assetsPath("vendor/qrcode.min.js") }}"></script>
   <script src="{{ assetsPath("dashboard.js") }}"></script>
 {% endblock %}

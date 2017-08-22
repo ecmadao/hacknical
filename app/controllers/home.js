@@ -31,6 +31,7 @@ const dashboard = async (ctx) => {
 
   await ctx.render('user/dashboard', {
     title: ctx.__('dashboard.title', githubLogin),
+    login: githubLogin
   });
 };
 

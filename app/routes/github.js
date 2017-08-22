@@ -23,48 +23,21 @@ router.get(
 
 // repos
 router.get(
-  '/repositories',
-  user.checkIfLogin(),
-  cache.get('formattedRepos', {
-    session: ['githubLogin']
-  }),
-  GitHub.getUserRepos,
-  cache.set()
-);
-router.get(
-  '/contributed',
-  user.checkIfLogin(),
-  cache.get('contributed', {
-    session: ['githubLogin']
-  }),
-  GitHub.getUserContributed,
-  cache.set()
-);
-router.get(
   '/repositories/all',
   user.checkIfLogin(),
   cache.get('allRepos', {
     keys: ['session.githubLogin']
   }),
-  GitHub.getAllRepos,
+  GitHub.getAllRepositories,
   cache.set()
 );
 router.get(
   '/repositories/initial',
   user.checkIfLogin(),
-  GitHub.fetchRepos,
+  GitHub.fetchRepositories,
 );
 
 // commits
-router.get(
-  '/commits',
-  user.checkIfLogin(),
-  cache.get('formattedCommits', {
-    session: ['githubLogin']
-  }),
-  GitHub.getUserCommits,
-  cache.set()
-);
 router.get(
   '/commits/initial',
   user.checkIfLogin(),
@@ -73,23 +46,14 @@ router.get(
 
 // orgs
 router.get(
-  '/organizations',
-  user.checkIfLogin(),
-  cache.get('orgs', {
-    session: ['githubLogin']
-  }),
-  GitHub.getUserOrgs,
-  cache.set()
-);
-router.get(
   '/organizations/initial',
   user.checkIfLogin(),
-  GitHub.fetchOrgs,
+  GitHub.fetchOrganizations,
 );
 router.get(
   '/share/records',
   user.checkIfLogin(),
-  GitHub.getStareRecords
+  GitHub.getShareRecords
 );
 router.get(
   '/updateTime',
@@ -101,7 +65,7 @@ router.get(
 router.put(
   '/repositories/refresh',
   user.checkIfLogin(),
-  GitHub.refreshRepos,
+  GitHub.refreshRepositories,
   cache.del()
 );
 router.put(
@@ -113,14 +77,8 @@ router.put(
 router.put(
   '/organizations/refresh',
   user.checkIfLogin(),
-  GitHub.refreshOrgs,
+  GitHub.refreshOrganizations,
   cache.del()
-);
-
-router.get(
-  '/user',
-  user.checkIfLogin(),
-  GitHub.getUser
 );
 
 router.patch(
@@ -153,7 +111,7 @@ router.get(
   cache.get('formattedRepos', {
     params: ['login']
   }),
-  GitHub.getSharedRepos,
+  GitHub.getUserRepositories,
   cache.set()
 );
 router.get(
@@ -162,7 +120,7 @@ router.get(
   cache.get('contributed', {
     params: ['login']
   }),
-  GitHub.getSharedContributed,
+  GitHub.getUserContributed,
   cache.set()
 );
 router.get(
@@ -171,7 +129,7 @@ router.get(
   cache.get('formattedCommits', {
     params: ['login']
   }),
-  GitHub.getSharedCommits,
+  GitHub.getUserCommits,
   cache.set()
 );
 router.get(
@@ -180,7 +138,7 @@ router.get(
   cache.get('orgs', {
     params: ['login']
   }),
-  GitHub.getSharedOrgs,
+  GitHub.getUserOrganizations,
   cache.set()
 );
 router.get(
@@ -189,8 +147,18 @@ router.get(
   cache.get('sharedUser', {
     params: ['login']
   }),
-  GitHub.getSharedUser,
+  GitHub.getUser,
   cache.set()
+);
+router.get(
+  '/:login/scientific',
+  share.githubEnable(),
+  GitHub.getUserScientific
+);
+router.get(
+  '/:login/predictions',
+  share.githubEnable(),
+  GitHub.getUserPredictions
 );
 
 module.exports = router;
