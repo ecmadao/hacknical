@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const ResumePubSchema = new Schema({
   userId: String,
-  timestamp: Number,
   maxView: Number,
   resumeHash: String,
   openShare: { type: Boolean, default: true },
@@ -20,6 +19,8 @@ const ResumePubSchema = new Schema({
     course: { type: Boolean, default: true },
     contributed: { type: Boolean, default: true },
   }
+}, {
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
 export default mongoose.model('ResumePub', ResumePubSchema);

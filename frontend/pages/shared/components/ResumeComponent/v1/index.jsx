@@ -272,6 +272,8 @@ class ResumeComponentV1 extends React.PureComponent {
     const { others, updateAt, educations, workExperiences } = resume;
     const resumeInfo = resume.info || {};
     const { useGithub, github, githubUrl } = shareInfo;
+    const its = resumeInfo.gender === 'male' ? '他' : '她';
+    const viewGitHub = `查看${its}的 GitHub 总结报告`;
 
     if (useGithub && showGithub) {
       return (
@@ -358,14 +360,14 @@ class ResumeComponentV1 extends React.PureComponent {
                     href={githubUrl}
                     className={styles.right_link_info}
                   >
-                  查看我的 GitHub 总结报告
+                    {viewGitHub}
                   </a>
                 ) : (
                   <a
                     onClick={() => this.changeShowGithub(true)}
                     className={styles.right_link_info}
                   >
-                  查看我的 GitHub 总结报告
+                    {viewGitHub}
                   </a>
                 )
               })
