@@ -50,9 +50,6 @@ const _getCommits = async (login, token) => {
   };
 };
 
-const _getOrganizations = async (login, token) =>
-  await Api.getUserOrganizations(login, token);
-
 /* ================== router handler ================== */
 
 const toggleShare = async (ctx) => {
@@ -124,24 +121,24 @@ const getAllRepositories = async (ctx, next) => {
 };
 
 const getUserContributed = async (ctx, next) => {
-  const repos =
+  const repositories =
     await _getContributed(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
     result: {
-      repos,
+      repositories,
     }
   };
   await next();
 };
 
 const getUserRepositories = async (ctx, next) => {
-  const repos =
+  const repositories =
     await _getRepositories(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
     result: {
-      repos,
+      repositories,
     }
   };
   await next();
@@ -168,11 +165,14 @@ const getUserCommits = async (ctx, next) => {
 };
 
 const getUserOrganizations = async (ctx, next) => {
-  const orgs =
-    await _getOrganizations(ctx.params.login, ctx.session.githubToken);
+  const { login } = ctx.params;
+  const { githubToken } = ctx.session;
+  const organizations =
+    await Api.getUserOrganizations(login, githubToken);
+
   ctx.body = {
     success: true,
-    result: { orgs }
+    result: { organizations }
   };
   await next();
 };

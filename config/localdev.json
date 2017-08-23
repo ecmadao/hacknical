@@ -7,7 +7,6 @@
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"
   },
-  "logFile": null,
   "services": {
     "api": {
       "url": "http://127.0.0.1:5002",

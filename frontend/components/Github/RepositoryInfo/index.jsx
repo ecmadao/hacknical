@@ -58,21 +58,21 @@ class RepositoryInfo extends React.Component {
   }
 
   renderCharts() {
-    const { userRepos, forkedRepos } = this.props;
-    if (userRepos.length || forkedRepos.length) {
+    const { ownedRepositories, forkedRepositories } = this.props;
+    if (ownedRepositories.length || forkedRepositories.length) {
       !this.reposForksChart && this.renderReposForksChart();
       !this.reposStarsChart && this.renderReposStarsChart();
-      !this.reposReviewChart && this.renderReposReviewChart(userRepos.slice(0, 10));
+      !this.reposReviewChart && this.renderReposReviewChart(ownedRepositories.slice(0, 10));
     }
   }
 
   renderReposForksChart() {
-    const { userRepos, forkedRepos } = this.props;
+    const { ownedRepositories, forkedRepositories } = this.props;
     this.reposForksChart = new Chart(this.reposForks, {
       type: 'doughnut',
       data: {
         datasets: [chart.doughnut(
-          [userRepos.length, forkedRepos.length],
+          [ownedRepositories.length, forkedRepositories.length],
           ['rgba(55, 178, 77, 0.9)', 'rgba(135, 181, 143, 0.6)']
         )],
         labels: [githubTexts.createdRepos, githubTexts.forkedRepos]
@@ -82,13 +82,13 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposStarsChart() {
-    const { userRepos } = this.props;
+    const { ownedRepositories } = this.props;
     const datas = [];
     const labels = [];
     const colors = [];
-    const standardStarCount = userRepos[0].stargazers_count;
+    const standardStarCount = ownedRepositories[0].stargazers_count;
 
-    userRepos.forEach((userRepo) => {
+    ownedRepositories.forEach((userRepo) => {
       const { stargazers_count, name } = userRepo;
       datas.push(stargazers_count);
       labels.push(name);
@@ -106,22 +106,22 @@ class RepositoryInfo extends React.Component {
     });
   }
 
-  renderReposReviewChart(userRepos) {
+  renderReposReviewChart(ownedRepositories) {
     const { commitDatas } = this.props;
     const datasets = [
-      chart.repos.starsDatasets(userRepos),
-      chart.repos.forksDatasets(userRepos)
+      chart.repos.starsDatasets(ownedRepositories),
+      chart.repos.forksDatasets(ownedRepositories)
     ];
     if (commitDatas.length) {
       datasets.push(
-        chart.repos.commitsDatasets(userRepos, commitDatas)
+        chart.repos.commitsDatasets(ownedRepositories, commitDatas)
       );
     }
     this.reposReviewChart = new Chart(this.reposReview, {
       type: 'bar',
       data: {
         datasets,
-        labels: github.getReposNames(userRepos)
+        labels: github.getReposNames(ownedRepositories)
       },
       options: {
         title: {
@@ -148,14 +148,14 @@ class RepositoryInfo extends React.Component {
   }
 
   renderChartInfo() {
-    const { userRepos } = this.props;
+    const { ownedRepositories } = this.props;
 
-    const [totalStar, totalFork] = github.getTotalCount(userRepos);
-    const maxStaredRepos = userRepos[0];
-    const maxTimeRepos = github.longestContributeRepos(userRepos);
+    const [totalStar, totalFork] = github.getTotalCount(ownedRepositories);
+    const maxStaredRepos = ownedRepositories[0];
+    const maxTimeRepos = github.longestContributeRepos(ownedRepositories);
     const startTime = maxTimeRepos.created_at.split('T')[0];
     const pushTime = maxTimeRepos.pushed_at.split('T')[0];
-    const yearlyRepos = github.getYearlyRepos(userRepos);
+    const yearlyRepos = github.getYearlyRepos(ownedRepositories);
 
     return (
       <CardGroup className={cardStyles.card_group}>
@@ -206,7 +206,7 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposReview() {
-    const { userRepos, forkedRepos, loaded } = this.props;
+    const { ownedRepositories, forkedRepositories, loaded } = this.props;
     const chartContainer = cx(
       githubStyles.repos_chart_container,
       githubStyles.with_chart,
@@ -224,7 +224,8 @@ class RepositoryInfo extends React.Component {
               />
               <div className={githubStyles.chart_center}>
                 {parseInt(
-                  (userRepos.length * 100) / (userRepos.length + forkedRepos.length),
+                  (ownedRepositories.length * 100) /
+                  (ownedRepositories.length + forkedRepositories.length),
                   10
                 )}%<br />
                 {githubTexts.originalRepos}
@@ -241,7 +242,7 @@ class RepositoryInfo extends React.Component {
             </div>
           </div>
         ) : ''}
-        {userRepos.length ? (
+        {ownedRepositories.length ? (
           <div className={chartStyles.canvas_container}>
             <canvas
               className={githubStyles.repos_review}
@@ -254,12 +255,12 @@ class RepositoryInfo extends React.Component {
   }
 
   render() {
-    const { userRepos, loaded, className } = this.props;
+    const { ownedRepositories, loaded, className } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading loading />);
     } else {
-      component = (!userRepos || !userRepos.length)
+      component = (!ownedRepositories || !ownedRepositories.length)
         ? (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>)
         : this.renderReposReview();
     }
@@ -274,8 +275,8 @@ class RepositoryInfo extends React.Component {
 
 RepositoryInfo.defaultProps = {
   className: '',
-  forkedRepos: [],
-  userRepos: [],
+  forkedRepositories: [],
+  ownedRepositories: [],
   loaded: false
 };
 

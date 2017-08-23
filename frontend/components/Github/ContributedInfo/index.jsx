@@ -16,7 +16,7 @@ class ContributedInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: [],
+      repositories: [],
       loaded: false,
       showMore: false,
     };
@@ -31,8 +31,8 @@ class ContributedInfo extends React.Component {
   }
 
   async getGithubContributed(login) {
-    const { repos } = await Api.github.getContributed(login);
-    this.setGithubContributed(repos);
+    const { repositories } = await Api.github.getContributed(login);
+    this.setGithubContributed(repositories);
   }
 
   showMore() {
@@ -47,21 +47,21 @@ class ContributedInfo extends React.Component {
     return !showMore ? githubTexts.showMore : githubTexts.hideMore;
   }
 
-  setGithubContributed(repos = []) {
+  setGithubContributed(repositories = []) {
     const { login } = this.props;
-    const filtered = repos.filter(
+    const filtered = repositories.filter(
       repository => repository.owner.login !== login
     );
     this.setState({
       loaded: true,
-      repos: [...filtered]
+      repositories: [...filtered]
     });
   }
 
   renderContributedRepos() {
-    const { repos, showMore } = this.state;
-    const max = !showMore ? DEFAULT_REPOSITORIES : repos.length;
-    const reposRows = repos.slice(0, max)
+    const { repositories, showMore } = this.state;
+    const max = !showMore ? DEFAULT_REPOSITORIES : repositories.length;
+    const reposRows = repositories.slice(0, max)
       .map((repository, index) => (
         <ReposRowInfo
           key={index}
@@ -81,13 +81,13 @@ class ContributedInfo extends React.Component {
   }
 
   render() {
-    const { repos, loaded } = this.state;
+    const { repositories, loaded } = this.state;
     const { className } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading loading />);
     } else {
-      component = !repos.length ?
+      component = !repositories.length ?
         (
           <div className={cardStyles.empty_card}>
             {githubTexts.emptyText}

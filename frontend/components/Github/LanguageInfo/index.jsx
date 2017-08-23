@@ -119,10 +119,10 @@ class LanguageInfo extends React.Component {
   }
 
   renderShowRepos() {
-    const { repos } = this.props;
+    const { repositories } = this.props;
     const { showLanguage } = this.state;
-    const targetRepos = github
-      .getReposByLanguage(repos, showLanguage)
+    const targetRepositories = github
+      .getReposByLanguage(repositories, showLanguage)
       .map((repository, index) => (
         <ReposRowInfo
           key={index}
@@ -135,7 +135,7 @@ class LanguageInfo extends React.Component {
           {showLanguage}&nbsp;
           <span>{githubTexts.relativeRepos}</span>
         </p>
-        {targetRepos}
+        {targetRepositories}
       </div>
     );
   }
@@ -260,6 +260,7 @@ class LanguageInfo extends React.Component {
 }
 
 LanguageInfo.defaultProps = {
+  repositories: [],
   className: '',
   loaded: false,
   languageSkills: {},

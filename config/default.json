@@ -7,7 +7,6 @@
   "database": {
     "url": "mongodb://localhost:27017/hawkeye"
   },
-  "logFile": null,
   "links": {
     "github": "https://github.com/ecmadao/hacknical",
     "issue": "https://github.com/ecmadao/hacknical/issues",

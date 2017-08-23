@@ -3,26 +3,20 @@ import { getData, patchData, putData } from './base';
 const fetchInfo = (url, data = {}) => getData(`/github${url}`, data);
 const patchInfo = (url, data = {}) => patchData(`/github${url}`, data);
 const putInfo = (url, data = {}) => putData(`/github${url}`, data);
-const routerAdapter = (router, login = null) => {
-  if (login) {
-    return `/${login}/${router}`;
-  }
-  return `/${router}`;
-};
 
 /* get repos & orgs info & user info */
-const getAllRepos = () => fetchInfo('/repositories/all');
-const fetchRepos = () => fetchInfo('/repositories/initial');
+const getAllRepositories = () => fetchInfo('/repositories/all');
+const fetchRepositories = () => fetchInfo('/repositories/initial');
 const fetchCommits = () => fetchInfo('/commits/initial');
-const fetchOrgs = () => fetchInfo('/organizations/initial');
-const getRepos = login => fetchInfo(routerAdapter('repositories', login));
-const getContributed = login =>
-  fetchInfo(routerAdapter('contributed', login));
-const getCommits = login => fetchInfo(routerAdapter('commits', login));
-const getOrgs = login => fetchInfo(routerAdapter('organizations', login));
-const getUser = login => fetchInfo(routerAdapter('user', login));
-const getUserScientific = login => fetchInfo(routerAdapter('scientific', login));
-const getUserPredictions = login => fetchInfo(routerAdapter('predictions', login));
+const fetchOrganizations = () => fetchInfo('/organizations/initial');
+
+const getRepositories = login => fetchInfo(`/${login}/repositories`);
+const getContributed = login => fetchInfo(`/${login}/contributed`);
+const getCommits = login => fetchInfo(`/${login}/commits`);
+const getOrganizations = login => fetchInfo(`/${login}/organizations`);
+const getUser = login => fetchInfo(`/${login}/user`);
+const getUserScientific = login => fetchInfo(`/${login}/scientific`);
+const getUserPredictions = login => fetchInfo(`/${login}/predictions`);
 
 
 /* toggle user github share */
@@ -43,19 +37,23 @@ const octocat = () => fetchInfo('/octocat');
 export default {
   zen,
   octocat,
-  refresh,
+  // github info
   getUser,
-  getRepos,
+  getRepositories,
   getContributed,
-  getAllRepos,
+  getAllRepositories,
   getCommits,
-  getOrgs,
-  fetchRepos,
+  getOrganizations,
+  // for refresh & initial
+  refresh,
+  fetchRepositories,
   fetchCommits,
-  fetchOrgs,
+  fetchOrganizations,
+  getUpdateTime,
+  // share status
   toggleShare,
   getShareRecords,
-  getUpdateTime,
+  // prediction
   getUserScientific,
   getUserPredictions,
 };

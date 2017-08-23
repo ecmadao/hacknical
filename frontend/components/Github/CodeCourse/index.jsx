@@ -30,8 +30,8 @@ class CodeCourse extends React.Component {
   }
 
   renderChosedRepos() {
-    const { userRepos } = this.props;
-    const sortedRepos = github.sortByDate(userRepos.slice(0, 20));
+    const { repositories } = this.props;
+    const sortedRepos = github.sortByDate(repositories.slice(0, 20));
 
     this.minDate = dateHelper.validator.full(sortedRepos[0].created_at);
     this.maxDate = github.getMaxDate(sortedRepos);
@@ -205,12 +205,12 @@ class CodeCourse extends React.Component {
   }
 
   render() {
-    const { userRepos, loaded, className } = this.props;
+    const { repositories, loaded, className } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading loading />);
     } else {
-      component = (!userRepos || !userRepos.length) ?
+      component = (!repositories || !repositories.length) ?
         (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>) : (
           <div>
             {this.renderChosedRepos()}
@@ -232,7 +232,7 @@ class CodeCourse extends React.Component {
 
 CodeCourse.defaultProps = {
   loaded: false,
-  userRepos: [],
+  repositories: [],
   className: '',
   showedRepository: null,
 };

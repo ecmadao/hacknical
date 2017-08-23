@@ -18,33 +18,29 @@ class OrgInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orgs: [],
+      organizations: [],
       loaded: false,
       activeIndex: 0
     };
-    this.changeAcitveOrg = this.changeAcitveOrg.bind(this);
+    this.changeAcitveOrganization = this.changeAcitveOrganization.bind(this);
   }
 
   componentDidUpdate(preProps) {
     const { userLogin, login } = this.props;
     if (!preProps.login && login) {
-      this.getGithubOrgs(userLogin);
+      this.getGithubOrganizations(userLogin);
     }
   }
 
-  async getGithubOrgs(login) {
-    const result = await Api.github.getOrgs(login);
-    this.setGithubOrgs(result.orgs);
-  }
-
-  setGithubOrgs(orgs = []) {
+  async getGithubOrganizations(login) {
+    const result = await Api.github.getOrganizations(login);
     this.setState({
       loaded: true,
-      orgs: [...orgs]
+      organizations: [...result.organizations]
     });
   }
 
-  changeAcitveOrg(index) {
+  changeAcitveOrganization(index) {
     const { activeIndex } = this.state;
     if (activeIndex !== index) {
       this.setState({
@@ -54,11 +50,11 @@ class OrgInfo extends React.Component {
   }
 
   renderOrgsCard() {
-    const { orgs } = this.state;
+    const { organizations } = this.state;
     const { login } = this.props;
     const filterRepos = [];
-    orgs.forEach((organizations) => {
-      const repos = organizations.repos
+    organizations.forEach((organization) => {
+      const repos = organization.repos
         .filter(repository => repository.contributors.some(contributor =>
             contributor.login === login)
         );
@@ -76,7 +72,7 @@ class OrgInfo extends React.Component {
         <InfoCard
           icon="group"
           tipsoTheme="dark"
-          mainText={orgs.length}
+          mainText={organizations.length}
           subText={githubTexts.orgsCount}
         />
         <InfoCard
@@ -96,10 +92,10 @@ class OrgInfo extends React.Component {
   }
 
   renderOrgsReview() {
-    const { activeIndex, orgs } = this.state;
+    const { activeIndex, organizations } = this.state;
 
-    const orgDOMs = splitArray(orgs, 10).map((organizations, line) => {
-      const orgRows = organizations.map((organization, index) => {
+    const orgDOMs = splitArray(organizations, 10).map((items, line) => {
+      const orgRows = items.map((organization, index) => {
         const { avatar_url, name, login } = organization;
         const itemClass = cx(
           styles.org_item,
@@ -109,7 +105,7 @@ class OrgInfo extends React.Component {
           <div key={index} className={styles.org_item_container}>
             <div
               className={itemClass}
-              onClick={() => this.changeAcitveOrg(index)}
+              onClick={() => this.changeAcitveOrganization(index)}
             >
               <img src={avatar_url} alt="org-avatar" />
               <span>{name || login}</span>
@@ -133,9 +129,9 @@ class OrgInfo extends React.Component {
   }
 
   renderOrgDetail() {
-    const { activeIndex, orgs } = this.state;
+    const { activeIndex, organizations } = this.state;
     const { login } = this.props;
-    const activeOrg = orgs[activeIndex];
+    const activeOrg = organizations[activeIndex];
     const { created_at, description, blog } = activeOrg;
     const repos = [...activeOrg.repos] || [];
 
@@ -175,19 +171,19 @@ class OrgInfo extends React.Component {
   }
 
   render() {
-    const { orgs, loaded } = this.state;
+    const { organizations, loaded } = this.state;
     const { className } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading loading />);
     } else {
-      component = !orgs.length
+      component = !organizations.length
         ? (<div className={cardStyles.empty_card}>
           {githubTexts.emptyText}
         </div>)
         : this.renderOrgsReview();
     }
-    const cards = loaded && orgs.length
+    const cards = loaded && organizations.length
       ? this.renderOrgsCard()
       : '';
     return (

@@ -34,9 +34,9 @@ class GitHubMobileShare extends React.Component {
     super(props);
     this.state = {
       user: objectAssign({}, USER),
-      reposLoaded: false,
+      repositoriesLoaded: false,
       commitLoaded: false,
-      repos: [],
+      repositories: [],
       commits: [],
       commitDatas: {
         dailyCommits: [],
@@ -54,17 +54,17 @@ class GitHubMobileShare extends React.Component {
 
   componentDidMount() {
     this.getGithubUser();
-    this.getGithubRepos();
+    this.getGithubRepositories();
   }
 
   componentDidUpdate(preProps, preState) {
     this.renderCharts();
-    const { reposLoaded, commitLoaded } = this.state;
-    if (reposLoaded && !preState.reposLoaded) {
+    const { repositoriesLoaded, commitLoaded } = this.state;
+    if (repositoriesLoaded && !preState.repositoriesLoaded) {
       this.getGithubCommits();
     }
-    reposLoaded && commitLoaded && this.initialScrollReveal();
-    commitLoaded && !preState.commitLoaded && this.renderReposChart();
+    repositoriesLoaded && commitLoaded && this.initialScrollReveal();
+    commitLoaded && !preState.commitLoaded && this.renderRepositoriesChart();
   }
 
   async getGithubUser() {
@@ -79,10 +79,10 @@ class GitHubMobileShare extends React.Component {
     this.setGithubCommits(result);
   }
 
-  async getGithubRepos() {
+  async getGithubRepositories() {
     const { login } = this.props;
-    const result = await Api.github.getRepos(login);
-    this.setGithubRepos(result);
+    const { repositories } = await Api.github.getRepositories(login);
+    this.setGithubRepositories(repositories);
   }
 
   setGithubCommits(result) {
@@ -97,16 +97,13 @@ class GitHubMobileShare extends React.Component {
     });
   }
 
-  setGithubRepos(result) {
-    const {
-      repos = [],
-    } = result;
+  setGithubRepositories(repositories = []) {
     this.setState({
-      repos: [...repos],
-      languageDistributions: github.getLanguageDistribution(repos),
-      languageSkills: github.getLanguageSkill(repos),
-      languageUsed: github.getLanguageUsed(repos),
-      reposLoaded: true,
+      repositories: [...repositories],
+      languageDistributions: github.getLanguageDistribution(repositories),
+      languageSkills: github.getLanguageSkill(repositories),
+      languageUsed: github.getLanguageUsed(repositories),
+      repositoriesLoaded: true,
     });
   }
 
@@ -122,10 +119,10 @@ class GitHubMobileShare extends React.Component {
   }
 
   renderCharts() {
-    const { repos, commitDatas } = this.state;
+    const { repositories, commitDatas } = this.state;
     const { commits } = commitDatas;
-    if (repos.length) {
-      !this.reposChart && this.renderReposChart();
+    if (repositories.length) {
+      !this.reposChart && this.renderRepositoriesChart();
       !this.languageSkillChart && this.renderLanguagesChart();
     }
     if (commits.length) {
@@ -268,9 +265,9 @@ class GitHubMobileShare extends React.Component {
     });
   }
 
-  renderReposChart() {
-    const { commits, repos } = this.state;
-    const renderedRepos = repos.slice(0, 10);
+  renderRepositoriesChart() {
+    const { commits, repositories } = this.state;
+    const renderedRepos = repositories.slice(0, 10);
     const datasets = [
       chart.repos.starsDatasets(renderedRepos),
       chart.repos.forksDatasets(renderedRepos)
@@ -375,12 +372,12 @@ class GitHubMobileShare extends React.Component {
   }
 
   renderReposInfo() {
-    const { repos } = this.state;
-    const [totalStar, totalFork] = github.getTotalCount(repos);
+    const { repositories } = this.state;
+    const [totalStar, totalFork] = github.getTotalCount(repositories);
 
-    const maxStaredRepos = repos[0] ? repos[0].name : '';
-    const maxStaredPerRepos = repos[0] ? repos[0].stargazers_count : 0;
-    const yearlyRepos = github.getYearlyRepos(repos);
+    const maxStaredRepos = repositories[0] ? repositories[0].name : '';
+    const maxStaredPerRepos = repositories[0] ? repositories[0].stargazers_count : 0;
+    const yearlyRepos = github.getYearlyRepos(repositories);
 
     const sliders = [
       {
@@ -457,13 +454,13 @@ class GitHubMobileShare extends React.Component {
   render() {
     const {
       commits,
-      reposLoaded,
       commitLoaded,
       languageSkills,
+      repositoriesLoaded,
       languageDistributions
     } = this.state;
 
-    if (!reposLoaded) {
+    if (!repositoriesLoaded) {
       return (
         <div className={sharedStyles.loading_container}>
           <Loading loading />
@@ -503,7 +500,7 @@ class GitHubMobileShare extends React.Component {
           <div className={styles.repos_wrapper}>
             <div className={styles.repos_contents_wrapper}>
               <div className={styles.repos_contents}>
-                {reposLoaded ? this.renderLanguageLines() : ''}
+                {repositoriesLoaded ? this.renderLanguageLines() : ''}
               </div>
               <div className={styles.repos_yAxes}>
                 <div className={styles.yAxes_text}>

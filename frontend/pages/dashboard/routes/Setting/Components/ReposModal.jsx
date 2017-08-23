@@ -16,7 +16,7 @@ class ReposModal extends React.Component {
     this.state = {
       rawPinned: [],
       pinned: [],
-      repos: [],
+      repositories: [],
       query: '',
       checkAll: false,
       loading: true
@@ -25,19 +25,19 @@ class ReposModal extends React.Component {
     this.onClose = this.onClose.bind(this);
     this.onCheckAll = this.onCheckAll.bind(this);
     this.onQueryChange = this.onQueryChange.bind(this);
-    this.addPinnedRepos = this.addPinnedRepos.bind(this);
-    this.removePinnedRepos = this.removePinnedRepos.bind(this);
+    this.addPinnedRepository = this.addPinnedRepository.bind(this);
+    this.removePinnedRepository = this.removePinnedRepository.bind(this);
   }
 
   componentDidMount() {
-    this.fetchPinnedRepos();
+    this.fetchPinnedRepositories();
   }
 
   componentDidUpdate(preProps) {
     const { openModal } = this.props;
-    const { repos } = this.state;
+    const { repositories } = this.state;
     if (openModal && !preProps.openModal) {
-      !repos.length && this.fetchRepos();
+      !repositories.length && this.fetchRepositories();
     }
   }
 
@@ -70,17 +70,17 @@ class ReposModal extends React.Component {
     });
   }
 
-  defaultPinned(repos = null) {
-    repos = repos || this.state.repos;
-    return repos.map(repository => repository.name);
+  defaultPinned(repositories = null) {
+    repositories = repositories || this.state.repositories;
+    return repositories.map(repository => repository.name);
   }
 
-  async fetchRepos() {
+  async fetchRepositories() {
     const { pinned } = this.state;
-    const result = await Api.github.getAllRepos();
+    const result = await Api.github.getAllRepositories();
     const pinnedRepos = pinned.length ? pinned : this.defaultPinned(result);
     this.changeState({
-      repos: [...result],
+      repositories: [...result],
       pinned: [...pinnedRepos],
       rawPinned: [...pinnedRepos],
       loading: false,
@@ -88,7 +88,7 @@ class ReposModal extends React.Component {
     });
   }
 
-  async fetchPinnedRepos() {
+  async fetchPinnedRepositories() {
     const result = await Api.user.getPinnedRepos();
     const pinned = result.length ? result : this.defaultPinned();
     this.changeState({
@@ -105,14 +105,14 @@ class ReposModal extends React.Component {
     this.setState(state);
   }
 
-  addPinnedRepos(repositoryId) {
+  addPinnedRepository(repositoryId) {
     const { pinned } = this.state;
     this.changeState({
       pinned: [...pinned, repositoryId]
     });
   }
 
-  removePinnedRepos(repositoryId) {
+  removePinnedRepository(repositoryId) {
     const { pinned } = this.state;
     this.changeState({
       pinned: pinned.filter(item => item !== repositoryId)
@@ -120,15 +120,17 @@ class ReposModal extends React.Component {
   }
 
   renderRepos() {
-    const { repos, pinned, query } = this.state;
+    const { repositories, pinned, query } = this.state;
     const pattern = new RegExp(query);
-    const filterRepos = query ? repos.filter(repository => pattern.test(repository.name)) : repos;
+    const filterRepos = query
+      ? repositories.filter(repository => pattern.test(repository.name))
+      : repositories;
     return filterRepos.map((repository, index) => (
       <ReposCard
         key={index}
         repository={repository}
-        onRemove={this.removePinnedRepos}
-        onPinned={this.addPinnedRepos}
+        onRemove={this.removePinnedRepository}
+        onPinned={this.addPinnedRepository}
         pinned={pinned.some(item => item === repository.name)}
       />
     ))
@@ -203,7 +205,6 @@ ReposModal.defaultProps = {
   openModal: false,
   onClose: () => {},
   fetchData: () => {},
-  repos: []
 };
 
 export default ReposModal;

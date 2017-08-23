@@ -22,16 +22,16 @@ class GithubComponent extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      reposLoaded: false,
-      commitLoaded: false,
-      openModal: false,
-      openShareModal: false,
-      user: objectAssign({}, USER),
-      repos: [],
+      sections: {},
       chosedRepos: [],
       commitDatas: [],
       commitInfos: [],
-      sections: {}
+      repositories: [],
+      openModal: false,
+      commitLoaded: false,
+      openShareModal: false,
+      repositoriesLoaded: false,
+      user: objectAssign({}, USER),
     };
     this.changeShareStatus = this.changeShareStatus.bind(this);
     this.toggleShareModal = this.toggleShareModal.bind(this);
@@ -46,18 +46,18 @@ class GithubComponent extends React.Component {
   componentDidUpdate(preProps, preState) {
     const {
       user,
-      reposLoaded,
-      commitLoaded
+      commitLoaded,
+      repositoriesLoaded,
     } = this.state;
 
     this.removeLoading('#loading');
 
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
-      this.getGithubScientific(user.login);
-      !reposLoaded && this.getGithubRepos(user.login);
+      // this.getGithubScientific(user.login);
+      !repositoriesLoaded && this.getGithubRepositories(user.login);
     }
-    if (reposLoaded && !preState.reposLoaded) {
+    if (repositoriesLoaded && !preState.repositoriesLoaded) {
       !commitLoaded && this.getGithubCommits(user.login);
     }
   }
@@ -83,9 +83,9 @@ class GithubComponent extends React.Component {
     this.toggleLoading(false);
   }
 
-  async getGithubRepos(login = '') {
-    const result = await Api.github.getRepos(login);
-    this.setGithubRepos(result);
+  async getGithubRepositories(login = '') {
+    const { repositories } = await Api.github.getRepositories(login);
+    this.setGithubRepositories(repositories);
   }
 
   async getGithubSections(login = '') {
@@ -98,13 +98,10 @@ class GithubComponent extends React.Component {
     this.setGithubCommits(result);
   }
 
-  setGithubRepos(result) {
-    const {
-      repos = [],
-    } = result;
+  setGithubRepositories(repositories = []) {
     this.setState({
-      reposLoaded: true,
-      repos: [...repos],
+      repositoriesLoaded: true,
+      repositories: [...repositories],
     });
   }
 
@@ -169,27 +166,27 @@ class GithubComponent extends React.Component {
   render() {
     const {
       user,
-      repos,
       sections,
+      repositories,
       commitDatas,
       commitInfos,
-      reposLoaded,
       commitLoaded,
       openShareModal,
+      repositoriesLoaded,
     } = this.state;
     const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
     const { login, lastUpdateTime, openShare, shareUrl } = user;
 
-    const forkedRepos = [];
-    const ownedRepos = [];
-    for (let i = 0; i < repos.length; i += 1) {
-      const repository = repos[i];
+    const forkedRepositories = [];
+    const ownedRepositories = [];
+    for (let i = 0; i < repositories.length; i += 1) {
+      const repository = repositories[i];
       if (repository.fork) {
-        forkedRepos.push(repository);
+        forkedRepositories.push(repository);
       } else {
-        ownedRepos.push(repository);
+        ownedRepositories.push(repository);
       }
     }
 
@@ -233,10 +230,10 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          loaded={reposLoaded || commitLoaded}
+          loaded={repositoriesLoaded || commitLoaded}
           commitDatas={commitDatas}
-          userRepos={ownedRepos}
-          forkedRepos={forkedRepos}
+          ownedRepositories={ownedRepositories}
+          forkedRepositories={forkedRepositories}
           title={{
             text: githubTexts.repos.title,
             icon: 'bar-chart'
@@ -254,8 +251,8 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          loaded={reposLoaded}
-          userRepos={ownedRepos}
+          loaded={repositoriesLoaded}
+          repositories={ownedRepositories}
           title={{
             text: githubTexts.course.title,
             icon: 'trophy'
@@ -311,11 +308,11 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          repos={repos}
-          loaded={reposLoaded}
-          languageDistributions={github.getLanguageDistribution(repos)}
-          languageUsed={github.getLanguageUsed(repos)}
-          languageSkills={github.getLanguageSkill(repos)}
+          repositories={repositories}
+          loaded={repositoriesLoaded}
+          languageDistributions={github.getLanguageDistribution(repositories)}
+          languageUsed={github.getLanguageUsed(repositories)}
+          languageSkills={github.getLanguageSkill(repositories)}
           title={{
             text: githubTexts.languages.title,
             icon: 'code'
