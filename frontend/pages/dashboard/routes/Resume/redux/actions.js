@@ -53,7 +53,14 @@ const toggleLoading = createAction('TOGGLE_LOADING');
  * info
  */
 const handleInfoChange = createAction('HANDLE_INFO_CHANGE');
+const handleEditChange = createAction('HANDLE_EDIT_CHANGE');
 
+const toggleHireAvailable = hireAvailable => (dispatch) => {
+  Api.resume.patchHireAvailable(hireAvailable).then(() => {
+    dispatch(handleInfoChange({ hireAvailable }));
+    dispatch(handleEditChange(false));
+  });
+};
 /**
  * Education
  */
@@ -195,6 +202,8 @@ export default {
   resetEdited,
   // info
   handleInfoChange,
+  handleEditChange,
+  toggleHireAvailable,
   // edu
   addEducation,
   deleteEducation,

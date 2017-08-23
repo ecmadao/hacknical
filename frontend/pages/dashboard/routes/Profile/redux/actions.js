@@ -1,5 +1,5 @@
 import { createActions } from 'redux-actions';
-import Api from 'API/index';
+import Api from 'API';
 
 const {
   onAnalysisDataTabChange,

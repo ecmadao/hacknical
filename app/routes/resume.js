@@ -43,6 +43,13 @@ router.get('/share',
   Resume.getResumeStatus
 );
 
+router.patch('/hireAvailable',
+  user.checkSession(session.requiredSessions),
+  check.body('hireAvailable'),
+  Resume.setHireAvailable,
+  cache.del()
+);
+
 router.get('/share/records',
   user.checkSession(session.requiredSessions),
   Resume.getShareRecords

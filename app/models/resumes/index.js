@@ -1,4 +1,5 @@
 import Resume from './schema';
+import { mergeObject } from '../../utils/helper';
 import { DEFAULT_RESUME } from '../../utils/datas';
 
 const addResume = async (userId, resume = DEFAULT_RESUME) => {
@@ -25,7 +26,17 @@ const findResume = async options =>
 const findResumes = async options =>
   await Resume.find(options);
 
-const updateResume = async (userId, resume, cache) => {
+const update = async (options) => {
+  const {
+    target,
+    userId
+  } = options;
+  const resume = await findResume({ userId });
+  mergeObject(resume, target);
+  await resume.save();
+};
+
+const reset = async (userId, resume, cache) => {
   const findResult = await findResume({ userId });
   if (!findResult) {
     cache.hincrby('resume', 'count', 1);
@@ -72,17 +83,14 @@ const getResume = async (userId) => {
   });
 };
 
-const removeAll = async () => await Resume.remove();
-
 const findAll = async () => await Resume.find({});
 
 export default {
-  initialResume,
-  getResume,
-  getUpdateTime,
-  updateResume,
-  removeAll,
+  reset,
+  update,
   findAll,
+  initialResume,
+  getUpdateTime,
   find: findResumes,
   findOne: getResume,
 };

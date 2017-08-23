@@ -1,11 +1,11 @@
 /* eslint new-cap: "off" */
-import { injectReducer } from '../redux/reducer/index';
+import { injectReducer } from '../redux/reducer';
 import reducer from './App/redux/reducers';
-import App from './App/index';
-import Github from './Github/index';
-import Profile from './Profile/index';
-import Resume from './Resume/index';
-import Setting from './Setting/index';
+import App from './App';
+import Github from './Github';
+import Profile from './Profile';
+import Resume from './Resume';
+import Setting from './Setting';
 import PATH from './shared/path';
 
 export const createRoutes = (store) => {

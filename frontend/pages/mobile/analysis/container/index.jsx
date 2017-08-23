@@ -5,7 +5,7 @@ import deepcopy from 'deepcopy';
 import objectAssign from 'UTILS/object-assign';
 import { Loading } from 'light-ui';
 
-import Api from 'API/index';
+import Api from 'API';
 import dateHelper from 'UTILS/date';
 import { getValidateViewSources } from 'UTILS/analysis';
 import { LINE_CONFIG, RADAR_CONFIG } from 'SHARED/datas/chart_config';

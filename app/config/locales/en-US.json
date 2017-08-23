@@ -72,7 +72,8 @@
     "resume": {
       "linkGithub": "Resume linked with GitHub",
       "unlinkGithub": "Resume unlinked with GitHub",
-      "template": "Resume template successfully changed"
+      "template": "Resume template successfully changed",
+      "hireAvailable": "Hire status was successfully updated"
 	  }
   }
 }

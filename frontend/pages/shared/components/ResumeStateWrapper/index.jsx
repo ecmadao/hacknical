@@ -1,6 +1,6 @@
 import React from 'react';
 import objectAssign from 'UTILS/object-assign';
-import Api from 'API/index';
+import Api from 'API';
 import {
   INFO,
   OTHERS,

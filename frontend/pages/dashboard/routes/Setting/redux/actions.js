@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions';
 import Push from 'push.js';
 import objectAssign from 'UTILS/object-assign';
-import Api from 'API/index';
+import Api from 'API';
 import locales from 'LOCALES';
 
 const githubLocales = locales('github');

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
 import { IconButton, Switcher } from 'light-ui';
 
-import Api from 'API/index';
+import Api from 'API';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
 import sharedStyles from '../../shared/styles/mobile.css';

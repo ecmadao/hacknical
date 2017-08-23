@@ -7,7 +7,7 @@ import objectAssign from 'UTILS/object-assign';
 import ScrollReveal from 'scrollreveal';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
-import Api from 'API/index';
+import Api from 'API';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import { randomColor } from 'UTILS/colors';

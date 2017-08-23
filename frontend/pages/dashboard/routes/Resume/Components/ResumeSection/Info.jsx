@@ -28,9 +28,7 @@ class Info extends React.Component {
 
   handleAvailableChange() {
     const { actions, hireAvailable } = this.props;
-    actions.handleInfoChange({
-      hireAvailable: !hireAvailable
-    });
+    actions.toggleHireAvailable(!hireAvailable);
   }
 
   render() {

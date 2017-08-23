@@ -17,7 +17,7 @@ import { redisMiddleware } from '../middlewares/cache_helper';
 import catchError from '../middlewares/error_helper';
 import checkLocale from '../middlewares/locale_helper';
 import mqMiddleware from '../middlewares/mq_middleware';
-import router from '../routes/index';
+import router from '../routes';
 import logger from '../utils/logger';
 
 const appKey = config.get('appKey');

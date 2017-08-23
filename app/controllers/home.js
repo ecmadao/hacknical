@@ -1,5 +1,5 @@
 
-import User from '../models/users/index';
+import User from '../models/users';
 import getLanguages from '../config/languages';
 
 const index = async (ctx) => {

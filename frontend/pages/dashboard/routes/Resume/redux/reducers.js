@@ -88,6 +88,12 @@ const reducers = handleActions({
       info: objectassign(info, action.payload)
     });
   },
+  HANDLE_EDIT_CHANGE(state, action) {
+    return ({
+      ...state,
+      edited: action.payload,
+    });
+  },
 
   // educations
   ADD_EDUCATION(state) {

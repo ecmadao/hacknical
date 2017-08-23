@@ -1,4 +1,4 @@
-import { injectReducer } from '../../redux/reducer/index';
+import { injectReducer } from '../../redux/reducer';
 import PATH from '../shared/path';
 import reducer from './redux/reducers';
 

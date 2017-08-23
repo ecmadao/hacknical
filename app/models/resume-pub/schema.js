@@ -1,4 +1,4 @@
-import mongoose from '../mongoose/index';
+import mongoose from '../mongoose';
 
 const Schema = mongoose.Schema;
 

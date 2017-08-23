@@ -117,3 +117,16 @@ export const getPlanObject = (object, keys) => {
   });
   return planObject;
 };
+
+export const mergeObject = (targetObj, valObj) => {
+  const keys = Object.keys(valObj);
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    const val = valObj[key];
+    if (is.object(val)) {
+      mergeObject(targetObj[key], val);
+    } else {
+      targetObj[key] = val
+    }
+  }
+};

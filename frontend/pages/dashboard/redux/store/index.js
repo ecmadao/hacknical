@@ -5,7 +5,7 @@ import { createOpbeatMiddleware } from 'opbeat-react/redux'
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import { hashHistory, browserHistory } from 'react-router';
 
-import appReducer from '../reducer/index';
+import appReducer from '../reducer';
 
 export const createAppStore = (initialState = {}) => {
   const logger = createLogger();

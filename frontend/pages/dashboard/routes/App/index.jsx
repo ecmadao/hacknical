@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TabBar from './Components/TabBar/index';
-import Header from './Components/Header/index';
+import TabBar from './Components/TabBar';
+import Header from './Components/Header';
 import styles from './styles/app.css';
 
 const App = (props) => {
