@@ -25,7 +25,7 @@ router.get(
 router.get(
   '/repositories/all',
   user.checkIfLogin(),
-  cache.get('allRepos', {
+  cache.get('allRepositories', {
     keys: ['session.githubLogin']
   }),
   GitHub.getAllRepositories,

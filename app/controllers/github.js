@@ -289,16 +289,18 @@ const refreshRepositories = async (ctx, next) => {
   // set cache keys to remove
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
-    cacheKey('formattedRepos', {
+    cacheKey('user-repositories', {
       session: ['githubLogin']
     }),
-    cacheKey('contributed', {
+    cacheKey('user-contributed', {
       session: ['githubLogin']
     }),
-    cacheKey('allRepos', {
+    cacheKey('allRepositories', {
       session: ['githubLogin']
     }),
-    cacheKey(`sharedUser.${githubLogin}`)
+    cacheKey('user-github', {
+      session: ['githubLogin']
+    }),
   ];
 
   ctx.body = {
@@ -327,7 +329,7 @@ const refreshCommits = async (ctx, next) => {
   // set cache keys to remove
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
-    cacheKey('formattedCommits', {
+    cacheKey('user-commits', {
       session: ['githubLogin']
     })
   ];
@@ -358,7 +360,7 @@ const refreshOrganizations = async (ctx, next) => {
   // set cache keys to remove
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
-    cacheKey('orgs', {
+    cacheKey('user-organizations', {
       session: ['githubLogin']
     })
   ];
