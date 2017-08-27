@@ -3,7 +3,7 @@ import pangu from 'pangu';
 const spacing = pangu.spacing;
 
 const checkType = (val, result) =>
-  Object.prototype.toString.call(val) === result
+  Object.prototype.toString.call(val) === result;
 
 export const is = {
   object: val => checkType(val, '[object Object]'),

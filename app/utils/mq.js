@@ -42,7 +42,7 @@ class MessageQueue {
       message,
       qname = mqName
     } = options;
-    if (!url || !type || !url) return;
+    if (!url || !type) return;
     logger.info(`[MQ:SEND][${type}:${url}]`);
     return wrap(this.mq.sendMessage, {
       qname,

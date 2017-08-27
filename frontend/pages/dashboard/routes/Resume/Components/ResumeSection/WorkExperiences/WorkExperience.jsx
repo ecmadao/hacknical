@@ -32,9 +32,7 @@ class WorkExperience extends React.Component {
   handleEndTimeChange(endTime, untilNow = false) {
     const { handleExperienceChange } = this.props;
     handleExperienceChange('endTime')(endTime);
-    if (untilNow) {
-      handleExperienceChange('untilNow')(true);
-    }
+    handleExperienceChange('untilNow')(untilNow);
   }
 
   renderWorkProjects(projects) {
