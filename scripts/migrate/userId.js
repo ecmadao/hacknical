@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+import shortid from 'shortid';
 import User from '../../app/models/users';
 import Resumes from '../../app/models/resumes';
 import ShareAnalyse from '../../app/models/share-analyse';
@@ -18,7 +18,7 @@ const migrateUserId = async () => {
     const users = await User.findAll();
 
     for (let i = 0; i < users.length; i += 1) {
-      const userId = uuid();
+      const userId = shortid.generate();
       const user = users[i];
       try {
         if (user.userId) {

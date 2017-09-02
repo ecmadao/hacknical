@@ -7,13 +7,14 @@ import SlackMsg from '../../services/slack';
 
 const getPubResumeInfo = async (ctx) => {
   const { hash } = ctx.params;
-  const findResume = await ResumePub.getPubResumeInfo({ resumeHash: hash });
+  const findResume = await ResumePub.getPubResumeInfo(hash);
 
   if (findResume.success) {
-    const { name, userId } = findResume.result;
+    const { name, userId, resumeHash } = findResume.result;
     const user = await User.findOne({ userId });
     return {
       name,
+      resumeHash,
       login: user.githubInfo.login
     };
   }
@@ -62,14 +63,13 @@ const collectGithubRecord = async (ctx, next) => {
 
 const collectResumeRecord = async (ctx, next) => {
   const { notrace } = ctx.query;
-  const { hash } = ctx.params;
 
   const { githubLogin } = ctx.session;
   const user = await getPubResumeInfo(ctx);
   const isAdmin = user && user.login === githubLogin;
 
   if ((!isAdmin && !notrace) || notrace === 'false') {
-    const url = `resume/${hash}`;
+    const url = `resume/${user.resumeHash}`;
     updateViewData(ctx, { url, type: 'resume' });
   }
 

@@ -24,7 +24,7 @@ const resumeEnable = (key = 'params.hash') => async (ctx, next) => {
 
   const enable = ctx.session.fromDownload;
   const resumeHash = getValue(ctx, key);
-  const findResume = await ResumePub.checkResumeShare({ resumeHash }, { userId, enable });
+  const findResume = await ResumePub.checkResumeShare(resumeHash, { userId, enable });
   if (!findResume.success) {
     return ctx.redirect('/404');
   }
@@ -33,5 +33,5 @@ const resumeEnable = (key = 'params.hash') => async (ctx, next) => {
 
 export default {
   githubEnable,
-  resumeEnable
+  resumeEnable,
 };

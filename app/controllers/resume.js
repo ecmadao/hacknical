@@ -210,7 +210,7 @@ const getPubResumePageMobile = async (ctx) => {
 const getPubResumeStatus = async (ctx) => {
   const { hash } = ctx.params;
   const { fromDownload, locale } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ resumeHash: hash });
+  const findPubResume = await ResumePub.findByHash(hash);
   const shareResult = getResumeShareStatus(findPubResume, locale);
 
   const { success, result } = shareResult;
@@ -263,16 +263,8 @@ const setHireAvailable = async (ctx, next) => {
 const setResumeShareStatus = async (ctx) => {
   const { enable } = ctx.request.body;
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-  const { result, success, message } = findPubResume;
-  if (!success) {
-    ctx.body = {
-      error: message,
-      success: true
-    };
-    return;
-  }
-  await ResumePub.updatePubResume(userId, result.resumeHash, {
+
+  await ResumePub.updatePubResume(userId, {
     openShare: enable
   });
   const resultMessage = Boolean(enable) == true
@@ -287,18 +279,8 @@ const setResumeShareStatus = async (ctx) => {
 const setResumeShareTemplate = async (ctx) => {
   const { template } = ctx.request.body;
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-  const { result, success } = findPubResume;
-  if (!success) {
-    ctx.body = {
-      success: true,
-      error: ctx.__('messages.error.emptyResume')
-    };
-    return;
-  }
-  await ResumePub.updatePubResume(userId, result.resumeHash, {
-    template
-  });
+
+  await ResumePub.updatePubResume(userId, { template });
   ctx.body = {
     success: true,
     result: template,
@@ -309,16 +291,8 @@ const setResumeShareTemplate = async (ctx) => {
 const setResumeGithubStatus = async (ctx) => {
   const { enable } = ctx.request.body;
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-  const { result, success, message } = findPubResume;
-  if (!success) {
-    ctx.body = {
-      error: message,
-      success: true
-    };
-    return;
-  }
-  await ResumePub.updatePubResume(userId, result.resumeHash, {
+
+  await ResumePub.updatePubResume(userId, {
     useGithub: enable
   });
   const resultMessage = Boolean(enable) == true
@@ -332,20 +306,10 @@ const setResumeGithubStatus = async (ctx) => {
 
 const setGithubShareSection = async (ctx) => {
   const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-  const { result, success, message } = findPubResume;
-  if (!success) {
-    ctx.body = {
-      error: message,
-      success: true
-    };
-    return;
-  }
-
   const githubSections = getGithubSections(ctx.request.body);
 
-  await ResumePub.updatePubResume(userId, result.resumeHash, {
-    github: Object.assign({}, result.github, githubSections)
+  await ResumePub.updatePubResume(userId, {
+    github: githubSections
   });
   ctx.body = {
     success: true

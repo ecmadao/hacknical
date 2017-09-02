@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const ResumePubSchema = new Schema({
   userId: String,
   maxView: Number,
+  resumeHashV0: String,
   resumeHash: String,
   openShare: { type: Boolean, default: true },
   useGithub: { type: Boolean, default: true },

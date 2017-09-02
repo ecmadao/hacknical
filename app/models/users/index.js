@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+import shortid from 'shortid';
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 import logger from '../../utils/logger';
@@ -80,7 +80,7 @@ const loginWithGithub = async (userInfo, cache, mq) => {
   } else {
     user = await User.create({
       email,
-      userId: uuid(),
+      userId: shortid.generate(),
       userName: name,
       lastLoginTime: new Date(),
       githubLogin: login,

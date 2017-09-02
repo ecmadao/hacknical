@@ -1,5 +1,4 @@
-import crypto from 'crypto';
-
+import shortid from 'shortid';
 import ResumePub from './schema';
 import Resume from '../resumes';
 import ShareAnalyse from '../share-analyse';
@@ -7,36 +6,20 @@ import dateHelper from '../../utils/date';
 
 const { getSeconds, getDateAfterDays } = dateHelper;
 
-const getResumeHash = (userId) => {
-  const salt = crypto.randomBytes(8).toString('base64');
-  const bytes = new Buffer(toString(userId) || '', 'utf16le');
-  const src = new Buffer(salt || '', 'base64');
-  const dst = new Buffer(src.length + bytes.length);
-
-  src.copy(dst, 0, 0, src.length);
-  bytes.copy(dst, src.length, 0, bytes.length);
-
-  const hash = crypto.createHash('sha1').update(dst).digest('base64');
-  return hash.split('/').join('').replace(/=/g, '');
-};
-
-/*
-const resumeValidation = (timestamp) => {
-  const secondsNow = getSeconds();
-  if (secondsNow > timestamp) {
-    return false;
-  }
-  return true;
-};
-*/
-
-
-const createResumeShare = async (options) => {
+const createResumeShare = async (options = {}) => {
   await ShareAnalyse.createShare(options);
 };
 
-const findPublicResumes = async options =>
+const findPublicResumes = async (options = {}) =>
   await ResumePub.find(options);
+
+const findByHash = async hash =>
+  await findPublicResume({
+    $or: [
+      { resumeHash: hash },
+      { resumeHashV0: hash },
+    ]
+  });
 
 const findPublicResume = async (options) => {
   const findResult = await ResumePub.findOne(options);
@@ -54,7 +37,7 @@ const findPublicResume = async (options) => {
 const addPubResume = async (userId, options = {}) => {
   const timestamp = getSeconds(getDateAfterDays(options.days || 10));
   const maxView = options.maxView || 500;
-  const resumeHash = getResumeHash(userId);
+  const resumeHash = shortid.generate();
 
   await createResumeShare({
     userId,
@@ -80,8 +63,8 @@ const addPubResume = async (userId, options = {}) => {
   });
 };
 
-const updatePubResume = async (userId, resumeHash, options) => {
-  const findResult = await findPublicResume({ userId, resumeHash });
+const updatePubResume = async (userId, options) => {
+  const findResult = await findPublicResume({ userId });
   const { result, success } = findResult;
   if (!success) {
     return findResult;
@@ -95,8 +78,8 @@ const updatePubResume = async (userId, resumeHash, options) => {
   });
 };
 
-const checkResumeShare = async (options, verify = {}) => {
-  const findResult = await findPublicResume(options);
+const checkResumeShare = async (hash, verify = {}) => {
+  const findResult = await findByHash(hash);
   if (!findResult.success) { return findResult; }
   const { userId } = findResult.result;
 
@@ -114,10 +97,10 @@ const checkResumeShare = async (options, verify = {}) => {
   });
 };
 
-const getPubResumeInfo = async (options) => {
-  const findResult = await findPublicResume(options);
+const getPubResumeInfo = async (hash) => {
+  const findResult = await findByHash(hash);
   if (!findResult.success) return findResult;
-  const { userId } = findResult.result;
+  const { userId, resumeHash } = findResult.result;
 
   const findResume = await Resume.findOne(userId);
   if (!findResume.success) return findResume;
@@ -126,13 +109,14 @@ const getPubResumeInfo = async (options) => {
     success: true,
     result: {
       userId,
+      resumeHash,
       name: findResume.result.info.name,
     }
   });
 };
 
 const getUpdateTime = async (resumeHash) => {
-  const findResult = await findPublicResume({ resumeHash });
+  const findResult = await findByHash(resumeHash);
   const { result, success } = findResult;
   if (!success) return findResult;
 
@@ -141,7 +125,7 @@ const getUpdateTime = async (resumeHash) => {
 };
 
 const getPubResume = async (resumeHash) => {
-  const findResult = await findPublicResume({ resumeHash });
+  const findResult = await findByHash(resumeHash);
   const { result, success } = findResult;
   if (!success) { return findResult; }
   const { userId } = result;
@@ -171,6 +155,7 @@ export default {
   getUpdateTime,
   getPubResumeInfo,
   checkResumeShare,
+  findByHash,
   find: findPublicResumes,
   findOne: findPublicResume,
 };

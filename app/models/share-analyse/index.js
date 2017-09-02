@@ -1,10 +1,10 @@
 import ShareAnalyse from './schema';
 import dateHelper, { getValidateDate } from '../../utils/date';
 
-const findShare = async options =>
+const findShare = async (options = {}) =>
   await ShareAnalyse.findOne(options);
 
-const findShares = async options =>
+const findShares = async (options = {}) =>
   await ShareAnalyse.find(options);
 
 const createShare = async (options) => {
