@@ -241,10 +241,15 @@
   }
 }
 
-.pie_chart {
-  max-width: 300px;
-  max-height: 300px;
+.pieChart {
+  width: 250px !important;
+  height: 250px !important;
   z-index: 1;
+}
+
+.radarChart {
+  width: 250px !important;
+  height: 250px !important;
 }
 
 .repos_chart_container {
@@ -259,7 +264,7 @@
   }
 
   &.small_margin {
-    margin-top: -50px !important;
+    margin-top: -30px !important;
   }
 }
 

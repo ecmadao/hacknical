@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { wrapRouter } from 'opbeat-react';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
-
-const OpbeatRouter = wrapRouter(Router);
 
 class AppContainer extends React.Component {
   render() {
@@ -12,9 +9,9 @@ class AppContainer extends React.Component {
 
     return (
       <Provider store={store}>
-        <OpbeatRouter history={history} >
+        <Router history={history} >
           {routes}
-        </OpbeatRouter>
+        </Router>
       </Provider>
     );
   }

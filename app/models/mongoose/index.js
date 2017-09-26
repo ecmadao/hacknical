@@ -12,7 +12,6 @@ function handleErr(err) {
 
 if (process.env.NODE_ENV === 'production') {
   mongoose.connect(mongodbUrl, {
-    auth: { authdb: 'admin' },
     useMongoClient: true
   }, handleErr);
 } else {

@@ -1,4 +1,4 @@
-# [Hacknical](http://hacknical.com?locale=en)
+# [Hacknical](https://hacknical.com?locale=en)
 
 **hacknical, hacker & technical**
 
@@ -17,7 +17,7 @@ Extract dependency：
 
 ## Examples
 
-- [My GitHub data analysis](http://hacknical.com/github/ecmadao?locale=en)
+- [My GitHub data analysis](https://hacknical.com/github/ecmadao?locale=en)
 
 ## Screenshots
 

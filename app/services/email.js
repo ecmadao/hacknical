@@ -17,7 +17,7 @@ class EmailMsg {
     const {
       to,
       template = 'welcome',
-      msg = { '%url%': ['http://hacknical.com'] },
+      msg = { '%url%': ['https://hacknical.com'] },
     } = options;
     const templateOptions = this._getOptions(template);
     const sendOptions = Object.assign({}, {

@@ -219,7 +219,7 @@ class RepositoryInfo extends React.Component {
           <div className={chartContainer}>
             <div className={githubStyles.repos_chart}>
               <canvas
-                className={githubStyles.pie_chart}
+                className={githubStyles.pieChart}
                 ref={ref => (this.reposForks = ref)}
               />
               <div className={githubStyles.chart_center}>
@@ -233,7 +233,7 @@ class RepositoryInfo extends React.Component {
             </div>
             <div className={githubStyles.repos_chart}>
               <canvas
-                className={githubStyles.pie_chart}
+                className={githubStyles.pieChart}
                 ref={ref => (this.reposStars = ref)}
               />
               <div className={githubStyles.chart_center}>

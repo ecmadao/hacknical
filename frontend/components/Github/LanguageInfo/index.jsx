@@ -232,12 +232,18 @@ class LanguageInfo extends React.Component {
         <div className={chartContainer}>
           {sortedLanguages.length ? (
             <div className={githubStyles.repos_chart}>
-              <canvas ref={ref => (this.languageUsed = ref)} />
+              <canvas
+                className={githubStyles.radarChart}
+                ref={ref => (this.languageUsed = ref)}
+              />
             </div>
           ) : ''}
           {languages.length ? (
             <div className={githubStyles.repos_chart}>
-              <canvas ref={ref => (this.languageSkill = ref)} />
+              <canvas
+                className={githubStyles.radarChart}
+                ref={ref => (this.languageSkill = ref)}
+              />
             </div>
           ) : ''}
         </div>

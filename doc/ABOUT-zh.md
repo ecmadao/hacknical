@@ -56,8 +56,8 @@
 - 项目地址位于：[ecmadao/hacknical](https://github.com/ecmadao/hacknical)
 - 保证对用户永久免费
 - 线上 DEMO
-  - [我的在线简历](http://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=) -- -- 已适配移动端
-  - [我的 github 数据分析报告](http://hacknical.com/github/ecmadao) -- -- 已适配移动端
+  - [我的在线简历](https://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=) -- -- 已适配移动端
+  - [我的 github 数据分析报告](https://hacknical.com/github/ecmadao) -- -- 已适配移动端
 
 你可以 [戳这里](https://github.com/ecmadao/hacknical/issues)，通过 issue 提出你的意见和建议，帮助我更好的完善它，谢谢。
 

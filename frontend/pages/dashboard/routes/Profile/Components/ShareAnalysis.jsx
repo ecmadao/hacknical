@@ -380,6 +380,7 @@ class ShareAnalysis extends React.Component {
                 )}
               >
                 <canvas
+                  className={styles.radarChart}
                   ref={ref => (this.viewDevices = ref)}
                 />
               </div>
@@ -390,6 +391,7 @@ class ShareAnalysis extends React.Component {
                 )}
               >
                 <canvas
+                  className={styles.radarChart}
                   ref={ref => (this.viewSources = ref)}
                 />
               </div>

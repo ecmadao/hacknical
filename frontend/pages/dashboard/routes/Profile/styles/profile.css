@@ -178,6 +178,11 @@
   max-width: 45%;
 }
 
+.radarChart {
+  width: 250px !important;
+  height: 250px !important;
+}
+
 .viewDevicesChart {}
 
 .viewSourcesChart {}
