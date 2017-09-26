@@ -243,13 +243,15 @@
 
 .pieChart {
   width: 250px !important;
-  height: 250px !important;
+  max-width: 250px !important;
+  height: auto !important;
   z-index: 1;
 }
 
 .radarChart {
   width: 250px !important;
-  height: 250px !important;
+  max-width: 250px !important;
+  height: auto !important;
 }
 
 .repos_chart_container {
