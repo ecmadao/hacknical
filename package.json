@@ -131,7 +131,6 @@
     "deepcopy": "^0.6.3",
     "es6-promise": "^3.2.1",
     "fs-extra": "^2.0.0",
-    "github-calendar": "^1.1.10",
     "headroom.js": "^0.9.3",
     "hiredis": "^0.5.0",
     "isomorphic-fetch": "^2.2.1",

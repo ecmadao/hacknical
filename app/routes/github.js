@@ -164,5 +164,16 @@ router.get(
   share.githubEnable(),
   GitHub.getUserPredictions
 );
+router.get(
+  '/:login/calendar',
+  share.githubEnable(),
+  cache.get('user-calendar', {
+    params: ['login']
+  }),
+  GitHub.getUserCalendar,
+  cache.set({
+    expire: 3600 // one hour
+  })
+);
 
 module.exports = router;

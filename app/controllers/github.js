@@ -405,10 +405,18 @@ const getUserScientific = async (ctx) => {
 const getUserPredictions = async (ctx) => {
   const { login } = ctx.params;
   const { githubToken, githubLogin } = ctx.session;
-  let result = [];
-  if (login === githubLogin) {
-    result = await Api.getUserPredictions(githubLogin, githubToken);
-  }
+  const result = login === githubLogin
+    ? await Api.getUserPredictions(githubLogin, githubToken)
+    : [];
+  ctx.body = {
+    result,
+    success: true,
+  };
+};
+
+const getUserCalendar = async (ctx) => {
+  const { login } = ctx.params;
+  const result = await Api.getCalendar(login);
   ctx.body = {
     result,
     success: true,
@@ -432,6 +440,7 @@ export default {
   getUserScientific,
   toggleShare,
   getShareRecords,
+  getUserCalendar,
   /* ===== refresh & update ====== */
   getUpdateTime,
   refreshRepositories,

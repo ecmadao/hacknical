@@ -91,6 +91,8 @@ const refreshOrganizations = async (login, token) =>
     timeouts: [null]
   });
 
+const getCalendar = async login => fetchApi(`/${login}/calendar`);
+
 export default {
   /* ===== */
   getZen,
@@ -113,4 +115,6 @@ export default {
   refreshCommits,
   refreshOrganizations,
   refreshContributed,
+  /* ===== */
+  getCalendar,
 };

@@ -17,6 +17,7 @@ const getOrganizations = login => fetchInfo(`/${login}/organizations`);
 const getUser = login => fetchInfo(`/${login}/user`);
 const getUserScientific = login => fetchInfo(`/${login}/scientific`);
 const getUserPredictions = login => fetchInfo(`/${login}/predictions`);
+const getUserCalendar = login => fetchInfo(`/${login}/calendar`);
 
 
 /* toggle user github share */
@@ -44,6 +45,7 @@ export default {
   getAllRepositories,
   getCommits,
   getOrganizations,
+  getUserCalendar,
   // for refresh & initial
   refresh,
   fetchRepositories,
