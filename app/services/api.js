@@ -91,7 +91,10 @@ const refreshOrganizations = async (login, token) =>
     timeouts: [null]
   });
 
-const getCalendar = async login => fetchApi(`/${login}/calendar`);
+const getCalendar = async (login, locale) =>
+  fetchApi(`/${login}/calendar`, {
+    qs: { locale }
+  });
 
 export default {
   /* ===== */

@@ -168,11 +168,12 @@ router.get(
   '/:login/calendar',
   share.githubEnable(),
   cache.get('user-calendar', {
-    params: ['login']
+    params: ['login'],
+    session: ['locale']
   }),
   GitHub.getUserCalendar,
   cache.set({
-    expire: 3600 // one hour
+    expire: 7200 // two hour
   })
 );
 

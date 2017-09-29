@@ -414,13 +414,15 @@ const getUserPredictions = async (ctx) => {
   };
 };
 
-const getUserCalendar = async (ctx) => {
+const getUserCalendar = async (ctx, next) => {
   const { login } = ctx.params;
-  const result = await Api.getCalendar(login);
+  const { locale } = ctx.session;
+  const result = await Api.getCalendar(login, locale);
   ctx.body = {
     result,
     success: true,
   };
+  await next()
 };
 
 export default {
