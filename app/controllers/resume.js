@@ -138,10 +138,16 @@ const downloadResume = async (ctx) => {
 
   logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
   ctx.cache.hincrby('resume', 'download', 1);
-  const resultUrl = await Downloads.resume(resumeUrl, {
-    folder: githubLogin,
-    title: `${seconds}-resume.pdf`
-  });
+
+  let resultUrl = '';
+  try {
+    resultUrl = await Downloads.resume(resumeUrl, {
+      folder: githubLogin,
+      title: `${seconds}-resume.pdf`
+    });
+  } catch (e) {
+    logger.error(`[RESUME:DOWNLOAD:ERROR]${e}`);
+  }
 
   ctx.body = {
     result: resultUrl,

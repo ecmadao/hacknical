@@ -20,13 +20,13 @@ const waitUntil = asyncFunc => new Promise((resolve, reject) => {
   wait();
 });
 
-// makesure folder exist
-fs.ensureDirSync(sourcePath);
-
 const downloadResume = async (url, options = {}) => {
   const folder = options.folder || '';
   const title = options.title || 'resume.pdf';
   const resultFloder = path.join(sourcePath, folder);
+
+  // makesure folder exist
+  await fs.ensureDirSync(sourcePath);
   await fs.ensureDir(resultFloder);
 
   const filePath = path.join(resultFloder, title);
