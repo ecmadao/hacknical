@@ -17,6 +17,7 @@ import {
 /* ===================== private ===================== */
 
 const URL = config.get('url');
+const HTTPS_URL = config.get('httpsUrl');
 
 const getResumeShareStatus = (findPubResume, locale) => {
   const { result, success, message } = findPubResume;
@@ -129,7 +130,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(result);
 
   const resumeUrl =
-    `${URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
+    `${HTTPS_URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
 
   new SlackMsg(ctx.mq).send({
     type: 'download',

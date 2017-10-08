@@ -23,6 +23,7 @@
     }
   },
   "url": "http://localhost:4000",
+  "httpsUrl": "http://localhost:4000",
   "auth": {
     "publicKey": "07a9c1c",
     "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
