@@ -1,5 +1,4 @@
 import objectAssign from 'UTILS/object-assign';
-
 import github from './github';
 import { GREEN_COLORS } from './colors';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
@@ -26,7 +25,7 @@ const getCommitDatasets = (repos, commits) => objectAssign({}, LINE_CONFIG, {
   type: 'line',
   label: 'commits',
   data: github.getReposCommits(repos, commits),
-})
+});
 
 const doughnutDatasets = (datas, backgroundColor = [...GREEN_COLORS].slice(0)) => ({
   type: 'doughnut',
@@ -56,7 +55,7 @@ const radarDatasets = datas => ({
   pointBorderColor: '#fff',
   pointHoverBackgroundColor: '#fff',
   pointHoverBorderColor: GREEN_COLORS[0]
-})
+});
 
 export default {
   repos: {
@@ -66,5 +65,5 @@ export default {
   },
   polarArea: polarAreaDatasets,
   radar: radarDatasets,
-  doughnut: doughnutDatasets
+  doughnut: doughnutDatasets,
 };

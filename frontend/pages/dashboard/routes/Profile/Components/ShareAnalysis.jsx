@@ -12,14 +12,15 @@ import {
   CardGroup,
   IconButton,
 } from 'light-ui';
-import objectAssign from 'UTILS/object-assign';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
-import { RADAR_CONFIG, LINE_CONFIG } from 'SHARED/datas/chart_config';
+import { RADAR_CONFIG } from 'SHARED/datas/chart_config';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/profile.css';
 import locales from 'LOCALES';
 import { VIEW_TYPES } from '../shared/data';
+import StockChart from 'COMPONENTS/HighStock';
+import { getPVStockConfig } from 'UTILS/stock';
 
 const profileTexts = locales('dashboard').profile.common;
 const sortByCount = github.sortByX('count');
@@ -29,7 +30,6 @@ class ShareAnalysis extends React.Component {
     super(props);
     this.qrcode = null;
     this.clipboard = null;
-    this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
     this.copyUrl = this.copyUrl.bind(this);
@@ -44,7 +44,6 @@ class ShareAnalysis extends React.Component {
     const { loading, actions, fetched } = this.props;
     if (!loading && !fetched) actions.fetchShareData();
     if (loading || !fetched) { return; }
-    !this.pageViewsChart && this.renderViewsChart();
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
     !this.qrcode && this.renderQrcode();
@@ -54,12 +53,10 @@ class ShareAnalysis extends React.Component {
   componentWillUpdate(nextProps) {
     const { index } = this.props;
     if (index !== nextProps.index) {
-      this.pageViewsChart && this.pageViewsChart.destroy();
       this.viewDevicesChart && this.viewDevicesChart.destroy();
       this.viewSourcesChart && this.viewSourcesChart.destroy();
       this.clipboard && this.clipboard.destroy();
 
-      this.pageViewsChart = null;
       this.viewDevicesChart = null;
       this.viewSourcesChart = null;
       this.qrcode = null;
@@ -116,9 +113,9 @@ class ShareAnalysis extends React.Component {
   get pageViewsData() {
     const { viewType } = this.props;
     const views = {
-      [VIEW_TYPES.HOURLY.ID]: this.hourlyPageViews(VIEW_TYPES.HOURLY.TEXT),
-      [VIEW_TYPES.DAILY.ID]: this.dailyPageViews(VIEW_TYPES.DAILY.TEXT),
-      [VIEW_TYPES.MONTHLY.ID]: this.monthlyPageViews(VIEW_TYPES.MONTHLY.TEXT),
+      [VIEW_TYPES.HOURLY.ID]: () => this.basePageViews(VIEW_TYPES.HOURLY.FORMAT),
+      [VIEW_TYPES.DAILY.ID]: () => this.basePageViews(VIEW_TYPES.DAILY.FORMAT),
+      [VIEW_TYPES.MONTHLY.ID]: () => this.basePageViews(VIEW_TYPES.MONTHLY.FORMAT),
     };
     return views[viewType]();
   }
@@ -134,84 +131,28 @@ class ShareAnalysis extends React.Component {
     return dates[viewType]();
   }
 
-  basePageViews(title) {
+  basePageViews(dateFormat) {
     const { pageViews } = this.props;
     const validatePageViews = {};
 
     pageViews.forEach((pageView) => {
       const { count, date } = pageView;
       const validateDate = this.getPageViewDate(date);
-      const targetPageViews = validatePageViews[validateDate] || 0;
-      validatePageViews[validateDate] = targetPageViews + count;
+      if (!validatePageViews[validateDate]) {
+        validatePageViews[validateDate] = {
+          count: 0,
+          seconds: dateHelper.seconds.getByDate(validateDate)
+        };
+      }
+      validatePageViews[validateDate].count += count;
     });
     const dateLabels = Object.keys(validatePageViews);
     const viewDates = dateLabels.map(key => validatePageViews[key]);
 
-    const datasetsConfig = {
-      label: title,
-      data: viewDates,
-    };
     return {
-      dateLabels,
-      datasetsConfig,
+      dateFormat,
+      pageViews: viewDates,
     };
-  }
-
-  hourlyPageViews(title) {
-    return () => this.basePageViews(title);
-  }
-
-  dailyPageViews(title) {
-    return () => this.basePageViews(title);
-  }
-
-  monthlyPageViews(title) {
-    return () => this.basePageViews(title);
-  }
-
-  renderViewsChart() {
-    const {
-      dateLabels,
-      datasetsConfig,
-    } = this.pageViewsData;
-
-    if (dateLabels.length >= 20) {
-      datasetsConfig.pointBorderWidth = 0;
-      datasetsConfig.pointRadius = 0;
-    }
-    this.pageViewsChart = new Chart(this.pageViews, {
-      type: 'line',
-      data: {
-        labels: dateLabels,
-        datasets: [
-          objectAssign({}, LINE_CONFIG, datasetsConfig)
-        ]
-      },
-      options: {
-        scales: {
-          xAxes: [{
-            display: false,
-            gridLines: {
-              display: false
-            }
-          }],
-          yAxes: [{
-            gridLines: {
-              display: false
-            },
-            ticks: {
-              beginAtZero: true
-            }
-          }],
-        },
-        tooltips: {
-          callbacks: {
-            title: item => item[0].xLabel,
-            label: item => `浏览量：${item.yLabel} PV`
-          }
-        }
-      }
-    })
   }
 
   renderQrcode() {
@@ -323,11 +264,7 @@ class ShareAnalysis extends React.Component {
       const isActive = ID === viewType;
       const onClick = isActive
         ? () => {}
-        : () => {
-          this.pageViewsChart.destroy();
-          this.pageViewsChart = null;
-          actions.onViewTypeChange(ID);
-        };
+        : () => actions.onViewTypeChange(ID);
 
       controllers.push((
         <span
@@ -362,6 +299,7 @@ class ShareAnalysis extends React.Component {
       styles.share_controller_card,
       !info.openShare && styles.disabled
     );
+    const config = getPVStockConfig(this.pageViewsData);
     return (
       <div className={styles.card_container}>
         {loading ? '' : (
@@ -403,7 +341,9 @@ class ShareAnalysis extends React.Component {
               )}
             >
               {this.renderPVChartController()}
-              <canvas ref={ref => (this.pageViews = ref)} />
+              <StockChart
+                config={config}
+              />
             </div>
           </div>
         )}

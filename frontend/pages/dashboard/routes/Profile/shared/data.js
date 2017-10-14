@@ -7,16 +7,19 @@ export const VIEW_TYPES = {
     ID: 'hourly',
     TEXT: profileTexts.common.hourlyViewChartTitle,
     SHORT: profileTexts.common.hourlyViewChart,
+    FORMAT: 'YYYY-MM-DD HH:00',
   },
   DAILY: {
     ID: 'daily',
     TEXT: profileTexts.common.dailyViewChartTitle,
     SHORT: profileTexts.common.dailyViewChart,
+    FORMAT: 'YYYY-MM-DD',
   },
   MONTHLY: {
     ID: 'monthly',
     TEXT: profileTexts.common.monthlyViewChartTitle,
     SHORT: profileTexts.common.monthlyViewChart,
+    FORMAT: 'YYYY-MM',
   },
 };
 

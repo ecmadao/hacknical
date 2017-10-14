@@ -19,7 +19,8 @@ export default {
     fullDate: date => formatDate('YYYY-MM-DD')(date), // 2017.01.21
     fullDateBySeconds: seconds => moment.unix(seconds).format(),
     date: date => formatDate('YYYY-MM')(date), // 2017.01
-    hour: date => formatDate('HH')(date) // 22
+    hour: date => formatDate('HH')(date), // 22
+    format: (date, format) => formatDate(format)(date)
   },
   seconds: {
     beforeYears: (before) => {
