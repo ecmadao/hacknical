@@ -1,6 +1,8 @@
 import dateHelper from './date';
 import objectAssign from './object-assign';
 
+const byDateSeconds = dateHelper.date.bySeconds;
+
 const BASE_STOCK_CONFIG = {
   credits: { enabled: false },
   legend: { enabled: false },
@@ -30,7 +32,7 @@ const BASE_STOCK_CONFIG = {
     xAxis: {
       labels: {
         formatter() {
-          return dateHelper.date.bySeconds(this.value);
+          return byDateSeconds(this.value);
         }
       }
     },
@@ -38,7 +40,6 @@ const BASE_STOCK_CONFIG = {
   rangeSelector: {
     buttonPosition: { x: -100, y: -100 },
     inputEnabled: false,
-    selected: 0
   },
   title: { text: '' },
   scrollbar: {
@@ -64,17 +65,25 @@ const BASE_STOCK_CONFIG = {
     labels: {
       autoRotation: true,
       formatter() {
-        return dateHelper.date.bySeconds(this.value);
+        return byDateSeconds(this.value);
       }
     },
     lineWidth: 0,
-    events: {}
+    events: {},
+    min: null,
+    max: null,
   }],
   yAxis: [],
   series: []
 };
 
 const PV_STOCK_CONFIG = {
+  plotOptions: {
+    area: {
+      color: 'rgba(158, 170, 179, 0.7)',
+      fillOpacity: 0.3,
+    }
+  },
   yAxis: [
     {
       id: 'pv',
@@ -87,16 +96,10 @@ const PV_STOCK_CONFIG = {
   series: [
     {
       yAxis: 'pv',
+      type: 'area',
       name: 'page view',
       animation: true,
       data: [],
-      // pointPlacement: 0.2,
-      color: 'rgba(158, 170, 179, 0.7)',
-      states: {
-        hover: {
-          color: '#9EAAB3'
-        }
-      },
       groupPadding: 0,
       dataLabels: {
         enabled: false
@@ -116,6 +119,12 @@ const PV_STOCK_CONFIG = {
 };
 
 const COMMITS_STOCK_CONFIG = {
+  plotOptions: {
+    area: {
+      color: 'rgba(55, 178, 77, 0.7)',
+      fillOpacity: 0.3,
+    }
+  },
   yAxis: [
     {
       id: 'commits',
@@ -128,15 +137,10 @@ const COMMITS_STOCK_CONFIG = {
   series: [
     {
       yAxis: 'commits',
+      type: 'area',
       name: 'commits',
       animation: true,
       data: [],
-      color: 'rgba(55, 178, 77, 0.7)',
-      states: {
-        hover: {
-          color: '#37b24d'
-        }
-      },
       groupPadding: 0,
       dataLabels: {
         enabled: false
@@ -155,6 +159,21 @@ const COMMITS_STOCK_CONFIG = {
   ]
 };
 
+const getTooltipFormatter = (dateFormat, name) => function formatter() {
+  const date = byDateSeconds(this.x, dateFormat);
+  const val = this.points[0].y;
+  return `
+    <div style="color: white;">
+      ${date}<br/>
+      <div style="color: white;">${name}: ${val}</div>
+    </div>
+  `;
+};
+
+const getLabelFormatter = (dateFormat = 'YYYY/MM/DD') => function formatter() {
+  return byDateSeconds(this.value, dateFormat);
+};
+
 export const getPVStockConfig = (options) => {
   const {
     pageViews,
@@ -171,28 +190,37 @@ export const getPVStockConfig = (options) => {
     PV_STOCK_CONFIG
   );
   config.series[0].data = seriesData;
-  config.xAxis[0].labels.formatter = function formatter() {
-    return dateHelper.date.bySeconds(this.value, dateFormat);
-  };
-  config.tooltip.formatter = function formatter() {
-    const date = dateHelper.date.bySeconds(this.x, dateFormat);
-    const val = this.points[0].y;
-    return `
-      <div style="color: white;">
-        ${date}<br/>
-        <div style="color: white;">${val}</div>
-      </div>
-    `;
-  };
+  config.xAxis[0].labels.formatter = getLabelFormatter();
+  if (pageViews.length) {
+    const timestampTo = pageViews[pageViews.length - 1].seconds;
+    config.xAxis[0].max = timestampTo;
+    config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60);
+  }
+  config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Page view');
   return config;
 };
 
-export const getCommitsStockConfig = (commits) => {
+export const getCommitsStockConfig = (options) => {
+  const {
+    commitsDates,
+    dateFormat,
+  } = options;
+  const seriesData = commitsDates.map((pageView) => {
+    const { commits, seconds } = pageView;
+    return [seconds, commits];
+  });
   const config = objectAssign(
     {},
     BASE_STOCK_CONFIG,
     COMMITS_STOCK_CONFIG
   );
-  config.series[0].data = [];
+  config.series[0].data = seriesData;
+  config.xAxis[0].labels.formatter = getLabelFormatter();
+  if (commitsDates.length) {
+    const timestampTo = commitsDates[commitsDates.length - 1].seconds;
+    config.xAxis[0].max = timestampTo;
+    config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60);
+  }
+  config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Commits');
   return config;
 };

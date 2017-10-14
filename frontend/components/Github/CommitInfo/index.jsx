@@ -15,20 +15,26 @@ import {
 import locales from 'LOCALES';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
+import StockChart from 'COMPONENTS/HighStock';
+import { getCommitsStockConfig } from 'UTILS/stock';
 
 const githubTexts = locales('github').sections.commits;
 const getDateBySeconds = dateHelper.date.bySeconds;
+const getSecondsByDate = dateHelper.seconds.getByDate;
 const CHART_CONTROLLERS = {
   MONTH: {
     ID: 'monthly',
+    FORMAT: 'YYYY-MM',
     TEXT: githubTexts.monthlyView
   },
   WEEK: {
     ID: 'weekly',
+    FORMAT: 'YYYY-MM-DD',
     TEXT: githubTexts.weeklyView
   },
   DAY: {
     ID: 'daily',
+    FORMAT: 'YYYY-MM-DD',
     TEXT: githubTexts.dailyView
   }
 };
@@ -39,23 +45,17 @@ class CommitInfo extends React.Component {
     this.state = {
       chartType: CHART_CONTROLLERS.MONTH.ID
     };
-    this.monthlyCommits = null;
-    this.weeklyCommits = null;
-    this.dailyCommits = null;
+    this.monthlyCommits = [];
+    this.weeklyCommits = [];
+    this.dailyCommits = [];
     this.commitsWeeklyReviewChart = null;
-    this.commitsYearlyReviewChart = null;
     this.changeChartType = this.changeChartType.bind(this);
   }
 
-  componentDidUpdate(preProps, preState) {
+  componentDidUpdate() {
     const { loaded } = this.props;
-    const { chartType } = this.state;
     if (!loaded) { return; }
-    if (chartType !== preState.chartType) {
-      this.commitsYearlyReviewChart && this.updateYearlyChart();
-    } else {
-      this.renderCharts();
-    }
+    this.renderCharts();
   }
 
   changeChartType(type) {
@@ -69,12 +69,9 @@ class CommitInfo extends React.Component {
 
   renderCharts() {
     const { commitInfos } = this.props;
-    const { commits, dailyCommits } = commitInfos;
+    const { dailyCommits } = commitInfos;
     if (dailyCommits.length) {
       !this.commitsWeeklyReviewChart && this.renderWeeklyChart();
-    }
-    if (commits.length) {
-      !this.commitsYearlyReviewChart && this.renderYearlyChart();
     }
   }
 
@@ -82,127 +79,89 @@ class CommitInfo extends React.Component {
     const { chartType } = this.state;
     const { commitInfos } = this.props;
     const { commits } = commitInfos;
-    const commitDates = [];
-    const dateLabels = [];
 
     /* weekly commits chart view */
     if (chartType === CHART_CONTROLLERS.WEEK.ID) {
-      if (this.weeklyCommits) { return this.weeklyCommits; }
-      commits.forEach((item) => {
-        commitDates.push(item.total);
-        dateLabels.push(
-          `${getDateBySeconds(item.week - (7 * 24 * 60 * 60))} ~ ${getDateBySeconds(item.week)}`
-        );
-      });
-      this.weeklyCommits = {
-        commitDates,
-        dateLabels
+      if (!this.weeklyCommits.length) {
+        this.weeklyCommits = commits.map((commit) => {
+          const { total, week } = commit;
+          return {
+            commits: total,
+            seconds: week,
+            start: getDateBySeconds(week - (7 * 24 * 60 * 60)),
+            end: getDateBySeconds(week)
+          };
+        });
+      }
+      return {
+        commitsDates: this.weeklyCommits,
+        dateFormat: CHART_CONTROLLERS.WEEK.FORMAT,
       };
-      return this.weeklyCommits;
     }
 
     /* daily commits chart view */
     if (chartType === CHART_CONTROLLERS.DAY.ID) {
-      if (this.dailyCommits) { return this.dailyCommits; }
-      commits.forEach((item) => {
-        item.days.forEach((day, dayIndex) => {
-          commitDates.push(day);
-          const date = getDateBySeconds(item.week - ((7 - dayIndex) * 24 * 60 * 60));
-          dateLabels.push(date);
+      if (!this.dailyCommits.length) {
+        commits.forEach((item) => {
+          item.days.forEach((day, dayIndex) => {
+            const seconds = item.week - ((7 - dayIndex) * 24 * 60 * 60);
+            const validateDate = getDateBySeconds(seconds);
+            this.dailyCommits.push({
+              seconds,
+              commits: day,
+              start: validateDate,
+            });
+          });
         });
-      });
-      this.dailyCommits = {
-        commitDates,
-        dateLabels
+      }
+      return {
+        commitsDates: this.dailyCommits,
+        dateFormat: CHART_CONTROLLERS.DAY.FORMAT,
       };
-      return this.dailyCommits;
     }
 
     /* monthly commits chart view */
-    if (this.monthlyCommits) { return this.monthlyCommits; }
+    if (!this.monthlyCommits.length) {
+      const monthlyCommits = {};
+      commits.forEach((item) => {
+        const endDate = getDateBySeconds(item.week);
+        const [year, month, day] = endDate.split('-');
+        const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
 
-    const monthlyCommits = {};
-    commits.forEach((item) => {
-      const endDate = getDateBySeconds(item.week);
-      const [year, month, day] = endDate.split('-');
-      const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
-
-      const thisMonthKey = `${year}-${parseInt(month, 10)}`;
-      const totalCommits = item.days.slice(sliceIndex).reduce(
-        (pre, next) => pre + next, 0);
-      const targetCommits = monthlyCommits[thisMonthKey];
-      monthlyCommits[thisMonthKey] = isNaN(targetCommits)
-        ? totalCommits
-        : totalCommits + targetCommits;
-
-      if (sliceIndex > 0) {
-        const preMonthKey = parseInt(month, 10) - 1 <= 0
-          ? `${parseInt(year, 10) - 1}-12`
-          : `${year}-${parseInt(month, 10) - 1}`;
-        const preTotalCommits = item.days.slice(0, sliceIndex).reduce(
+        const thisMonthKey = `${year}-${parseInt(month, 10)}`;
+        const totalCommits = item.days.slice(sliceIndex).reduce(
           (pre, next) => pre + next, 0);
-        const preTargetCommits = monthlyCommits[preMonthKey];
-        monthlyCommits[preMonthKey] = isNaN(preTargetCommits)
-          ? preTotalCommits
-          : preTotalCommits + preTargetCommits;
-      }
-    });
+        const targetCommits = monthlyCommits[thisMonthKey];
+        monthlyCommits[thisMonthKey] = isNaN(targetCommits)
+          ? totalCommits
+          : totalCommits + targetCommits;
 
-    Object.keys(monthlyCommits).forEach((key) => {
-      commitDates.push(monthlyCommits[key]);
-      dateLabels.push(key);
-    });
-    this.monthlyCommits = {
-      commitDates,
-      dateLabels,
-    };
-    return this.monthlyCommits;
-  }
-
-  updateYearlyChart() {
-    const { chartType } = this.state;
-    const { commitDates, dateLabels } = this.yearlyChartDatas;
-    this.commitsYearlyReviewChart.data.labels = dateLabels;
-    this.commitsYearlyReviewChart.data.datasets[0].data = commitDates;
-    this.commitsYearlyReviewChart.data.datasets[0].pointBorderWidth =
-      chartType === CHART_CONTROLLERS.DAY.ID ? 0 : 2;
-    this.commitsYearlyReviewChart.data.datasets[0].pointRadius =
-      chartType === CHART_CONTROLLERS.DAY.ID ? 0 : 3;
-    this.commitsYearlyReviewChart.update();
-  }
-
-  renderYearlyChart() {
-    const { commitDates, dateLabels } = this.yearlyChartDatas;
-
-    this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChart, {
-      type: 'line',
-      data: {
-        labels: dateLabels,
-        datasets: [objectAssign({}, LINE_CONFIG, {
-          data: commitDates,
-          label: githubTexts.weeklyCommitChartTitle
-        })]
-      },
-      options: {
-        animation: false,
-        scales: {
-          xAxes: [{
-            display: false,
-            gridLines: {
-              display: false
-            }
-          }],
-          yAxes: [{
-            gridLines: {
-              display: false
-            },
-            ticks: {
-              beginAtZero: true
-            }
-          }],
+        if (sliceIndex > 0) {
+          const preMonthKey = parseInt(month, 10) - 1 <= 0
+            ? `${parseInt(year, 10) - 1}-12`
+            : `${year}-${parseInt(month, 10) - 1}`;
+          const preTotalCommits = item.days.slice(0, sliceIndex).reduce(
+            (pre, next) => pre + next, 0);
+          const preTargetCommits = monthlyCommits[preMonthKey];
+          monthlyCommits[preMonthKey] = isNaN(preTargetCommits)
+            ? preTotalCommits
+            : preTotalCommits + preTargetCommits;
         }
-      }
-    });
+      });
+
+      this.monthlyCommits = Object.keys(monthlyCommits).map((key) => {
+        const seconds = getSecondsByDate(key);
+        return {
+          seconds,
+          start: key,
+          commits: monthlyCommits[key],
+        };
+      });
+    }
+    return {
+      commitsDates: this.monthlyCommits,
+      dateFormat: CHART_CONTROLLERS.MONTH.FORMAT,
+    };
   }
 
   renderWeeklyChart() {
@@ -387,8 +346,6 @@ class CommitInfo extends React.Component {
   }
 
   renderCommitsReview() {
-    const { commitInfos } = this.props;
-    const { commits } = commitInfos;
     return (
       <div>
         {this.renderChartInfo()}
@@ -400,20 +357,9 @@ class CommitInfo extends React.Component {
         </div>
         <div className={chartStyles.canvas_container}>
           {this.renderChartControllers()}
-          <canvas
-            id="commits_yearly_review"
-            ref={ref => (this.commitsYearlyChart = ref)}
+          <StockChart
+            config={getCommitsStockConfig(this.yearlyChartDatas)}
           />
-          {commits && commits.length ? (
-            <div className={chartStyles.chart_bottom_container}>
-              <div className={chartStyles.chart_bottom}>
-                {getDateBySeconds(commits[0].week - (7 * 24 * 60 * 60))}
-              </div>
-              <div className={chartStyles.chart_bottom}>
-                {getDateBySeconds(commits[commits.length - 1].week)}
-              </div>
-            </div>
-          ) : ''}
         </div>
       </div>
     );

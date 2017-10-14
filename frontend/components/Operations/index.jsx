@@ -19,6 +19,7 @@ class Operations extends React.Component {
   }
 
   changeOperationStatus(status) {
+    if (status === this.state.showOperations) return;
     this.setState({
       showOperations: status
     });
@@ -39,13 +40,6 @@ class Operations extends React.Component {
       document.removeEventListener('click', this.handleOutsideClick, true);
     } else {
       document.detachEvent('click', this.handleOutsideClick);
-    }
-  }
-
-  componentDidUpdate() {
-    const { showOperations } = this.props;
-    if (showOperations !== this.state.showOperations) {
-      this.setState({ showOperations });
     }
   }
 
