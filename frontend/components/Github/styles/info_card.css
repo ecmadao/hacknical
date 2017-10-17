@@ -20,7 +20,6 @@
   &::after {
     display: block;
     content: '';
-    position: absolute;
     border-radius: 3px;
     left: 0;
     right: 0;
