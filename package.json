@@ -16,7 +16,9 @@
     "start": "bnr pro:app:start",
     "stop": "bnr pro:app:stop",
     "restart": "npm run stop && npm run start",
-    "notify-opbeat": "sh ./scripts/opbeat.sh"
+    "notify-opbeat": "sh ./scripts/opbeat.sh",
+    "precommit": "npm run lint",
+    "lint": "./node_modules/.bin/eslint frontend/* && ./node_modules/.bin/eslint app/*"
   },
   "betterScripts": {
     "pro:build:src": {
@@ -96,6 +98,7 @@
     "file-loader": "^0.9.0",
     "git-rev-sync": "^1.9.1",
     "html-webpack-plugin": "^2.24.1",
+    "husky": "^0.14.3",
     "klaw-sync": "^1.0.2",
     "nodemon": "^1.10.2",
     "postcss-cssnext": "^2.8.0",

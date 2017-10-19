@@ -10,27 +10,27 @@ const data = {
   },
   sections: {
     info: {
-      title: "Informations de base"
+      title: 'Informations de base'
     },
     edu: {
-      title: "Education Experience"
+      title: 'Education Experience'
     },
     work: {
-      title: "Work Experience"
+      title: 'Work Experience'
     },
     projects: {
-      title: "Personal Projects"
+      title: 'Personal Projects'
     },
     others: {
-      title: "Others Info"
+      title: 'Others Info'
     }
   },
   navs: {
-    info: "Infos",
-    edu: "Edus",
-    work: "Works",
-    projects: "Projects",
-    others: "Others"
+    info: 'Infos',
+    edu: 'Edus',
+    work: 'Works',
+    projects: 'Projects',
+    others: 'Others'
   },
   options: {
     genders: {

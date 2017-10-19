@@ -256,7 +256,7 @@ class LanguageInfo extends React.Component {
   render() {
     const { loaded, className } = this.props;
     return (
-      <div className={cx(cardStyles.info_card, className)}>
+      <div className={className}>
         { !loaded ? (
           <Loading loading />
         ) : this.renderLanguageReview()}

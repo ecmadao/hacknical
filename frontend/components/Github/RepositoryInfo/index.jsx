@@ -266,7 +266,7 @@ class RepositoryInfo extends React.Component {
     }
 
     return (
-      <div className={cx(cardStyles.info_card, className)}>
+      <div className={className}>
         {component}
       </div>
     );

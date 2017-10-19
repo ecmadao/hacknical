@@ -1,7 +1,7 @@
 const datas = {
   sections: {
     hotmap: {
-      title: "Historique des contributions"
+      title: 'Historique des contributions'
     },
     baseInfo: {
       title: 'Informations de base',

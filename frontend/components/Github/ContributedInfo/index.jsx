@@ -95,7 +95,7 @@ class ContributedInfo extends React.Component {
         ) : this.renderContributedRepos();
     }
     return (
-      <div className={cx(cardStyles.info_card, className)}>
+      <div className={className}>
         {component}
       </div>
     );

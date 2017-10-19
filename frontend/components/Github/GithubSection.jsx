@@ -7,6 +7,7 @@ import config from './config';
 import Operations from 'COMPONENTS/Operations';
 import cardStyles from './styles/info_card.css';
 import locales from 'LOCALES';
+import BaseSection from './BaseSection';
 
 const operationTexts = locales('github').operations;
 const EmptyDOM = () => (<div />);
@@ -18,12 +19,20 @@ class GitHubSection extends React.Component {
       showOperations: false
     };
     this.onMenuClick = this.onMenuClick.bind(this);
+    this.handleMenuClick = this.handleMenuClick.bind(this);
     this.onOperationFocusChange = this.onOperationFocusChange.bind(this);
   }
 
   onOperationFocusChange(value) {
     this.setState({
       showOperations: value
+    });
+  }
+
+  handleMenuClick() {
+    const { section, sectionStatus } = this.props;
+    this.onMenuClick({
+      [section]: !sectionStatus
     });
   }
 
@@ -34,13 +43,11 @@ class GitHubSection extends React.Component {
   }
 
   get operationItems() {
-    const { section, sectionStatus } = this.props;
+    const { sectionStatus } = this.props;
     return [
       {
         text: sectionStatus ? operationTexts.share.hide : operationTexts.share.show,
-        onClick: () => this.onMenuClick({
-          [section]: !sectionStatus
-        })
+        onClick: this.handleMenuClick
       }
     ]
   }
@@ -53,13 +60,12 @@ class GitHubSection extends React.Component {
       section,
       isShare,
       disabled,
-      className
+      className,
     } = this.props;
     const { showOperations } = this.state;
-    if (hide) { return <EmptyDOM />; }
+    if (hide) return <EmptyDOM />;
 
     const Section = config[section] || EmptyDOM;
-    const disabledClass = disabled ? cardStyles.info_card_disabled : '';
 
     return (
       <div className={cx(cardStyles.info_card_container, className)}>
@@ -78,7 +84,12 @@ class GitHubSection extends React.Component {
             </Tipso>
           ) : ''}
         </p>
-        <Section {...this.props} className={disabledClass} />
+        <BaseSection
+          disabled={disabled}
+          handleClick={this.handleMenuClick}
+        >
+          <Section {...this.props} />
+        </BaseSection>
         {!isShare ? (
           <Operations
             className={cardStyles.card_operation}

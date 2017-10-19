@@ -14,23 +14,6 @@
   composes: card from 'STYLES/common.css';
 }
 
-.info_card_disabled {
-  position: relative;
-
-  &::after {
-    display: block;
-    content: '';
-    position: absolute;
-    border-radius: 3px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: var(--zIndex9);
-  }
-}
-
 .info_card_container {
   position: relative;
   composes: card_container from 'STYLES/common.css';
@@ -106,4 +89,27 @@
   width: 100%;
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+.cardDisabled {
+  cursor: pointer;
+  position: absolute;
+  border-radius: 3px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: var(--zIndex9);
+  transition: background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.6em;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 }

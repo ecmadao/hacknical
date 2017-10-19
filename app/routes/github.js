@@ -173,7 +173,7 @@ router.get(
   }),
   GitHub.getUserCalendar,
   cache.set({
-    expire: 7200 // two hour
+    expire: 43200 // 12 hours
   })
 );
 

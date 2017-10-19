@@ -1,12 +1,12 @@
 const datas = {
   days: {
-    monday: "星期一",
-    tuesday: "星期二",
-    wednesday: "星期三",
-    thursday: "星期四",
-    friday: "星期五",
-    saturday: "星期六",
-    sunday: "星期日"
+    monday: '星期一',
+    tuesday: '星期二',
+    wednesday: '星期三',
+    thursday: '星期四',
+    friday: '星期五',
+    saturday: '星期六',
+    sunday: '星期日',
   },
   months: {
     1: '一月',
@@ -20,8 +20,8 @@ const datas = {
     9: '九月',
     10: '十月',
     11: '十一月',
-    12: '十二月'
-  }
+    12: '十二月',
+  },
 };
 
 export default datas;

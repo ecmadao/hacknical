@@ -210,20 +210,12 @@ class CodeCourse extends React.Component {
     if (!loaded) {
       component = (<Loading loading />);
     } else {
-      component = (!repositories || !repositories.length) ?
-        (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>) : (
-          <div>
-            {this.renderChosedRepos()}
-          </div>
-        );
+      component = (!repositories || !repositories.length)
+        ? (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>)
+        : (<div>{this.renderChosedRepos()}</div>);
     }
     return (
-      <div
-        className={cx(
-          cardStyles.info_card,
-          className)
-        }
-      >
+      <div className={className}>
         {component}
       </div>
     );

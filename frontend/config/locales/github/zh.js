@@ -110,7 +110,8 @@ const datas = {
   operations: {
     share: {
       show: '在分享中展示',
-      hide: '不在分享中展示'
+      hide: '不在分享中展示',
+      enable: '戳我即可在分享中展示'
     }
   }
 };

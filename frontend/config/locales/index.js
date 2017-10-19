@@ -1,3 +1,5 @@
+/* eslint-disable import/no-dynamic-require, global-require */
+
 const validateLocale = () => {
   const locale = window.locale || 'en';
   if (/^en/.test(locale)) {
@@ -33,9 +35,8 @@ const getLocale = (page) => {
     datas = require(`./${page}/${locale}.js`).default;
   } catch (e) {
     datas = require(`./${page}/en.js`).default;
-  } finally {
-    return datas;
   }
+  return datas;
 };
 
 export default getLocale;

@@ -187,7 +187,7 @@ class OrgInfo extends React.Component {
       ? this.renderOrgsCard()
       : '';
     return (
-      <div className={cx(cardStyles.info_card, className)}>
+      <div className={className}>
         {cards}
         {component}
       </div>

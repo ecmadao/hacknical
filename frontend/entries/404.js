@@ -2,7 +2,7 @@ import 'STYLES/fonts-404.css';
 import 'SRC/vendor/404/404.css';
 import Rock from 'PAGES/initial';
 
-const redirect = (url = '/') => window.location = url;
+const redirect = (url = '/') => (window.location = url);
 
 $(() => {
   const $content = $('.content-wrapper');

@@ -110,7 +110,8 @@ const datas = {
   operations: {
     share: {
       show: 'Show in share',
-      hide: 'Hide in share'
+      hide: 'Hide in share',
+      enable: 'Click to show this section on share page'
     }
   }
 };

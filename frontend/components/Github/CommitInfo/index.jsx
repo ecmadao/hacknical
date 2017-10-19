@@ -378,7 +378,7 @@ class CommitInfo extends React.Component {
       component = this.renderCommitsReview();
     }
     return (
-      <div className={cx(cardStyles.info_card, className)}>
+      <div className={className}>
         {component}
       </div>
     );
