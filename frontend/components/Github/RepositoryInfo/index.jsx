@@ -198,7 +198,7 @@ class RepositoryInfo extends React.Component {
             mainText={
               `${getValidateDate(startTime)}~${getValidateDate(pushTime)}`
             }
-            subText={githubTexts.longgestRepos}
+            subText={githubTexts.longestRepos}
           />
         </CardGroup>
       </CardGroup>
