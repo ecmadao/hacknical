@@ -19,7 +19,7 @@ const datas = {
       reposCount: 'Nombre de dépôts',
       popularestRepos: 'Dépôts populaires',
       maxStarPerRepos: 'Max étoile/dépôt',
-      longgestRepos: 'Plus longue série de commits',
+      longestRepos: 'Plus longue série de commits',
       chartTitle: 'étoiles/bifurcations/commit (année passée)'
     },
     languages: {

@@ -27,7 +27,7 @@ const datas = {
       popularestRepos: 'Most popular repository',
       popularestReposTip: 'Totally receive $ stars',
       maxStarPerRepos: 'Max Stars in single repository',
-      longgestRepos: 'Longgest commit',
+      longestRepos: 'Longest commit',
       chartTitle: 'star/fork/commit (last one year)',
       emptyText: 'No repositories info, please refresh later',
       originalRepos: 'Original repos',
