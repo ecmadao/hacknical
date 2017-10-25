@@ -24,4 +24,10 @@ const ResumePubSchema = new Schema({
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
+ResumePubSchema.index({
+  userId: 1,
+  resumeHashV0: 1,
+  resumeHash: 1,
+});
+
 export default mongoose.model('ResumePub', ResumePubSchema);

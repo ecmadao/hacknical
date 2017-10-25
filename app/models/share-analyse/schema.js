@@ -27,4 +27,11 @@ const ShareAnalyseSchema = new Schema({
   timestamps: { createdAt: 'created_at' }
 });
 
+ShareAnalyseSchema.index({
+  userId: 1,
+  login: 1,
+  url: 1,
+  enable: 1,
+});
+
 export default mongoose.model('ShareAnalyse', ShareAnalyseSchema);

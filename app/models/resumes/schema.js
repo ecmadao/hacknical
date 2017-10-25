@@ -58,4 +58,8 @@ const ResumeSchema = new Schema({
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
+ResumeSchema.index({
+  userId: 1,
+});
+
 export default mongoose.model('Resumes', ResumeSchema);
