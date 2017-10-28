@@ -5,10 +5,8 @@ import getSignature from './signature';
 
 const auth = config.get('auth');
 const name = config.get('appName');
-const API_URL = config.get('services.api.url');
 const retryTimes = config.get('services.api.timeouts');
 const REQUEST_JSON_METHODS = ['PUT', 'POST', 'DELETE'];
-const BASE_URL = `${API_URL}/api/github`;
 
 const verify = (options = {}, appName = name) => {
   if (!options.headers) options.headers = {};
@@ -17,7 +15,6 @@ const verify = (options = {}, appName = name) => {
   options.headers.Date = date;
   options.headers['X-App-Name'] = appName;
   options.json = true;
-  options.url = `${BASE_URL}${options.url}`;
 
   try {
     const { secretKey, publicKey } = auth;
@@ -82,5 +79,9 @@ export default {
   post: (options, timeouts) => {
     options.method = 'POST';
     return fetch(options, timeouts);
-  }
+  },
+  put: (options, timeouts) => {
+    options.method = 'PUT';
+    return fetch(options, timeouts);
+  },
 };

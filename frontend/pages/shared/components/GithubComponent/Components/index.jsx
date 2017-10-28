@@ -71,9 +71,9 @@ class GithubComponent extends React.Component {
   }
 
   async getGithubScientific(login = '') {
-    const scientific = await Api.github.getUserScientific(login);
+    const scientific = await Api.scientific.getUserScientific(login);
     console.log(scientific);
-    const predictions = await Api.github.getUserPredictions(login);
+    const predictions = await Api.scientific.getUserPredictions(login);
     console.log(predictions);
   }
 

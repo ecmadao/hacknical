@@ -15,8 +15,6 @@ const getContributed = login => fetchInfo(`/${login}/contributed`);
 const getCommits = login => fetchInfo(`/${login}/commits`);
 const getOrganizations = login => fetchInfo(`/${login}/organizations`);
 const getUser = login => fetchInfo(`/${login}/user`);
-const getUserScientific = login => fetchInfo(`/${login}/scientific`);
-const getUserPredictions = login => fetchInfo(`/${login}/predictions`);
 const getUserCalendar = login => fetchInfo(`/${login}/calendar`);
 
 
@@ -55,7 +53,4 @@ export default {
   // share status
   toggleShare,
   getShareRecords,
-  // prediction
-  getUserScientific,
-  getUserPredictions,
 };

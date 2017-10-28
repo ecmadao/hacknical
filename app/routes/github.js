@@ -151,20 +151,6 @@ router.get(
   cache.set()
 );
 router.get(
-  '/:login/scientific',
-  share.githubEnable(),
-  cache.get('user-scientific', {
-    params: ['login']
-  }),
-  GitHub.getUserScientific,
-  cache.set()
-);
-router.get(
-  '/:login/predictions',
-  share.githubEnable(),
-  GitHub.getUserPredictions
-);
-router.get(
   '/:login/calendar',
   share.githubEnable(),
   cache.get('user-calendar', {

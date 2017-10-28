@@ -2,21 +2,28 @@ import config from 'config';
 import fetch from '../utils/fetch';
 
 const appName = config.get('appName');
-
+const API_URL = config.get('services.api.url');
+const BASE_GITHUB_URL = `${API_URL}/api/github`;
+const BASE_SCIENTIFIC_URL = `${API_URL}/api/scientific`;
 
 /* =========================== basic funcs =========================== */
 
+
 const fetchApi = (url, options = {}) => {
   const {
+    body,
     timeouts,
     qs = {},
     headers = {},
+    method = 'get',
+    baseUrl = BASE_GITHUB_URL
   } = options;
   headers['X-App-Name'] = appName;
-  return fetch.get({
+  return fetch[method]({
     qs,
-    url,
+    body,
     headers,
+    url: `${baseUrl}${url}`,
   }, timeouts);
 };
 
@@ -60,16 +67,6 @@ const getUserOrganizations = async (login, token) =>
 const getUpdateTime = async login =>
   fetchApi(`/${login}/updateTime`);
 
-const getUserScientific = async (login, token) =>
-  fetchApi(`/${login}/scientific`, {
-    qs: { token }
-  });
-
-const getUserPredictions = async (login, token) =>
-  fetchApi(`/${login}/predictions`, {
-    qs: { token }
-  });
-
 const refreshRepositories = async (login, token) =>
   fetchApi(`/${login}/repositories/refresh`, {
     qs: { token },
@@ -96,6 +93,28 @@ const getCalendar = async (login, locale) =>
     qs: { locale }
   });
 
+const getUserStatistic = async (login, token) =>
+  fetchApi(`/${login}/statistic`, {
+    qs: { token },
+    baseUrl: BASE_SCIENTIFIC_URL,
+  });
+
+const getUserPredictions = async (login, token) =>
+  fetchApi(`/${login}/predictions`, {
+    qs: { token },
+    baseUrl: BASE_SCIENTIFIC_URL,
+  });
+
+const putPredictionsFeedback = async (login, fullName, liked) =>
+  fetchApi(`/${login}/predictions`, {
+    baseUrl: BASE_SCIENTIFIC_URL,
+    method: 'put',
+    body: {
+      liked,
+      fullName,
+    }
+  });
+
 export default {
   /* ===== */
   getZen,
@@ -110,8 +129,6 @@ export default {
   getUserCommits,
   getUserOrganizations,
   getUserContributed,
-  getUserScientific,
-  getUserPredictions,
   getUpdateTime,
   /* ===== */
   refreshRepositories,
@@ -120,4 +137,8 @@ export default {
   refreshContributed,
   /* ===== */
   getCalendar,
+  /* ===== */
+  getUserStatistic,
+  getUserPredictions,
+  putPredictionsFeedback,
 };

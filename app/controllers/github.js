@@ -392,28 +392,6 @@ const getOctocat = async (ctx) => {
   };
 };
 
-const getUserScientific = async (ctx) => {
-  const { login } = ctx.params;
-  const { githubToken } = ctx.session;
-  const result = await Api.getUserScientific(login, githubToken);
-  ctx.body = {
-    result,
-    success: true,
-  };
-};
-
-const getUserPredictions = async (ctx) => {
-  const { login } = ctx.params;
-  const { githubToken, githubLogin } = ctx.session;
-  const result = login === githubLogin
-    ? await Api.getUserPredictions(githubLogin, githubToken)
-    : [];
-  ctx.body = {
-    result,
-    success: true,
-  };
-};
-
 const getUserCalendar = async (ctx, next) => {
   const { login } = ctx.params;
   const { locale } = ctx.session;
@@ -438,8 +416,6 @@ export default {
   getUserContributed,
   getUserCommits,
   getUserOrganizations,
-  getUserPredictions,
-  getUserScientific,
   toggleShare,
   getShareRecords,
   getUserCalendar,
