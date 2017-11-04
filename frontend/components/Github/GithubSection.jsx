@@ -61,6 +61,8 @@ class GitHubSection extends React.Component {
       isShare,
       disabled,
       className,
+      canOperate,
+      wrapperClass,
     } = this.props;
     const { showOperations } = this.state;
     if (hide) return <EmptyDOM />;
@@ -86,11 +88,12 @@ class GitHubSection extends React.Component {
         </p>
         <BaseSection
           disabled={disabled}
+          wrapperClass={wrapperClass}
           handleClick={this.handleMenuClick}
         >
           <Section {...this.props} />
         </BaseSection>
-        {!isShare ? (
+        {!isShare && canOperate ? (
           <Operations
             className={cardStyles.card_operation}
             items={this.operationItems}
@@ -108,11 +111,13 @@ GitHubSection.PropTypes = {
   disabled: PropTypes.bool,
   hide: PropTypes.bool,
   isShare: PropTypes.bool,
+  canOperate: PropTypes.bool,
   show: PropTypes.bool,
   title: PropTypes.object,
   className: PropTypes.string,
   callback: PropTypes.func,
-  intro: PropTypes.object
+  intro: PropTypes.object,
+  wrapperClass: PropTypes.string,
 };
 
 GitHubSection.defaultProps = {
@@ -120,6 +125,7 @@ GitHubSection.defaultProps = {
   disabled: false,
   hide: false,
   isShare: false,
+  canOperate: true,
   show: true,
   title: {
     text: '',
@@ -127,7 +133,8 @@ GitHubSection.defaultProps = {
   },
   className: '',
   callback: () => {},
-  intro: null
+  intro: null,
+  wrapperClass: '',
 };
 
 export default GitHubSection;

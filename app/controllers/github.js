@@ -400,7 +400,7 @@ const getUserCalendar = async (ctx, next) => {
     result,
     success: true,
   };
-  await next()
+  await next();
 };
 
 export default {

@@ -19,6 +19,12 @@ const datas = {
       followers: 'Followers',
       following: 'Following'
     },
+    scientific: {
+      title: '猜你喜欢',
+      like: '喜欢',
+      dislike: '差评',
+      tipso: '分析你 star & create 的项目后随机生成。你可以通过点击“喜欢”或“差评”来训练模型（这一部分不会从出现在你分享出去的页面上）'
+    },
     repos: {
       title: '仓库概览',
       starsCount: '收获 star 数',

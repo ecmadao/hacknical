@@ -14,6 +14,12 @@ const datas = {
       title: 'Basic Info',
       joinedAt: 'Joined at: '
     },
+    scientific: {
+      title: 'Guess your like',
+      like: 'like',
+      dislike: 'dislike',
+      tipso: 'Random created by your starred repositories. You can enhance your prediction modal by giving it a feedback.(Note: This part won\'t appera in your shared page.)'
+    },
     social: {
       repositories: 'Repositories',
       followers: 'Followers',

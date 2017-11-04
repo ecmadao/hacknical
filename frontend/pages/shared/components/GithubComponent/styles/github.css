@@ -85,3 +85,8 @@
   margin-top: 30px;
   margin-bottom: -45px;
 }
+
+.scientificWrapper {
+  box-shadow: none;
+  background-color: transparent;
+}
