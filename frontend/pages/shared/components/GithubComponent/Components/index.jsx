@@ -90,7 +90,6 @@ class GithubComponent extends React.Component {
     const { scientific, user } = this.state;
     const { login } = user;
     const prediction = scientific.predictions[index];
-    Api.scientific.putPredictionFeedback(login, prediction.full_name, liked);
     const predictions = [
       ...scientific.predictions.slice(0, index),
       objectAssign({}, prediction, { liked }),
@@ -101,13 +100,13 @@ class GithubComponent extends React.Component {
         predictions
       })
     });
+    Api.scientific.putPredictionFeedback(login, prediction.full_name, liked);
   }
 
   onPredictionDelete(index) {
     const { scientific, user } = this.state;
     const { login } = user;
     const prediction = scientific.predictions[index];
-    Api.scientific.removePrediction(login, prediction.full_name);
     const predictions = [
       ...scientific.predictions.slice(0, index),
       ...scientific.predictions.slice(index + 1)
@@ -117,6 +116,7 @@ class GithubComponent extends React.Component {
         predictions
       })
     });
+    Api.scientific.removePrediction(login, prediction.full_name);
   }
 
   onPredictionFeedback(index, liked) {
@@ -225,8 +225,6 @@ class GithubComponent extends React.Component {
       openShareModal,
       repositoriesLoaded,
     } = this.state;
-    console.log('scientific');
-    console.log(scientific);
     const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;
