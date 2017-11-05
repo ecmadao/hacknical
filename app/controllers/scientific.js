@@ -18,7 +18,7 @@ const getUserPredictions = async (ctx) => {
     ? await Api.getUserPredictions(githubLogin, githubToken)
     : [];
   ctx.body = {
-    result,
+    result: result || [],
     success: true,
   };
 };

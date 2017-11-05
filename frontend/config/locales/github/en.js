@@ -36,7 +36,7 @@ const datas = {
       maxStarPerRepos: 'Max Stars in single repository',
       longestRepos: 'Longest commit',
       chartTitle: 'star/fork/commit (last one year)',
-      emptyText: 'No repositories info, please refresh later',
+      emptyText: 'No repositories info, please refresh in settings',
       originalRepos: 'Original repos',
       starPercentage: 'Star percentage',
       forkedRepos: 'Forked repos',
@@ -44,7 +44,7 @@ const datas = {
       tipso: 'Haven\'t combine orgs/forked repos info yet'
     },
     course: {
-      emptyText: 'No repositories info, please refresh later',
+      emptyText: 'No repositories info, please refresh in settings',
       title: 'Code Course',
       tipso: 'Timelines from the first repository you created'
     },
@@ -53,14 +53,14 @@ const datas = {
       showMore: 'show more',
       hideMore: 'hide',
       tipso: 'Issue, PR for others repos will be marked as contributions',
-      emptyText: 'No repositories info, please refresh later',
+      emptyText: 'No repositories info, please refresh in settings',
     },
     orgs: {
       title: 'Orgs Info',
       createdAt: 'Created at ',
       joinedRepos: 'Public repos you joined',
       contributionPercentage: 'Contribution percentage',
-      emptyText: 'No organizations info, please refresh later',
+      emptyText: 'No organizations info, please refresh in settings',
       coreDeveloper: 'Core developer',
       coreDeveloperIntro: 'More than 30% contributions',
       orgsCount: 'Joined orgs',
@@ -84,7 +84,7 @@ const datas = {
         title: 'stars of each language',
         label: 'Stars relative to this language: '
       },
-      emptyText: 'No languages info, please refresh later',
+      emptyText: 'No languages info, please refresh in settings',
       relativeRepos: 'Repos relatived to this language'
     },
     commits: {
@@ -98,7 +98,7 @@ const datas = {
       dailyCommitChartTitle: 'Commits distribution in the last year',
       weeklyCommitChartTitle: 'commits in the last year',
       monthlyCommitChartTitle: 'monthly commits in the last year',
-      emptyText: 'No commits info, please refresh later',
+      emptyText: 'No commits info, please refresh in settings',
       maxCommitDate: 'Max commit date',
       maxDailyCommits: 'Max daily commits',
       maxReposCountMonth: 'You have most inspirations',

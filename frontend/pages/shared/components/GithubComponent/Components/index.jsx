@@ -80,8 +80,8 @@ class GithubComponent extends React.Component {
     const predictions = await Api.scientific.getUserPredictions(login);
     this.setState({
       scientific: {
-        statistic,
-        predictions
+        statistic: statistic || null,
+        predictions: predictions || []
       },
     })
   }
@@ -225,6 +225,8 @@ class GithubComponent extends React.Component {
       openShareModal,
       repositoriesLoaded,
     } = this.state;
+    console.log('scientific');
+    console.log(scientific);
     const { isShare, containerStyle } = this.props;
 
     const origin = window.location.origin;

@@ -36,7 +36,7 @@ const datas = {
       maxStarPerRepos: '单个仓库最多 star 数',
       longestRepos: '贡献时间最久的仓库',
       chartTitle: '仓库 fork/star/过去一年内 commits 数一览（取前十）',
-      emptyText: '暂未抓取到仓库信息，请稍后刷新重试',
+      emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
       originalRepos: '原创仓库',
       starPercentage: 'Star 比例',
       forkedRepos: 'fork 的仓库',
@@ -44,7 +44,7 @@ const datas = {
       tipso: '暂未统计组织内/ fork 的项目信息，敬请期待'
     },
     course: {
-      emptyText: '暂未抓取到仓库信息，请稍后刷新重试',
+      emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
       title: '编码历程',
       tipso: '从第一个创建的仓库到现今的编程历程'
     },
@@ -53,14 +53,14 @@ const datas = {
       showMore: '展现更多',
       hideMore: '收起',
       tipso: '对他人仓库的 Issue, PR 都会被记为贡献',
-      emptyText: '暂未抓取到贡献信息，请稍后刷新重试',
+      emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
     },
     orgs: {
       title: '隶属组织',
       createdAt: '创建于 ',
       joinedRepos: '参与的公开项目',
       contributionPercentage: '贡献比例',
-      emptyText: '暂未抓取到组织信息，请稍后刷新重试',
+      emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
       coreDeveloper: '核心开发者',
       coreDeveloperIntro: '对项目的贡献比例超过30%',
       orgsCount: '参与的组织数',
@@ -84,7 +84,7 @@ const datas = {
         title: '语言 & 获得 star',
         label: '与该语言相关 star 数：'
       },
-      emptyText: '暂未抓取到语言信息，请稍后刷新重试',
+      emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
       relativeRepos: '与该语言相关的仓库'
     },
     commits: {
@@ -98,7 +98,7 @@ const datas = {
       dailyCommitChartTitle: '过去一年提交数分布',
       weeklyCommitChartTitle: '过去一年提交数一览',
       monthlyCommitChartTitle: '过去一年每月提交数一览',
-      emptyText: '暂未抓取到提交信息，请稍后刷新重试',
+      emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
       maxCommitDate: '提交最多的一天',
       maxDailyCommits: '一天最多提交次数',
       maxReposCountMonth: '是你思如尿崩的时期',
