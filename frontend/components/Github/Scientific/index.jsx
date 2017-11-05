@@ -79,14 +79,14 @@ class Scientific extends React.PureComponent {
     for (let i = 1; i <= loopTimes; i += 1) {
       results.push((
         <div className={styles.row} key={i}>
-          {this.renderCards(predictions.slice((i - 1) * ROW_LENGTH, i * ROW_LENGTH))}
+          {this.renderCards(predictions.slice((i - 1) * ROW_LENGTH, i * ROW_LENGTH), i - 1)}
         </div>
       ));
     }
     return results;
   }
 
-  renderCards(predictions) {
+  renderCards(predictions, lineIndex, ROW_LENGTH = 3) {
     return predictions.map((prediction, index) => {
       const {
         name,
@@ -99,23 +99,25 @@ class Scientific extends React.PureComponent {
         stargazers_count,
       } = prediction;
 
+      const itemIndex = index + (lineIndex * ROW_LENGTH);
+
       const menuItems = [
         {
           text: githubTexts.scientific.like,
           icon: 'thumbs-o-up',
-          onClick: this.handleItemClick(index, 1),
+          onClick: this.handleItemClick(itemIndex, 1),
           className: liked === 1 ? styles.liked : '',
         },
         {
           text: githubTexts.scientific.dislike,
           icon: 'thumbs-o-down',
-          onClick: this.handleItemClick(index, -1),
+          onClick: this.handleItemClick(itemIndex, -1),
           className: liked === -1 ? styles.disliked : '',
         },
         {
           text: githubTexts.scientific.notShow,
           icon: 'eye-slash',
-          onClick: this.handleItemClick(index, -2),
+          onClick: this.handleItemClick(itemIndex, -2),
         }
       ];
 
