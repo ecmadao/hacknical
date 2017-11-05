@@ -84,4 +84,8 @@ export default {
     options.method = 'PUT';
     return fetch(options, timeouts);
   },
+  delete: (options, timeouts) => {
+    options.method = 'DELETE';
+    return fetch(options, timeouts);
+  },
 };

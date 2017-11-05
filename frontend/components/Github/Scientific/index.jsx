@@ -111,6 +111,11 @@ class Scientific extends React.PureComponent {
           icon: 'thumbs-o-down',
           onClick: this.handleItemClick(index, -1),
           className: liked === -1 ? styles.disliked : '',
+        },
+        {
+          text: githubTexts.scientific.notShow,
+          icon: 'eye-slash',
+          onClick: this.handleItemClick(index, -2),
         }
       ];
 

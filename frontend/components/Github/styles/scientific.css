@@ -109,7 +109,7 @@ i {
 
 .menuItem {
   padding: 10px;
-  min-width: 55px;
+  min-width: 75px;
   transition: background-color 0.3s;
   cursor: pointer;
 
@@ -128,12 +128,12 @@ i {
 
 .liked {
   & i {
-    color: var(--oc-red-5);
+    color: var(--oc-yellow-7);
   }
 }
 
 .disliked {
   & i {
-    color: var(--oc-red-5);
+    color: var(--oc-red-7);
   }
 }

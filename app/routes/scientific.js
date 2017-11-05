@@ -24,6 +24,13 @@ router.get(
   Scientific.getUserPredictions
 );
 
+router.delete(
+  '/:login/predictions',
+  share.githubEnable(),
+  check.body('fullName'),
+  Scientific.removePrediction
+);
+
 router.put(
   '/:login/predictions',
   share.githubEnable(),

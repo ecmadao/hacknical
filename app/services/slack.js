@@ -11,6 +11,7 @@ class SlackMsg {
     this._viewMsg = this._viewMsg.bind(this);
     this._resumeMsg = this._resumeMsg.bind(this);
     this._downloadMsg = this._downloadMsg.bind(this);
+    this._scientificMsg = this._scientificMsg.bind(this);
   }
 
   send(msg) {
@@ -36,7 +37,8 @@ class SlackMsg {
       signup: this._signupMsg,
       resume: this._resumeMsg,
       download: this._downloadMsg,
-      view: this._viewMsg
+      view: this._viewMsg,
+      scientific: this._scientificMsg,
     };
   }
 
@@ -58,6 +60,10 @@ class SlackMsg {
 
   _downloadMsg(data) {
     return `*😎 Download*\n>${data}`;
+  }
+
+  _scientificMsg(data) {
+    return `*🙃 Scientific*\n>${data}`;
   }
 }
 

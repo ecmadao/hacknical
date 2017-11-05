@@ -9,12 +9,14 @@ class CardMenu extends React.PureComponent {
     this.state = {
       showMenu: props.showMenu || false
     };
-    this.openMenu = this.openMenu.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
+    this.changeMenuStatus = this.changeMenuStatus.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
-  openMenu() {
-    this.changeMenuStatus(true);
+  toggleMenu() {
+    const { showMenu } = this.state;
+    this.changeMenuStatus(!showMenu);
   }
 
   componentDidMount() {
@@ -50,6 +52,13 @@ class CardMenu extends React.PureComponent {
     onFocusChange && onFocusChange(status);
   }
 
+  handleMenuClick(callback) {
+    return () => {
+      callback && callback();
+      this.changeMenuStatus(false);
+    };
+  }
+
   renderMenus() {
     const { items } = this.props;
     return items.map((item, index) => {
@@ -66,7 +75,7 @@ class CardMenu extends React.PureComponent {
             className
           )}
           key={index}
-          onClick={onClick}
+          onClick={this.handleMenuClick(onClick)}
         >
           { icon ? (
             <i
@@ -93,7 +102,7 @@ class CardMenu extends React.PureComponent {
         <i
           className="fa fa-ellipsis-h"
           aria-hidden="true"
-          onClick={this.openMenu}
+          onClick={this.toggleMenu}
         />
         <div
           className={menuClass}

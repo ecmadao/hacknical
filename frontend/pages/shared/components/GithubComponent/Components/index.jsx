@@ -86,23 +86,45 @@ class GithubComponent extends React.Component {
     })
   }
 
-  onPredictionFeedback(index, liked) {
+  onPredictionUpdate(index, liked) {
     const { scientific, user } = this.state;
     const { login } = user;
     const prediction = scientific.predictions[index];
-    Api.scientific.putPredictionFeedback(login, prediction.full_name, liked)
-      .then(() => {
-        const predictions = [
-          ...scientific.predictions.slice(0, index),
-          objectAssign({}, prediction, { liked }),
-          ...scientific.predictions.slice(index + 1)
-        ];
-        this.setState({
-          scientific: objectAssign({}, scientific, {
-            predictions
-          })
-        });
-      });
+    Api.scientific.putPredictionFeedback(login, prediction.full_name, liked);
+    const predictions = [
+      ...scientific.predictions.slice(0, index),
+      objectAssign({}, prediction, { liked }),
+      ...scientific.predictions.slice(index + 1)
+    ];
+    this.setState({
+      scientific: objectAssign({}, scientific, {
+        predictions
+      })
+    });
+  }
+
+  onPredictionDelete(index) {
+    const { scientific, user } = this.state;
+    const { login } = user;
+    const prediction = scientific.predictions[index];
+    Api.scientific.removePrediction(login, prediction.full_name);
+    const predictions = [
+      ...scientific.predictions.slice(0, index),
+      ...scientific.predictions.slice(index + 1)
+    ];
+    this.setState({
+      scientific: objectAssign({}, scientific, {
+        predictions
+      })
+    });
+  }
+
+  onPredictionFeedback(index, liked) {
+    if (liked === -2) {
+      this.onPredictionDelete(index, liked);
+    } else {
+      this.onPredictionUpdate(index, liked);
+    }
   }
 
   async getGithubUser(login = '') {

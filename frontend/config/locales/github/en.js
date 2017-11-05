@@ -18,6 +18,7 @@ const datas = {
       title: 'Guess your like',
       like: 'like',
       dislike: 'dislike',
+      notShow: 'not show',
       tipso: 'Random created by your starred repositories. You can enhance your prediction modal by giving it a feedback.(Note: This part won\'t appera in your shared page.)'
     },
     social: {

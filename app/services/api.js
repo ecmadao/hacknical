@@ -105,6 +105,15 @@ const getUserPredictions = async (login, token) =>
     baseUrl: BASE_SCIENTIFIC_URL,
   });
 
+const removePrediction = async (login, fullName) =>
+  fetchApi(`/${login}/predictions`, {
+    baseUrl: BASE_SCIENTIFIC_URL,
+    method: 'delete',
+    body: {
+      fullName,
+    }
+  });
+
 const putPredictionsFeedback = async (login, fullName, liked) =>
   fetchApi(`/${login}/predictions`, {
     baseUrl: BASE_SCIENTIFIC_URL,
@@ -140,5 +149,6 @@ export default {
   /* ===== */
   getUserStatistic,
   getUserPredictions,
+  removePrediction,
   putPredictionsFeedback,
 };
