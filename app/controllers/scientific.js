@@ -43,6 +43,7 @@ const removePrediction = async (ctx, next) => {
       params: ['login']
     })
   ];
+  ctx.cache.hincrby('scientific-prediction', `${login}.remove`, 1);
   ctx.body = {
     success: true,
   };
@@ -57,9 +58,10 @@ const putPredictionFeedback = async (ctx, next) => {
     await Api.putPredictionsFeedback(login, fullName, liked);
   }
 
+  const likeText = Number(liked) > 0 ? 'liked' : 'disliked';
   new SlackMsg(ctx.mq).send({
     type: 'scientific',
-    data: `Prediction ${Number(liked) > 0 ? 'liked' : 'disliked'} by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
+    data: `Prediction ${likeText} by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
   });
 
   const cacheKey = getCacheKey(ctx);
@@ -68,6 +70,7 @@ const putPredictionFeedback = async (ctx, next) => {
       params: ['login']
     })
   ];
+  ctx.cache.hincrby('scientific-prediction', `${login}.${likeText}`, 1);
   ctx.body = {
     success: true,
   };
