@@ -91,9 +91,13 @@ class GithubComponent extends React.Component {
     const { scientific, user } = this.state;
     const { login } = user;
     const prediction = scientific.predictions[index];
+    const likedCount = prediction.likedCount + liked;
     const predictions = [
       ...scientific.predictions.slice(0, index),
-      objectAssign({}, prediction, { liked }),
+      objectAssign({}, prediction, {
+        liked,
+        likedCount: likedCount >= 0 ? likedCount : 0
+      }),
       ...scientific.predictions.slice(index + 1)
     ];
     this.setState({

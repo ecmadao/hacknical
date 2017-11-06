@@ -7,6 +7,11 @@ import locales from 'LOCALES';
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 
+const formatCount = (count) => {
+  if (count < 1000) return count;
+  return `${(count / 1000).toFixed(1)}K`;
+};
+
 const iconLink = (options) => {
   const {
     link,
@@ -62,12 +67,13 @@ const cardSubInfo = (options) => {
 };
 
 class Scientific extends React.PureComponent {
-  handleItemClick(index, liked) {
+  handleItemClick(index, liked, newLike) {
     const {
       onFeedback
     } = this.props;
+    if (liked === newLike) return () => {};
     return () => {
-      onFeedback && onFeedback(index, liked)
+      onFeedback && onFeedback(index, newLike)
     };
   }
 
@@ -94,30 +100,34 @@ class Scientific extends React.PureComponent {
         owner,
         login,
         html_url,
+        likedCount,
         description,
         forks_count,
         stargazers_count,
       } = prediction;
 
       const itemIndex = index + (lineIndex * ROW_LENGTH);
+      const likedText = likedCount > 10
+        ? `${githubTexts.scientific.like} ${formatCount(likedCount)}`
+        : githubTexts.scientific.like;
 
       const menuItems = [
         {
-          text: githubTexts.scientific.like,
+          text: likedText,
           icon: 'thumbs-o-up',
-          onClick: this.handleItemClick(itemIndex, 1),
+          onClick: this.handleItemClick(itemIndex, liked, 1),
           className: liked === 1 ? styles.liked : '',
         },
         {
           text: githubTexts.scientific.dislike,
           icon: 'thumbs-o-down',
-          onClick: this.handleItemClick(itemIndex, -1),
+          onClick: this.handleItemClick(itemIndex, liked, -1),
           className: liked === -1 ? styles.disliked : '',
         },
         {
           text: githubTexts.scientific.notShow,
           icon: 'eye-slash',
-          onClick: this.handleItemClick(itemIndex, -2),
+          onClick: this.handleItemClick(itemIndex, liked, -2),
         }
       ];
 

@@ -16,10 +16,17 @@ const getUserPredictions = async (ctx) => {
   const { login } = ctx.params;
   const { githubToken, githubLogin } = ctx.session;
   const result = login === githubLogin
-    ? await Api.getUserPredictions(githubLogin, githubToken)
+    ? (await Api.getUserPredictions(githubLogin, githubToken) || [])
     : [];
+  const results = [];
+  await Promise.all(result.map(async (repository) => {
+    const { full_name } = repository;
+    const likedCount = await ctx.cache.hget('scientific-feedback', `${full_name}.liked`);
+    repository.likedCount = likedCount || 0;
+    results.push(repository);
+  }));
   ctx.body = {
-    result: result || [],
+    result: results,
     success: true,
   };
 };
@@ -71,6 +78,7 @@ const putPredictionFeedback = async (ctx, next) => {
     })
   ];
   ctx.cache.hincrby('scientific-prediction', `${login}.${likeText}`, 1);
+  ctx.cache.hincrby('scientific-feedback', `${fullName}.${likeText}`, 1);
   ctx.body = {
     success: true,
   };
