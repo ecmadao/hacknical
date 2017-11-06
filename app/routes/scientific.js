@@ -21,21 +21,27 @@ router.get(
 router.get(
   '/:login/predictions',
   share.githubEnable(),
-  Scientific.getUserPredictions
+  cache.get('user-predictions', {
+    params: ['login']
+  }),
+  Scientific.getUserPredictions,
+  cache.set()
 );
 
 router.delete(
   '/:login/predictions',
   share.githubEnable(),
   check.body('fullName'),
-  Scientific.removePrediction
+  Scientific.removePrediction,
+  cache.del()
 );
 
 router.put(
   '/:login/predictions',
   share.githubEnable(),
   check.body('fullName', 'liked'),
-  Scientific.putPredictionFeedback
+  Scientific.putPredictionFeedback,
+  cache.del()
 );
 
 module.exports = router;

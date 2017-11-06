@@ -1,5 +1,6 @@
 import Api from '../services/api';
 import SlackMsg from '../services/slack';
+import getCacheKey from './helper/cacheKey';
 
 const getUserStatistic = async (ctx) => {
   const { login } = ctx.params;
@@ -23,7 +24,7 @@ const getUserPredictions = async (ctx) => {
   };
 };
 
-const removePrediction = async (ctx) => {
+const removePrediction = async (ctx, next) => {
   const { login } = ctx.params;
   const { githubLogin } = ctx.session;
   const { fullName } = ctx.request.body;
@@ -36,12 +37,19 @@ const removePrediction = async (ctx) => {
     data: `Prediction removed by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
   });
 
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey('user-predictions', {
+      params: ['login']
+    })
+  ];
   ctx.body = {
     success: true,
-  }
+  };
+  await next();
 };
 
-const putPredictionFeedback = async (ctx) => {
+const putPredictionFeedback = async (ctx, next) => {
   const { login } = ctx.params;
   const { githubLogin } = ctx.session;
   const { fullName, liked } = ctx.request.body;
@@ -54,9 +62,16 @@ const putPredictionFeedback = async (ctx) => {
     data: `Prediction ${Number(liked) > 0 ? 'liked' : 'disliked'} by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
   });
 
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey('user-predictions', {
+      params: ['login']
+    })
+  ];
   ctx.body = {
     success: true,
-  }
+  };
+  await next();
 };
 
 export default {

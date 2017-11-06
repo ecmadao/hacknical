@@ -54,12 +54,13 @@ class GithubComponent extends React.Component {
       commitLoaded,
       repositoriesLoaded,
     } = this.state;
+    const { isShare } = this.props;
 
     this.removeLoading('#loading');
 
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
-      this.getGithubScientific(user.login);
+      !isShare && this.getGithubScientific(user.login);
       !repositoriesLoaded && this.getGithubRepositories(user.login);
     }
     if (repositoriesLoaded && !preState.repositoriesLoaded) {
