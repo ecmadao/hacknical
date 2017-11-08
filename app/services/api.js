@@ -67,6 +67,11 @@ const getUserOrganizations = async (login, token) =>
 const getUpdateTime = async login =>
   fetchApi(`/${login}/updateTime`);
 
+const refreshUser = async (login, token) =>
+  fetchApi(`/${login}/refresh`, {
+    qs: { token },
+    timeouts: [null]
+  });
 const refreshRepositories = async (login, token) =>
   fetchApi(`/${login}/repositories/refresh`, {
     qs: { token },
@@ -140,6 +145,7 @@ export default {
   getUserContributed,
   getUpdateTime,
   /* ===== */
+  refreshUser,
   refreshRepositories,
   refreshCommits,
   refreshOrganizations,

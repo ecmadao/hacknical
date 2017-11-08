@@ -273,6 +273,7 @@ const getUpdateTime = async (ctx) => {
 
 const refreshRepositories = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
+  await Api.refreshUser(githubLogin, githubToken);
   const result = await Api.refreshRepositories(githubLogin, githubToken);
   if (result.success === false) {
     const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
