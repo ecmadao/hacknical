@@ -15,7 +15,7 @@ import dateHelper from 'UTILS/date';
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
-const { hoursBefore } = dateHelper.relative;
+const { secondsBefore } = dateHelper.relative;
 
 class GithubComponent extends React.Component {
   constructor(props) {
@@ -255,7 +255,7 @@ class GithubComponent extends React.Component {
       >
         {isShare ? (
           <div className={styles.shareInfo}>
-            {githubLocales.updateAt}{hoursBefore(lastUpdateTime)}
+            {githubLocales.updateAt}{secondsBefore(lastUpdateTime)}
           </div>
         ) : ''}
         <GitHubSection
