@@ -13,22 +13,22 @@ const wrap = (func, ...params) =>
     });
   });
 
+export const wrapMsg = ({ message, type, url }) => {
+  const msg = {
+    data: message,
+    channel: {
+      url,
+      type,
+    },
+  };
+  return JSON.stringify(msg);
+};
+
 class MessageQueue {
   constructor(options = {}) {
     const initOptions = Object.assign({}, mqConfig.config, options);
     this.mq = new RedisSMQ(initOptions);
     logger.info(`[MQ:CONNECT][${initOptions.host}:${initOptions.port}]`);
-  }
-
-  wrapMsg({ message, type, url }) {
-    const msg = {
-      data: message,
-      channel: {
-        url,
-        type,
-      },
-    };
-    return JSON.stringify(msg);
   }
 
   createQueue(qname = mqName) {
@@ -37,20 +37,14 @@ class MessageQueue {
 
   sendMessage(options = {}) {
     const {
-      url,
-      type,
       message,
       qname = mqName
     } = options;
-    if (!url || !type) return;
-    logger.info(`[MQ:SEND][${type}:${url}]`);
+    if (!message) return;
+    logger.info(`[MQ:SEND][${message}]`);
     return wrap(this.mq.sendMessage, {
       qname,
-      message: this.wrapMsg({
-        url,
-        type,
-        message,
-      })
+      message
     });
   }
 }

@@ -1,6 +1,8 @@
 import config from 'config';
+import { wrapMsg } from '../utils/mq';
 
 const sendcloud = config.get('services.sendcloud');
+const qName = config.get('mq.qname');
 const EMAIL_URL = sendcloud.url;
 const API_USER = sendcloud.user;
 const API_KEY = sendcloud.key;
@@ -32,9 +34,12 @@ class EmailMsg {
       }),
     });
     this.mq.sendMessage({
-      message: sendOptions,
-      url: EMAIL_URL,
-      type: 'email',
+      message: wrapMsg({
+        message: sendOptions,
+        type: 'email',
+        url: EMAIL_URL,
+      }),
+      qname: qName
     });
   }
 

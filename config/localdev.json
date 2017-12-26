@@ -35,7 +35,8 @@
       "ns": "geeknical",
       "options": {}
     },
-    "qname": "messenger-dev"
+    "qname": "messenger-local",
+    "qnameRefresh": "github-refresh-local"
   },
   "opbeat": {
     "appId": "",

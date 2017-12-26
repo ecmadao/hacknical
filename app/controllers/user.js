@@ -1,10 +1,12 @@
+import config from 'config';
 import User from '../models/users';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
 import getLanguages from '../config/languages';
-
 import { getMobileMenu, getGithubSections } from './shared';
 import logger from '../utils/logger';
+
+const qName = config.get('mq.qnameRefresh');
 
 const logout = async (ctx) => {
   ctx.session.userId = null;
@@ -53,6 +55,13 @@ const githubLogin = async (ctx) => {
       if (loginResult.success) {
         logger.info(`[USER:LOGIN][${userInfo.login}]`);
         ctx.session.userId = loginResult.result;
+        ctx.mq.sendMessage({
+          message: JSON.stringify({
+            login: userInfo.login,
+            token: githubToken
+          }),
+          qname: qName
+        });
         return ctx.redirect('/dashboard');
       }
     }

@@ -1,7 +1,9 @@
 import config from 'config';
+import { wrapMsg } from '../utils/mq';
 
 const slack = config.get('services.slack');
 const slackUrl = slack.url;
+const qName = config.get('mq.qname');
 
 class SlackMsg {
   constructor(mq) {
@@ -18,9 +20,12 @@ class SlackMsg {
     if (!slackUrl) return;
     const message = this.format(msg);
     this.mq.sendMessage({
-      message,
-      url: slackUrl,
-      type: 'slack',
+      message: wrapMsg({
+        message,
+        url: slackUrl,
+        type: 'slack',
+      }),
+      qname: qName
     });
   }
 
