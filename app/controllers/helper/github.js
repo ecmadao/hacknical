@@ -29,11 +29,15 @@ export const combineReposCommits = (reposCommits) => {
   }
 
   const commitsTmp = {};
+  const dailyCommitsTmp = {};
 
   // initial monthReview
   for (let i = 1; i < 13; i += 1) {
-    result.dailyCommits[(i - 1) % 7] = [];
-    result.totalDailyCommits[(i - 1) % 7] = 0;
+    dailyCommitsTmp[(i - 1) % 7] = {
+      total: 0,
+      avg: 0,
+      commits: []
+    };
     result.monthReview[i] = {
       repos: [],
       commitsCount: 0
@@ -45,7 +49,6 @@ export const combineReposCommits = (reposCommits) => {
     const month = getMonth(created_at);
     result.monthReview[month].repos.push(name);
 
-    const weeklyCommitsTmp = [...BASE_DAYS];
     for (let i = 0; i < commits.length; i += 1) {
       const commit = commits[i];
       const { total, days, week } = commit;
@@ -60,26 +63,28 @@ export const combineReposCommits = (reposCommits) => {
       }
       commitsTmp[week].total += total;
       days.forEach((dayCommit, index) => {
-        weeklyCommitsTmp[index] += dayCommit;
         commitsTmp[week].days[index] += dayCommit;
-        result.totalDailyCommits[index] += dayCommit;
+
+        if (dayCommit) {
+          dailyCommitsTmp[index].total += dayCommit;
+          const avg = dailyCommitsTmp[index].avg;
+          const length = dailyCommitsTmp[index].commits.length;
+          dailyCommitsTmp[index].avg = ((avg * length) + dayCommit) / (length + 1);
+          dailyCommitsTmp[index].commits.push(dayCommit)
+        }
 
         const daySeconds = week - ((7 - index) * 24 * 60 * 60);
         const targetMonth = getDateBySeconds(daySeconds, 'M');
         result.monthReview[targetMonth].commitsCount += dayCommit;
       });
     }
-
-    weeklyCommitsTmp.forEach((commit, index) => {
-      result.dailyCommits[index].push(commit);
-    });
   });
 
-  const dailyCommits = [];
-  result.dailyCommits.forEach((dailyCommit, index) => {
-    dailyCommits[index] = Math.floor(result.totalDailyCommits[index] / dailyCommit.length);
-  })
-  result.dailyCommits = dailyCommits;
+  Object.keys(dailyCommitsTmp).forEach((weekday) => {
+    result.dailyCommits.push(dailyCommitsTmp[weekday].avg);
+    result.totalDailyCommits.push(dailyCommitsTmp[weekday].total);
+  });
+
   result.commits = Object.keys(commitsTmp).map(week => commitsTmp[week]);
   return result;
 };
