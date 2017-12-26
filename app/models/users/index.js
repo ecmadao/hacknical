@@ -112,7 +112,7 @@ const loginWithGithub = async (userInfo, cache, mq) => {
 
   return Promise.resolve({
     success: true,
-    result: user.userId
+    result: user
   });
 };
 

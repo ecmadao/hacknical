@@ -52,16 +52,20 @@ const githubLogin = async (ctx) => {
         ctx.cache,
         ctx.mq
       );
+
       if (loginResult.success) {
+        const user = loginResult.result;
         logger.info(`[USER:LOGIN][${userInfo.login}]`);
-        ctx.session.userId = loginResult.result;
-        ctx.mq.sendMessage({
-          message: JSON.stringify({
-            login: userInfo.login,
-            token: githubToken
-          }),
-          qname: qName
-        });
+        ctx.session.userId = user.userId;
+        if (user.initialed) {
+          ctx.mq.sendMessage({
+            message: JSON.stringify({
+              login: userInfo.login,
+              token: githubToken
+            }),
+            qname: qName
+          });
+        }
         return ctx.redirect('/dashboard');
       }
     }
