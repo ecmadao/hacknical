@@ -9,12 +9,9 @@ export const combineReposCommits = (reposCommits) => {
   const result = {
     commits: [],
     total: 0,
-    dailyCommits: [
-      // seven Array, means from sunday to monday
-      // sunday [1, 2, 3, 4] four repos commits on sunday
-      // monday [0, 5, 3, 9] four repos commits on monday
-      // ...
-    ],
+    // average of every weekday commit, from sunday to monday
+    dailyCommits: [],
+    // sum of every weekday commit, from sunday to monday
     totalDailyCommits: [
       // each item menus from sunday to monday
       // total commits count combine by all repos
@@ -31,9 +28,12 @@ export const combineReposCommits = (reposCommits) => {
     return result;
   }
 
+  const commitsTmp = {};
+
   // initial monthReview
   for (let i = 1; i < 13; i += 1) {
     result.dailyCommits[(i - 1) % 7] = [];
+    result.totalDailyCommits[(i - 1) % 7] = 0;
     result.monthReview[i] = {
       repos: [],
       commitsCount: 0
@@ -45,46 +45,42 @@ export const combineReposCommits = (reposCommits) => {
     const month = getMonth(created_at);
     result.monthReview[month].repos.push(name);
 
-    const weeklyCommits = [...BASE_DAYS];
-
-    commits.forEach((commit, index) => {
+    const weeklyCommitsTmp = [...BASE_DAYS];
+    for (let i = 0; i < commits.length; i += 1) {
+      const commit = commits[i];
       const { total, days, week } = commit;
       result.total += total;
-      let targetCommit = result.commits[index];
 
-      if (!targetCommit) {
-        targetCommit = {
+      if (commitsTmp[week] === undefined) {
+        commitsTmp[week] = {
           week,
           total: 0,
           days: [...BASE_DAYS],
-        };
-        result.commits.push(targetCommit);
+        }
       }
+      commitsTmp[week].total += total;
+      days.forEach((dayCommit, index) => {
+        weeklyCommitsTmp[index] += dayCommit;
+        commitsTmp[week].days[index] += dayCommit;
+        result.totalDailyCommits[index] += dayCommit;
 
-      targetCommit.total += total;
-      days.forEach((day, i) => {
-        targetCommit.days[i] += day;
-        weeklyCommits[i] += day;
-
-        const daySeconds = week - ((7 - i) * 24 * 60 * 60);
+        const daySeconds = week - ((7 - index) * 24 * 60 * 60);
         const targetMonth = getDateBySeconds(daySeconds, 'M');
-        result.monthReview[targetMonth].commitsCount += day;
+        result.monthReview[targetMonth].commitsCount += dayCommit;
       });
-    });
-    weeklyCommits.forEach((commit, index) => {
+    }
+
+    weeklyCommitsTmp.forEach((commit, index) => {
       result.dailyCommits[index].push(commit);
     });
   });
 
+  const dailyCommits = [];
   result.dailyCommits.forEach((dailyCommit, index) => {
-    dailyCommit.sort();
-    result.totalDailyCommits[index] = dailyCommit.reduce(
-      (pre, next) => pre + next, 0);
-    result.dailyCommits[index] = dailyCommit.length % 2 === 0
-      ? 0.5 * (dailyCommit[(dailyCommit.length / 2) - 1] + dailyCommit[dailyCommit.length / 2])
-      : dailyCommit[(dailyCommit.length - 1) / 2];
-  });
-
+    dailyCommits[index] = Math.floor(result.totalDailyCommits[index] / dailyCommit.length);
+  })
+  result.dailyCommits = dailyCommits;
+  result.commits = Object.keys(commitsTmp).map(week => commitsTmp[week]);
   return result;
 };
 

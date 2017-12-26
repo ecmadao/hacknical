@@ -173,7 +173,7 @@ class CommitInfo extends React.Component {
         labels: DAYS,
         datasets: [objectAssign({}, LINE_CONFIG, {
           data: dailyCommits,
-          label: githubTexts.dailyCommitChartTitle,
+          label: githubTexts.avgCommitTitle,
         })]
       },
       options: {

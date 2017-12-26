@@ -95,6 +95,7 @@ const datas = {
       maxCommitRepos: 'Has most commits',
       maxCommitReposTip: 'Totally has $ commits',
       maxCommitCount: 'Max commits in single repository',
+      avgCommitTitle: 'Average commits per day',
       dailyCommitChartTitle: 'Commits distribution in the last year',
       weeklyCommitChartTitle: 'commits in the last year',
       monthlyCommitChartTitle: 'monthly commits in the last year',
