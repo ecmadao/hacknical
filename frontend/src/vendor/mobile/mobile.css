@@ -19,17 +19,37 @@ html, body {
 
 .mobile_content {
   min-height: 100%;
+  padding-top: 50px !important;
 }
 
 .mobile_topbar {
   height: var(--topbarHeight);
   width: 100%;
   display: flex;
+  transition: transform 0.5s;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   box-shadow: var(--topShadow);
   background-color: var(--oc-white);
+}
+
+.mobile_topbar-pinned,
+.mobile_topbar-unpinned {
+  position: fixed;
+  top: 0;
+}
+
+.mobile_topbar-pinned {
+  transform: translateY(0);
+}
+
+.mobile_topbar-unpinned {
+  transform: translateY(-100%);
+}
+
+.mobile_topbar-top {
+  position: fixed;
 }
 
 .mobile_menu_icon {
