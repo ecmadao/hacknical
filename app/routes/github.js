@@ -151,15 +151,15 @@ router.get(
   cache.set()
 );
 router.get(
-  '/:login/calendar',
+  '/:login/hotmap',
   share.githubEnable(),
-  cache.get('user-calendar', {
+  cache.get('user-hotmap', {
     params: ['login'],
     session: ['locale']
   }),
-  GitHub.getUserCalendar,
+  GitHub.getUserHotmap,
   cache.set({
-    expire: 43200 // 12 hours
+    expire: 21600 // 6 hours
   })
 );
 

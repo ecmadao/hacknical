@@ -10,9 +10,7 @@ const findShares = async (options = {}) =>
 const createShare = async (options) => {
   const findResult = await findShare(options);
   if (findResult) {
-    return Promise.resolve({
-      success: true
-    });
+    return { success: true };
   }
   const { login, userId, url } = options;
   await ShareAnalyse.create({
@@ -42,14 +40,14 @@ const changeShareStatus = async (options) => {
   const analyse = await findShare({ url });
   analyse.enable = enable;
   await analyse.save();
-  return Promise.resolve(true);
+  return true;
 };
 
 const checkShareEnable = async (options) => {
   const analyse = await findShare(options);
-  return Promise.resolve({
+  return {
     success: analyse && analyse.enable
-  });
+  };
 };
 
 const updateViewData = async (options) => {
@@ -79,22 +77,16 @@ const updateViewData = async (options) => {
     targetSources[0].count += 1;
   }
   await analyse.save();
-  return Promise.resolve({
-    success: true
-  });
+  return { success: true };
 };
 
 const updateShare = async (options) => {
   const analyse = await findShare(options);
   if (!analyse) {
-    return Promise.resolve({
-      success: false
-    });
+    return { success: false };
   }
   if (!analyse.enable) {
-    return Promise.resolve({
-      success: false,
-    });
+    return { success: false, }
   }
   const { pageViews } = analyse;
   const dateNow = dateHelper.getDateNow();
@@ -110,9 +102,7 @@ const updateShare = async (options) => {
     targetPageViews[0].count += 1;
   }
   await analyse.save();
-  return Promise.resolve({
-    success: true
-  });
+  return { success: true };
 };
 
 const findAll = async () => await ShareAnalyse.find({});

@@ -15,7 +15,7 @@ const getContributed = login => fetchInfo(`/${login}/contributed`);
 const getCommits = login => fetchInfo(`/${login}/commits`);
 const getOrganizations = login => fetchInfo(`/${login}/organizations`);
 const getUser = login => fetchInfo(`/${login}/user`);
-const getUserCalendar = login => fetchInfo(`/${login}/calendar`);
+const getUserHotmap = login => fetchInfo(`/${login}/hotmap`);
 
 
 /* toggle user github share */
@@ -43,7 +43,7 @@ export default {
   getAllRepositories,
   getCommits,
   getOrganizations,
-  getUserCalendar,
+  getUserHotmap,
   // for refresh & initial
   refresh,
   fetchRepositories,

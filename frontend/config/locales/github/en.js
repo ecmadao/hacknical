@@ -9,7 +9,12 @@ const datas = {
   },
   sections: {
     hotmap: {
-      title: 'Hotmap'
+      title: 'Hotmap',
+      total: 'Last year\'s contributions',
+      longestStreak: 'Longest streak days',
+      currentStreak: 'Current streak days',
+      tipso: 'Currently we only count commits in the last year',
+      streakError: 'No records found'
     },
     baseInfo: {
       title: 'Basic Info',

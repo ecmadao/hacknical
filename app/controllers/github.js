@@ -393,10 +393,10 @@ const getOctocat = async (ctx) => {
   };
 };
 
-const getUserCalendar = async (ctx, next) => {
+const getUserHotmap = async (ctx, next) => {
   const { login } = ctx.params;
   const { locale } = ctx.session;
-  const result = await Api.getCalendar(login, locale);
+  const result = await Api.getHotmap(login, locale);
   ctx.body = {
     result,
     success: true,
@@ -419,7 +419,7 @@ export default {
   getUserOrganizations,
   toggleShare,
   getShareRecords,
-  getUserCalendar,
+  getUserHotmap,
   /* ===== refresh & update ====== */
   getUpdateTime,
   refreshRepositories,

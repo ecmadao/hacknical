@@ -7,10 +7,10 @@ const addResume = async (userId, resume = DEFAULT_RESUME) => {
     userId,
     resume
   });
-  return Promise.resolve({
+  return {
     success: addResult,
     result: addResult || null
-  });
+  };
 };
 
 const initialResume = async (userId, options) => {
@@ -47,20 +47,20 @@ const reset = async (userId, resume, cache) => {
 
 const getUpdateTime = async (userId) => {
   const getResult = await findResume({ userId });
-  return Promise.resolve({
+  return {
     success: getResult,
     message: '',
     result: getResult ? getResult.updated_at : ''
-  });
+  };
 };
 
 const getResume = async (userId) => {
   const getResult = await findResume({ userId });
   if (!getResult) {
-    return Promise.resolve({
+    return {
       success: false,
       result: null
-    });
+    };
   }
   const { resume, updated_at } = getResult;
   const {
@@ -70,7 +70,7 @@ const getResume = async (userId) => {
     workExperiences,
     personalProjects
   } = resume;
-  return Promise.resolve({
+  return {
     success: true,
     result: {
       info,
@@ -80,7 +80,7 @@ const getResume = async (userId) => {
       personalProjects,
       updateAt: updated_at
     }
-  });
+  };
 };
 
 const findAll = async () => await Resume.find({});

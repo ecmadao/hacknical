@@ -270,6 +270,10 @@ class GithubComponent extends React.Component {
           disabled={this.disabledSection('hotmap')}
           isShare={isShare}
           callback={this.changeGithubSection}
+          intro={{
+            icon: 'question-circle',
+            text: githubTexts.hotmap.tipso
+          }}
         />
         <GitHubSection
           user={user}

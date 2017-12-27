@@ -93,8 +93,8 @@ const refreshOrganizations = async (login, token) =>
     timeouts: [null]
   });
 
-const getCalendar = async (login, locale) =>
-  fetchApi(`/${login}/calendar`, {
+const getHotmap = async (login, locale) =>
+  fetchApi(`/${login}/hotmap`, {
     qs: { locale }
   });
 
@@ -151,7 +151,7 @@ export default {
   refreshOrganizations,
   refreshContributed,
   /* ===== */
-  getCalendar,
+  getHotmap,
   /* ===== */
   getUserStatistic,
   getUserPredictions,

@@ -39,9 +39,9 @@ const updateUserInfo = async (options = {}) => {
     user[key] = options[key];
   });
   await user.save();
-  return Promise.resolve({
+  return {
     success: true
-  });
+  };
 };
 
 const updateUser = async (userInfo) => {
@@ -51,10 +51,10 @@ const updateUser = async (userInfo) => {
   const findUserResult = await findUserByLogin(userInfo.login);
   findUserResult.githubInfo = newGithubInfo;
   await findUserResult.save();
-  return Promise.resolve({
+  return {
     success: true,
     result: lastUpdateTime
-  });
+  };
 };
 
 const loginWithGithub = async (userInfo, cache, mq) => {
@@ -110,19 +110,19 @@ const loginWithGithub = async (userInfo, cache, mq) => {
 
   new SlackMsg(mq).send(msg);
 
-  return Promise.resolve({
+  return {
     success: true,
     result: user
-  });
+  };
 };
 
 const findPinnedRepos = async (login) => {
   try {
     const user = await findUserByLogin(login);
-    return Promise.resolve(user.pinnedRepos);
+    return user.pinnedRepos;
   } catch (err) {
     logger.error(err);
-    return Promise.resolve({});
+    return {};
   }
 };
 
@@ -131,24 +131,20 @@ const updatePinnedRepos = async (login, repos) => {
     const user = await findUserByLogin(login);
     user.pinnedRepos = [...repos];
     await user.save();
-    return Promise.resolve({
-      success: true
-    });
+    return { success: true };
   } catch (err) {
     logger.error(err);
-    return Promise.resolve({
-      success: false
-    });
+    return { success: false };
   }
 };
 
 const findGithubSections = async (login) => {
   try {
     const user = await findUserByLogin(login);
-    return Promise.resolve(user.githubSections);
+    return user.githubSections;
   } catch (err) {
     logger.error(err);
-    return Promise.resolve({});
+    return {};
   }
 };
 
@@ -157,14 +153,10 @@ const updateGithubSections = async (login, sections) => {
     const user = await findUserByLogin(login);
     Object.assign(user.githubSections, sections);
     await user.save();
-    return Promise.resolve({
-      success: true
-    });
+    return { success: true };
   } catch (err) {
     logger.error(err);
-    return Promise.resolve({
-      success: false
-    });
+    return { success: false };
   }
 };
 

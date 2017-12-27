@@ -162,19 +162,16 @@ class RepositoryInfo extends React.Component {
         <CardGroup>
           <InfoCard
             icon="star-o"
-            tipsoTheme="dark"
             mainText={totalStar}
             subText={githubTexts.starsCount}
           />
           <InfoCard
             icon="code-fork"
-            tipsoTheme="dark"
             mainText={totalFork}
             subText={githubTexts.forksCount}
           />
           <InfoCard
             icon="cubes"
-            tipsoTheme="dark"
             mainText={yearlyRepos.length}
             subText={githubTexts.reposCount}
           />

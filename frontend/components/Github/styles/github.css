@@ -614,11 +614,14 @@
   }
 }
 
-.github_calendar {
+/* hotmap */
+.githubCalendar {
   composes: card from 'STYLES/common.css';
   border-color: transparent;
   background-color: var(--oc-white);
   text-align: center;
+  min-height: 200px;
+  padding-top: 10px;
 
   & h2:first-child {
     margin-bottom: 10px;
@@ -627,6 +630,54 @@
     display: none;
   }
 }
+
+.githubHotmap {
+  overflow: hidden;
+  margin: 0 15px 15px;
+}
+
+.hotmapCards {
+  border-top: 1px solid #eaeaea;
+}
+
+.hotmapControllers {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px 5px;
+
+  & .hotmapController {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+
+    &:first-child {
+      justify-content: flex-start;
+      padding-left: 5px;
+    }
+
+    &:last-child {
+      justify-content: flex-end;
+      padding-right: 5px;
+    }
+
+    & i {
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+  }
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  min-height: auto;
+}
+
+/* ========== */
 
 .reposTitleContainer {
   display: flex;

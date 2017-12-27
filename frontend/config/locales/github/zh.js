@@ -9,7 +9,12 @@ const datas = {
   },
   sections: {
     hotmap: {
-      title: '活跃度'
+      title: '活跃度',
+      total: '过去一年总提交数',
+      longestStreak: '最长连击天数',
+      currentStreak: '当前连击天数',
+      tipso: '目前仅统计过去一年内的数据',
+      streakError: '暂无记录，快去搬砖！'
     },
     baseInfo: {
       title: '基本信息',

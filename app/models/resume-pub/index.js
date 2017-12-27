@@ -24,14 +24,12 @@ const findByHash = async hash =>
 const findPublicResume = async (options) => {
   const findResult = await ResumePub.findOne(options);
   if (!findResult) {
-    return Promise.resolve({
-      success: false,
-    });
+    return { success: false, };
   }
-  return Promise.resolve({
+  return {
     success: true,
     result: findResult
-  });
+  };
 };
 
 const addPubResume = async (userId, options = {}) => {
@@ -52,15 +50,15 @@ const addPubResume = async (userId, options = {}) => {
   });
 
   if (saveResult) {
-    return Promise.resolve({
+    return {
       success: true,
       result: saveResult
-    });
+    };
   }
-  return Promise.resolve({
+  return {
     success: false,
     result: null
-  });
+  };
 };
 
 const updatePubResume = async (userId, options) => {
@@ -73,9 +71,7 @@ const updatePubResume = async (userId, options) => {
 
   await result.save();
 
-  return Promise.resolve({
-    success: true
-  });
+  return { success: true };
 };
 
 const checkResumeShare = async (hash, verify = {}) => {
@@ -88,13 +84,9 @@ const checkResumeShare = async (hash, verify = {}) => {
     openShare = true;
   }
   if (!openShare) {
-    return Promise.resolve({
-      success: false
-    });
+    return { success: false };
   }
-  return Promise.resolve({
-    success: true
-  });
+  return { success: true };
 };
 
 const getPubResumeInfo = async (hash) => {
@@ -105,14 +97,14 @@ const getPubResumeInfo = async (hash) => {
   const findResume = await Resume.findOne(userId);
   if (!findResume.success) return findResume;
 
-  return Promise.resolve({
+  return {
     success: true,
     result: {
       userId,
       resumeHash,
       name: findResume.result.info.name,
     }
-  });
+  };
 };
 
 const getUpdateTime = async (resumeHash) => {
@@ -134,16 +126,12 @@ const getPubResume = async (resumeHash) => {
 
 const deletePubResume = async (userId, resumeHash) => {
   await ResumePub.remove({ userId, resumeHash });
-  return Promise.resolve({
-    success: true
-  });
+  return { success: true };
 };
 
 const clearPubResume = async (userId) => {
   await ResumePub.remove({ userId });
-  return Promise.resolve({
-    success: true
-  });
+  return { success: true };
 };
 
 export default {
