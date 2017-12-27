@@ -22,7 +22,7 @@ class TabBar extends React.Component {
 
   componentDidMount() {
     Headroom.options.offset = 50;
-    const headroom = new Headroom(this.headroom);
+    const headroom = new Headroom(this.tabBar);
     headroom.init();
   }
 
@@ -51,7 +51,7 @@ class TabBar extends React.Component {
 
   render() {
     return (
-      <div className="app_tabs" ref={ref => (this.headroom = ref)}>
+      <div className="app_tabs" ref={ref => (this.tabBar = ref)}>
         <div className="app_tabs_container">
           {this.renderTab()}
         </div>

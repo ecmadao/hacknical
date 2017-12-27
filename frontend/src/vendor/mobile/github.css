@@ -73,6 +73,30 @@
   box-shadow: 0 -1px 1px 1px rgba(0, 0, 0, 0.05);
 }
 
+.fab {
+  right: 10px;
+  bottom: 10px;
+  position: fixed;
+  transition: transform 0.5s;
+  z-index: var(--zIndex9);
+}
+
+
+.fab-pinned,
+.fab-unpinned {
+  position: fixed;
+  bottom: 0;
+}
+
+.fab-pinned {
+  transform: translateY(0);
+}
+
+.fab-unpinned {
+  transform: translateY(100%);
+}
+
+
 @media (max-width: 800px) {
   .share {
     font-size: 14px;

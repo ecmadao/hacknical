@@ -3,6 +3,7 @@
 import React from 'react';
 import Chart from 'chart.js';
 import cx from 'classnames';
+import Headroom from 'headroom.js';
 import objectAssign from 'UTILS/object-assign';
 import ScrollReveal from 'scrollreveal';
 import { Message } from 'light-ui/lib/raw';
@@ -72,6 +73,17 @@ class GitHubMobileShare extends React.Component {
     }
     repositoriesLoaded && commitLoaded && this.initialScrollReveal();
     commitLoaded && !preState.commitLoaded && this.renderRepositoriesChart();
+
+    if (this.props.isAdmin && !this.headroom && this.refreshButton) {
+      this.headroom = new Headroom(this.refreshButton, {
+        classes: {
+          initial: 'fab',
+          pinned: 'fab-pinned',
+          unpinned: 'fab-unpinned'
+        }
+      });
+      this.headroom.init();
+    }
   }
 
   async getRefreshStatus() {
@@ -581,19 +593,15 @@ class GitHubMobileShare extends React.Component {
         ) : ''}
 
         {isAdmin ? (
-          <FloatingActionButton
-            icon="refresh"
-            style={{
-              position: 'fixed',
-              bottom: '20px',
-              right: '20px',
-              zIndex: '11'
-            }}
-            color="dark"
-            onClick={this.refreshGithubDatas}
-            className={refreshing ? styles.roating : ''}
-            disabled={refreshing}
-          />
+          <div ref={ref => (this.refreshButton = ref)}>
+            <FloatingActionButton
+              icon="refresh"
+              color="dark"
+              onClick={this.refreshGithubDatas}
+              className={refreshing ? styles.roating : ''}
+              disabled={refreshing}
+            />
+          </div>
         ) : ''}
       </div>
     );
