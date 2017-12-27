@@ -115,6 +115,7 @@ class GitHubMobileShare extends React.Component {
     this.setState({ refreshing: true });
     Api.github.refresh().then((result) => {
       this.setRefreshStatus(result);
+      window.location.reload(false);
     });
   }
 
