@@ -7,7 +7,9 @@ import GitHubMobileShare from './container';
 const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId);
   ReactDOM.render(
-    <GitHubMobileShare {...props} />,
+    <GitHubMobileShare
+      {...props}
+    />,
     DOM
   );
 };

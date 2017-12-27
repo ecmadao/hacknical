@@ -137,10 +137,11 @@ class Setting extends React.Component {
   render() {
     const {
       loading,
-      updateTime,
       actions,
       resumeInfo,
-      githubInfo
+      githubInfo,
+      updateTime,
+      refreshEnable
     } = this.props;
 
     const resumeInfoLoading = resumeInfo && resumeInfo.loading;
@@ -173,7 +174,7 @@ class Setting extends React.Component {
                 <Button
                   value={settingTexts.github.updateButtonText}
                   theme="flat"
-                  disabled={loading}
+                  disabled={loading || !refreshEnable}
                   onClick={actions.refreshGithubDatas}
                 />
               </div>

@@ -42,8 +42,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  /*margin-bottom: 15px;*/
-  /*padding-top: 15px;*/
 
   & .repos_xAxes {
     height: 2px;
@@ -143,4 +141,14 @@
       }
     }
   }
+}
+
+@keyframes roating {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.roating {
+  animation: roating 2s linear infinite;
 }

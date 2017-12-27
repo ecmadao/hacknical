@@ -3,7 +3,8 @@ const datas = {
   message: {
     update: {
       header: '更新完成',
-      body: 'GitHub 数据更新完成，请刷新页面'
+      body: 'GitHub 数据更新完成，请刷新页面',
+      error: '更新太频繁了😕'
     },
   },
   sections: {

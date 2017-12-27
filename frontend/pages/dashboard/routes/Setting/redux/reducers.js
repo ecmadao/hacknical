@@ -5,6 +5,7 @@ import dateHelper from 'UTILS/date';
 const initialState = {
   loading: true,
   updateTime: null,
+  refreshEnable: false,
   resumeInfo: {
     loading: true,
     useGithub: false,
@@ -47,6 +48,7 @@ const reducers = handleActions({
     return ({
       ...state,
       updateTime,
+      refreshEnable: (new Date() - new Date(updateRawTime)) / (60 * 1000) > 10,
       loading: false
     });
   },

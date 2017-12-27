@@ -4,7 +4,8 @@ import initialBanner from 'SRC/vendor/shared/footer_banner';
 
 $(() => {
   renderApp('github', {
-    login: window.login
+    login: window.login,
+    isAdmin: Boolean(window.isAdmin)
   });
 
   const $shareBanner = $('#share_banner')[0];

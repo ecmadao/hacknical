@@ -5,7 +5,8 @@ import Chart from 'chart.js';
 import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
 import ScrollReveal from 'scrollreveal';
-import { Loading, InfoCard, CardGroup } from 'light-ui';
+import { Message } from 'light-ui/lib/raw';
+import { Loading, InfoCard, CardGroup, FloatingActionButton } from 'light-ui';
 
 import Api from 'API';
 import github from 'UTILS/github';
@@ -27,7 +28,9 @@ import USER from 'SRC/data/user';
 const sortByLanguageStar = github.sortByX('star');
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
+const githubMsg = githubLocales.message;
 const getDateBySeconds = dateHelper.date.bySeconds;
+const message = new Message();
 
 class GitHubMobileShare extends React.Component {
   constructor(props) {
@@ -45,16 +48,20 @@ class GitHubMobileShare extends React.Component {
       },
       languageDistributions: {},
       languageSkills: [],
-      languageUsed: {}
+      languageUsed: {},
+      refreshEnable: false,
+      refreshing: false,
     };
     this.reposChart = null;
     this.languageSkillChart = null;
     this.commitsYearlyReviewChart = null;
+    this.refreshGithubDatas = this.refreshGithubDatas.bind(this);
   }
 
   componentDidMount() {
     this.getGithubUser();
     this.getGithubRepositories();
+    this.getRefreshStatus();
   }
 
   componentDidUpdate(preProps, preState) {
@@ -65,6 +72,20 @@ class GitHubMobileShare extends React.Component {
     }
     repositoriesLoaded && commitLoaded && this.initialScrollReveal();
     commitLoaded && !preState.commitLoaded && this.renderRepositoriesChart();
+  }
+
+  async getRefreshStatus() {
+    const { isAdmin } = this.props;
+    if (!isAdmin) return;
+    const updateTime = await Api.github.getUpdateTime();
+    this.setRefreshStatus(updateTime);
+  }
+
+  setRefreshStatus(updateTime) {
+    this.setState({
+      refreshing: false,
+      refreshEnable: (new Date() - new Date(updateTime)) / (60 * 1000) > 10
+    });
   }
 
   async getGithubUser() {
@@ -83,6 +104,18 @@ class GitHubMobileShare extends React.Component {
     const { login } = this.props;
     const { repositories } = await Api.github.getRepositories(login);
     this.setGithubRepositories(repositories);
+  }
+
+  refreshGithubDatas() {
+    const { refreshEnable } = this.state;
+    if (!refreshEnable) {
+      message.error(githubMsg.update.error);
+      return;
+    }
+    this.setState({ refreshing: true });
+    Api.github.refresh().then((result) => {
+      this.setRefreshStatus(result);
+    });
   }
 
   setGithubCommits(result) {
@@ -109,13 +142,16 @@ class GitHubMobileShare extends React.Component {
 
   initialScrollReveal() {
     const sr = ScrollReveal({ reset: true });
-    sr.reveal('#repos_chart', { duration: 150 });
-    sr.reveal('#skill_chart', { duration: 150 });
-    sr.reveal('#commits_chart', { duration: 150 });
-
-    sr.reveal('#commits_wrapper', { duration: 150 });
-    sr.reveal('#repos_wrapper', { duration: 150 });
-    sr.reveal('#language_wrapper', { duration: 150 });
+    try {
+      sr.reveal('#repos_chart', { duration: 150 });
+      sr.reveal('#skill_chart', { duration: 150 });
+      sr.reveal('#commits_chart', { duration: 150 });
+      // sr.reveal('#commits_wrapper', { duration: 150 });
+      sr.reveal('#repos_wrapper', { duration: 150 });
+      // sr.reveal('#language_wrapper', { duration: 150 });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   renderCharts() {
@@ -166,17 +202,6 @@ class GitHubMobileShare extends React.Component {
       commitDates.push(monthlyCommits[key]);
       dateLabels.push(key);
     });
-    // this.monthlyCommits = {
-    //   commitDates,
-    //   dateLabels
-    // };
-
-    // commits.forEach((item) => {
-    //   commitDates.push(item.total);
-    //   dateLabels.push(
-    //     `${getDateBySeconds(item.week - 7 * 24 * 60 * 60)} ~ ${getDateBySeconds(item.week)}`
-    //   );
-    // });
     this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChart, {
       type: 'line',
       data: {
@@ -210,21 +235,9 @@ class GitHubMobileShare extends React.Component {
             gridLines: {
               display: false
             },
-            ticks: {
-              beginAtZero: true,
-            }
+            ticks: { beginAtZero: true, }
           }],
         },
-        // tooltips: {
-        //   callbacks: {
-        //     title: (item, data) => {
-        //       return `${item[0].xLabel} ~ ${dateHelper.date.afterDays(7, item[0].xLabel)}`
-        //     },
-        //     label: (item, data) => {
-        //       return `${item.yLabel} commits this week`
-        //     }
-        //   }
-        // }
       }
     });
   }
@@ -255,12 +268,8 @@ class GitHubMobileShare extends React.Component {
           display: true,
           text: githubTexts.languages.starChart.title
         },
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          enabled: false,
-        }
+        legend: { display: false, },
+        tooltips: { enabled: false, }
       }
     });
   }
@@ -288,9 +297,6 @@ class GitHubMobileShare extends React.Component {
           display: false,
           text: ''
         },
-        // legend: {
-        //   display: false,
-        // },
         scales: {
           xAxes: [{
             display: false,
@@ -454,11 +460,13 @@ class GitHubMobileShare extends React.Component {
   render() {
     const {
       commits,
+      refreshing,
       commitLoaded,
       languageSkills,
       repositoriesLoaded,
       languageDistributions
     } = this.state;
+    const { isAdmin } = this.props;
 
     if (!repositoriesLoaded) {
       return (
@@ -569,6 +577,22 @@ class GitHubMobileShare extends React.Component {
               />
             </div>
           </div>
+        ) : ''}
+
+        {isAdmin ? (
+          <FloatingActionButton
+            icon="refresh"
+            style={{
+              position: 'fixed',
+              bottom: '20px',
+              right: '20px',
+              zIndex: '11'
+            }}
+            color="dark"
+            onClick={this.refreshGithubDatas}
+            className={refreshing ? styles.roating : ''}
+            disabled={refreshing}
+          />
         ) : ''}
       </div>
     );
