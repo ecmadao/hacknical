@@ -1,6 +1,6 @@
 @import 'open-color/open-color.css';
 
-.not_admin {
+.notAdmin {
   & .mobile_card_full {
     background-color: transparent !important;
     margin: 0 !important;
@@ -151,4 +151,9 @@
 
 .roating {
   animation: roating 2s linear infinite;
+}
+
+.hotmapContainer {
+  box-shadow: none;
+  min-height: 150px !important;
 }

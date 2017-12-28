@@ -25,6 +25,7 @@ import sharedStyles from '../../shared/styles/mobile.css';
 import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
 import USER from 'SRC/data/user';
+import Hotmap from 'Components/Github/Hotmap';
 
 const sortByLanguageStar = github.sortByX('star');
 const githubLocales = locales('github');
@@ -479,7 +480,7 @@ class GitHubMobileShare extends React.Component {
       repositoriesLoaded,
       languageDistributions
     } = this.state;
-    const { isAdmin } = this.props;
+    const { isAdmin, login } = this.props;
 
     if (!repositoriesLoaded) {
       return (
@@ -497,7 +498,14 @@ class GitHubMobileShare extends React.Component {
     const maxStarCountIndex = getMaxIndex(starCount);
 
     return (
-      <div className={styles.not_admin}>
+      <div className={styles.notAdmin}>
+
+        <Hotmap
+          login={login}
+          renderCards={false}
+          className={styles.hotmapContainer}
+        />
+
         <div className={cx(sharedStyles.mobile_card, styles.mobile_card_full)}>
           <div
             id="repos_chart"

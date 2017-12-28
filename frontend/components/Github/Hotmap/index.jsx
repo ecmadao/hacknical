@@ -74,7 +74,8 @@ class Hotmap extends React.Component {
 
   renderCardGroup() {
     const { hotmap } = this.state;
-    if (!hotmap.datas) return null;
+    const { renderCards } = this.props;
+    if (!hotmap.datas || !renderCards) return null;
     const {
       end,
       start,
@@ -154,23 +155,21 @@ class Hotmap extends React.Component {
         )}
       >
         <Loading className={styles.loading} loading={!loaded} />
+        <div id="cal-heatmap" className={styles.githubHotmap} />
         <div className={styles.hotmapControllers}>
-          <div className={styles.hotmapController}>
+          <div className={styles.hotmapController} id="hotmap-left">
             <i
               aria-hidden="true"
-              id="hotmap-left"
               className="fa fa-angle-left"
             />
           </div>
-          <div className={styles.hotmapController}>
+          <div className={styles.hotmapController} id="hotmap-right">
             <i
               aria-hidden="true"
-              id="hotmap-right"
               className="fa fa-angle-right"
             />
           </div>
         </div>
-        <div id="cal-heatmap" className={styles.githubHotmap} />
         {this.renderCardGroup()}
       </div>
     );
@@ -178,7 +177,9 @@ class Hotmap extends React.Component {
 }
 
 Hotmap.defaultProps = {
-  className: ''
+  className: '',
+  login: '',
+  renderCards: true,
 };
 
 export default Hotmap;

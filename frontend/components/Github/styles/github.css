@@ -621,7 +621,7 @@
   background-color: var(--oc-white);
   text-align: center;
   min-height: 200px;
-  padding-top: 10px;
+  padding-top: 20px;
 
   & h2:first-child {
     margin-bottom: 10px;
@@ -633,7 +633,7 @@
 
 .githubHotmap {
   overflow: hidden;
-  margin: 0 15px 15px;
+  margin: 0 15px 5px;
 }
 
 .hotmapCards {
@@ -645,7 +645,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 0 10px 5px;
+  margin: 0 15px;
 
   & .hotmapController {
     flex: 1;
