@@ -198,6 +198,7 @@ const sharePageMobile = async (ctx) => {
   const user = await _getUser(ctx);
   const { githubLogin } = ctx.session;
   const title = ctx.__('sharePage.github', user.name || user.login);
+  const locale = ctx.__('language.id');
 
   const {
     bio,
@@ -211,6 +212,7 @@ const sharePageMobile = async (ctx) => {
 
   await ctx.render('user/mobile/github', {
     title,
+    locale,
     user: {
       bio,
       login,
@@ -224,7 +226,7 @@ const sharePageMobile = async (ctx) => {
     },
     shareText: ctx.__('messages.share.mobileText'),
     joinAt: ctx.__('sharePage.joinAt'),
-    menu: getMobileMenu(ctx)
+    menu: getMobileMenu(ctx),
   });
 };
 

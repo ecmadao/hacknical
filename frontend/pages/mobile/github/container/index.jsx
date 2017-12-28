@@ -499,16 +499,11 @@ class GitHubMobileShare extends React.Component {
 
     return (
       <div className={styles.notAdmin}>
-
         <Hotmap
           login={login}
           renderCards={false}
-          className={cx(
-            styles.hotmapContainer,
-            !isAdmin && styles.hotmapShared
-          )}
+          className={styles.hotmapContainer}
         />
-
         <div className={cx(sharedStyles.mobile_card, styles.mobile_card_full)}>
           <div
             id="repos_chart"

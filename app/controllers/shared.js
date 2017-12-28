@@ -5,6 +5,7 @@ export const getMobileMenu = ctx => ({
   githubShare: ctx.__('mobilePage.menu.githubShare'),
   resumeShare: ctx.__('mobilePage.menu.resumeShare'),
   dataRefresh: ctx.__('mobilePage.menu.dataRefresh'),
+  about: ctx.__('mobilePage.menu.about'),
   logout: ctx.__('mobilePage.menu.logout')
 });
 
