@@ -32,6 +32,7 @@ html, body {
   justify-content: center;
   box-shadow: var(--topShadow);
   background-color: var(--oc-white);
+  z-index: 1;
 }
 
 .mobile_topbar-pinned,
