@@ -302,6 +302,9 @@ const refreshRepositories = async (ctx, next) => {
     cacheKey('user-github', {
       session: ['githubLogin']
     }),
+    cacheKey('user-hotmap', {
+      session: ['githubLogin', 'locale']
+    }),
   ];
 
   ctx.body = {
