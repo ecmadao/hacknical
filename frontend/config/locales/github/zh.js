@@ -10,10 +10,10 @@ const datas = {
   sections: {
     hotmap: {
       title: '活跃度',
-      total: '过去一年总提交数',
+      total: '历史总提交数',
       longestStreak: '最长连击天数',
       currentStreak: '当前连击天数',
-      tipso: '目前仅统计过去一年内的数据，以周一作为每周的开始',
+      tipso: '统计历史上所有提交数据，以周一作为每周的开始',
       streakError: '暂无记录，快去搬砖！',
       weekly: '提交数目最多的一周',
       daily: '提交数目最多的一天',

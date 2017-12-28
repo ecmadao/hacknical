@@ -10,10 +10,10 @@ const datas = {
   sections: {
     hotmap: {
       title: 'Hotmap',
-      total: 'Last year\'s contributions',
+      total: 'Totoal contributions',
       longestStreak: 'Longest streak days',
       currentStreak: 'Current streak days',
-      tipso: 'Currently we only count commits in the last year, using Sunday as the start of week.',
+      tipso: 'Count commits from to day you joined GitHub, using Sunday as the start of week.',
       streakError: 'No records found',
       weekly: 'The busiest week',
       daily: 'The crazy day',

@@ -2,6 +2,7 @@ import objectAssign from 'UTILS/object-assign';
 import dateHelper from 'UTILS/date';
 
 const formatHotmap = (hotmap) => {
+  const now = dateHelper.validator.fullDate();
   const { datas } = hotmap;
   const result = {};
   const streak = {
@@ -74,13 +75,15 @@ const formatHotmap = (hotmap) => {
       }
     }
 
-    if (data === 0) {
-      if (streak.longest.count < streak.current.count) {
-        streak.longest = Object.assign({}, streak.current);
+    if (date <= now) {
+      if (data === 0) {
+        if (streak.longest.count < streak.current.count) {
+          streak.longest = Object.assign({}, streak.current);
+        }
+        streak.current.count = 0;
+      } else {
+        streak.current.count += 1;
       }
-      streak.current.count = 0;
-    } else {
-      streak.current.count += 1;
       if (!streak.current.start) streak.current.start = date;
       streak.current.end = date;
     }
@@ -88,7 +91,7 @@ const formatHotmap = (hotmap) => {
     end = date;
     total += data;
   }
-  if (!streak.longest.count) {
+  if (streak.longest.count < streak.current.count) {
     streak.longest = objectAssign({}, streak.current);
   }
   return {
