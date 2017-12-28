@@ -25,7 +25,7 @@ import sharedStyles from '../../shared/styles/mobile.css';
 import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
 import USER from 'SRC/data/user';
-import Hotmap from 'Components/Github/Hotmap/index.jsx';
+import Hotmap from 'COMPONENTS/Github/Hotmap';
 
 const sortByLanguageStar = github.sortByX('star');
 const githubLocales = locales('github');
