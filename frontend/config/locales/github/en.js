@@ -13,8 +13,10 @@ const datas = {
       total: 'Last year\'s contributions',
       longestStreak: 'Longest streak days',
       currentStreak: 'Current streak days',
-      tipso: 'Currently we only count commits in the last year',
-      streakError: 'No records found'
+      tipso: 'Currently we only count commits in the last year, using Sunday as the start of week.',
+      streakError: 'No records found',
+      weekly: 'The busiest week',
+      daily: 'The crazy day',
     },
     baseInfo: {
       title: 'Basic Info',

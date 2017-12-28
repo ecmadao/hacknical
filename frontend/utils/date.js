@@ -42,7 +42,8 @@ export default {
       moment(date).add(parseInt(after, 10), 'days').format('YYYY-MM-DD'),
     bySeconds: (seconds, format = 'YYYY-MM-DD') =>
       moment.unix(seconds).format(format),
-    getMonth: date => formatDate('M')(date)
+    getMonth: date => formatDate('M')(date),
+    dayOfWeek: date => formatDate('e')(date),
   },
   relative: {
     hoursBefore: date => moment(date).startOf('hour').fromNow(),

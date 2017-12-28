@@ -13,8 +13,10 @@ const datas = {
       total: '过去一年总提交数',
       longestStreak: '最长连击天数',
       currentStreak: '当前连击天数',
-      tipso: '目前仅统计过去一年内的数据',
-      streakError: '暂无记录，快去搬砖！'
+      tipso: '目前仅统计过去一年内的数据，以周一作为每周的开始',
+      streakError: '暂无记录，快去搬砖！',
+      weekly: '提交数目最多的一周',
+      daily: '提交数目最多的一天',
     },
     baseInfo: {
       title: '基本信息',

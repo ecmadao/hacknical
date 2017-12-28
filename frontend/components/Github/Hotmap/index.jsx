@@ -9,7 +9,8 @@ import Api from 'API';
 import 'SRC/vendor/share/github-calendar.css';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
-import locales from 'LOCALES';
+import locales, { formatLocale } from 'LOCALES';
+import formatHotmap from '../utils/hotmap';
 
 const githubTexts = locales('github').sections.hotmap;
 
@@ -21,7 +22,7 @@ class Hotmap extends React.Component {
       hotmap: {
         start: null,
         end: null,
-        datas: [],
+        datas: null,
         total: null,
         streak: null,
       }
@@ -38,8 +39,9 @@ class Hotmap extends React.Component {
 
   async getHotmap(login) {
     this.githubCalendar = true;
-    const hotmap = await Api.github.getUserHotmap(login);
-    console.log(hotmap);
+    const result = await Api.github.getUserHotmap(login);
+    const hotmap = formatHotmap(result);
+    const local = formatLocale()
     const cal = new CalHeatMap();
     this.setState({
       loaded: true,
@@ -54,14 +56,7 @@ class Hotmap extends React.Component {
       domain: 'month',
       start: new Date(start),
       data: datas,
-      afterLoadData: (items) => {
-        const result = {};
-        items.forEach((item) => {
-          result[new Date(item.date).getTime() / 1000] = item.data;
-        });
-        return result;
-      },
-      weekStartOnMonday: true,
+      weekStartOnMonday: local === 'zh-CN',
       subDomain: 'day',
       range: 13,
       displayLegend: false,
@@ -79,7 +74,7 @@ class Hotmap extends React.Component {
 
   renderCardGroup() {
     const { hotmap } = this.state;
-    if (!hotmap.datas.length) return null;
+    if (!hotmap.datas) return null;
     const {
       end,
       start,
@@ -94,37 +89,56 @@ class Hotmap extends React.Component {
           styles.hotmapCards
         )}
       >
-        <InfoCard
-          icon="terminal"
-          tipsoTheme="dark"
-          mainText={total}
-          subText={githubTexts.total}
-          tipso={{
-            text: `${start} ~ ${end}`
-          }}
-        />
-        <InfoCard
-          icon="rocket"
-          tipsoTheme="dark"
-          mainText={streak.longest.count}
-          subText={githubTexts.longestStreak}
-          tipso={{
-            text: streak.longest.start
-              ? `${streak.longest.start} ~ ${streak.longest.end}`
-              : githubTexts.streakError
-          }}
-        />
-        <InfoCard
-          icon="thumb-tack"
-          tipsoTheme="dark"
-          mainText={streak.current.count}
-          subText={githubTexts.currentStreak}
-          tipso={{
-            text: streak.current.start
-              ? `${streak.current.start} ~ ${streak.current.end}`
-              : githubTexts.streakError
-          }}
-        />
+        <CardGroup>
+          <InfoCard
+            icon="terminal"
+            tipsoTheme="dark"
+            mainText={total}
+            subText={githubTexts.total}
+            tipso={{
+              text: `${start} ~ ${end}`
+            }}
+          />
+          <InfoCard
+            tipsoTheme="dark"
+            mainText={`${streak.weekly.start}~${streak.weekly.end}`}
+            subText={githubTexts.weekly}
+            tipso={{
+              text: `Totally ${streak.weekly.count} commits`
+            }}
+          />
+        </CardGroup>
+        <CardGroup>
+          <InfoCard
+            tipsoTheme="dark"
+            mainText={streak.daily.date}
+            subText={githubTexts.daily}
+            tipso={{
+              text: `${streak.daily.count} commits`
+            }}
+          />
+          <InfoCard
+            icon="thumb-tack"
+            tipsoTheme="dark"
+            mainText={streak.longest.count}
+            subText={githubTexts.longestStreak}
+            tipso={{
+              text: streak.longest.start
+                ? `${streak.longest.start} ~ ${streak.longest.end}`
+                : githubTexts.streakError
+            }}
+          />
+          <InfoCard
+            tipsoTheme="dark"
+            mainText={streak.current.count}
+            subText={githubTexts.currentStreak}
+            tipso={{
+              text: streak.current.start
+                ? `${streak.current.start} ~ ${streak.current.end}`
+                : githubTexts.streakError
+            }}
+          />
+        </CardGroup>
       </CardGroup>
     );
   }
