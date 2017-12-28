@@ -205,8 +205,9 @@ export const getCommitsStockConfig = (options) => {
     commitsDates,
     dateFormat,
   } = options;
-  const seriesData = commitsDates.map((pageView) => {
-    const { commits, seconds } = pageView;
+  commitsDates.sort((pre, next) => pre.seconds - next.seconds);
+  const seriesData = commitsDates.map((item) => {
+    const { commits, seconds } = item;
     return [seconds, commits];
   });
   const config = objectAssign(

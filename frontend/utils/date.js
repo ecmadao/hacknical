@@ -4,8 +4,28 @@ import { formatLocale } from 'LOCALES';
 const locale = formatLocale();
 moment.locale(locale);
 
+const __validateDate = (rawDate) => {
+  const date = `${rawDate}`;
+  let separator = '-';
+  let dates = date.split(separator);
+  if (!dates.length) {
+    separator = '/'
+    dates = date.split(separator);
+  }
+  if (!dates.length) return rawDate;
+  const result = [dates[0]];
+  for (let i = 1; i <= 2; i += 1) {
+    let num = dates[i];
+    if (!num) num = '01';
+    if (num.length < 2) num = `0${num}`;
+    result.push(num);
+  }
+  result.push(...dates.slice(3));
+  return result.join(separator);
+};
+
 const formatDate = format => date => moment(date).format(format);
-const getSeconds = date => parseInt(formatDate('X')(date), 10);
+const getSeconds = date => parseInt(formatDate('X')(__validateDate(date)), 10);
 const getDateBeforeYears = format => before =>
   moment().add(-parseInt(before, 10), 'years').format(format)
 const getDateAfterYears = format => after =>
