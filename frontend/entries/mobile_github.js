@@ -5,7 +5,7 @@ import initialHeadroom from 'SRC/vendor/shared/headroom';
 $(() => {
   renderApp('github', {
     login: window.login,
-    isAdmin: Boolean(window.isAdmin)
+    isAdmin: window.isAdmin === 'true'
   });
 
   initialHeadroom('#share_banner');

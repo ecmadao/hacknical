@@ -503,7 +503,10 @@ class GitHubMobileShare extends React.Component {
         <Hotmap
           login={login}
           renderCards={false}
-          className={styles.hotmapContainer}
+          className={cx(
+            styles.hotmapContainer,
+            !isAdmin && styles.hotmapShared
+          )}
         />
 
         <div className={cx(sharedStyles.mobile_card, styles.mobile_card_full)}>
