@@ -41,7 +41,7 @@ class Hotmap extends React.Component {
     this.githubCalendar = true;
     const result = await Api.github.getUserHotmap(login);
     const hotmap = formatHotmap(result);
-    const local = formatLocale()
+    const local = formatLocale();
     const cal = new CalHeatMap();
     this.setState({
       loaded: true,
@@ -52,6 +52,7 @@ class Hotmap extends React.Component {
       datas,
       levelRanges,
     } = hotmap;
+    console.log(hotmap);
     cal.init({
       domain: 'month',
       start: new Date(start),
@@ -65,9 +66,9 @@ class Hotmap extends React.Component {
       legend: levelRanges,
       domainLabelFormat: '%Y-%m',
       legendColors: {
-        min: '#eee',
+        min: '#DCDCDC',
         max: '#196127',
-        empty: '#eee'
+        empty: '#DCDCDC'
       }
     });
   }

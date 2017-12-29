@@ -37,7 +37,7 @@
 
 **计划中的功能：**
 
-- [ ] 通过分析用户的 github star 信息，来预测其技术偏好和趋势
+- [x] 通过分析用户的 github star 信息，来预测其技术偏好和趋势
 - [x] 将在线简历转为 PDF
 - [ ] 移动端简历的编辑
 - [x] 移动端简历的展示
@@ -48,13 +48,13 @@
 **已知的问题：**
 
 - [x] 用户的 repos 没有抓取完全
-- [ ] 微信分享到朋友圈后，页面会被强制重排（需要微信公众号认证）
+- [x] 微信分享到朋友圈后，页面会被强制重排（需要 https）
 
 如果有其他的建议，欢迎 [提出 issue](https://github.com/ecmadao/hacknical/issues)
 
 ### Others
 
-- hacknical 是一个开源项目，遵循 [Apache License](https://github.com/ecmadao/hacknical/blob/master/LICENSE) 
+- hacknical 是一个开源项目，遵循 [Apache License](https://github.com/ecmadao/hacknical/blob/master/LICENSE)
 - 项目地址位于：[ecmadao/hacknical](https://github.com/ecmadao/hacknical)
 - 保证对用户永久免费
 - 线上 DEMO

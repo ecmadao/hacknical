@@ -27,7 +27,10 @@ const formatHotmap = (hotmap) => {
     },
   };
   const levelRange = {
-    0: 0,
+    0: {
+      sum: 0,
+      count: 1
+    },
     1: null,
     2: null,
     3: null,
@@ -70,9 +73,14 @@ const formatHotmap = (hotmap) => {
     weekTmp.end = date;
 
     if (level !== 0) {
-      if (levelRange[level] === null || levelRange[level] > data) {
-        levelRange[level] = data;
+      if (levelRange[level] === null) {
+        levelRange[level] = {
+          sum: 0,
+          count: 0,
+        };
       }
+      levelRange[level].sum += data;
+      levelRange[level].count += 1;
     }
 
     if (date <= now) {
@@ -100,7 +108,9 @@ const formatHotmap = (hotmap) => {
     total,
     streak,
     datas: result,
-    levelRanges: Object.keys(levelRange).map(l => levelRange[l]),
+    levelRanges: Object.keys(levelRange)
+      .filter(l => levelRange[l] !== null)
+      .map(l => Math.ceil(levelRange[l].sum / levelRange[l].count)),
   };
 };
 
