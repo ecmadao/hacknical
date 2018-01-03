@@ -8,6 +8,36 @@ import logger from '../utils/logger';
 
 const qName = config.get('mq.qnameRefresh');
 
+const clearCache = async (ctx, next) => {
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey('user-repositories', {
+      query: ['login']
+    }),
+    cacheKey('user-contributed', {
+      query: ['login']
+    }),
+    cacheKey('allRepositories', {
+      query: ['login']
+    }),
+    cacheKey('user-github', {
+      query: ['login']
+    }),
+    cacheKey('user-hotmap', {
+      query: ['login'],
+      session: ['locale']
+    }),
+    cacheKey('user-organizations', {
+      query: ['login'],
+    }),
+    cacheKey('user-commits', {
+      query: ['login'],
+    })
+  ];
+
+  await next();
+};
+
 const logout = async (ctx) => {
   ctx.session.userId = null;
   ctx.session.githubToken = null;
@@ -170,6 +200,7 @@ export default {
   initialFinished,
   getPinnedRepos,
   setPinnedRepos,
+  clearCache,
   // mobile
   mobileAnalysis,
   mobileSetting,

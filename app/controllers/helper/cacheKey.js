@@ -1,41 +1,31 @@
 import { getValue } from '../../utils/helper';
 
-const OPTIONS = {
-  params: [],
-  session: [],
-  query: [],
-  keys: []
-};
-
 const getCacheKey = ctx => (key, options = {}) => {
   let cacheKey = key;
-  const cachekeys = Object.assign({}, OPTIONS, options);
-  const { params, session, query, keys } = cachekeys;
+  const cacheOptions = Object.assign({}, options);
+  const { keys = [] } = cacheOptions;
+  delete cacheOptions.keys;
+  const cachekeys = Object.keys(cacheOptions);
 
-  let result = null;
   for (let i = 0; i < keys.length; i += 1) {
     const keyPath = keys[i];
-    result = getValue(ctx, keyPath);
-    if (result) { break; }
-  }
-  if (result) {
-    cacheKey = `${cacheKey}.${result}`;
+    const result = getValue(ctx, keyPath);
+    if (result) {
+      cacheKey = `${cacheKey}.${result}`;
+    }
   }
 
-  const paramIds = params.map(param => ctx.params[param] || '').join('.');
-  const sessionIds = session.map(s => ctx.session[s] || '').join('.');
-  const queryIds = query.map(q => ctx.query[q] || '').join('.');
+  for (let i = 0; i < cachekeys.length; i += 1) {
+    const tmpKey = cachekeys[i];
+    const joinedResult = ctx[tmpKey]
+      ? cacheOptions[tmpKey].map(s => ctx[tmpKey][s] || '').join('.')
+      : '';
+    if (joinedResult) {
+      cacheKey = `${cacheKey}.${joinedResult}`;
+    }
+  }
 
-  if (paramIds) {
-    cacheKey = `${cacheKey}.${paramIds}`;
-  }
-  if (sessionIds) {
-    cacheKey = `${cacheKey}.${sessionIds}`;
-  }
-  if (queryIds) {
-    cacheKey = `${cacheKey}.${queryIds}`;
-  }
-  return cacheKey
+  return cacheKey;
 };
 
 export default getCacheKey;

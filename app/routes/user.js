@@ -38,6 +38,12 @@ router.get('/login',
 
 // API
 router.get('/logout', User.logout);
+router.get(
+  '/clearCache',
+  check.query('login'),
+  User.clearCache,
+  cache.del()
+);
 
 // github sections
 router.get('/github_sections', User.getGithubShareSections);
