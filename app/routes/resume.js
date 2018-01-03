@@ -76,20 +76,20 @@ router.patch('/github/section',
 
 router.get('/sharePage',
   user.checkSession(session.requiredSessions),
-  platform.checkPlatform,
+  platform.setPlatform(),
   Resume.getResumeSharePage
 );
 
 router.get('/:hash',
   share.resumeEnable(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   platform.checkMobile(),
   analyse.resume,
   Resume.getPubResumePage
 );
 router.get('/:hash/mobile',
   share.resumeEnable(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   platform.checkMobile(),
   analyse.resume,
   Resume.getPubResumePageMobile

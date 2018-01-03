@@ -19,16 +19,21 @@ fs.readdirSync(__dirname)
     router.use(route.routes(), route.allowedMethods());
   });
 
-router.get('/', Home.index);
+router.get(
+  '/',
+  user.checkIfLogin(),
+  Home.index
+);
 router.get('/404', Home.handle404);
 router.get(
   '/dashboard',
   user.checkIfLogin(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   Home.dashboard
 );
 router.get(
   '/initial',
+  user.checkIfLogin(),
   Home.initial
 );
 router.get(

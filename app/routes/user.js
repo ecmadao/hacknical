@@ -12,13 +12,13 @@ const router = koaRouter({
 // mobile dashboard page
 router.get('/analysis/mobile',
   user.checkIfLogin(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   platform.checkMobile('/dashboard'),
   User.mobileAnalysis
 );
 router.get('/setting/mobile',
   user.checkIfLogin(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   platform.checkMobile('/dashboard'),
   User.mobileSetting
 );
@@ -32,7 +32,7 @@ router.patch('/initialed',
 // user login/logout/signup page
 router.get('/login',
   user.checkIfNotLogin(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   User.loginPage
 );
 

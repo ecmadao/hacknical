@@ -91,7 +91,7 @@ router.patch(
 router.get(
   '/:login',
   share.githubEnable(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   platform.checkMobile(),
   analyse.github,
   GitHub.sharePage
@@ -99,7 +99,7 @@ router.get(
 router.get(
   '/:login/mobile',
   share.githubEnable(),
-  platform.checkPlatform,
+  platform.setPlatform(),
   platform.checkMobile(),
   analyse.github,
   GitHub.sharePageMobile

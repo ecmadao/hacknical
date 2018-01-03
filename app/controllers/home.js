@@ -21,6 +21,7 @@ const dashboard = async (ctx) => {
   if (!user) {
     ctx.redirect('/user/logout');
   }
+
   if (!user.initialed) {
     ctx.redirect('/initial');
   }

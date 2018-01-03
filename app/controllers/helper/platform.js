@@ -1,5 +1,5 @@
 
-const checkPlatform = async (ctx, next) => {
+const setPlatform = () => async (ctx, next) => {
   const userAgent = ctx.state.userAgent;
   ctx.state.browser = userAgent.browser;
   ctx.state.platform = userAgent.platform;
@@ -24,6 +24,6 @@ const checkMobile = redirectUrl => async (ctx, next) => {
 };
 
 export default {
-  checkPlatform,
+  setPlatform,
   checkMobile
 };
