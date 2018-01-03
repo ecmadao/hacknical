@@ -18,7 +18,7 @@ import githubStyles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import ReposRowInfo from '../ReposRowInfo';
 
-const sortByLanguageStar = github.sortByX('star');
+const sortByLanguageStar = github.sortByX({ key: 'star' });
 const githubTexts = locales('github').sections.languages;
 
 class LanguageInfo extends React.Component {

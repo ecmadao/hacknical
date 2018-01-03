@@ -27,7 +27,7 @@ import locales from 'LOCALES';
 import USER from 'SRC/data/user';
 import Hotmap from 'COMPONENTS/Github/Hotmap';
 
-const sortByLanguageStar = github.sortByX('star');
+const sortByLanguageStar = github.sortByX({ key: 'star' });
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const githubMsg = githubLocales.message;

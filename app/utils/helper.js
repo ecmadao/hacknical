@@ -23,7 +23,7 @@ const sortByX = (key, func = null) =>
 
 export const sortBy = {
   x: sortByX,
-  star: sortByX('stargazers_count', parseInt),
+  star: sortByX({ key: 'stargazers_count', func: parseInt }),
 };
 
 const reValueObject = (object, key) => value => (object[key] = value);

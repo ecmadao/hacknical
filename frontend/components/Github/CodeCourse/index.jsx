@@ -30,22 +30,21 @@ class CodeCourse extends React.Component {
   }
 
   renderChosedRepos() {
-    const { repositories } = this.props;
-    const sortedRepos = github.sortByDate(repositories.slice(0, 20));
+    const repositories = [...this.props.repositories];
+    const topRepositories = repositories
+      .sort(github.sortByX({ func: github.getDateInterval('created_at', 'pushed_at') }))
+      .slice(0, 15);
+    const sortedRepos = github.sortByDate(topRepositories);
 
     this.minDate = dateHelper.validator.full(sortedRepos[0].created_at);
     this.maxDate = github.getMaxDate(sortedRepos);
     return (
       <div className={githubStyles.repos_timeline_container}>
         <div className={githubStyles.repos_dates}>
-          <div
-            className={githubStyles.repos_date}
-          >
+          <div className={githubStyles.repos_date}>
             {getRelativeTime(this.minDate)}
           </div>
-          <div
-            className={githubStyles.repos_date}
-          >
+          <div className={githubStyles.repos_date}>
             {getRelativeTime(this.maxDate)}
           </div>
         </div>

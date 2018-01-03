@@ -86,16 +86,21 @@ const getMaxDate = (repos) => {
   return getFullDateBySecond(Math.max(...pushDates));
 };
 
-const sortByX = (key, func = null) =>
+const getDateInterval = (key1, key2) => repos =>
+  Math.abs(getSecondsByDate(repos[key1]) - getSecondsByDate(repos[key2]));
+
+const sortByX = ({ key = null, func = null }) =>
   (first, second) => {
+    const itemF = key ? first[key] : first;
+    const itemS = key ? second[key] : second;
     if (func) {
-      return func(second[key]) - func(first[key]);
+      return func(itemS) - func(itemF);
     }
-    return second[key] - first[key];
+    return itemS - itemF;
   };
 
-const sortByDate = repos =>
-  repos.sort(sortByX('created_at', getSecondsByDate)).reverse();
+const sortByDate = (repos, key = 'created_at') =>
+  repos.sort(sortByX({ key, func: getSecondsByDate })).reverse();
 
 const sortByLanguage = obj =>
   (firstLanguage, secLanguage) =>
@@ -186,6 +191,7 @@ export default {
   getReposByLanguage,
   getMinDate,
   getMaxDate,
+  getDateInterval,
   /* sort */
   sortByX,
   sortByDate,

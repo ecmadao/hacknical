@@ -23,7 +23,7 @@ import StockChart from 'COMPONENTS/HighStock';
 import { getPVStockConfig } from 'UTILS/stock';
 
 const profileTexts = locales('dashboard').profile.common;
-const sortByCount = github.sortByX('count');
+const sortByCount = github.sortByX({ key: 'count' });
 
 class ShareAnalysis extends React.Component {
   constructor(props) {

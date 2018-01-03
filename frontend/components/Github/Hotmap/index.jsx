@@ -52,7 +52,6 @@ class Hotmap extends React.Component {
       datas,
       levelRanges,
     } = hotmap;
-    console.log(hotmap);
     cal.init({
       domain: 'month',
       start: new Date(start),
@@ -69,7 +68,7 @@ class Hotmap extends React.Component {
         min: '#DCDCDC',
         max: '#196127',
         empty: '#DCDCDC'
-      }
+      },
     });
   }
 

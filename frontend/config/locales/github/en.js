@@ -54,7 +54,7 @@ const datas = {
     course: {
       emptyText: 'No repositories info, please refresh in settings',
       title: 'Code Course',
-      tipso: 'Timelines from the first repository you created'
+      tipso: 'Timelines from the first repository you created (only show top 15 repos by duration of the contirbute time)'
     },
     contributed: {
       title: 'Contributed repositories',

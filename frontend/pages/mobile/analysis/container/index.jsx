@@ -15,7 +15,7 @@ import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
 import github from 'UTILS/github';
 
-const sortByCount = github.sortByX('count');
+const sortByCount = github.sortByX({ key: 'count' });
 const analysisTexts = locales('dashboard').profile.common;
 
 class MobileAnalysis extends React.Component {
