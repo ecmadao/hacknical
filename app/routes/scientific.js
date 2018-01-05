@@ -11,17 +11,19 @@ const router = koaRouter({
 router.get(
   '/:login/statistic',
   share.githubEnable(),
-  cache.get('user-statistic', {
+  cache.get('github-starred-statistic', {
     params: ['login']
   }),
   Scientific.getUserStatistic,
-  cache.set()
+  cache.set({
+    expire: 86400 // 24 hours
+  })
 );
 
 router.get(
   '/:login/predictions',
   share.githubEnable(),
-  cache.get('user-predictions', {
+  cache.get('github-repositories-predictions', {
     params: ['login']
   }),
   Scientific.getUserPredictions,
