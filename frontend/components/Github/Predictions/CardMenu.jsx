@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import styles from '../styles/scientific.css';
+import styles from '../styles/predictions.css';
 
 class CardMenu extends React.PureComponent {
   constructor(props) {

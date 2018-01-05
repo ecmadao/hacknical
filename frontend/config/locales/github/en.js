@@ -22,12 +22,19 @@ const datas = {
       title: 'Basic Info',
       joinedAt: 'Joined at: '
     },
-    scientific: {
+    predictions: {
       title: 'Guess your like',
       like: 'like',
       dislike: 'dislike',
       notShow: 'not show',
       tipso: 'Random created by your starred repositories. You can enhance your prediction modal by giving it a feedback.(Note: This part won\'t appera in your shared page.)'
+    },
+    statistic: {
+      title: 'Star statistic',
+      tipso: 'Using your starred repositories to statistic',
+      languageChartTitle: 'Starred repositories languages',
+      keywordsChartTitle: 'Starred repositories keywords',
+      emptyText: 'Have no analysis result yet, please refresh later.'
     },
     social: {
       repositories: 'Repositories',

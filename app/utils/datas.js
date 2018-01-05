@@ -5,7 +5,8 @@ export const GITHUB_SECTIONS = [
   'languages',
   'commits',
   'orgs',
-  'contributed'
+  'contributed',
+  'statistic'
 ];
 
 export const DEFAULT_RESUME = {

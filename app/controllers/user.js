@@ -35,6 +35,10 @@ const clearCache = async (ctx, next) => {
     })
   ];
 
+  ctx.body = {
+    success: true
+  };
+
   await next();
 };
 

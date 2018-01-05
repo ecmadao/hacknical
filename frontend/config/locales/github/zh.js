@@ -27,12 +27,19 @@ const datas = {
       followers: 'Followers',
       following: 'Following'
     },
-    scientific: {
+    predictions: {
       title: '猜你喜欢',
       like: '喜欢',
       dislike: '差评',
       notShow: '不再显示',
       tipso: '分析你 star & create 的项目后随机生成。你可以通过点击“喜欢”或“差评”来训练模型（这一部分不会从出现在你分享出去的页面上）'
+    },
+    statistic: {
+      title: 'Star 统计',
+      tipso: '根据你标记 Star 的项目进行统计，展现你偏爱的语言和关键字',
+      languageChartTitle: 'Star 的仓库的语言分布',
+      keywordsChartTitle: 'Star 的仓库的关键字提取',
+      emptyText: '暂无分析结果，请稍后刷新重试'
     },
     repos: {
       title: '仓库概览',

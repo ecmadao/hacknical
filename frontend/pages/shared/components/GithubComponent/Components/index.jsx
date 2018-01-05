@@ -31,6 +31,7 @@ class GithubComponent extends React.Component {
       commitLoaded: false,
       openShareModal: false,
       repositoriesLoaded: false,
+      statisticLoaded: false,
       user: objectAssign({}, USER),
       scientific: {
         statistic: null,
@@ -51,6 +52,7 @@ class GithubComponent extends React.Component {
   componentDidUpdate(preProps, preState) {
     const {
       user,
+      scientific,
       commitLoaded,
       repositoriesLoaded,
     } = this.state;
@@ -61,6 +63,7 @@ class GithubComponent extends React.Component {
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
       !isShare && this.getGithubScientific(user.login);
+      !scientific.statistic && this.getGithubStatistic(user.login);
       !repositoriesLoaded && this.getGithubRepositories(user.login);
     }
     if (repositoriesLoaded && !preState.repositoriesLoaded) {
@@ -76,15 +79,21 @@ class GithubComponent extends React.Component {
     this.setState(newState);
   }
 
-  async getGithubScientific(login = '') {
+  async getGithubStatistic(login = '') {
     const statistic = await Api.scientific.getUserStatistic(login);
-    const predictions = await Api.scientific.getUserPredictions(login);
+    const { scientific } = this.state;
     this.setState({
-      scientific: {
-        statistic: statistic || null,
-        predictions: predictions || []
-      },
-    })
+      statisticLoaded: true,
+      scientific: objectAssign(scientific, { statistic: statistic || null })
+    });
+  }
+
+  async getGithubScientific(login = '') {
+    const predictions = await Api.scientific.getUserPredictions(login);
+    const { scientific } = this.state;
+    this.setState({
+      scientific: objectAssign(scientific, { predictions: predictions || [] })
+    });
   }
 
   onPredictionUpdate(index, liked) {
@@ -228,9 +237,11 @@ class GithubComponent extends React.Component {
       repositories,
       commitLoaded,
       openShareModal,
+      statisticLoaded,
       repositoriesLoaded,
     } = this.state;
     const { isShare, containerStyle } = this.props;
+    const { predictions, statistic } = scientific;
 
     const origin = window.location.origin;
     const { login, lastUpdateTime, openShare, shareUrl } = user;
@@ -290,22 +301,40 @@ class GithubComponent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHubSection
-          loaded={!scientific.predictions.length}
           title={{
-            text: githubTexts.scientific.title,
+            text: githubTexts.predictions.title,
             icon: 'github-alt'
           }}
           intro={{
             icon: 'question-circle',
-            text: githubTexts.scientific.tipso
+            text: githubTexts.predictions.tipso
           }}
-          scientific={scientific}
-          section="scientific"
-          key="github-section-scientific"
-          wrapperClass = {styles.scientificWrapper}
-          hide={isShare || !scientific.predictions.length}
+          predictions={predictions}
+          section="predictions"
+          key="github-section-predictions"
+          wrapperClass={styles.scientificWrapper}
+          hide={isShare || !predictions.length}
           onFeedback={this.onPredictionFeedback}
           canOperate={false}
+        />
+        <GitHubSection
+          loaded={statisticLoaded}
+          title={{
+            text: githubTexts.statistic.title,
+            icon: 'star',
+          }}
+          intro={{
+            icon: 'question-circle',
+            text: githubTexts.statistic.tipso
+          }}
+          section="statistic"
+          key="github-section-statistic"
+          statistic={statistic}
+          isShare={isShare}
+          sectionStatus={sections.statistic}
+          callback={this.changeGithubSection}
+          disabled={this.disabledSection('statistic')}
+          hide={this.hideSection('statistic')}
         />
         <GitHubSection
           loaded={repositoriesLoaded || commitLoaded}

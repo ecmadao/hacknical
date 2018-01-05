@@ -43,7 +43,7 @@ class GitHubSection extends React.Component {
   }
 
   get operationItems() {
-    const { sectionStatus } = this.props;
+    const { sectionStatus = true } = this.props;
     return [
       {
         text: sectionStatus ? operationTexts.share.hide : operationTexts.share.show,

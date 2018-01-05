@@ -1,6 +1,6 @@
 import React from 'react';
 import { InfoCard } from 'light-ui';
-import styles from '../styles/scientific.css';
+import styles from '../styles/predictions.css';
 import CardMenu from './CardMenu';
 import locales from 'LOCALES';
 
@@ -66,7 +66,7 @@ const cardSubInfo = (options) => {
   );
 };
 
-class Scientific extends React.PureComponent {
+class Predictions extends React.PureComponent {
   handleItemClick(index, liked, newLike) {
     const {
       onFeedback
@@ -78,8 +78,7 @@ class Scientific extends React.PureComponent {
   }
 
   renderCardRows(ROW_LENGTH = 3) {
-    const { scientific } = this.props;
-    const { predictions } = scientific;
+    const { predictions } = this.props;
     const loopTimes = Math.ceil(predictions.length / ROW_LENGTH);
     const results = [];
     for (let i = 1; i <= loopTimes; i += 1) {
@@ -108,8 +107,8 @@ class Scientific extends React.PureComponent {
 
       const itemIndex = index + (lineIndex * ROW_LENGTH);
       const likedText = likedCount > 10
-        ? `${githubTexts.scientific.like} ${formatCount(likedCount)}`
-        : githubTexts.scientific.like;
+        ? `${githubTexts.predictions.like} ${formatCount(likedCount)}`
+        : githubTexts.predictions.like;
 
       const menuItems = [
         {
@@ -119,13 +118,13 @@ class Scientific extends React.PureComponent {
           className: liked === 1 ? styles.liked : '',
         },
         {
-          text: githubTexts.scientific.dislike,
+          text: githubTexts.predictions.dislike,
           icon: 'thumbs-o-down',
           onClick: this.handleItemClick(itemIndex, liked, -1),
           className: liked === -1 ? styles.disliked : '',
         },
         {
-          text: githubTexts.scientific.notShow,
+          text: githubTexts.predictions.notShow,
           icon: 'eye-slash',
           onClick: this.handleItemClick(itemIndex, liked, -2),
         }
@@ -167,4 +166,4 @@ class Scientific extends React.PureComponent {
   }
 }
 
-export default Scientific;
+export default Predictions;

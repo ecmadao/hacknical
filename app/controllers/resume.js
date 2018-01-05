@@ -75,7 +75,7 @@ const setResume = async (ctx, next) => {
   if (resume.info && resume.info.email) {
     User.updateUserInfo({
       userId,
-      email: resume.info.email
+      email: resume.info.email,
     });
   }
   let resumeInfo = null;
@@ -86,9 +86,9 @@ const setResume = async (ctx, next) => {
       checkResult = await ResumePub.addPubResume(userId);
     }
     resumeInfo = checkResult.success ? {
-      url: `resume/${checkResult.result.resumeHash}?locale=${ctx.session.locale}`,
       useGithub: checkResult.result.useGithub,
-      openShare: checkResult.result.openShare
+      openShare: checkResult.result.openShare,
+      url: `resume/${checkResult.result.resumeHash}?locale=${ctx.session.locale}`,
     } : null;
   }
 
@@ -208,9 +208,9 @@ const getPubResumePageMobile = async (ctx) => {
     login: userLogin,
     menu: getMobileMenu(ctx),
     user: {
-      isAdmin
+      isAdmin,
     },
-    hideFooter: true
+    hideFooter: true,
   });
 };
 
@@ -247,7 +247,7 @@ const setHireAvailable = async (ctx, next) => {
         info: { hireAvailable }
       }
     },
-    userId
+    userId,
   });
 
   const checkPubResume = await ResumePub.findOne({ userId });

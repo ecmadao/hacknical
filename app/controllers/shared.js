@@ -11,8 +11,9 @@ export const getMobileMenu = ctx => ({
 
 export const getGithubSections = (datas) => {
   const githubSections = {};
+  const set = new Set(GITHUB_SECTIONS);
   Object.keys(datas).forEach((key) => {
-    if (GITHUB_SECTIONS.some(section => section === key)) {
+    if (set.has(key)) {
       githubSections[key] = datas[key];
     }
   });

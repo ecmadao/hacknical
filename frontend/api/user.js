@@ -7,15 +7,15 @@ const signup = (email, pwd) => postData('/user/signup', { email, pwd });
 const logout = () => getData('/user/logout');
 
 const getSections = loginData =>
-  getData('/user/github_sections', { login: loginData });
+  getData('/user/githubSections', { login: loginData });
 
-const setSections = sections => postData('/user/github_sections', sections);
+const setSections = sections => patchData('/user/githubSections', sections);
 
 const initialed = () => patchData('/user/initialed');
 
 const getPinnedRepos = () => getData('/user/repos/pinned');
 const setPinnedRepos = pinnedRepos =>
-  postData('/user/repos/pinned', { pinnedRepos });
+  patchData('/user/repos/pinned', { pinnedRepos });
 
 export default {
   login,

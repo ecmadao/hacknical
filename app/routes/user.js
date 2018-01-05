@@ -46,8 +46,8 @@ router.get(
 );
 
 // github sections
-router.get('/github_sections', User.getGithubShareSections);
-router.post('/github_sections',
+router.get('/githubSections', User.getGithubShareSections);
+router.patch('/githubSections',
   user.checkIfLogin(),
   User.setGithubShareSections
 );
@@ -57,7 +57,7 @@ router.get(
   user.checkIfLogin(),
   User.getPinnedRepos
 );
-router.post(
+router.patch(
   '/repos/pinned',
   user.checkIfLogin(),
   check.body('pinnedRepos'),

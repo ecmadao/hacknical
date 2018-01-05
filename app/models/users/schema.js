@@ -28,6 +28,7 @@ const UserSchema = new Schema({
     orgs: { type: Boolean, default: true },
     course: { type: Boolean, default: true },
     contributed: { type: Boolean, default: true },
+    statistic: { type: Boolean, default: true },
   },
   initialed: { type: Boolean, default: false },
   notification: {
