@@ -1,14 +1,12 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
-const cssImport = require("postcss-import");
-const cssnext = require("postcss-cssnext");
 
 const PATH = require('../../config/path');
 const path = require('path');
 const fs = require('fs');
+
 const styleVariables = require(path.join(PATH.SOURCE_PATH, 'src/styles/variables'));
 
 const entryFiles = fs.readdirSync(PATH.ENTRY_PATH);
@@ -25,33 +23,28 @@ entryFiles
     entries[filename] = filepath;
 });
 
-const cssLoaderString = [
-  'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-  'postcss-loader'
-];
-cssLoaderString[0] = `${cssLoaderString[0]}&sourceMap`;
-const cssLoader = ExtractTextPlugin.extract(
-  'style-loader',
-  cssLoaderString.join('!')
-);
-
-const postcssPlugin = function(_webpack) {
-  return [
-    cssImport({
-      addDependencyTo: _webpack
-    }),
-    cssnext({
-      autoprefixer: {
-        browsers: "ie >= 9, ..."
-      },
-      features: {
-        customProperties: {
-          variables: styleVariables
-        }
+const cssModulesLoader = ExtractTextPlugin.extract({
+  fallback: 'style-loader',
+  use: [
+    {
+      loader: 'css-loader',
+      options: {
+        modules: true,
+        sourceMaps: true,
+        importLoaders: 1,
+        localIdentName: '[name]__[local]___[hash:base64:5]'
       }
-    })
-  ];
-}
+    },
+    'postcss-loader'
+  ],
+});
+const cssLoader = ExtractTextPlugin.extract({
+  fallback: "style-loader",
+  use: [
+    'css-loader',
+    'postcss-loader'
+  ]
+});
 
 module.exports = {
   context: PATH.ROOT_PATH,
@@ -62,52 +55,74 @@ module.exports = {
     publicPath: PATH.PUBLIC_PATH
   },
   module: {
-    loaders: [
-      { test: require.resolve("jquery"), loader: "expose?jQuery" },
-      { test: require.resolve("jquery"), loader: "expose?$" },
+    rules: [
+      {
+        test: require.resolve('jquery'),
+        use: [
+          {
+            loader: 'expose-loader',
+            options: 'jQuery'
+          },
+          {
+            loader: 'expose-loader',
+            options: '$'
+          }
+        ]
+      },
       {
         test: /\.css$/,
         include: PATH.SOURCE_PATH,
         exclude: path.join(PATH.SOURCE_PATH, 'src/vendor'),
-        loader: cssLoader,
+        loader: cssModulesLoader,
       },
       {
         test: /\.css$/,
         include: /light-ui/,
         // include: /(lib\/react|lib\/raw)/,
-        loader: cssLoader,
+        loader: cssModulesLoader,
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style", "css!postcss"),
+        loader: cssLoader,
         include: PATH.MODULES_PATH,
         exclude: /light-ui/
         // exclude: /(lib\/react|lib\/raw)/,
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style", "css!postcss"),
+        loader: cssLoader,
         include: path.join(PATH.SOURCE_PATH, 'src/vendor')
       },
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loaders: ["babel-loader"]
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        loader: "url-loader?limit=150000&name=[name].[ext]",
+        loader: 'url-loader',
+        options: {
+          limit: 150000,
+          name: '[name].[ext]'
+        }
       },
       {
         test: /\.(jpe?g|png|gif|svg)\??.*$/,
-        loader: "url-loader?limit=8192&name=[name].[ext]"
+        loader: 'url-loader',
+        options: {
+          limit: 8192,
+          name: '[name].[ext]'
+        }
       }
     ],
   },
   resolve: {
-    root: PATH.SOURCE_PATH,
-    modulesDirectories: ['node_modules'],
-    extensions: ['', '.js', '.jsx'],
+    modules: ['node_modules'],
+    extensions: ['*', '.js', '.jsx', '.json'],
     alias: {
       COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
       SRC: path.join(PATH.SOURCE_PATH, 'src'),
@@ -119,12 +134,11 @@ module.exports = {
       LOCALES: path.join(PATH.SOURCE_PATH, 'config/locales'),
     }
   },
-  postcss: postcssPlugin,
   plugins: [
     new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      "window.jQuery": "jquery"
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
     }),
     new AssetsPlugin({
       path: PATH.BUILD_PATH,
@@ -142,8 +156,11 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    })
-  ],
-  displayErrorDetails: true,
-  outputPathinfo: true
+    }),
+    new webpack.BannerPlugin({
+      entryOnly: true,
+      banner: 'ecmadao'
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin()
+  ]
 };

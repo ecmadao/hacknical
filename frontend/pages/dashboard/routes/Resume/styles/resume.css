@@ -7,8 +7,8 @@
 }
 
 .resume_navigation {
-  composes: card from 'STYLES/common.css';
   position: absolute;
+  composes: card from 'STYLES/common.css';
   left: -120px;
   top: 63px;
   color: var(--oc-gray-7);

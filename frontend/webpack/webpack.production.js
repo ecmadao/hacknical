@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
-
-const config = require('./webpack.config');
+const PATH = require('../../config/path');
+const config = require('./webpack.config.v3');
 
 config.output.filename = '[name].bundle.[hash].js';
 
@@ -13,10 +13,8 @@ config.plugins.push(
   new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
-      }
+      },
   }),
-  new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
   }),
@@ -25,11 +23,23 @@ config.plugins.push(
     asset: "[path].gz[query]",
     algorithm: "gzip",
     test: /\.js$|\.css$|\.html$/,
-    threshold: 10240,
     minRatio: 0.8
+  }),
+  new webpack.HashedModuleIdsPlugin({
+    hashFunction: 'sha256',
+    hashDigest: 'hex',
+    hashDigestLength: 20
+  }),
+  new webpack.optimize.LimitChunkCountPlugin({
+    maxChunks: 5, // 必须大于或等于 1
+    minChunkSize: 1000
+  }),
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    options: {
+      context: PATH.ROOT_PATH,
+    }
   })
 );
-config.debug = false;
-config.displayErrorDetails = false;
 
 module.exports = config;
