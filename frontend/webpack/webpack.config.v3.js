@@ -122,7 +122,7 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules'],
-    extensions: ['*', '.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.json'],
     alias: {
       COMPONENTS: path.join(PATH.SOURCE_PATH, 'components'),
       SRC: path.join(PATH.SOURCE_PATH, 'src'),
@@ -159,7 +159,7 @@ module.exports = {
     }),
     new webpack.BannerPlugin({
       entryOnly: true,
-      banner: 'ecmadao'
+      banner: 'BUILD WITH LOVE BY ECMADAO'
     }),
     new webpack.optimize.ModuleConcatenationPlugin()
   ]

@@ -5,7 +5,7 @@ import reducer from './redux/reducers';
 export default store => ({
   path: `${PATH.RAW_PATH}/setting`,
   getComponent(nextState, cb) {
-    System.import('./Components/index')
+    System.import('./Components')
       .then((component) => {
         injectReducer(store, { key: 'setting', reducer });
         cb(null, component.default);

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const config = require('./webpack.config.v3.js');
+const config = require('./webpack.config.v3');
 const PATH = require('../../config/path');
 
 config.plugins.push(
@@ -14,7 +14,6 @@ config.plugins.push(
       context: PATH.ROOT_PATH,
     }
   }),
-  new webpack.NamedModulesPlugin(),
   new webpack.SourceMapDevToolPlugin()
 );
 config.devtool = "cheap-module-eval-source-map";

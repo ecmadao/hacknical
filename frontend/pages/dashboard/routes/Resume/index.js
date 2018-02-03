@@ -5,7 +5,7 @@ import PATH from '../shared/path';
 export default store => ({
   path: `${PATH.RAW_PATH}/resume`,
   getComponent(nextState, cb) {
-    System.import('./Components/index')
+    System.import('./Components')
       .then((component) => {
         injectReducer(store, { key: 'resume', reducer });
         cb(null, component.default);
