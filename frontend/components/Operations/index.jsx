@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import OperationItem from './OperationItem';
 import cx from 'classnames';
+import { OutsideClickHandler } from 'light-ui';
 import styles from './operations.css';
 
 class Operations extends React.Component {
@@ -27,28 +28,24 @@ class Operations extends React.Component {
     onFocusChange && onFocusChange(status);
   }
 
-  componentDidMount() {
-    if (document.addEventListener) {
-      document.addEventListener('click', this.handleOutsideClick, true);
-    } else {
-      document.attachEvent('click', this.handleOutsideClick);
-    }
-  }
+  // componentDidMount() {
+  //   if (document.addEventListener) {
+  //     document.addEventListener('click', this.handleOutsideClick, true);
+  //   } else {
+  //     document.attachEvent('click', this.handleOutsideClick);
+  //   }
+  // }
 
-  componentWillUnmount() {
-    if (document.removeEventListener) {
-      document.removeEventListener('click', this.handleOutsideClick, true);
-    } else {
-      document.detachEvent('click', this.handleOutsideClick);
-    }
-  }
+  // componentWillUnmount() {
+  //   if (document.removeEventListener) {
+  //     document.removeEventListener('click', this.handleOutsideClick, true);
+  //   } else {
+  //     document.detachEvent('click', this.handleOutsideClick);
+  //   }
+  // }
 
-  handleOutsideClick(e) {
-    const event = e || window.event;
-    const isDescendantOfRoot = this.operationMenu && this.operationMenu.contains(event.target);
-    if (!isDescendantOfRoot) {
-      this.changeOperationStatus(false);
-    }
+  handleOutsideClick() {
+    this.changeOperationStatus(false);
   }
 
   renderMenus() {
@@ -78,23 +75,24 @@ class Operations extends React.Component {
       showOperations && styles.operations_menu_active
     );
     return (
-      <div className={containerClass}>
-        <div
-          className={moreIconClass}
-          onClick={this.showOperationMenu}
-        >
-          <i
-            className="fa fa-ellipsis-h"
-            aria-hidden="true"
-          />
+      <OutsideClickHandler
+        onOutsideClick={this.handleOutsideClick}>
+        <div className={containerClass}>
+          <div
+            className={moreIconClass}
+            onClick={this.showOperationMenu}>
+            <i
+              className="fa fa-ellipsis-h"
+              aria-hidden="true"
+            />
+          </div>
+          <div
+            className={menuClass}
+            ref={ref => (this.operationMenu = ref)}>
+            {this.renderMenus()}
+          </div>
         </div>
-        <div
-          className={menuClass}
-          ref={ref => (this.operationMenu = ref)}
-        >
-          {this.renderMenus()}
-        </div>
-      </div>
+      </OutsideClickHandler>
     );
   }
 }

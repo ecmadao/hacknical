@@ -1,25 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'react-router';
+import { renderRoutes } from 'react-router-config';
+import { ConnectedRouter } from 'react-router-redux';
 import { Provider } from 'react-redux';
 
-class AppContainer extends React.Component {
-  render() {
-    const { history, routes, store } = this.props
-
-    return (
-      <Provider store={store}>
-        <Router history={history} >
-          {routes}
-        </Router>
-      </Provider>
-    );
-  }
-}
+const AppContainer = (props) => {
+  const { history, routes, store } = props;
+  return (
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        {renderRoutes(routes)}
+      </ConnectedRouter>
+    </Provider>
+  );
+};
 
 AppContainer.propTypes = {
   history: PropTypes.object.isRequired,
-  routes: PropTypes.object.isRequired,
+  routes: PropTypes.array.isRequired,
   store: PropTypes.object.isRequired,
 };
 

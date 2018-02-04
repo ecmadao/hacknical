@@ -1,8 +1,7 @@
 import dateHelper from '../../utils/date';
 import logger from '../../utils/logger';
 
-const getMonth = dateHelper.getMonth;
-const getDateBySeconds = dateHelper.getDateBySeconds;
+const { getMonth, getDateBySeconds } = dateHelper;
 const BASE_DAYS = [0, 0, 0, 0, 0, 0, 0];
 
 export const combineReposCommits = (reposCommits) => {
@@ -67,9 +66,9 @@ export const combineReposCommits = (reposCommits) => {
 
         if (dayCommit) {
           dailyCommitsTmp[index].total += dayCommit;
-          const avg = dailyCommitsTmp[index].avg;
-          const length = dailyCommitsTmp[index].commits.length;
-          dailyCommitsTmp[index].avg = ((avg * length) + dayCommit) / (length + 1);
+          const average = dailyCommitsTmp[index].avg;
+          const len = dailyCommitsTmp[index].commits.length;
+          dailyCommitsTmp[index].avg = ((average * len) + dayCommit) / (len + 1);
           dailyCommitsTmp[index].commits.push(dayCommit)
         }
 

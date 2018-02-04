@@ -1,6 +1,6 @@
 import locales from 'LOCALES';
 
-const tabs = locales('dashboard').tabs;
+const { tabs } = locales('dashboard');
 
 const TABS = [
   {

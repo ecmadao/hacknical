@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+
 /**
  * Highcharts plugin for creating individual rounded corners.
  *

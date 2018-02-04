@@ -3,7 +3,7 @@ import logger from '../utils/logger';
 const catchError = () => async (ctx, next) => {
   try {
     await next();
-    const url = ctx.url;
+    const { url } = ctx;
     if (ctx.status === 404) {
       if (new RegExp('dashboard').test(url)) {
         await ctx.redirect('/dashboard');

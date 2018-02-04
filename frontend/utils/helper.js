@@ -153,11 +153,11 @@ export const faltten = (array, key = null) => {
  * return [[1, 2], [3, 4], [5, 6]]
  */
 export const splitArray = (array, size = 1) => {
-  const length = array.length;
-  if (length <= size) {
+  const len = array.length;
+  if (len <= size) {
     return [array];
   }
-  const loop = Math.floor(length / size) + 1;
+  const loop = Math.floor(len / size) + 1;
   return Array
     .from(new Array(loop), () => 0)
     .map((i, index) => array.slice(index * size, (index + 1) * size));

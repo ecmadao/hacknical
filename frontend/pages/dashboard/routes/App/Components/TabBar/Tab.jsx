@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import { Tipso } from 'light-ui';
 import styles from '../../styles/app.css';

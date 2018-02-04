@@ -2,23 +2,23 @@ import { handleActions } from 'redux-actions';
 
 const initialState = {
   loading: true,
-  userId: null,
+  login: null,
   tabBarActive: true,
   activeTab: 'github'
 };
 
 const reducers = handleActions({
-  LOGIN_USER(state, action) {
+  LOGIN(state, action) {
     return ({
       ...state,
-      userId: action.payload
+      login: action.payload
     });
   },
 
-  LOGOUT_USER(state) {
+  LOGOUT(state) {
     return ({
       ...state,
-      userId: null
+      login: null
     });
   },
 

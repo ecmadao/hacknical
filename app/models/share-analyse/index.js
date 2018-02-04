@@ -51,7 +51,12 @@ const checkShareEnable = async (options) => {
 };
 
 const updateViewData = async (options) => {
-  const { url, platform, from, browser } = options;
+  const {
+    url,
+    from,
+    browser,
+    platform,
+  } = options;
   const analyse = await findShare({ url });
   const { viewDevices, viewSources } = analyse;
   const targetDevices = viewDevices.filter(device => device.platform === platform);

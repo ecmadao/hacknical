@@ -242,7 +242,7 @@ class MobileAnalysis extends React.Component {
         userInfo: objectAssign({}, targetObj.userInfo, { url, openShare }),
         viewDevices: [...viewDevices],
         viewSources: getValidateViewSources(viewSources),
-        pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+        pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
       })
     });
   }

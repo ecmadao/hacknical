@@ -1,8 +1,8 @@
 import mongoose from '../mongoose';
 
-const Schema = mongoose.Schema;
+const MongoSchema = mongoose.Schema;
 
-const ResumePubSchema = new Schema({
+const ResumePubSchema = new MongoSchema({
   userId: String,
   maxView: Number,
   resumeHashV0: String,

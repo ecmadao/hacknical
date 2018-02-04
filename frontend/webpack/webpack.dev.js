@@ -4,8 +4,10 @@ const config = require('./webpack.config.v3');
 const PATH = require('../../config/path');
 
 config.plugins.push(
-  new ExtractTextPlugin("[name].bundle.css", {
-    allChunks: true
+  new ExtractTextPlugin({
+    filename: '[name].bundle.css',
+    allChunks: true,
+    ignoreOrder: true
   }),
   new webpack.LoaderOptionsPlugin({
     debug: true,
@@ -16,6 +18,7 @@ config.plugins.push(
   }),
   new webpack.SourceMapDevToolPlugin()
 );
-config.devtool = "cheap-module-eval-source-map";
+config.devtool = '#source-map';
+// config.devtool = "cheap-module-eval-source-map";
 
 module.exports = config;

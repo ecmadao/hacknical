@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import { routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
@@ -11,8 +11,8 @@ export const createAppStore = (initialState = {}) => {
   const router = routerMiddleware(browserHistory);
 
   const middlewares = process.env.NODE_ENV === 'production'
-  ? applyMiddleware(router, thunk)
-  : applyMiddleware(router, logger, thunk);
+    ? applyMiddleware(router, thunk)
+    : applyMiddleware(router, logger, thunk);
 
   const AppStore = createStore(appReducer, initialState, middlewares);
 

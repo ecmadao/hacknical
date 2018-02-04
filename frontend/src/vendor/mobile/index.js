@@ -1,7 +1,7 @@
 import './mobile.css';
 
 $(() => {
-  const pathname = window.location.pathname;
+  const { pathname } = window.location;
   $('.menu').each((index, el) => {
     const $el = $(el);
     const href = $el.attr('href');

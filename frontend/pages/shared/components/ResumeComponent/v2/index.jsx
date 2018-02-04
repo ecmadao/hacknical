@@ -5,8 +5,8 @@ import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import styles from './resume_v2.css';
 import { validateUrl } from 'UTILS/helper';
-import GithubComponent from 'SHARED/components/GithubComponent';
 import statusLabels from '../shared/StatusLabels';
+import AsyncGithub from '../shared/AsyncGithub';
 
 const { hoursBefore } = dateHelper.relative;
 
@@ -387,11 +387,10 @@ class ResumeComponentV2 extends React.PureComponent {
               <i className="fa fa-arrow-left" aria-hidden="true" />
               返回
             </a>
-            <GithubComponent
+            <AsyncGithub
               isShare
               login={login}
               githubSection={github}
-              containerStyle={styles.github_container}
             />
           </div>
         </div>

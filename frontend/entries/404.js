@@ -2,7 +2,7 @@ import 'STYLES/fonts-404.css';
 import 'SRC/vendor/404/404.css';
 import Rock from 'PAGES/initial';
 
-const redirect = (url = '/') => (window.location = url);
+const redirect = (url = '/') => { window.location = url; };
 
 $(() => {
   const $content = $('.content-wrapper');
@@ -13,5 +13,5 @@ $(() => {
     .then(instance => instance.roll('$ start redirecting'))
     .then(instance => instance.loading())
     .then(instance => instance.roll('$ 5 4 3 2 1 0 ', 'flash', 600))
-    .then(() => redirect());
+    .then(() => { redirect() });
 });

@@ -39,9 +39,15 @@ const cssModulesLoader = ExtractTextPlugin.extract({
   ],
 });
 const cssLoader = ExtractTextPlugin.extract({
-  fallback: "style-loader",
+  fallback: 'style-loader',
   use: [
-    'css-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        sourceMaps: true,
+        importLoaders: 1,
+      }
+    },
     'postcss-loader'
   ]
 });
@@ -96,11 +102,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        use: [
-          {
-            loader: 'babel-loader'
-          }
-        ]
+        loader: 'babel-loader'
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -160,7 +162,6 @@ module.exports = {
     new webpack.BannerPlugin({
       entryOnly: true,
       banner: 'BUILD WITH LOVE BY ECMADAO'
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin()
+    })
   ]
 };

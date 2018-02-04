@@ -11,7 +11,7 @@ import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from 'SHARED/datas/resume';
 import ShareModal from 'SHARED/components/ShareModal';
 import ResumeSection from './ResumeSection';
-import ResumeModalV2 from './ResumeModal/v2';
+import ResumeModal from './ResumeModal';
 import TemplateModal from './TemplateModal';
 import IntroModal from './IntroModal';
 import resumeActions from '../redux/actions';
@@ -205,7 +205,7 @@ class Resume extends React.Component {
       openShareModal,
       openTemplateModal,
     } = this.state;
-    const { resume, actions } = this.props;
+    const { login, resume, actions } = this.props;
     const { shareInfo, downloadDisabled, loading } = resume;
     const { url, openShare, template } = shareInfo;
 
@@ -316,25 +316,23 @@ class Resume extends React.Component {
           onClose={() => this.handleModalStatus(false)}
           onDownload={this.downloadResume}
         >
-          <ResumeModalV2 />
+          <ResumeModal login={login} />
         </ResumeFormatter>
         <IntroModal
           openModal={openIntroModal}
           onClose={() => this.handleIntroModalStatus(false)}
           intros={INTROS}
         />
-        {openShareModal ? (
-          <ShareModal
-            openModal={openShareModal}
-            options={{
-              openShare,
-              link: `${origin}/${url}`,
-              text: resumeTexts.modal.shareText
-            }}
-            toggleShare={actions.postShareStatus}
-            onClose={() => this.handleShareModalStatus(false)}
-          />
-        ) : ''}
+        <ShareModal
+          openModal={openShareModal}
+          options={{
+            openShare,
+            link: `${origin}/${url}`,
+            text: resumeTexts.modal.shareText
+          }}
+          toggleShare={actions.postShareStatus}
+          onClose={() => this.handleShareModalStatus(false)}
+        />
         {openTemplateModal ? (
           <TemplateModal
             openModal={openTemplateModal}
@@ -350,7 +348,8 @@ class Resume extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    resume: state.resume
+    resume: state.resume,
+    login: state.app.login,
   };
 }
 

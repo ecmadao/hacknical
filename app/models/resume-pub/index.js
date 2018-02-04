@@ -79,7 +79,7 @@ const checkResumeShare = async (hash, verify = {}) => {
   if (!findResult.success) { return findResult; }
   const { userId } = findResult.result;
 
-  let openShare = findResult.result.openShare;
+  let { openShare } = findResult.result;
   if ((verify.userId && verify.userId === userId) || verify.enable) {
     openShare = true;
   }

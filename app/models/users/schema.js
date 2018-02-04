@@ -1,8 +1,8 @@
 import mongoose from '../mongoose';
 
-const Schema = mongoose.Schema;
+const MongoSchema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const UserSchema = new MongoSchema({
   userName: String,
   userId: String,
   passwordHash: String,

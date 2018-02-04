@@ -17,7 +17,7 @@ const getLanguageDistribution = (repos) => {
   const reposLanguages = {};
   repos.forEach((repository) => {
     const { language } = repository;
-    reposLanguages[language] = isNaN(reposLanguages[language])
+    reposLanguages[language] = Number.isNaN(reposLanguages[language])
       ? 1
       : reposLanguages[language] + 1;
   });
@@ -29,7 +29,7 @@ const getLanguageSkill = (repos) => {
   repos.forEach((repository) => {
     const { language, languages, stargazers_count } = repository;
     if (!languages) {
-      reposLanguages[language] = isNaN(reposLanguages[language])
+      reposLanguages[language] = Number.isNaN(reposLanguages[language])
         ? parseInt(stargazers_count, 10)
         : reposLanguages[language] + parseInt(stargazers_count, 10);
       return;

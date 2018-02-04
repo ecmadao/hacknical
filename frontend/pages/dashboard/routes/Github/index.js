@@ -1,13 +1,10 @@
 import PATH from '../shared/path';
-/* eslint-disable no-unused-vars */
-import _ from 'SHARED/components/GithubComponent';
+import asyncComponent from 'SHARED/components/AsyncComponent';
 
 export default () => ({
   path: `${PATH.RAW_PATH}/github`,
-  getComponent(nextState, cb) {
-    System.import('SHARED/components/GithubComponent')
-      .then((component) => {
-        cb(null, component.default);
-      });
-  }
+  component: asyncComponent(
+    () => System.import('SHARED/components/GithubComponent')
+      .then(component => component.default)
+  )
 });

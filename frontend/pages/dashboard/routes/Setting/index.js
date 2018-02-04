@@ -1,14 +1,15 @@
 import { injectReducer } from '../../redux/reducer';
 import PATH from '../shared/path';
 import reducer from './redux/reducers';
+import asyncComponent from 'SHARED/components/AsyncComponent';
 
 export default store => ({
   path: `${PATH.RAW_PATH}/setting`,
-  getComponent(nextState, cb) {
-    System.import('./Components')
+  component: asyncComponent(
+    () => System.import('./Components')
       .then((component) => {
         injectReducer(store, { key: 'setting', reducer });
-        cb(null, component.default);
-      });
-  }
+        return component.default;
+      })
+  )
 });

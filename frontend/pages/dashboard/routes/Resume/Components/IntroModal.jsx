@@ -23,7 +23,6 @@ class IntroModal extends React.Component {
 
   render() {
     const { openModal, onClose } = this.props;
-
     return (
       <PortalModal
         showModal={openModal}
