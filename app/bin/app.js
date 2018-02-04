@@ -1,16 +1,16 @@
 import Koa from 'koa';
 import path from 'path';
 import koaLogger from 'koa-logger';
-import convert from 'koa-convert';
 import bodyParser from 'koa-bodyparser';
 import Csrf from 'koa-csrf';
-import cors from 'kcors';
+import cors from '@koa/cors';
 import locales from 'koa-locales';
 import session from 'koa-session';
 import config from 'config';
 import nunjucks from 'nunjucks';
 import views from 'koa-views';
 import userAgent from 'koa-useragent';
+import staticServer from 'koa-static';
 
 import assetsPath from '../middlewares/assets_helper';
 import { redisMiddleware } from '../middlewares/cache_helper';
@@ -29,6 +29,9 @@ const app = new Koa();
 app.proxy = true;
 app.keys = [appKey];
 
+// koa logger
+app.use(koaLogger());
+
 const options = {
   defaultLocale: 'zh-CN',
   dirs: [path.join(__dirname, '../config/locales')],
@@ -40,13 +43,15 @@ const options = {
 };
 locales(app, options);
 
-app.use(convert(cors()));
+app.use(cors());
 
 // bodyparser
-app.use(bodyParser());
+app.use(bodyParser({
+  onerror: (err, ctx) => {
+    ctx.throw('body parse error', 422);
+  }
+}));
 
-// koa logger
-app.use(convert(koaLogger()));
 // session
 const CONFIG = {
   key: `${appName.toUpperCase()}:session`, /** cookie key */
@@ -54,8 +59,9 @@ const CONFIG = {
   overwrite: true, /** (boolean) can overwrite or not (default true) */
   httpOnly: true, /** (boolean) httpOnly or not (default true) */
   signed: true, /** (boolean) signed or not (default true) */
+  renew: true, /** (boolean) renew session when session is nearly expired */
 };
-app.use(convert(session(CONFIG, app)));
+app.use(session(CONFIG, app));
 
 // cache
 app.use(redisMiddleware({
@@ -86,12 +92,18 @@ app.use(async (ctx, next) => {
 });
 
 // user-agent
-app.use(convert(userAgent()));
+app.use(userAgent);
 
 // 配置nunjucks模板文件所在的路径，否则模板继承时无法使用相对路径
 nunjucks.configure(path.join(__dirname, '../templates'), { autoescape: true });
 // frontend static file
-app.use(convert(require('koa-static')(path.join(__dirname, '../../public'))));
+app.use(staticServer(
+  path.join(__dirname, '../../public'),
+  {
+    gzip: true,
+    maxage: 1 * 60 * 1000 // 1s
+  }
+));
 // views with nunjucks
 app.use(views(path.join(__dirname, '../templates'), {
   map: {

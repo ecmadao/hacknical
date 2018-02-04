@@ -44,9 +44,6 @@ UserSchema.index({
   userId: 1,
   email: 1,
   githubLogin: 1,
-  githubInfo: {
-    login: 1
-  }
 });
 
 export default mongoose.model('Users', UserSchema);
