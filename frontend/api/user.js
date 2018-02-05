@@ -1,8 +1,4 @@
-import { postData, getData, patchData } from './base';
-
-const login = (email, pwd) => postData('/user/login', { email, pwd });
-
-const signup = (email, pwd) => postData('/user/signup', { email, pwd });
+import { getData, patchData } from './base';
 
 const logout = () => getData('/user/logout');
 
@@ -18,8 +14,6 @@ const setPinnedRepos = pinnedRepos =>
   patchData('/user/repos/pinned', { pinnedRepos });
 
 export default {
-  login,
-  signup,
   logout,
   getSections,
   setSections,

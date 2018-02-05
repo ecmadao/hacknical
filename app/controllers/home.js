@@ -1,9 +1,30 @@
 
 import User from '../models/users';
+import Api from '../services/api';
 import getLanguages from '../config/languages';
 
-const index = async (ctx) => {
-  ctx.redirect('/dashboard');
+const landingPage = async (ctx) => {
+  const locale = ctx.__('language.id');
+  const languages = getLanguages(locale);
+  const clientId = await Api.getVerify();
+  await ctx.render('user/login', {
+    locale,
+    languages,
+    clientId,
+    title: ctx.__('loginPage.title'),
+    login: ctx.__('loginPage.login'),
+    about: ctx.__('loginPage.about'),
+    loginText: ctx.__('loginPage.loginText'),
+    loginButtonText: ctx.__('loginPage.loginButtonText'),
+    languageText: ctx.__('language.text'),
+    languageId: ctx.__('language.id'),
+    statistic: {
+      developers: ctx.__('loginPage.statistic.developers'),
+      githubPageview: ctx.__('loginPage.statistic.githubPageview'),
+      resumePageview: ctx.__('loginPage.statistic.resumePageview'),
+      resumes: ctx.__('loginPage.statistic.resumes'),
+    }
+  });
 };
 
 const handle404 = async (ctx) => {
@@ -40,7 +61,7 @@ const initial = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   const user = await User.findOne({ userId });
   if (user.initialed) {
-    ctx.redirect('/dashboard');
+    ctx.redirect(`/${githubLogin}`);
   }
   await ctx.render('user/initial', {
     title: `initializing ${githubLogin}`,
@@ -74,7 +95,7 @@ const languages = async (ctx) => {
 };
 
 export default {
-  index,
+  landingPage,
   handle404,
   dashboard,
   initial,

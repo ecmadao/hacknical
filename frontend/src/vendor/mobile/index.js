@@ -7,8 +7,8 @@ $(() => {
     const href = $el.attr('href');
     if (
       href === pathname
-      || (href === '/dashboard' && new RegExp('github').test(pathname))
-      || (href === '/resume/sharePage' && new RegExp('resume').test(pathname))
+      || (new RegExp('github').test(href) && new RegExp('github').test(pathname))
+      || (new RegExp('resume').test(pathname) && new RegExp('resume').test(pathname))
     ) {
       $el.addClass('active');
     }

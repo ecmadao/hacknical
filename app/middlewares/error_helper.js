@@ -5,11 +5,8 @@ const catchError = () => async (ctx, next) => {
     await next();
     const { url } = ctx;
     if (ctx.status === 404) {
-      if (new RegExp('dashboard').test(url)) {
-        await ctx.redirect('/dashboard');
-        return;
-      }
-      await ctx.redirect(`/404?locale=${ctx.session.locale}`);
+      const login = url.split('/')[0];
+      await ctx.redirect(`/${login}`);
     }
   } catch (err) {
     logger.error(err);

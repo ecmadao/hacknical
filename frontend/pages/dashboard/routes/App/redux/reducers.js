@@ -4,7 +4,7 @@ const initialState = {
   loading: true,
   login: null,
   tabBarActive: true,
-  activeTab: 'github'
+  activeTab: 'visualize'
 };
 
 const reducers = handleActions({

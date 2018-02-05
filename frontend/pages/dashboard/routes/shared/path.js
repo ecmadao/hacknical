@@ -1,7 +1,5 @@
-const RAW_PATH = '/dashboard';
-const BASE_PATH = '/dashboard';
+const RAW_PATH = `/${window.login}`;
 
 export default {
-  BASE_PATH,
   RAW_PATH
 };

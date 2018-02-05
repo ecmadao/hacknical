@@ -28,7 +28,7 @@ const Tab = (props) => {
       ) : null}
     >
       <Link
-        to={`${PATH.BASE_PATH}/${id}`}
+        to={`${PATH.RAW_PATH}/${id}`}
         className={styles.app_tab}
         onClick={e => onChange(e, id, enable)}
       >

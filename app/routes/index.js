@@ -21,16 +21,11 @@ fs.readdirSync(__dirname)
 
 router.get(
   '/',
-  user.checkIfLogin(),
-  Home.index
+  platform.setPlatform(),
+  user.checkNotLogin(),
+  Home.landingPage
 );
 router.get('/404', Home.handle404);
-router.get(
-  '/dashboard',
-  user.checkIfLogin(),
-  platform.setPlatform(),
-  Home.dashboard
-);
 router.get(
   '/initial',
   user.checkIfLogin(),
@@ -43,6 +38,11 @@ router.get(
 router.get(
   '/languages',
   Home.languages
+);
+router.get(
+  '/:login',
+  user.checkValidateUser(),
+  Home.dashboard
 );
 
 export default router;

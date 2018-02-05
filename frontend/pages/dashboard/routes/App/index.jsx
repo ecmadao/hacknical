@@ -18,7 +18,7 @@ class App extends React.Component {
       history,
       location,
     } = this.props;
-    history.replace(`${location.pathname}/github`);
+    history.replace(`${location.pathname}/visualize`);
   }
 
   render() {
