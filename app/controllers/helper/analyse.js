@@ -4,6 +4,7 @@ import logger from '../../utils/logger';
 import User from '../../models/users';
 import ResumePub from '../../models/resume-pub';
 import SlackMsg from '../../services/slack';
+import { getValue } from '../../utils/helper';
 
 const getPubResumeInfo = async (hash) => {
   const findResume = await ResumePub.getPubResumeInfo(hash);
@@ -48,8 +49,8 @@ const updateViewData = async (ctx, options) => {
   logger.info(`[${type.toUpperCase()}:VIEW][${url}]`);
 };
 
-const collectGithubRecord = () => async (ctx, next) => {
-  const { login } = ctx.params;
+const collectGithubRecord = (key = 'params.login') => async (ctx, next) => {
+  const login = getValue(ctx, key);
   const { githubLogin } = ctx.session;
 
   // make sure that admin user's visit will not be collected.
@@ -60,9 +61,9 @@ const collectGithubRecord = () => async (ctx, next) => {
   await next();
 };
 
-const collectResumeRecordByHash = () => async (ctx, next) => {
+const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => {
   const { notrace } = ctx.query;
-  const { hash } = ctx.params;
+  const hash = getValue(ctx, key);
 
   const { githubLogin } = ctx.session;
   const user = await getPubResumeInfo(hash);
@@ -79,34 +80,7 @@ const collectResumeRecordByHash = () => async (ctx, next) => {
   await next();
 };
 
-const collectResumeRecordByLogin = () => async (ctx, next) => {
-  const { notrace } = ctx.query;
-  const { login } = ctx.params;
-  const { githubLogin } = ctx.session;
-
-  const user = await User.findUserByLogin(login);
-  if (!user) return ctx.redirect('/404');
-  const { userId } = user;
-  const findResume = await ResumePub.findOne({
-    userId,
-  });
-  const { resumeHash } = findResume.result;
-
-  const isAdmin = login === githubLogin;
-  if ((!isAdmin && !notrace) || notrace === 'false') {
-    const url = `resume/${resumeHash}`;
-    updateViewData(ctx, { url, type: 'resume' });
-  }
-
-  ctx.query.hash = resumeHash;
-  ctx.query.isAdmin = isAdmin;
-  ctx.query.userName = user.name;
-  ctx.query.userLogin = login;
-  await next();
-};
-
 export default {
   github: collectGithubRecord,
-  resumeByHash: collectResumeRecordByHash,
-  resumeByLogin: collectResumeRecordByLogin,
+  resume: collectResumeRecordByHash,
 };

@@ -6,7 +6,7 @@ const githubComponent = {
       .then(component => component.default)
   ),
   mobile: asyncComponent(
-    () => System.import('../../../mobile/github')
+    () => System.import('SHARED/components/GithubMobileComponent')
       .then(component => component.default)
   ),
 };

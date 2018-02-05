@@ -2,7 +2,7 @@ import config from 'config';
 import User from '../models/users';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
-import { getMobileMenu, getGithubSections } from './shared';
+import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 
 const qName = config.get('mq.qnameRefresh');
@@ -96,27 +96,6 @@ const initialFinished = async (ctx) => {
   };
 };
 
-// user analysis mobile
-const mobileAnalysis = async (ctx) => {
-  await ctx.render('user/mobile/analysis', {
-    title: ctx.__('mobilePage.analysis'),
-    user: {
-      isAdmin: true
-    },
-    menu: getMobileMenu(ctx)
-  });
-};
-
-const mobileSetting = async (ctx) => {
-  await ctx.render('user/mobile/setting', {
-    title: ctx.__('mobilePage.setting'),
-    user: {
-      isAdmin: true
-    },
-    menu: getMobileMenu(ctx)
-  });
-};
-
 const getGithubShareSections = async (ctx) => {
   const { login } = ctx.query;
   const sections = await User.findGithubSections(login || ctx.session.githubLogin);
@@ -177,9 +156,6 @@ export default {
   getPinnedRepos,
   setPinnedRepos,
   clearCache,
-  // mobile
-  mobileAnalysis,
-  mobileSetting,
   // github sections
   getGithubShareSections,
   setGithubShareSections,

@@ -13,7 +13,7 @@ export default (store, options) => {
         })
     ),
     mobile: asyncComponent(
-      () => System.import('../../../mobile/resume')
+      () => System.import('SHARED/components/ResumeMobileComponent')
         .then(component => component.default)
     ),
   };

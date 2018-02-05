@@ -1,6 +1,5 @@
 import koaRouter from 'koa-router';
 import User from '../controllers/user';
-import platform from '../controllers/helper/platform';
 import user from '../controllers/helper/user';
 import check from '../controllers/helper/check';
 import cache from '../controllers/helper/cache';
@@ -8,20 +7,6 @@ import cache from '../controllers/helper/cache';
 const router = koaRouter({
   prefix: '/user'
 });
-
-// mobile page
-router.get('/analysis/mobile',
-  user.checkIfLogin(),
-  platform.setPlatform(),
-  platform.checkMobile(),
-  User.mobileAnalysis
-);
-router.get('/setting/mobile',
-  user.checkIfLogin(),
-  platform.setPlatform(),
-  platform.checkMobile(),
-  User.mobileSetting
-);
 
 // initial finished
 router.patch('/initialed',

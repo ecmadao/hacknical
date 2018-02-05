@@ -7,7 +7,7 @@ import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
-import { getGithubSections, getMobileMenu } from './shared';
+import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 import SlackMsg from '../services/slack';
 import {
@@ -164,7 +164,6 @@ const _resumePage = async (ctx, hash) => {
       title: ctx.__('resumePage.title', userName),
       resumeHash: hash,
       login: userLogin,
-      menu: getMobileMenu(ctx),
       user: {
         isAdmin,
         login: userLogin,

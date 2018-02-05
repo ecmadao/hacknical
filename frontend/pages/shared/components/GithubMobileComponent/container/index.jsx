@@ -21,8 +21,8 @@ import dateHelper from 'UTILS/date';
 import { DAYS } from 'UTILS/const-value';
 import { LINE_CONFIG } from 'SHARED/datas/chart_config';
 import styles from '../styles/github.css';
-import sharedStyles from '../../shared/styles/mobile.css';
-import Slick from '../../shared/components/Slick';
+import sharedStyles from 'SHARED/styles/mobile.css';
+import Slick from 'SHARED/components/Slick';
 import locales from 'LOCALES';
 import USER from 'SRC/data/user';
 import Hotmap from 'COMPONENTS/Github/Hotmap';
@@ -35,7 +35,7 @@ const githubMsg = githubLocales.message;
 const getDateBySeconds = dateHelper.date.bySeconds;
 const message = new Message();
 
-class GitHubMobileShare extends React.Component {
+class GithubMobileComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -640,9 +640,9 @@ class GitHubMobileShare extends React.Component {
   }
 }
 
-GitHubMobileShare.defaultProps = {
+GithubMobileComponent.defaultProps = {
   login: window.login,
   isAdmin: window.isAdmin === 'true'
 };
 
-export default GitHubMobileShare;
+export default GithubMobileComponent;

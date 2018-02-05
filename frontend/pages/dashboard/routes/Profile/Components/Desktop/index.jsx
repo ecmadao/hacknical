@@ -2,11 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import profileActions from '../redux/actions';
-import styles from '../styles/profile.css';
+import profileActions from '../../redux/actions';
+import styles from '../../styles/profile.css';
 import locales from 'LOCALES';
 import ShareAnalysis from './ShareAnalysis';
-import { PROFILE_SECTIONS } from '../shared/data';
+import { PROFILE_SECTIONS } from '../../shared/data';
 
 const profileTexts = locales('dashboard').profile;
 

@@ -6,7 +6,7 @@ import { IconButton, Switcher } from 'light-ui';
 import Api from 'API';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
-import sharedStyles from '../../shared/styles/mobile.css';
+import sharedStyles from 'SHARED/styles/mobile.css';
 import locales from 'LOCALES';
 
 const settingTexts = locales('dashboard').setting;

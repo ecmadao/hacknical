@@ -2,9 +2,21 @@ import React from 'react';
 import cx from 'classnames';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick.min';
-import sharedStyles from '../../styles/mobile.css';
-import MinInfoCard from '../MinInfoCard';
-import { initialSlick } from '../../helper';
+import sharedStyles from 'SHARED/styles/mobile.css';
+import MinInfoCard from 'SHARED/components/MinInfoCard';
+
+const initialSlick = (dom) => {
+  $(dom).slick({
+    accessibility: false,
+    arrows: false,
+    slidesToShow: 2,
+    mobileFirst: true,
+    swipeToSlide: true,
+    infinite: false,
+    slidesToScroll: 1,
+    variableWidth: true
+  });
+};
 
 class Slick extends React.Component {
   componentDidMount() {

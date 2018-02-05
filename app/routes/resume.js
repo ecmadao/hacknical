@@ -6,7 +6,7 @@ import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
 import check from '../controllers/helper/check';
 import analyse from '../controllers/helper/analyse';
-import share from '../controllers/helper/share';
+import resume from '../controllers/helper/resume';
 
 const router = koaRouter({
   prefix: '/resume'
@@ -30,7 +30,7 @@ router.get('/download',
 
 router.get('/pub',
   check.query('hash'),
-  share.resumeEnable('query.hash'),
+  resume.checkValidateByHash('query.hash'),
   cache.get('resume', {
     query: ['hash']
   }),
@@ -40,7 +40,7 @@ router.get('/pub',
 
 router.get('/hash',
   check.query('login'),
-  share.resumeEnableByLogin(),
+  resume.checkValidateByLogin('query.login'),
   cache.get('resume-hash', {
     query: ['login']
   }),
@@ -85,14 +85,14 @@ router.patch('/github/section',
 );
 
 router.get('/:hash',
-  share.resumeEnable(),
+  resume.checkValidateByHash(),
   platform.setPlatform(),
-  analyse.resumeByHash(),
+  analyse.resume(),
   Resume.getPubResumePage
 );
 
 router.get('/:hash/share',
-  share.resumeEnable(),
+  resume.checkValidateByHash(),
   Resume.getPubResumeStatus
 );
 

@@ -16,9 +16,9 @@ import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
 import { RADAR_CONFIG } from 'SHARED/datas/chart_config';
 import dateHelper from 'UTILS/date';
-import styles from '../styles/profile.css';
+import styles from '../../styles/profile.css';
 import locales from 'LOCALES';
-import { VIEW_TYPES } from '../shared/data';
+import { VIEW_TYPES } from '../../shared/data';
 import StockChart from 'COMPONENTS/HighStock';
 import { getPVStockConfig } from 'UTILS/stock';
 

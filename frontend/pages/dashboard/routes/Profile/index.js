@@ -6,14 +6,14 @@ export default (store, options) => {
   const { login, device } = options;
   const profileComponent = {
     desktop: asyncComponent(
-      () => System.import('./Components')
+      () => System.import('./Components/Desktop')
         .then((component) => {
           injectReducer(store, { key: 'profile', reducer });
           return component.default;
         })
     ),
     mobile: asyncComponent(
-      () => System.import('../../../mobile/analysis')
+      () => System.import('./Components/Mobile')
         .then(component => component.default)
     ),
   };

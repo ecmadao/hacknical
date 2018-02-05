@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { PortalModal, Button, Loading, Input } from 'light-ui';
 import Api from 'API';
 import ReposCard from './ReposCard';
-import styles from '../styles/modal.css';
+import styles from '../../styles/modal.css';
 import locales from 'LOCALES';
 
 const settingTexts = locales('dashboard').setting.github;

@@ -4,20 +4,20 @@ import ResumeStateWrapper from 'SHARED/components/ResumeStateWrapper';
 import ResumeContent from './ResumeContent';
 import styles from '../styles/resume.css';
 
-const ResumeMobileShare = props => (
+const ResumeMobileComponent = props => (
   <ResumeStateWrapper {...props} className={styles.container}>
     <ResumeContent />
   </ResumeStateWrapper>
 );
 
-ResumeMobileShare.propTypes = {
+ResumeMobileComponent.propTypes = {
   hash: PropTypes.string,
   login: PropTypes.string
 };
 
-ResumeMobileShare.defaultProps = {
+ResumeMobileComponent.defaultProps = {
   hash: '',
   login: window.login,
 };
 
-export default ResumeMobileShare;
+export default ResumeMobileComponent;

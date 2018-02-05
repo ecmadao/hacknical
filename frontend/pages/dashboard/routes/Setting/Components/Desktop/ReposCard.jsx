@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import styles from '../styles/modal.css';
+import styles from '../../styles/modal.css';
 
 const ReposCard = (props) => {
   const { repository, pinned, onRemove, onPinned } = props;

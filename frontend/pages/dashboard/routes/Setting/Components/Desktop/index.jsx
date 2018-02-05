@@ -4,8 +4,8 @@ import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Loading, Button, Switcher } from 'light-ui';
 import ReposModal from './ReposModal';
-import settingActions from '../redux/actions';
-import styles from '../styles/setting.css';
+import settingActions from '../../redux/actions';
+import styles from '../../styles/setting.css';
 import locales from 'LOCALES';
 
 const settingTexts = locales('dashboard').setting;

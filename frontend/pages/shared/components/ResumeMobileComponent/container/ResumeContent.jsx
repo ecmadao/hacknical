@@ -4,7 +4,7 @@ import objectAssign from 'UTILS/object-assign';
 import { Loading } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import validator from 'UTILS/validator';
-import Slick from '../../shared/components/Slick';
+import Slick from 'SHARED/components/Slick';
 import styles from '../styles/resume.css';
 import { GENDERS } from 'SHARED/datas/resume';
 import { validateUrl } from 'UTILS/helper';

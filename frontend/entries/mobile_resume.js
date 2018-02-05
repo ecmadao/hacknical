@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ResumeMobileShare from 'PAGES/mobile/resume';
+import ResumeMobileShare from 'SHARED/components/ResumeMobileComponent';
 
 const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId);

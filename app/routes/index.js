@@ -10,6 +10,7 @@ import platform from '../controllers/helper/platform';
 import user from '../controllers/helper/user';
 import analyse from '../controllers/helper/analyse';
 import share from '../controllers/helper/share';
+import resume from '../controllers/helper/resume';
 
 const router = koaRouter();
 const basename = path.basename(module.filename);
@@ -58,9 +59,9 @@ router.get(
 );
 router.get(
   '/:login/resume',
-  share.resumeEnableByLogin(),
+  resume.checkValidateByLogin('params.login'),
   platform.setPlatform(),
-  analyse.resumeByLogin(),
+  analyse.resume('query.hash'),
   Resume.resumePage
 );
 
