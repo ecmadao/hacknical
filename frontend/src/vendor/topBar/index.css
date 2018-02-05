@@ -7,16 +7,6 @@
   border-top: 1px solid var(--oc-gray-2);
 }
 
-.app_tabs_container {
-  width: 40%;
-  margin: 0 30%;
-  display: flex;
-  min-width: 300px;
-  height: 65px;
-  line-height: 65px;
-  font-size: 14px;
-}
-
 .headroom {
   left: 0;
   transition: transform 0.5s;
@@ -37,7 +27,12 @@
   transform: translateY(-100%);
 }
 
-.headroom--top {
+.headroom--top-desktop {
   position: absolute;
   top: 50px;
+}
+
+.headroom--top-mobile {
+  position: absolute;
+  top: 0;
 }

@@ -347,4 +347,8 @@ class MobileAnalysis extends React.Component {
   }
 }
 
+MobileAnalysis.defaultProps = {
+  login: window.login,
+};
+
 export default MobileAnalysis;

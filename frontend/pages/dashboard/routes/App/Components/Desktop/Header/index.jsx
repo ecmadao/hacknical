@@ -2,7 +2,7 @@ import React from 'react';
 import { Tipso } from 'light-ui';
 import Api from 'API';
 import locales from 'LOCALES';
-import styles from '../../styles/app.css';
+import styles from '../../../styles/desktop.css';
 
 const headers = locales('dashboard').headers;
 

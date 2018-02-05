@@ -17,7 +17,7 @@ ResumeMobileShare.propTypes = {
 
 ResumeMobileShare.defaultProps = {
   hash: '',
-  login: ''
+  login: window.login,
 };
 
 export default ResumeMobileShare;

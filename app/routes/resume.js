@@ -29,12 +29,22 @@ router.get('/download',
 );
 
 router.get('/pub',
-  share.resumeEnable('query.hash'),
   check.query('hash'),
+  share.resumeEnable('query.hash'),
   cache.get('resume', {
     query: ['hash']
   }),
   Resume.getPubResume,
+  cache.set()
+);
+
+router.get('/hash',
+  check.query('login'),
+  share.resumeEnableByLogin(),
+  cache.get('resume-hash', {
+    query: ['login']
+  }),
+  Resume.getPubResumeHash,
   cache.set()
 );
 

@@ -206,6 +206,15 @@ const getPubResumePage = async (ctx) => {
   await _resumePage(ctx, hash);
 };
 
+const getPubResumeHash = async (ctx, next) => {
+  const { hash } = ctx.query;
+  ctx.body = {
+    result: hash,
+    success: true,
+  };
+  await next();
+};
+
 const getPubResumeStatus = async (ctx) => {
   const { hash } = ctx.params;
   const { fromDownload, locale } = ctx.session;
@@ -358,6 +367,7 @@ export default {
   downloadResume,
   getPubResume,
   resumePage,
+  getPubResumeHash,
   getPubResumePage,
   getResumeStatus,
   getPubResumeStatus,

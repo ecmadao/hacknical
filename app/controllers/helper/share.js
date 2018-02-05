@@ -33,7 +33,7 @@ const resumeEnable = (key = 'params.hash') => async (ctx, next) => {
 };
 
 const resumeEnableByLogin = () => async (ctx, next) => {
-  const { login } = ctx.params;
+  const login = ctx.params.login || ctx.query.login;
   const { githubLogin } = ctx.session;
   const user = await User.findUserByLogin(login);
   if (!user) return ctx.redirect('/404');
@@ -42,8 +42,9 @@ const resumeEnableByLogin = () => async (ctx, next) => {
   if (login !== githubLogin) {
     option.openShare = true;
   }
-  const findResume = await ResumePub.findOne(option);
-  if (!findResume.success) return ctx.redirect('/404');
+  const { result, success } = await ResumePub.findOne(option);
+  if (!success) return ctx.redirect('/404');
+  ctx.query.hash = result.resumeHash;
   await next();
 };
 

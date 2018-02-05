@@ -26,7 +26,7 @@ const SwitcherPane = (props) => {
       </div>
       <Switcher
         size="small"
-        version="v2"
+        version="v3"
         onChange={onChange}
         checked={checked}
         disabled={disabled}
@@ -184,5 +184,9 @@ class MobileSetting extends React.Component {
     );
   }
 }
+
+MobileSetting.defaultProps = {
+  login: window.login,
+};
 
 export default MobileSetting;

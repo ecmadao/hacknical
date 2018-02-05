@@ -2,11 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import { Tipso } from 'light-ui';
-import styles from '../../styles/app.css';
-import PATH from '../../../shared/path';
+import styles from '../../../styles/desktop.css';
 
 const Tab = (props) => {
-  const { onChange, tab, active } = props;
+  const {
+    tab,
+    login,
+    active,
+    onChange
+  } = props;
   const { id, name, icon, enable, tipso } = tab;
 
   const containerClass = cx(
@@ -28,7 +32,7 @@ const Tab = (props) => {
       ) : null}
     >
       <Link
-        to={`${PATH.RAW_PATH}/${id}`}
+        to={`/${login}/${id}`}
         className={styles.app_tab}
         onClick={e => onChange(e, id, enable)}
       >

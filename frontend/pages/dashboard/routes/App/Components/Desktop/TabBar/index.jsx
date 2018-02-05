@@ -1,29 +1,17 @@
 /* eslint no-alert: "off" */
 import React from 'react';
 import { connect } from 'react-redux';
-import Headroom from 'headroom.js';
-import AppAction from '../../redux/actions';
 import TABS from 'SRC/data/tab';
 import Tab from './Tab';
 import locales from 'LOCALES';
-import 'SRC/vendor/tabBar/index.css';
+import Topbar from '../../shared/Topbar';
 
 const resumeTexts = locales('resume');
-
-/**
- * TODO: Add animation
- */
 
 class TabBar extends React.Component {
   constructor(props) {
     super(props);
     this.changeActiveTab = this.changeActiveTab.bind(this);
-  }
-
-  componentDidMount() {
-    Headroom.options.offset = 50;
-    const headroom = new Headroom(this.tabBar);
-    headroom.init();
   }
 
   changeActiveTab(e, id, enable) {
@@ -37,12 +25,13 @@ class TabBar extends React.Component {
   }
 
   renderTab() {
-    const { activeTab } = this.props;
+    const { activeTab, login } = this.props;
 
     return TABS.map((tab, index) => (
       <Tab
-        key={index}
         tab={tab}
+        key={index}
+        login={login}
         active={activeTab === tab.id}
         onChange={this.changeActiveTab}
       />
@@ -51,31 +40,18 @@ class TabBar extends React.Component {
 
   render() {
     return (
-      <div className="app_tabs" ref={ref => (this.tabBar = ref)}>
-        <div className="app_tabs_container">
-          {this.renderTab()}
-        </div>
-      </div>
+      <Topbar topClass="headroom--top-desktop">
+        {this.renderTab()}
+      </Topbar>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { tabBarActive, activeTab } = state.app;
   const { resume } = state;
   return {
-    tabBarActive,
-    activeTab,
     edited: resume && resume.edited
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    changeActiveTab: (tab) => {
-      dispatch(AppAction.changeTab(tab));
-    }
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TabBar);
+export default connect(mapStateToProps)(TabBar);

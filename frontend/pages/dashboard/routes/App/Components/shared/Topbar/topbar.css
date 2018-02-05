@@ -1,0 +1,9 @@
+.barContainer {
+  width: 40%;
+  margin: 0 30%;
+  display: flex;
+  min-width: 300px;
+  height: 65px;
+  line-height: 65px;
+  font-size: 14px;
+}

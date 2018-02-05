@@ -9,7 +9,7 @@ const download = (hash = window.resumeHash) =>
   getData('/resume/download', { hash });
 
 const getPubResume = hash => getData('/resume/pub', { hash });
-
+const getPubResumeHash = login => getData('/resume/hash', { login });
 const getPubResumeStatus = (hash) => {
   if (hash) {
     return getData(`/resume/${hash}/share`);
@@ -40,6 +40,7 @@ export default {
   setResume,
   download,
   getPubResume,
+  getPubResumeHash,
   getPubResumeStatus,
   postPubResumeShareStatus,
   postPubResumeGithubStatus,

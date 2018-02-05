@@ -26,6 +26,7 @@ import Slick from '../../shared/components/Slick';
 import locales from 'LOCALES';
 import USER from 'SRC/data/user';
 import Hotmap from 'COMPONENTS/Github/Hotmap';
+import 'SRC/vendor/mobile/github.css';
 
 const sortByLanguageStar = github.sortByX({ key: 'star' });
 const githubLocales = locales('github');
@@ -68,6 +69,7 @@ class GitHubMobileShare extends React.Component {
 
   componentDidUpdate(preProps, preState) {
     this.renderCharts();
+    this.removeLoading('#loading');
     const { repositoriesLoaded, commitLoaded } = this.state;
     if (repositoriesLoaded && !preState.repositoriesLoaded) {
       this.getGithubCommits();
@@ -85,6 +87,10 @@ class GitHubMobileShare extends React.Component {
       });
       this.headroom.init();
     }
+  }
+
+  removeLoading(dom) {
+    $(dom) && $(dom).remove();
   }
 
   async getRefreshStatus() {
@@ -473,6 +479,7 @@ class GitHubMobileShare extends React.Component {
 
   render() {
     const {
+      user,
       commits,
       refreshing,
       commitLoaded,
@@ -499,6 +506,25 @@ class GitHubMobileShare extends React.Component {
 
     return (
       <div className={styles.notAdmin}>
+        <div className={styles.shareHeader}>
+          <img src={user['avatar_url']} /><br/>
+          <span>{ user.name }, joined at { user['created_at'].split('T')[0] }</span>
+          {user.bio ? (<blockquote>{ user.bio }</blockquote>) : null}
+          <div className={styles.social}>
+            <div className={styles.socialInfo}>
+              <span>{ user['public_repos'] }</span><br/>
+              <span>Repositories</span>
+            </div>
+            <div className={styles.socialInfo}>
+              <span>{ user.followers }</span><br/>
+              <span>Followers</span>
+            </div>
+            <div className={styles.socialInfo}>
+              <span>{ user.following }</span><br/>
+              <span>Following</span>
+            </div>
+          </div>
+        </div>
         <Hotmap
           login={login}
           renderCards={false}
@@ -613,5 +639,10 @@ class GitHubMobileShare extends React.Component {
     );
   }
 }
+
+GitHubMobileShare.defaultProps = {
+  login: window.login,
+  isAdmin: window.isAdmin === 'true'
+};
 
 export default GitHubMobileShare;
