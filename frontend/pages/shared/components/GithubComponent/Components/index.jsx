@@ -453,7 +453,7 @@ class GithubComponent extends React.Component {
           isShare={isShare}
           callback={this.changeGithubSection}
         />
-        {openShareModal ? (
+        {!isShare ? (
           <ShareModal
             openModal={openShareModal}
             options={{

@@ -44,7 +44,7 @@ const fetchData = options => new Promise((resolve, reject) => {
     if (body) {
       resolve(body.result);
     }
-    reject(null);
+    reject(new Error(`Unknown Error when fetch: ${JSON.stringify(options)}`));
   });
 });
 

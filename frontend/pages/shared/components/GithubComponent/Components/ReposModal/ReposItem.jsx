@@ -36,7 +36,7 @@ class ReposItem extends React.Component {
           <span>{repository.description}</span>
         </div>
       </div>
-    )
+    );
   }
 }
 

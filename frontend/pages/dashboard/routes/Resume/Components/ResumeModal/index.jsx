@@ -8,13 +8,14 @@ import {
 import ResumeComponent from 'SHARED/components/ResumeComponent';
 import styles from '../../styles/modal.css';
 
-const ResumeModalV2 = (props) => {
+const ResumeModal = (props) => {
   const {
+    login,
+    resume,
     onClose,
     onShare,
     onDownload,
     openModal,
-    resume,
     shareInfo
   } = props;
 
@@ -25,10 +26,11 @@ const ResumeModalV2 = (props) => {
     >
       <div className={styles.modalContainer}>
         <ResumeComponent
+          login={login}
           resume={resume}
           shareInfo={shareInfo}
         />
-        { openModal ? <ShortMessage text="按 ESC 即可退出预览" /> : ''}
+        {openModal ? <ShortMessage text="按 ESC 即可退出预览" /> : ''}
         <FloatingActionButton
           icon="share-alt"
           style={{
@@ -56,7 +58,7 @@ const ResumeModalV2 = (props) => {
   );
 };
 
-ResumeModalV2.propTypes = {
+ResumeModal.propTypes = {
   openModal: PropTypes.bool,
   onClose: PropTypes.func,
   onShare: PropTypes.func,
@@ -65,7 +67,7 @@ ResumeModalV2.propTypes = {
   shareInfo: PropTypes.object,
 };
 
-ResumeModalV2.defaultProps = {
+ResumeModal.defaultProps = {
   openModal: false,
   onClose: () => {},
   onShare: () => {},
@@ -74,4 +76,4 @@ ResumeModalV2.defaultProps = {
   shareInfo: {},
 };
 
-export default ResumeModalV2;
+export default ResumeModal;

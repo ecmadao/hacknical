@@ -23,7 +23,7 @@ const ONE_DAY = 86400;
 const RedisCache = (options = {}) => {
   const prefix = options.prefix || `${config.get('appName')}:`;
   // const expire = options.expire || FOREVER;
-  const url = options.url;
+  const { url } = options;
 
   let redisAvailable = false;
 

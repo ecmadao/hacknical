@@ -1,6 +1,6 @@
 import pangu from 'pangu';
 
-const spacing = pangu.spacing;
+const { spacing } = pangu;
 
 const checkType = (val, result) =>
   Object.prototype.toString.call(val) === result;
@@ -26,7 +26,7 @@ export const sortBy = {
   star: sortByX({ key: 'stargazers_count', func: parseInt }),
 };
 
-const reValueObject = (object, key) => value => (object[key] = value);
+const reValueObject = (object, key) => (value) => { object[key] = value; };
 
 const loopObject = (object) => {
   if (is.object(object)) {

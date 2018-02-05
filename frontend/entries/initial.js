@@ -13,7 +13,7 @@ const EMOJI = {
   fireworks: '🎉',
   rock: '🤘'
 };
-const redirect = (url = '/') => () => (window.location = url);
+const redirect = (url = '/') => () => { window.location = url; };
 
 $(() => {
   $(document).bind('contextmenu', () => false);

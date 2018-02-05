@@ -30,7 +30,7 @@ const init = async () => {
       const { login, pageViews } = analyse;
       const viewCount = pageViews.reduce((prev, current, index) => {
         let count = parseInt(current.count, 10);
-        if (isNaN(count)) count = 0;
+        if (Number.isNaN(count)) count = 0;
         if (index === 0) {
           return count;
         }

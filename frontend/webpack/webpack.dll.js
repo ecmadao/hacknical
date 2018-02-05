@@ -33,8 +33,6 @@ if (isProduction) {
         warnings: false
       }
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
@@ -43,7 +41,6 @@ if (isProduction) {
       asset: "[path].gz[query]",
       algorithm: "gzip",
       test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
       minRatio: 0.8
     })
   )
@@ -56,17 +53,21 @@ module.exports = {
       'react-dom',
       'react-redux',
       'react-router',
+      'react-router-dom',
       'react-router-redux',
+      'react-router-config',
+      'react-async-component',
       'redux',
       'redux-actions',
       'redux-thunk',
       'redux-logger',
+      'history'
     ],
     runtime: [
       'babel-polyfill',
       'moment',
       'classnames',
-      'prop-types',
+      'prop-types'
     ]
   },
   output: {

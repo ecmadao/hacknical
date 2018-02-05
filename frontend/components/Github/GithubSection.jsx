@@ -66,12 +66,11 @@ class GitHubSection extends React.Component {
     } = this.props;
     const { showOperations } = this.state;
     if (hide) return <EmptyDOM />;
-
     const Section = config[section] || EmptyDOM;
 
     return (
       <div className={cx(cardStyles.info_card_container, className)}>
-        <p>
+        <div className={cardStyles.cardHeader}>
           <i aria-hidden="true" className={`fa fa-${title.icon}`} />
           &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
           {intro && !isShare ? (
@@ -85,7 +84,7 @@ class GitHubSection extends React.Component {
               </span>
             </Tipso>
           ) : ''}
-        </p>
+        </div>
         <BaseSection
           disabled={disabled}
           wrapperClass={wrapperClass}
@@ -106,7 +105,7 @@ class GitHubSection extends React.Component {
   }
 }
 
-GitHubSection.PropTypes = {
+GitHubSection.propTypes = {
   section: PropTypes.string,
   disabled: PropTypes.bool,
   hide: PropTypes.bool,

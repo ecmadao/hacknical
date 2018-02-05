@@ -9,7 +9,7 @@ import {
 } from './helper/github';
 import { is, sortBy } from '../utils/helper';
 
-/* ================== private func ====================*/
+/* ================== private func ==================== */
 
 const _getUser = async (ctx) => {
   const { login } = ctx.params;
@@ -251,7 +251,12 @@ const getShareRecords = async (ctx) => {
   const url = `github/${githubLogin}`;
   const shareAnalyse =
     await ShareAnalyse.findOne({ login: githubLogin, url });
-  const { viewDevices, viewSources, pageViews, enable } = shareAnalyse;
+  const {
+    enable,
+    pageViews,
+    viewDevices,
+    viewSources,
+  } = shareAnalyse;
   ctx.body = {
     success: true,
     result: {

@@ -142,7 +142,7 @@ router.get(
   cache.set()
 );
 router.get(
-  '/:login/user',
+  '/:login/info',
   share.githubEnable(),
   cache.get('user-github', {
     params: ['login']

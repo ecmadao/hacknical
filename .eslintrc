@@ -7,7 +7,7 @@
   "settings": {
     "import/resolver": {
       "webpack": {
-        "config": "./frontend/webpack/webpack.config.js"
+        "config": "./frontend/webpack/webpack.config.v3.js"
       }
     }
   },
@@ -40,12 +40,17 @@
     "react/sort-comp": 0,
     "consistent-return": 0,
     "no-useless-escape": 0,
+    "import/first": 0,
+    "function-paren-newline": 0,
+    "no-await-in-loop": 0,
+    "no-return-await": 0
   },
   "globals": {
     "require": true,
     "$": true,
     "window": true,
     "QRCode": true,
-    "particlesJS": true
+    "particlesJS": true,
+    "System": true
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { OutsideClickHandler } from 'light-ui';
 import styles from '../styles/predictions.css';
 
 class CardMenu extends React.PureComponent {
@@ -19,28 +20,24 @@ class CardMenu extends React.PureComponent {
     this.changeMenuStatus(!showMenu);
   }
 
-  componentDidMount() {
-    if (document.addEventListener) {
-      document.addEventListener('click', this.handleOutsideClick, true);
-    } else {
-      document.attachEvent('click', this.handleOutsideClick);
-    }
-  }
+  // componentDidMount() {
+  //   if (document.addEventListener) {
+  //     document.addEventListener('click', this.handleOutsideClick, true);
+  //   } else {
+  //     document.attachEvent('click', this.handleOutsideClick);
+  //   }
+  // }
 
-  componentWillUnmount() {
-    if (document.removeEventListener) {
-      document.removeEventListener('click', this.handleOutsideClick, true);
-    } else {
-      document.detachEvent('click', this.handleOutsideClick);
-    }
-  }
+  // componentWillUnmount() {
+  //   if (document.removeEventListener) {
+  //     document.removeEventListener('click', this.handleOutsideClick, true);
+  //   } else {
+  //     document.detachEvent('click', this.handleOutsideClick);
+  //   }
+  // }
 
-  handleOutsideClick(e) {
-    const event = e || window.event;
-    const isDescendantOfRoot = this.menu && this.menu.contains(event.target);
-    if (!isDescendantOfRoot) {
-      this.changeMenuStatus(false);
-    }
+  handleOutsideClick() {
+    this.changeMenuStatus(false);
   }
 
   changeMenuStatus(status) {
@@ -98,19 +95,22 @@ class CardMenu extends React.PureComponent {
     );
 
     return (
-      <div className={styles.cardMenu}>
-        <i
-          className="fa fa-ellipsis-h"
-          aria-hidden="true"
-          onClick={this.toggleMenu}
-        />
-        <div
-          className={menuClass}
-          ref={ref => (this.menu = ref)}
-        >
-          {this.renderMenus()}
+      <OutsideClickHandler
+        onOutsideClick={this.handleOutsideClick}>
+        <div className={styles.cardMenu}>
+          <i
+            className="fa fa-ellipsis-h"
+            aria-hidden="true"
+            onClick={this.toggleMenu}
+          />
+          <div
+            className={menuClass}
+            ref={ref => (this.menu = ref)}
+          >
+            {this.renderMenus()}
+          </div>
         </div>
-      </div>
+      </OutsideClickHandler>
     );
   }
 }

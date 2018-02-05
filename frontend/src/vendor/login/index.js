@@ -29,7 +29,7 @@ const countUp = (options = {}) => {
     duration = 1500, // 变化持续时间 (ms)
   } = options;
   let startTime = 0;
-  const dec = Math.pow(10, 0);
+  const dec = 1;
   let progress;
   let value;
   elem.innerHTML = '';

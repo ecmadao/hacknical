@@ -1,27 +1,23 @@
 import { createActions } from 'redux-actions';
 
 const {
-  logoutUser,
-  loginUser,
+  logout,
+  login,
   toggleLoading,
   toggleTabBar,
   changeActiveTab
 } = createActions({
-  LOGOUT_USER: () => null
-},
-  'LOGIN_USER',
-  'TOGGLE_LOADING',
-  'TOGGLE_TABBAR',
-  'CHANGE_ACTIVE_TAB'
-);
+  LOGOUT: () => null,
+  LOGIN: () => window.login,
+}, 'TOGGLE_LOADING', 'TOGGLE_TABBAR', 'CHANGE_ACTIVE_TAB');
 
 const changeTab = tab => (dispatch) => {
   dispatch(changeActiveTab(tab));
 };
 
 export default {
-  loginUser,
-  logoutUser,
+  login,
+  logout,
   toggleLoading,
   toggleTabBar,
   changeActiveTab,

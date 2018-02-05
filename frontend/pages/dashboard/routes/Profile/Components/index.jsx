@@ -28,7 +28,7 @@ class Profile extends React.Component {
             {TEXT}
           </div>
         </div>
-      )
+      );
     });
   }
 

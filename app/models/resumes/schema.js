@@ -1,8 +1,8 @@
 import mongoose from '../mongoose';
 
-const Schema = mongoose.Schema;
+const MongoSchema = mongoose.Schema;
 
-const ResumeSchema = new Schema({
+const ResumeSchema = new MongoSchema({
   userId: String,
   resume: {
     info: {

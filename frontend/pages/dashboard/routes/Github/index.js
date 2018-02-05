@@ -1,10 +1,10 @@
 import PATH from '../shared/path';
+import asyncComponent from 'SHARED/components/AsyncComponent';
 
 export default () => ({
   path: `${PATH.RAW_PATH}/github`,
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('SHARED/components/GithubComponent').default);
-    });
-  }
+  component: asyncComponent(
+    () => System.import('SHARED/components/GithubComponent')
+      .then(component => component.default)
+  )
 });

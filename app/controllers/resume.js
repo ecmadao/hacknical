@@ -53,7 +53,7 @@ const getResumeShareStatus = (findPubResume, locale) => {
 /* ===================== router handler ===================== */
 
 const getResume = async (ctx) => {
-  const userId = ctx.session.userId;
+  const { userId } = ctx.session;
   const getResult = await Resume.findOne(userId);
   const { result } = getResult;
 

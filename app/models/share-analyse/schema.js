@@ -1,8 +1,8 @@
 import mongoose from '../mongoose';
 
-const Schema = mongoose.Schema;
+const MongoSchema = mongoose.Schema;
 
-const ShareAnalyseSchema = new Schema({
+const ShareAnalyseSchema = new MongoSchema({
   login: String,
   userId: String,
   url: String,

@@ -131,7 +131,6 @@
   overflow: hidden;
   min-width: 40px;
   text-align: center;
-  z-index: var(--zIndex999);
 
   &:hover {
     overflow: visible;

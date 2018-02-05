@@ -1,4 +1,4 @@
-const getOwnPropertySymbols = Object.getOwnPropertySymbols;
+const getOwnPropSymbols = Object.getOwnPropertySymbols;
 const propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
 const toObject = (val) => {
@@ -18,8 +18,8 @@ const objectAssign = (...args) => {
       to[key] = from[key];
     });
 
-    if (getOwnPropertySymbols) {
-      const symbols = getOwnPropertySymbols(from);
+    if (getOwnPropSymbols) {
+      const symbols = getOwnPropSymbols(from);
       symbols.forEach((symbol) => {
         if (propIsEnumerable.call(from, symbol)) {
           to[symbol] = from[symbol];

@@ -67,7 +67,7 @@ const reducers = handleActions({
         info: objectAssign({}, obj.info, { url, openShare }),
         viewDevices: [...viewDevices],
         viewSources: getValidateViewSources(viewSources),
-        pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+        pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
       })
     });
   },
@@ -88,7 +88,7 @@ const reducers = handleActions({
       info: objectAssign({}, github.info, { url, openShare }),
       viewDevices: [...viewDevices],
       viewSources: getValidateViewSources(viewSources),
-      pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+      pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
     };
     return ({
       ...state,
@@ -112,7 +112,7 @@ const reducers = handleActions({
       info: objectAssign({}, resume.info, { url, openShare }),
       viewDevices: [...viewDevices],
       viewSources: getValidateViewSources(viewSources),
-      pageViews: pageViews.filter(pageView => !isNaN(pageView.count))
+      pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
     };
     return ({
       ...state,

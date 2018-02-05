@@ -1,5 +1,6 @@
 /* eslint no-new: "off" */
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Clipboard from 'clipboard';
@@ -20,9 +21,7 @@ class ShareModal extends React.Component {
 
   componentDidMount() {
     this.renderQrcode();
-    this.clipboard = new Clipboard('#copyButton', {
-      text: () => $('#shareUrl').val()
-    });
+    this.renderClipboard();
   }
 
   componentDidUpdate(preProps) {
@@ -40,11 +39,19 @@ class ShareModal extends React.Component {
     this.clipboard && this.clipboard.destroy();
   }
 
+  renderClipboard() {
+    this.clipboard = new Clipboard('#copyButton', {
+      text: () => $('#shareUrl').val()
+    });
+  }
+
   renderQrcode() {
+    // debugger;
+    if (!this.qrcode) return;
     const { options } = this.props;
     const colorDark = options.openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
-    $('#qrcode').empty();
-    new QRCode(document.getElementById('qrcode'), {
+    this.qrcode.innerHTML = '';
+    this.qrcode && new QRCode(this.qrcode, {
       text: options.link,
       width: 120,
       height: 120,
@@ -78,7 +85,7 @@ class ShareModal extends React.Component {
       >
         <div className={modalClass}>
           <div className={styles.share_qrcode}>
-            <div id="qrcode" />
+            <div ref={ref => (this.qrcode = ref)} />
           </div>
           <div className={styles.share_info}>
             <div className={styles.share_controller}>

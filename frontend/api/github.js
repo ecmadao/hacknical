@@ -14,7 +14,7 @@ const getRepositories = login => fetchInfo(`/${login}/repositories`);
 const getContributed = login => fetchInfo(`/${login}/contributed`);
 const getCommits = login => fetchInfo(`/${login}/commits`);
 const getOrganizations = login => fetchInfo(`/${login}/organizations`);
-const getUser = login => fetchInfo(`/${login}/user`);
+const getUser = login => fetchInfo(`/${login}/info`);
 const getUserHotmap = login => fetchInfo(`/${login}/hotmap`);
 
 

@@ -1,7 +1,7 @@
 import locales from 'LOCALES';
 
-const days = locales('datas').days;
-const months = locales('datas').months;
+const { days } = locales('datas');
+const { months } = locales('datas');
 
 export const DAYS = [
   days.sunday,

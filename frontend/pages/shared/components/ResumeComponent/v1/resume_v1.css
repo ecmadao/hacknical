@@ -21,14 +21,11 @@
   flex-direction: column;
   visibility: hidden;
 }
+
 .github_wrapper_active {
   visibility: visible;
   z-index: 1;
   left: 0;
-}
-
-.github_container {
-  margin: 0 40px 40px;
 }
 
 .left {

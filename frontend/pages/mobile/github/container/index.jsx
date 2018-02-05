@@ -195,7 +195,7 @@ class GitHubMobileShare extends React.Component {
         (pre, next) => pre + next, 0
       );
       const targetCommits = monthlyCommits[thisMonthKey];
-      monthlyCommits[thisMonthKey] = isNaN(targetCommits)
+      monthlyCommits[thisMonthKey] = Number.isNaN(targetCommits)
         ? totalCommits
         : totalCommits + targetCommits;
 
@@ -206,7 +206,7 @@ class GitHubMobileShare extends React.Component {
         const preTotalCommits = item.days.slice(0, sliceIndex)
           .reduce((pre, next) => pre + next, 0);
         const preTargetCommits = monthlyCommits[preMonthKey];
-        monthlyCommits[preMonthKey] = isNaN(preTargetCommits)
+        monthlyCommits[preMonthKey] = Number.isNaN(preTargetCommits)
           ? preTotalCommits
           : preTotalCommits + preTargetCommits;
       }

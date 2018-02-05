@@ -1,15 +1,12 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  browserHistory,
-} from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 import AppContainer from './AppContainer';
 import AppStore from './redux/store';
 import routes from './routes';
 
-const history = syncHistoryWithStore(browserHistory, AppStore);
+const history = createHistory();
 
 const renderApp = (id, props = {}) => {
   const ROOT_DOM = document.getElementById(id);

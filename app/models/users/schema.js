@@ -1,8 +1,8 @@
 import mongoose from '../mongoose';
 
-const Schema = mongoose.Schema;
+const MongoSchema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const UserSchema = new MongoSchema({
   userName: String,
   userId: String,
   passwordHash: String,
@@ -44,9 +44,6 @@ UserSchema.index({
   userId: 1,
   email: 1,
   githubLogin: 1,
-  githubInfo: {
-    login: 1
-  }
 });
 
 export default mongoose.model('Users', UserSchema);

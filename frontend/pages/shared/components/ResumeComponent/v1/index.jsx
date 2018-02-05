@@ -6,9 +6,9 @@ import dateHelper from 'UTILS/date';
 import { validateUrl } from 'UTILS/helper';
 import validator from 'UTILS/validator';
 import { objectassign } from 'SHARED/utils/resume';
-import GithubComponent from 'SHARED/components/GithubComponent';
 import styles from './resume_v1.css';
 import statusLabels from '../shared/StatusLabels';
+import AsyncGithub from '../shared/AsyncGithub';
 
 const { hoursBefore } = dateHelper.relative;
 
@@ -294,11 +294,10 @@ class ResumeComponentV1 extends React.PureComponent {
                 </span>
               )
             })}
-            <GithubComponent
+            <AsyncGithub
               isShare
-              githubSection={github}
-              containerStyle={styles.github_container}
               login={login}
+              githubSection={github}
             />
           </div>
         </div>
