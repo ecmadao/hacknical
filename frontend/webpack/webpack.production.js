@@ -17,9 +17,6 @@ config.plugins.push(
       warnings: false
     },
   }),
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
-  }),
   new webpack.optimize.AggressiveMergingPlugin(),
   new CompressionPlugin({
     asset: '[path].gz[query]',

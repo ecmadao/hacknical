@@ -12,7 +12,7 @@
     "deploy-cdn": "NODE_ENV=production node ./scripts/deploy-cdn.js",
     "start-dev": "npm run build-dll && npm run start-app",
     "start-app": "bnr local:app:start & bnr local:build:src",
-    "deploy": "git checkout master && git pull origin master && npm i && npm run build-app && npm run build-static && npm run deploy-cdn && npm run restart && npm run notify-opbeat",
+    "deploy": "git checkout master && git pull origin master && npm i --save-dev && npm run build-app && npm run build-static && npm run deploy-cdn && npm run restart && npm run notify-opbeat",
     "start": "bnr pro:app:start",
     "stop": "bnr pro:app:stop",
     "restart": "npm run stop && npm run start",
