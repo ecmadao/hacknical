@@ -1,5 +1,6 @@
 import ShareAnalyse from '../../models/share-analyse';
 import ResumePub from '../../models/resume-pub';
+import User from '../../models/users';
 import { getValue } from '../../utils/helper';
 
 const githubEnable = (key = 'params.login') => async (ctx, next) => {
@@ -31,7 +32,23 @@ const resumeEnable = (key = 'params.hash') => async (ctx, next) => {
   await next();
 };
 
+const resumeEnableByLogin = () => async (ctx, next) => {
+  const { login } = ctx.params;
+  const { githubLogin } = ctx.session;
+  const user = await User.findUserByLogin(login);
+  if (!user) return ctx.redirect('/404');
+  const { userId } = user;
+  const option = { userId };
+  if (login !== githubLogin) {
+    option.openShare = true;
+  }
+  const findResume = await ResumePub.findOne(option);
+  if (!findResume.success) return ctx.redirect('/404');
+  await next();
+};
+
 export default {
   githubEnable,
   resumeEnable,
+  resumeEnableByLogin,
 };

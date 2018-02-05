@@ -156,6 +156,36 @@ const downloadResume = async (ctx) => {
   };
 };
 
+const _resumePage = async (ctx, hash) => {
+  const { isMobile } = ctx.state;
+  const { isAdmin, userName, userLogin } = ctx.query;
+  if (isMobile) {
+    await ctx.render('user/mobile/resume', {
+      title: ctx.__('resumePage.title', userName),
+      resumeHash: hash,
+      login: userLogin,
+      menu: getMobileMenu(ctx),
+      user: {
+        isAdmin,
+        login: userLogin,
+      },
+      hideFooter: true,
+    });
+  } else {
+    await ctx.render('resume/share', {
+      title: ctx.__('resumePage.title', userName),
+      resumeHash: hash,
+      login: userLogin,
+      hideFooter: true
+    });
+  }
+};
+
+const resumePage = async (ctx) => {
+  const { hash } = ctx.query;
+  await _resumePage(ctx, hash);
+};
+
 const getPubResume = async (ctx, next) => {
   const { hash } = ctx.query;
   const findResume = await ResumePub.getPubResume(hash);
@@ -171,47 +201,9 @@ const getPubResume = async (ctx, next) => {
   await next();
 };
 
-const getResumeSharePage = async (ctx) => {
-  const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-  const { result, success } = findPubResume;
-  if (!success) {
-    return ctx.redirect('/404');
-  }
-  const { resumeHash } = result;
-
-  if (ctx.state.isMobile) {
-    return ctx.redirect(`/resume/${resumeHash}/mobile`);
-  }
-  return ctx.redirect(`/resume/${resumeHash}`);
-};
-
 const getPubResumePage = async (ctx) => {
   const { hash } = ctx.params;
-  const { userName, userLogin } = ctx.query;
-
-  await ctx.render('resume/share', {
-    title: ctx.__('resumePage.title', userName),
-    resumeHash: hash,
-    login: userLogin,
-    hideFooter: true
-  });
-};
-
-const getPubResumePageMobile = async (ctx) => {
-  const { hash } = ctx.params;
-  const { isAdmin, userName, userLogin } = ctx.query;
-
-  await ctx.render('user/mobile/resume', {
-    title: ctx.__('resumePage.title', userName),
-    resumeHash: hash,
-    login: userLogin,
-    menu: getMobileMenu(ctx),
-    user: {
-      isAdmin,
-    },
-    hideFooter: true,
-  });
+  await _resumePage(ctx, hash);
 };
 
 const getPubResumeStatus = async (ctx) => {
@@ -365,9 +357,8 @@ export default {
   setResume,
   downloadResume,
   getPubResume,
-  getResumeSharePage,
+  resumePage,
   getPubResumePage,
-  getPubResumePageMobile,
   getResumeStatus,
   getPubResumeStatus,
   setResumeShareStatus,

@@ -193,57 +193,54 @@ const getUser = async (ctx, next) => {
   await next();
 };
 
-const sharePageMobile = async (ctx) => {
+const githubPage = async (ctx) => {
   const { login } = ctx.params;
+  const { isMobile } = ctx.state;
+
   const user = await _getUser(ctx);
   const { githubLogin } = ctx.session;
   const title = ctx.__('sharePage.github', user.name || user.login);
-  const locale = ctx.__('language.id');
 
-  const {
-    bio,
-    name,
-    followers,
-    following,
-    avatar_url,
-    created_at,
-    public_repos,
-  } = user;
-
-  await ctx.render('user/mobile/github', {
-    title,
-    locale,
-    user: {
+  if (isMobile) {
+    const locale = ctx.__('language.id');
+    const {
       bio,
-      login,
+      name,
       followers,
       following,
       avatar_url,
+      created_at,
       public_repos,
-      name: name || login,
-      isAdmin: login === githubLogin,
-      created_at: created_at.split('T')[0]
-    },
-    shareText: ctx.__('messages.share.mobileText'),
-    joinAt: ctx.__('sharePage.joinAt'),
-    menu: getMobileMenu(ctx),
-  });
-};
+    } = user;
 
-const sharePage = async (ctx) => {
-  const { login } = ctx.params;
-  const user = await _getUser(ctx);
-  const { githubLogin } = ctx.session;
-  const title = ctx.__('sharePage.github', user.name || user.login);
-
-  await ctx.render('github/share', {
-    title,
-    user: {
-      login,
-      isAdmin: login === githubLogin
-    },
-    shareText: ctx.__('messages.share.text')
-  });
+    await ctx.render('user/mobile/github', {
+      title,
+      locale,
+      user: {
+        bio,
+        login,
+        followers,
+        following,
+        avatar_url,
+        public_repos,
+        name: name || login,
+        isAdmin: login === githubLogin,
+        created_at: created_at.split('T')[0]
+      },
+      shareText: ctx.__('messages.share.mobileText'),
+      joinAt: ctx.__('sharePage.joinAt'),
+      menu: getMobileMenu(ctx),
+    });
+  } else {
+    await ctx.render('github/share', {
+      title,
+      user: {
+        login,
+        isAdmin: login === githubLogin
+      },
+      shareText: ctx.__('messages.share.text')
+    });
+  }
 };
 
 const getShareRecords = async (ctx) => {
@@ -415,8 +412,7 @@ const getUserHotmap = async (ctx, next) => {
 };
 
 export default {
-  sharePage,
-  sharePageMobile,
+  githubPage,
   fetchRepositories,
   fetchCommits,
   fetchOrganizations,

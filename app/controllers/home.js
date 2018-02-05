@@ -36,6 +36,7 @@ const handle404 = async (ctx) => {
 };
 
 const dashboard = async (ctx) => {
+  const { isMobile } = ctx.state;
   const { githubLogin, userId } = ctx.session;
   const user = await User.findOne({ userId });
 
@@ -47,13 +48,14 @@ const dashboard = async (ctx) => {
     ctx.redirect('/initial');
   }
 
-  if (ctx.state.isMobile) {
-    ctx.redirect(`/github/${githubLogin}/mobile`);
+  if (isMobile) {
+    ctx.redirect(`/${githubLogin}/github`);
   }
 
   await ctx.render('user/dashboard', {
     title: ctx.__('dashboard.title', githubLogin),
-    login: githubLogin
+    login: githubLogin,
+    isMobile
   });
 };
 

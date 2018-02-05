@@ -8,7 +8,7 @@ $(() => {
     if (
       href === pathname
       || (new RegExp('github').test(href) && new RegExp('github').test(pathname))
-      || (new RegExp('resume').test(pathname) && new RegExp('resume').test(pathname))
+      || (new RegExp('resume').test(href) && new RegExp('resume').test(pathname))
     ) {
       $el.addClass('active');
     }
