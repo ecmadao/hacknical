@@ -196,7 +196,7 @@ const githubPage = async (ctx) => {
   const { login } = ctx.params;
   const { isMobile } = ctx.state;
   const { githubLogin } = ctx.session;
-  const title = ctx.__('sharePage.github', user.name || user.login);
+  const title = ctx.__('sharePage.github', login);
 
   if (isMobile) {
     const locale = ctx.__('language.id');
