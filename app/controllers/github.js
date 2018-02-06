@@ -1,9 +1,7 @@
 /* eslint eqeqeq: "off" */
-import User from '../models/users';
 import Api from '../services/api';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
-import { getMobileMenu } from './shared';
 import {
   combineReposCommits
 } from './helper/github';
@@ -22,15 +20,16 @@ const _getUser = async (ctx) => {
 
 const _getRepositories = async (login, token) => {
   const repositories = await Api.getUserRepositories(login, token);
-  const pinned = await User.findPinnedRepos(login);
-  const checkPinned = repository =>
-    pinned.some(item => item === repository.name);
-  const pinnedRepos = pinned.length
-    ? repositories.filter(repository => checkPinned(repository) || repository.fork)
-    : repositories;
+  // const pinnedRepos = await User.findPinnedRepos(login);
+  // const pinned = pinnedRepos.filter(item => item);
+  // const checkPinned = repository =>
+  //   pinned.some(item => item === repository.name);
+  // const repos = pinned.length
+  //   ? repositories.filter(repository => checkPinned(repository) || repository.fork)
+  //   : repositories;
 
-  pinnedRepos.sort(sortBy.star);
-  return pinnedRepos;
+  repositories.sort(sortBy.star);
+  return repositories;
 };
 
 const _getContributed = async (login, token) => {
@@ -53,11 +52,10 @@ const _getCommits = async (login, token) => {
 /* ================== router handler ================== */
 
 const toggleShare = async (ctx) => {
-  const { githubLogin } = ctx.session;
   const { enable } = ctx.request.body;
   await ShareAnalyse.changeShareStatus({
     enable,
-    url: `github/${githubLogin}`
+    url: new RegExp('github')
   });
   const message = Boolean(enable) == true
     ? 'messages.share.toggleOpen'
@@ -181,11 +179,11 @@ const getUser = async (ctx, next) => {
   const { login } = ctx.params;
   const user = await _getUser(ctx);
   const shareAnalyse =
-    await ShareAnalyse.findOne({ login, url: `github/${login}` });
+    await ShareAnalyse.findOne({ login, url: new RegExp('github') });
 
   const result = Object.assign({}, user);
   result.openShare = shareAnalyse.enable;
-  result.shareUrl = `github/${login}?locale=${ctx.session.locale}`;
+  result.shareUrl = `${login}/github?locale=${ctx.session.locale}`;
   ctx.body = {
     success: true,
     result
@@ -193,64 +191,33 @@ const getUser = async (ctx, next) => {
   await next();
 };
 
-const sharePageMobile = async (ctx) => {
+const githubPage = async (ctx) => {
   const { login } = ctx.params;
-  const user = await _getUser(ctx);
+  const { isMobile } = ctx.state;
   const { githubLogin } = ctx.session;
-  const title = ctx.__('sharePage.github', user.name || user.login);
-  const locale = ctx.__('language.id');
-
-  const {
-    bio,
-    name,
-    followers,
-    following,
-    avatar_url,
-    created_at,
-    public_repos,
-  } = user;
-
-  await ctx.render('user/mobile/github', {
+  const title = ctx.__('sharePage.github', login);
+  const options = {
     title,
-    locale,
     user: {
-      bio,
       login,
-      followers,
-      following,
-      avatar_url,
-      public_repos,
-      name: name || login,
       isAdmin: login === githubLogin,
-      created_at: created_at.split('T')[0]
     },
-    shareText: ctx.__('messages.share.mobileText'),
-    joinAt: ctx.__('sharePage.joinAt'),
-    menu: getMobileMenu(ctx),
-  });
-};
-
-const sharePage = async (ctx) => {
-  const { login } = ctx.params;
-  const user = await _getUser(ctx);
-  const { githubLogin } = ctx.session;
-  const title = ctx.__('sharePage.github', user.name || user.login);
-
-  await ctx.render('github/share', {
-    title,
-    user: {
-      login,
-      isAdmin: login === githubLogin
-    },
-    shareText: ctx.__('messages.share.text')
-  });
+    locale: ctx.__('language.id'),
+    shareText: isMobile
+      ? ctx.__('messages.share.mobileText')
+      : ctx.__('messages.share.text')
+  };
+  if (isMobile) {
+    await ctx.render('user/mobile/github', options);
+  } else {
+    await ctx.render('github/share', options);
+  }
 };
 
 const getShareRecords = async (ctx) => {
   const { githubLogin } = ctx.session;
-  const url = `github/${githubLogin}`;
   const shareAnalyse =
-    await ShareAnalyse.findOne({ login: githubLogin, url });
+    await ShareAnalyse.findOne({ login: githubLogin, url: new RegExp('github') });
   const {
     enable,
     pageViews,
@@ -264,7 +231,7 @@ const getShareRecords = async (ctx) => {
       viewDevices,
       viewSources,
       openShare: enable,
-      url: `${url}?locale=${ctx.session.locale}`,
+      url: `${githubLogin}/github?locale=${ctx.session.locale}`,
     }
   };
 };
@@ -415,8 +382,7 @@ const getUserHotmap = async (ctx, next) => {
 };
 
 export default {
-  sharePage,
-  sharePageMobile,
+  githubPage,
   fetchRepositories,
   fetchCommits,
   fetchOrganizations,

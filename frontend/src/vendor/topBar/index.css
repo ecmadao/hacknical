@@ -1,0 +1,36 @@
+@import 'open-color/open-color.css';
+
+.app_tabs {
+  width: 100%;
+  border-top: 1px solid var(--oc-gray-2);
+}
+
+.headroom {
+  left: 0;
+  transition: transform 0.5s;
+  z-index: var(--zIndex9);
+}
+
+.headroom--pinned,
+.headroom--unpinned {
+  position: fixed;
+  top: 0;
+}
+
+.headroom--pinned {
+  transform: translateY(0);
+}
+
+.headroom--unpinned {
+  transform: translateY(-100%);
+}
+
+.headroom--top-desktop {
+  position: absolute;
+  top: 50px;
+}
+
+.headroom--top-mobile {
+  position: absolute;
+  top: 0;
+}

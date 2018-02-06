@@ -2,8 +2,7 @@ import config from 'config';
 import User from '../models/users';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
-import getLanguages from '../config/languages';
-import { getMobileMenu, getGithubSections } from './shared';
+import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 
 const qName = config.get('mq.qnameRefresh');
@@ -34,11 +33,9 @@ const clearCache = async (ctx, next) => {
       query: ['login'],
     })
   ];
-
   ctx.body = {
     success: true
   };
-
   await next();
 };
 
@@ -47,30 +44,6 @@ const logout = async (ctx) => {
   ctx.session.githubToken = null;
   ctx.session.githubLogin = null;
   ctx.redirect('/');
-};
-
-const loginPage = async (ctx) => {
-  const locale = ctx.__('language.id');
-  const languages = getLanguages(locale);
-  const clientId = await Api.getVerify();
-  await ctx.render('user/login', {
-    locale,
-    languages,
-    clientId,
-    title: ctx.__('loginPage.title'),
-    login: ctx.__('loginPage.login'),
-    about: ctx.__('loginPage.about'),
-    loginText: ctx.__('loginPage.loginText'),
-    loginButtonText: ctx.__('loginPage.loginButtonText'),
-    languageText: ctx.__('language.text'),
-    languageId: ctx.__('language.id'),
-    statistic: {
-      developers: ctx.__('loginPage.statistic.developers'),
-      githubPageview: ctx.__('loginPage.statistic.githubPageview'),
-      resumePageview: ctx.__('loginPage.statistic.resumePageview'),
-      resumes: ctx.__('loginPage.statistic.resumes'),
-    }
-  });
 };
 
 const githubLogin = async (ctx) => {
@@ -100,12 +73,12 @@ const githubLogin = async (ctx) => {
             qname: qName
           });
         }
-        return ctx.redirect('/dashboard');
+        return ctx.redirect(`/${ctx.session.githubLogin}`);
       }
     }
-    return ctx.redirect('/user/login');
+    return ctx.redirect('/');
   } catch (err) {
-    return ctx.redirect('/user/login');
+    return ctx.redirect('/');
   }
 };
 
@@ -121,27 +94,6 @@ const initialFinished = async (ctx) => {
     success: true,
     result: ''
   };
-};
-
-// user analysis mobile
-const mobileAnalysis = async (ctx) => {
-  await ctx.render('user/mobile/analysis', {
-    title: ctx.__('mobilePage.analysis'),
-    user: {
-      isAdmin: true
-    },
-    menu: getMobileMenu(ctx)
-  });
-};
-
-const mobileSetting = async (ctx) => {
-  await ctx.render('user/mobile/setting', {
-    title: ctx.__('mobilePage.setting'),
-    user: {
-      isAdmin: true
-    },
-    menu: getMobileMenu(ctx)
-  });
 };
 
 const getGithubShareSections = async (ctx) => {
@@ -199,15 +151,11 @@ const setPinnedRepos = async (ctx, next) => {
 export default {
   // user
   logout,
-  loginPage,
   githubLogin,
   initialFinished,
   getPinnedRepos,
   setPinnedRepos,
   clearCache,
-  // mobile
-  mobileAnalysis,
-  mobileSetting,
   // github sections
   getGithubShareSections,
   setGithubShareSections,

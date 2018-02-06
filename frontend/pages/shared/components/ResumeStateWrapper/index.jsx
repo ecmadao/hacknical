@@ -14,6 +14,7 @@ class ResumeStateWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hash: props.hash,
       loading: true,
       updateAt: '',
       info: objectAssign({}, INFO),
@@ -31,9 +32,8 @@ class ResumeStateWrapper extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchResume();
+    this.fetchResumeData();
     this.removeLoading('#loading');
-    this.fetchShareInfo();
   }
 
   componentDidUpdate(preProps, preState) {
@@ -47,14 +47,25 @@ class ResumeStateWrapper extends React.Component {
     $(dom) && $(dom).remove();
   }
 
-  fetchShareInfo() {
-    Api.resume.getPubResumeStatus(this.props.hash).then((result) => {
+  async fetchResumeData() {
+    let { hash } = this.state;
+    const { login } = this.props;
+    if (!hash) {
+      hash = await Api.resume.getPubResumeHash(login);
+      this.setState({ hash });
+    }
+    this.fetchResume(hash);
+    this.fetchShareInfo(hash);
+  }
+
+  fetchShareInfo(hash) {
+    Api.resume.getPubResumeStatus(hash).then((result) => {
       this.initialShareInfo(result);
     });
   }
 
-  fetchResume() {
-    Api.resume.getPubResume(this.props.hash).then((result) => {
+  fetchResume(hash) {
+    Api.resume.getPubResume(hash).then((result) => {
       result && this.initialResume(result);
     });
   }

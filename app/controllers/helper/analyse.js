@@ -4,9 +4,9 @@ import logger from '../../utils/logger';
 import User from '../../models/users';
 import ResumePub from '../../models/resume-pub';
 import SlackMsg from '../../services/slack';
+import { getValue } from '../../utils/helper';
 
-const getPubResumeInfo = async (ctx) => {
-  const { hash } = ctx.params;
+const getPubResumeInfo = async (hash) => {
   const findResume = await ResumePub.getPubResumeInfo(hash);
 
   if (findResume.success) {
@@ -25,19 +25,16 @@ const updateViewData = async (ctx, options) => {
   const { platform, browser } = ctx.state;
   const {
     url = '',
+    type = null,
     login = null,
-    type = null
   } = options;
-  const updateResult = await ShareAnalyse.updateShare({ login, url });
-  if (!updateResult.success) {
-    ctx.redirect('/404');
-    return;
-  }
+
   await ShareAnalyse.updateViewData({
+    login,
     platform,
     url: options.url,
+    from: from || '',
     browser: browser || '',
-    from: from || ''
   });
   if (type) {
     ctx.cache.hincrby(type, 'pageview', 1);
@@ -49,28 +46,31 @@ const updateViewData = async (ctx, options) => {
   logger.info(`[${type.toUpperCase()}:VIEW][${url}]`);
 };
 
-const collectGithubRecord = async (ctx, next) => {
-  const { login } = ctx.params;
+const collectGithubRecord = (key = 'params.login') => async (ctx, next) => {
+  const login = getValue(ctx, key);
   const { githubLogin } = ctx.session;
+  const { path } = ctx.request;
 
   // make sure that admin user's visit will not be collected.
   if (githubLogin !== login) {
-    const url = `github/${login}`;
+    const url = path.slice(1);
     updateViewData(ctx, { login, url, type: 'github' });
   }
   await next();
 };
 
-const collectResumeRecord = async (ctx, next) => {
+const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => {
   const { notrace } = ctx.query;
+  const hash = getValue(ctx, key);
+  const { path } = ctx.request;
 
   const { githubLogin } = ctx.session;
-  const user = await getPubResumeInfo(ctx);
+  const user = await getPubResumeInfo(hash);
   const isAdmin = user && user.login === githubLogin;
 
   if ((!isAdmin && !notrace) || notrace === 'false') {
-    const url = `resume/${user.resumeHash}`;
-    updateViewData(ctx, { url, type: 'resume' });
+    const url = path.slice(1);
+    updateViewData(ctx, { login: user.login, url, type: 'resume' });
   }
 
   ctx.query.isAdmin = isAdmin;
@@ -81,5 +81,5 @@ const collectResumeRecord = async (ctx, next) => {
 
 export default {
   github: collectGithubRecord,
-  resume: collectResumeRecord
+  resume: collectResumeRecordByHash,
 };

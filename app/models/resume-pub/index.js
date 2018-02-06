@@ -32,14 +32,14 @@ const findPublicResume = async (options) => {
   };
 };
 
-const addPubResume = async (userId, options = {}) => {
+const addPubResume = async (userId, login, options = {}) => {
   const timestamp = getSeconds(getDateAfterDays(options.days || 10));
   const maxView = options.maxView || 500;
   const resumeHash = shortid.generate();
 
   await createResumeShare({
     userId,
-    url: `resume/${resumeHash}`
+    url: `${login}/resume`
   });
 
   const saveResult = await ResumePub.create({

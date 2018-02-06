@@ -9,7 +9,7 @@
   <div class="topbar">
     <div class="topbar-selector">
       {% for language in languages %}
-        <a href="/user/login?locale={{ language.id }}">
+        <a href="/?locale={{ language.id }}">
           {{ language.text }}
         </a>
       {% endfor %}

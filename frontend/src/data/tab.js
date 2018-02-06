@@ -11,14 +11,14 @@ const TABS = [
     tipso: tabs.profile.tipso
   },
   {
-    id: 'resume',
+    id: 'archive',
     name: tabs.resume.text,
     icon: 'fa-file-code-o',
     enable: true,
     tipso: tabs.resume.tipso
   },
   {
-    id: 'github',
+    id: 'visualize',
     name: tabs.github.text,
     icon: 'fa-github',
     enable: true,

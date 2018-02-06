@@ -1,49 +1,11 @@
-{% extends "layouts/mobile.html" %}
+{% extends "layouts/base.html" %}
 
-{% block pageCSS %}
-  <style>
-    .mobile_topbar {
-      box-shadow: none !important;
-    }
-  </style>
-  {% if not user.isAdmin %}
-    <style>
-      .share {
-        padding-top: 20px !important;
-      }
-      .share_header {
-        margin: 0 !important;
-        padding-bottom: 30px;
-        margin-bottom: 30px;
-      }
-    </style>
-  {% endif %}
+{% block css %}
   <link href="{{ assetsPath("mobile_github.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block content %}
-  <div class="share github_shared mobile_content">
-    <div class="share_header">
-      <img src="{{ user['avatar_url'] }}" /><br/>
-      <span>{{ user.name }}, {{ joinAt }} {{ user['created_at'] }}</span>
-      {% if user.bio %}
-        <blockquote>{{ user.bio }}</blockquote>
-      {% endif %}
-      <div class="social">
-        <div class="social_info">
-          <span>{{ user['public_repos'] }}</span><br/>
-          <span>Repositories</span>
-        </div>
-        <div class="social_info">
-          <span>{{ user.followers }}</span><br/>
-          <span>Followers</span>
-        </div>
-        <div class="social_info">
-          <span>{{ user.following }}</span><br/>
-          <span>Following</span>
-        </div>
-      </div>
-    </div>
+{% block body %}
+  <div class="share">
     <div id="github"></div>
   </div>
   {% if not user.isAdmin %}
@@ -53,7 +15,7 @@
   {% endif %}
 {% endblock %}
 
-{% block pageJS %}
+{% block js %}
   <script>
     window.isAdmin = '{{ user.isAdmin }}';
     window.login = '{{ user.login }}';

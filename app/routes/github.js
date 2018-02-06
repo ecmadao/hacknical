@@ -92,18 +92,10 @@ router.get(
   '/:login',
   share.githubEnable(),
   platform.setPlatform(),
-  platform.checkMobile(),
-  analyse.github,
-  GitHub.sharePage
+  analyse.github(),
+  GitHub.githubPage
 );
-router.get(
-  '/:login/mobile',
-  share.githubEnable(),
-  platform.setPlatform(),
-  platform.checkMobile(),
-  analyse.github,
-  GitHub.sharePageMobile
-);
+
 // share page's datas
 router.get(
   '/:login/repositories',

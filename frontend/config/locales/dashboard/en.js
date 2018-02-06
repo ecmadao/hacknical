@@ -48,6 +48,9 @@ const datas = {
     }
   },
   setting: {
+    refresh: 'Update Date',
+    shareConfig: 'Share Config',
+    shareUrl: 'Share Url',
     github: {
       title: 'GitHub',
       openShare: 'Open GitHub analysis share',

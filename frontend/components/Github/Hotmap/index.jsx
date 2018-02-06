@@ -6,7 +6,6 @@ import CalHeatMap from 'cal-heatmap';
 import 'cal-heatmap/cal-heatmap.css';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 import Api from 'API';
-import 'SRC/vendor/share/github-calendar.css';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import locales, { formatLocale } from 'LOCALES';

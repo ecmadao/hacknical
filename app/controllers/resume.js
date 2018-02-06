@@ -7,7 +7,7 @@ import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
-import { getGithubSections, getMobileMenu } from './shared';
+import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 import SlackMsg from '../services/slack';
 import {
@@ -19,7 +19,7 @@ import {
 const URL = config.get('url');
 const HTTPS_URL = config.get('httpsUrl');
 
-const getResumeShareStatus = (findPubResume, locale) => {
+const getResumeShareStatus = (findPubResume, locale, login = null) => {
   const { result, success, message } = findPubResume;
   if (!success) {
     return {
@@ -44,8 +44,10 @@ const getResumeShareStatus = (findPubResume, locale) => {
       openShare,
       useGithub,
       resumeHash,
-      url: `resume/${resumeHash}?locale=${locale}`,
-      githubUrl: null
+      githubUrl: null,
+      url: login
+        ? `${login}/resume?locale=${locale}`
+        : `resume/${resumeHash}?locale=${locale}`
     }
   };
 };
@@ -83,12 +85,12 @@ const setResume = async (ctx, next) => {
     // check & add resume share info
     let checkResult = await ResumePub.findOne({ userId });
     if (!checkResult.success) {
-      checkResult = await ResumePub.addPubResume(userId);
+      checkResult = await ResumePub.addPubResume(userId, githubLogin);
     }
     resumeInfo = checkResult.success ? {
       useGithub: checkResult.result.useGithub,
       openShare: checkResult.result.openShare,
-      url: `resume/${checkResult.result.resumeHash}?locale=${ctx.session.locale}`,
+      url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
     } : null;
   }
 
@@ -130,7 +132,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(result);
 
   const resumeUrl =
-    `${HTTPS_URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
+    `${HTTPS_URL}/${githubLogin}/resume?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
 
   new SlackMsg(ctx.mq).send({
     type: 'download',
@@ -156,6 +158,35 @@ const downloadResume = async (ctx) => {
   };
 };
 
+const _resumePage = async (ctx, hash) => {
+  const { isMobile } = ctx.state;
+  const { isAdmin, userName, userLogin } = ctx.query;
+  if (isMobile) {
+    await ctx.render('user/mobile/resume', {
+      title: ctx.__('resumePage.title', userName),
+      resumeHash: hash,
+      login: userLogin,
+      user: {
+        isAdmin,
+        login: userLogin,
+      },
+      hideFooter: true,
+    });
+  } else {
+    await ctx.render('resume/share', {
+      title: ctx.__('resumePage.title', userName),
+      resumeHash: hash,
+      login: userLogin,
+      hideFooter: true
+    });
+  }
+};
+
+const resumePage = async (ctx) => {
+  const { hash } = ctx.query;
+  await _resumePage(ctx, hash);
+};
+
 const getPubResume = async (ctx, next) => {
   const { hash } = ctx.query;
   const findResume = await ResumePub.getPubResume(hash);
@@ -171,47 +202,18 @@ const getPubResume = async (ctx, next) => {
   await next();
 };
 
-const getResumeSharePage = async (ctx) => {
-  const { userId } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-  const { result, success } = findPubResume;
-  if (!success) {
-    return ctx.redirect('/404');
-  }
-  const { resumeHash } = result;
-
-  if (ctx.state.isMobile) {
-    return ctx.redirect(`/resume/${resumeHash}/mobile`);
-  }
-  return ctx.redirect(`/resume/${resumeHash}`);
-};
-
 const getPubResumePage = async (ctx) => {
   const { hash } = ctx.params;
-  const { userName, userLogin } = ctx.query;
-
-  await ctx.render('resume/share', {
-    title: ctx.__('resumePage.title', userName),
-    resumeHash: hash,
-    login: userLogin,
-    hideFooter: true
-  });
+  await _resumePage(ctx, hash);
 };
 
-const getPubResumePageMobile = async (ctx) => {
-  const { hash } = ctx.params;
-  const { isAdmin, userName, userLogin } = ctx.query;
-
-  await ctx.render('user/mobile/resume', {
-    title: ctx.__('resumePage.title', userName),
-    resumeHash: hash,
-    login: userLogin,
-    menu: getMobileMenu(ctx),
-    user: {
-      isAdmin,
-    },
-    hideFooter: true,
-  });
+const getPubResumeHash = async (ctx, next) => {
+  const { hash } = ctx.query;
+  ctx.body = {
+    result: hash,
+    success: true,
+  };
+  await next();
 };
 
 const getPubResumeStatus = async (ctx) => {
@@ -225,17 +227,17 @@ const getPubResumeStatus = async (ctx) => {
     const { userId } = findPubResume.result;
     const user = await User.findOne({ userId });
     shareResult.result.githubUrl =
-      `${URL}/github/${user.githubLogin}?locale=${locale}`;
+      `${URL}/${user.githubLogin}/github?locale=${locale}`;
   }
 
   ctx.body = shareResult;
 };
 
 const getResumeStatus = async (ctx) => {
-  const { userId, locale } = ctx.session;
+  const { userId, locale, githubLogin } = ctx.session;
   const findPubResume = await ResumePub.findOne({ userId });
 
-  ctx.body = getResumeShareStatus(findPubResume, locale);
+  ctx.body = getResumeShareStatus(findPubResume, locale, githubLogin);
 };
 
 const setHireAvailable = async (ctx, next) => {
@@ -324,7 +326,7 @@ const setGithubShareSection = async (ctx) => {
 };
 
 const getShareRecords = async (ctx) => {
-  const { userId } = ctx.session;
+  const { userId, githubLogin } = ctx.session;
   const findPubResume = await ResumePub.findOne({ userId });
   const { result, success, message } = findPubResume;
   if (!success) {
@@ -344,18 +346,18 @@ const getShareRecords = async (ctx) => {
 
   const shareAnalyse =
     await ShareAnalyse.findOne({
-      url: `resume/${result.resumeHash}`,
-      userId
+      userId,
+      url: new RegExp('resume'),
     });
   const { viewDevices, viewSources, pageViews } = shareAnalyse;
   ctx.body = {
     success: true,
     result: {
-      url: `resume/${result.resumeHash}?locale=${ctx.session.locale}`,
-      openShare: result.openShare,
+      pageViews,
       viewDevices,
       viewSources,
-      pageViews,
+      openShare: result.openShare,
+      url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
     }
   };
 };
@@ -365,9 +367,9 @@ export default {
   setResume,
   downloadResume,
   getPubResume,
-  getResumeSharePage,
+  resumePage,
+  getPubResumeHash,
   getPubResumePage,
-  getPubResumePageMobile,
   getResumeStatus,
   getPubResumeStatus,
   setResumeShareStatus,

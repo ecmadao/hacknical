@@ -48,6 +48,9 @@ const datas = {
     }
   },
   setting: {
+    refresh: '数据更新',
+    shareConfig: '分享设置',
+    shareUrl: '分享链接',
     github: {
       title: 'GitHub 相关设置',
       openShare: '开启 GitHub 总结的分享',

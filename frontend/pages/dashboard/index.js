@@ -14,7 +14,7 @@ const renderApp = (id, props = {}) => {
     <AppContainer
       store={AppStore}
       history={history}
-      routes={routes(AppStore)}
+      routes={routes(AppStore, props)}
       {...props}
     />,
     ROOT_DOM

@@ -1,40 +1,47 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
-import { bindActionCreators } from 'redux';
-import TabBar from './Components/TabBar';
-import Header from './Components/Header';
-import styles from './styles/app.css';
-import appActions from './redux/actions';
+import asyncComponent from 'SHARED/components/AsyncComponent';
+import AppAction from './redux/actions';
+
+const dashboard = {
+  mobile: asyncComponent(
+    () => System.import('./Components/Mobile')
+      .then(component => component.default)
+  ),
+  desktop: asyncComponent(
+    () => System.import('./Components/Desktop')
+      .then(component => component.default)
+  ),
+};
 
 class App extends React.Component {
-  componentDidMount() {
-    this.props.actions.login();
-  }
-
   componentWillMount() {
     // https://github.com/ReactTraining/react-router/issues/3854
     const {
+      app,
       history,
-      location,
     } = this.props;
-    history.replace(`${location.pathname}/github`);
+    history.replace(`/${app.login}/visualize`);
   }
 
   render() {
-    const { route } = this.props;
+    const {
+      app,
+      route,
+      location,
+      changeActiveTab
+    } = this.props;
+    const dashboardType = app.isMobile ? 'mobile' : 'desktop';
+    const Dashboard = dashboard[dashboardType];
+    const routes = renderRoutes(route.routes);
     return (
-      <div className={styles.app}>
-        <div className={styles.app_top}>
-          <Header />
-          <TabBar />
-        </div>
-        <div className={styles.app_content}>
-          <div className={styles.content_container}>
-            {renderRoutes(route.routes)}
-          </div>
-        </div>
-      </div>
+      <Dashboard
+        routes={routes}
+        location={location}
+        changeActiveTab={changeActiveTab}
+        {...app}
+      />
     );
   }
 }
@@ -47,7 +54,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(appActions, dispatch)
+    changeActiveTab: (tab) => {
+      dispatch(AppAction.changeTab(tab));
+    }
   };
 }
 

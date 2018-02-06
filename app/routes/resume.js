@@ -6,7 +6,7 @@ import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
 import check from '../controllers/helper/check';
 import analyse from '../controllers/helper/analyse';
-import share from '../controllers/helper/share';
+import resume from '../controllers/helper/resume';
 
 const router = koaRouter({
   prefix: '/resume'
@@ -29,12 +29,22 @@ router.get('/download',
 );
 
 router.get('/pub',
-  share.resumeEnable('query.hash'),
   check.query('hash'),
+  resume.checkValidateByHash('query.hash'),
   cache.get('resume', {
     query: ['hash']
   }),
   Resume.getPubResume,
+  cache.set()
+);
+
+router.get('/hash',
+  check.query('login'),
+  resume.checkValidateByLogin('query.login'),
+  cache.get('resume-hash', {
+    query: ['login']
+  }),
+  Resume.getPubResumeHash,
   cache.set()
 );
 
@@ -74,29 +84,15 @@ router.patch('/github/section',
   Resume.setGithubShareSection
 );
 
-router.get('/sharePage',
-  user.checkSession(session.requiredSessions),
-  platform.setPlatform(),
-  Resume.getResumeSharePage
-);
-
 router.get('/:hash',
-  share.resumeEnable(),
+  resume.checkValidateByHash(),
   platform.setPlatform(),
-  platform.checkMobile(),
-  analyse.resume,
+  analyse.resume(),
   Resume.getPubResumePage
-);
-router.get('/:hash/mobile',
-  share.resumeEnable(),
-  platform.setPlatform(),
-  platform.checkMobile(),
-  analyse.resume,
-  Resume.getPubResumePageMobile
 );
 
 router.get('/:hash/share',
-  share.resumeEnable(),
+  resume.checkValidateByHash(),
   Resume.getPubResumeStatus
 );
 
