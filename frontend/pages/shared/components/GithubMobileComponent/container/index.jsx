@@ -69,12 +69,12 @@ class GithubMobileComponent extends React.Component {
 
   componentDidUpdate(preProps, preState) {
     this.renderCharts();
-    this.removeLoading('#loading');
     const { repositoriesLoaded, commitLoaded } = this.state;
     if (repositoriesLoaded && !preState.repositoriesLoaded) {
       this.getGithubCommits();
     }
     repositoriesLoaded && commitLoaded && this.initialScrollReveal();
+    repositoriesLoaded && this.removeLoading('#loading');
     commitLoaded && !preState.commitLoaded && this.renderRepositoriesChart();
 
     if (this.props.isAdmin && !this.headroom && this.refreshButton) {

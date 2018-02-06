@@ -20,14 +20,6 @@ const _getUser = async (ctx) => {
 
 const _getRepositories = async (login, token) => {
   const repositories = await Api.getUserRepositories(login, token);
-  // const pinnedRepos = await User.findPinnedRepos(login);
-  // const pinned = pinnedRepos.filter(item => item);
-  // const checkPinned = repository =>
-  //   pinned.some(item => item === repository.name);
-  // const repos = pinned.length
-  //   ? repositories.filter(repository => checkPinned(repository) || repository.fork)
-  //   : repositories;
-
   repositories.sort(sortBy.star);
   return repositories;
 };
@@ -248,6 +240,7 @@ const getUpdateTime = async (ctx) => {
 const refreshRepositories = async (ctx, next) => {
   const { githubToken, githubLogin } = ctx.session;
   await Api.refreshUser(githubLogin, githubToken);
+  await Api.refreshHotmap(githubLogin, githubToken);
   const result = await Api.refreshRepositories(githubLogin, githubToken);
   if (result.success === false) {
     const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
