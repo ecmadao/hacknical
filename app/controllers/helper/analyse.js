@@ -25,8 +25,8 @@ const updateViewData = async (ctx, options) => {
   const { platform, browser } = ctx.state;
   const {
     url = '',
+    type = null,
     login = null,
-    type = null
   } = options;
   const updateResult = await ShareAnalyse.updateShare({ login, url });
   if (!updateResult.success) {
@@ -52,10 +52,11 @@ const updateViewData = async (ctx, options) => {
 const collectGithubRecord = (key = 'params.login') => async (ctx, next) => {
   const login = getValue(ctx, key);
   const { githubLogin } = ctx.session;
+  const { path } = ctx.request;
 
   // make sure that admin user's visit will not be collected.
   if (githubLogin !== login) {
-    const url = `github/${login}`;
+    const url = path.slice(1);
     updateViewData(ctx, { login, url, type: 'github' });
   }
   await next();
@@ -64,13 +65,14 @@ const collectGithubRecord = (key = 'params.login') => async (ctx, next) => {
 const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => {
   const { notrace } = ctx.query;
   const hash = getValue(ctx, key);
+  const { path } = ctx.request;
 
   const { githubLogin } = ctx.session;
   const user = await getPubResumeInfo(hash);
   const isAdmin = user && user.login === githubLogin;
 
   if ((!isAdmin && !notrace) || notrace === 'false') {
-    const url = `resume/${user.resumeHash}`;
+    const url = path.slice(1);
     updateViewData(ctx, { url, type: 'resume' });
   }
 

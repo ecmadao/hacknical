@@ -21,15 +21,16 @@ const _getUser = async (ctx) => {
 
 const _getRepositories = async (login, token) => {
   const repositories = await Api.getUserRepositories(login, token);
-  const pinned = await User.findPinnedRepos(login);
+  const pinnedRepos = await User.findPinnedRepos(login);
+  const pinned = pinnedRepos.filter(item => item);
   const checkPinned = repository =>
     pinned.some(item => item === repository.name);
-  const pinnedRepos = pinned.length
+  const repos = pinned.length
     ? repositories.filter(repository => checkPinned(repository) || repository.fork)
     : repositories;
 
-  pinnedRepos.sort(sortBy.star);
-  return pinnedRepos;
+  repos.sort(sortBy.star);
+  return repos;
 };
 
 const _getContributed = async (login, token) => {
@@ -56,7 +57,7 @@ const toggleShare = async (ctx) => {
   const { enable } = ctx.request.body;
   await ShareAnalyse.changeShareStatus({
     enable,
-    url: `github/${githubLogin}`
+    url: new RegExp('github')
   });
   const message = Boolean(enable) == true
     ? 'messages.share.toggleOpen'
@@ -180,11 +181,11 @@ const getUser = async (ctx, next) => {
   const { login } = ctx.params;
   const user = await _getUser(ctx);
   const shareAnalyse =
-    await ShareAnalyse.findOne({ login, url: `github/${login}` });
+    await ShareAnalyse.findOne({ login, url: new RegExp('github') });
 
   const result = Object.assign({}, user);
   result.openShare = shareAnalyse.enable;
-  result.shareUrl = `github/${login}?locale=${ctx.session.locale}`;
+  result.shareUrl = `${login}/github?locale=${ctx.session.locale}`;
   ctx.body = {
     success: true,
     result
@@ -217,9 +218,8 @@ const githubPage = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { githubLogin } = ctx.session;
-  const url = `github/${githubLogin}`;
   const shareAnalyse =
-    await ShareAnalyse.findOne({ login: githubLogin, url });
+    await ShareAnalyse.findOne({ login: githubLogin, url: new RegExp('github') });
   const {
     enable,
     pageViews,
@@ -233,7 +233,7 @@ const getShareRecords = async (ctx) => {
       viewDevices,
       viewSources,
       openShare: enable,
-      url: `${url}?locale=${ctx.session.locale}`,
+      url: `${githubLogin}/github?locale=${ctx.session.locale}`,
     }
   };
 };

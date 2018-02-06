@@ -7,7 +7,7 @@ const githubEnable = (key = 'params.login') => async (ctx, next) => {
   if (login !== githubLogin) {
     const shareAnalyse = await ShareAnalyse.findOne({
       login,
-      url: `github/${login}`
+      url: new RegExp('github')
     });
     if (!shareAnalyse || !shareAnalyse.enable) {
       return ctx.redirect('/404');

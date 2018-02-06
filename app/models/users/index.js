@@ -66,7 +66,7 @@ const loginWithGithub = async (userInfo, cache, mq) => {
   } = userInfo;
   const shareInfo = {
     login,
-    url: `github/${login}`
+    url: `${login}/github`
   };
   let user = await findUserByLogin(login);
   const msg = { type: 'login' };
@@ -92,7 +92,6 @@ const loginWithGithub = async (userInfo, cache, mq) => {
 
     msg.type = 'signup';
     msg.data = `Signup: <https://github.com/${login}|${login}>`;
-
     cache.incr('users');
   }
 
@@ -109,7 +108,6 @@ const loginWithGithub = async (userInfo, cache, mq) => {
   createGithubShare(shareInfo);
 
   new SlackMsg(mq).send(msg);
-
   return {
     success: true,
     result: user

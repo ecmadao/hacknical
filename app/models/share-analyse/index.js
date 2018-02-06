@@ -37,9 +37,13 @@ const enableShare = async (url) => {
 
 const changeShareStatus = async (options) => {
   const { enable, url } = options;
-  const analyse = await findShare({ url });
-  analyse.enable = enable;
-  await analyse.save();
+  const analyses = await findShares({ url });
+
+  for (let i = 0; i < analyses.length; i += 1) {
+    const analyse = analyses[i];
+    analyse.enable = enable;
+    await analyse.save();
+  }
   return true;
 };
 
@@ -57,56 +61,60 @@ const updateViewData = async (options) => {
     browser,
     platform,
   } = options;
-  const analyse = await findShare({ url });
-  const { viewDevices, viewSources } = analyse;
-  const targetDevices = viewDevices.filter(device => device.platform === platform);
-  if (!targetDevices.length) {
-    viewDevices.push({
-      platform,
-      count: 1
-    });
-  } else {
-    targetDevices[0].count += 1;
-  }
+  const analyses = await findShares({ url });
+  for (let i = 0; i < analyses.length; i += 1) {
+    const analyse = analyses[i];
+    const { viewDevices, viewSources } = analyse;
+    const targetDevices = viewDevices.filter(device => device.platform === platform);
+    if (!targetDevices.length) {
+      viewDevices.push({
+        platform,
+        count: 1
+      });
+    } else {
+      targetDevices[0].count += 1;
+    }
 
-  const targetSources = viewSources.filter(
-    source => source.browser === browser && source.from === from
-  );
-  if (!targetSources.length) {
-    viewSources.push({
-      from,
-      browser,
-      count: 1
-    });
-  } else {
-    targetSources[0].count += 1;
+    const targetSources = viewSources.filter(
+      source => source.browser === browser && source.from === from
+    );
+    if (!targetSources.length) {
+      viewSources.push({
+        from,
+        browser,
+        count: 1
+      });
+    } else {
+      targetSources[0].count += 1;
+    }
+    await analyse.save();
   }
-  await analyse.save();
   return { success: true };
 };
 
 const updateShare = async (options) => {
-  const analyse = await findShare(options);
-  if (!analyse) {
-    return { success: false };
+  const analyses = await findShares(options);
+
+  for (let i = 0; i < analyses.length; i += 1) {
+    const analyse = analyses[i];
+    if (!analyse.enable) {
+      continue;
+    }
+    const { pageViews } = analyse;
+    const dateNow = dateHelper.getDateNow();
+    const hourNow = dateHelper.getHourNow();
+    const date = `${dateNow} ${hourNow}:00`;
+    const targetPageViews = pageViews.filter(pageView => getValidateDate(pageView.date) === date);
+    if (!targetPageViews.length) {
+      analyse.pageViews.push({
+        count: 1,
+        date: dateHelper.getFormatData()
+      });
+    } else {
+      targetPageViews[0].count += 1;
+    }
+    await analyse.save();
   }
-  if (!analyse.enable) {
-    return { success: false, }
-  }
-  const { pageViews } = analyse;
-  const dateNow = dateHelper.getDateNow();
-  const hourNow = dateHelper.getHourNow();
-  const date = `${dateNow} ${hourNow}:00`;
-  const targetPageViews = pageViews.filter(pageView => getValidateDate(pageView.date) === date);
-  if (!targetPageViews.length) {
-    analyse.pageViews.push({
-      count: 1,
-      date: dateHelper.getFormatData()
-    });
-  } else {
-    targetPageViews[0].count += 1;
-  }
-  await analyse.save();
   return { success: true };
 };
 

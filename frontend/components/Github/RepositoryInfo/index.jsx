@@ -61,7 +61,7 @@ class RepositoryInfo extends React.Component {
     const { ownedRepositories, forkedRepositories } = this.props;
     if (ownedRepositories.length || forkedRepositories.length) {
       !this.reposForksChart && this.renderReposForksChart();
-      !this.reposStarsChart && this.renderReposStarsChart();
+      ownedRepositories.length && !this.reposStarsChart && this.renderReposStarsChart();
       !this.reposReviewChart && this.renderReposReviewChart(ownedRepositories.slice(0, 10));
     }
   }
