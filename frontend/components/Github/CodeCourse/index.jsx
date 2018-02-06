@@ -187,22 +187,6 @@ class CodeCourse extends React.Component {
     });
   }
 
-  renderReposReadme(readme) {
-    if (readme) {
-      return (
-        <div
-          className="readme_container wysiwyg"
-          dangerouslySetInnerHTML={{ __html: readme }}
-        />
-      );
-    }
-    return (
-      <div className="readme_container">
-        <Loading loading />
-      </div>
-    );
-  }
-
   render() {
     const { repositories, loaded, className } = this.props;
     let component;

@@ -1,4 +1,5 @@
 @import 'open-color/open-color.css';
+@import "../shared/loading.css";
 
 .share {
   padding: 0;
