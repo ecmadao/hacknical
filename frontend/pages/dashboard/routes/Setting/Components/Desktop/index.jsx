@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Loading, Button, Switcher } from 'light-ui';
-import ReposModal from './ReposModal';
 import settingActions from '../../redux/actions';
 import styles from '../../styles/setting.css';
 import locales from 'LOCALES';
@@ -179,18 +178,6 @@ class Setting extends React.Component {
                 />
               </div>
             </div>
-            <div className={styles.info_container_wrapper}>
-              <div className={styles.info_container}>
-                <div className={styles.info}>
-                  {settingTexts.github.customize.title}
-                </div>
-                <Button
-                  value={settingTexts.github.customize.button}
-                  theme="flat"
-                  onClick={() => actions.toggleGithubModal(true)}
-                />
-              </div>
-            </div>
           </div>
         </div>
         <div className={styles.card_container}>
@@ -219,10 +206,6 @@ class Setting extends React.Component {
             </div>
           </div>
         </div>
-        <ReposModal
-          openModal={githubInfo.openModal}
-          onClose={() => actions.toggleGithubModal(false)}
-        />
       </div>
     );
   }

@@ -1,5 +1,4 @@
 /* eslint eqeqeq: "off" */
-import User from '../models/users';
 import Api from '../services/api';
 import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
@@ -21,16 +20,16 @@ const _getUser = async (ctx) => {
 
 const _getRepositories = async (login, token) => {
   const repositories = await Api.getUserRepositories(login, token);
-  const pinnedRepos = await User.findPinnedRepos(login);
-  const pinned = pinnedRepos.filter(item => item);
-  const checkPinned = repository =>
-    pinned.some(item => item === repository.name);
-  const repos = pinned.length
-    ? repositories.filter(repository => checkPinned(repository) || repository.fork)
-    : repositories;
+  // const pinnedRepos = await User.findPinnedRepos(login);
+  // const pinned = pinnedRepos.filter(item => item);
+  // const checkPinned = repository =>
+  //   pinned.some(item => item === repository.name);
+  // const repos = pinned.length
+  //   ? repositories.filter(repository => checkPinned(repository) || repository.fork)
+  //   : repositories;
 
-  repos.sort(sortBy.star);
-  return repos;
+  repositories.sort(sortBy.star);
+  return repositories;
 };
 
 const _getContributed = async (login, token) => {
@@ -53,7 +52,6 @@ const _getCommits = async (login, token) => {
 /* ================== router handler ================== */
 
 const toggleShare = async (ctx) => {
-  const { githubLogin } = ctx.session;
   const { enable } = ctx.request.body;
   await ShareAnalyse.changeShareStatus({
     enable,

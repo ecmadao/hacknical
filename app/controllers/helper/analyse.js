@@ -28,16 +28,13 @@ const updateViewData = async (ctx, options) => {
     type = null,
     login = null,
   } = options;
-  const updateResult = await ShareAnalyse.updateShare({ login, url });
-  if (!updateResult.success) {
-    ctx.redirect('/404');
-    return;
-  }
+
   await ShareAnalyse.updateViewData({
+    login,
     platform,
     url: options.url,
+    from: from || '',
     browser: browser || '',
-    from: from || ''
   });
   if (type) {
     ctx.cache.hincrby(type, 'pageview', 1);
@@ -73,7 +70,7 @@ const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => 
 
   if ((!isAdmin && !notrace) || notrace === 'false') {
     const url = path.slice(1);
-    updateViewData(ctx, { url, type: 'resume' });
+    updateViewData(ctx, { login: user.login, url, type: 'resume' });
   }
 
   ctx.query.isAdmin = isAdmin;
