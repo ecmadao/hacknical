@@ -208,21 +208,25 @@ const githubPage = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { githubLogin } = ctx.session;
-  const shareAnalyse =
-    await ShareAnalyse.findOne({ login: githubLogin, url: new RegExp('github') });
-  const {
-    enable,
-    pageViews,
-    viewDevices,
-    viewSources,
-  } = shareAnalyse;
+  const shareAnalyses =
+    await ShareAnalyse.find({ login: githubLogin, url: new RegExp('github') });
+
+  const viewDevices = [];
+  const viewSources = [];
+  const pageViews = [];
+  for (let i = 0; i < shareAnalyses.length; i += 1) {
+    const shareAnalyse = shareAnalyses[i];
+    viewDevices.push(...shareAnalyse.viewDevices);
+    viewSources.push(...shareAnalyse.viewDevices);
+    pageViews.push(...shareAnalyse.viewDevices);
+  }
   ctx.body = {
     success: true,
     result: {
       pageViews,
       viewDevices,
       viewSources,
-      openShare: enable,
+      openShare: shareAnalyses[0] ? shareAnalyses[0].enable : false,
       url: `${githubLogin}/github?locale=${ctx.session.locale}`,
     }
   };
