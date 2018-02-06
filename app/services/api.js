@@ -72,6 +72,11 @@ const refreshUser = async (login, token) =>
     qs: { token },
     timeouts: [null]
   });
+const refreshHotmap = async (login, token) =>
+  fetchApi(`/${login}/hotmap/refresh`, {
+    qs: { token },
+    timeouts: [null]
+  });
 const refreshRepositories = async (login, token) =>
   fetchApi(`/${login}/repositories/refresh`, {
     qs: { token },
@@ -146,6 +151,7 @@ export default {
   getUpdateTime,
   /* ===== */
   refreshUser,
+  refreshHotmap,
   refreshRepositories,
   refreshCommits,
   refreshOrganizations,
