@@ -355,8 +355,8 @@ const getShareRecords = async (ctx) => {
   for (let i = 0; i < shareAnalyses.length; i += 1) {
     const shareAnalyse = shareAnalyses[i];
     viewDevices.push(...shareAnalyse.viewDevices);
-    viewSources.push(...shareAnalyse.viewDevices);
-    pageViews.push(...shareAnalyse.viewDevices);
+    viewSources.push(...shareAnalyse.viewSources);
+    pageViews.push(...shareAnalyse.pageViews);
   }
   ctx.body = {
     success: true,
