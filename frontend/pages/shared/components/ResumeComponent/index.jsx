@@ -23,8 +23,8 @@ const ResumeComponent = (props) => {
 ResumeComponent.defaultProps = {
   resume: {},
   shareInfo: {},
-  login: '',
   viewId: 'v0',
+  login: window.login,
 };
 
 export default ResumeComponent;

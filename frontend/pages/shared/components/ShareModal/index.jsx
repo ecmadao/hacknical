@@ -6,7 +6,6 @@ import cx from 'classnames';
 import Clipboard from 'clipboard';
 import { IconButton, Input, PortalModal } from 'light-ui';
 import locales from 'LOCALES';
-
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
 import styles from './share_modal.css';
 

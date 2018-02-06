@@ -10,7 +10,6 @@
 .tabs {
   width: 100%;
   box-shadow: var(--topShadow);
-  background-color: var(--oc-white);
 }
 
 .tabs_wrapper {
@@ -65,4 +64,8 @@
 
 .card_info_wrapper {
   margin-bottom: 10px;
+}
+
+.chartCard {
+  margin-bottom: 15px;
 }

@@ -489,13 +489,7 @@ class GithubMobileComponent extends React.Component {
     } = this.state;
     const { isAdmin, login } = this.props;
 
-    if (!repositoriesLoaded) {
-      return (
-        <div className={sharedStyles.loading_container}>
-          <Loading loading />
-        </div>
-      );
-    }
+    if (!repositoriesLoaded) return null;
 
     const reposCount = Object.keys(languageDistributions)
       .map(key => languageDistributions[key]);
@@ -508,7 +502,9 @@ class GithubMobileComponent extends React.Component {
       <div className={styles.notAdmin}>
         <div className={styles.shareHeader}>
           <img src={user['avatar_url']} /><br/>
-          <span>{ user.name }, joined at { user['created_at'].split('T')[0] }</span>
+          <span>
+            { user.name }, {githubTexts.baseInfo.joinedAt}{ user['created_at'].split('T')[0] }
+          </span>
           {user.bio ? (<blockquote>{ user.bio }</blockquote>) : null}
           <div className={styles.social}>
             <div className={styles.socialInfo}>

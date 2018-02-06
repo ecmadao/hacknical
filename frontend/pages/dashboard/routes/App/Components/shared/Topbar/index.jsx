@@ -17,11 +17,16 @@ class Topbar extends React.Component {
   }
 
   render() {
-    const { barClassName = '' } = this.props;
+    const {
+      wrapperClassName = '',
+      containerClassName = '',
+    } = this.props;
     return (
       <div className="app_tabs" ref={ref => (this.topBar = ref)}>
-        <div className={cx(styles.barContainer, barClassName)}>
-          {this.props.children}
+        <div className={cx(styles.barWrapper, wrapperClassName)}>
+          <div className={cx(styles.barContainer, containerClassName)}>
+            {this.props.children}
+          </div>
         </div>
       </div>
     );

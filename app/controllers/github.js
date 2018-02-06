@@ -197,27 +197,21 @@ const githubPage = async (ctx) => {
   const { isMobile } = ctx.state;
   const { githubLogin } = ctx.session;
   const title = ctx.__('sharePage.github', login);
-
+  const options = {
+    title,
+    user: {
+      login,
+      isAdmin: login === githubLogin,
+    },
+  };
   if (isMobile) {
     const locale = ctx.__('language.id');
-    await ctx.render('user/mobile/github', {
-      title,
-      locale,
-      user: {
-        login,
-        isAdmin: login === githubLogin,
-      },
-      shareText: ctx.__('messages.share.mobileText'),
-    });
+    options[locale] = locale;
+    options[shareText] = ctx.__('messages.share.mobileText');
+    await ctx.render('user/mobile/github', options);
   } else {
-    await ctx.render('github/share', {
-      title,
-      user: {
-        login,
-        isAdmin: login === githubLogin
-      },
-      shareText: ctx.__('messages.share.text')
-    });
+    options[shareText] = ctx.__('messages.share.text');
+    await ctx.render('github/share', options);
   }
 };
 

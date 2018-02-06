@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
+import Clipboard from 'clipboard';
+import { IconButton, Switcher, Input } from 'light-ui';
 import objectAssign from 'UTILS/object-assign';
-import { IconButton, Switcher } from 'light-ui';
-
 import Api from 'API';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
@@ -10,7 +10,6 @@ import sharedStyles from 'SHARED/styles/mobile.css';
 import locales from 'LOCALES';
 
 const settingTexts = locales('dashboard').setting;
-const paneStyle = cx(sharedStyles.mobile_card, styles.setting_section);
 
 const SwitcherPane = (props) => {
   const {
@@ -20,8 +19,8 @@ const SwitcherPane = (props) => {
     disabled = false
   } = props;
   return (
-    <div className={paneStyle}>
-      <div className={styles.pane_text_container}>
+    <div className={styles.itemPane}>
+      <div className={styles.paneTextContainer}>
         {text}
       </div>
       <Switcher
@@ -31,6 +30,30 @@ const SwitcherPane = (props) => {
         checked={checked}
         disabled={disabled}
       />
+    </div>
+  );
+};
+
+const SettingPane = (props) => {
+  const {
+    title,
+    children,
+    sectionClassName = '',
+  } = props;
+  return (
+    <div className={styles.paneContainer}>
+      <div className={styles.paneHeader}>
+        {title}
+      </div>
+      <div
+        className={cx(
+          sharedStyles.mobile_card,
+          styles.settingSection,
+          sectionClassName
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 };
@@ -52,13 +75,14 @@ class MobileSetting extends React.Component {
         disabled: true,
       },
     };
-
+    this.copyUrl = this.copyUrl.bind(this);
     this.refreshGithubDatas = this.refreshGithubDatas.bind(this);
     this.postGithubShareStatus = this.postGithubShareStatus.bind(this);
     this.postResumeShareStatus = this.postResumeShareStatus.bind(this);
   }
 
   componentDidMount() {
+    this.renderClipboard();
     Api.github.getUpdateTime().then((result) => {
       this.setUpdateTime(result);
     });
@@ -67,6 +91,20 @@ class MobileSetting extends React.Component {
     });
     Api.resume.getPubResumeStatus().then((result) => {
       this.initialResumeInfo(result);
+    });
+  }
+
+  componentWillUnmount() {
+    this.githubClipboard && this.githubClipboard.destroy();
+    this.resumeClipboard && this.resumeClipboard.destroy();
+  }
+
+  renderClipboard() {
+    this.githubClipboard = new Clipboard('#githubCopyButton', {
+      text: () => $('#githubShareUrl').val()
+    });
+    this.resumeClipboard = new Clipboard('#resumeCopyButton', {
+      text: () => $('#resumeShareUrl').val()
     });
   }
 
@@ -148,13 +186,42 @@ class MobileSetting extends React.Component {
     });
   }
 
+  copyUrl(input) {
+    document.querySelector(`#${input}`).select();
+  }
+
+  renderClipInput(inputId, buttonId, type) {
+    const { login } = this.props;
+    return (
+      <div className={styles.itemPane}>
+        <Input
+          id={inputId}
+          theme="flat"
+          value={`${window.location.host}/${login}/${type}`}
+        />
+        <IconButton
+          color="gray"
+          icon="clipboard"
+          id={buttonId}
+          onClick={() => this.copyUrl(inputId)}
+        />
+      </div>
+    );
+  }
+
   render() {
-    const { loading, updateTime, githubInfo, resumeInfo } = this.state;
+    const {
+      loading,
+      updateTime,
+      githubInfo,
+      resumeInfo
+    } = this.state;
+    const { login } = this.props;
 
     return (
       <div className={styles.setting}>
-        <div className={paneStyle}>
-          <div className={styles.pane_text_container}>
+        <SettingPane title={settingTexts.refresh}>
+          <div className={styles.paneTextContainer}>
             {updateTime}<br />
             <span>
               {settingTexts.github.lastUpdate}
@@ -164,22 +231,28 @@ class MobileSetting extends React.Component {
             color="gray"
             icon="refresh"
             disabled={loading}
-            className={styles.icon_button}
+            className={styles.iconButton}
             onClick={this.refreshGithubDatas}
           />
-        </div>
-        <SwitcherPane
-          text={settingTexts.github.openShare}
-          onChange={this.postGithubShareStatus}
-          checked={githubInfo.openShare}
-          disabled={githubInfo.loading || githubInfo.disabled}
-        />
-        <SwitcherPane
-          text={settingTexts.resume.openShare}
-          onChange={this.postResumeShareStatus}
-          checked={resumeInfo.openShare}
-          disabled={resumeInfo.loading || resumeInfo.disabled}
-        />
+        </SettingPane>
+        <SettingPane title={settingTexts.shareConfig} sectionClassName={styles.settingRow}>
+          <SwitcherPane
+            text={settingTexts.github.openShare}
+            onChange={this.postGithubShareStatus}
+            checked={githubInfo.openShare}
+            disabled={githubInfo.loading || githubInfo.disabled}
+          />
+          <SwitcherPane
+            text={settingTexts.resume.openShare}
+            onChange={this.postResumeShareStatus}
+            checked={resumeInfo.openShare}
+            disabled={resumeInfo.loading || resumeInfo.disabled}
+          />
+        </SettingPane>
+        <SettingPane title={settingTexts.shareUrl} sectionClassName={styles.settingRow}>
+          {this.renderClipInput('githubShareUrl', 'githubCopyButton', 'github')}
+          {this.renderClipInput('resumeShareUrl', 'resumeCopyButton', 'resume')}
+        </SettingPane>
       </div>
     );
   }

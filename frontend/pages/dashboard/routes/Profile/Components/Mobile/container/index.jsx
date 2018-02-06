@@ -293,6 +293,19 @@ class MobileProfile extends React.Component {
     );
   }
 
+  renderChartCard(cardIdentify) {
+    return (
+      <div className={cx(sharedStyles.mobile_card, styles.chartCard)}>
+        <div className={styles.share_info_chart}>
+          <canvas
+            className={sharedStyles.min_canvas}
+            ref={ref => (this[cardIdentify] = ref)}
+          />
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { activeTab } = this.state;
 
@@ -317,22 +330,8 @@ class MobileProfile extends React.Component {
         </div>
 
         {this.loading ? (<Loading loading />) : this.renderCardInfo()}
-        <div className={sharedStyles.mobile_card}>
-          <div className={styles.share_info_chart}>
-            <canvas
-              className={sharedStyles.min_canvas}
-              ref={ref => (this.viewDevices = ref)}
-            />
-          </div>
-        </div>
-        <div className={sharedStyles.mobile_card}>
-          <div className={styles.share_info_chart}>
-            <canvas
-              className={sharedStyles.min_canvas}
-              ref={ref => (this.viewSources = ref)}
-            />
-          </div>
-        </div>
+        {this.renderChartCard('viewDevices')}
+        {this.renderChartCard('viewSources')}
 
         {/* <div className={sharedStyles["share_section"]}>
           <div

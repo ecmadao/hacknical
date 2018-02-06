@@ -32,14 +32,16 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--topShadow);
-  background-color: var(--oc-white);
 }
 
 .menuBarContainer {
   width: 100% !important;
   margin: 0 !important;
   height: 55px !important;
+}
+
+.menuBarWrapper {
+  box-shadow: none !important;
 }
 
 .menuIcon {
