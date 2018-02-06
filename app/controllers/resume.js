@@ -344,12 +344,20 @@ const getShareRecords = async (ctx) => {
     return;
   }
 
-  const shareAnalyse =
-    await ShareAnalyse.findOne({
+  const shareAnalyses =
+    await ShareAnalyse.find({
       userId,
       url: new RegExp('resume'),
     });
-  const { viewDevices, viewSources, pageViews } = shareAnalyse;
+  const viewDevices = [];
+  const viewSources = [];
+  const pageViews = [];
+  for (let i = 0; i < shareAnalyses.length; i += 1) {
+    const shareAnalyse = shareAnalyses[i];
+    viewDevices.push(...shareAnalyse.viewDevices);
+    viewSources.push(...shareAnalyse.viewDevices);
+    pageViews.push(...shareAnalyse.viewDevices);
+  }
   ctx.body = {
     success: true,
     result: {
