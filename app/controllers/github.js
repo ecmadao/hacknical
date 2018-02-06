@@ -203,14 +203,14 @@ const githubPage = async (ctx) => {
       login,
       isAdmin: login === githubLogin,
     },
+    locale: ctx.__('language.id'),
+    shareText: isMobile
+      ? ctx.__('messages.share.mobileText')
+      : ctx.__('messages.share.text')
   };
   if (isMobile) {
-    const locale = ctx.__('language.id');
-    options[locale] = locale;
-    options[shareText] = ctx.__('messages.share.mobileText');
     await ctx.render('user/mobile/github', options);
   } else {
-    options[shareText] = ctx.__('messages.share.text');
     await ctx.render('github/share', options);
   }
 };
