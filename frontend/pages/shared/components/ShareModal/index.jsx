@@ -8,6 +8,7 @@ import { IconButton, Input, PortalModal } from 'light-ui';
 import locales from 'LOCALES';
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
 import styles from './share_modal.css';
+import message from 'SHARED/utils/message';
 
 const modalTexts = locales('shareModal');
 const DARK_COLORS = MD_COLORS.slice(-2);
@@ -62,6 +63,7 @@ class ShareModal extends React.Component {
 
   copyUrl() {
     document.querySelector('#shareUrl').select();
+    message.notice(modalTexts.notice.copy, 1800);
   }
 
   render() {

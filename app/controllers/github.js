@@ -185,7 +185,7 @@ const getUser = async (ctx, next) => {
 
 const githubPage = async (ctx) => {
   const { login } = ctx.params;
-  const { isMobile } = ctx.state;
+  const { isMobile, locale } = ctx.state;
   const { githubLogin } = ctx.session;
   const title = ctx.__('sharePage.github', login);
   const options = {
@@ -194,7 +194,7 @@ const githubPage = async (ctx) => {
       login,
       isAdmin: login === githubLogin,
     },
-    locale: ctx.__('language.id'),
+    locale,
     shareText: isMobile
       ? ctx.__('messages.share.mobileText')
       : ctx.__('messages.share.text')

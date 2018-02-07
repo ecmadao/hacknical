@@ -6,7 +6,6 @@ import cx from 'classnames';
 import Headroom from 'headroom.js';
 import objectAssign from 'UTILS/object-assign';
 import ScrollReveal from 'scrollreveal';
-import { Message } from 'light-ui/lib/raw';
 import { Loading, InfoCard, CardGroup, FloatingActionButton } from 'light-ui';
 
 import Api from 'API';
@@ -27,13 +26,13 @@ import locales from 'LOCALES';
 import USER from 'SRC/data/user';
 import Hotmap from 'COMPONENTS/Github/Hotmap';
 import 'SRC/vendor/mobile/github.css';
+import message from 'SHARED/utils/message';
 
 const sortByLanguageStar = github.sortByX({ key: 'star' });
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const githubMsg = githubLocales.message;
 const getDateBySeconds = dateHelper.date.bySeconds;
-const message = new Message();
 
 class GithubMobileComponent extends React.Component {
   constructor(props) {

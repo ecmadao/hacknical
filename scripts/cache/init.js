@@ -3,7 +3,7 @@ import Users from '../../app/models/users';
 import Resumes from '../../app/models/resumes';
 import ShareAnalyse from '../../app/models/share-analyse';
 
-import { getRedis } from '../../app/middlewares/cache_helper';
+import { getRedis } from '../../app/middlewares/cache';
 
 const redisUrl = config.get('redis');
 

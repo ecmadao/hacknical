@@ -8,7 +8,9 @@ import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
 import locales from 'LOCALES';
+import message from 'SHARED/utils/message';
 
+const modalTexts = locales('shareModal');
 const settingTexts = locales('dashboard').setting;
 
 const SwitcherPane = (props) => {
@@ -188,21 +190,28 @@ class MobileSetting extends React.Component {
 
   copyUrl(input) {
     document.querySelector(`#${input}`).select();
+    message.notice(modalTexts.notice.copy, 1800);
   }
 
-  renderClipInput(inputId, buttonId, type) {
+  renderClipInput(options) {
+    const {
+      type, inputId, buttonId, disabled
+    } = options;
     const { login } = this.props;
     return (
       <div className={styles.itemPane}>
         <Input
           id={inputId}
           theme="flat"
+          disabled={disabled}
+          className={disabled ? styles.shareDisabled : ''}
           value={`${window.location.host}/${login}/${type}`}
         />
         <IconButton
           color="gray"
           icon="clipboard"
           id={buttonId}
+          disabled={disabled}
           onClick={() => this.copyUrl(inputId)}
         />
       </div>
@@ -250,8 +259,18 @@ class MobileSetting extends React.Component {
           />
         </SettingPane>
         <SettingPane title={settingTexts.shareUrl} sectionClassName={styles.settingRow}>
-          {this.renderClipInput('githubShareUrl', 'githubCopyButton', 'github')}
-          {this.renderClipInput('resumeShareUrl', 'resumeCopyButton', 'resume')}
+          {this.renderClipInput({
+            type: 'github',
+            inputId: 'githubShareUrl',
+            buttonId: 'githubCopyButton',
+            disabled: !githubInfo.openShare
+          })}
+          {this.renderClipInput({
+            type: 'resume',
+            inputId: 'resumeShareUrl',
+            buttonId: 'resumeCopyButton',
+            disabled: !resumeInfo.openShare
+          })}
         </SettingPane>
       </div>
     );

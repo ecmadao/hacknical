@@ -5,7 +5,6 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, IconButton, Tipso } from 'light-ui';
-import { Message } from 'light-ui/lib/raw';
 
 import styles from '../styles/resume.css';
 import { RESUME_SECTIONS } from 'SHARED/datas/resume';
@@ -18,8 +17,8 @@ import resumeActions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
 import ResumeFormatter from 'SHARED/components/ResumeStateWrapper/ResumeFormatter';
+import message from 'SHARED/utils/message';
 
-const message = new Message();
 const resumeTexts = locales('resume');
 const editedConfirm = resumeTexts.editedConfirm
 const INTROS = [

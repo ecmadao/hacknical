@@ -1,3 +1,4 @@
+import logger from '../utils/logger';
 
 const validateLocale = (locale) => {
   const language = locale;
@@ -28,6 +29,8 @@ const checkLocale = () => async (ctx, next) => {
   ctx.state.keywords = ctx.__('keywords');
 
   await next();
+
+  logger.info(`[LOCALE][${ctx.state.locale}]`);
 };
 
 export default checkLocale;

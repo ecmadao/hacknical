@@ -4,11 +4,10 @@ import Api from '../services/api';
 import getLanguages from '../config/languages';
 
 const landingPage = async (ctx) => {
-  const locale = ctx.__('language.id');
+  const { locale } = ctx.state;
   const languages = getLanguages(locale);
   const clientId = await Api.getVerify();
   await ctx.render('user/login', {
-    locale,
     languages,
     clientId,
     title: ctx.__('loginPage.title'),
@@ -17,7 +16,7 @@ const landingPage = async (ctx) => {
     loginText: ctx.__('loginPage.loginText'),
     loginButtonText: ctx.__('loginPage.loginButtonText'),
     languageText: ctx.__('language.text'),
-    languageId: ctx.__('language.id'),
+    languageId: locale,
     statistic: {
       developers: ctx.__('loginPage.statistic.developers'),
       githubPageview: ctx.__('loginPage.statistic.githubPageview'),
@@ -49,10 +48,7 @@ const dashboard = async (ctx) => {
     ctx.redirect('/initial');
   }
 
-  const locale = ctx.__('language.id');
   await ctx.render('user/dashboard', {
-    locale,
-    isMobile,
     login: githubLogin,
     isAdmin: login === githubLogin,
     title: ctx.__('dashboard.title', githubLogin),
@@ -87,8 +83,7 @@ const statistic = async (ctx) => {
 };
 
 const languages = async (ctx) => {
-  const locale = ctx.__('language.id');
-  const avaliableLanguages = getLanguages(locale);
+  const avaliableLanguages = getLanguages(ctx.state.locale);
 
   ctx.body = {
     success: true,

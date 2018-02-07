@@ -6,7 +6,6 @@ import koaRouter from 'koa-router';
 import Home from '../controllers/home';
 import GitHub from '../controllers/github';
 import Resume from '../controllers/resume';
-import platform from '../controllers/helper/platform';
 import user from '../controllers/helper/user';
 import analyse from '../controllers/helper/analyse';
 import share from '../controllers/helper/share';
@@ -26,7 +25,6 @@ fs.readdirSync(__dirname)
 
 router.get(
   '/',
-  platform.setPlatform(),
   user.checkNotLogin(),
   Home.landingPage
 );
@@ -46,21 +44,18 @@ router.get(
 );
 router.get(
   '/:login',
-  platform.setPlatform(),
   user.checkValidateUser(),
   Home.dashboard
 );
 router.get(
   '/:login/github',
   share.githubEnable(),
-  platform.setPlatform(),
   analyse.github(),
   GitHub.githubPage
 );
 router.get(
   '/:login/resume',
   resume.checkValidateByLogin('params.login'),
-  platform.setPlatform(),
   analyse.resume('query.hash'),
   Resume.resumePage
 );

@@ -2,6 +2,7 @@ import 'particles.js';
 import './styles/index.css';
 import Api from 'API';
 import { sleep } from 'UTILS/helper';
+import HeartBeat from 'UTILS/heartbeat';
 
 const formatNumber = (number) => {
   if (number.length <= 3) return number;
@@ -55,14 +56,16 @@ const statisticTemplate = `
   </div>
 `;
 
-const renderStatistic = async () => {
-  const statistic = await Api.home.statistic();
+const fetchStatistic = Api.home.statistic;
+
+const renderStatistic = async (statistic, animation = true) => {
   const {
     users,
     github = {},
     resume = {},
   } = statistic;
   $('.statistic-loading').remove();
+  $('.statistic').remove();
   $('.statistic-container').prepend(statisticTemplate);
   await sleep(100);
 
@@ -76,18 +79,24 @@ const renderStatistic = async () => {
   const resumeCount = (resume && resume.count) || 0;
   const resumeDownload = (resume && resume.download) || 0;
 
-  countUp({
-    elem: $statisticUsers[0],
-    endVal: Number(usersCount)
-  });
-  countUp({
-    elem: $statisticPv[0],
-    endVal: Number(githubPageview) + Number(resumePageview)
-  });
-  countUp({
-    elem: $statisticResume[0],
-    endVal: Number(resumeCount) + Number(resumeDownload)
-  });
+  if (animation) {
+    countUp({
+      elem: $statisticUsers[0],
+      endVal: Number(usersCount)
+    });
+    countUp({
+      elem: $statisticPv[0],
+      endVal: Number(githubPageview) + Number(resumePageview)
+    });
+    countUp({
+      elem: $statisticResume[0],
+      endVal: Number(resumeCount) + Number(resumeDownload)
+    });
+  } else {
+    $statisticUsers[0].innerHTML = formatNumber(Number(usersCount));
+    $statisticPv[0].innerHTML = formatNumber(Number(githubPageview) + Number(resumePageview));
+    $statisticResume[0].innerHTML = formatNumber(Number(resumeCount) + Number(resumeDownload));
+  }
 
   const $modal = $('.statistic-modal');
   if ($modal[0]) {
@@ -101,6 +110,14 @@ const renderStatistic = async () => {
 $(() => {
   particlesJS.load('login', '/vendor/particlesjs-config.json', () => {});
   if ($('.statistic-container')[0]) {
-    renderStatistic();
+    fetchStatistic()
+      .then(data => renderStatistic(data))
+      .then(() => {
+        const heartBeat = new HeartBeat({
+          interval: 1000 * 60 * 10, // 10 min
+          callback: () => fetchStatistic().then(data => renderStatistic(data, false))
+        });
+        heartBeat.takeoff();
+      });
   }
 });

@@ -12,13 +12,14 @@ import views from 'koa-views';
 import userAgent from 'koa-useragent';
 import staticServer from 'koa-static';
 
-import assetsPath from '../middlewares/assets_helper';
-import { redisMiddleware } from '../middlewares/cache_helper';
-import catchError from '../middlewares/error_helper';
-import checkLocale from '../middlewares/locale_helper';
-import mqMiddleware from '../middlewares/mq_middleware';
+import assetsPath from '../middlewares/assets';
+import { redisMiddleware } from '../middlewares/cache';
+import catchError from '../middlewares/error';
+import checkLocale from '../middlewares/locale';
+import mqMiddleware from '../middlewares/mq';
 import router from '../routes';
 import logger from '../utils/logger';
+import platform from '../middlewares/platform';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
@@ -31,6 +32,10 @@ app.keys = [appKey];
 
 // koa logger
 app.use(koaLogger());
+
+// user-agent
+app.use(userAgent);
+app.use(platform.setPlatform());
 
 const options = {
   defaultLocale: 'zh-CN',
@@ -80,7 +85,6 @@ app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
     assetsPath,
     csrf: ctx.csrf,
-    isMobile: false,
     env: process.env.NODE_ENV,
     footer: {
       about: ctx.__('dashboard.about'),
@@ -90,9 +94,6 @@ app.use(async (ctx, next) => {
   });
   await next();
 });
-
-// user-agent
-app.use(userAgent);
 
 // 配置nunjucks模板文件所在的路径，否则模板继承时无法使用相对路径
 nunjucks.configure(path.join(__dirname, '../templates'), { autoescape: true });

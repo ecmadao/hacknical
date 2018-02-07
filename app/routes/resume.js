@@ -2,7 +2,6 @@ import koaRouter from 'koa-router';
 import Resume from '../controllers/resume';
 import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
-import platform from '../controllers/helper/platform';
 import cache from '../controllers/helper/cache';
 import check from '../controllers/helper/check';
 import analyse from '../controllers/helper/analyse';
@@ -86,7 +85,6 @@ router.patch('/github/section',
 
 router.get('/:hash',
   resume.checkValidateByHash(),
-  platform.setPlatform(),
   analyse.resume(),
   Resume.getPubResumePage
 );
