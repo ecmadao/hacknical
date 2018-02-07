@@ -10,6 +10,7 @@ import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import locales, { formatLocale } from 'LOCALES';
 import formatHotmap from '../utils/hotmap';
+import dateHelper from 'UTILS/date';
 
 const githubTexts = locales('github').sections.hotmap;
 
@@ -53,7 +54,7 @@ class Hotmap extends React.Component {
     } = hotmap;
     cal.init({
       domain: 'month',
-      start: new Date(start),
+      start: new Date(dateHelper.date.beforeYears(1)),
       data: datas,
       weekStartOnMonday: local === 'zh-CN',
       subDomain: 'day',

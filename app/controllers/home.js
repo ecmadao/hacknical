@@ -35,7 +35,6 @@ const handle404 = async (ctx) => {
 };
 
 const dashboard = async (ctx) => {
-  const { isMobile } = ctx.state;
   const { login } = ctx.params;
   const { githubLogin, userId } = ctx.session;
   const user = await User.findOne({ userId });

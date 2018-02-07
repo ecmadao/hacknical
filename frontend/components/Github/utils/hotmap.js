@@ -44,11 +44,19 @@ const formatHotmap = (hotmap) => {
     start: null,
     end: null,
   };
+  const tmp = new Set();
+  let firstCommit = null;
 
+  // TODO: upspeed
+  datas.sort((pre, next) => new Date(pre.date) - new Date(next.date));
   for (let i = 0; i < datas.length; i += 1) {
     const item = datas[i];
     const { data, date, level } = item;
-    result[new Date(item.date).getTime() / 1000] = data;
+    if (tmp.has(date)) continue;
+    tmp.add(date, 1);
+    if (!data && !firstCommit) continue;
+    firstCommit = data;
+    result[new Date(date).getTime() / 1000] = data;
 
     if (!streak.daily.date || data > streak.daily.count) {
       streak.daily = {
@@ -86,7 +94,7 @@ const formatHotmap = (hotmap) => {
     if (date <= now) {
       if (data === 0) {
         if (streak.longest.count < streak.current.count) {
-          streak.longest = Object.assign({}, streak.current);
+          streak.longest = objectAssign({}, streak.current);
         }
         streak.current.count = 0;
       } else {
