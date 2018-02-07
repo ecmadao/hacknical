@@ -17,7 +17,7 @@ Extract dependency：
 
 ## Examples
 
-- [My GitHub data analysis](https://hacknical.com/github/ecmadao?locale=en)
+- [My GitHub data analysis](https://hacknical.com/ecmadao/github)
 
 ## Screenshots
 

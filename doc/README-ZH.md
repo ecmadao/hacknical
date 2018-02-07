@@ -13,8 +13,8 @@
 
 ## 案例
 
-- [我的 github 数据分析报告](http://hacknical.com/github/ecmadao?locale=zh)
-- [我的在线简历](http://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=) -- -- 暂不支持移动端
+- [我的 github 数据分析报告](http://hacknical.com/ecmadao/github)
+- [我的在线简历](http://hacknical.com/ecmadao/resume)
 
 ## 截图
 

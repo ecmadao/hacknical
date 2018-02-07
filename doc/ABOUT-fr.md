@@ -47,7 +47,7 @@
 **已知的问题：**
 
 - [x] 用户的 repos 没有抓取完全
-- [ ] 微信分享到朋友圈后，页面会被强制重排（需要微信公众号认证）
+- [x] 微信分享到朋友圈后，页面会被强制重排（需要 HTTPS）
 
 如果有其他的建议，欢迎 [提出 issue](https://github.com/ecmadao/hacknical/issues)
 
@@ -57,8 +57,8 @@
 - 项目地址位于：[ecmadao/hacknical](https://github.com/ecmadao/hacknical)
 - 保证对用户永久免费
 - 线上 DEMO
-  - [我的在线简历](https://hacknical.com/resume/tF0OVz3XKRwBj0eenOJvAgL2Mbw=) -- -- 暂不支持移动端
-  - [我的 github 数据分析报告](https://hacknical.com/github/ecmadao) -- -- 已适配移动端
+  - [我的在线简历](https://hacknical.com/ecmadao/resume) -- -- 暂不支持移动端
+  - [我的 github 数据分析报告](https://hacknical.com/ecmadao/github) -- -- 已适配移动端
 
 你可以 [戳这里](https://github.com/ecmadao/hacknical/issues)，通过 issue 提出你的意见和建议，帮助我更好的完善它，谢谢。
 
