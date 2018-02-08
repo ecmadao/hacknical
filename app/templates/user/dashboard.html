@@ -21,6 +21,6 @@
     window.login = "{{ login }}";
     window.isAdmin = "{{ isAdmin }}";
   </script>
-  <script src="{{ assetsPath("vendor/qrcode.min.js") }}"></script>
-  <script src="{{ assetsPath("dashboard.js") }}"></script>
+  <script defer src="{{ assetsPath("vendor/qrcode.min.js") }}"></script>
+  <script async defer src="{{ assetsPath("dashboard.js") }}"></script>
 {% endblock %}

@@ -84,6 +84,25 @@
   background-color: var(--mainBg);
 }
 
+.header-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+}
+
+.header-image {
+  width: 80px;
+  height: 80px;
+}
+
+.header-text {
+  margin: 15px 0;
+  text-align: center;
+  line-height: 1.5em;
+}
+
 .section-header {
   padding: 10px 20px 0;
 }

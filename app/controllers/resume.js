@@ -161,6 +161,7 @@ const downloadResume = async (ctx) => {
 const _resumePage = async (ctx, hash) => {
   const { isMobile } = ctx.state;
   const { isAdmin, userName, userLogin } = ctx.query;
+  if (!hash) return ctx.redirect('/404');
   if (isMobile) {
     await ctx.render('user/mobile/resume', {
       title: ctx.__('resumePage.title', userName),

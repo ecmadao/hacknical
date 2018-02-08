@@ -65,9 +65,13 @@ class ResumeStateWrapper extends React.Component {
   }
 
   fetchResume(hash) {
-    Api.resume.getPubResume(hash).then((result) => {
-      result && this.initialResume(result);
-    });
+    if (!hash) {
+      this.initialResume({ initialized: false });
+    } else {
+      Api.resume.getPubResume(hash).then((result) => {
+        result && this.initialResume(result);
+      });
+    }
   }
 
   initialShareInfo(data) {
@@ -77,19 +81,21 @@ class ResumeStateWrapper extends React.Component {
     });
   }
 
-  initialResume(resume) {
+  initialResume(resume = {}) {
     const {
-      info,
-      educations,
-      workExperiences,
-      personalProjects,
-      others,
-      updateAt
+      info = INFO,
+      others = OTHERS,
+      educations = [],
+      initialized = true,
+      workExperiences = [],
+      personalProjects = [],
+      updateAt = new Date(),
     } = resume;
 
     const state = this.state;
     this.setState({
       updateAt,
+      initialized,
       loading: false,
       others: objectAssign({}, state.others, others),
       info: objectAssign({}, state.info, info),

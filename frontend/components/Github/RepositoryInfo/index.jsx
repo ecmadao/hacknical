@@ -62,7 +62,7 @@ class RepositoryInfo extends React.Component {
     if (ownedRepositories.length || forkedRepositories.length) {
       !this.reposForksChart && this.renderReposForksChart();
       ownedRepositories.length && !this.reposStarsChart && this.renderReposStarsChart();
-      !this.reposReviewChart && this.renderReposReviewChart(ownedRepositories.slice(0, 10));
+      ownedRepositories.length && !this.reposReviewChart && this.renderReposReviewChart(ownedRepositories.slice(0, 10));
     }
   }
 
@@ -75,7 +75,10 @@ class RepositoryInfo extends React.Component {
           [ownedRepositories.length, forkedRepositories.length],
           ['rgba(55, 178, 77, 0.9)', 'rgba(135, 181, 143, 0.6)']
         )],
-        labels: [githubTexts.createdRepos, githubTexts.forkedRepos]
+        labels: [
+          githubTexts.createdRepos,
+          githubTexts.forkedRepos
+        ]
       },
       options: CHART_OPTIONS
     });
@@ -149,6 +152,7 @@ class RepositoryInfo extends React.Component {
 
   renderChartInfo() {
     const { ownedRepositories } = this.props;
+    if (!ownedRepositories.length) return null;
 
     const [totalStar, totalFork] = github.getTotalCount(ownedRepositories);
     const maxStaredRepos = ownedRepositories[0];
@@ -209,6 +213,7 @@ class RepositoryInfo extends React.Component {
       githubStyles.with_chart,
       githubStyles.small_margin
     );
+    const totalReposCount = ownedRepositories.length + forkedRepositories.length;
     return (
       <div>
         {this.renderChartInfo()}
@@ -220,11 +225,10 @@ class RepositoryInfo extends React.Component {
                 ref={ref => (this.reposForks = ref)}
               />
               <div className={githubStyles.chart_center}>
-                {parseInt(
-                  (ownedRepositories.length * 100) /
-                  (ownedRepositories.length + forkedRepositories.length),
+                {totalReposCount ? parseInt(
+                  (ownedRepositories.length * 100) / totalReposCount,
                   10
-                )}%<br />
+                ) : 0}%<br />
                 {githubTexts.originalRepos}
               </div>
             </div>
@@ -252,14 +256,19 @@ class RepositoryInfo extends React.Component {
   }
 
   render() {
-    const { ownedRepositories, loaded, className } = this.props;
+    const {
+      loaded,
+      className,
+      ownedRepositories,
+      forkedRepositories,
+    } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading loading />);
+    } else if (!ownedRepositories.length && !forkedRepositories.length) {
+      component = (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>);
     } else {
-      component = (!ownedRepositories || !ownedRepositories.length)
-        ? (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>)
-        : this.renderReposReview();
+      component = this.renderReposReview();
     }
 
     return (

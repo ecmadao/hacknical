@@ -75,8 +75,8 @@
     window.isMobile = "{{ isMobile }}";
   </script>
   <script src="{{ assetsPath("react.js") }}"></script>
-  <script src="{{ assetsPath("runtime.js") }}"></script>
-  <script src="{{ assetsPath("base.js") }}"></script>
+  <script defer src="{{ assetsPath("runtime.js") }}"></script>
+  <script async defer src="{{ assetsPath("base.js") }}"></script>
   {% block js %}
   {% endblock %}
 </html>

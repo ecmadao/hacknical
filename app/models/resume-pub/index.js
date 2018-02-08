@@ -119,7 +119,7 @@ const getUpdateTime = async (resumeHash) => {
 const getPubResume = async (resumeHash) => {
   const findResult = await findByHash(resumeHash);
   const { result, success } = findResult;
-  if (!success) { return findResult; }
+  if (!success) findResult;
   const { userId } = result;
   return await Resume.findOne(userId);
 };

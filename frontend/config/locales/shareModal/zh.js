@@ -5,6 +5,9 @@ const datas = {
   baseText: '分享',
   notice: {
     copy: '分享链接已复制'
+  },
+  error: {
+    copy: '自动复制失败'
   }
 };
 

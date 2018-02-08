@@ -14,11 +14,6 @@ const modalTexts = locales('shareModal');
 const DARK_COLORS = MD_COLORS.slice(-2);
 
 class ShareModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.copyUrl = this.copyUrl.bind(this);
-  }
-
   componentDidMount() {
     this.renderQrcode();
     this.renderClipboard();
@@ -43,27 +38,27 @@ class ShareModal extends React.Component {
     this.clipboard = new Clipboard('#copyButton', {
       text: () => $('#shareUrl').val()
     });
+    this.clipboard.on('success', () => {
+      message.notice(modalTexts.notice.copy, 1800);
+    });
+    this.clipboard.on('error', () => {
+      message.error(modalTexts.error.copy, 1800);
+    });
   }
 
   renderQrcode() {
-    // debugger;
     if (!this.qrcode) return;
     const { options } = this.props;
     const colorDark = options.openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
     this.qrcode.innerHTML = '';
     this.qrcode && new QRCode(this.qrcode, {
-      text: options.link,
+      colorDark,
       width: 120,
       height: 120,
-      colorDark,
+      text: options.link,
       colorLight: '#ffffff',
       correctLevel: QRCode.CorrectLevel.H
     });
-  }
-
-  copyUrl() {
-    document.querySelector('#shareUrl').select();
-    message.notice(modalTexts.notice.copy, 1800);
   }
 
   render() {
@@ -103,7 +98,6 @@ class ShareModal extends React.Component {
                 color="gray"
                 icon="clipboard"
                 id="copyButton"
-                onClick={this.copyUrl}
               />
             </div>
           </div>

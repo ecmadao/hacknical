@@ -5,6 +5,9 @@ const datas = {
   baseText: 'share',
   notice: {
     copy: 'Url is copied'
+  },
+  error: {
+    copy: 'Url copy failed'
   }
 };
 

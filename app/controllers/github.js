@@ -138,7 +138,7 @@ const getUserRepositories = async (ctx, next) => {
     success: true,
     result: {
       repositories,
-    }
+    },
   };
   await next();
 };

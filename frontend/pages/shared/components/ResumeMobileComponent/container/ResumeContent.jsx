@@ -113,7 +113,7 @@ class ResumeContent extends React.Component {
         );
       });
 
-    if (!edus.length) { return; }
+    if (!edus.length) return null;
 
     return (
       <div className={styles['resume-section']}>
@@ -160,7 +160,7 @@ class ResumeContent extends React.Component {
         );
       });
 
-    if (!exps.length) { return; }
+    if (!exps.length) return null;
 
     return (
       <div className={styles['resume-section']}>
@@ -222,7 +222,7 @@ class ResumeContent extends React.Component {
         );
       });
 
-    if (!projects.length) { return; }
+    if (!projects.length) return null;
 
     return (
       <div className={styles['resume-section']}>
@@ -241,7 +241,7 @@ class ResumeContent extends React.Component {
   renderSupplements() {
     const { others } = this.props.resume;
     const { supplements } = others;
-    if (!supplements.length) { return; }
+    if (!supplements.length) return null;
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li
@@ -278,7 +278,7 @@ class ResumeContent extends React.Component {
 
   renderSlick() {
     const { loading, resume } = this.props;
-    if (loading) { return; }
+    if (loading) return null;
     const { info, others } = resume;
     const { intention, location, gender } = info;
     const { expectLocation } = others;
@@ -315,24 +315,39 @@ class ResumeContent extends React.Component {
 
   render() {
     const { resume, updateText } = this.props;
-    const { updateAt } = resume;
+    const { updateAt, initialized } = resume;
+
 
     return (
       <div className={styles['resume-container']}>
         {this.props.loading ? (<Loading loading />) : ''}
-        <div className={styles['header-section']}>
-          {this.renderHeader()}
-          {this.renderSlick()}
-        </div>
-        {this.renderEducations()}
-        {this.renderWorkExperiences()}
-        {this.renderPersonalProjects()}
-        {this.renderSupplements()}
-        {updateAt ? (
-          <div className={styles.resumeTip}>
+
+        {initialized ? ([
+          (<div className={styles['header-section']}>
+            {this.renderHeader()}
+            {this.renderSlick()}
+          </div>),
+          this.renderEducations(),
+          this.renderWorkExperiences(),
+          this.renderPersonalProjects(),
+          this.renderSupplements(),
+          updateAt && (<div className={styles.resumeTip}>
             {updateText}{hoursBefore(updateAt)}
+          </div>)
+        ]) : (
+          <div className={styles['header-section']}>
+            <div className={styles['header-placeholder']}>
+              <img
+                alt="no-resume"
+                className={styles['header-image']}
+                src={require('SRC/images/dead.png')}
+              />
+              <div className={styles['header-text']}>
+                没有找到个人简历<br/>请在 PC 网页端进行创建
+              </div>
+            </div>
           </div>
-        ) : ''}
+        )}
       </div>
     );
   }

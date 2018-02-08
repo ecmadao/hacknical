@@ -14,9 +14,9 @@ const checkValidateByLogin = (key = 'query.login') => async (ctx, next) => {
     option.openShare = true;
   }
   const { result, success } = await ResumePub.findOne(option);
-  if (!success) return ctx.redirect('/404');
+  if (!success && login !== githubLogin) return ctx.redirect('/404');
 
-  ctx.query.hash = result.resumeHash;
+  ctx.query.hash = success ? result.resumeHash : null;
   await next();
 };
 

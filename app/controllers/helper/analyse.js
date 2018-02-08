@@ -68,7 +68,7 @@ const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => 
   const user = await getPubResumeInfo(hash);
   const isAdmin = user && user.login === githubLogin;
 
-  if ((!isAdmin && !notrace) || notrace === 'false') {
+  if (((!isAdmin && !notrace) || notrace === 'false') && user) {
     const url = path.slice(1);
     updateViewData(ctx, { login: user.login, url, type: 'resume' });
   }
