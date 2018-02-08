@@ -1,4 +1,7 @@
+import Chart from 'chart.js';
 import { GREEN_COLORS } from 'UTILS/colors';
+
+Chart.defaults.global.defaultFontFamily = '"Geo", "PingFangSC-Light", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", monospace, sans-serif';
 
 export const RADAR_CONFIG = {
   type: 'radar',
@@ -20,13 +23,13 @@ export const RADAR_CONFIG = {
   options: {
     title: {
       display: true,
-      text: ''
+      text: '',
     },
     legend: {
       display: false,
     },
     tooltips: {
-    }
+    },
   }
 };
 

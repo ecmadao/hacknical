@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 @import './animation.css';
 
-.content-section {
+.contentSection {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -9,18 +9,22 @@
   margin: 5px 0;
 
   &:last-child {
-    & .content-cursor {
+    & .contentCursor {
       background-color: var(--oc-white);
     }
   }
 }
 
-.content-info {
-  line-height: 1.1em;
-  font-size: 1.5em;
+.contentBottom {
+  margin-bottom: 20px;
 }
 
-.content-cursor {
+.contentInfo {
+  line-height: 1.1em;
+  font-size: 2.5em;
+}
+
+.contentCursor {
   margin-left: 5px;
   width: 8px;
   height: 20px;
@@ -32,4 +36,10 @@
 
 .cursor-loading {
   animation: loading 0.7s infinite linear;
+}
+
+@media (max-width: 800px) {
+  .contentInfo {
+    font-size: 1.5em;
+  }
 }

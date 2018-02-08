@@ -60,8 +60,9 @@ const initial = async (ctx) => {
   if (user.initialed) {
     ctx.redirect(`/${githubLogin}`);
   }
+  const title = ctx.__('initialPage.title', githubLogin);
   await ctx.render('user/initial', {
-    title: `initializing ${githubLogin}`,
+    title,
     login: githubLogin
   });
 };

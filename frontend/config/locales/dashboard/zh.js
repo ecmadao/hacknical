@@ -15,6 +15,14 @@ const datas = {
     setting: {
       text: '设置',
       tipso: ''
+    },
+    about: {
+      text: '关于',
+      tipso: ''
+    },
+    logout: {
+      text: '退出登录',
+      tipso: ''
     }
   },
   headers: {

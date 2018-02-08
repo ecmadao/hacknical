@@ -115,7 +115,7 @@ $(() => {
       .then(() => {
         const heartBeat = new HeartBeat({
           interval: 1000 * 60 * 10, // 10 min
-          callback: () => fetchStatistic().then(data => renderStatistic(data, false))
+          callback: () => fetchStatistic().then(data => renderStatistic(data))
         });
         heartBeat.takeoff();
       });

@@ -31,7 +31,7 @@
 		"code": "source code"
   },
   "sharePage": {
-    "github": "%s's GitHub summary | hacknical",
+    "title": "%s's GitHub summary | hacknical",
     "joinAt": "Joined at"
   },
   "resumePage": {
@@ -49,6 +49,9 @@
       "logout": "Logout"
     }
   },
+  "initialPage": {
+		"title": "Initial | %s"
+	},
   "messages": {
     "error": {
       "findUser": "Find user failed",

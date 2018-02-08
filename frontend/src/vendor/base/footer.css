@@ -67,7 +67,7 @@
   color: var(--oc-gray-7);
   transition: color 0.2s;
   font-size: 2em;
-  font-family: 'Righteous', monospace, sans-serif;
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
 .footer-intro {

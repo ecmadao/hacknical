@@ -6,6 +6,7 @@ const putInfo = (url, data = {}) => putData(`/github${url}`, data);
 
 /* get repos & orgs info & user info */
 const getAllRepositories = () => fetchInfo('/repositories/all');
+const fetchHotmap = () => fetchInfo('/hotmap/initial');
 const fetchRepositories = () => fetchInfo('/repositories/initial');
 const fetchCommits = () => fetchInfo('/commits/initial');
 const fetchOrganizations = () => fetchInfo('/organizations/initial');
@@ -38,18 +39,19 @@ export default {
   octocat,
   // github info
   getUser,
-  getRepositories,
-  getContributed,
-  getAllRepositories,
   getCommits,
-  getOrganizations,
   getUserHotmap,
+  getContributed,
+  getRepositories,
+  getOrganizations,
+  getAllRepositories,
   // for refresh & initial
   refresh,
-  fetchRepositories,
+  fetchHotmap,
   fetchCommits,
-  fetchOrganizations,
   getUpdateTime,
+  fetchRepositories,
+  fetchOrganizations,
   // share status
   toggleShare,
   getShareRecords,

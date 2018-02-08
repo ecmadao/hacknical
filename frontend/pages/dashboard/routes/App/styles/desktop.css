@@ -82,6 +82,16 @@
   margin: 30px 0 80px 0;
 }
 
+.header_logo {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 2em;
+  color: var(--oc-gray-5);
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+}
+
 /* header */
 .header_zen {
   flex: 1;

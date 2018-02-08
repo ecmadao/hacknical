@@ -58,12 +58,21 @@ const toggleShare = async (ctx) => {
   };
 };
 
+const fetchHotmap = async (ctx) => {
+  const { githubLogin, locale } = ctx.session;
+  await Api.getHotmap(githubLogin, locale);
+  ctx.body = {
+    success: true,
+    result: 'Fetch hotmap success'
+  };
+};
+
 const fetchRepositories = async (ctx) => {
   const { githubLogin, githubToken } = ctx.session;
   await Api.getUserRepositories(githubLogin, githubToken);
   ctx.body = {
     success: true,
-    result: 'fetch repos success'
+    result: 'Fetch repositories success'
   };
 };
 
@@ -72,7 +81,7 @@ const fetchCommits = async (ctx) => {
   await Api.getUserCommits(githubLogin, githubToken);
   ctx.body = {
     success: true,
-    result: 'fetch commits success'
+    result: 'Fetch commits success'
   };
 };
 
@@ -81,7 +90,7 @@ const fetchOrganizations = async (ctx) => {
   await Api.getUserOrganizations(githubLogin, githubToken);
   ctx.body = {
     success: true,
-    result: 'fetch orgs success'
+    result: 'Fetch orgs success'
   };
 };
 
@@ -187,7 +196,7 @@ const githubPage = async (ctx) => {
   const { login } = ctx.params;
   const { isMobile, locale } = ctx.state;
   const { githubLogin } = ctx.session;
-  const title = ctx.__('sharePage.github', login);
+  const title = ctx.__('sharePage.title', login);
   const options = {
     title,
     user: {
@@ -380,24 +389,25 @@ const getUserHotmap = async (ctx, next) => {
 
 export default {
   githubPage,
-  fetchRepositories,
+  fetchHotmap,
   fetchCommits,
+  fetchRepositories,
   fetchOrganizations,
   getAllRepositories,
   // github info
   getUser,
-  getUserRepositories,
-  getUserContributed,
-  getUserCommits,
-  getUserOrganizations,
   toggleShare,
   getShareRecords,
   getUserHotmap,
+  getUserCommits,
+  getUserContributed,
+  getUserRepositories,
+  getUserOrganizations,
   /* ===== refresh & update ====== */
   getUpdateTime,
+  refreshCommits,
   refreshRepositories,
   refreshOrganizations,
-  refreshCommits,
   /* ========== */
   getZen,
   getOctocat,

@@ -55,6 +55,7 @@ class Header extends React.Component {
     return (
       <div className={styles.app_header}>
         <div className={styles.app_header_container}>
+          <div className={styles.header_logo}>hacknical</div>
           <div className={styles.header_zen}>
             <Tipso
               theme="dark"

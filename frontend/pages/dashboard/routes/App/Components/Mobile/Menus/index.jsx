@@ -4,6 +4,9 @@ import { PortalModal } from 'light-ui';
 import styles from '../../../styles/mobile.css';
 import Topbar from '../../shared/Topbar';
 import TABS from 'SRC/data/tab';
+import locales from 'LOCALES';
+
+const { tabs } = locales('dashboard');
 
 class Menus extends React.Component {
   constructor(props) {
@@ -82,13 +85,13 @@ class Menus extends React.Component {
                 <a href={aboutUrl} className={styles.menu}>
                   <i className="fa fa-info-circle" aria-hidden="true" />
                   &nbsp;&nbsp;
-                  关于
+                  {tabs.about.text}
                 </a>
                 <div className={styles.menuBottom}>
                   <a href="/user/logout" className={styles.menu}>
                     <i className="fa fa-sign-out" aria-hidden="true" />
                     &nbsp;&nbsp;
-                    退出登录
+                    {tabs.logout.text}
                   </a>
                 </div>
               </div>

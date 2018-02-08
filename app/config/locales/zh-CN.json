@@ -31,7 +31,7 @@
 		"code": "源码"
 	},
   "sharePage": {
-    "github": "%s 的 GitHub 总结 | hacknical",
+    "title": "%s 的 GitHub 总结 | hacknical",
     "joinAt": "加入于"
   },
 	"resumePage": {
@@ -48,6 +48,9 @@
       "about": "关于",
       "logout": "退出登录"
     }
+	},
+	"initialPage": {
+		"title": "初始化 | %s"
 	},
   "messages": {
     "error": {

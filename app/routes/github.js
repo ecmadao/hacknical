@@ -35,6 +35,11 @@ router.get(
   user.checkIfLogin(),
   GitHub.fetchRepositories,
 );
+router.get(
+  '/hotmap/initial',
+  user.checkIfLogin(),
+  GitHub.fetchHotmap,
+);
 
 // commits
 router.get(

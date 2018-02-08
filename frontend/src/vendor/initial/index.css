@@ -1,7 +1,7 @@
 @import 'open-color/open-color.css';
 
 * {
-  font-family: 'VT323', 'Righteous', monospace, sans-serif;
+  font-family: 'Libre Barcode 128 Text', monospace, sans-serif;
 }
 
 .app {
@@ -25,10 +25,10 @@
 }
 
 .content-header {
-  font-size: 2em;
+  font-size: 3.5em;
   border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .content-wrapper {
@@ -36,4 +36,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+@media (max-width: 800px) {
+  .content-header {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
 }

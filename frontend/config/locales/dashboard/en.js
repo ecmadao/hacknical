@@ -15,6 +15,14 @@ const datas = {
     setting: {
       text: 'Settings',
       tipso: ''
+    },
+    about: {
+      text: 'About',
+      tipso: ''
+    },
+    logout: {
+      text: 'Logout',
+      tipso: ''
     }
   },
   headers: {

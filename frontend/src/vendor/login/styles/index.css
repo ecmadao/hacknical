@@ -13,6 +13,10 @@
   --scaleActive: scale(1);
 }
 
+* {
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+}
+
 #login {
   background-color: var(--bgDark);
 
@@ -119,7 +123,7 @@
 }
 
 .title {
-  font-family: 'Righteous', monospace, sans-serif;
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
 .github_login_link {
@@ -192,7 +196,7 @@
 
 
 .statistic {
-  font-family: 'Righteous', monospace, sans-serif;
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
   color: var(--oc-gray-1);
   opacity: 0.5;
   pointer-events: auto;
