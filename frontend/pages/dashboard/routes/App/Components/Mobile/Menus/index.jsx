@@ -54,7 +54,10 @@ class Menus extends React.Component {
     return (
       <Topbar
         offsetTop={0}
-        topClass="headroom--top-mobile"
+        headroomClasses={{
+          top: 'headroom--top-mobile',
+          pinned: 'headroom--pinned-mobile'
+        }}
         wrapperClassName={styles.menuBarWrapper}
         containerClassName={styles.menuBarContainer}>
         <div className={styles.menus}>

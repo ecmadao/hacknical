@@ -6,12 +6,10 @@ import styles from './topbar.css';
 
 class Topbar extends React.Component {
   componentDidMount() {
-    const { offsetTop = 50, topClass } = this.props;
+    const { offsetTop = 50, headroomClasses } = this.props;
     Headroom.options.offset = offsetTop;
     const headroom = new Headroom(this.topBar, {
-      classes: {
-        top: topClass
-      }
+      classes: headroomClasses
     });
     headroom.init();
   }

@@ -40,7 +40,7 @@ class TabBar extends React.Component {
 
   render() {
     return (
-      <Topbar topClass="headroom--top-desktop">
+      <Topbar headroomClasses={{ top: 'headroom--top-desktop' }}>
         {this.renderTab()}
       </Topbar>
     );

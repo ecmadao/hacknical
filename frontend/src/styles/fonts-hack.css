@@ -3,6 +3,9 @@
   font-family: 'Libre Barcode 128 Text';
   font-style: normal;
   font-weight: 400;
-  src: local('Libre Barcode 128 Text Regular'), local('LibreBarcode128Text-Regular'), url('./fonts/Libre_Barcode_128_Text_latin.woff2') format('woff2');
+  src: local('Libre Barcode 128 Text Regular'),
+  local('LibreBarcode128Text-Regular'),
+  url('./fonts/Libre_Barcode_128_Text_latin.woff2') format('woff2'),
+  url('./fonts/LibreBarcode128Text-Regular.ttf') format('truetype');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
 }

@@ -177,8 +177,8 @@ class Hotmap extends React.Component {
 }
 
 Hotmap.defaultProps = {
-  className: '',
   login: '',
+  className: '',
   renderCards: true,
 };
 
