@@ -1,11 +1,10 @@
+const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require('clean-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
-
 const PATH = require('../../config/path');
-const path = require('path');
-const fs = require('fs');
 
 const styleVariables = require(path.join(PATH.SOURCE_PATH, 'src/styles/variables'));
 
@@ -105,10 +104,10 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        loader: 'url-loader',
+        test: /\.(eot|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader',
         options: {
-          limit: 150000,
+          limit: 5000,
           name: '[name].[ext]'
         }
       },

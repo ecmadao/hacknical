@@ -45,17 +45,12 @@ const formatHotmap = (hotmap) => {
     end: null,
   };
   const tmp = new Set();
-  let firstCommit = null;
 
-  // TODO: upspeed
-  datas.sort((pre, next) => new Date(pre.date) - new Date(next.date));
   for (let i = 0; i < datas.length; i += 1) {
     const item = datas[i];
     const { data, date, level } = item;
     if (tmp.has(date)) continue;
-    tmp.add(date, 1);
-    if (!data && !firstCommit) continue;
-    firstCommit = data;
+    tmp.add(date);
     result[new Date(date).getTime() / 1000] = data;
 
     if (!streak.daily.date || data > streak.daily.count) {

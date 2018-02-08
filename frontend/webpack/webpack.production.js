@@ -21,8 +21,8 @@ config.plugins.push(
   new CompressionPlugin({
     asset: '[path].gz[query]',
     algorithm: 'gzip',
-    test: /\.js$|\.css$|\.html$/,
-    minRatio: 0.8
+    test: /\.js$|\.css$|\.html$|\.woff2$|\.woff$|\.ttf$|\.eot$|\.jpg$/,
+    minRatio: 0.9
   }),
   new webpack.HashedModuleIdsPlugin({
     hashFunction: 'sha256',
