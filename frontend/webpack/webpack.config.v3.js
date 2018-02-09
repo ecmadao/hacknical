@@ -104,7 +104,7 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.(eot|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(eot|ttf|woff|woff2|otf)(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file-loader',
         options: {
           limit: 5000,

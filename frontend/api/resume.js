@@ -20,6 +20,9 @@ const getPubResumeStatus = (hash) => {
 const patchHireAvailable = hireAvailable =>
   patchData('/resume/hireAvailable', { hireAvailable });
 
+const patchResumeType = freshGraduate =>
+  patchData('/resume/resumeType', { freshGraduate });
+
 const postPubResumeShareStatus = enable =>
   patchData('/resume/share/status', { enable });
 
@@ -52,4 +55,5 @@ export default {
   postPubResumeTemplate,
   getShareRecords,
   patchHireAvailable,
+  patchResumeType,
 };

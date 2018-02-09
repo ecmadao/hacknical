@@ -61,6 +61,13 @@ const toggleHireAvailable = hireAvailable => (dispatch) => {
     dispatch(handleEditChange(false));
   });
 };
+
+const toggleResumeType = freshGraduate => (dispatch) => {
+  Api.resume.patchResumeType(freshGraduate).then(() => {
+    dispatch(handleInfoChange({ freshGraduate }));
+    dispatch(handleEditChange(false));
+  });
+};
 /**
  * Education
  */
@@ -204,6 +211,7 @@ export default {
   handleInfoChange,
   handleEditChange,
   toggleHireAvailable,
+  toggleResumeType,
   // edu
   addEducation,
   deleteEducation,

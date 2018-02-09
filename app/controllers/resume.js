@@ -243,35 +243,6 @@ const getResumeStatus = async (ctx) => {
   ctx.body = getResumeShareStatus(findPubResume, locale, githubLogin);
 };
 
-const setHireAvailable = async (ctx, next) => {
-  const { userId } = ctx.session;
-  const { hireAvailable } = ctx.request.body;
-  await Resume.update({
-    target: {
-      resume: {
-        info: { hireAvailable }
-      }
-    },
-    userId,
-  });
-
-  const checkPubResume = await ResumePub.findOne({ userId });
-  if (checkPubResume.success) {
-    const hash = checkPubResume.result.resumeHash;
-    const cacheKey = getCacheKey(ctx);
-    ctx.query.deleteKeys = [
-      cacheKey(`resume.${hash}`)
-    ];
-  }
-
-  ctx.body = {
-    success: true,
-    message: ctx.__('messages.resume.hireAvailable')
-  };
-
-  await next();
-};
-
 const setResumeShareStatus = async (ctx) => {
   const { enable } = ctx.request.body;
   const { userId } = ctx.session;
@@ -406,20 +377,47 @@ const setResumeShareUrl = async (ctx) => {
   };
 };
 
-const setResumeType = async (ctx) => {
+const __patchResumeData = async (ctx, data) => {
   const { userId } = ctx.session;
-  const { freshGraduate } = ctx.request.body;
   await Resume.update({
     target: {
-      resume: {
-        info: { freshGraduate }
-      }
+      resume: data
     },
     userId,
   });
+  const checkPubResume = await ResumePub.findOne({ userId });
+  if (checkPubResume.success) {
+    const hash = checkPubResume.result.resumeHash;
+    const cacheKey = getCacheKey(ctx);
+    ctx.query.deleteKeys = [
+      cacheKey(`resume.${hash}`)
+    ];
+  }
+};
+
+const setHireAvailable = async (ctx, next) => {
+  const { hireAvailable } = ctx.request.body;
+  await __patchResumeData(ctx, {
+    info: { hireAvailable }
+  });
+  ctx.body = {
+    success: true,
+    message: ctx.__('messages.resume.hireAvailable')
+  };
+
+  await next();
+};
+
+const setResumeType = async (ctx, next) => {
+  const { freshGraduate } = ctx.request.body;
+  await __patchResumeData(ctx, {
+    info: { freshGraduate }
+  });
+
   ctx.body = {
     success: true,
   };
+  await next();
 };
 
 export default {

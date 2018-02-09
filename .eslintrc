@@ -44,7 +44,8 @@
     "function-paren-newline": 0,
     "no-await-in-loop": 0,
     "no-return-await": 0,
-    "no-continue": 0
+    "no-continue": 0,
+    "no-return-assign": 0
   },
   "globals": {
     "require": true,

@@ -13,10 +13,6 @@
   --scaleActive: scale(1);
 }
 
-* {
-  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
-}
-
 #login {
   background-color: var(--bgDark);
 

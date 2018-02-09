@@ -15,6 +15,7 @@ class Info extends React.Component {
     super(props);
     this.handleInfoChange = this.handleInfoChange.bind(this);
     this.handleAvailableChange = this.handleAvailableChange.bind(this);
+    this.handleResumeTypeChange = this.handleResumeTypeChange.bind(this);
   }
 
   handleInfoChange(type) {
@@ -31,6 +32,11 @@ class Info extends React.Component {
     actions.toggleHireAvailable(!hireAvailable);
   }
 
+  handleResumeTypeChange() {
+    const { actions, freshGraduate } = this.props;
+    actions.toggleResumeType(!freshGraduate);
+  }
+
   render() {
     const {
       email,
@@ -41,6 +47,7 @@ class Info extends React.Component {
       intention,
       disabled,
       hireAvailable,
+      freshGraduate,
     } = this.props;
     return (
       <div className={styles.resume_piece_container}>
@@ -99,19 +106,19 @@ class Info extends React.Component {
           />
         </div>
         <div className={styles.resumeRow}>
-          {/*
+
           <div className={styles.resumeSwitcherWrapper}>
-            {resumeTexts.statusCheck}
+            {resumeTexts.freshGraduate}
             &nbsp;&nbsp;
             <Switcher
-              onChange={this.handleAvailableChange}
-              checked={hireAvailable}
+              onChange={this.handleResumeTypeChange}
+              checked={freshGraduate}
               version="v2"
               disabled={disabled}
             />
           </div>
           &nbsp;&nbsp;&nbsp;
-          */}
+
           <div className={styles.resumeSwitcherWrapper}>
             {resumeTexts.hireAvailable}
             &nbsp;&nbsp;

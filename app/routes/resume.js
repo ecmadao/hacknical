@@ -61,8 +61,9 @@ router.patch('/hireAvailable',
 
 router.patch('/resumeType',
   user.checkSession(session.requiredSessions),
-  check.body('resumeType'),
+  check.body('freshGraduate'),
   Resume.setResumeType,
+  cache.del()
 );
 
 router.get('/share/records',
