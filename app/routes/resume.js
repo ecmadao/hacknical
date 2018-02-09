@@ -59,9 +59,23 @@ router.patch('/hireAvailable',
   cache.del()
 );
 
+router.patch('/resumeType',
+  user.checkSession(session.requiredSessions),
+  check.body('resumeType'),
+  Resume.setResumeType,
+);
+
 router.get('/share/records',
   user.checkSession(session.requiredSessions),
   Resume.getShareRecords
+);
+router.get('/shareUrl',
+  user.checkSession(session.requiredSessions),
+  Resume.getResumeShareUrl
+);
+router.patch('/shareUrl',
+  user.checkSession(session.requiredSessions),
+  Resume.setResumeShareUrl
 );
 router.patch('/share/status',
   user.checkSession(session.requiredSessions),

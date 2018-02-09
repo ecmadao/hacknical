@@ -83,7 +83,7 @@ class GitHubSection extends React.Component {
                 <i className={`fa fa-${intro.icon}`} aria-hidden="true" />
               </span>
             </Tipso>
-          ) : ''}
+          ) : null}
         </div>
         <BaseSection
           disabled={disabled}
@@ -99,7 +99,7 @@ class GitHubSection extends React.Component {
             showOperations={showOperations}
             onFocusChange={this.onOperationFocusChange}
           />
-        ) : ''}
+        ) : null}
       </div>
     );
   }

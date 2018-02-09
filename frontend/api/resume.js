@@ -23,6 +23,9 @@ const patchHireAvailable = hireAvailable =>
 const postPubResumeShareStatus = enable =>
   patchData('/resume/share/status', { enable });
 
+const togglePubResumeSimplifyUrl = simplifyUrl =>
+  patchData('/resume/shareUrl', { simplifyUrl });
+
 const postPubResumeGithubStatus = enable =>
   patchData('/resume/share/github', { enable });
 
@@ -43,6 +46,7 @@ export default {
   getPubResumeHash,
   getPubResumeStatus,
   postPubResumeShareStatus,
+  togglePubResumeSimplifyUrl,
   postPubResumeGithubStatus,
   postPubResumeGithubSection,
   postPubResumeTemplate,

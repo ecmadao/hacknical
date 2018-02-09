@@ -143,7 +143,14 @@
   }
 }
 
-.resume_switcherWrapper {
+.resumeRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.resumeSwitcherWrapper {
   composes: resume_wrapper;
   font-size: 14px;
   justify-content: flex-end;

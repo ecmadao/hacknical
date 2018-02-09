@@ -12,6 +12,7 @@ const initialState = {
     openShare: false,
     github: {},
     disabled: true,
+    simplifyUrl: true,
   },
   githubInfo: {
     loading: true,
@@ -74,6 +75,7 @@ const reducers = handleActions({
     const newResumeInfo = result ? objectAssign({}, info, {
       openShare: result.openShare,
       useGithub: result.useGithub,
+      simplifyUrl: result.simplifyUrl,
       loading: false,
       disabled: false,
       github: result.github,

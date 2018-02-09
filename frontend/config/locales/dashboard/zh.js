@@ -75,6 +75,8 @@ const datas = {
     resume: {
       title: '简历相关设置',
       openShare: '开启简历的分享',
+      simplifyUrl: '使用简化的公开链接',
+      simplifyUrlTip: '关闭之后，无法再通过 :login/resume 链接访问公开简历，而转为更加私密的 resume/:hash',
       useGithub: '在简历中附加我的 GitHub 分析报告',
       showHotmap: '展示 提交信息热点图',
       showRepos: '展示 仓库概览',

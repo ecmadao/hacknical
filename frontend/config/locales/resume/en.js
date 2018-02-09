@@ -26,6 +26,7 @@ const datas = {
       job: 'Wanted job',
       position: 'City',
       hireAvailable: 'Available for hire',
+      statusCheck: 'I\'m fresh graduate',
       gender: 'Gender'
     },
     edu: {

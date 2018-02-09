@@ -15,7 +15,8 @@ const checkValidateByLogin = (key = 'query.login') => async (ctx, next) => {
   }
   const { result, success } = await ResumePub.findOne(option);
   if (!success && login !== githubLogin) return ctx.redirect('/404');
-
+  const { simplifyUrl } = result;
+  if (!simplifyUrl && login !== githubLogin) return ctx.redirect('/404');
   ctx.query.hash = success ? result.resumeHash : null;
   await next();
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { Loading, Button, Switcher } from 'light-ui';
+import { Loading, Button, Switcher, Tipso } from 'light-ui';
 import settingActions from '../../redux/actions';
 import styles from '../../styles/setting.css';
 import locales from 'LOCALES';
@@ -14,12 +14,25 @@ const SwitcherPane = (props) => {
     text,
     checked,
     onChange,
+    tipso = null,
     disabled = false
   } = props;
   return (
     <div className={styles.info_container}>
       <div className={styles.info}>
         {text}
+        {tipso ? (
+          <Tipso
+            theme="dark"
+            className={styles.tipso}
+            wrapperClass={styles.tipsoWrapper}
+            tipsoContent={<span>{tipso}</span>}
+          >
+            <span className={styles.tipsoIntro}>
+              <i className="fa fa-question-circle" aria-hidden="true" />
+            </span>
+          </Tipso>
+        ) : null}
       </div>
       <Switcher
         onChange={onChange}
@@ -155,7 +168,6 @@ class Setting extends React.Component {
           <div className={styles.card}>
             <div className={styles.info_container_wrapper}>
               <SwitcherPane
-                id="github-share-switch"
                 text={settingTexts.github.openShare}
                 onChange={actions.postGithubShareStatus}
                 checked={githubInfo.openShare}
@@ -165,7 +177,7 @@ class Setting extends React.Component {
             <div className={styles.info_container_wrapper}>
               {loading ? (
                 <Loading className={styles.info_loading} loading />
-              ) : ''}
+              ) : null}
               <div className={styles.info_container}>
                 <div className={styles.info}>
                   {settingTexts.github.lastUpdate}: {updateTime}
@@ -191,16 +203,24 @@ class Setting extends React.Component {
           <div className={styles.card}>
             {!resumeInfo ? (
               <Loading className={styles.info_loading} loading />
-            ) : ''}
+            ) : null}
             <div className={styles.info_container_wrapper}>
               <SwitcherPane
-                id="resume-share-switch"
                 text={settingTexts.resume.openShare}
                 onChange={resumeInfoLoading
                     ? () => {}
                     : actions.postResumeShareStatus}
                 disabled={resumeInfoLoading || resumeInfo.disabled}
                 checked={(resumeInfo && resumeInfo.openShare) || false}
+              />
+              <SwitcherPane
+                text={settingTexts.resume.simplifyUrl}
+                tipso={settingTexts.resume.simplifyUrlTip}
+                onChange={resumeInfoLoading
+                    ? () => {}
+                    : actions.toggleResumeSimplifyUrl}
+                disabled={resumeInfoLoading || resumeInfo.disabled}
+                checked={resumeInfo && resumeInfo.simplifyUrl}
               />
               {this.renderResumeGithubSetting()}
             </div>

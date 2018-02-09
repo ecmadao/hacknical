@@ -75,6 +75,8 @@ const datas = {
     resume: {
       title: 'Resume',
       openShare: 'Open share',
+      simplifyUrl: 'Use simplify share url',
+      simplifyUrlTip: 'Can\'t visit public :login/resume page if closed, using resume/:hash instead',
       useGithub: 'Use GitHub analysis in resume',
       showHotmap: 'Show hotmap',
       showRepos: 'Show repos',

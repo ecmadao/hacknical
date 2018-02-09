@@ -83,6 +83,16 @@ const postResumeShareStatus = () => (dispatch, getState) => {
   });
 };
 
+const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
+  const { resumeInfo } = getState().setting;
+  const { simplifyUrl } = resumeInfo;
+  Api.resume.togglePubResumeSimplifyUrl(!simplifyUrl).then(() => {
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
+      simplifyUrl: !simplifyUrl
+    })));
+  });
+};
+
 const postResumeShareSection = (section, checked) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   Api.resume.postPubResumeGithubSection({
@@ -111,5 +121,6 @@ export default {
   fetchResumeShareInfo,
   postResumeGithubStatus,
   postResumeShareStatus,
+  toggleResumeSimplifyUrl,
   postResumeShareSection,
 };

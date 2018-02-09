@@ -23,9 +23,7 @@ const findByHash = async hash =>
 
 const findPublicResume = async (options) => {
   const findResult = await ResumePub.findOne(options);
-  if (!findResult) {
-    return { success: false, };
-  }
+  if (!findResult) return { success: false, };
   return {
     success: true,
     result: findResult
@@ -64,28 +62,22 @@ const addPubResume = async (userId, login, options = {}) => {
 const updatePubResume = async (userId, options) => {
   const findResult = await findPublicResume({ userId });
   const { result, success } = findResult;
-  if (!success) {
-    return findResult;
-  }
+  if (!success) return findResult;
   Object.assign(result, options);
-
   await result.save();
-
   return { success: true };
 };
 
 const checkResumeShare = async (hash, verify = {}) => {
   const findResult = await findByHash(hash);
-  if (!findResult.success) { return findResult; }
+  if (!findResult.success) return findResult;
   const { userId } = findResult.result;
 
   let { openShare } = findResult.result;
   if ((verify.userId && verify.userId === userId) || verify.enable) {
     openShare = true;
   }
-  if (!openShare) {
-    return { success: false };
-  }
+  if (!openShare) return { success: false };
   return { success: true };
 };
 

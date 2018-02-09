@@ -217,8 +217,10 @@ const githubPage = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { githubLogin } = ctx.session;
-  const shareAnalyses =
-    await ShareAnalyse.find({ login: githubLogin, url: new RegExp('github') });
+  const shareAnalyses = await ShareAnalyse.find({
+    login: githubLogin,
+    url: new RegExp('github')
+  });
 
   const viewDevices = [];
   const viewSources = [];

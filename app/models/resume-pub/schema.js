@@ -9,6 +9,7 @@ const ResumePubSchema = new MongoSchema({
   resumeHash: String,
   openShare: { type: Boolean, default: true },
   useGithub: { type: Boolean, default: true },
+  simplifyUrl: { type: Boolean, default: true },
   template: { type: String, default: 'v1' },
   github: {
     hotmap: { type: Boolean, default: true },

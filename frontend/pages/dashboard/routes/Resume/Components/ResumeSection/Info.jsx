@@ -98,15 +98,30 @@ class Info extends React.Component {
             onChange={this.handleInfoChange('location')}
           />
         </div>
-        <div className={styles.resume_switcherWrapper}>
-          {resumeTexts.hireAvailable}
-          &nbsp;&nbsp;
-          <Switcher
-            onChange={this.handleAvailableChange}
-            checked={hireAvailable}
-            version="v2"
-            disabled={disabled}
-          />
+        <div className={styles.resumeRow}>
+          {/*
+          <div className={styles.resumeSwitcherWrapper}>
+            {resumeTexts.statusCheck}
+            &nbsp;&nbsp;
+            <Switcher
+              onChange={this.handleAvailableChange}
+              checked={hireAvailable}
+              version="v2"
+              disabled={disabled}
+            />
+          </div>
+          &nbsp;&nbsp;&nbsp;
+          */}
+          <div className={styles.resumeSwitcherWrapper}>
+            {resumeTexts.hireAvailable}
+            &nbsp;&nbsp;
+            <Switcher
+              onChange={this.handleAvailableChange}
+              checked={hireAvailable}
+              version="v2"
+              disabled={disabled}
+            />
+          </div>
         </div>
       </div>
     );

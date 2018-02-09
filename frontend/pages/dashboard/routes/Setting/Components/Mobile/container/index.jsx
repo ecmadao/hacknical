@@ -72,19 +72,31 @@ class MobileSetting extends React.Component {
         disabled: true,
       },
       resumeInfo: {
+        url: '',
+        hash: '',
         loading: true,
         openShare: true,
         disabled: true,
+        simplifyUrl: true,
       },
     };
-    this.copyUrl = this.copyUrl.bind(this);
     this.refreshGithubDatas = this.refreshGithubDatas.bind(this);
     this.postGithubShareStatus = this.postGithubShareStatus.bind(this);
     this.postResumeShareStatus = this.postResumeShareStatus.bind(this);
+    this.toggleResumeSimplifyUrl = this.toggleResumeSimplifyUrl.bind(this);
   }
 
   componentDidMount() {
-    this.renderClipboard();
+    this.renderClipboard({
+      which: 'githubClipboard',
+      inputId: 'githubShareUrl',
+      buttonId: 'githubCopyButton',
+    });
+    this.renderClipboard({
+      which: 'resumeClipboard',
+      inputId: 'resumeShareUrl',
+      buttonId: 'resumeCopyButton',
+    });
     Api.github.getUpdateTime().then((result) => {
       this.setUpdateTime(result);
     });
@@ -96,17 +108,44 @@ class MobileSetting extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    this.githubClipboard && this.githubClipboard.destroy();
-    this.resumeClipboard && this.resumeClipboard.destroy();
+  componentDidUpdate() {
+    this.removeClipboard('githubClipboard');
+    this.removeClipboard('resumeClipboard');
+    this.renderClipboard({
+      which: 'githubClipboard',
+      inputId: 'githubShareUrl',
+      buttonId: 'githubCopyButton',
+    });
+    this.renderClipboard({
+      which: 'resumeClipboard',
+      inputId: 'resumeShareUrl',
+      buttonId: 'resumeCopyButton',
+    });
   }
 
-  renderClipboard() {
-    this.githubClipboard = new Clipboard('#githubCopyButton', {
-      text: () => $('#githubShareUrl').val()
+  componentWillUnmount() {
+    this.removeClipboard('githubClipboard');
+    this.removeClipboard('resumeClipboard');
+  }
+
+  removeClipboard(which) {
+    this[which] && this[which].destroy();
+  }
+
+  renderClipboard(options) {
+    const {
+      which,
+      inputId,
+      buttonId,
+    } = options;
+    this[which] = new Clipboard(`#${buttonId}`, {
+      text: () => $(`#${inputId}`).val()
     });
-    this.resumeClipboard = new Clipboard('#resumeCopyButton', {
-      text: () => $('#resumeShareUrl').val()
+    this[which].on('success', () => {
+      message.notice(modalTexts.notice.copy, 1800);
+    });
+    this[which].on('error', () => {
+      message.error(modalTexts.error.copy, 1800);
     });
   }
 
@@ -126,32 +165,35 @@ class MobileSetting extends React.Component {
       ? dateHelper.relative.secondsBefore(data)
       : this.state.updateTime;
     this.setState({
+      updateTime,
       loading: false,
-      updateTime
     });
   }
 
   initialInfo(key) {
     const obj = this.state[key];
     return (datas) => {
-      const { openShare, disabled = false } = datas;
       this.setState({
         [key]: objectAssign({}, obj, {
-          loading: false,
-          disabled,
-          openShare,
-        })
+          loading: false
+        }, datas)
       });
     }
   }
 
   initialResumeInfo(result) {
     const datas = result ? {
-      openShare: result.openShare,
       disabled: false,
+      url: result.url,
+      hash: result.resumeHash,
+      openShare: result.openShare,
+      simplifyUrl: result.simplifyUrl,
     } : {
-      openShare: false,
+      url: '',
+      hash: '',
       disabled: true,
+      openShare: false,
+      simplifyUrl: false,
     };
     const initial = this.initialInfo('resumeInfo');
     initial(datas);
@@ -166,11 +208,10 @@ class MobileSetting extends React.Component {
     const { githubInfo } = this.state;
     const { openShare } = githubInfo;
     Api.github.toggleShare(!openShare).then(() => {
-      this.setState({
-        githubInfo: {
-          loading: false,
-          openShare: !openShare
-        }
+      const initial = this.initialInfo('githubInfo');
+      initial({
+        loading: false,
+        openShare: !openShare
       });
     });
   }
@@ -179,23 +220,29 @@ class MobileSetting extends React.Component {
     const { resumeInfo } = this.state;
     const { openShare } = resumeInfo;
     Api.resume.postPubResumeShareStatus(!openShare).then(() => {
-      this.setState({
-        resumeInfo: {
-          loading: false,
-          openShare: !openShare
-        }
+      const initial = this.initialInfo('resumeInfo');
+      initial({
+        loading: false,
+        openShare: !openShare
       });
     });
   }
 
-  copyUrl(input) {
-    document.querySelector(`#${input}`).select();
-    message.notice(modalTexts.notice.copy, 1800);
+  toggleResumeSimplifyUrl() {
+    const { resumeInfo } = this.state;
+    const { simplifyUrl } = resumeInfo;
+    Api.resume.togglePubResumeSimplifyUrl(!simplifyUrl).then(() => {
+      const initial = this.initialInfo('resumeInfo');
+      initial({
+        loading: false,
+        simplifyUrl: !simplifyUrl
+      });
+    });
   }
 
   renderClipInput(options) {
     const {
-      type, inputId, buttonId, disabled
+      url, inputId, buttonId, disabled
     } = options;
     const { login } = this.props;
     return (
@@ -205,14 +252,13 @@ class MobileSetting extends React.Component {
           theme="flat"
           disabled={disabled}
           className={disabled ? styles.shareDisabled : ''}
-          value={`${window.location.host}/${login}/${type}`}
+          value={url}
         />
         <IconButton
           color="gray"
           icon="clipboard"
           id={buttonId}
           disabled={disabled}
-          onClick={() => this.copyUrl(inputId)}
         />
       </div>
     );
@@ -257,19 +303,27 @@ class MobileSetting extends React.Component {
             checked={resumeInfo.openShare}
             disabled={resumeInfo.loading || resumeInfo.disabled}
           />
+          <SwitcherPane
+            text={settingTexts.resume.simplifyUrl}
+            onChange={this.toggleResumeSimplifyUrl}
+            checked={resumeInfo.simplifyUrl}
+            disabled={resumeInfo.loading || resumeInfo.disabled}
+          />
         </SettingPane>
         <SettingPane title={settingTexts.shareUrl} sectionClassName={styles.settingRow}>
           {this.renderClipInput({
-            type: 'github',
             inputId: 'githubShareUrl',
             buttonId: 'githubCopyButton',
-            disabled: !githubInfo.openShare
+            disabled: !githubInfo.openShare,
+            url: `${window.location.host}/${login}/github`
           })}
           {this.renderClipInput({
-            type: 'resume',
             inputId: 'resumeShareUrl',
             buttonId: 'resumeCopyButton',
-            disabled: !resumeInfo.openShare
+            disabled: !resumeInfo.openShare,
+            url: resumeInfo.simplifyUrl
+              ? `${window.location.host}/${login}/resume`
+              : `${window.location.host}/resume/${resumeInfo.hash}`
           })}
         </SettingPane>
       </div>

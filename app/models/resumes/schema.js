@@ -14,6 +14,7 @@ const ResumeSchema = new MongoSchema({
       avator: String,
       intention: String,
       hireAvailable: { type: Boolean, default: false },
+      freshGraduate: { type: Boolean, default: false },
     },
     educations: [{
       school: String,

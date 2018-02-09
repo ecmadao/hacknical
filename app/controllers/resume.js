@@ -35,6 +35,7 @@ const getResumeShareStatus = (findPubResume, locale, login = null) => {
     useGithub,
     resumeHash,
     openShare,
+    simplifyUrl,
   } = result;
   return {
     success: true,
@@ -44,8 +45,9 @@ const getResumeShareStatus = (findPubResume, locale, login = null) => {
       openShare,
       useGithub,
       resumeHash,
+      simplifyUrl,
       githubUrl: null,
-      url: login
+      url: simplifyUrl
         ? `${login}/resume?locale=${locale}`
         : `resume/${resumeHash}?locale=${locale}`
     }
@@ -371,6 +373,55 @@ const getShareRecords = async (ctx) => {
   };
 };
 
+const getResumeShareUrl = async (ctx) => {
+  const { userId, githubLogin } = ctx.session;
+  const findResult = await ResumePub.findOne({ userId });
+  const { success, result } = findResult;
+  let url = '';
+  if (success) {
+    url = 'hacknical.com';
+    const { resumeHash, resumeHashV0, simplifyUrl } = result;
+    url = simplifyUrl
+      ? `${url}/${githubLogin}/resume`
+      : `${url}/resume/${resumeHash || resumeHashV0}`;
+  }
+  ctx.body = {
+    success: true,
+    result: url
+  };
+};
+
+const setResumeShareUrl = async (ctx) => {
+  const { userId } = ctx.session;
+  const { simplifyUrl } = ctx.request.body;
+  await ResumePub.updatePubResume(userId, {
+    simplifyUrl
+  });
+  const resultMessage = Boolean(simplifyUrl) == true
+    ? 'messages.resume.simplifyUrl'
+    : 'messages.resume.unSimplifyUrl';
+  ctx.body = {
+    success: true,
+    message: ctx.__(resultMessage)
+  };
+};
+
+const setResumeType = async (ctx) => {
+  const { userId } = ctx.session;
+  const { freshGraduate } = ctx.request.body;
+  await Resume.update({
+    target: {
+      resume: {
+        info: { freshGraduate }
+      }
+    },
+    userId,
+  });
+  ctx.body = {
+    success: true,
+  };
+};
+
 export default {
   getResume,
   setResume,
@@ -387,4 +438,7 @@ export default {
   setGithubShareSection,
   getShareRecords,
   setHireAvailable,
+  getResumeShareUrl,
+  setResumeShareUrl,
+  setResumeType,
 };

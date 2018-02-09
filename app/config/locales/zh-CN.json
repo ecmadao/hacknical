@@ -77,7 +77,9 @@
 			"linkGithub": "已开启简历和 GitHub 的关联",
 			"unlinkGithub": "已关闭简历和 GitHub 的关联",
 			"template": "简历模板更改成功",
-			"hireAvailable": "求职状态更新成功"
+			"hireAvailable": "求职状态更新成功",
+			"simplifyUrl": "已开启简化的分享链接",
+			"unSimplifyUrl": "已关闭简化的分享链接"
 		}
   }
 }

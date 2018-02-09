@@ -2,6 +2,8 @@ import 'SRC/vendor/404/404.css';
 import 'STYLES/fonts-hack.css';
 import Rock from 'PAGES/initial';
 
+const redirect = (url = '/') => { window.location = url; };
+
 $(() => {
   const $content = $('.content-wrapper');
   const rock = new Rock($content, 50);
@@ -15,4 +17,5 @@ $(() => {
       animation: 'flash',
       time: 600
     }))
+    .then(() => redirect());
 });
