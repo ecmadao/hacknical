@@ -107,6 +107,7 @@ class CodeCourse extends React.Component {
         for (let d = 0; d < days.length; d += 1) {
           const dailyCommit = days[d];
           const daySeconds = week - ((7 - d) * SECONDS_PER_DAY);
+          if (daySeconds < minDateSeconds) continue;
           if (!dailyCommit) {
             if (preCommit) {
               if (timeline.length && timeline[timeline.length - 1].to === startCommitDaySeconds) {
