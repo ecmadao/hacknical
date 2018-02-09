@@ -8,7 +8,9 @@ import Slick from 'SHARED/components/Slick';
 import styles from '../styles/resume.css';
 import { GENDERS } from 'SHARED/datas/resume';
 import { validateUrl } from 'UTILS/helper';
+import locales from 'LOCALES';
 
+const resumeLocales = locales('resume');
 const { hoursBefore } = dateHelper.relative;
 const { hasUrl } = validator;
 
@@ -98,7 +100,13 @@ class ResumeContent extends React.Component {
 
     const edus = educations
       .map((edu, index) => {
-        const { school, major, education, startTime, endTime } = edu;
+        const {
+          major,
+          school,
+          endTime,
+          startTime,
+          education,
+        } = edu;
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
@@ -228,7 +236,7 @@ class ResumeContent extends React.Component {
       <div className={styles['resume-section']}>
         <div className={styles['section-row']}>
           <div className={styles['row-left']}>
-            个人项目
+            {resumeLocales.sections.projects.title}
           </div>
           <div className={cx(styles['row-right'], styles['right-container'])}>
             {projects}
@@ -258,7 +266,7 @@ class ResumeContent extends React.Component {
       <div className={styles['resume-section']}>
         <div className={styles['section-row']}>
           <div className={styles['row-left']}>
-            自我评价
+            {resumeLocales.sections.others.selfAssessment}
           </div>
           <div className={styles['row-right']}>
             <ul
@@ -286,19 +294,19 @@ class ResumeContent extends React.Component {
     if (intention) {
       sliders.push({
         mainText: intention,
-        subText: '期望职位'
+        subText: resumeLocales.sections.info.job
       });
     }
     if (location) {
       sliders.push({
         mainText: location,
-        subText: '所在城市'
+        subText: resumeLocales.sections.info.position
       });
     }
     if (expectLocation) {
       sliders.push({
         mainText: expectLocation,
-        subText: '期望工作地点'
+        subText: resumeLocales.sections.others.expectCity
       });
     }
     if (gender) {
@@ -306,7 +314,7 @@ class ResumeContent extends React.Component {
       if (targetGender) {
         sliders.push({
           mainText: targetGender.value,
-          subText: '性别'
+          subText: resumeLocales.sections.info.gender
         });
       }
     }
@@ -343,7 +351,7 @@ class ResumeContent extends React.Component {
                 src={require('SRC/images/dead.png')}
               />
               <div className={styles['header-text']}>
-                没有找到个人简历<br/>请在 PC 网页端进行创建
+                {resumeLocales.mobile.empty}<br/>{resumeLocales.mobile.tip}
               </div>
             </div>
           </div>

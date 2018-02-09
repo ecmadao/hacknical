@@ -4,7 +4,7 @@ const datas = {
   closeTitle: 'Share Closed',
   baseText: 'share',
   notice: {
-    copy: 'Url is copied'
+    copy: 'Url copied succeed'
   },
   error: {
     copy: 'Url copy failed'

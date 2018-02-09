@@ -9,7 +9,9 @@ import { objectassign } from 'SHARED/utils/resume';
 import styles from './resume_v1.css';
 import statusLabels from '../shared/StatusLabels';
 import AsyncGithub from '../shared/AsyncGithub';
+import locales from 'LOCALES';
 
+const resumeLocales = locales('resume');
 const { hoursBefore } = dateHelper.relative;
 
 const info = (options) => {
@@ -99,7 +101,7 @@ class ResumeComponentV1 extends React.PureComponent {
 
     return (
       <div className={styles.section}>
-        {titleInfo('教育经历', 'university')}
+        {titleInfo(resumeLocales.sections.edu.title, 'university')}
         <div className={styles.info_timeline}>
           {edus}
         </div>
@@ -138,7 +140,7 @@ class ResumeComponentV1 extends React.PureComponent {
 
     return (
       <div className={styles.section}>
-        {titleInfo('工作经历', 'file-text-o')}
+        {titleInfo(resumeLocales.sections.work.title, 'file-text-o')}
         <div className={styles.info_timeline}>
           {exps}
         </div>
@@ -198,7 +200,7 @@ class ResumeComponentV1 extends React.PureComponent {
 
     return (
       <div className={styles.section}>
-        {titleInfo('个人项目', 'code')}
+        {titleInfo(resumeLocales.sections.projects.title, 'code')}
         <div className={styles.info_wrapper}>
           {projects}
         </div>
@@ -219,7 +221,7 @@ class ResumeComponentV1 extends React.PureComponent {
 
     return (
       <div className={styles.section}>
-        {titleInfo('自我评价', 'quote-left')}
+        {titleInfo(resumeLocales.sections.others.selfAssessment, 'quote-left')}
         <div className={styles.info_wrapper}>
           <ul className={styles.info_intro}>
             {personalSupplements}
@@ -256,7 +258,7 @@ class ResumeComponentV1 extends React.PureComponent {
 
     return (
       <div className={styles.section}>
-        {titleInfo('其他链接', 'link')}
+        {titleInfo(resumeLocales.sections.others.links.title, 'link')}
         <div className={styles.info_wrapper}>
           <ul className={styles.info_intro}>
             {socials}
@@ -272,8 +274,10 @@ class ResumeComponentV1 extends React.PureComponent {
     const { others, updateAt, educations, workExperiences } = resume;
     const resumeInfo = resume.info || {};
     const { useGithub, github, githubUrl } = shareInfo;
-    const its = resumeInfo.gender === 'male' ? '他' : '她';
-    const viewGitHub = `查看${its}的 GitHub 总结报告`;
+    const its = resumeInfo.gender === 'male'
+      ? resumeLocales.options.person.male
+      : resumeLocales.options.person.female;
+    const viewGitHub = resumeLocales.options.view.replace(/%s/, its);
 
     if (useGithub && showGithub) {
       return (
@@ -290,7 +294,7 @@ class ResumeComponentV1 extends React.PureComponent {
                 <span
                   onClick={() => this.changeShowGithub(false)}
                 >
-                  返回
+                  {resumeLocales.options.back}
                 </span>
               )
             })}

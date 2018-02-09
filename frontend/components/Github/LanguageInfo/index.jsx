@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import Chart from 'chart.js';
 import {
+  Label,
   Loading,
   InfoCard,
   CardGroup,
-  Label
 } from 'light-ui';
 import github from 'UTILS/github';
 import { randomColor } from 'UTILS/colors';
@@ -20,6 +20,7 @@ import ReposRowInfo from '../ReposRowInfo';
 
 const sortByLanguageStar = github.sortByX({ key: 'star' });
 const githubTexts = locales('github').sections.languages;
+const getRamdomColor = randomColor();
 
 class LanguageInfo extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class LanguageInfo extends React.Component {
       showLanguage: null
     };
     this.languages = [];
-    this.labelColor = randomColor();
+    this.labelColor = getRamdomColor();
     this.languageSkillChart = null;
     this.languageUsedChart = null;
     this.setShowLanguage = this.setShowLanguage.bind(this);
@@ -188,7 +189,7 @@ class LanguageInfo extends React.Component {
   }
 
   get sortedLanguages() {
-    if (this.languages.length) { return this.languages }
+    if (this.languages.length) this.languages;
     const { languageUsed } = this.props;
     this.languages = Object.keys(languageUsed)
       .sort(github.sortByLanguage(languageUsed))
@@ -211,7 +212,7 @@ class LanguageInfo extends React.Component {
       />
     ));
     return (
-      <div className={githubStyles.language_label_wrapper}>
+      <div className={githubStyles.languageLabelWrapper}>
         {languages}
       </div>
     );
@@ -220,7 +221,8 @@ class LanguageInfo extends React.Component {
   renderLanguageReview() {
     const { showLanguage } = this.state;
     const { languageSkills } = this.props;
-    const languages = Object.keys(languageSkills).filter(language => languageSkills[language] && language !== 'null');
+    const languages = Object.keys(languageSkills)
+      .filter(language => languageSkills[language] && language !== 'null');
     const sortedLanguages = this.sortedLanguages;
     const chartContainer = cx(
       githubStyles.repos_chart_container,
@@ -248,7 +250,7 @@ class LanguageInfo extends React.Component {
           ) : ''}
         </div>
         {this.renderLanguagesLabel()}
-        { showLanguage ? this.renderShowRepos() : ''}
+        { showLanguage ? this.renderShowRepos() : null}
       </div>
     );
   }
@@ -257,9 +259,7 @@ class LanguageInfo extends React.Component {
     const { loaded, className } = this.props;
     return (
       <div className={className}>
-        { !loaded ? (
-          <Loading loading />
-        ) : this.renderLanguageReview()}
+        { !loaded ? <Loading loading /> : this.renderLanguageReview()}
       </div>
     );
   }

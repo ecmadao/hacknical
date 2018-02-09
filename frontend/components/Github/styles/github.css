@@ -1,70 +1,66 @@
 @import 'open-color/open-color.css';
 
-.repos_intros {
+.reposIntros {
   display: flex;
   flex-direction: column;
 
-  & .repos_intro {
+  & .reposIntro {
     margin-bottom: 5px;
     display: flex;
+    position: relative;
 
-    & .intro_line {
+    & .reposIntroLine {
       width: 8px;
       border-radius: 3px;
       margin-right: 15px;
     }
 
-    & .intro_info_wrapper {
+    & .introInfoWrapper {
       display: flex;
       flex-direction: column;
       flex: 1;
       max-width: 90%;
     }
 
-    & .intro_info {
+    & .introInfo {
       font-size: 14px;
       color: var(--oc-gray-5);
       line-height: 1.7em;
 
-      & .intro_title {
+      & .introTitle {
         color: var(--oc-gray-7);
         line-height: 1.5em;
       }
-
-      &.with_readme {
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--oc-gray-3);
-      }
     }
 
-    & .readme_container {
-      padding: 10px 20px;
-      min-height: 100px;
-      max-height: 300px;
-      margin-top: 20px;
-      overflow-x: hidden;
-      overflow-y: auto;
+    &:hover {
+      & .tipso_wrapper {
+        opacity: 1;
+        z-index: 99;
+        visibility: visible;
+        transform: scale(1);
+      }
     }
   }
 }
 
-.language_label_wrapper {
+.languageLabelWrapper {
   padding: 15px 20px;
 }
 
 /* chosed repos */
-.repos_timeline_container {
+.reposTimelineContainer {
   display: flex;
   flex-direction: column;
   padding: 20px;
 }
 
-.repos_dates {
+.reposDates {
   display: flex;
   color: var(--oc-gray-5);
   font-size: 12px;
 
-  & .repos_date {
+  & .reposDate {
     flex: 1;
     height: 40px;
     line-height: 40px;
@@ -76,41 +72,46 @@
   }
 }
 
-.repos_timelines {
+.reposTimelines {
   display: flex;
   flex-direction: column;
 
-  & .repos_timeline_wrapper {
+  & .reposTimelineWrapper {
     height: 25px;
     margin-bottom: 15px;
     position: relative;
-
-    &:hover {
-      & .repos_timeline {
-        opacity: 1;
-      }
-
-      & .tipso_wrapper {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-
-    &.active {
-      & .repos_timeline {
-        opacity: 1;
-        box-shadow: var(--shadowCard);
-      }
-    }
   }
+}
 
-  & .repos_timeline {
-    opacity: 0.6;
-    border-radius: 20px;
-    width: 100%;
-    height: 100%;
-    transition: opacity 0.2s, box-shadow 0.2s;
-    cursor: pointer;
+.timelineWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.timelineTipso {
+  height: 100%;
+
+  &:first-child {
+    margin-left: inherit;
+  }
+}
+
+.timelineContent {
+  width: 120px;
+}
+
+.timelineItem {
+  opacity: 0.6;
+  border-radius: 20px;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  height: 100%;
+
+  &.timelineOld {
+    background-color: var(--oc-gray-3) !important;
   }
 }
 
@@ -119,22 +120,27 @@
   position: absolute;
   left: 0;
   top: 100%;
-  opacity: 1;
-  visibility: hidden;
-  transition: opacity 0.2s;
   composes: tipso-z-index from 'STYLES/common.css';
 
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  backface-visibility: hidden;
+  transform: scale(0.8);
+  transition: all .2s cubic-bezier(.55,0,.1,1);
+
   &.active {
-    opacity: 1;
+    z-index: 99;
     visibility: visible;
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
 .tipso_container {
   background-color: var(--oc-white);
   border-radius: 3px;
-  border: 1px solid rgba(155, 155, 155, 0.2);
-  box-shadow: var(--shadow3);
+  box-shadow: var(--shadow4);
   padding: 15px;
   font-size: 12px;
   color: rgba(74, 74, 74, 0.6);
@@ -154,18 +160,18 @@
     display: block;
     position: absolute;
     left: 10px;
-    border-left: 13px solid transparent;
-    border-right: 13px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
   }
 
   &::before {
-    top: 0;
-    border-bottom: 12px solid rgba(155, 155, 155, 0.2);
+    top: 5px;
+    border-bottom: 5px solid rgba(155, 155, 155, 0.2);
   }
 
   &::after {
-    top: 1px;
-    border-bottom: 12px solid var(--oc-white);
+    top: 6px;
+    border-bottom: 5px solid var(--oc-white);
   }
 
   & .tipso_title {
@@ -508,8 +514,10 @@
 
   &:hover {
     & .tipso_wrapper {
-      opacity: 1;
+      z-index: 99;
       visibility: visible;
+      opacity: 1;
+      transform: scale(1);
     }
   }
 }

@@ -33,6 +33,7 @@ const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const githubMsg = githubLocales.message;
 const getDateBySeconds = dateHelper.date.bySeconds;
+const getRamdomColor = randomColor();
 
 class GithubMobileComponent extends React.Component {
   constructor(props) {
@@ -442,7 +443,7 @@ class GithubMobileComponent extends React.Component {
 
   renderLanguageLines() {
     const { languageUsed } = this.state;
-    const color = randomColor();
+    const color = getRamdomColor();
     const languages = Object.keys(languageUsed)
       .sort(github.sortByLanguage(languageUsed))
       .slice(0, 9);

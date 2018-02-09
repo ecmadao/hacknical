@@ -1,5 +1,5 @@
 const datas = {
-  updateAt: 'Update at: ',
+  updateAt: 'Last update: ',
   editedConfirm: "Resume edited, don't wanna save?",
   buttons: {
     save: 'Save',
@@ -26,6 +26,7 @@ const datas = {
       job: 'Wanted job',
       position: 'City',
       hireAvailable: 'Available for hire',
+      gender: 'Gender'
     },
     edu: {
       title: 'Education Experience',
@@ -63,10 +64,11 @@ const datas = {
     others: {
       title: 'Others Info',
       expectSalary: 'Expect salary',
-      expectCity: 'Expect city',
+      expectCity: 'Expect workplace',
       yourDream: 'Your dream?',
       personalIntro: 'Personal intro',
       introText: 'Wirte your personal intro then press enter to create it',
+      selfAssessment: 'Self Assessment',
       links: {
         title: 'Other Links',
         github: 'Your github link',
@@ -82,12 +84,16 @@ const datas = {
     edu: 'Edu',
     work: 'Jobs',
     projects: 'Projects',
-    others: 'Other'
+    others: 'Other',
   },
   options: {
     genders: {
       male: 'Male',
       female: 'Female'
+    },
+    person: {
+      male: 'his',
+      female: 'her'
     },
     edus: {
       juniorHigh: 'Junior high school',
@@ -97,7 +103,13 @@ const datas = {
       master: 'Master',
       doctor: 'Doctor',
       others: 'Others'
-    }
+    },
+    view: 'Check %s GitHub visualize report',
+    back: 'Back'
+  },
+  mobile: {
+    empty: 'Can not found resume',
+    tip: 'Please create a rusume on desktop webpage'
   }
 };
 

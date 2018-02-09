@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { Loading, Label } from 'light-ui';
+import { Label, Tipso, Loading } from 'light-ui';
 import {
   randomColor,
   hex2Rgba,
@@ -17,55 +17,35 @@ import ReposBaseInfo from '../ReposBaseInfo';
 import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
 
+const getRamdomColor = randomColor();
 const githubTexts = locales('github').sections.course;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getRelativeTime = dateHelper.relative.hoursBefore;
 const getValidateDate = dateHelper.validator.fullDate;
+const getDateBySeconds = seconds =>
+  dateHelper.validator.fullDateBySeconds(seconds).split('T')[0];
+
+const SECONDS_PER_DAY = 24 * 60 * 60;
+const oneDayOffset = (before, now) => now - before === SECONDS_PER_DAY;
 
 class CodeCourse extends React.Component {
   constructor(props) {
     super(props);
-    this.minDate = null;
-    this.maxDate = null;
+    const yearAgo = dateHelper.date.beforeYears(1);
+    const dayOfWeek = dateHelper.date.dayOfWeek(yearAgo);
+    this.state = {
+      showedCount: 10,
+      yearAgoSeconds: getSecondsByDate(yearAgo) - dayOfWeek * SECONDS_PER_DAY,
+      maxDateSeconds: getSecondsByDate(getValidateDate()),
+      minDateSeconds: getSecondsByDate(dateHelper.date.beforeMonths(1, yearAgo)),
+    }
   }
 
-  renderChosedRepos() {
-    const repositories = [...this.props.repositories];
-    const topRepositories = repositories
-      .sort(github.sortByX({ func: github.getDateInterval('created_at', 'pushed_at') }))
-      .slice(0, 15);
-    const sortedRepos = github.sortByDate(topRepositories);
-
-    this.minDate = dateHelper.validator.full(sortedRepos[0].created_at);
-    this.maxDate = github.getMaxDate(sortedRepos);
-    return (
-      <div className={githubStyles.repos_timeline_container}>
-        <div className={githubStyles.repos_dates}>
-          <div className={githubStyles.repos_date}>
-            {getRelativeTime(this.minDate)}
-          </div>
-          <div className={githubStyles.repos_date}>
-            {getRelativeTime(this.maxDate)}
-          </div>
-        </div>
-        <div className={githubStyles.repos_timelines}>
-          {this.renderTimeLine(sortedRepos)}
-        </div>
-        <div className={githubStyles.repos_intros}>
-          {this.renderReposIntros(sortedRepos)}
-        </div>
-      </div>
-    );
-  }
-
-  renderTimeLine(repos) {
-    const { showedRepository } = this.props;
-    const minDate = getSecondsByDate(this.minDate);
-    const maxDate = getSecondsByDate(this.maxDate);
-
-    const offsetLeft = getOffsetLeft(minDate, maxDate);
-    const offsetRight = getOffsetRight(minDate, maxDate);
-    return repos.map((repository, index) => {
+  getRepositoriesMap() {
+    const { repositories } = this.props;
+    const repositoriesMap = {};
+    for (let i = 0; i < repositories.length; i += 1) {
+      const repository = repositories[i];
       const {
         name,
         fork,
@@ -74,39 +54,267 @@ class CodeCourse extends React.Component {
         created_at,
         pushed_at,
         forks_count,
+        description,
         watchers_count,
         stargazers_count,
       } = repository;
+      repositoriesMap[name] = {
+        fork,
+        language,
+        html_url,
+        created_at,
+        pushed_at,
+        description,
+        forks_count,
+        watchers_count,
+        stargazers_count,
+      };
+    }
+    return repositoriesMap;
+  }
 
-      const left = offsetLeft(getSecondsByDate(created_at));
-      const right = offsetRight(getSecondsByDate(pushed_at));
-      let color = repository.color;
-      if (!color) {
-        color = randomColor();
-        repository.color = color;
+  formatRepositories() {
+    const {
+      showedCount,
+      yearAgoSeconds,
+      minDateSeconds,
+      maxDateSeconds
+    } = this.state;
+    const results = [];
+    const { commitDatas } = this.props;
+    if (!commitDatas.length) return results;
+    const repositoriesMap = this.getRepositoriesMap();
+
+    for (let i = 0; i < showedCount; i += 1) {
+      const commitData = commitDatas[i];
+      const {
+        name,
+        login,
+        commits,
+        pushed_at,
+        created_at,
+        totalCommits,
+      } = commitData;
+      if (!totalCommits) continue;
+      const timeline = [];
+      if (getSecondsByDate(created_at) <= minDateSeconds) {
+        timeline.push({
+          commits: -1,
+          to: yearAgoSeconds,
+          from: minDateSeconds,
+        });
+      }
+      let preCommit = null;
+      let startCommitDaySeconds = null;
+      let totalCommitsInRange = 0;
+
+      for (let j = 0; j < commits.length; j += 1) {
+        const commit = commits[j];
+        const { days, total, week } = commit;
+        for (let d = 0; d < days.length; d += 1) {
+          const dailyCommit = days[d];
+          const daySeconds = week - ((7 - d) * SECONDS_PER_DAY);
+          if (!dailyCommit) {
+            if (preCommit) {
+              if (timeline.length && timeline[timeline.length - 1].to === startCommitDaySeconds) {
+                timeline[timeline.length - 1].to = daySeconds;
+                timeline[timeline.length - 1].commits += totalCommitsInRange;
+              } else {
+                timeline.push({
+                  to: daySeconds,
+                  from: startCommitDaySeconds,
+                  commits: totalCommitsInRange,
+                });
+              }
+            }
+            preCommit = null;
+            startCommitDaySeconds = null;
+            totalCommitsInRange = 0;
+          } else {
+            preCommit = dailyCommit;
+            totalCommitsInRange += dailyCommit;
+            if (!startCommitDaySeconds) startCommitDaySeconds = daySeconds;
+          }
+        }
+      }
+      if (preCommit) {
+        timeline.push({
+          to: commits[commits.length - 1].week,
+          from: startCommitDaySeconds,
+          commits: totalCommitsInRange,
+        });
       }
 
-      const isActive = showedRepository === name;
-      const wrapperClass = cx(
-        githubStyles.repos_timeline_wrapper,
-        isActive && githubStyles.active
-      );
-      const tipsoClass = cx(
-        githubStyles.tipso_wrapper,
-        isActive && githubStyles.active
-      );
+      const repository = repositoriesMap[name];
+      results.push({
+        name,
+        login,
+        timeline,
+        totalCommits,
+        ...repository,
+        pushed_at: pushed_at || repository.pushed_at,
+        created_at: created_at || repository.created_at,
+      });
+    }
+    return results;
+  }
+
+  renderChosedRepos() {
+    const { maxDateSeconds, minDateSeconds } = this.state;
+    const formatRepositories = this.formatRepositories();
+
+    return (
+      <div className={githubStyles.reposTimelineContainer}>
+        <div className={githubStyles.reposDates}>
+          <div className={githubStyles.reposDate}>
+            {getDateBySeconds(minDateSeconds)}
+          </div>
+          <div className={githubStyles.reposDate}>
+            {getRelativeTime(getDateBySeconds(maxDateSeconds))}
+          </div>
+        </div>
+        <div className={githubStyles.reposTimelines}>
+          {this.renderTimeLines(formatRepositories)}
+        </div>
+        <div className={githubStyles.reposIntros}>
+          {this.renderReposIntros(formatRepositories)}
+        </div>
+      </div>
+    );
+  }
+
+  renderTimeLines(repos) {
+    const {
+      maxDateSeconds,
+      minDateSeconds,
+    } = this.state;
+    const totalSeconds = maxDateSeconds - minDateSeconds;
+
+    const offsetLeft = getOffsetLeft(minDateSeconds, maxDateSeconds);
+    const offsetRight = getOffsetRight(minDateSeconds, maxDateSeconds);
+    return repos.map((repository, index) => {
+      const {
+        timeline,
+      } = repository;
+
+      let color = repository.color;
+      if (!color) {
+        color = getRamdomColor();
+        repository.color = color;
+      }
 
       return (
         <div
           key={index}
-          className={wrapperClass}
-          style={{ marginLeft: left, marginRight: right }}
+          className={githubStyles.reposTimelineWrapper}
+        >
+          <div className={githubStyles.timelineWrapper}>
+            {this.renderTimeline({
+              color,
+              timeline,
+              totalSeconds
+            })}
+          </div>
+        </div>
+      );
+    });
+  }
+
+  renderTimeline(options) {
+    const {
+      color,
+      timeline,
+      totalSeconds,
+    } = options;
+    const timelineDOMs = [<div key={'placeholder'} />];
+    const {
+      minDateSeconds,
+    } = this.state;
+    let preToSecond = minDateSeconds;
+    for (let i = 0; i < timeline.length; i += 1) {
+      const item = timeline[i];
+      const {
+        to,
+        from,
+        commits
+      } = item;
+      const width = ((to - from) * 100) / totalSeconds;
+      const marginLeft = ((from - preToSecond) * 100) / totalSeconds;
+      timelineDOMs.push(
+        <Tipso
+          key={i}
+          theme="dark"
+          wrapperClass={githubStyles.timelineTipso}
+          wrapperStyle={{
+            width: `${width}%`,
+            marginLeft: `${marginLeft}%`,
+          }}
+          tipsoContent={
+            <div className={githubStyles.timelineContent}>
+              {getDateBySeconds(from)}~{getDateBySeconds(to)}<br/>
+              {commits === -1
+                  ? `Let it be`
+                  : `${commits} commits`
+              }
+            </div>
+          }
         >
           <div
-            style={{ backgroundColor: color }}
-            className={githubStyles.repos_timeline}
+            className={cx(
+              githubStyles.timelineItem,
+              commits === -1 && githubStyles.timelineOld,
+            )}
+            style={{
+              backgroundColor: color,
+            }}
           />
-          <div className={tipsoClass}>
+        </Tipso>
+      );
+      preToSecond = to - SECONDS_PER_DAY;
+    }
+    return timelineDOMs;
+  }
+
+  renderReposIntros(repos) {
+    return repos.map((repository, index) => {
+      const {
+        name,
+        fork,
+        color,
+        html_url,
+        language,
+        pushed_at,
+        created_at,
+        description,
+        forks_count,
+        watchers_count,
+        stargazers_count,
+      } = repository;
+      const rgb = hex2Rgba(color);
+      return (
+        <div className={githubStyles.reposIntro} key={index}>
+          <div
+            className={githubStyles.reposIntroLine}
+            style={{
+              background: `linear-gradient(to bottom, ${rgb(OPACITY.max)}, ${rgb(OPACITY.max)})`
+            }}
+          />
+          <div className={githubStyles.introInfoWrapper}>
+            <div className={githubStyles.introInfo}>
+              <a
+                className={githubStyles.introTitle}
+                href={html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name}
+              </a>
+              <br />
+              <span>{description}</span>
+            </div>
+          </div>
+
+          <div className={githubStyles.tipso_wrapper}>
             <div className={cx(githubStyles.tipso_container, githubStyles.tipso_large)}>
               <span className={githubStyles.tipso_title}>
                 <a
@@ -146,42 +354,7 @@ class CodeCourse extends React.Component {
               </span>
             </div>
           </div>
-        </div>
-      );
-    });
-  }
 
-  renderReposIntros(repos) {
-    const { showedRepository } = this.props;
-    return repos.map((repository, index) => {
-      const { name, description, color, html_url } = repository;
-      const rgb = hex2Rgba(color);
-      const isTarget = name === showedRepository;
-      const opacity = isTarget ? OPACITY.min : OPACITY.max;
-      const infoClass = cx(
-        githubStyles.intro_info,
-        isTarget && githubStyles.with_readme
-      );
-      return (
-        <div className={githubStyles.repos_intro} key={index}>
-          <div
-            className={githubStyles.intro_line}
-            style={{ background: `linear-gradient(to bottom, ${rgb(OPACITY.max)}, ${rgb(opacity)})` }}
-          />
-          <div className={githubStyles.intro_info_wrapper}>
-            <div className={infoClass}>
-              <a
-                className={githubStyles.intro_title}
-                href={html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-              <br />
-              <span>{description}</span>
-            </div>
-          </div>
         </div>
       );
     });
@@ -207,9 +380,9 @@ class CodeCourse extends React.Component {
 
 CodeCourse.defaultProps = {
   loaded: false,
-  repositories: [],
   className: '',
-  showedRepository: null,
+  commitDatas: [],
+  repositories: [],
 };
 
 export default CodeCourse;

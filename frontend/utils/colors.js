@@ -43,6 +43,18 @@ export const hex2Rgba = hex => (opacity) => {
 };
 
 export const randomColor = () => {
-  const index = Math.floor(Math.random() * MD_COLORS.length);
-  return MD_COLORS[index];
+  const set = new Set();
+
+  const getRamdomColor = () => {
+    const index = Math.floor(Math.random() * MD_COLORS.length);
+    const color = MD_COLORS[index];
+    if (set.has(color)) {
+      if (set.size === MD_COLORS.length) return color;
+      return getRamdomColor();
+    }
+    set.add(color);
+    return color;
+  };
+
+  return getRamdomColor;
 };

@@ -24,8 +24,9 @@ const datas = {
       email: '邮箱',
       phone: '电话',
       job: '意向职位',
-      position: '坐标',
+      position: '所在城市',
       hireAvailable: '正在求职',
+      gender: '性别'
     },
     edu: {
       title: '教育经历',
@@ -63,10 +64,11 @@ const datas = {
     others: {
       title: '其他补充',
       expectSalary: '期待月薪',
-      expectCity: '期望城市',
+      expectCity: '期望工作地点',
       yourDream: '你的梦想？',
       personalIntro: '新增个人介绍',
       introText: '输入一句个人介绍，并按下回车来创建',
+      selfAssessment: '自我评价',
       links: {
         title: '其他链接',
         github: '填写 github 地址',
@@ -82,12 +84,16 @@ const datas = {
     edu: '教育经历',
     work: '工作经历',
     projects: '个人项目',
-    others: '其他补充'
+    others: '其他补充',
   },
   options: {
     genders: {
       male: '男性',
       female: '女性'
+    },
+    person: {
+      male: '他',
+      female: '她'
     },
     edus: {
       juniorHigh: '初中',
@@ -97,7 +103,13 @@ const datas = {
       master: '硕士',
       doctor: '博士',
       others: '其他'
-    }
+    },
+    view: '查看%s的 GitHub 总结报告',
+    back: '返回'
+  },
+  mobile: {
+    empty: '没有找到个人简历',
+    tip: '请在 PC 网页端进行创建'
   }
 };
 

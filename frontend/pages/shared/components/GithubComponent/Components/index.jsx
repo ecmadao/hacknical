@@ -360,6 +360,7 @@ class GithubComponent extends React.Component {
         <GitHubSection
           loaded={repositoriesLoaded}
           repositories={ownedRepositories}
+          commitDatas={commitDatas}
           title={{
             text: githubTexts.course.title,
             icon: 'trophy'

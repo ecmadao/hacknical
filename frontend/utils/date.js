@@ -26,10 +26,12 @@ const __validateDate = (rawDate) => {
 
 const formatDate = format => date => moment(date).format(format);
 const getSeconds = date => parseInt(formatDate('X')(__validateDate(date)), 10);
-const getDateBeforeYears = format => before =>
-  moment().add(-parseInt(before, 10), 'years').format(format)
-const getDateAfterYears = format => after =>
-  moment().add(parseInt(after, 10), 'years').format(format)
+
+const getDateRelativeX = (unit, pn = 1) => format => (before, date) =>
+  moment(date).add(pn * parseInt(before, 10), unit).format(format)
+const getDateBeforeYears = getDateRelativeX('years', -1);
+const getDateAfterYears = getDateRelativeX('years');
+const getDateBeforeMonths = getDateRelativeX('months', -1);
 
 export default {
   validator: {
@@ -57,6 +59,7 @@ export default {
   date: {
     now: () => formatDate('YYYY-MM-DD')(),
     beforeYears: getDateBeforeYears('YYYY-MM-DD'),
+    beforeMonths: getDateBeforeMonths('YYYY-MM-DD'),
     afterYears: getDateAfterYears('YYYY-MM-DD'),
     afterDays: (after, date) =>
       moment(date).add(parseInt(after, 10), 'days').format('YYYY-MM-DD'),
