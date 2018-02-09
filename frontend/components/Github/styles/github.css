@@ -165,12 +165,12 @@
   }
 
   &::before {
-    top: 5px;
+    top: 4px;
     border-bottom: 5px solid rgba(155, 155, 155, 0.2);
   }
 
   &::after {
-    top: 6px;
+    top: 5px;
     border-bottom: 5px solid var(--oc-white);
   }
 

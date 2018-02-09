@@ -97,13 +97,6 @@ class CodeCourse extends React.Component {
       } = commitData;
       if (!totalCommits) continue;
       const timeline = [];
-      if (getSecondsByDate(created_at) <= minDateSeconds) {
-        timeline.push({
-          commits: -1,
-          to: yearAgoSeconds,
-          from: minDateSeconds,
-        });
-      }
       let preCommit = null;
       let startCommitDaySeconds = null;
       let totalCommitsInRange = 0;
@@ -142,6 +135,14 @@ class CodeCourse extends React.Component {
           to: commits[commits.length - 1].week,
           from: startCommitDaySeconds,
           commits: totalCommitsInRange,
+        });
+      }
+
+      if (timeline[0].from > minDateSeconds) {
+        timeline.unshift({
+          commits: -1,
+          to: timeline[0].from,
+          from: minDateSeconds,
         });
       }
 
