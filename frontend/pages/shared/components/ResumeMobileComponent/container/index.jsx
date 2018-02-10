@@ -16,7 +16,7 @@ ResumeMobileComponent.propTypes = {
 };
 
 ResumeMobileComponent.defaultProps = {
-  hash: '',
+  hash: window.resumeHash,
   login: window.login,
 };
 

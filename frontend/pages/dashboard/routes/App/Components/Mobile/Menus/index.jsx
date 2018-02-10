@@ -5,15 +5,14 @@ import styles from '../../../styles/mobile.css';
 import Topbar from '../../shared/Topbar';
 import TABS from 'SRC/data/tab';
 import locales from 'LOCALES';
+import MenuWrapper from '../../shared/MenuWrapper';
 
 const { tabs } = locales('dashboard');
 
-class Menus extends React.Component {
+class Menus extends MenuWrapper {
   constructor(props) {
     super(props);
-    this.state = {
-      menuActive: false
-    };
+    this.state.menuActive = false;
     this.toggleMenu = this.toggleMenu.bind(this);
   }
 
@@ -47,9 +46,28 @@ class Menus extends React.Component {
     ));
   }
 
+  renderLanguageOptions() {
+    const { languages } = this.state;
+    if (!languages || !languages.length) return null;
+    const languageDOMs = languages.map((language, index) => (
+      <a
+        key={index}
+        href={`/?locale=${language.id}`}
+        className={styles.languageOption}
+      >
+        {language.text}
+      </a>
+    ));
+    return (
+      <div className={styles.languagesWrapper}>
+        {languageDOMs}
+      </div>
+    );
+  }
+
   render() {
     const { locale } = this.props;
-    const { menuActive } = this.state;
+    const { zen, menuActive } = this.state;
     const aboutUrl = `https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`;
     return (
       <Topbar
@@ -83,6 +101,7 @@ class Menus extends React.Component {
                   <i className="fa fa-close" aria-hidden="true" />
                 </div>
               </div>
+              <div className={styles.menuZen}>{zen}</div>
               <div className={styles.menuWrapper}>
                 {this.renderMenus()}
                 <a href={aboutUrl} className={styles.menu}>
@@ -98,6 +117,7 @@ class Menus extends React.Component {
                   </a>
                 </div>
               </div>
+              {this.renderLanguageOptions()}
             </div>
           </PortalModal>
         </div>

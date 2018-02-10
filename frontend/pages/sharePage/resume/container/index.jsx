@@ -16,8 +16,8 @@ ResumeShare.propTypes = {
 };
 
 ResumeShare.defaultProps = {
-  hash: '',
-  login: ''
+  hash: window.resumeHash,
+  login: window.login,
 };
 
 export default ResumeShare;

@@ -67,6 +67,8 @@ class MobileSetting extends React.Component {
       loading: true,
       updateTime: null,
       githubInfo: {
+        url: '',
+        locale: '',
         loading: true,
         openShare: true,
         disabled: true,
@@ -74,6 +76,7 @@ class MobileSetting extends React.Component {
       resumeInfo: {
         url: '',
         hash: '',
+        locale: '',
         loading: true,
         openShare: true,
         disabled: true,
@@ -174,9 +177,9 @@ class MobileSetting extends React.Component {
     const obj = this.state[key];
     return (datas) => {
       this.setState({
-        [key]: objectAssign({}, obj, {
+        [key]: objectAssign({}, obj, datas, {
           loading: false
-        }, datas)
+        })
       });
     }
   }
@@ -185,12 +188,14 @@ class MobileSetting extends React.Component {
     const datas = result ? {
       disabled: false,
       url: result.url,
+      locale: result.locale,
       hash: result.resumeHash,
       openShare: result.openShare,
       simplifyUrl: result.simplifyUrl,
     } : {
       url: '',
       hash: '',
+      locale: '',
       disabled: true,
       openShare: false,
       simplifyUrl: false,
@@ -199,7 +204,18 @@ class MobileSetting extends React.Component {
     initial(datas);
   }
 
-  initialGithubInfo(datas) {
+  initialGithubInfo(result) {
+    const datas = result ? {
+      disabled: false,
+      url: result.url,
+      locale: result.locale,
+      openShare: result.openShare,
+    } : {
+      url: '',
+      locale: '',
+      disabled: true,
+      openShare: false,
+    };
     const initial = this.initialInfo('githubInfo');
     initial(datas);
   }
@@ -210,7 +226,6 @@ class MobileSetting extends React.Component {
     Api.github.toggleShare(!openShare).then(() => {
       const initial = this.initialInfo('githubInfo');
       initial({
-        loading: false,
         openShare: !openShare
       });
     });
@@ -222,7 +237,6 @@ class MobileSetting extends React.Component {
     Api.resume.postPubResumeShareStatus(!openShare).then(() => {
       const initial = this.initialInfo('resumeInfo');
       initial({
-        loading: false,
         openShare: !openShare
       });
     });
@@ -234,7 +248,6 @@ class MobileSetting extends React.Component {
     Api.resume.togglePubResumeSimplifyUrl(!simplifyUrl).then(() => {
       const initial = this.initialInfo('resumeInfo');
       initial({
-        loading: false,
         simplifyUrl: !simplifyUrl
       });
     });
@@ -315,15 +328,15 @@ class MobileSetting extends React.Component {
             inputId: 'githubShareUrl',
             buttonId: 'githubCopyButton',
             disabled: !githubInfo.openShare,
-            url: `${window.location.host}/${login}/github`
+            url: `${window.location.host}/${githubInfo.url}`
           })}
           {this.renderClipInput({
             inputId: 'resumeShareUrl',
             buttonId: 'resumeCopyButton',
             disabled: !resumeInfo.openShare,
             url: resumeInfo.simplifyUrl
-              ? `${window.location.host}/${login}/resume`
-              : `${window.location.host}/resume/${resumeInfo.hash}`
+              ? `${window.location.host}/${login}/resume?locale=${locale}`
+              : `${window.location.host}/resume/${resumeInfo.hash}?locale=${locale}`
           })}
         </SettingPane>
       </div>

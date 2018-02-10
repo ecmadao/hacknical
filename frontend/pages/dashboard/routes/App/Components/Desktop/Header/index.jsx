@@ -1,38 +1,16 @@
 import React from 'react';
 import { Tipso } from 'light-ui';
-import Api from 'API';
 import locales from 'LOCALES';
 import styles from '../../../styles/desktop.css';
+import MenuWrapper from '../../shared/MenuWrapper';
 
 const headers = locales('dashboard').headers;
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      zen: '',
-      languages: [],
-    };
-  }
-
-  componentDidMount() {
-    this.getZen();
-    this.getLanguages();
-  }
-
-  async getZen() {
-    const zen = await Api.github.zen();
-    this.setState({ zen });
-  }
-
-  async getLanguages() {
-    const languages = await Api.home.languages();
-    this.setState({ languages });
-  }
-
-  renderLanguageOptions(options = []) {
-    if (!options.length) return null;
-    const optionDOMs = options.map((option, index) => (
+class Header extends MenuWrapper {
+  renderLanguageOptions() {
+    const { languages } = this.state;
+    if (!languages.length) return null;
+    const optionDOMs = languages.map((option, index) => (
       <a
         key={index}
         href={`/?locale=${option.id}`}
@@ -49,7 +27,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { zen, languages } = this.state;
+    const { zen } = this.state;
     const locale = window.locale || 'en';
 
     return (
@@ -69,7 +47,7 @@ class Header extends React.Component {
             </Tipso>
           </div>
           <div className={styles.header_menus}>
-            {this.renderLanguageOptions(languages)}
+            {this.renderLanguageOptions()}
             <Tipso
               theme="dark"
               position="bottom"

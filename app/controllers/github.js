@@ -216,7 +216,7 @@ const githubPage = async (ctx) => {
 };
 
 const getShareRecords = async (ctx) => {
-  const { githubLogin } = ctx.session;
+  const { githubLogin, locale } = ctx.session;
   const shareAnalyses = await ShareAnalyse.find({
     login: githubLogin,
     url: new RegExp('github')
@@ -234,11 +234,12 @@ const getShareRecords = async (ctx) => {
   ctx.body = {
     success: true,
     result: {
+      locale,
       pageViews,
       viewDevices,
       viewSources,
       openShare: shareAnalyses[0] ? shareAnalyses[0].enable : false,
-      url: `${githubLogin}/github?locale=${ctx.session.locale}`,
+      url: `${githubLogin}/github?locale=${locale}`,
     }
   };
 };

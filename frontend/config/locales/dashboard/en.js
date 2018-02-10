@@ -61,7 +61,7 @@ const datas = {
     shareUrl: 'Share Url',
     github: {
       title: 'GitHub',
-      openShare: 'Open GitHub analysis share',
+      openShare: 'Open GitHub visualize share',
       lastUpdate: 'Last update at',
       updateButtonText: 'Update',
       customize: {
@@ -74,7 +74,7 @@ const datas = {
     },
     resume: {
       title: 'Resume',
-      openShare: 'Open share',
+      openShare: 'Open resume share',
       simplifyUrl: 'Use simplify share url',
       simplifyUrlTip: 'Can\'t visit public :login/resume page if closed, using resume/:hash instead',
       useGithub: 'Use GitHub analysis in resume',

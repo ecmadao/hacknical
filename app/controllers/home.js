@@ -1,5 +1,6 @@
 
 import User from '../models/users';
+import ResumePub from '../models/resume-pub';
 import Api from '../services/api';
 import getLanguages from '../config/languages';
 
@@ -46,10 +47,13 @@ const dashboard = async (ctx) => {
   if (!user.initialed) {
     ctx.redirect('/initial');
   }
-
+  const checkPubResume = await ResumePub.findOne({ userId });
   await ctx.render('user/dashboard', {
     login: githubLogin,
     isAdmin: login === githubLogin,
+    resumeHash: checkPubResume && checkPubResume.success
+      ? checkPubResume.result.resumeHash
+      : '',
     title: ctx.__('dashboard.title', githubLogin),
   });
 };

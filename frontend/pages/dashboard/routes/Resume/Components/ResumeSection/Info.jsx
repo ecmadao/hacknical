@@ -106,7 +106,7 @@ class Info extends React.Component {
           />
         </div>
         <div className={styles.resumeRow}>
-
+          {/*
           <div className={styles.resumeSwitcherWrapper}>
             {resumeTexts.freshGraduate}
             &nbsp;&nbsp;
@@ -118,7 +118,7 @@ class Info extends React.Component {
             />
           </div>
           &nbsp;&nbsp;&nbsp;
-
+          */}
           <div className={styles.resumeSwitcherWrapper}>
             {resumeTexts.hireAvailable}
             &nbsp;&nbsp;

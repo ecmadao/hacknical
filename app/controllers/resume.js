@@ -41,6 +41,7 @@ const getResumeShareStatus = (findPubResume, locale, login = null) => {
     success: true,
     result: {
       github,
+      locale,
       template,
       openShare,
       useGithub,
