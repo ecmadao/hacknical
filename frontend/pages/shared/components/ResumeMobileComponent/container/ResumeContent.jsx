@@ -63,7 +63,6 @@ const HeaderInfo = (options = {}) => {
 };
 
 class ResumeContent extends React.Component {
-
   renderHeader() {
     const { info, others } = this.props.resume;
     const { email, phone, name } = info;
@@ -327,8 +326,8 @@ class ResumeContent extends React.Component {
 
 
     return (
-      <div className={styles['resume-container']}>
-        {this.props.loading ? (<Loading loading />) : ''}
+      <div className={styles.resumeContainer}>
+        {this.props.loading ? <Loading loading className={styles.resumeLoading} /> : ''}
 
         {initialized ? ([
           (<div className={styles['header-section']}>

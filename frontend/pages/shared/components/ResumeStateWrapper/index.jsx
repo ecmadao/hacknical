@@ -17,6 +17,7 @@ class ResumeStateWrapper extends React.Component {
       hash: props.hash,
       loading: true,
       updateAt: '',
+      initialized: true,
       info: objectAssign({}, INFO),
       educations: [],
       workExperiences: [],

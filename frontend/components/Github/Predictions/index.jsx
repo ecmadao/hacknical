@@ -28,7 +28,12 @@ const iconLink = (options) => {
   );
   if (!link) return iconDOM;
   return (
-    <a href={link} className={linkClass} target="_blank" rel="noopener noreferrer">
+    <a
+      href={link}
+      className={linkClass}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       {iconDOM}
     </a>
   );

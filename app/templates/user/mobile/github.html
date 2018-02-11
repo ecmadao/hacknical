@@ -17,7 +17,7 @@
     <div id="github"></div>
   </div>
   {% if not user.isAdmin %}
-    <a id="share_banner" class="share_banner" href="/" target="_blank">
+    <a rel="noopener" id="share_banner" class="share_banner" href="/" target="_blank">
       <i class="fa fa-code" aria-hidden="true"></i>&nbsp;&nbsp;{{ shareText }}
     </a>
   {% endif %}

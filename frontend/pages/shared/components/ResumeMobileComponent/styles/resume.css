@@ -70,8 +70,14 @@
   font-size: var(--mainFontSize);
 }
 
-.resume-container {
+.resumeContainer {
   padding-bottom: 20px;
+}
+
+.resumeLoading {
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 
 .slick {

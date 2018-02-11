@@ -92,7 +92,7 @@ const formatResume = (resume) => {
     personalProjects: [...formatPersonalProjects],
     others: objectAssign({}, others, {
       socialLinks: formatSocials
-    })
+    }),
   });
 }
 
