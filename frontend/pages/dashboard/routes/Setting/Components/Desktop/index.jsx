@@ -213,15 +213,17 @@ class Setting extends React.Component {
                 disabled={resumeInfoLoading || resumeInfo.disabled}
                 checked={(resumeInfo && resumeInfo.openShare) || false}
               />
-              <SwitcherPane
-                text={settingTexts.resume.simplifyUrl}
-                tipso={settingTexts.resume.simplifyUrlTip}
-                onChange={resumeInfoLoading
-                    ? () => {}
-                    : actions.toggleResumeSimplifyUrl}
-                disabled={resumeInfoLoading || resumeInfo.disabled}
-                checked={resumeInfo && resumeInfo.simplifyUrl}
-              />
+              {resumeInfo && resumeInfo.openShare ? (
+                <SwitcherPane
+                  text={settingTexts.resume.simplifyUrl}
+                  tipso={settingTexts.resume.simplifyUrlTip}
+                  onChange={resumeInfoLoading
+                      ? () => {}
+                      : actions.toggleResumeSimplifyUrl}
+                  disabled={resumeInfoLoading || resumeInfo.disabled}
+                  checked={resumeInfo && resumeInfo.simplifyUrl}
+                />
+              ) : null}
               {this.renderResumeGithubSetting()}
             </div>
           </div>

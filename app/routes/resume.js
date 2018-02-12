@@ -76,11 +76,14 @@ router.get('/shareUrl',
 );
 router.patch('/shareUrl',
   user.checkSession(session.requiredSessions),
+  check.body('simplifyUrl'),
+  resume.toggleLoginShare(),
   Resume.setResumeShareUrl
 );
 router.patch('/share/status',
   user.checkSession(session.requiredSessions),
   check.body('enable'),
+  resume.toggleHashShare(),
   Resume.setResumeShareStatus
 );
 router.patch('/share/template',

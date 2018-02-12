@@ -15,6 +15,18 @@ import logger from '../utils/logger';
  *
  * String: user
  * ---------> Number
+ *
+ * Hash: share-resume-login
+ * ---------> login: String
+ *            ---------> JSON.stringify({ userId, openShare, resumeHash })
+ *
+ * Hash: share-resume-hash
+ * ---------> login: String
+ *            ---------> JSON.stringify({ userId, login, openShare })
+ *
+ * Hash: resume-hash-map
+ * ---------> resumeHashV0: String
+ *            ---------> resumeHash
  */
 
 const ONE_DAY = 86400;
@@ -94,6 +106,27 @@ const RedisCache = (options = {}) => {
     return await redisClient.hget(`${prefix}${key}`, field);
   };
 
+  const hexistsCache = async (key, field) => {
+    if (!redisAvailable) {
+      return;
+    }
+    return await redisClient.hexists(`${prefix}${key}`, field);
+  };
+
+  const hdelCache = async (key, field) => {
+    if (!redisAvailable) {
+      return;
+    }
+    return await redisClient.hdel(`${prefix}${key}`, field);
+  };
+
+  const hsetCache = async (key, field, value) => {
+    if (!redisAvailable) {
+      return;
+    }
+    return await redisClient.hset(`${prefix}${key}`, field, value);
+  };
+
   const hgetallCache = async (key) => {
     if (!redisAvailable) {
       return;
@@ -110,6 +143,9 @@ const RedisCache = (options = {}) => {
     hincrby: hincrbyCahce,
     hget: hgetCache,
     hgetall: hgetallCache,
+    hexists: hexistsCache,
+    hdel: hdelCache,
+    hset: hsetCache
   };
 };
 

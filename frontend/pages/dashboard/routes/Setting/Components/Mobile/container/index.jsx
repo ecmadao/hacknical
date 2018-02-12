@@ -316,12 +316,14 @@ class MobileSetting extends React.Component {
             checked={resumeInfo.openShare}
             disabled={resumeInfo.loading || resumeInfo.disabled}
           />
-          <SwitcherPane
-            text={settingTexts.resume.simplifyUrl}
-            onChange={this.toggleResumeSimplifyUrl}
-            checked={resumeInfo.simplifyUrl}
-            disabled={resumeInfo.loading || resumeInfo.disabled}
-          />
+          {resumeInfo.openShare ? (
+            <SwitcherPane
+              text={settingTexts.resume.simplifyUrl}
+              onChange={this.toggleResumeSimplifyUrl}
+              checked={resumeInfo.simplifyUrl}
+              disabled={resumeInfo.loading || resumeInfo.disabled}
+            />
+          ) : null}
         </SettingPane>
         <SettingPane title={settingTexts.shareUrl} sectionClassName={styles.settingRow}>
           {this.renderClipInput({

@@ -19,7 +19,7 @@ entryFiles
   .forEach(file => {
     const filename = file.split('.')[0];
     const filepath = path.join(PATH.ENTRY_PATH, file)
-    entries[filename] = filepath;
+    entries[filename] = ['babel-polyfill', filepath];
 });
 
 const cssModulesLoader = ExtractTextPlugin.extract({

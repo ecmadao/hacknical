@@ -246,11 +246,6 @@ const getResumeStatus = async (ctx) => {
 
 const setResumeShareStatus = async (ctx) => {
   const { enable } = ctx.request.body;
-  const { userId } = ctx.session;
-
-  await ResumePub.updatePubResume(userId, {
-    openShare: enable
-  });
   const resultMessage = Boolean(enable) == true
     ? 'messages.share.toggleOpen'
     : 'messages.share.toggleClose';
@@ -364,11 +359,7 @@ const getResumeShareUrl = async (ctx) => {
 };
 
 const setResumeShareUrl = async (ctx) => {
-  const { userId } = ctx.session;
   const { simplifyUrl } = ctx.request.body;
-  await ResumePub.updatePubResume(userId, {
-    simplifyUrl
-  });
   const resultMessage = Boolean(simplifyUrl) == true
     ? 'messages.resume.simplifyUrl'
     : 'messages.resume.unSimplifyUrl';

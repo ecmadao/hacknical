@@ -2,7 +2,6 @@ import config from 'config';
 import Users from '../../app/models/users';
 import Resumes from '../../app/models/resumes';
 import ShareAnalyse from '../../app/models/share-analyse';
-
 import { getRedis } from '../../app/middlewares/cache';
 
 const redisUrl = config.get('redis');
@@ -45,9 +44,9 @@ const init = async () => {
     await cache.hincrby('github', 'pageview', githubPageview);
     await cache.hincrby('resume', 'pageview', resumePageview);
 
-    console.log('cache initial infished!');
+    console.log('cache initial finished!');
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   process.exit(0);
 };
