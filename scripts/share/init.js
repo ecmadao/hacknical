@@ -10,6 +10,10 @@ const init = async () => {
     const cache = getRedis({
       url: redisUrl
     });
+    cache.hdel('share-resume-hash', undefined);
+    cache.hdel('share-resume-hash', 'undefined');
+    cache.hdel('resume-hash-map', undefined);
+    cache.hdel('resume-hash-map', 'undefined');
     const resumePubs = await ResumePub.find();
     for (let i = 0; i < resumePubs.length; i += 1) {
       const resumePub = resumePubs[i];
@@ -24,17 +28,17 @@ const init = async () => {
       if (!user) continue;
       const { githubLogin, githubInfo } = user;
       const login = githubLogin || githubInfo.login;
-      if (simplifyUrl) await cache.hset('share-resume-login', login, JSON.stringify({
+      if (simplifyUrl && resumeHash) await cache.hset('share-resume-login', login, JSON.stringify({
         userId,
         openShare,
         resumeHash,
       }));
-      await cache.hset('share-resume-hash', resumeHash, JSON.stringify({
+      if (resumeHash) await cache.hset('share-resume-hash', resumeHash, JSON.stringify({
         login,
         userId,
         openShare,
       }));
-      await cache.hset('resume-hash-map', resumeHashV0, resumeHash);
+      if (resumeHashV0 && resumeHash) await cache.hset('resume-hash-map', resumeHashV0, resumeHash);
       console.log(`resume cache finished for ${login}`);
     }
     console.log('resume cache initial finished!');
