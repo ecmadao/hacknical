@@ -61,7 +61,8 @@ const datas = {
     course: {
       emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
       title: '编码历程',
-      tipso: '从第一个创建的仓库到现今的编程历程，截取贡献时间持续最长的前 15 个仓库'
+      emptyCommit: '没有找到提交记录',
+      tipso: '近一年来各仓库提交的编程历程，截取展现提交频繁的数个仓库'
     },
     contributed: {
       title: '参与贡献的仓库',

@@ -254,9 +254,9 @@ class CodeCourse extends React.Component {
           }}
           tipsoContent={
             <div className={githubStyles.timelineContent}>
-              {getDateBySeconds(from)}~{getDateBySeconds(to)}<br/>
+              {getDateBySeconds(from)} ~ {getDateBySeconds(to)}<br/>
               {commits === -1
-                  ? `Let it be`
+                  ? githubTexts.emptyCommit
                   : `${commits} commits`
               }
             </div>

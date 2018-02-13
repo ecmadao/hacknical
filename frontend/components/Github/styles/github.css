@@ -100,7 +100,8 @@
 }
 
 .timelineContent {
-  width: 120px;
+  width: 140px;
+  text-align: center;
 }
 
 .timelineItem {
