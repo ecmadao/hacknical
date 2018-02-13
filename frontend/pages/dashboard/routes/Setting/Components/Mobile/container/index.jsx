@@ -9,6 +9,7 @@ import styles from '../styles/setting.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
 import locales from 'LOCALES';
 import message from 'SHARED/utils/message';
+import HeartBeat from 'UTILS/heartbeat';
 
 const modalTexts = locales('shareModal');
 const settingTexts = locales('dashboard').setting;
@@ -100,8 +101,8 @@ class MobileSetting extends React.Component {
       inputId: 'resumeShareUrl',
       buttonId: 'resumeCopyButton',
     });
-    Api.github.getUpdateTime().then((result) => {
-      this.setUpdateTime(result);
+    Api.github.updateStatus().then((result) => {
+      this.setUpdateTime(result.lastUpdateTime);
     });
     Api.github.getShareRecords().then((result) => {
       this.initialGithubInfo(result);
@@ -158,8 +159,17 @@ class MobileSetting extends React.Component {
 
   refreshGithubDatas() {
     this.toggleSettingLoading(true);
-    Api.github.refresh().then((result) => {
-      this.setUpdateTime(result);
+    Api.github.update().then(() => {
+      const heartBeat = new HeartBeat({
+        interval: 3000, // 3s
+        callback: () => Api.github.updateStatus().then((result) => {
+          if (result && Number(result.status) === 1) {
+            heartBeat.stop();
+            this.setUpdateTime(result.lastUpdateTime);
+          }
+        })
+      });
+      heartBeat.takeoff();
     });
   }
 

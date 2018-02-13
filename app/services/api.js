@@ -64,37 +64,13 @@ const getUserOrganizations = async (login, token) =>
     qs: { token }
   });
 
-const getUpdateTime = async login =>
-  fetchApi(`/${login}/updateTime`);
+const getUpdateStatus = async login =>
+  fetchApi(`/${login}/update/status`);
 
-const refreshUser = async (login, token) =>
-  fetchApi(`/${login}/refresh`, {
-    qs: { token },
-    timeouts: [null]
-  });
-const refreshHotmap = async (login, token) =>
-  fetchApi(`/${login}/hotmap/refresh`, {
-    qs: { token },
-    timeouts: [null]
-  });
-const refreshRepositories = async (login, token) =>
-  fetchApi(`/${login}/repositories/refresh`, {
-    qs: { token },
-    timeouts: [null]
-  });
-const refreshContributed = async (login, token) =>
-  fetchApi(`/${login}/contributed/refresh`, {
-    qs: { token },
-    timeouts: [null]
-  });
-const refreshCommits = async (login, token) =>
-  fetchApi(`/${login}/commits/refresh`, {
-    qs: { token },
-    timeouts: [null]
-  });
-const refreshOrganizations = async (login, token) =>
-  fetchApi(`/${login}/organizations/refresh`, {
-    qs: { token },
+const updateUserData = async (login, token) =>
+  fetchApi(`/${login}/update`, {
+    method: 'put',
+    body: { token },
     timeouts: [null]
   });
 
@@ -148,14 +124,9 @@ export default {
   getUserCommits,
   getUserOrganizations,
   getUserContributed,
-  getUpdateTime,
   /* ===== */
-  refreshUser,
-  refreshHotmap,
-  refreshRepositories,
-  refreshCommits,
-  refreshOrganizations,
-  refreshContributed,
+  getUpdateStatus,
+  updateUserData,
   /* ===== */
   getHotmap,
   /* ===== */

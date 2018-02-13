@@ -27,6 +27,7 @@ import USER from 'SRC/data/user';
 import Hotmap from 'COMPONENTS/Github/Hotmap';
 import 'SRC/vendor/mobile/github.css';
 import message from 'SHARED/utils/message';
+import HeartBeat from 'UTILS/heartbeat';
 
 const sortByLanguageStar = github.sortByX({ key: 'star' });
 const githubLocales = locales('github');
@@ -96,8 +97,8 @@ class GithubMobileComponent extends React.Component {
   async getRefreshStatus() {
     const { isAdmin } = this.props;
     if (!isAdmin) return;
-    const updateTime = await Api.github.getUpdateTime();
-    this.setRefreshStatus(updateTime);
+    const result = await Api.github.updateStatus();
+    this.setRefreshStatus(result.lastUpdateTime);
   }
 
   setRefreshStatus(updateTime) {
@@ -132,9 +133,18 @@ class GithubMobileComponent extends React.Component {
       return;
     }
     this.setState({ refreshing: true });
-    Api.github.refresh().then((result) => {
-      this.setRefreshStatus(result);
-      window.location.reload(false);
+    Api.github.update().then(() => {
+      const heartBeat = new HeartBeat({
+        interval: 3000, // 3s
+        callback: () => Api.github.updateStatus().then((result) => {
+          if (result && Number(result.status) === 1) {
+            heartBeat.stop();
+            this.setRefreshStatus(result.lastUpdateTime);
+            window.location.reload(false);
+          }
+        })
+      });
+      heartBeat.takeoff();
     });
   }
 

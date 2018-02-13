@@ -23,17 +23,23 @@ class HeartBeat {
       callback
     };
     this.timeout = null;
+    this.enable = true;
   }
 
   takeoff(...args) {
     this.timeout = setTimeout(this.callback(...args), this.state.interval);
   }
 
+  stop() {
+    clearTimeout(this.timeout);
+    this.enable = false;
+  }
+
   callback(...args) {
     const { callback } = this.state;
     return () => toPromise(callback)(...args).then(() => {
       this.clearTimeout();
-      this.takeoff(...args);
+      this.enable && this.takeoff(...args);
     });
   }
 

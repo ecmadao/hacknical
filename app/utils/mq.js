@@ -3,7 +3,7 @@ import config from 'config';
 import logger from './logger';
 
 const mqConfig = config.get('mq');
-const mqName = mqConfig.qname;
+const mqName = mqConfig.channels['qname-messenger'];
 
 const wrap = (func, ...params) =>
   new Promise((resolve, reject) => {

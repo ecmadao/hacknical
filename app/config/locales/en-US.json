@@ -80,6 +80,9 @@
       "hireAvailable": "Hire status was successfully updated",
       "simplifyUrl": "Simplify share url opened",
 			"unSimplifyUrl": "Simplify share url closed"
-	  }
+    },
+    "update": {
+			"pending": "Data is updating in the background"
+		}
   }
 }

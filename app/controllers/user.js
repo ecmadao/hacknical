@@ -5,7 +5,7 @@ import getCacheKey from './helper/cacheKey';
 import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 
-const qName = config.get('mq.qnameRefresh');
+const qName = config.get('mq.channels')['qname-refresh'];
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx);

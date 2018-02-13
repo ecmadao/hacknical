@@ -3,6 +3,7 @@ import Push from 'push.js';
 import objectAssign from 'UTILS/object-assign';
 import Api from 'API';
 import locales from 'LOCALES';
+import HeartBeat from 'UTILS/heartbeat';
 
 const githubLocales = locales('github');
 const updateMsg = githubLocales.message.update;
@@ -23,20 +24,29 @@ const {
 
 // github data update
 const fetchGithubUpdateTime = () => (dispatch) => {
-  Api.github.getUpdateTime().then((result) => {
-    dispatch(setUpdateTime(result));
+  Api.github.updateStatus().then((result) => {
+    dispatch(setUpdateTime(result.lastUpdateTime));
   });
 };
 
 const refreshGithubDatas = () => (dispatch) => {
   dispatch(toggleSettingLoading(true));
-  Api.github.refresh().then((result) => {
-    dispatch(setUpdateTime(result));
-    Push.create(updateMsg.header, {
-      body: updateMsg.body,
-      icon: '/vendor/images/hacknical-logo-nofity.png',
-      timeout: 3000,
+  Api.github.update().then(() => {
+    const heartBeat = new HeartBeat({
+      interval: 3000, // 3s
+      callback: () => Api.github.updateStatus().then((result) => {
+        if (result && Number(result.status) === 1) {
+          heartBeat.stop();
+          dispatch(setUpdateTime(result.lastUpdateTime));
+          Push.create(updateMsg.header, {
+            body: updateMsg.body,
+            icon: '/vendor/images/hacknical-logo-nofity.png',
+            timeout: 3000,
+          });
+        }
+      })
     });
+    heartBeat.takeoff();
   });
 };
 

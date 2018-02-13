@@ -308,15 +308,15 @@ class ResumeContent extends React.Component {
         subText: resumeLocales.sections.others.expectCity
       });
     }
-    if (gender) {
-      const targetGender = GENDERS.filter(item => item.id === gender)[0];
-      if (targetGender) {
-        sliders.push({
-          mainText: targetGender.value,
-          subText: resumeLocales.sections.info.gender
-        });
-      }
-    }
+    // if (gender) {
+    //   const targetGender = GENDERS.filter(item => item.id === gender)[0];
+    //   if (targetGender) {
+    //     sliders.push({
+    //       mainText: targetGender.value,
+    //       subText: resumeLocales.sections.info.gender
+    //     });
+    //   }
+    // }
     return (<Slick sliders={sliders} className={styles.slick} />);
   }
 
