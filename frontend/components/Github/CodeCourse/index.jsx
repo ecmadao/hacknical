@@ -38,7 +38,7 @@ class CodeCourse extends React.Component {
       yearAgoSeconds: getSecondsByDate(yearAgo) - dayOfWeek * SECONDS_PER_DAY,
       maxDateSeconds: getSecondsByDate(getValidateDate()),
       minDateSeconds: getSecondsByDate(dateHelper.date.beforeMonths(1, yearAgo)),
-    }
+    };
   }
 
   getRepositoriesMap() {
@@ -139,7 +139,7 @@ class CodeCourse extends React.Component {
         });
       }
 
-      if (timeline[0].from > minDateSeconds) {
+      if (timeline.length && timeline[0].from > minDateSeconds) {
         timeline.unshift({
           commits: -1,
           to: timeline[0].from,
@@ -233,6 +233,7 @@ class CodeCourse extends React.Component {
       minDateSeconds,
     } = this.state;
     let preToSecond = minDateSeconds;
+    let preCommit = null;
     for (let i = 0; i < timeline.length; i += 1) {
       const item = timeline[i];
       const {
@@ -253,9 +254,9 @@ class CodeCourse extends React.Component {
           }}
           tipsoContent={
             <div className={githubStyles.timelineContent}>
-              {getDateBySeconds(from)}~{getDateBySeconds(to)}<br/>
+              {getDateBySeconds(from)} ~ {getDateBySeconds(to)}<br/>
               {commits === -1
-                  ? `Let it be`
+                  ? githubTexts.emptyCommit
                   : `${commits} commits`
               }
             </div>
@@ -265,6 +266,7 @@ class CodeCourse extends React.Component {
             className={cx(
               githubStyles.timelineItem,
               commits === -1 && githubStyles.timelineOld,
+              preCommit === -1 && githubStyles.timelineNew
             )}
             style={{
               backgroundColor: color,
@@ -272,7 +274,8 @@ class CodeCourse extends React.Component {
           />
         </Tipso>
       );
-      preToSecond = to - SECONDS_PER_DAY;
+      preToSecond = to;
+      preCommit = commits;
     }
     return timelineDOMs;
   }

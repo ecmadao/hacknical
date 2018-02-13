@@ -6,10 +6,6 @@ const putInfo = (url, data = {}) => putData(`/github${url}`, data);
 
 /* get repos & orgs info & user info */
 const getAllRepositories = () => fetchInfo('/repositories/all');
-const fetchHotmap = () => fetchInfo('/hotmap/initial');
-const fetchRepositories = () => fetchInfo('/repositories/initial');
-const fetchCommits = () => fetchInfo('/commits/initial');
-const fetchOrganizations = () => fetchInfo('/organizations/initial');
 
 const getRepositories = login => fetchInfo(`/${login}/repositories`);
 const getContributed = login => fetchInfo(`/${login}/contributed`);
@@ -18,18 +14,14 @@ const getOrganizations = login => fetchInfo(`/${login}/organizations`);
 const getUser = login => fetchInfo(`/${login}/info`);
 const getUserHotmap = login => fetchInfo(`/${login}/hotmap`);
 
-
 /* toggle user github share */
 const toggleShare = enable => patchInfo('/share/status', { enable });
 
 /* get github share records */
 const getShareRecords = () => fetchInfo('/share/records');
 
-const getUpdateTime = () => fetchInfo('/updateTime');
-
-const refresh = () => putInfo('/repositories/refresh')
-  .then(result => result && putInfo('/commits/refresh'))
-  .then(result => result && putInfo('/organizations/refresh'));
+const update = () => putInfo('/update');
+const updateStatus = () => fetchInfo('/update/status');
 
 const zen = () => fetchInfo('/zen');
 const octocat = () => fetchInfo('/octocat');
@@ -46,12 +38,8 @@ export default {
   getOrganizations,
   getAllRepositories,
   // for refresh & initial
-  refresh,
-  fetchHotmap,
-  fetchCommits,
-  getUpdateTime,
-  fetchRepositories,
-  fetchOrganizations,
+  update,
+  updateStatus,
   // share status
   toggleShare,
   getShareRecords,

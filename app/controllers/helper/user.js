@@ -39,6 +39,9 @@ const checkValidateUser = () => async (ctx, next) => {
   const { login } = ctx.params;
   const isValidate = await User.findUserByLogin(login);
   if (!isValidate) {
+    ctx.session.userId = null;
+    ctx.session.githubToken = null;
+    ctx.session.githubLogin = null;
     return ctx.redirect('/404');
   }
   const { githubLogin } = ctx.session;

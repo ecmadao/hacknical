@@ -76,6 +76,7 @@ class Menus extends MenuWrapper {
           top: 'headroom--top-mobile',
           pinned: 'headroom--pinned-mobile'
         }}
+        tabClassName={styles.menuTab}
         wrapperClassName={styles.menuBarWrapper}
         containerClassName={styles.menuBarContainer}>
         <div className={styles.menus}>

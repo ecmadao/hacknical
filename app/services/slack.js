@@ -3,7 +3,7 @@ import { wrapMsg } from '../utils/mq';
 
 const slack = config.get('services.slack');
 const slackUrl = slack.url;
-const qName = config.get('mq.qname');
+const qName = config.get('mq.channels')['qname-messenger'];
 
 class SlackMsg {
   constructor(mq) {

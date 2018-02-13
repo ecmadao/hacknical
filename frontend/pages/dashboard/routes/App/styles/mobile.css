@@ -143,6 +143,10 @@
   font-size: 2em;
 }
 
+.menuTab {
+  border-top: none;
+}
+
 .menuZen {
   margin-bottom: 20px;
   color: var(--oc-white);

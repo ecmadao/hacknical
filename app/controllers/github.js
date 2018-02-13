@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off" */
 import Api from '../services/api';
 import ShareAnalyse from '../models/share-analyse';
-import getCacheKey from './helper/cacheKey';
+import User from '../models/users';
 import {
   combineReposCommits
 } from './helper/github';
@@ -55,42 +55,6 @@ const toggleShare = async (ctx) => {
   ctx.body = {
     success: true,
     message: ctx.__(message)
-  };
-};
-
-const fetchHotmap = async (ctx) => {
-  const { githubLogin, locale } = ctx.session;
-  await Api.getHotmap(githubLogin, locale);
-  ctx.body = {
-    success: true,
-    result: 'Fetch hotmap success'
-  };
-};
-
-const fetchRepositories = async (ctx) => {
-  const { githubLogin, githubToken } = ctx.session;
-  await Api.getUserRepositories(githubLogin, githubToken);
-  ctx.body = {
-    success: true,
-    result: 'Fetch repositories success'
-  };
-};
-
-const fetchCommits = async (ctx) => {
-  const { githubLogin, githubToken } = ctx.session;
-  await Api.getUserCommits(githubLogin, githubToken);
-  ctx.body = {
-    success: true,
-    result: 'Fetch commits success'
-  };
-};
-
-const fetchOrganizations = async (ctx) => {
-  const { githubLogin, githubToken } = ctx.session;
-  await Api.getUserOrganizations(githubLogin, githubToken);
-  ctx.body = {
-    success: true,
-    result: 'Fetch orgs success'
   };
 };
 
@@ -244,121 +208,28 @@ const getShareRecords = async (ctx) => {
   };
 };
 
-const getUpdateTime = async (ctx) => {
-  const { githubLogin } = ctx.session;
-  const result = await Api.getUpdateTime(githubLogin);
+const getUpdateStatus = async (ctx) => {
+  const { githubLogin, userId } = ctx.session;
+  const result = await Api.getUpdateStatus(githubLogin);
+  if (result && Number(result.status) === 1) {
+    await User.updateUserInfo({
+      userId,
+      initialed: true
+    });
+  }
   ctx.body = {
     result,
     success: true,
   };
 };
 
-const refreshRepositories = async (ctx, next) => {
+const updateUserData = async (ctx) => {
   const { githubToken, githubLogin } = ctx.session;
-  await Api.refreshUser(githubLogin, githubToken);
-  await Api.refreshHotmap(githubLogin, githubToken);
-  const result = await Api.refreshRepositories(githubLogin, githubToken);
-  if (result.success === false) {
-    const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
-    ctx.body = {
-      error,
-      result: null,
-      success: true,
-    };
-    return;
-  }
-
-  await Api.refreshContributed(githubLogin, githubToken);
-
-  // set cache keys to remove
-  const cacheKey = getCacheKey(ctx);
-  ctx.query.deleteKeys = [
-    cacheKey('user-repositories', {
-      session: ['githubLogin']
-    }),
-    cacheKey('user-contributed', {
-      session: ['githubLogin']
-    }),
-    cacheKey('allRepositories', {
-      session: ['githubLogin']
-    }),
-    cacheKey('user-github', {
-      session: ['githubLogin']
-    }),
-    cacheKey('user-hotmap', {
-      session: ['githubLogin', 'locale']
-    }),
-  ];
-
+  await Api.updateUserData(githubLogin, githubToken);
   ctx.body = {
-    result,
+    message: ctx.__('messages.update.pending'),
     success: true,
-    message: ctx.__('messages.success.updateRepos'),
   };
-
-  await next();
-};
-
-const refreshCommits = async (ctx, next) => {
-  const { githubToken, githubLogin } = ctx.session;
-  const result = await Api.refreshCommits(githubLogin, githubToken);
-
-  if (result.success === false) {
-    const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
-    ctx.body = {
-      error,
-      result: null,
-      success: true,
-    };
-    return;
-  }
-
-  // set cache keys to remove
-  const cacheKey = getCacheKey(ctx);
-  ctx.query.deleteKeys = [
-    cacheKey('user-commits', {
-      session: ['githubLogin']
-    })
-  ];
-
-  ctx.body = {
-    result,
-    success: true,
-    message: ctx.__('messages.success.updateCommits'),
-  };
-
-  await next();
-};
-
-const refreshOrganizations = async (ctx, next) => {
-  const { githubToken, githubLogin } = ctx.session;
-  const result = await Api.refreshOrganizations(githubLogin, githubToken);
-
-  if (result.success === false) {
-    const error = result.error || ctx.__('messages.error.frequent').replace(/%s/, result.result);
-    ctx.body = {
-      error,
-      result: null,
-      success: true,
-    };
-    return;
-  }
-
-  // set cache keys to remove
-  const cacheKey = getCacheKey(ctx);
-  ctx.query.deleteKeys = [
-    cacheKey('user-organizations', {
-      session: ['githubLogin']
-    })
-  ];
-
-  ctx.body = {
-    result,
-    success: true,
-    message: ctx.__('messages.success.updateOrgs'),
-  };
-
-  await next();
 };
 
 const getZen = async (ctx) => {
@@ -392,10 +263,6 @@ const getUserHotmap = async (ctx, next) => {
 
 export default {
   githubPage,
-  fetchHotmap,
-  fetchCommits,
-  fetchRepositories,
-  fetchOrganizations,
   getAllRepositories,
   // github info
   getUser,
@@ -407,10 +274,8 @@ export default {
   getUserRepositories,
   getUserOrganizations,
   /* ===== refresh & update ====== */
-  getUpdateTime,
-  refreshCommits,
-  refreshRepositories,
-  refreshOrganizations,
+  getUpdateStatus,
+  updateUserData,
   /* ========== */
   getZen,
   getOctocat,

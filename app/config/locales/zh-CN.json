@@ -80,6 +80,9 @@
 			"hireAvailable": "求职状态更新成功",
 			"simplifyUrl": "已开启简化的分享链接",
 			"unSimplifyUrl": "已关闭简化的分享链接"
+		},
+		"update": {
+			"pending": "数据在后台更新中"
 		}
   }
 }

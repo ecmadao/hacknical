@@ -13,6 +13,15 @@
   border-top: 1px solid var(--oc-gray-3);
 }
 
+.hacknical-footer-en {
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+}
+
+.hacknical-footer-zh {
+  font-weight: 300;
+  font-family: 'Noto Sans SC', 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+}
+
 .footer-wrapper {
   width: 80%;
   height: 100%;

@@ -2,7 +2,7 @@ import config from 'config';
 import { wrapMsg } from '../utils/mq';
 
 const sendcloud = config.get('services.sendcloud');
-const qName = config.get('mq.qname');
+const qName = config.get('mq.channels')['qname-messenger'];
 const EMAIL_URL = sendcloud.url;
 const API_USER = sendcloud.user;
 const API_KEY = sendcloud.key;

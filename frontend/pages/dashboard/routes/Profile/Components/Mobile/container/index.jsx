@@ -61,7 +61,7 @@ class MobileProfile extends React.Component {
       this.reset();
       this.fetchData();
     }
-    if (this.loading) { return; }
+    if (this.loading) return;
     this.renderCharts();
   }
 
@@ -328,8 +328,7 @@ class MobileProfile extends React.Component {
             </div>
           </div>
         </div>
-
-        {this.loading ? (<Loading loading />) : this.renderCardInfo()}
+        {this.loading ? <Loading loading className={styles.loading} /> : this.renderCardInfo()}
         {this.renderChartCard('viewDevices')}
         {this.renderChartCard('viewSources')}
 

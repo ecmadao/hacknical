@@ -69,3 +69,10 @@
 .chartCard {
   margin-bottom: 15px;
 }
+
+.loading {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}

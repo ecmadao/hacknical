@@ -89,6 +89,20 @@ const setResume = async (ctx, next) => {
     let checkResult = await ResumePub.findOne({ userId });
     if (!checkResult.success) {
       checkResult = await ResumePub.addPubResume(userId, githubLogin);
+      const {
+        openShare,
+        resumeHash,
+      } = checkResult.result;
+      await ctx.cache.hset('share-resume-login', githubLogin, JSON.stringify({
+        userId,
+        openShare,
+        resumeHash,
+      }));
+      await ctx.cache.hset('share-resume-hash', resumeHash, JSON.stringify({
+        userId,
+        openShare,
+        login: githubLogin,
+      }));
     }
     resumeInfo = checkResult.success ? {
       useGithub: checkResult.result.useGithub,

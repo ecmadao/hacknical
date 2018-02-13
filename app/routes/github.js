@@ -30,59 +30,23 @@ router.get(
   GitHub.getAllRepositories,
   cache.set()
 );
-router.get(
-  '/repositories/initial',
-  user.checkIfLogin(),
-  GitHub.fetchRepositories,
-);
-router.get(
-  '/hotmap/initial',
-  user.checkIfLogin(),
-  GitHub.fetchHotmap,
-);
 
-// commits
-router.get(
-  '/commits/initial',
-  user.checkIfLogin(),
-  GitHub.fetchCommits,
-);
-
-// orgs
-router.get(
-  '/organizations/initial',
-  user.checkIfLogin(),
-  GitHub.fetchOrganizations,
-);
 router.get(
   '/share/records',
   user.checkIfLogin(),
   GitHub.getShareRecords
 );
-router.get(
-  '/updateTime',
-  user.checkIfLogin(),
-  GitHub.getUpdateTime
-);
 
 // refresh github datas
 router.put(
-  '/repositories/refresh',
+  '/update',
   user.checkIfLogin(),
-  GitHub.refreshRepositories,
-  cache.del()
+  GitHub.updateUserData
 );
-router.put(
-  '/commits/refresh',
+router.get(
+  '/update/status',
   user.checkIfLogin(),
-  GitHub.refreshCommits,
-  cache.del()
-);
-router.put(
-  '/organizations/refresh',
-  user.checkIfLogin(),
-  GitHub.refreshOrganizations,
-  cache.del()
+  GitHub.getUpdateStatus,
 );
 
 router.patch(

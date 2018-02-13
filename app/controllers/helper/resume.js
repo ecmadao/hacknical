@@ -53,13 +53,17 @@ const checkValidateByLogin = (key = 'query.login') => async (ctx, next) => {
   const login = getValue(ctx, key);
   const { githubLogin } = ctx.session;
   const shareInfoStr = await ctx.cache.hget('share-resume-login', login);
-  if (!shareInfoStr) return ctx.redirect('/404');
-  const {
-    openShare,
-    resumeHash,
-  } = JSON.parse(shareInfoStr);
-  if (!openShare && login !== githubLogin) return ctx.redirect('/404');
-  ctx.query.hash = resumeHash;
+  if (!shareInfoStr) {
+    if (login !== githubLogin) return ctx.redirect('/404');
+    ctx.query.hash = '';
+  } else {
+    const {
+      openShare,
+      resumeHash,
+    } = JSON.parse(shareInfoStr);
+    if (!openShare && login !== githubLogin) return ctx.redirect('/404');
+    ctx.query.hash = resumeHash;
+  }
   await next();
 };
 
