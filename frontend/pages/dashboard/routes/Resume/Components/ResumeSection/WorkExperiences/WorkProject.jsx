@@ -2,7 +2,6 @@ import React from 'react';
 import cx from 'classnames';
 import { InputGroup } from 'light-ui';
 import { TipsoInput } from '../components';
-
 import WritableList from 'COMPONENTS/WritableList';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
@@ -55,7 +54,6 @@ class WorkProject extends React.Component {
         <div className={styles.project_name_wrapper}>
           <InputGroup
             theme="flat"
-            tipsoTheme="dark"
             value={project.name}
             disabled={disabled}
             className={styles.last_input}

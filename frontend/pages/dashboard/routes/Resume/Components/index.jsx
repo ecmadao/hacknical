@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import { Button, IconButton, Tipso } from 'light-ui';
 
 import styles from '../styles/resume.css';
-import { RESUME_SECTIONS } from 'SHARED/datas/resume';
 import ShareModal from 'SHARED/components/ShareModal';
 import ResumeSection from './ResumeSection';
 import ResumeModal from './ResumeModal';
@@ -18,28 +17,10 @@ import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
 import ResumeFormatter from 'SHARED/components/ResumeStateWrapper/ResumeFormatter';
 import message from 'SHARED/utils/message';
+import { INTROS } from 'SHARED/datas/resume';
 
 const resumeTexts = locales('resume');
 const editedConfirm = resumeTexts.editedConfirm
-const INTROS = [
-  {
-    title: '使用说明',
-    texts: [
-      '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
-      'shift + <-/-> 切换上一步/下一步',
-      '点击 "预览"（或 cmd/win + p ）以预览当前简历',
-    ]
-  },
-  {
-    title: '小建议',
-    texts: [
-      '技术热情很重要',
-      '请展现你的做事态度',
-      '大家都喜欢学习能力强，能够自我进步的人',
-      '技术经验越多越好；但如果缺乏，至少要表现出成长潜力'
-    ]
-  }
-];
 
 class Resume extends React.Component {
   constructor(props) {
@@ -49,7 +30,6 @@ class Resume extends React.Component {
       openIntroModal: false,
       openShareModal: false,
       openTemplateModal: false,
-      activeSection: RESUME_SECTIONS[0].id
     };
     this.onBeforeUnload = this.onBeforeUnload.bind(this);
     this.downloadResume = this.downloadResume.bind(this);
@@ -151,17 +131,13 @@ class Resume extends React.Component {
   }
 
   handleSectionChange(id) {
-    const { activeSection } = this.state;
-    if (activeSection !== id) {
-      this.setState({
-        activeSection: id
-      });
-    }
+    this.props.actions.handleActiveSectionChange(id);
   }
 
   renderNavigation() {
-    const { activeSection } = this.state;
-    return RESUME_SECTIONS.map((section, index) => {
+    const { resume } = this.props;
+    const { activeSection, sections } = resume;
+    return sections.map((section, index) => {
       const { id, text } = section;
       const sectionClass = cx(
         styles.resume_section,
@@ -176,14 +152,14 @@ class Resume extends React.Component {
             {text}
           </div>
         </div>
-      )
+      );
     });
   }
 
   get currentIndex() {
-    const { activeSection } = this.state;
+    const { activeSection, sections } = this.props.resume;
     let currentIndex = 0;
-    RESUME_SECTIONS.forEach((section, index) => {
+    sections.forEach((section, index) => {
       if (section.id === activeSection) {
         currentIndex = index;
       }
@@ -192,30 +168,37 @@ class Resume extends React.Component {
   }
 
   handleSectionIndexChange(index) {
-    const section = RESUME_SECTIONS[index];
+    const section = this.props.resume.sections[index];
     this.handleSectionChange(section.id);
   }
 
   render() {
     const {
       openModal,
-      activeSection,
       openIntroModal,
       openShareModal,
       openTemplateModal,
     } = this.state;
-    const { login, resume, actions } = this.props;
-    const { shareInfo, downloadDisabled, loading } = resume;
+    const {
+      login,
+      resume,
+      actions,
+    } = this.props;
+    const {
+      loading,
+      sections,
+      shareInfo,
+      activeSection,
+      downloadDisabled,
+    } = resume;
     const { url, openShare, template } = shareInfo;
 
     const origin = window.location.origin;
     const currentIndex = this.currentIndex;
-    const max = RESUME_SECTIONS.length;
+    const max = sections.length;
 
     return (
-      <div
-        className={styles.resume_container}
-      >
+      <div className={styles.resume_container}>
         <div id="resume_navigation" className={styles.resume_navigation}>
           {this.renderNavigation()}
         </div>
@@ -339,7 +322,7 @@ class Resume extends React.Component {
             onClose={() => this.handleTemplateModalStatus(false)}
             onTemplateChange={actions.postShareTemplate}
           />
-        ) : ''}
+        ) : null}
       </div>
     );
   }

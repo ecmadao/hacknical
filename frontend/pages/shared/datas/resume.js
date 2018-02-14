@@ -5,28 +5,60 @@ const navTexts = resumeTexts.navs;
 const genderTexts = resumeTexts.options.genders;
 const eduTexts = resumeTexts.options.edus;
 
-export const RESUME_SECTIONS = [
-  {
-    id: 'info',
-    text: navTexts.info
-  },
-  {
-    id: 'educations',
-    text: navTexts.edu
-  },
-  {
-    id: 'workExperiences',
-    text: navTexts.work
-  },
-  {
-    id: 'personalProjects',
-    text: navTexts.projects
-  },
-  {
-    id: 'others',
-    text: navTexts.others
-  }
-];
+const RESUME_SECTION_IDS = {
+  INFO: 'info',
+  EDUCATIONS: 'educations',
+  WORK_EXPERIENCE: 'workExperiences',
+  PERSONAL_PROJECTS: 'personalProjects',
+  OTHERS: 'others',
+};
+
+export const RESUME_SECTIONS = {
+  normal: [
+    {
+      id: RESUME_SECTION_IDS.INFO,
+      text: navTexts.info
+    },
+    {
+      id: RESUME_SECTION_IDS.WORK_EXPERIENCE,
+      text: navTexts.work,
+    },
+    {
+      id: RESUME_SECTION_IDS.PERSONAL_PROJECTS,
+      text: navTexts.projects
+    },
+    {
+      id: RESUME_SECTION_IDS.EDUCATIONS,
+      text: navTexts.edu,
+    },
+    {
+      id: RESUME_SECTION_IDS.OTHERS,
+      text: navTexts.others
+    }
+  ],
+  freshGraduate: [
+    {
+      id: RESUME_SECTION_IDS.INFO,
+      text: navTexts.info
+    },
+    {
+      id: RESUME_SECTION_IDS.EDUCATIONS,
+      text: navTexts.inSchool,
+    },
+    {
+      id: RESUME_SECTION_IDS.WORK_EXPERIENCE,
+      text: navTexts.internship,
+    },
+    {
+      id: RESUME_SECTION_IDS.PERSONAL_PROJECTS,
+      text: navTexts.projects
+    },
+    {
+      id: RESUME_SECTION_IDS.OTHERS,
+      text: navTexts.others
+    }
+  ]
+};
 
 export const GENDERS = [
   {
@@ -116,6 +148,7 @@ export const INFO = {
   avator: '',
   intention: '',
   hireAvailable: false,
+  freshGraduate: false,
 };
 
 export const EDU = {
@@ -124,6 +157,7 @@ export const EDU = {
   education: EDUCATIONS[0].id,
   startTime: '',
   endTime: '',
+  experiences: [],
 };
 
 export const WORK_EXPERIENCE = {
@@ -156,3 +190,23 @@ export const OTHERS = {
   supplements: [],
   socialLinks: [...SOCIAL_LINKS]
 };
+
+export const INTROS = [
+  {
+    title: '使用说明',
+    texts: [
+      '逐步完善你的简历，随时可以通过 cmd/win + s 快捷键保存简历',
+      'shift + <-/-> 切换上一步/下一步',
+      '点击 "预览"（或 cmd/win + p ）以预览当前简历',
+    ]
+  },
+  {
+    title: '小建议',
+    texts: [
+      '技术热情很重要',
+      '请展现你的做事态度',
+      '大家都喜欢学习能力强，能够自我进步的人',
+      '技术经验越多越好；但如果缺乏，至少要表现出成长潜力'
+    ]
+  }
+];

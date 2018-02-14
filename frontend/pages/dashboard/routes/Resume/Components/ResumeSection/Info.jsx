@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input, SelectorV2, Switcher } from 'light-ui';
-
 import resumeActions from '../../redux/actions';
 import { GENDERS } from 'SHARED/datas/resume';
 import styles from '../../styles/resume.css';
@@ -56,16 +55,16 @@ class Info extends React.Component {
         </div>
         <div className={styles.resume_wrapper}>
           <Input
-            value={name}
-            placeholder={resumeTexts.name}
             theme="flat"
+            value={name}
             disabled={disabled}
+            placeholder={resumeTexts.name}
             onChange={this.handleInfoChange('name')}
           />
           <SelectorV2
+            theme="flat"
             value={gender}
             options={GENDERS}
-            theme="flat"
             disabled={disabled}
             onChange={this.handleInfoChange('gender')}
           />
@@ -73,60 +72,57 @@ class Info extends React.Component {
         <div className={styles.resume_wrapper}>
           <Input
             type="email"
-            value={email}
-            placeholder={resumeTexts.email}
             theme="flat"
+            value={email}
             disabled={disabled}
+            placeholder={resumeTexts.email}
             onChange={this.handleInfoChange('email')}
           />
           <Input
             type="phone"
-            value={phone}
-            placeholder={resumeTexts.phone}
             theme="flat"
-            formatType="phone"
+            value={phone}
             disabled={disabled}
+            placeholder={resumeTexts.phone}
             onChange={this.handleInfoChange('phone')}
           />
         </div>
         <div className={styles.resume_wrapper}>
           <Input
-            value={intention}
-            placeholder={resumeTexts.job}
             theme="flat"
+            value={intention}
             disabled={disabled}
+            placeholder={resumeTexts.job}
             onChange={this.handleInfoChange('intention')}
           />
           <Input
-            value={location}
-            placeholder={resumeTexts.position}
             theme="flat"
+            value={location}
             disabled={disabled}
+            placeholder={resumeTexts.position}
             onChange={this.handleInfoChange('location')}
           />
         </div>
         <div className={styles.resumeRow}>
-          {/*
           <div className={styles.resumeSwitcherWrapper}>
             {resumeTexts.freshGraduate}
             &nbsp;&nbsp;
             <Switcher
-              onChange={this.handleResumeTypeChange}
-              checked={freshGraduate}
               version="v2"
               disabled={disabled}
+              checked={freshGraduate}
+              onChange={this.handleResumeTypeChange}
             />
           </div>
           &nbsp;&nbsp;&nbsp;
-          */}
           <div className={styles.resumeSwitcherWrapper}>
             {resumeTexts.hireAvailable}
             &nbsp;&nbsp;
             <Switcher
-              onChange={this.handleAvailableChange}
-              checked={hireAvailable}
               version="v2"
               disabled={disabled}
+              checked={hireAvailable}
+              onChange={this.handleAvailableChange}
             />
           </div>
         </div>

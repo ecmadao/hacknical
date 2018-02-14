@@ -62,11 +62,11 @@ class WorkExperiences extends React.Component {
         index={index}
         disabled={disabled}
         workExperience={workExperience}
-        deleteExperience={this.deleteExperience(index)}
-        handleExperienceChange={this.handleExperienceChange(index)}
         addProject={this.addProject(index)}
         deleteProject={this.deleteProject(index)}
+        deleteExperience={this.deleteExperience(index)}
         handleProjectChange={this.handleProjectChange(index)}
+        handleExperienceChange={this.handleExperienceChange(index)}
       />
     ));
   }

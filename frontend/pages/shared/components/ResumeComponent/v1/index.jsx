@@ -10,6 +10,7 @@ import styles from './resume_v1.css';
 import statusLabels from '../shared/StatusLabels';
 import AsyncGithub from '../shared/AsyncGithub';
 import locales from 'LOCALES';
+import getSectionTitle from '../shared/title';
 
 const resumeLocales = locales('resume');
 const { hoursBefore } = dateHelper.relative;
@@ -48,7 +49,7 @@ const linkInfo = (options) => {
       <i className="fa fa-link" aria-hidden="true" />&nbsp;
       {title}
     </a>
-  ) : (<div className={headerClass}>{title}</div>);
+  ) : <div className={headerClass}>{title}</div>;
 };
 
 const baseInfo = (text, icon, options = {}) => info(objectassign({}, {
@@ -78,12 +79,26 @@ class ResumeComponentV1 extends React.PureComponent {
     this.setState({ showGithub });
   }
 
-  renderEducations() {
-    const { educations } = this.props.resume;
+  renderEducations(key) {
+    const { resume } = this.props;
+    const { info, educations } = resume;
 
     const edus = educations
       .map((edu, index) => {
-        const { school, major, education, startTime, endTime } = edu;
+        const {
+          major,
+          school,
+          endTime,
+          education,
+          startTime,
+          experiences,
+        } = edu;
+
+        const experienceDetails = experiences.map((experience, i) => (
+          <li key={i}>
+            {experience}
+          </li>
+        ));
         return (
           <div key={index} className={styles.section_wrapper}>
             <div className={cx(styles.info_header, styles.info_header_large)}>
@@ -93,15 +108,19 @@ class ResumeComponentV1 extends React.PureComponent {
               {startTime}  ~  {endTime}
             </div>
             <div className={styles.info_text}>{major}</div>
+            {info.freshGraduate ? (
+              <ul className={styles.info_intro}>
+                {experienceDetails}
+              </ul>
+            ) : null}
           </div>
         );
       });
 
-    if (!edus.length) { return; }
-
+    if (!edus.length) return null;
     return (
-      <div className={styles.section}>
-        {titleInfo(resumeLocales.sections.edu.title, 'university')}
+      <div className={styles.section} key={key}>
+        {titleInfo(getSectionTitle(resume, resumeLocales, 'edu'), 'university')}
         <div className={styles.info_timeline}>
           {edus}
         </div>
@@ -109,8 +128,9 @@ class ResumeComponentV1 extends React.PureComponent {
     );
   }
 
-  renderWorkExperiences() {
-    const { workExperiences } = this.props.resume;
+  renderWorkExperiences(key) {
+    const { resume } = this.props;
+    const { workExperiences } = resume;
 
     const exps = workExperiences
       .map((experience, index) => {
@@ -136,11 +156,10 @@ class ResumeComponentV1 extends React.PureComponent {
         );
       });
 
-    if (!exps.length) { return; }
-
+    if (!exps.length) return null;
     return (
-      <div className={styles.section}>
-        {titleInfo(resumeLocales.sections.work.title, 'file-text-o')}
+      <div className={styles.section} key={key}>
+        {titleInfo(getSectionTitle(resume, resumeLocales, 'work'), 'file-text-o')}
         <div className={styles.info_timeline}>
           {exps}
         </div>
@@ -167,7 +186,7 @@ class ResumeComponentV1 extends React.PureComponent {
     });
   }
 
-  renderPersonalProjects() {
+  renderPersonalProjects(key) {
     const { personalProjects } = this.props.resume;
 
     const projects = personalProjects
@@ -196,10 +215,9 @@ class ResumeComponentV1 extends React.PureComponent {
         );
       });
 
-    if (!projects.length) { return; }
-
+    if (!projects.length) return null;
     return (
-      <div className={styles.section}>
+      <div className={styles.section} key={key}>
         {titleInfo(resumeLocales.sections.projects.title, 'code')}
         <div className={styles.info_wrapper}>
           {projects}
@@ -208,10 +226,10 @@ class ResumeComponentV1 extends React.PureComponent {
     );
   }
 
-  renderSupplements() {
+  renderSupplements(key) {
     const { others } = this.props.resume;
     const { supplements } = others;
-    if (!supplements.length) { return; }
+    if (!supplements.length) return null;
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li key={index}>
@@ -220,7 +238,7 @@ class ResumeComponentV1 extends React.PureComponent {
     ));
 
     return (
-      <div className={styles.section}>
+      <div className={styles.section} key={key}>
         {titleInfo(resumeLocales.sections.others.selfAssessment, 'quote-left')}
         <div className={styles.info_wrapper}>
           <ul className={styles.info_intro}>
@@ -231,10 +249,10 @@ class ResumeComponentV1 extends React.PureComponent {
     );
   }
 
-  renderSocialLinks() {
+  renderSocialLinks(key) {
     const { others } = this.props.resume;
     const { socialLinks } = others;
-    if (!socialLinks.length) { return null; }
+    if (!socialLinks.length) return null;
 
     const socials = socialLinks.map((social, index) => {
       const { url, text } = social;
@@ -257,7 +275,7 @@ class ResumeComponentV1 extends React.PureComponent {
     });
 
     return (
-      <div className={styles.section}>
+      <div className={styles.section} key={key}>
         {titleInfo(resumeLocales.sections.others.links.title, 'link')}
         <div className={styles.info_wrapper}>
           <ul className={styles.info_intro}>
@@ -268,11 +286,42 @@ class ResumeComponentV1 extends React.PureComponent {
     );
   }
 
+  renderResumeSections() {
+    const { resume } = this.props;
+    const { info } = resume;
+    const { freshGraduate } = info;
+    let sectionFuncs = [];
+    if (freshGraduate) {
+      sectionFuncs = [
+        this.renderEducations,
+        this.renderWorkExperiences,
+        this.renderPersonalProjects,
+        this.renderSupplements,
+        this.renderSocialLinks,
+      ];
+    } else {
+      sectionFuncs = [
+        this.renderWorkExperiences,
+        this.renderPersonalProjects,
+        this.renderEducations,
+        this.renderSupplements,
+        this.renderSocialLinks,
+      ];
+    }
+    return sectionFuncs.map((func, index) => func.call(this, index));
+  }
+
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login, updateText } = this.props;
-    const { others, updateAt, educations, workExperiences } = resume;
-    const resumeInfo = resume.info || {};
+    const {
+      info,
+      others,
+      updateAt,
+      educations,
+      workExperiences
+    } = resume;
+    const resumeInfo = info || {};
     const { useGithub, github, githubUrl } = shareInfo;
     const its = resumeInfo.gender === 'male'
       ? resumeLocales.options.person.male
@@ -316,11 +365,7 @@ class ResumeComponentV1 extends React.PureComponent {
           )}
         >
           <div className={styles.left}>
-            {this.renderEducations()}
-            {this.renderWorkExperiences()}
-            {this.renderPersonalProjects()}
-            {this.renderSupplements()}
-            {this.renderSocialLinks()}
+            {this.renderResumeSections()}
           </div>
           <div className={styles.right}>
             {baseInfo(resumeInfo.name, resumeInfo.gender, { style: styles.user_title })}
@@ -332,7 +377,7 @@ class ResumeComponentV1 extends React.PureComponent {
             <br />
             {resumeInfo.phone
               ? (baseInfo(resumeInfo.phone, 'mobile', { style: styles.right_info }))
-              : ''
+              : null
             }
             {resumeInfo.email
               ? (baseInfo(null, 'envelope-o', {
@@ -345,17 +390,17 @@ class ResumeComponentV1 extends React.PureComponent {
                   </a>
                 )
               }))
-              : ''
+              : null
             }
             {resumeInfo.location
               ? baseInfo(`${resumeInfo.location}   ${resumeInfo.intention}`, 'map-marker', { style: styles.right_info })
-              : ''
+              : null
             }
             {others.dream ? (
               <div className={styles.user_dream}>
                 {baseInfo(others.dream, 'quote-left', { style: styles.right_info })}
               </div>
-            ) : ''}
+            ) : null}
             {useGithub ? (
               baseInfo(null, 'github', {
                 component: githubUrl ? (
@@ -374,7 +419,7 @@ class ResumeComponentV1 extends React.PureComponent {
                   </a>
                 )
               })
-            ) : ''}
+            ) : null}
             <br />
             {updateAt ? (
               baseInfo(
@@ -382,7 +427,7 @@ class ResumeComponentV1 extends React.PureComponent {
                 'exclamation-circle',
                 { style: styles.right_info_tip }
               )
-            ) : ''}
+            ) : null}
           </div>
         </div>
       </div>
@@ -398,8 +443,8 @@ ResumeComponentV1.propTypes = {
 
 ResumeComponentV1.defaultProps = {
   resume: {},
+  login: '',
   shareInfo: {},
-  login: ''
 };
 
 export default ResumeComponentV1;

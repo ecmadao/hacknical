@@ -56,19 +56,21 @@ const formatResume = (resume) => {
     .reverse()
     .map((edu) => {
       const {
-        school,
         major,
+        school,
+        endTime,
         education,
         startTime,
-        endTime
+        experiences = []
       } = edu;
 
       return {
         school,
         major,
         education,
-        startTime: validateDate(startTime),
+        experiences,
         endTime: validateDate(endTime),
+        startTime: validateDate(startTime),
       };
     });
 

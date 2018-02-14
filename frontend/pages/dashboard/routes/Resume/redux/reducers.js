@@ -4,9 +4,10 @@ import {
   EDU,
   INFO,
   OTHERS,
-  WORK_EXPERIENCE,
   WORK_PROJECT,
+  WORK_EXPERIENCE,
   PERSONAL_PROJECT,
+  RESUME_SECTIONS,
 } from 'SHARED/datas/resume';
 import {
   objectassign,
@@ -33,7 +34,9 @@ const initialState = {
     resumeHash: '',
     template: 'v1',
   },
-  downloadDisabled: false
+  downloadDisabled: false,
+  sections: RESUME_SECTIONS.normal,
+  activeSection: RESUME_SECTIONS.normal[0].id,
 };
 
 
@@ -42,14 +45,19 @@ const reducers = handleActions({
   INITIAL_RESUME(state, action) {
     const {
       info,
+      others,
       educations,
       workExperiences,
       personalProjects,
-      others
     } = action.payload;
+    const sections = info.freshGraduate
+      ? RESUME_SECTIONS.freshGraduate
+      : RESUME_SECTIONS.normal;
     return ({
       ...state,
       loading: false,
+      sections: [...sections],
+      activeSection: sections[0].id,
       info: objectassign(state.info, info),
       educations: [...educations],
       workExperiences: [...workExperiences],
@@ -79,13 +87,26 @@ const reducers = handleActions({
       edited: false,
     });
   },
+  HANDLE_ACTIVE_SECTION_CHANGE(state, action) {
+    return ({
+      ...state,
+      activeSection: action.payload
+    });
+  },
   // info
   HANDLE_INFO_CHANGE(state, action) {
     const { info } = state;
+    const {
+      freshGraduate = info.freshGraduate
+    } = action.payload;
+    const sections = freshGraduate
+      ? RESUME_SECTIONS.freshGraduate
+      : RESUME_SECTIONS.normal;
     return ({
       ...state,
       edited: true,
-      info: objectassign(info, action.payload)
+      sections: [...sections],
+      info: objectassign(info, action.payload),
     });
   },
   HANDLE_EDIT_CHANGE(state, action) {

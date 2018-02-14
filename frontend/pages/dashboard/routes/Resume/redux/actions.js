@@ -44,6 +44,8 @@ const saveResume = () => (dispatch, getState) => {
   });
 };
 
+const handleActiveSectionChange = createAction('HANDLE_ACTIVE_SECTION_CHANGE');
+
 /**
  * loading
  */
@@ -198,6 +200,7 @@ const downloadResume = () => (dispatch, getState) => {
 };
 
 export default {
+  handleActiveSectionChange,
   // initial
   initialResume,
   fetchResume,

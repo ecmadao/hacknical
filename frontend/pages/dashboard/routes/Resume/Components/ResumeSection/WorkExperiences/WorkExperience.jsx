@@ -58,12 +58,12 @@ class WorkExperience extends React.Component {
     } = this.props;
     const {
       url,
-      company,
-      position,
-      startTime,
       endTime,
       projects,
       untilNow,
+      company,
+      position,
+      startTime,
     } = workExperience;
 
     return (
@@ -75,7 +75,6 @@ class WorkExperience extends React.Component {
           <InputGroup
             value={company}
             theme="flat"
-            tipsoTheme="dark"
             disabled={disabled}
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}

@@ -2,7 +2,7 @@
 
 .slider_container {
   flex: 1;
-  margin: 10px 0;
+  margin: 0 0 10px;
   user-select: none;
 }
 
@@ -10,7 +10,7 @@
   flex: 1;
   display: flex;
   flex-direction: row;
-  margin-top: -10px;
+  margin-top: -20px;
 }
 
 .slider_tipso {

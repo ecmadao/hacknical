@@ -2,10 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input } from 'light-ui';
-
 import resumeActions from '../../redux/actions';
 import WritableList from 'COMPONENTS/WritableList';
-import FormatInput from 'COMPONENTS/FormatInput';
 import SocialLink from './SocialLink';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
@@ -44,7 +42,7 @@ class Others extends React.Component {
   changeSocialLink(index) {
     return (value) => {
       this.props.actions.changeSocialLink(value, index);
-    }
+    };
   }
 
   renderSocialLinks() {
@@ -61,10 +59,10 @@ class Others extends React.Component {
   render() {
     const {
       dream,
-      expectSalary,
+      disabled,
       supplements,
+      expectSalary,
       expectLocation,
-      disabled
     } = this.props;
 
     return (
@@ -74,38 +72,37 @@ class Others extends React.Component {
             {resumeTexts.title}
           </div>
           <div className={styles.resume_wrapper}>
-            <FormatInput
+            <Input
+              theme="flat"
+              type="number"
+              disabled={disabled}
               value={expectSalary}
               placeholder={resumeTexts.expectSalary}
-              formatType="number"
-              theme="flat"
-              id="input-expect-salary"
-              disabled={disabled}
               onChange={this.handleOthersChange('expectSalary')}
             />
             <Input
-              value={expectLocation}
-              placeholder={resumeTexts.expectCity}
               theme="flat"
               disabled={disabled}
+              value={expectLocation}
+              placeholder={resumeTexts.expectCity}
               onChange={this.handleOthersChange('expectLocation')}
             />
           </div>
           <div className={styles.resume_wrapper}>
             <Input
-              value={dream}
-              placeholder={resumeTexts.yourDream}
               theme="flat"
+              value={dream}
               disabled={disabled}
+              placeholder={resumeTexts.yourDream}
               onChange={this.handleOthersChange('dream')}
             />
           </div>
           <WritableList
             items={supplements}
-            introText={resumeTexts.introText}
             onAdd={this.addSupplement}
             onDelete={this.deleteSupplement}
             onChange={this.changeSupplement}
+            introText={resumeTexts.introText}
             placeholder={resumeTexts.personalIntro}
           />
         </div>

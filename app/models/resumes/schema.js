@@ -21,7 +21,8 @@ const ResumeSchema = new MongoSchema({
       major: String,
       education: String,
       startTime: String,
-      endTime: String
+      endTime: String,
+      experiences: Array,
     }],
     workExperiences: [{
       company: String,

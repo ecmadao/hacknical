@@ -31,14 +31,18 @@ const datas = {
     },
     edu: {
       title: '教育经历',
+      subTitle: '在校经历',
       mainButton: '添加教育经历',
       school: '学校名称',
       major: '院系 & 专业',
       entranceAt: '入学时间',
-      graduateAt: '毕业时间'
+      graduateAt: '毕业时间',
+      addEduExperience: '你在学校做了什么？',
+      introText: '输入社团活动、在校期间取得的成就，并按下回车来创建'
     },
     work: {
       title: '工作经历',
+      subTitle: '实习经历',
       mainButton: '添加工作经历',
       sideButton: '添加参与的项目',
       companyInfo: '公司信息',
@@ -66,10 +70,11 @@ const datas = {
       title: '其他补充',
       expectSalary: '期待月薪',
       expectCity: '期望工作地点',
-      yourDream: '你的梦想？',
+      yourDream: '你的梦想/slogan？',
       personalIntro: '新增个人介绍',
       introText: '输入一句个人介绍，并按下回车来创建',
       selfAssessment: '自我评价',
+      and: '与',
       links: {
         title: '其他链接',
         github: '填写 github 地址',
@@ -83,7 +88,9 @@ const datas = {
   navs: {
     info: '基本信息',
     edu: '教育经历',
+    inSchool: '在校经历',
     work: '工作经历',
+    internship: '实习经历',
     projects: '个人项目',
     others: '其他补充',
   },
@@ -111,6 +118,12 @@ const datas = {
   mobile: {
     empty: '没有找到个人简历',
     tip: '请在 PC 网页端进行创建'
+  },
+  labels: {
+    freshGraduate: '应届生',
+    hireAvailable: '求职中',
+    atWork: '目前在职',
+    atSchool: '目前在校'
   }
 };
 

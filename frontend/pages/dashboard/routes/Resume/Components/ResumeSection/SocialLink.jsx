@@ -18,14 +18,13 @@ const SocialLink = (props) => {
   return (
     <Tipso
       trigger="click"
-      theme="dark"
       tipsoContent={(
         <TipsoInput
           required
           value={url}
-          placeholder={`Add ${text || name} link`}
           onChange={onChange}
           className={styles.tipso_input_dark}
+          placeholder={`Add ${text || name} link`}
         />
       )}
     >
@@ -33,7 +32,7 @@ const SocialLink = (props) => {
         <img src={require(`SRC/images/${icon}`)} alt={name} />
       </div>
     </Tipso>
-  )
+  );
 };
 
 export default SocialLink

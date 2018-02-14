@@ -2,10 +2,12 @@ import React from 'react';
 import { Label } from 'light-ui';
 import styles from './status_labels.css';
 import dateHelper from 'UTILS/date';
+import locales from 'LOCALES';
 
+const resumeLocales = locales('resume');
+const resumeLabels = resumeLocales.labels;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getDateNow = dateHelper.date.now;
-
 const DATE_NOW = getDateNow();
 const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW);
 
@@ -17,12 +19,24 @@ const StatusLabels = (options = {}) => {
     labelColor = 'light',
   } = options;
   const labels = [];
+  if (resumeInfo.freshGraduate) {
+    labels.push(
+      <Label
+        min
+        key="freshGraduate"
+        text={resumeLabels.freshGraduate}
+        clickable={false}
+        color={labelColor}
+        className={styles.info_label}
+      />
+    );
+  }
   if (resumeInfo.hireAvailable) {
     labels.push(
       <Label
         min
-        key={0}
-        text="求职中"
+        key="hireAvailable"
+        text={resumeLabels.hireAvailable}
         clickable={false}
         color={labelColor}
         className={styles.info_label}
@@ -36,8 +50,8 @@ const StatusLabels = (options = {}) => {
       labels.push(
         <Label
           min
-          key={0}
-          text="在校"
+          key="atSchool"
+          text={resumeLabels.atSchool}
           clickable={false}
           color={labelColor}
           className={styles.info_label}
@@ -52,8 +66,8 @@ const StatusLabels = (options = {}) => {
       labels.push(
         <Label
           min
-          key={1}
-          text="在职"
+          key="atWork"
+          text={resumeLabels.atWork}
           clickable={false}
           color={labelColor}
           className={styles.info_label}
@@ -68,6 +82,8 @@ const StatusLabels = (options = {}) => {
         {labels}
       </div>
     );
+  } else {
+    return null;
   }
 };
 

@@ -18,10 +18,11 @@ export const TipsoInput = (props) => {
       <i className="fa fa-link" aria-hidden="true" />
       &nbsp;&nbsp;
       <Input
-        value={value}
         type={type}
+        value={value}
         disabled={disabled}
         required={required}
+        onChange={onChange}
         theme="borderless"
         subTheme="underline"
         className={cx(
@@ -29,7 +30,6 @@ export const TipsoInput = (props) => {
           className
         )}
         placeholder={placeholder}
-        onChange={onChange}
       />
     </div>
   );

@@ -224,7 +224,7 @@ class ResumeContent extends React.Component {
               >
                 {desc}
               </div>
-            ) : ''}
+            ) : null}
           </div>
         );
       });

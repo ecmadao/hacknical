@@ -3,6 +3,7 @@
 .items_wrapper {
   font-size: 14px;
   list-style-type: none;
+  flex: 1;
 
   & li {
     line-height: 1.7em;

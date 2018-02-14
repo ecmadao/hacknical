@@ -7,11 +7,14 @@ import styles from './resume_v2.css';
 import { validateUrl } from 'UTILS/helper';
 import statusLabels from '../shared/StatusLabels';
 import AsyncGithub from '../shared/AsyncGithub';
+import locales from 'LOCALES';
+import getSectionTitle from '../shared/title';
 
+const resumeTexts = locales('resume');
 const { hoursBefore } = dateHelper.relative;
 
 const section = (options) => {
-  const { title, rows, className = '' } = options;
+  const { key = '', title, rows, className = '' } = options;
 
   return (
     <div
@@ -19,6 +22,7 @@ const section = (options) => {
         styles.section,
         className
       )}
+      key={key}
     >
       <div className={styles.sectionHeader}>
         <div className={styles.sectionTitle}>
@@ -41,8 +45,8 @@ const renderBaseInfo = (options = {}) => {
   } = options;
   if (!value) return null;
   const iconDOM = icon
-    ? (<i className={`fa fa-${icon}`} aria-hidden="true" />)
-    : '';
+    ? <i className={`fa fa-${icon}`} aria-hidden="true" />
+    : null;
 
   const linkClass = cx(
     styles.baseLink,
@@ -203,13 +207,21 @@ const renderWorkExperienceRow = (options = {}) => {
 
 const renderEduRow = (options = {}) => {
   const {
-    school,
     major,
+    index,
+    school,
+    endTime,
     education,
     startTime,
-    endTime,
-    index
+    experiences,
+    freshGraduate,
   } = options;
+
+  const experiencesDetails = experiences.map((experience, i) => (
+    <li key={i}>
+      {experience}
+    </li>
+  ));
   return (
     <div className={styles.row} key={index}>
       <div className={cx(styles.rowLeft, styles.textRight)}>
@@ -221,6 +233,11 @@ const renderEduRow = (options = {}) => {
       <div className={styles.rowRight}>
         <span className={styles.mainText}>{major}</span><br />
         <span className={styles.subText}>{education}</span>
+        {freshGraduate ? (
+          <ul className={styles.list}>
+            {experiencesDetails}
+          </ul>
+        ) : null}
       </div>
     </div>
   );
@@ -239,23 +256,28 @@ class ResumeComponentV2 extends React.PureComponent {
     this.setState({ showGithub });
   }
 
-  renderEdu() {
-    const { educations } = this.props.resume;
+  renderEdu(key) {
+    const { resume } = this.props;
+    const { info, educations } = resume;
+    const { freshGraduate } = info;
     const edus = educations
       .map((edu, index) => renderEduRow({
         ...edu,
-        index
+        index,
+        freshGraduate,
       }));
 
     return section({
-      title: '教育经历',
+      key,
       rows: edus,
-      className: styles.firstSection
+      className: styles.firstSection,
+      title: getSectionTitle(resume, resumeTexts, 'edu')
     });
   }
 
-  renderWorkExperience() {
-    const { workExperiences } = this.props.resume;
+  renderWorkExperience(key) {
+    const { resume } = this.props;
+    const { workExperiences } = resume;
     const exps = workExperiences
       .map((experience, index) => renderWorkExperienceRow({
         ...experience,
@@ -263,12 +285,13 @@ class ResumeComponentV2 extends React.PureComponent {
       }));
 
     return section({
-      title: '工作经历',
-      rows: exps
+      key,
+      rows: exps,
+      title: getSectionTitle(resume, resumeTexts, 'work')
     });
   }
 
-  renderPersonalProjects() {
+  renderPersonalProjects(key) {
     const { personalProjects } = this.props.resume;
 
     const projects = personalProjects
@@ -278,15 +301,16 @@ class ResumeComponentV2 extends React.PureComponent {
       }));
 
     return section({
-      title: '个人项目',
-      rows: projects
+      key,
+      rows: projects,
+      title: resumeTexts.sections.projects.title,
     });
   }
 
   renderSupplements() {
     const { others } = this.props.resume;
     const { supplements } = others;
-    if (!supplements.length) { return null; }
+    if (!supplements.length) return null;
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li key={index}>
@@ -296,7 +320,9 @@ class ResumeComponentV2 extends React.PureComponent {
 
     return (
       <div className={styles.sectionColumn}>
-        <span className={styles.subTextDark}>自我评价</span>
+        <span className={styles.subTextDark}>
+          {resumeTexts.sections.others.selfAssessment}
+        </span>
         <ul className={styles.list}>
           {personalSupplements}
         </ul>
@@ -307,7 +333,7 @@ class ResumeComponentV2 extends React.PureComponent {
   renderLinks() {
     const { others } = this.props.resume;
     const { socialLinks } = others;
-    if (!socialLinks.length) { return null; }
+    if (!socialLinks.length) return null;
 
     const socials = socialLinks.map((social, index) => {
       const { url, text } = social;
@@ -331,7 +357,9 @@ class ResumeComponentV2 extends React.PureComponent {
 
     return (
       <div className={styles.sectionColumn}>
-        <span className={styles.subTextDark}>其他链接</span>
+        <span className={styles.subTextDark}>
+          {resumeTexts.sections.others.links.title}
+        </span>
         <ul className={styles.list}>
           {socials}
         </ul>
@@ -339,13 +367,13 @@ class ResumeComponentV2 extends React.PureComponent {
     );
   }
 
-  renderSupplementsAndLinks() {
+  renderSupplementsAndLinks(key) {
     const supplements = this.renderSupplements();
     const otherLinks = this.renderLinks();
     const titles = [];
     if (!supplements && !otherLinks) return null;
-    if (supplements) titles.push('自我评价');
-    if (otherLinks) titles.push('其他链接');
+    if (supplements) titles.push(resumeTexts.sections.others.selfAssessment);
+    if (otherLinks) titles.push(resumeTexts.sections.others.links.title);
 
     const rows = [
       (<div className={styles.row} key={0}>
@@ -354,9 +382,33 @@ class ResumeComponentV2 extends React.PureComponent {
       </div>)
     ];
     return section({
+      key,
       rows,
-      title: titles.join('与'),
+      title: titles.join(resumeTexts.sections.others.and),
     });
+  }
+
+  renderResumeSections() {
+    const { resume } = this.props;
+    const { info } = resume;
+    const { freshGraduate } = info;
+    let sectionFuncs = [];
+    if (freshGraduate) {
+      sectionFuncs = [
+        this.renderEdu,
+        this.renderWorkExperience,
+        this.renderPersonalProjects,
+        this.renderSupplementsAndLinks
+      ];
+    } else {
+      sectionFuncs = [
+        this.renderWorkExperience,
+        this.renderPersonalProjects,
+        this.renderEdu,
+        this.renderSupplementsAndLinks
+      ];
+    }
+    return sectionFuncs.map((func, index) => func.call(this, index));
   }
 
   render() {
@@ -364,8 +416,10 @@ class ResumeComponentV2 extends React.PureComponent {
     const { resume, shareInfo, login, updateText } = this.props;
     const { info, others, updateAt, educations, workExperiences } = resume;
     const { useGithub, github, githubUrl } = shareInfo;
-    const its = info.gender === 'male' ? '他' : '她';
-    const viewGitHub = `查看${its}的 GitHub 总结报告`;
+    const its = info.gender === 'male'
+      ? resumeTexts.options.person.male
+      : resumeTexts.options.person.female;
+    const viewGitHub = resumeTexts.options.view.replace(/%s/, its);
 
     if (useGithub && showGithub) {
       return (
@@ -385,7 +439,7 @@ class ResumeComponentV2 extends React.PureComponent {
               )}
             >
               <i className="fa fa-arrow-left" aria-hidden="true" />
-              返回
+              {resumeTexts.options.back}
             </a>
             <AsyncGithub
               isShare
@@ -455,10 +509,7 @@ class ResumeComponentV2 extends React.PureComponent {
               }
             </div>
           </div>
-          {this.renderEdu()}
-          {this.renderWorkExperience()}
-          {this.renderPersonalProjects()}
-          {this.renderSupplementsAndLinks()}
+          {this.renderResumeSections()}
         </div>
         <div className={styles.footer}>
           <div className={styles.footerLeft}>

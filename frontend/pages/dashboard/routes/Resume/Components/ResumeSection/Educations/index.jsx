@@ -34,8 +34,8 @@ class Educations extends React.Component {
     const { educations, disabled } = this.props;
     return educations.map((edu, index) => (
       <Education
-        key={index}
         edu={edu}
+        key={index}
         index={index}
         disabled={disabled}
         deleteEdu={this.deleteEdu(index)}

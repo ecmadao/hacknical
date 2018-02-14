@@ -7,8 +7,8 @@ import modalStyles from '../../styles/modal.css';
 const TemplateModal = (props) => {
   const {
     onClose,
-    openModal,
     template,
+    openModal,
     onTemplateChange
   } = props;
 

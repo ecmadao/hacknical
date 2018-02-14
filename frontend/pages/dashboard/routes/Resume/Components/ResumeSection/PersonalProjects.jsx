@@ -23,25 +23,25 @@ class PersonalProjects extends React.Component {
   deleteProject(index) {
     return () => {
       this.props.actions.deletePersonalProject(index);
-    }
+    };
   }
 
   renderProjects() {
-    const { personalProjects, disabled } = this.props;
+    const { disabled, personalProjects } = this.props;
     return personalProjects.map((personalProject, index) => {
       const { url, desc, techs, title } = personalProject;
       return (
         <div className={styles.resume_piece_container} key={index}>
           <div className={cx(styles.resume_wrapper, styles.with_margin)}>
             <div
-              className={styles.resume_delete} onClick={this.deleteProject(index)}
+              className={styles.resume_delete}
+              onClick={this.deleteProject(index)}
             >
               <i className="fa fa-trash-o" aria-hidden="true" />
             </div>
             <InputGroup
               value={title}
               theme="flat"
-              tipsoTheme="dark"
               disabled={disabled}
               placeholder={resumeTexts.projectName}
               tipsoStyle={{
@@ -67,37 +67,37 @@ class PersonalProjects extends React.Component {
             <Textarea
               max="200"
               value={desc}
+              type="textarea"
               disabled={disabled}
               placeholder={resumeTexts.projectDesc}
-              type="textarea"
               onChange={this.handleProjectChange(index)('desc')}
             />
           </div>
           <div className={styles.resume_wrapper}>
             <Labels
+              max={7}
               labels={techs}
+              disabled={disabled}
               onAdd={this.addTech(index)}
               onDelete={this.deleteTech(index)}
-              max={7}
-              disabled={disabled}
               placeholder={`+ ${resumeTexts.technologies}`}
             />
           </div>
         </div>
-      )
+      );
     });
   }
 
   addTech(index) {
     return (tech) => {
       this.props.actions.addProjectTech(tech, index);
-    }
+    };
   }
 
   deleteTech(projectIndex) {
     return (techIndex) => {
       this.props.actions.deleteProjectTech(projectIndex, techIndex)
-    }
+    };
   }
 
   handleProjectChange(index) {

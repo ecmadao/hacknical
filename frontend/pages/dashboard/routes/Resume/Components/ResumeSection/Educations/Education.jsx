@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, SelectorV2 } from 'light-ui';
-
+import WritableList from 'COMPONENTS/WritableList';
 import DateSlider from 'COMPONENTS/DateSlider'
 import dateHelper from 'UTILS/date';
 import { EDUCATIONS } from 'SHARED/datas/resume';
@@ -16,6 +16,9 @@ class Education extends React.Component {
       entranceOpen: false,
       graduationOpen: false
     };
+    this.addExperience = this.addExperience.bind(this);
+    this.deleteExperience = this.deleteExperience.bind(this);
+    this.changeExperience = this.changeExperience.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.handleEntranceFocus = this.handleEntranceFocus.bind(this);
     this.handleGraduationFocus = this.handleGraduationFocus.bind(this);
@@ -34,22 +37,49 @@ class Education extends React.Component {
     return (momentTime) => {
       const time = momentTime.format('L');
       handleEduChange && handleEduChange(type)(time);
-    }
+    };
+  }
+
+  addExperience(experience) {
+    const { edu, handleEduChange } = this.props;
+    const { experiences = [] } = edu;
+    handleEduChange('experiences')([...experiences, experience]);
+  }
+
+  deleteExperience(index) {
+    const { edu, handleEduChange } = this.props;
+    const { experiences } = edu;
+    handleEduChange('experiences')(
+      [...experiences.slice(0, index), ...experiences.slice(index + 1)]
+    );
+  }
+
+  changeExperience(experience, index) {
+    const { edu, handleEduChange } = this.props;
+    const { experiences } = edu;
+    handleEduChange('experiences')(
+      [
+        ...experiences.slice(0, index),
+        experience,
+        ...experiences.slice(index + 1)
+      ]
+    );
   }
 
   render() {
     const {
       edu,
-      handleEduChange,
+      disabled,
       deleteEdu,
-      disabled
+      handleEduChange,
     } = this.props;
     const {
-      school,
       major,
+      school,
+      endTime,
       education,
       startTime,
-      endTime,
+      experiences = []
     } = edu;
 
     return (
@@ -59,8 +89,8 @@ class Education extends React.Component {
             <i className="fa fa-trash-o" aria-hidden="true" />
           </div>
           <Input
-            value={school}
             theme="flat"
+            value={school}
             disabled={disabled}
             placeholder={resumeTexts.school}
             className={styles.single_input}
@@ -69,30 +99,40 @@ class Education extends React.Component {
         </div>
         <div className={styles.resume_wrapper}>
           <Input
-            value={major}
             theme="flat"
+            value={major}
             disabled={disabled}
             placeholder={resumeTexts.major}
             onChange={handleEduChange('major')}
           />
           <SelectorV2
-            value={education}
-            options={EDUCATIONS}
             theme="flat"
+            value={education}
             disabled={disabled}
+            options={EDUCATIONS}
             onChange={handleEduChange('education')}
           />
         </div>
         <div className={styles.resume_wrapper}>
           <DateSlider
-            initialStart={startTime}
-            initialEnd={endTime}
-            startText={resumeTexts.entranceAt}
-            endText={resumeTexts.graduateAt}
-            maxDate={dateHelper.date.afterYears(5)}
             pushInterval="year"
+            initialEnd={endTime}
+            initialStart={startTime}
+            endText={resumeTexts.graduateAt}
+            startText={resumeTexts.entranceAt}
+            maxDate={dateHelper.date.afterYears(5)}
             onStartChange={handleEduChange('startTime')}
             onEndChange={handleEduChange('endTime')}
+          />
+        </div>
+        <div className={styles.resume_wrapper}>
+          <WritableList
+            items={experiences}
+            onAdd={this.addExperience}
+            onDelete={this.deleteExperience}
+            onChange={this.changeExperience}
+            introText={resumeTexts.introText}
+            placeholder={resumeTexts.addEduExperience}
           />
         </div>
       </div>
