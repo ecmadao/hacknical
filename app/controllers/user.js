@@ -1,11 +1,8 @@
-import config from 'config';
 import User from '../models/users';
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
 import { getGithubSections } from './shared';
 import logger from '../utils/logger';
-
-const qName = config.get('mq.channels')['qname-refresh'];
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx);
@@ -64,15 +61,7 @@ const githubLogin = async (ctx) => {
         const user = loginResult.result;
         logger.info(`[USER:LOGIN][${userInfo.login}]`);
         ctx.session.userId = user.userId;
-        if (user.initialed) {
-          ctx.mq.sendMessage({
-            message: JSON.stringify({
-              login: userInfo.login,
-              token: githubToken
-            }),
-            qname: qName
-          });
-        }
+        if (user.initialed) Api.updateUserData(ctx.session.githubLogin, githubToken);
         return ctx.redirect(`/${ctx.session.githubLogin}`);
       }
     }

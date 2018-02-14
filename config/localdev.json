@@ -36,8 +36,7 @@
       "options": {}
     },
     "channels": {
-      "qname-messenger": "messenger-local",
-      "qname-refresh": "github-refresh-local"
+      "qname-messenger": "messenger-local"
     }
   },
   "opbeat": {
