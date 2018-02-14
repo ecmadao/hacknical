@@ -8,7 +8,7 @@ import { validateUrl } from 'UTILS/helper';
 import statusLabels from '../shared/StatusLabels';
 import AsyncGithub from '../shared/AsyncGithub';
 import locales from 'LOCALES';
-import getSectionTitle from '../shared/title';
+import { objectassign, getSectionTitle } from 'SHARED/utils/resume';
 
 const resumeTexts = locales('resume');
 const { hoursBefore } = dateHelper.relative;

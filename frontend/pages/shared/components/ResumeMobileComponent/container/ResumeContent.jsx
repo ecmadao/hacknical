@@ -39,12 +39,10 @@ const LinkInfo = (options = LINK_OPTIONS) => {
       className={cx(styles.linkText, className)}
     >
       {showIcon ? (
-        icon ? (
-          <i className={`fa fa-${icon}`} aria-hidden="true" />
-        ) : (
-          <i className="fa fa-link" aria-hidden="true" />
-        )
-      ) : ''}
+        icon
+          ? <i className={`fa fa-${icon}`} aria-hidden="true" />
+          : <i className="fa fa-link" aria-hidden="true" />
+      ) : null}
       {text}
     </a>
   );
@@ -57,9 +55,7 @@ const HeaderInfo = (options = {}) => {
     options.type = 'link';
     return LinkInfo(options);
   }
-  return (
-    <div className={styles['project-header']}>{text}</div>
-  );
+  return <div className={styles['project-header']}>{text}</div>;
 };
 
 class ResumeContent extends React.Component {
@@ -94,8 +90,9 @@ class ResumeContent extends React.Component {
     );
   }
 
-  renderEducations() {
-    const { educations } = this.props.resume;
+  renderEducations(key) {
+    const { resume } = this.props;
+    const { info, educations } = resume;
 
     const edus = educations
       .map((edu, index) => {
@@ -105,31 +102,48 @@ class ResumeContent extends React.Component {
           endTime,
           startTime,
           education,
+          experiences,
         } = edu;
+
+        const experienceDetails = experiences.map((experience, i) => (
+          <li key={i}>
+            {experience}
+          </li>
+        ));
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
               {startTime}<br />~<br />{endTime}
             </div>
-            <div className={styles['row-right']}>
-              <div className={styles.mainText}>{school}</div>
-              <div className={styles.sideText}>{education}</div>
-              {major ? (<div className={styles.sideText}>{major}</div>) : ''}
+            <div className={cx(styles['row-right'], styles['right-container'])}>
+              <div className={styles['right-header']}>
+                <div className={styles.mainText}>{school}</div>
+                <div className={styles.sideText}>{education}</div>
+                {major ? <div className={styles.sideText}>{major}</div> : null}
+              </div>
+              {experiences.length && info.freshGraduate ? (
+                <div className={styles['section-projects']}>
+                  <div className={styles['section-project']}>
+                    <ul className={styles['section-list']}>
+                      {experienceDetails}
+                    </ul>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         );
       });
 
     if (!edus.length) return null;
-
     return (
-      <div className={styles['resume-section']}>
+      <div className={styles['resume-section']} key={key}>
         {edus}
       </div>
     );
   }
 
-  renderWorkExperiences() {
+  renderWorkExperiences(key) {
     const { workExperiences } = this.props.resume;
 
     const exps = workExperiences
@@ -157,7 +171,7 @@ class ResumeContent extends React.Component {
                   text: company,
                   className: styles.mainLinkText
                 })}
-                {position ? (<div className={styles.sideText}>{position}</div>) : ''}
+                {position ? <div className={styles.sideText}>{position}</div> : null}
               </div>
               <div className={styles['section-projects']}>
                 {workProjects}
@@ -168,9 +182,8 @@ class ResumeContent extends React.Component {
       });
 
     if (!exps.length) return null;
-
     return (
-      <div className={styles['resume-section']}>
+      <div className={styles['resume-section']} key={key}>
         {exps}
       </div>
     );
@@ -206,7 +219,7 @@ class ResumeContent extends React.Component {
       });
   }
 
-  renderPersonalProjects() {
+  renderPersonalProjects(key) {
     const { personalProjects } = this.props.resume;
 
     const projects = personalProjects
@@ -230,9 +243,8 @@ class ResumeContent extends React.Component {
       });
 
     if (!projects.length) return null;
-
     return (
-      <div className={styles['resume-section']}>
+      <div className={styles['resume-section']} key={key}>
         <div className={styles['section-row']}>
           <div className={styles['row-left']}>
             {resumeLocales.sections.projects.title}
@@ -245,7 +257,7 @@ class ResumeContent extends React.Component {
     );
   }
 
-  renderSupplements() {
+  renderSupplements(key) {
     const { others } = this.props.resume;
     const { supplements } = others;
     if (!supplements.length) return null;
@@ -262,7 +274,7 @@ class ResumeContent extends React.Component {
     ));
 
     return (
-      <div className={styles['resume-section']}>
+      <div className={styles['resume-section']} key={key}>
         <div className={styles['section-row']}>
           <div className={styles['row-left']}>
             {resumeLocales.sections.others.selfAssessment}
@@ -308,41 +320,51 @@ class ResumeContent extends React.Component {
         subText: resumeLocales.sections.others.expectCity
       });
     }
-    // if (gender) {
-    //   const targetGender = GENDERS.filter(item => item.id === gender)[0];
-    //   if (targetGender) {
-    //     sliders.push({
-    //       mainText: targetGender.value,
-    //       subText: resumeLocales.sections.info.gender
-    //     });
-    //   }
-    // }
-    return (<Slick sliders={sliders} className={styles.slick} />);
+    return <Slick sliders={sliders} className={styles.slick} />;
+  }
+
+  renderResumeSections() {
+    const { resume } = this.props;
+    const { info } = resume;
+    const { freshGraduate } = info;
+    let sectionFuncs = [];
+    if (freshGraduate) {
+      sectionFuncs = [
+        this.renderEducations,
+        this.renderWorkExperiences,
+        this.renderPersonalProjects,
+        this.renderSupplements,
+      ];
+    } else {
+      sectionFuncs = [
+        this.renderWorkExperiences,
+        this.renderPersonalProjects,
+        this.renderEducations,
+        this.renderSupplements,
+      ];
+    }
+    return sectionFuncs.map((func, index) => func.call(this, index));
   }
 
   render() {
     const { resume, updateText } = this.props;
     const { updateAt, initialized } = resume;
 
-
     return (
       <div className={styles.resumeContainer}>
         {this.props.loading ? <Loading loading className={styles.resumeLoading} /> : ''}
 
         {initialized ? ([
-          (<div className={styles['header-section']}>
+          (<div className={styles['header-section']} key="header">
             {this.renderHeader()}
             {this.renderSlick()}
           </div>),
-          this.renderEducations(),
-          this.renderWorkExperiences(),
-          this.renderPersonalProjects(),
-          this.renderSupplements(),
-          updateAt && (<div className={styles.resumeTip}>
+          this.renderResumeSections(),
+          updateAt && (<div className={styles.resumeTip} key="resumeTip">
             {updateText}{hoursBefore(updateAt)}
           </div>)
         ]) : (
-          <div className={styles['header-section']}>
+          <div className={styles['header-section']} key="placeholder">
             <div className={styles['header-placeholder']}>
               <img
                 alt="no-resume"

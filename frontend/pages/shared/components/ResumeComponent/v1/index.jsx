@@ -5,12 +5,11 @@ import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import { validateUrl } from 'UTILS/helper';
 import validator from 'UTILS/validator';
-import { objectassign } from 'SHARED/utils/resume';
+import { objectassign, getSectionTitle } from 'SHARED/utils/resume';
 import styles from './resume_v1.css';
 import statusLabels from '../shared/StatusLabels';
 import AsyncGithub from '../shared/AsyncGithub';
 import locales from 'LOCALES';
-import getSectionTitle from '../shared/title';
 
 const resumeLocales = locales('resume');
 const { hoursBefore } = dateHelper.relative;
