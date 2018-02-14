@@ -159,7 +159,7 @@ class RepositoryInfo extends React.Component {
     const maxTimeRepos = github.longestContributeRepos(ownedRepositories);
     const startTime = maxTimeRepos.created_at.split('T')[0];
     const pushTime = maxTimeRepos.pushed_at.split('T')[0];
-    const yearlyRepos = github.getYearlyRepos(ownedRepositories);
+    const createdRepos = github.getCreatedRepos(ownedRepositories);
 
     return (
       <CardGroup className={cardStyles.card_group}>
@@ -176,7 +176,7 @@ class RepositoryInfo extends React.Component {
           />
           <InfoCard
             icon="cubes"
-            mainText={yearlyRepos.length}
+            mainText={createdRepos.length}
             subText={githubTexts.reposCount}
           />
         </CardGroup>

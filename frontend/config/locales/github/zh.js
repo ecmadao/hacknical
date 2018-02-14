@@ -49,7 +49,7 @@ const datas = {
       popularestRepos: '最受欢迎的仓库',
       popularestReposTip: '总共收获 $ 个 star',
       maxStarPerRepos: '单个仓库最多 star 数',
-      longestRepos: '贡献时间最久的仓库',
+      longestRepos: '持续时间最久的仓库',
       chartTitle: '仓库 fork/star/过去一年内 commits 数一览（取前十）',
       emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
       originalRepos: '原创仓库',

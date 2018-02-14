@@ -154,6 +154,11 @@ const getTotalCount = (repos) => {
   return [totalStar, totalFork]
 };
 
+const getCreatedRepos = repos =>
+  repos.filter(
+    repository => !repository.fork
+  );
+
 const getYearlyRepos = (repos) => {
   const yearAgoSeconds = dateHelper.seconds.beforeYears(1);
   return repos.filter(
@@ -202,5 +207,6 @@ export default {
   getReposCommits,
   getTotalCount,
   getYearlyRepos,
+  getCreatedRepos,
   longestContributeRepos
 };
