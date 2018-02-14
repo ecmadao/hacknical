@@ -11,13 +11,13 @@ const updateMsg = githubLocales.message.update;
 const {
   toggleGithubModal,
   toggleSettingLoading,
-  setUpdateTime,
+  setUpdateStatus,
   initialResumeShareInfo,
   initialGithubShareInfo
 } = createActions(
   'TOGGLE_GITHUB_MODAL',
   'TOGGLE_SETTING_LOADING',
-  'SET_UPDATE_TIME',
+  'SET_UPDATE_STATUS',
   'INITIAL_RESUME_SHARE_INFO',
   'INITIAL_GITHUB_SHARE_INFO',
 );
@@ -25,7 +25,7 @@ const {
 // github data update
 const fetchGithubUpdateTime = () => (dispatch) => {
   Api.github.updateStatus().then((result) => {
-    dispatch(setUpdateTime(result.lastUpdateTime));
+    dispatch(setUpdateStatus(result));
   });
 };
 
@@ -37,7 +37,7 @@ const refreshGithubDatas = () => (dispatch) => {
       callback: () => Api.github.updateStatus().then((result) => {
         if (result && Number(result.status) === 1) {
           heartBeat.stop();
-          dispatch(setUpdateTime(result.lastUpdateTime));
+          dispatch(setUpdateStatus(result));
           Push.create(updateMsg.header, {
             body: updateMsg.body,
             icon: '/vendor/images/hacknical-logo-nofity.png',
@@ -119,7 +119,7 @@ export default {
   // github
   toggleGithubModal,
   toggleSettingLoading,
-  setUpdateTime,
+  setUpdateStatus,
   fetchGithubUpdateTime,
   refreshGithubDatas,
   // github share

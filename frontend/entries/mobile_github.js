@@ -16,6 +16,7 @@ const renderApp = (domId, props = {}) => {
 
 $(() => {
   renderApp('github', {
+    isShare: true,
     login: window.login,
     isAdmin: window.isAdmin === 'true'
   });

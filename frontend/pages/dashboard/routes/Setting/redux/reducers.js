@@ -41,15 +41,18 @@ const reducers = handleActions({
     });
   },
 
-  SET_UPDATE_TIME(state, action) {
-    const updateRawTime = action.payload;
-    const updateTime = updateRawTime
-      ? dateHelper.relative.secondsBefore(updateRawTime)
+  SET_UPDATE_STATUS(state, action) {
+    const {
+      refreshEnable,
+      lastUpdateTime,
+    } = action.payload;
+    const updateTime = lastUpdateTime
+      ? dateHelper.relative.secondsBefore(lastUpdateTime)
       : state.updateTime;
     return ({
       ...state,
       updateTime,
-      refreshEnable: (new Date() - new Date(updateRawTime)) / (60 * 1000) > 10,
+      refreshEnable,
       loading: false
     });
   },

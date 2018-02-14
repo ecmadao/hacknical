@@ -98,13 +98,16 @@ class GithubMobileComponent extends React.Component {
     const { isAdmin } = this.props;
     if (!isAdmin) return;
     const result = await Api.github.updateStatus();
-    this.setRefreshStatus(result.lastUpdateTime);
+    this.setRefreshStatus(result);
   }
 
-  setRefreshStatus(updateTime) {
+  setRefreshStatus(data) {
+    const {
+      refreshEnable,
+    } = data;
     this.setState({
       refreshing: false,
-      refreshEnable: (new Date() - new Date(updateTime)) / (60 * 1000) > 10
+      refreshEnable,
     });
   }
 
@@ -127,8 +130,7 @@ class GithubMobileComponent extends React.Component {
   }
 
   refreshGithubDatas() {
-    const { refreshEnable } = this.state;
-    if (!refreshEnable) {
+    if (!this.state.refreshEnable) {
       message.error(githubMsg.update.error);
       return;
     }
@@ -139,7 +141,7 @@ class GithubMobileComponent extends React.Component {
         callback: () => Api.github.updateStatus().then((result) => {
           if (result && Number(result.status) === 1) {
             heartBeat.stop();
-            this.setRefreshStatus(result.lastUpdateTime);
+            this.setRefreshStatus(result);
             window.location.reload(false);
           }
         })
@@ -497,7 +499,7 @@ class GithubMobileComponent extends React.Component {
       repositoriesLoaded,
       languageDistributions
     } = this.state;
-    const { isAdmin, login } = this.props;
+    const { isAdmin, login, isShare } = this.props;
 
     if (!repositoriesLoaded) return null;
 
@@ -513,20 +515,20 @@ class GithubMobileComponent extends React.Component {
         <div className={styles.shareHeader}>
           <img src={user['avatar_url']} /><br/>
           <span>
-            { user.name }, {githubTexts.baseInfo.joinedAt}{ user['created_at'].split('T')[0] }
+            {user.name}, {githubTexts.baseInfo.joinedAt}{user['created_at'].split('T')[0]}
           </span>
-          {user.bio ? (<blockquote>{ user.bio }</blockquote>) : null}
+          {user.bio ? (<blockquote>{user.bio}</blockquote>) : null}
           <div className={styles.social}>
             <div className={styles.socialInfo}>
-              <span>{ user['public_repos'] }</span><br/>
+              <span>{user['public_repos']}</span><br/>
               <span>Repositories</span>
             </div>
             <div className={styles.socialInfo}>
-              <span>{ user.followers }</span><br/>
+              <span>{user.followers}</span><br/>
               <span>Followers</span>
             </div>
             <div className={styles.socialInfo}>
-              <span>{ user.following }</span><br/>
+              <span>{user.following}</span><br/>
               <span>Following</span>
             </div>
           </div>
@@ -630,7 +632,7 @@ class GithubMobileComponent extends React.Component {
           </div>
         ) : ''}
 
-        {isAdmin ? (
+        {isAdmin && !isShare ? (
           <div ref={ref => (this.refreshButton = ref)}>
             <FloatingActionButton
               icon="refresh"
@@ -647,8 +649,9 @@ class GithubMobileComponent extends React.Component {
 }
 
 GithubMobileComponent.defaultProps = {
+  isShare: false,
   login: window.login,
-  isAdmin: window.isAdmin === 'true'
+  isAdmin: window.isAdmin === 'true',
 };
 
 export default GithubMobileComponent;

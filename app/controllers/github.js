@@ -210,13 +210,24 @@ const getShareRecords = async (ctx) => {
 
 const getUpdateStatus = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
-  const result = await Api.getUpdateStatus(githubLogin);
-  if (result && Number(result.status) === 1) {
+  const statusResult = await Api.getUpdateStatus(githubLogin);
+  const {
+    status,
+    lastUpdateTime
+  } = statusResult;
+  if (Number(status) === 1) {
     await User.updateUserInfo({
       userId,
       initialed: true
     });
   }
+  const result = {
+    status,
+    lastUpdateTime,
+    refreshEnable: Number(status) !== 2
+      && Number(status) !== 3
+      && (new Date() - new Date(lastUpdateTime)) / (60 * 1000) > 10,
+  };
   ctx.body = {
     result,
     success: true,

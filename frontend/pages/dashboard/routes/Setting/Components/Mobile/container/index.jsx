@@ -67,6 +67,7 @@ class MobileSetting extends React.Component {
     this.state = {
       loading: true,
       updateTime: null,
+      refreshEnable: false,
       githubInfo: {
         url: '',
         locale: '',
@@ -102,7 +103,7 @@ class MobileSetting extends React.Component {
       buttonId: 'resumeCopyButton',
     });
     Api.github.updateStatus().then((result) => {
-      this.setUpdateTime(result.lastUpdateTime);
+      this.setUpdateStatus(result);
     });
     Api.github.getShareRecords().then((result) => {
       this.initialGithubInfo(result);
@@ -165,7 +166,7 @@ class MobileSetting extends React.Component {
         callback: () => Api.github.updateStatus().then((result) => {
           if (result && Number(result.status) === 1) {
             heartBeat.stop();
-            this.setUpdateTime(result.lastUpdateTime);
+            this.setUpdateStatus(result);
           }
         })
       });
@@ -173,12 +174,17 @@ class MobileSetting extends React.Component {
     });
   }
 
-  setUpdateTime(data) {
-    const updateTime = data
-      ? dateHelper.relative.secondsBefore(data)
+  setUpdateStatus(data) {
+    const {
+      refreshEnable,
+      lastUpdateTime
+    } = data;
+    const updateTime = lastUpdateTime
+      ? dateHelper.relative.secondsBefore(lastUpdateTime)
       : this.state.updateTime;
     this.setState({
       updateTime,
+      refreshEnable,
       loading: false,
     });
   }
@@ -292,7 +298,8 @@ class MobileSetting extends React.Component {
       loading,
       updateTime,
       githubInfo,
-      resumeInfo
+      resumeInfo,
+      refreshEnable
     } = this.state;
     const { login } = this.props;
 
@@ -308,7 +315,7 @@ class MobileSetting extends React.Component {
           <IconButton
             color="gray"
             icon="refresh"
-            disabled={loading}
+            disabled={loading || !refreshEnable}
             className={styles.iconButton}
             onClick={this.refreshGithubDatas}
           />

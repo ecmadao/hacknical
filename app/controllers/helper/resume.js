@@ -44,7 +44,7 @@ const toggleHashShare = (key = 'request.body.enable') => async (ctx, next) => {
       openShare: enable,
       login: githubLogin,
     }));
-    await ctx.cache.hset('resume-hash-map', resumeHashV0, resumeHash);
+    resumeHashV0 && await ctx.cache.hset('resume-hash-map', resumeHashV0, resumeHash);
   }
   await next();
 };
