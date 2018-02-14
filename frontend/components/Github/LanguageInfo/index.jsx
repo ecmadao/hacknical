@@ -29,7 +29,7 @@ class LanguageInfo extends React.Component {
       showLanguage: null
     };
     this.languages = [];
-    this.labelColor = getRamdomColor();
+    this.labelColor = getRamdomColor('LanguageInfo');
     this.languageSkillChart = null;
     this.languageUsedChart = null;
     this.setShowLanguage = this.setShowLanguage.bind(this);
@@ -247,7 +247,7 @@ class LanguageInfo extends React.Component {
                 ref={ref => (this.languageSkill = ref)}
               />
             </div>
-          ) : ''}
+          ) : null}
         </div>
         {this.renderLanguagesLabel()}
         { showLanguage ? this.renderShowRepos() : null}

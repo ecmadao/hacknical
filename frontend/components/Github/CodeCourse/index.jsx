@@ -172,7 +172,7 @@ class CodeCourse extends React.Component {
             {getDateBySeconds(minDateSeconds)}
           </div>
           <div className={githubStyles.reposDate}>
-            {getRelativeTime(getDateBySeconds(maxDateSeconds))}
+            {getDateBySeconds(maxDateSeconds)}
           </div>
         </div>
         <div className={githubStyles.reposTimelines}>
@@ -196,12 +196,13 @@ class CodeCourse extends React.Component {
     const offsetRight = getOffsetRight(minDateSeconds, maxDateSeconds);
     return repos.map((repository, index) => {
       const {
+        name,
         timeline,
       } = repository;
 
       let color = repository.color;
       if (!color) {
-        color = getRamdomColor();
+        color = getRamdomColor(name);
         repository.color = color;
       }
 

@@ -44,15 +44,21 @@ export const hex2Rgba = hex => (opacity) => {
 
 export const randomColor = () => {
   const set = new Set();
+  const map = new Map();
 
-  const getRamdomColor = () => {
+  const getRamdomColor = (key) => {
+    if (map.has(key)) return map.get(key);
     const index = Math.floor(Math.random() * MD_COLORS.length);
     const color = MD_COLORS[index];
     if (set.has(color)) {
-      if (set.size === MD_COLORS.length) return color;
+      if (set.size === MD_COLORS.length) {
+        map.set(key, color);
+        return color;
+      }
       return getRamdomColor();
     }
     set.add(color);
+    map.set(key, color);
     return color;
   };
 

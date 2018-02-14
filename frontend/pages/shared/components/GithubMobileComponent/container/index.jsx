@@ -453,7 +453,7 @@ class GithubMobileComponent extends React.Component {
 
   renderLanguageLines() {
     const { languageUsed } = this.state;
-    const color = getRamdomColor();
+    const color = getRamdomColor('LanguageLines');
     const languages = Object.keys(languageUsed)
       .sort(github.sortByLanguage(languageUsed))
       .slice(0, 9);
