@@ -104,8 +104,8 @@ const datas = {
       female: 'her'
     },
     edus: {
-      juniorHigh: 'Junior high school',
-      seniorHigh: 'Senior high school',
+      juniorHigh: 'Junior high',
+      seniorHigh: 'Senior high',
       juniorCollege: 'Junior college',
       undergraduate: 'Undergraduate',
       master: 'Master',
@@ -124,7 +124,26 @@ const datas = {
     hireAvailable: 'Hire Available',
     atWork: 'At Work',
     atSchool: 'At School'
-  }
+  },
+  intros: [
+    {
+      title: 'Instructions',
+      texts: [
+        'Complete your resume step by step, and you can use cmd/win + s to save it at any time',
+        'Use shift + <-/-> to switch previous/next step',
+        'Click "Preview"(or using cmd/win + p) to preview your resume'
+      ]
+    },
+    {
+      title: 'Tips',
+      texts: [
+        'Enthusiasm for technology is important',
+        'Please show your attitude toward work',
+        'Self-improvement is important and popular',
+        'The more experience you have, the better'
+      ]
+    }
+  ]
 };
 
 export default datas;

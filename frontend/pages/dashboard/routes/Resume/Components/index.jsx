@@ -5,7 +5,6 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, IconButton, Tipso } from 'light-ui';
-
 import styles from '../styles/resume.css';
 import ShareModal from 'SHARED/components/ShareModal';
 import ResumeSection from './ResumeSection';
@@ -17,7 +16,6 @@ import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
 import ResumeFormatter from 'SHARED/components/ResumeStateWrapper/ResumeFormatter';
 import message from 'SHARED/utils/message';
-import { INTROS } from 'SHARED/datas/resume';
 
 const resumeTexts = locales('resume');
 const editedConfirm = resumeTexts.editedConfirm
@@ -33,6 +31,7 @@ class Resume extends React.Component {
     };
     this.onBeforeUnload = this.onBeforeUnload.bind(this);
     this.downloadResume = this.downloadResume.bind(this);
+    this.handlePreview = this.handlePreview.bind(this);
     this.handleModalStatus = this.handleModalStatus.bind(this);
     this.handleShareModalStatus = this.handleShareModalStatus.bind(this);
     this.handleTemplateModalStatus = this.handleTemplateModalStatus.bind(this);
@@ -116,6 +115,12 @@ class Resume extends React.Component {
 
   handleModalStatus(openModal) {
     this.setState({ openModal });
+  }
+
+  handlePreview() {
+    const { actions } = this.props;
+    actions.saveResume();
+    this.handleModalStatus(true);
   }
 
   handleShareModalStatus(openShareModal) {
@@ -246,7 +251,7 @@ class Resume extends React.Component {
             <Button
               value={resumeTexts.buttons.preview}
               color="dark"
-              onClick={() => this.handleModalStatus(true)}
+              onClick={this.handlePreview}
               className={styles.operation}
               leftIcon={(
                 <i className="fa fa-file-text-o" aria-hidden="true" />
@@ -303,7 +308,7 @@ class Resume extends React.Component {
         <IntroModal
           openModal={openIntroModal}
           onClose={() => this.handleIntroModalStatus(false)}
-          intros={INTROS}
+          intros={resumeTexts.intros}
         />
         <ShareModal
           openModal={openShareModal}
