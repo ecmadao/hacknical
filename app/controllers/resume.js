@@ -149,7 +149,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(result);
 
   const resumeUrl =
-    `${HTTPS_URL}/${githubLogin}/resume?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
+    `${HTTPS_URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
 
   new SlackMsg(ctx.mq).send({
     type: 'download',

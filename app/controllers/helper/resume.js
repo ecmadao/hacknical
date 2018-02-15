@@ -31,8 +31,12 @@ const toggleHashShare = (key = 'request.body.enable') => async (ctx, next) => {
   const findResult = await ResumePub.findOne({ userId });
   const { resumeHash, simplifyUrl, resumeHashV0 } = findResult.result;
   if (!enable) {
-    await ctx.cache.hdel('share-resume-hash', resumeHash);
     await ctx.cache.hdel('share-resume-login', githubLogin);
+    await ctx.cache.hset('share-resume-hash', resumeHash, JSON.stringify({
+      userId,
+      openShare: false,
+      login: githubLogin,
+    }));
   } else {
     simplifyUrl && await ctx.cache.hset('share-resume-login', githubLogin, JSON.stringify({
       userId,
@@ -68,18 +72,21 @@ const checkValidateByLogin = (key = 'query.login') => async (ctx, next) => {
 };
 
 const checkValidateByHash = (key = 'params.hash') => async (ctx, next) => {
-  const resumeHash = getValue(ctx, key);
-  const hash = await ctx.cache.hget('resume-hash-map', resumeHash) || resumeHash;
-  const shareInfoStr = await ctx.cache.hget('share-resume-hash', hash);
-  if (!shareInfoStr) return ctx.redirect('/404');
-  const {
-    userId,
-    openShare,
-  } = JSON.parse(shareInfoStr);
-  const targetUserId = ctx.query.userId || ctx.session.userId;
-  const enable = openShare || targetUserId === userId;
-  if (!enable) return ctx.redirect('/404');
-  if (ctx.query.userId === ctx.session.userId) ctx.session.fromDownload = true;
+  const { fromDownload } = ctx.session;
+  if (!fromDownload) {
+    const resumeHash = getValue(ctx, key);
+    const hash = await ctx.cache.hget('resume-hash-map', resumeHash) || resumeHash;
+    const shareInfoStr = await ctx.cache.hget('share-resume-hash', hash);
+    if (!shareInfoStr) return ctx.redirect('/404');
+    const {
+      userId,
+      openShare,
+    } = JSON.parse(shareInfoStr);
+    const queryUserId = ctx.query.userId;
+    const enable = openShare || queryUserId === userId;
+    if (!enable) return ctx.redirect('/404');
+    if (queryUserId === userId) ctx.session.fromDownload = true;
+  }
   await next();
 };
 

@@ -108,7 +108,6 @@ router.get('/:hash',
 );
 
 router.get('/:hash/share',
-  resume.checkValidateByHash(),
   Resume.getPubResumeStatus
 );
 

@@ -64,7 +64,7 @@ const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => 
   const hash = getValue(ctx, key);
   const { path } = ctx.request;
 
-  const { githubLogin } = ctx.session;
+  const { githubLogin, fromDownload } = ctx.session;
   const user = await getPubResumeInfo(hash);
   const isAdmin = user && user.login === githubLogin;
 
@@ -73,7 +73,10 @@ const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => 
   ctx.query.userLogin = user ? user.login : '';
   await next();
 
-  if (((!isAdmin && !notrace) || notrace === 'false') && user) {
+  if (
+    !fromDownload
+    && (!isAdmin && (notrace !== true || notrace !== 'true' || notrace === 'false'))
+    && user) {
     const url = path.slice(1);
     updateViewData(ctx, { login: user.login, url, type: 'resume' });
   }
