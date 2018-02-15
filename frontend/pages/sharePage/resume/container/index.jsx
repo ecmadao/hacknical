@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ResumeComponent from 'SHARED/components/ResumeComponent';
-import ResumeStateWrapper from 'SHARED/components/ResumeStateWrapper';
+import ResumeWrapper from 'SHARED/components/ResumeWrapper';
 import styles from '../styles/share.css';
 
 const ResumeShare = props => (
-  <ResumeStateWrapper {...props} className={styles.container}>
+  <ResumeWrapper {...props} className={styles.container}>
     <ResumeComponent />
-  </ResumeStateWrapper>
+  </ResumeWrapper>
 );
 
 ResumeShare.propTypes = {

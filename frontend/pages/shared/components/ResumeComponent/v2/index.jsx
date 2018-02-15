@@ -8,7 +8,8 @@ import { validateUrl } from 'UTILS/helper';
 import statusLabels from '../shared/StatusLabels';
 import AsyncGithub from '../shared/AsyncGithub';
 import locales from 'LOCALES';
-import { objectassign, getSectionTitle } from 'SHARED/utils/resume';
+import { objectassign } from 'SHARED/utils/resume';
+import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 
 const resumeTexts = locales('resume');
 const { hoursBefore } = dateHelper.relative;
@@ -243,7 +244,7 @@ const renderEduRow = (options = {}) => {
   );
 };
 
-class ResumeComponentV2 extends React.PureComponent {
+class ResumeComponentV2 extends ResumeUIWrapper {
   constructor(props) {
     super(props);
     this.state = {
@@ -256,7 +257,7 @@ class ResumeComponentV2 extends React.PureComponent {
     this.setState({ showGithub });
   }
 
-  renderEdu(key) {
+  renderEducations(key) {
     const { resume } = this.props;
     const { info, educations } = resume;
     const { freshGraduate } = info;
@@ -271,11 +272,11 @@ class ResumeComponentV2 extends React.PureComponent {
       key,
       rows: edus,
       className: styles.firstSection,
-      title: getSectionTitle(resume, resumeTexts, 'edu')
+      title: super.getSectionTitle('edu')
     });
   }
 
-  renderWorkExperience(key) {
+  renderWorkExperiences(key) {
     const { resume } = this.props;
     const { workExperiences } = resume;
     const exps = workExperiences
@@ -287,7 +288,7 @@ class ResumeComponentV2 extends React.PureComponent {
     return section({
       key,
       rows: exps,
-      title: getSectionTitle(resume, resumeTexts, 'work')
+      title: super.getSectionTitle('work')
     });
   }
 
@@ -307,7 +308,7 @@ class ResumeComponentV2 extends React.PureComponent {
     });
   }
 
-  renderSupplements() {
+  getSupplements() {
     const { others } = this.props.resume;
     const { supplements } = others;
     if (!supplements.length) return null;
@@ -330,7 +331,7 @@ class ResumeComponentV2 extends React.PureComponent {
     );
   }
 
-  renderLinks() {
+  getLinks() {
     const { others } = this.props.resume;
     const { socialLinks } = others;
     if (!socialLinks.length) return null;
@@ -367,9 +368,9 @@ class ResumeComponentV2 extends React.PureComponent {
     );
   }
 
-  renderSupplementsAndLinks(key) {
-    const supplements = this.renderSupplements();
-    const otherLinks = this.renderLinks();
+  renderSupplements(key) {
+    const supplements = this.getSupplements();
+    const otherLinks = this.getLinks();
     const titles = [];
     if (!supplements && !otherLinks) return null;
     if (supplements) titles.push(resumeTexts.sections.others.selfAssessment);
@@ -386,29 +387,6 @@ class ResumeComponentV2 extends React.PureComponent {
       rows,
       title: titles.join(resumeTexts.sections.others.and),
     });
-  }
-
-  renderResumeSections() {
-    const { resume } = this.props;
-    const { info } = resume;
-    const { freshGraduate } = info;
-    let sectionFuncs = [];
-    if (freshGraduate) {
-      sectionFuncs = [
-        this.renderEdu,
-        this.renderWorkExperience,
-        this.renderPersonalProjects,
-        this.renderSupplementsAndLinks
-      ];
-    } else {
-      sectionFuncs = [
-        this.renderWorkExperience,
-        this.renderPersonalProjects,
-        this.renderEdu,
-        this.renderSupplementsAndLinks
-      ];
-    }
-    return sectionFuncs.map((func, index) => func.call(this, index));
   }
 
   render() {
@@ -509,7 +487,7 @@ class ResumeComponentV2 extends React.PureComponent {
               }
             </div>
           </div>
-          {this.renderResumeSections()}
+          {super.renderResumeSections.apply(this)}
         </div>
         <div className={styles.footer}>
           <div className={styles.footerLeft}>

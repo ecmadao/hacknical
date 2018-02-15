@@ -10,7 +10,7 @@ import ResumeFormatter from './ResumeFormatter';
 
 const resumeTexts = locales('resume');
 
-class ResumeStateWrapper extends React.Component {
+class ResumeWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -133,4 +133,4 @@ class ResumeStateWrapper extends React.Component {
   }
 }
 
-export default ResumeStateWrapper;
+export default ResumeWrapper;

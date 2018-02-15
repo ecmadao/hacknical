@@ -9,6 +9,7 @@ import styles from '../styles/resume.css';
 import { GENDERS } from 'SHARED/datas/resume';
 import { validateUrl } from 'UTILS/helper';
 import locales from 'LOCALES';
+import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 
 const resumeLocales = locales('resume');
 const { hoursBefore } = dateHelper.relative;
@@ -58,7 +59,7 @@ const HeaderInfo = (options = {}) => {
   return <div className={styles['project-header']}>{text}</div>;
 };
 
-class ResumeContent extends React.Component {
+class ResumeContent extends ResumeUIWrapper {
   renderHeader() {
     const { info, others } = this.props.resume;
     const { email, phone, name } = info;
@@ -68,9 +69,7 @@ class ResumeContent extends React.Component {
       <div className={styles['section-header']}>
         <div className={styles.userName}>
           <div className={styles.maxText}>{name}</div>
-          {dream ? (
-            <div className={styles.minText}>{dream}</div>
-          ) : ''}
+          {dream ? <div className={styles.minText}>{dream}</div> : null}
         </div>
         {phone ? LinkInfo({
           text: phone,
@@ -78,14 +77,14 @@ class ResumeContent extends React.Component {
           icon: 'mobile',
           showIcon: false,
           className: styles.contact
-        }) : ''}
+        }) : null}
         {email ? LinkInfo({
           text: email,
           url: `mailto:${email}`,
           showIcon: false,
           icon: 'envelope-o',
           className: styles.contact
-        }) : ''}
+        }) : null}
       </div>
     );
   }
@@ -323,29 +322,6 @@ class ResumeContent extends React.Component {
     return <Slick sliders={sliders} className={styles.slick} />;
   }
 
-  renderResumeSections() {
-    const { resume } = this.props;
-    const { info } = resume;
-    const { freshGraduate } = info;
-    let sectionFuncs = [];
-    if (freshGraduate) {
-      sectionFuncs = [
-        this.renderEducations,
-        this.renderWorkExperiences,
-        this.renderPersonalProjects,
-        this.renderSupplements,
-      ];
-    } else {
-      sectionFuncs = [
-        this.renderWorkExperiences,
-        this.renderPersonalProjects,
-        this.renderEducations,
-        this.renderSupplements,
-      ];
-    }
-    return sectionFuncs.map((func, index) => func.call(this, index));
-  }
-
   render() {
     const { resume, updateText } = this.props;
     const { updateAt, initialized } = resume;
@@ -359,7 +335,7 @@ class ResumeContent extends React.Component {
             {this.renderHeader()}
             {this.renderSlick()}
           </div>),
-          this.renderResumeSections(),
+          super.renderResumeSections.apply(this),
           updateAt && (<div className={styles.resumeTip} key="resumeTip">
             {updateText}{hoursBefore(updateAt)}
           </div>)

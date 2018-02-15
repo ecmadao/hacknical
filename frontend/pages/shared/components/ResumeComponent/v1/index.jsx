@@ -5,11 +5,12 @@ import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import { validateUrl } from 'UTILS/helper';
 import validator from 'UTILS/validator';
-import { objectassign, getSectionTitle } from 'SHARED/utils/resume';
+import { objectassign } from 'SHARED/utils/resume';
 import styles from './resume_v1.css';
 import statusLabels from '../shared/StatusLabels';
 import AsyncGithub from '../shared/AsyncGithub';
 import locales from 'LOCALES';
+import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 
 const resumeLocales = locales('resume');
 const { hoursBefore } = dateHelper.relative;
@@ -65,7 +66,7 @@ const titleInfo = (text, icon, options = {}) => info(objectassign({}, {
   ...options
 }));
 
-class ResumeComponentV1 extends React.PureComponent {
+class ResumeComponentV1 extends ResumeUIWrapper {
   constructor(props) {
     super(props);
     this.state = {
@@ -119,7 +120,7 @@ class ResumeComponentV1 extends React.PureComponent {
     if (!edus.length) return null;
     return (
       <div className={styles.section} key={key}>
-        {titleInfo(getSectionTitle(resume, resumeLocales, 'edu'), 'university')}
+        {titleInfo(super.getSectionTitle('edu'), 'university')}
         <div className={styles.info_timeline}>
           {edus}
         </div>
@@ -158,7 +159,7 @@ class ResumeComponentV1 extends React.PureComponent {
     if (!exps.length) return null;
     return (
       <div className={styles.section} key={key}>
-        {titleInfo(getSectionTitle(resume, resumeLocales, 'work'), 'file-text-o')}
+        {titleInfo(super.getSectionTitle('work'), 'file-text-o')}
         <div className={styles.info_timeline}>
           {exps}
         </div>
@@ -285,31 +286,6 @@ class ResumeComponentV1 extends React.PureComponent {
     );
   }
 
-  renderResumeSections() {
-    const { resume } = this.props;
-    const { info } = resume;
-    const { freshGraduate } = info;
-    let sectionFuncs = [];
-    if (freshGraduate) {
-      sectionFuncs = [
-        this.renderEducations,
-        this.renderWorkExperiences,
-        this.renderPersonalProjects,
-        this.renderSupplements,
-        this.renderSocialLinks,
-      ];
-    } else {
-      sectionFuncs = [
-        this.renderWorkExperiences,
-        this.renderPersonalProjects,
-        this.renderEducations,
-        this.renderSupplements,
-        this.renderSocialLinks,
-      ];
-    }
-    return sectionFuncs.map((func, index) => func.call(this, index));
-  }
-
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login, updateText } = this.props;
@@ -364,7 +340,7 @@ class ResumeComponentV1 extends React.PureComponent {
           )}
         >
           <div className={styles.left}>
-            {this.renderResumeSections()}
+            {super.renderResumeSections.apply(this)}
           </div>
           <div className={styles.right}>
             {baseInfo(resumeInfo.name, resumeInfo.gender, { style: styles.user_title })}

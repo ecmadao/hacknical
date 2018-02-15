@@ -14,7 +14,7 @@ import IntroModal from './IntroModal';
 import resumeActions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
-import ResumeFormatter from 'SHARED/components/ResumeStateWrapper/ResumeFormatter';
+import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter';
 import message from 'SHARED/utils/message';
 
 const resumeTexts = locales('resume');
