@@ -389,6 +389,17 @@ class ResumeComponentV2 extends ResumeUIWrapper {
     });
   }
 
+  renderUpdateTime() {
+    const check = super.renderUpdateTime();
+    if (!check) return null;
+    const { updateText, updateAt } = check;
+    return (
+      <div className={styles.footerRight}>
+        {updateText}{hoursBefore(updateAt)}
+      </div>
+    );
+  }
+
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login, updateText } = this.props;
@@ -493,11 +504,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
           <div className={styles.footerLeft}>
             {others.dream}
           </div>
-          {updateAt ? (
-            <div className={styles.footerRight}>
-              {updateText}{hoursBefore(updateAt)}
-            </div>
-          ) : ''}
+          {this.renderUpdateTime()}
         </div>
       </div>
     );

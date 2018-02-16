@@ -286,6 +286,17 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     );
   }
 
+  renderUpdateTime() {
+    const check = super.renderUpdateTime();
+    if (!check) return null;
+    const { updateText, updateAt } = check;
+    return baseInfo(
+      `${updateText}${hoursBefore(updateAt)}`,
+      'exclamation-circle',
+      { style: styles.right_info_tip }
+    );
+  }
+
   render() {
     const { showGithub } = this.state;
     const { resume, shareInfo, login, updateText } = this.props;
@@ -396,13 +407,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               })
             ) : null}
             <br />
-            {updateAt ? (
-              baseInfo(
-                `${updateText}${hoursBefore(updateAt)}`,
-                'exclamation-circle',
-                { style: styles.right_info_tip }
-              )
-            ) : null}
+            {this.renderUpdateTime()}
           </div>
         </div>
       </div>

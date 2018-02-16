@@ -99,15 +99,6 @@ const getPubResumeInfo = async (hash) => {
   };
 };
 
-const getUpdateTime = async (resumeHash) => {
-  const findResult = await findByHash(resumeHash);
-  const { result, success } = findResult;
-  if (!success) return findResult;
-
-  const { userId } = result;
-  return await Resume.getUpdateTime(userId);
-};
-
 const getPubResume = async (resumeHash) => {
   const findResult = await findByHash(resumeHash);
   const { result, success } = findResult;
@@ -132,7 +123,6 @@ export default {
   deletePubResume,
   clearPubResume,
   getPubResume,
-  getUpdateTime,
   getPubResumeInfo,
   checkResumeShare,
   findByHash,

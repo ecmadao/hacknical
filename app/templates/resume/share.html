@@ -18,8 +18,9 @@
 
 {% block js %}
   <script>
-    window.resumeHash = '{{ resumeHash }}';
     window.login = '{{ login }}';
+    window.resumeHash = '{{ resumeHash }}';
+    window.fromDownload = '{{ fromDownload }}';
   </script>
   <script async defer src="{{ assetsPath("share_resume.js") }}"></script>
 {% endblock %}

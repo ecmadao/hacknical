@@ -145,8 +145,11 @@ const downloadResume = async (ctx) => {
     return;
   }
   const hash = checkPubResume.result.resumeHash;
-  const { result } = await ResumePub.getUpdateTime(hash);
-  const seconds = dateHelper.getSeconds(result);
+  const findResumePub = await ResumePub.findByHash(hash);
+  const { result } = findResumePub;
+  const { template } = result;
+  const updateTime = await Resume.getUpdateTime(userId);
+  const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
     `${HTTPS_URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
@@ -163,7 +166,7 @@ const downloadResume = async (ctx) => {
   try {
     resultUrl = await Downloads.resume(resumeUrl, {
       folder: githubLogin,
-      title: `${seconds}-resume.pdf`
+      title: `${template}-${seconds}-resume.pdf`
     });
   } catch (e) {
     logger.error(`[RESUME:DOWNLOAD:ERROR]${e}`);
@@ -177,6 +180,7 @@ const downloadResume = async (ctx) => {
 
 const _resumePage = async (ctx, hash) => {
   const { isMobile } = ctx.state;
+  const { fromDownload } = ctx.session;
   const { isAdmin, userName, userLogin } = ctx.query;
   if (!hash) return ctx.redirect('/404');
   if (isMobile) {
@@ -189,10 +193,12 @@ const _resumePage = async (ctx, hash) => {
         login: userLogin,
       },
       hideFooter: true,
+      fromDownload,
     });
   } else {
     await ctx.render('resume/share', {
       title: ctx.__('resumePage.title', userName),
+      fromDownload,
       resumeHash: hash,
       login: userLogin,
       hideFooter: true

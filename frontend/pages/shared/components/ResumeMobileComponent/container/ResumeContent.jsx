@@ -322,6 +322,17 @@ class ResumeContent extends ResumeUIWrapper {
     return <Slick sliders={sliders} className={styles.slick} />;
   }
 
+  renderUpdateTime() {
+    const check = super.renderUpdateTime();
+    if (!check) return null;
+    const { updateText, updateAt } = check;
+    return (
+      <div className={styles.resumeTip} key="resumeTip">
+        {updateText}{hoursBefore(updateAt)}
+      </div>
+    );
+  }
+
   render() {
     const { resume, updateText } = this.props;
     const { updateAt, initialized } = resume;
@@ -336,9 +347,7 @@ class ResumeContent extends ResumeUIWrapper {
             {this.renderSlick()}
           </div>),
           super.renderResumeSections.apply(this),
-          updateAt && (<div className={styles.resumeTip} key="resumeTip">
-            {updateText}{hoursBefore(updateAt)}
-          </div>)
+          this.renderUpdateTime()
         ]) : (
           <div className={styles['header-section']} key="placeholder">
             <div className={styles['header-placeholder']}>

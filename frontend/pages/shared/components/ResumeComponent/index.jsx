@@ -25,6 +25,7 @@ ResumeComponent.defaultProps = {
   shareInfo: {},
   viewId: 'v0',
   login: window.login,
+  fromDownload: window.fromDownload === 'true' || window.fromDownload === true,
 };
 
 export default ResumeComponent;
