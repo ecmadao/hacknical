@@ -8,6 +8,9 @@ const catchError = () => async (ctx, next) => {
     if (/^\/dashboard/g.test(url)) {
       logger.info(`[OLD URL REQUEST][${ctx.status}][${url}]`);
       const { githubLogin } = ctx.session;
+      if (!githubLogin) {
+        return await ctx.redirect('/user/logout');
+      }
       return await ctx.redirect(`/${githubLogin}`);
     }
 
