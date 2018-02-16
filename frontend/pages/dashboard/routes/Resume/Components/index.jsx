@@ -118,8 +118,10 @@ class Resume extends React.Component {
   }
 
   handlePreview() {
-    const { actions } = this.props;
-    actions.saveResume();
+    const { actions, resume } = this.props;
+    if (resume.edited) {
+      actions.saveResume();
+    }
     this.handleModalStatus(true);
   }
 

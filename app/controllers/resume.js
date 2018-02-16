@@ -135,7 +135,7 @@ const setResume = async (ctx, next) => {
 };
 
 const downloadResume = async (ctx) => {
-  const { userId, githubLogin } = ctx.session;
+  const { userId, githubLogin, locale } = ctx.session;
   const checkPubResume = await ResumePub.findOne({ userId });
   if (!checkPubResume.success) {
     ctx.body = {
@@ -152,7 +152,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
-    `${HTTPS_URL}/resume/${hash}?locale=${ctx.session.locale}&userId=${userId}&notrace=true`;
+    `${HTTPS_URL}/resume/${hash}?locale=${locale}&userId=${userId}&notrace=true`;
 
   new SlackMsg(ctx.mq).send({
     type: 'download',
@@ -166,7 +166,7 @@ const downloadResume = async (ctx) => {
   try {
     resultUrl = await Downloads.resume(resumeUrl, {
       folder: githubLogin,
-      title: `${template}-${seconds}-resume.pdf`
+      title: `${template}-${locale}-${seconds}-resume.pdf`
     });
   } catch (e) {
     logger.error(`[RESUME:DOWNLOAD:ERROR]${e}`);

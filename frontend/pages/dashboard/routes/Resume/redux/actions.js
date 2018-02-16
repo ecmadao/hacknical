@@ -41,6 +41,7 @@ const saveResume = () => (dispatch, getState) => {
   Api.resume.setResume(postResume).then((result) => {
     result && dispatch(initialPubResumeStatus(result));
     dispatch(togglePosting(false));
+    dispatch(resetEdited());
   });
 };
 
