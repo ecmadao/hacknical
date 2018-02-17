@@ -4,6 +4,12 @@ import { PortalModal } from 'light-ui';
 import styles from '../../styles/template_modal.css';
 import modalStyles from '../../styles/modal.css';
 
+const TEMPLATES = [
+  'v1',
+  'v2',
+  'v3'
+];
+
 const TemplateModal = (props) => {
   const {
     onClose,
@@ -11,6 +17,28 @@ const TemplateModal = (props) => {
     openModal,
     onTemplateChange
   } = props;
+
+  const templates = TEMPLATES.map((templateId, index) => (
+    <div className={styles.modalSection} key={index}>
+      <div
+        className={cx(
+          styles.templateContainer,
+          template === templateId && styles.templateContainerActive
+        )}
+      >
+        <div
+          className={cx(
+            styles.template,
+            styles[`template${templateId}`],
+          )}
+          onClick={() => onTemplateChange(templateId)}
+        />
+        <div className={styles.templateWrapper}>
+          <i className="fa fa-check-circle" aria-hidden="true" />
+        </div>
+      </div>
+    </div>
+  ));
 
   return (
     <PortalModal
@@ -27,44 +55,7 @@ const TemplateModal = (props) => {
           简历模板选择
         </div>
         <div className={styles.modalWrapper}>
-          <div className={styles.modalSection}>
-            <div
-              className={cx(
-                styles.templateContainer,
-                template === 'v1' && styles.templateContainerActive
-              )}
-            >
-              <div
-                className={cx(
-                  styles.template,
-                  styles.templatev1,
-                )}
-                onClick={() => onTemplateChange('v1')}
-              />
-              <div className={styles.templateWrapper}>
-                <i className="fa fa-check-circle" aria-hidden="true" />
-              </div>
-            </div>
-          </div>
-          <div className={styles.modalSection}>
-            <div
-              className={cx(
-                styles.templateContainer,
-                template === 'v2' && styles.templateContainerActive
-              )}
-            >
-              <div
-                className={cx(
-                  styles.template,
-                  styles.templatev2,
-                )}
-                onClick={() => onTemplateChange('v2')}
-              />
-              <div className={styles.templateWrapper}>
-                <i className="fa fa-check-circle" aria-hidden="true" />
-              </div>
-            </div>
-          </div>
+          {templates}
         </div>
       </div>
     </PortalModal>

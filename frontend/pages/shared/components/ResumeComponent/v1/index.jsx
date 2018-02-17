@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import { validateUrl } from 'UTILS/helper';
 import validator from 'UTILS/validator';
 import { objectassign } from 'SHARED/utils/resume';
-import styles from './resume_v1.css';
+import styles from './v1.css';
 import statusLabels from '../shared/StatusLabels';
-import AsyncGithub from '../shared/AsyncGithub';
 import locales from 'LOCALES';
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 
@@ -67,18 +65,6 @@ const titleInfo = (text, icon, options = {}) => info(objectassign({}, {
 }));
 
 class ResumeComponentV1 extends ResumeUIWrapper {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showGithub: false
-    };
-    this.changeShowGithub = this.changeShowGithub.bind(this);
-  }
-
-  changeShowGithub(showGithub) {
-    this.setState({ showGithub });
-  }
-
   renderEducations(key) {
     const { resume } = this.props;
     const { info, educations } = resume;
@@ -298,8 +284,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
   }
 
   render() {
-    const { showGithub } = this.state;
-    const { resume, shareInfo, login, updateText } = this.props;
+    const { resume, shareInfo, updateText } = this.props;
     const {
       info,
       others,
@@ -308,40 +293,13 @@ class ResumeComponentV1 extends ResumeUIWrapper {
       workExperiences
     } = resume;
     const resumeInfo = info || {};
-    const { useGithub, github, githubUrl } = shareInfo;
+    const { useGithub, githubUrl } = shareInfo;
     const its = resumeInfo.gender === 'male'
       ? resumeLocales.options.person.male
       : resumeLocales.options.person.female;
     const viewGitHub = resumeLocales.options.view.replace(/%s/, its);
-
-    if (useGithub && showGithub) {
-      return (
-        <div className={styles.container}>
-          <div
-            className={cx(
-              styles.github_wrapper,
-              showGithub && styles.github_wrapper_active
-            )}
-          >
-            {baseInfo(null, 'arrow-left', {
-              style: styles.base_info_header,
-              component: (
-                <span
-                  onClick={() => this.changeShowGithub(false)}
-                >
-                  {resumeLocales.options.back}
-                </span>
-              )
-            })}
-            <AsyncGithub
-              isShare
-              login={login}
-              githubSection={github}
-            />
-          </div>
-        </div>
-      );
-    }
+    const githubSection = this.renderGitHub();
+    if (githubSection) return githubSection;
 
     return (
       <div className={styles.container}>
@@ -414,17 +372,5 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     );
   }
 }
-
-ResumeComponentV1.propTypes = {
-  resume: PropTypes.object,
-  shareInfo: PropTypes.object,
-  login: PropTypes.string
-};
-
-ResumeComponentV1.defaultProps = {
-  resume: {},
-  login: '',
-  shareInfo: {},
-};
 
 export default ResumeComponentV1;

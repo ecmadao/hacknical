@@ -31,13 +31,14 @@ class Educations extends React.Component {
   }
 
   renderEdu() {
-    const { educations, disabled } = this.props;
+    const { educations, disabled, freshGraduate } = this.props;
     return educations.map((edu, index) => (
       <Education
         edu={edu}
         key={index}
         index={index}
         disabled={disabled}
+        freshGraduate={freshGraduate}
         deleteEdu={this.deleteEdu(index)}
         handleEduChange={this.handleEduChange(index)}
       />
@@ -60,8 +61,11 @@ class Educations extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { educations } = state.resume;
-  return { educations };
+  const { educations, info } = state.resume;
+  return {
+    educations,
+    freshGraduate: info.freshGraduate,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

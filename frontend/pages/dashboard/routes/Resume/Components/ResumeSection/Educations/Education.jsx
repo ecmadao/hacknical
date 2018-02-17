@@ -71,6 +71,7 @@ class Education extends React.Component {
       edu,
       disabled,
       deleteEdu,
+      freshGraduate,
       handleEduChange,
     } = this.props;
     const {
@@ -125,16 +126,18 @@ class Education extends React.Component {
             onEndChange={handleEduChange('endTime')}
           />
         </div>
-        <div className={styles.resume_wrapper}>
-          <WritableList
-            items={experiences}
-            onAdd={this.addExperience}
-            onDelete={this.deleteExperience}
-            onChange={this.changeExperience}
-            introText={resumeTexts.introText}
-            placeholder={resumeTexts.addEduExperience}
-          />
-        </div>
+        {freshGraduate ? (
+          <div className={styles.resume_wrapper}>
+            <WritableList
+              items={experiences}
+              onAdd={this.addExperience}
+              onDelete={this.deleteExperience}
+              onChange={this.changeExperience}
+              introText={resumeTexts.introText}
+              placeholder={resumeTexts.addEduExperience}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }

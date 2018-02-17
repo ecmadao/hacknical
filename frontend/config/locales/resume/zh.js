@@ -71,7 +71,7 @@ const datas = {
       expectSalary: '期待月薪',
       expectCity: '期望工作地点',
       yourDream: '你的梦想/slogan？',
-      personalIntro: '新增个人介绍',
+      personalIntro: '新增个人介绍、自我评价',
       introText: '输入一句个人介绍，并按下回车来创建',
       selfAssessment: '自我评价',
       and: '与',

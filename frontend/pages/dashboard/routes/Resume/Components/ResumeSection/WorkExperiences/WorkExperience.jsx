@@ -73,9 +73,11 @@ class WorkExperience extends React.Component {
         </div>
         <div className={styles.resume_wrapper}>
           <InputGroup
-            value={company}
             theme="flat"
+            value={company}
             disabled={disabled}
+            inputClassName={styles.inputGroup}
+            wrapperClassName={styles.inputTipsoWrapper}
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}
           >
@@ -90,8 +92,8 @@ class WorkExperience extends React.Component {
             />
           </InputGroup>
           <Input
-            value={position}
             theme="flat"
+            value={position}
             disabled={disabled}
             placeholder={resumeTexts.position}
             className={styles.last_input}

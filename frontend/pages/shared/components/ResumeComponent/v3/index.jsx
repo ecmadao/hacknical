@@ -2,8 +2,9 @@ import React from 'react';
 import cx from 'classnames';
 import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
-import styles from './v2.css';
+import styles from './v3.css';
 import statusLabels from '../shared/StatusLabels';
+import AsyncGithub from '../shared/AsyncGithub';
 import locales from 'LOCALES';
 import { objectassign } from 'SHARED/utils/resume';
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
@@ -11,6 +12,51 @@ import { renderBaseInfo, section } from '../shared/common';
 
 const resumeTexts = locales('resume');
 const { hoursBefore } = dateHelper.relative;
+
+const renderPersonalProjectsRow = (options) => {
+  const { url, desc, techs, title, index } = options;
+
+  const projectTechs = techs.map((tech, i) => (
+    <Label
+      min
+      key={i}
+      text={tech}
+      clickable={false}
+      color="darkLight"
+      className={styles.label}
+    />
+  ));
+  return (
+    <div
+      className={cx(
+        styles.column,
+        styles.sectionColumn,
+        styles.projectColumn,
+      )}
+      key={index}
+    >
+      {renderBaseInfo({
+        url,
+        value: title,
+        className: styles.mainText
+      })}
+      <div>
+        <span
+          className={cx(
+            styles.subText,
+            styles.subTextLightDark,
+            styles.descContainer
+          )}
+        >
+          {desc}
+        </span>
+        <div>
+          {projectTechs}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const renderWorkProjects = (projects = []) =>
   projects.map((project, index) => {
@@ -34,54 +80,7 @@ const renderWorkProjects = (projects = []) =>
     );
   });
 
-
-const renderPersonalProjectsRow = (options = {}) => {
-  const { url, desc, techs, title, index } = options;
-
-  const projectTechs = techs.map((tech, i) => (
-    <Label
-      min
-      key={i}
-      text={tech}
-      clickable={false}
-      color="darkLight"
-      className={styles.label}
-    />
-  ));
-  return (
-    <div
-      className={cx(
-        styles.row,
-        styles.projectRow
-      )}
-      key={index}
-    >
-      <div className={cx(styles.rowLeft, styles.textRight)}>
-        {renderBaseInfo({
-          url,
-          value: title,
-          className: styles.mainText
-        })}
-      </div>
-      <div className={styles.rowRight}>
-        <span
-          className={cx(
-            styles.subText,
-            styles.subTextDark,
-            styles.descContainer
-          )}
-        >
-          {desc}
-        </span>
-        <div>
-          {projectTechs}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const renderWorkExperienceRow = (options = {}) => {
+const renderWorkExperienceRow = (options) => {
   const {
     url,
     index,
@@ -94,29 +93,26 @@ const renderWorkExperienceRow = (options = {}) => {
 
   const workProjects = renderWorkProjects(projects);
   return (
-    <div className={styles.row} key={index}>
-      <div className={cx(styles.rowLeft, styles.textRight)}>
-        {renderBaseInfo({
-          url,
-          value: company,
-          className: styles.mainText
-        })}
-        <br />
+    <div className={cx(styles.column, styles.sectionColumn)} key={index}>
+      <div className={styles.row}>
+        <div className={styles.rowHeader}>
+          {renderBaseInfo({
+            url,
+            value: company,
+            className: styles.mainText
+          })}
+        </div>
         <span className={styles.subText}>
           {startTime}  ~  {endTime}
         </span>
       </div>
-      <div className={styles.rowRight}>
-        <span className={styles.mainText}>{position}</span>
-        <div>
-          {workProjects}
-        </div>
-      </div>
+      <span className={styles.subText}>{position}</span>
+      {workProjects}
     </div>
   );
 };
 
-const renderEduRow = (options = {}) => {
+const renderEduRow = (options) => {
   const {
     major,
     index,
@@ -134,27 +130,110 @@ const renderEduRow = (options = {}) => {
     </li>
   ));
   return (
-    <div className={styles.row} key={index}>
-      <div className={cx(styles.rowLeft, styles.textRight)}>
-        <span className={styles.mainText}>{school}</span><br />
+    <div className={cx(styles.column, styles.sectionColumn)} key={index}>
+      <div className={styles.row}>
+        <div className={styles.rowHeader}>
+          {renderBaseInfo({
+            value: school,
+            className: styles.mainText
+          })}
+        </div>
         <span className={styles.subText}>
           {startTime}  ~  {endTime}
         </span>
       </div>
-      <div className={styles.rowRight}>
-        <span className={styles.mainText}>{major}</span><br />
-        <span className={styles.subText}>{education}</span>
-        {freshGraduate ? (
-          <ul className={styles.list}>
-            {experiencesDetails}
-          </ul>
-        ) : null}
-      </div>
+      <span className={styles.subText}>{education} - {major}</span>
+      {freshGraduate ? (
+        <ul className={styles.list}>
+          {experiencesDetails}
+        </ul>
+      ) : null}
     </div>
   );
 };
 
-class ResumeComponentV2 extends ResumeUIWrapper {
+const renderSupplementRow = () => {
+
+};
+
+const renderLinkRow = () => {
+
+};
+
+class ResumeComponentV3 extends ResumeUIWrapper {
+  renderSocialLinks(key) {
+    const { others } = this.props.resume;
+    const { socialLinks } = others;
+    if (!socialLinks.length) return null;
+
+    const socials = socialLinks.map((social, index) => {
+      const { url, text } = social;
+      return (
+        <li key={index}>
+          <div className={styles.link_wrapper}>
+            {text}
+            &nbsp;:&nbsp;&nbsp;&nbsp;
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.list_link}
+              href={social.validateUrl}
+            >
+              {url}
+            </a>
+          </div>
+        </li>
+      );
+    });
+
+    return section({
+      key,
+      rows: [(
+        <ul className={styles.list} key={0}>
+          {socials}
+        </ul>
+      )],
+      title: resumeTexts.sections.others.links.title,
+    });
+  }
+
+  renderSupplements(key) {
+    const { others } = this.props.resume;
+    const { supplements } = others;
+
+    const personalSupplements = supplements.map((supplement, index) => (
+      <li key={index}>
+        {supplement}
+      </li>
+    ));
+
+    return section({
+      key,
+      rows: [(
+        <ul className={styles.list} key={0}>
+          {personalSupplements}
+        </ul>
+      )],
+      title: resumeTexts.sections.others.selfAssessment,
+    });
+  }
+
+  renderPersonalProjects(key) {
+    const { personalProjects } = this.props.resume;
+
+    const projects = personalProjects
+      .map((project, index) => renderPersonalProjectsRow({
+        ...project,
+        index
+      }));
+
+    return section({
+      key,
+      rows: projects,
+      title: resumeTexts.sections.projects.title,
+    });
+  }
+
   renderEducations(key) {
     const { resume } = this.props;
     const { info, educations } = resume;
@@ -186,103 +265,6 @@ class ResumeComponentV2 extends ResumeUIWrapper {
       key,
       rows: exps,
       title: super.getSectionTitle('work')
-    });
-  }
-
-  renderPersonalProjects(key) {
-    const { personalProjects } = this.props.resume;
-
-    const projects = personalProjects
-      .map((project, index) => renderPersonalProjectsRow({
-        ...project,
-        index
-      }));
-
-    return section({
-      key,
-      rows: projects,
-      title: resumeTexts.sections.projects.title,
-    });
-  }
-
-  getSupplements() {
-    const { others } = this.props.resume;
-    const { supplements } = others;
-    if (!supplements.length) return null;
-
-    const personalSupplements = supplements.map((supplement, index) => (
-      <li key={index}>
-        {supplement}
-      </li>
-    ));
-
-    return (
-      <div className={styles.sectionColumn}>
-        <span className={styles.subTextDark}>
-          {resumeTexts.sections.others.selfAssessment}
-        </span>
-        <ul className={styles.list}>
-          {personalSupplements}
-        </ul>
-      </div>
-    );
-  }
-
-  getLinks() {
-    const { others } = this.props.resume;
-    const { socialLinks } = others;
-    if (!socialLinks.length) return null;
-
-    const socials = socialLinks.map((social, index) => {
-      const { url, text } = social;
-      return (
-        <li key={index}>
-          <div className={styles.link_wrapper}>
-            {text}
-            &nbsp;:&nbsp;&nbsp;&nbsp;
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.list_link}
-              href={social.validateUrl}
-            >
-              {url}
-            </a>
-          </div>
-        </li>
-      );
-    });
-
-    return (
-      <div className={styles.sectionColumn}>
-        <span className={styles.subTextDark}>
-          {resumeTexts.sections.others.links.title}
-        </span>
-        <ul className={styles.list}>
-          {socials}
-        </ul>
-      </div>
-    );
-  }
-
-  renderSupplements(key) {
-    const supplements = this.getSupplements();
-    const otherLinks = this.getLinks();
-    const titles = [];
-    if (!supplements && !otherLinks) return null;
-    if (supplements) titles.push(resumeTexts.sections.others.selfAssessment);
-    if (otherLinks) titles.push(resumeTexts.sections.others.links.title);
-
-    const rows = [
-      (<div className={styles.row} key={0}>
-        {supplements}
-        {otherLinks}
-      </div>)
-    ];
-    return section({
-      key,
-      rows,
-      title: titles.join(resumeTexts.sections.others.and),
     });
   }
 
@@ -379,4 +361,4 @@ class ResumeComponentV2 extends ResumeUIWrapper {
   }
 }
 
-export default ResumeComponentV2;
+export default ResumeComponentV3;

@@ -1,0 +1,70 @@
+@import 'open-color/open-color.css';
+
+.titleText {
+  font-size: 1.5em;
+  color: var(--oc-gray-9);
+}
+
+.container {
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+  background-color: var(--oc-white);
+  box-shadow: var(--shadow1);
+  border-radius: 4px;
+}
+
+.github_wrapper {
+  width: 100%;
+  border-radius: 4px;
+  min-height: 100%;
+  padding-bottom: 20px;
+  flex-direction: column;
+  visibility: visible;
+  z-index: 1;
+  left: 0;
+}
+
+.baseLink {
+  transition: color 0.2s;
+  cursor: pointer;
+  color: var(--oc-green-7) !important;
+}
+
+.baseInfo {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  & i {
+    margin-right: 7px;
+  }
+}
+
+.githubBack {
+  margin: 30px;
+}
+
+.section {
+  padding: 15px 40px;
+}
+
+.sectionHeader {
+  composes: titleText;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.sectionTitle {
+  margin-right: 20px;
+}
+
+.headerLine {
+  height: 1px;
+  flex: 1;
+  background-color: var(--oc-gray-3);
+}

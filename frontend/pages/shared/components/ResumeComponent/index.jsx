@@ -11,6 +11,10 @@ const ResumeViews = {
     resolve: () => System.import('./v2'),
     LoadingComponent: () => <Loading loading />
   }),
+  v3: asyncComponent({
+    resolve: () => System.import('./v3'),
+    LoadingComponent: () => <Loading loading />
+  }),
 };
 
 const ResumeComponent = (props) => {

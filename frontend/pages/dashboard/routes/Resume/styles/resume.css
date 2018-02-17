@@ -127,6 +127,7 @@
 
 .last_input {
   margin-right: 0 !important;
+  flex: inherit;
 }
 
 .resume_wrapper {
@@ -394,48 +395,59 @@
 }
 
 .tipso_input_dark {
-  color: var(--oc-gray-5);
+  color: var(--oc-gray-7);
+  border-bottom: 1px solid var(--oc-gray-3) !important;
 
   &::-moz-placeholder {
     opacity: 0.7;
-    color: var(--oc-gray-5);
+    color: var(--oc-gray-7);
   }
 
   &::-webkit-input-placeholder {
     opacity: 0.7;
-    color: var(--oc-gray-5);
+    color: var(--oc-gray-7);
   }
 
   &:-ms-input-placeholder {
     opacity: 0.7;
-    color: var(--oc-gray-5);
+    color: var(--oc-gray-7);
   }
 
   &:focus {
-    border-bottom: 1px solid var(--oc-gray-5) !important;
+    border-bottom: 1px solid var(--oc-gray-3) !important;
   }
 }
 
 .tipso_input_light {
   color: var(--oc-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
 
   &::-moz-placeholder {
-    opacity: 0.7;
+    opacity: 0.8;
     color: var(--oc-white);
   }
 
   &::-webkit-input-placeholder {
-    opacity: 0.7;
+    opacity: 0.8;
     color: var(--oc-white);
   }
 
   &:-ms-input-placeholder {
-    opacity: 0.7;
+    opacity: 0.8;
     color: var(--oc-white);
   }
 
   &:focus {
-    border-bottom: 1px solid var(--oc-white) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
   }
 }
 
+.inputTipsoWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.inputGroup {
+  flex: 1;
+}

@@ -71,7 +71,7 @@ const datas = {
       expectSalary: 'Expect salary',
       expectCity: 'Expect workplace',
       yourDream: 'Your dream/slogan?',
-      personalIntro: 'Personal intro',
+      personalIntro: 'Personal intro/Self assessment',
       introText: 'Wirte your personal intro then press enter to create it',
       selfAssessment: 'Self Assessment',
       and: 'and',
