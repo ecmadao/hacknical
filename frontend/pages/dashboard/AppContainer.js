@@ -3,17 +3,24 @@ import PropTypes from 'prop-types';
 import { renderRoutes } from 'react-router-config';
 import { ConnectedRouter } from 'react-router-redux';
 import { Provider } from 'react-redux';
+import { removeDOM } from 'UTILS/helper';
 
-const AppContainer = (props) => {
-  const { history, routes, store } = props;
-  return (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        {renderRoutes(routes)}
-      </ConnectedRouter>
-    </Provider>
-  );
-};
+class AppContainer extends React.Component {
+  componentDidMount() {
+    setTimeout(() => removeDOM('#loading'), 500);
+  }
+
+  render() {
+    const { history, routes, store } = this.props;
+    return (
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          {renderRoutes(routes)}
+        </ConnectedRouter>
+      </Provider>
+    );
+  }
+}
 
 AppContainer.propTypes = {
   history: PropTypes.object.isRequired,

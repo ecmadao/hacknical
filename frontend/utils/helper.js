@@ -170,3 +170,5 @@ export const validateUrl = (url) => {
 
 export const sleep = ms =>
   new Promise(resolve => setTimeout(resolve, ms));
+
+export const removeDOM = dom => $(dom) && $(dom).remove();

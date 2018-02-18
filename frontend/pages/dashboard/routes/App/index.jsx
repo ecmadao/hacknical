@@ -22,7 +22,8 @@ class App extends React.Component {
       app,
       history,
     } = this.props;
-    history.replace(`/${app.login}/visualize`);
+    const { login, activeTab } = app;
+    history.replace(`/${login}/${activeTab}`);
   }
 
   render() {

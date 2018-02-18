@@ -48,6 +48,12 @@ router.get(
   Home.dashboard
 );
 router.get(
+  '/:login/:dashboardRoute',
+  user.checkValidateUser(),
+  user.checkValidateDashboard(),
+  Home.dashboard
+);
+router.get(
   '/:login/github',
   share.githubEnable(),
   analyse.github(),

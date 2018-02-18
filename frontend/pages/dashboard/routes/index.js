@@ -10,6 +10,7 @@ import Setting from './Setting';
 export const createRoutes = (store, props) => {
   const {
     login,
+    dashboardRoute,
     locale = 'en',
     isAdmin = false,
     isMobile = false,
@@ -21,6 +22,7 @@ export const createRoutes = (store, props) => {
       locale,
       isAdmin,
       isMobile,
+      activeTab: dashboardRoute,
     })
   });
   const device = isMobile ? 'mobile' : 'desktop';
@@ -28,6 +30,7 @@ export const createRoutes = (store, props) => {
     login,
     device,
     isMobile,
+    dashboardRoute,
   };
   return [{
     component: App,

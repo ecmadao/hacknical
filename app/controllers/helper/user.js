@@ -51,10 +51,25 @@ const checkValidateUser = () => async (ctx, next) => {
   await next();
 };
 
+const VALIDATE_DASHBOARD = new Set([
+  'profile',
+  'archive',
+  'visualize',
+  'setting'
+]);
+
+const checkValidateDashboard = () => async (ctx, next) => {
+  const { dashboardRoute } = ctx.params;
+  const { githubLogin } = ctx.session;
+  if (!VALIDATE_DASHBOARD.has(dashboardRoute)) return ctx.redirect(`/${githubLogin}`);
+  await next();
+};
+
 export default {
   checkSession,
   checkIfLogin,
   checkNotLogin,
   checkIsEmail,
-  checkValidateUser
+  checkValidateUser,
+  checkValidateDashboard,
 };

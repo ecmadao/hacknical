@@ -12,6 +12,7 @@ $(() => {
     locale: window.locale,
     isAdmin: window.isAdmin === 'true',
     isMobile: window.isMobile === 'true',
+    dashboardRoute: window.dashboardRoute || 'visualize',
   });
   renderOctocat();
 });

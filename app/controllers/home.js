@@ -36,7 +36,7 @@ const handle404 = async (ctx) => {
 };
 
 const dashboard = async (ctx) => {
-  const { login } = ctx.params;
+  const { login, dashboardRoute = 'visualize' } = ctx.params;
   const { githubLogin, userId } = ctx.session;
   const user = await User.findOne({ userId });
 
@@ -49,6 +49,7 @@ const dashboard = async (ctx) => {
   }
   const checkPubResume = await ResumePub.findOne({ userId });
   await ctx.render('user/dashboard', {
+    dashboardRoute,
     login: githubLogin,
     isAdmin: login === githubLogin,
     resumeHash: checkPubResume && checkPubResume.success

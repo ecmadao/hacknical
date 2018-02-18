@@ -34,7 +34,6 @@ class ResumeWrapper extends React.Component {
 
   componentDidMount() {
     this.fetchResumeData();
-    this.removeLoading('#loading');
   }
 
   componentDidUpdate(preProps, preState) {
@@ -42,10 +41,6 @@ class ResumeWrapper extends React.Component {
     if (!loading && preState.loading) {
       setTimeout(() => window.done = true, 2000);
     }
-  }
-
-  removeLoading(dom) {
-    $(dom) && $(dom).remove();
   }
 
   async fetchResumeData() {

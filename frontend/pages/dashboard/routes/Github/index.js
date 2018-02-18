@@ -16,7 +16,6 @@ export default (store, options) => {
   const GithubComponent = githubComponent[device];
   return {
     path: `/${login}/visualize`,
-    exact: true,
     component: GithubComponent,
   };
 };

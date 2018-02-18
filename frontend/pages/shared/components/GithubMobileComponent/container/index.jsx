@@ -75,7 +75,6 @@ class GithubMobileComponent extends React.Component {
       this.getGithubCommits();
     }
     repositoriesLoaded && commitLoaded && this.initialScrollReveal();
-    repositoriesLoaded && this.removeLoading('#loading');
     commitLoaded && !preState.commitLoaded && this.renderRepositoriesChart();
 
     if (this.props.isAdmin && !this.headroom && this.refreshButton) {
@@ -88,10 +87,6 @@ class GithubMobileComponent extends React.Component {
       });
       this.headroom.init();
     }
-  }
-
-  removeLoading(dom) {
-    $(dom) && $(dom).remove();
   }
 
   async getRefreshStatus() {

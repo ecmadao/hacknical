@@ -58,8 +58,6 @@ class GithubComponent extends React.Component {
     } = this.state;
     const { isShare } = this.props;
 
-    this.removeLoading('#loading');
-
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
       !isShare && this.getGithubScientific(user.login);
@@ -69,10 +67,6 @@ class GithubComponent extends React.Component {
     if (repositoriesLoaded && !preState.repositoriesLoaded) {
       !commitLoaded && this.getGithubCommits(user.login);
     }
-  }
-
-  removeLoading(dom) {
-    $(dom) && $(dom).remove();
   }
 
   changeState(newState) {
