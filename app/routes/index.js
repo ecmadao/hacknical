@@ -48,12 +48,6 @@ router.get(
   Home.dashboard
 );
 router.get(
-  '/:login/:dashboardRoute',
-  user.checkValidateUser(),
-  user.checkValidateDashboard(),
-  Home.dashboard
-);
-router.get(
   '/:login/github',
   share.githubEnable(),
   analyse.github(),
@@ -64,6 +58,12 @@ router.get(
   resume.checkValidateByLogin('params.login'),
   analyse.resume('query.hash'),
   Resume.resumePage
+);
+router.get(
+  '/:login/:dashboardRoute',
+  user.checkValidateUser(),
+  user.checkValidateDashboard(),
+  Home.dashboard
 );
 
 export default router;
