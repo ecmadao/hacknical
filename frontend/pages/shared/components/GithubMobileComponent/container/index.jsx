@@ -13,6 +13,7 @@ import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import { randomColor } from 'UTILS/colors';
 import {
+  removeDOM,
   getMaxIndex,
   getFirstMatchTarget,
 } from 'UTILS/helper';
@@ -66,6 +67,7 @@ class GithubMobileComponent extends React.Component {
     this.getGithubUser();
     this.getGithubRepositories();
     this.getRefreshStatus();
+    setTimeout(() => removeDOM('#loading'), 1000);
   }
 
   componentDidUpdate(preProps, preState) {
