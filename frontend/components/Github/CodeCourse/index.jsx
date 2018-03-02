@@ -42,7 +42,7 @@ class CodeCourse extends React.Component {
   }
 
   getRepositoriesMap() {
-    const { repositories } = this.props;
+    const { repositories = [] } = this.props;
     const repositoriesMap = {};
     for (let i = 0; i < repositories.length; i += 1) {
       const repository = repositories[i];
@@ -75,7 +75,6 @@ class CodeCourse extends React.Component {
 
   formatRepositories() {
     const {
-      showedCount,
       yearAgoSeconds,
       minDateSeconds,
       maxDateSeconds
@@ -85,6 +84,7 @@ class CodeCourse extends React.Component {
     if (!commitDatas.length) return results;
     const repositoriesMap = this.getRepositoriesMap();
 
+    const showedCount = Math.min(this.state.showedCount, commitDatas.length);
     for (let i = 0; i < showedCount; i += 1) {
       const commitData = commitDatas[i];
       const {

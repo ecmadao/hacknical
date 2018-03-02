@@ -11,6 +11,9 @@ import github from 'UTILS/github';
 import locales from 'LOCALES';
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
+import {
+  removeDOM,
+} from 'UTILS/helper';
 
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
@@ -63,6 +66,7 @@ class GithubComponent extends React.Component {
       !isShare && this.getGithubScientific(user.login);
       !scientific.statistic && this.getGithubStatistic(user.login);
       !repositoriesLoaded && this.getGithubRepositories(user.login);
+      setTimeout(() => removeDOM('#loading'), 1000);
     }
     if (repositoriesLoaded && !preState.repositoriesLoaded) {
       !commitLoaded && this.getGithubCommits(user.login);
