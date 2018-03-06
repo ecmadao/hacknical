@@ -17,23 +17,24 @@ const createShare = async (options) => {
   await ShareAnalyse.create(options);
 };
 
-const disableShare = async (url) => {
+const disableShare = async (url, login) =>
   await changeShareStatus({
     url,
+    login,
     enable: false
   });
-};
 
-const enableShare = async (url) => {
+
+const enableShare = async (url, login) =>
   await changeShareStatus({
     url,
+    login,
     enable: true
   });
-};
 
 const changeShareStatus = async (options) => {
-  const { enable, url } = options;
-  const analyses = await findShares({ url });
+  const { enable, url, login } = options;
+  const analyses = await findShares({ login, url });
 
   for (let i = 0; i < analyses.length; i += 1) {
     const analyse = analyses[i];
@@ -124,8 +125,6 @@ const updateViewData = async (options) => {
 const findAll = async () => await ShareAnalyse.find({});
 
 export default {
-  disableShare,
-  enableShare,
   createShare,
   updateViewData,
   checkShareEnable,

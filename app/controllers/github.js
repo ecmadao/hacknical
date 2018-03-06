@@ -44,9 +44,11 @@ const _getCommits = async (login, token) => {
 /* ================== router handler ================== */
 
 const toggleShare = async (ctx) => {
+  const { githubLogin } = ctx.session;
   const { enable } = ctx.request.body;
   await ShareAnalyse.changeShareStatus({
     enable,
+    login: githubLogin,
     url: new RegExp('github')
   });
   const message = Boolean(enable) == true
