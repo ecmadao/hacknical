@@ -17,21 +17,6 @@ const createShare = async (options) => {
   await ShareAnalyse.create(options);
 };
 
-const disableShare = async (url, login) =>
-  await changeShareStatus({
-    url,
-    login,
-    enable: false
-  });
-
-
-const enableShare = async (url, login) =>
-  await changeShareStatus({
-    url,
-    login,
-    enable: true
-  });
-
 const changeShareStatus = async (options) => {
   const { enable, url, login } = options;
   const analyses = await findShares({ login, url });

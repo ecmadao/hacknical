@@ -50,7 +50,7 @@ class ContributedInfo extends React.Component {
   setGithubContributed(repositories = []) {
     const { login } = this.props;
     const filtered = repositories.filter(
-      repository => repository.owner.login !== login
+      repository => repository.owner && repository.owner.login !== login
     );
     this.setState({
       loaded: true,
