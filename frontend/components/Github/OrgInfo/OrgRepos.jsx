@@ -108,14 +108,13 @@ class OrgRepos extends React.Component {
       const { contributors } = repository;
       const filterContributions = contributors
         .filter(contributor => contributor.login === login);
-      const totalContributions = contributors.reduce((prev, current, i) => {
-        if (i === 0) {
-          return current.total;
-        }
-        return current.total + prev;
-      }, '');
+      const totalContributions = contributors.reduce(
+        (prev, current) => current.total + prev, 0
+      );
 
-      const userContributions = filterContributions.length ? filterContributions[0].total : 0;
+      const userContributions = filterContributions.length
+        ? filterContributions[0].total
+        : 0;
       const percentage = totalContributions
         ? (userContributions / totalContributions) * 100
         : 0;
@@ -148,7 +147,7 @@ class OrgRepos extends React.Component {
               repository={repository}
               contribution={filterContributions[0] || { weeks: [] }}
             />
-          ) : ''}
+          ) : null}
         </div>
       );
     });

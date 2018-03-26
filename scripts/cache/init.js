@@ -27,12 +27,9 @@ const init = async () => {
 
     allAnalyse.forEach((analyse) => {
       const { login, pageViews } = analyse;
-      const viewCount = pageViews.reduce((prev, current, index) => {
+      const viewCount = pageViews.reduce((prev, current) => {
         let count = parseInt(current.count, 10);
         if (Number.isNaN(count)) count = 0;
-        if (index === 0) {
-          return count;
-        }
         return count + prev;
       }, 0);
       if (login) {

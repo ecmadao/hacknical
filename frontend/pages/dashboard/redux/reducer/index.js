@@ -1,9 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 
-// REDUCERS.routing = routerReducer;
-// const appReducer = combineReducers(REDUCERS);
-
 const initialReducers = {};
 
 export const makeRootReducer = (asyncReducers) => {

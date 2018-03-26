@@ -60,12 +60,9 @@ class OrgInfo extends React.Component {
         );
       filterRepos.push(...repos);
     });
-    const totalStar = filterRepos.reduce((prev, current, index) => {
-      if (index === 0) {
-        return current.stargazers_count;
-      }
-      return current.stargazers_count + prev;
-    }, '');
+    const totalStar = filterRepos.reduce(
+      (prev, current) => current.stargazers_count + prev, 0
+    );
 
     return (
       <CardGroup className={cardStyles.card_group}>

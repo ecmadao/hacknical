@@ -198,12 +198,9 @@ class ShareAnalysis extends React.Component {
 
   renderChartInfo() {
     const { pageViews, viewDevices, viewSources } = this.props;
-    const viewCount = pageViews.reduce((prev, current, index) => {
-      if (index === 0) {
-        return current.count;
-      }
-      return current.count + prev;
-    }, '');
+    const viewCount = pageViews.reduce(
+      (prev, current) => current.count + prev, 0
+    );
     const maxPlatformCount = Math.max(
       ...viewDevices.map(viewDevice => viewDevice.count)
     );
