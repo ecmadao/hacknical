@@ -19,6 +19,7 @@ const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const shareText = githubLocales.modal.shareText;
 const { secondsBefore } = dateHelper.relative;
+const sortByLanguageStar = github.sortByX({ key: 'stargazers_count' });
 
 class GithubComponent extends React.Component {
   constructor(props) {
@@ -163,7 +164,7 @@ class GithubComponent extends React.Component {
   setGithubRepositories(repositories = []) {
     this.setState({
       repositoriesLoaded: true,
-      repositories: [...repositories],
+      repositories: [...repositories.sort(sortByLanguageStar)],
     });
   }
 

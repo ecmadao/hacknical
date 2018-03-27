@@ -89,14 +89,15 @@ const getMaxDate = (repos) => {
 const getDateInterval = (key1, key2) => repos =>
   Math.abs(getSecondsByDate(repos[key1]) - getSecondsByDate(repos[key2]));
 
-const sortByX = ({ key = null, func = null }) =>
+const sortByX = ({ key = null, func = null, ascending = false }) =>
   (first, second) => {
     const itemF = key ? first[key] : first;
     const itemS = key ? second[key] : second;
+    const rank = ascending ? 1 : -1;
     if (func) {
-      return func(itemS) - func(itemF);
+      return rank * (func(itemF) - func(itemS));
     }
-    return itemS - itemF;
+    return rank * (itemF - itemS);
   };
 
 const sortByDate = (repos, key = 'created_at') =>
