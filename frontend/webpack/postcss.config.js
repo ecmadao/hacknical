@@ -1,6 +1,7 @@
+
 const path = require('path');
-const PATH = require('./config/path');
-const styleVariables = require(path.join(PATH.SOURCE_PATH, 'src/styles/variables'));
+const PATH = require('../../config/path');
+const styleVariables = require(path.resolve(PATH.SOURCE_PATH, 'src/styles/variables'));
 
 module.exports = {
   plugins: {

@@ -1,6 +1,8 @@
-import config from 'config';
-import { wrapMsg } from '../utils/mq';
 
+import config from 'config';
+import { wrapMsg } from './shared';
+
+const homepage = config.get('httpsUrl');
 const sendcloud = config.get('services.sendcloud');
 const qName = config.get('mq.channels')['qname-messenger'];
 const EMAIL_URL = sendcloud.url;
@@ -18,8 +20,8 @@ class EmailMsg {
     if (!EMAIL_URL) return;
     const {
       to,
-      template = 'welcome',
-      msg = { '%url%': ['https://hacknical.com'] },
+      template,
+      msg = { '%url%': [homepage] },
     } = options;
     const templateOptions = this._getOptions(template);
     const sendOptions = Object.assign({}, {

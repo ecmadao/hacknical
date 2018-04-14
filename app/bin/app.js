@@ -24,7 +24,7 @@ import platform from '../middlewares/platform';
 const appKey = config.get('appKey');
 const port = config.get('port');
 const appName = config.get('appName');
-const redis = config.get('redis');
+const redis = config.get('database.redis');
 
 const app = new Koa();
 app.proxy = true;

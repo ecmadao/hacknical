@@ -3,6 +3,7 @@ import User from '../models/users';
 import ResumePub from '../models/resume-pub';
 import Api from '../services/api';
 import getLanguages from '../config/languages';
+import logger from '../utils/logger';
 
 const landingPage = async (ctx) => {
   const { locale } = ctx.state;
@@ -40,8 +41,11 @@ const dashboard = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   const user = await User.findOne({ userId });
 
-  if (!user) {
-    ctx.redirect('/user/logout');
+  logger.debug(`githubLogin: ${githubLogin}, userId: ${userId}`);
+  logger.debug(user);
+
+  if (!user || !userId) {
+    return ctx.redirect('/user/logout');
   }
 
   if (!user.initialed) {
@@ -61,7 +65,11 @@ const dashboard = async (ctx) => {
 
 const initial = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
+  logger.debug(`githubLogin: ${githubLogin}, userId: ${userId}`);
   const user = await User.findOne({ userId });
+
+  logger.debug(user);
+
   if (user.initialed) {
     ctx.redirect(`/${githubLogin}`);
   }

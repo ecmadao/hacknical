@@ -13,17 +13,6 @@ const wrap = (func, ...params) =>
     });
   });
 
-export const wrapMsg = ({ message, type, url }) => {
-  const msg = {
-    data: message,
-    channel: {
-      url,
-      type,
-    },
-  };
-  return JSON.stringify(msg);
-};
-
 class MessageQueue {
   constructor(options = {}) {
     const initOptions = Object.assign({}, mqConfig.config, options);

@@ -46,7 +46,7 @@
       }
     },
     "pro:app:start": {
-      "command": "forever start --killSignal=SIGTERM -a -l /home/ecmadao/log/hacknical/forever_log -e /home/ecmadao/log/hacknical/error_log dist/bin/app.js",
+      "command": "forever start --killSignal=SIGTERM -a -l /var/log/ecmadao/hacknical/forever_log -e /var/log/ecmadao/hacknical/error_log dist/bin/app.js",
       "env": {
         "NODE_ENV": "production"
       }
@@ -152,6 +152,7 @@
     "babel-polyfill": "^6.26.0",
     "co-redis": "^2.1.1",
     "config": "^1.21.0",
+    "eventemitter3": "^3.0.1",
     "font-awesome": "^4.7.0",
     "fs-extra": "^2.0.0",
     "hiredis": "^0.5.0",

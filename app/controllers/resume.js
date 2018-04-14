@@ -9,7 +9,7 @@ import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import { getGithubSections } from './shared';
 import logger from '../utils/logger';
-import SlackMsg from '../services/slack';
+import notify from '../services/notify';
 import {
   formatObject
 } from '../utils/helper';
@@ -120,9 +120,12 @@ const setResume = async (ctx, next) => {
     ];
   }
 
-  new SlackMsg(ctx.mq).send({
-    type: 'resume',
-    data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
+  notify('slack').send({
+    mq: ctx.mq,
+    data: {
+      type: 'resume',
+      data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
+    }
   });
 
   ctx.body = {
@@ -154,9 +157,12 @@ const downloadResume = async (ctx) => {
   const resumeUrl =
     `${HTTPS_URL}/resume/${hash}?locale=${locale}&userId=${userId}&notrace=true`;
 
-  new SlackMsg(ctx.mq).send({
-    type: 'download',
-    data: `【${githubLogin}:${hash}】`
+  notify('slack').send({
+    mq: ctx.mq,
+    data: {
+      type: 'download',
+      data: `【${githubLogin}:${hash}】`
+    }
   });
 
   logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);

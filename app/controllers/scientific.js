@@ -1,5 +1,5 @@
 import Api from '../services/api';
-import SlackMsg from '../services/slack';
+import notify from '../services/notify';
 import getCacheKey from './helper/cacheKey';
 
 const getUserStatistic = async (ctx) => {
@@ -39,9 +39,12 @@ const removePrediction = async (ctx, next) => {
     await Api.removePrediction(login, fullName);
   }
 
-  new SlackMsg(ctx.mq).send({
-    type: 'scientific',
-    data: `Prediction removed by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
+  notify('slack').send({
+    mq: ctx.mq,
+    data: {
+      type: 'scientific',
+      data: `Prediction removed by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
+    }
   });
 
   const cacheKey = getCacheKey(ctx);
@@ -66,9 +69,12 @@ const putPredictionFeedback = async (ctx, next) => {
   }
 
   const likeText = Number(liked) > 0 ? 'liked' : 'disliked';
-  new SlackMsg(ctx.mq).send({
-    type: 'scientific',
-    data: `Prediction ${likeText} by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
+  notify('slack').send({
+    mq: ctx.mq,
+    data: {
+      type: 'scientific',
+      data: `Prediction ${likeText} by <https://github.com/${githubLogin}|${githubLogin}>: <https://github.com/${fullName}|${fullName}>`
+    }
   });
 
   const cacheKey = getCacheKey(ctx);

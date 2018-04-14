@@ -2,8 +2,7 @@ import shortid from 'shortid';
 import User from './schema';
 import ShareAnalyse from '../share-analyse';
 import logger from '../../utils/logger';
-import SlackMsg from '../../services/slack';
-import EmailMsg from '../../services/email';
+import notify from '../../services/notify';
 
 /**
  * private
@@ -98,8 +97,12 @@ const loginWithGithub = async (userInfo, cache, mq) => {
   if (email) {
     const checkSend = await cache.hget('email-welcome', email);
     if (!checkSend) {
-      new EmailMsg(mq).send({
-        to: email,
+      notify('email').send({
+        mq,
+        data: {
+          to: email,
+          template: 'welcome'
+        }
       });
       cache.hincrby('email-welcome', email, 1);
     }
@@ -107,7 +110,10 @@ const loginWithGithub = async (userInfo, cache, mq) => {
   shareInfo.userId = user.userId;
   createGithubShare(shareInfo);
 
-  new SlackMsg(mq).send(msg);
+  notify('slack').send({
+    mq,
+    data: msg
+  });
   return {
     success: true,
     result: user

@@ -4,7 +4,7 @@ import Resumes from '../../app/models/resumes';
 import ShareAnalyse from '../../app/models/share-analyse';
 import { getRedis } from '../../app/middlewares/cache';
 
-const redisUrl = config.get('redis');
+const redisUrl = config.get('database.redis');
 
 const init = async () => {
   try {

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import config from 'config';
 import logger from '../../utils/logger';
 
-const mongodbUrl = config.get('database.url');
+const mongodbUrl = config.get('database.mongo');
 
 function handleErr(err) {
   if (err) {

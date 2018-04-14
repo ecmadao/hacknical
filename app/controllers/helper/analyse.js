@@ -3,7 +3,7 @@ import ShareAnalyse from '../../models/share-analyse';
 import logger from '../../utils/logger';
 import User from '../../models/users';
 import ResumePub from '../../models/resume-pub';
-import SlackMsg from '../../services/slack';
+import notify from '../../services/notify';
 import { getValue } from '../../utils/helper';
 
 const getPubResumeInfo = async (hash) => {
@@ -38,9 +38,12 @@ const updateViewData = async (ctx, options) => {
   });
   if (type) {
     ctx.cache.hincrby(type, 'pageview', 1);
-    new SlackMsg(ctx.mq).send({
-      type: 'view',
-      data: `【${type.toUpperCase()}:/${url}】`
+    notify('slack').send({
+      mq: ctx.mq,
+      data: {
+        type: 'view',
+        data: `【${type.toUpperCase()}:/${url}】`
+      }
     });
   }
   logger.info(`[${type.toUpperCase()}:VIEW][${url}]`);

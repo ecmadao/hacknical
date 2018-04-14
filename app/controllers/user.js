@@ -47,7 +47,11 @@ const githubLogin = async (ctx) => {
   const { code } = ctx.request.query;
   try {
     const githubToken = await Api.getToken(code);
+    logger.debug(`githubToken: ${githubToken}`);
+
     const userInfo = await Api.getLogin(githubToken);
+    logger.debug(userInfo);
+
     if (userInfo.login) {
       ctx.session.githubToken = githubToken;
       ctx.session.githubLogin = userInfo.login;
@@ -56,18 +60,20 @@ const githubLogin = async (ctx) => {
         ctx.cache,
         ctx.mq
       );
+      logger.debug(loginResult);
 
       if (loginResult.success) {
         const user = loginResult.result;
         logger.info(`[USER:LOGIN][${userInfo.login}]`);
         ctx.session.userId = user.userId;
-        if (user.initialed) Api.updateUserData(ctx.session.githubLogin, githubToken);
+        if (user && user.initialed) Api.updateUserData(ctx.session.githubLogin, githubToken);
         return ctx.redirect(`/${ctx.session.githubLogin}`);
       }
     }
-    return ctx.redirect('/');
+    return ctx.redirect('/user/logout');
   } catch (err) {
-    return ctx.redirect('/');
+    logger.error(err);
+    return ctx.redirect('/user/logout');
   }
 };
 

@@ -3,7 +3,7 @@ import Users from '../../app/models/users';
 import ResumePub from '../../app/models/resume-pub';
 import { getRedis } from '../../app/middlewares/cache';
 
-const redisUrl = config.get('redis');
+const redisUrl = config.get('database.redis');
 
 const init = async () => {
   try {

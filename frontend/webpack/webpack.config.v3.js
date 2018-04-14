@@ -22,6 +22,15 @@ entryFiles
     entries[filename] = ['babel-polyfill', filepath];
 });
 
+const postcssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    config: {
+      path: path.join(__dirname, 'postcss.config.js')
+    }
+  }
+};
+
 const cssModulesLoader = ExtractTextPlugin.extract({
   fallback: 'style-loader',
   use: [
@@ -34,7 +43,7 @@ const cssModulesLoader = ExtractTextPlugin.extract({
         localIdentName: '[name]__[local]___[hash:base64:5]'
       }
     },
-    'postcss-loader'
+    postcssLoader
   ],
 });
 const cssLoader = ExtractTextPlugin.extract({
@@ -47,7 +56,7 @@ const cssLoader = ExtractTextPlugin.extract({
         importLoaders: 1,
       }
     },
-    'postcss-loader'
+    postcssLoader
   ]
 });
 

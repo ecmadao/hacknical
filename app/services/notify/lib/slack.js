@@ -1,5 +1,6 @@
+
 import config from 'config';
-import { wrapMsg } from '../utils/mq';
+import { wrapMsg } from './shared';
 
 const slack = config.get('services.slack');
 const slackUrl = slack.url;
