@@ -35,7 +35,6 @@
     }
   },
   "url": "http://localhost:4000",
-  "httpsUrl": "http://localhost:4000",
   "mq": {
     "config": {
       "host": "127.0.0.1",

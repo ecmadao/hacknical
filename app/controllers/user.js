@@ -1,7 +1,6 @@
 
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
-import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 import UserAPI from '../services/user';
 import notify from '../services/notify';
@@ -89,7 +88,7 @@ const initialFinished = async (ctx) => {
   };
 };
 
-const getGithubShareSections = async (ctx) => {
+const getUserInfo = async (ctx) => {
   const { login } = ctx.query;
   const user = await UserAPI.getUser({
     login: login || ctx.session.githubLogin
@@ -97,54 +96,18 @@ const getGithubShareSections = async (ctx) => {
 
   ctx.body = {
     success: true,
-    result: user.githubSections
+    result: user
   };
 };
 
-const setGithubShareSections = async (ctx) => {
+const setUserInfo = async (ctx) => {
   const { userId } = ctx.session;
-  const githubSections = getGithubSections(ctx.request.body);
+  const { info } = ctx.request.body;
 
-  await UserAPI.updateUser(userId, { githubSections });
+  await UserAPI.updateUser(userId, info);
   ctx.body = {
     success: true
   };
-};
-
-const getPinnedRepos = async (ctx) => {
-  const { login } = ctx.query;
-  const user = await UserAPI.getUser({
-    login: login || ctx.session.githubLogin
-  });
-  ctx.body = {
-    success: true,
-    result: user.pinnedRepos
-  }
-};
-
-const setPinnedRepos = async (ctx, next) => {
-  const { userId, githubLogin } = ctx.session;
-  const { pinnedRepos } = ctx.request.body;
-  const repos = pinnedRepos.split(',');
-
-  await UserAPI.updateUser(userId, { pinnedRepos: repos });
-
-  const cacheKey = getCacheKey(ctx);
-  ctx.query.deleteKeys = [
-    cacheKey('repos', {
-      session: ['githubLogin']
-    }),
-    cacheKey('commits', {
-      session: ['githubLogin']
-    }),
-    cacheKey(`sharedUser.${githubLogin}`)
-  ];
-
-  ctx.body = {
-    success: true
-  };
-
-  await next();
 };
 
 export default {
@@ -152,10 +115,7 @@ export default {
   logout,
   loginByGitHub,
   initialFinished,
-  getPinnedRepos,
-  setPinnedRepos,
   clearCache,
-  // github sections
-  getGithubShareSections,
-  setGithubShareSections,
+  getUserInfo,
+  setUserInfo,
 };

@@ -23,24 +23,11 @@ router.get(
   cache.del()
 );
 
-// github sections
-router.get('/githubSections', User.getGithubShareSections);
-router.patch('/githubSections',
-  user.checkIfLogin(),
-  User.setGithubShareSections
-);
-
-router.get(
-  '/repos/pinned',
-  user.checkIfLogin(),
-  User.getPinnedRepos
-);
+router.get('/info', User.getUserInfo);
 router.patch(
-  '/repos/pinned',
-  user.checkIfLogin(),
-  check.body('pinnedRepos'),
-  User.setPinnedRepos,
-  cache.del()
+  '/info',
+  check.body('info'),
+  User.setUserInfo
 );
 
 router.get('/login/github', User.loginByGitHub);

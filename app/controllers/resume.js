@@ -15,12 +15,9 @@ import UserAPI from '../services/user';
 
 /* ===================== private ===================== */
 
-// const URL = config.get('url');
-const HTTPS_URL = config.get('httpsUrl');
+const URL = config.get('url');
 
 const getResumeShareStatus = (resumeInfo, locale) => {
-  // TODO:
-  // migrate. old resume pub has no login data
   const {
     login,
     github,
@@ -95,12 +92,12 @@ const setResume = async (ctx, next) => {
 const patchResume = async (ctx, next) => {
   const { userId, githubLogin } = ctx.session;
   const resume = await UserAPI.getResume({ userId });
+  const { data } = ctx.request.body;
 
-  for (const key in ctx.request.body) {
-    const data = ctx.request.body[key];
-
-    for (const k of data) {
-      resume[key][k] = data[k];
+  for (const key in data) {
+    const d = data[key];
+    for (const k in d) {
+      resume[key][k] = d[k];
     }
   }
 
@@ -134,7 +131,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
-    `${HTTPS_URL}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true`;
+    `${URL}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true`;
 
   notify('slack').send({
     mq: ctx.mq,

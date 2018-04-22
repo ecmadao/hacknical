@@ -23,6 +23,7 @@ router.put('/',
 );
 router.patch('/',
   user.checkSession(session.requiredSessions),
+  check.body('data'),
   Resume.patchResume,
   cache.del()
 );

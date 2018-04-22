@@ -25,7 +25,7 @@
     "slack": null
   },
   "cdn": "",
-  "httpsUrl": "localhost:4000",
+  "url": "localhost:4000",
   "log": {
     "appender": {
       "type": "console"
