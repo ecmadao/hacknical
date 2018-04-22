@@ -3,7 +3,7 @@ import renderApp from 'PAGES/sharePage/resume';
 
 $(() => {
   renderApp('resume', {
-    hash: window.resumeHash,
-    login: window.login
+    login: window.login,
+    userId: window.userId,
   });
 });

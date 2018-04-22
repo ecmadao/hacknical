@@ -1,5 +1,5 @@
+
 import session from './session';
-import User from '../../models/users';
 
 const check = (params, sessions) => params.some(key => sessions[key]);
 
@@ -37,15 +37,10 @@ const checkIsEmail = email =>
 
 const checkValidateUser = () => async (ctx, next) => {
   const { login } = ctx.params;
-  const isValidate = await User.findUserByLogin(login);
-  if (!isValidate) {
-    ctx.session.userId = null;
-    ctx.session.githubToken = null;
-    ctx.session.githubLogin = null;
-    return ctx.redirect('/404');
-  }
   const { githubLogin } = ctx.session;
-  if (login !== githubLogin) {
+  if (!githubLogin) {
+    return ctx.redirect('/404');
+  } else if (login !== githubLogin) {
     return ctx.redirect(`/${githubLogin}`);
   }
   await next();

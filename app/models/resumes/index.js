@@ -36,61 +36,61 @@ const update = async (options) => {
   await resume.save();
 };
 
-const reset = async (userId, resume, cache) => {
-  const findResult = await findResume({ userId });
-  if (!findResult) {
-    cache.hincrby('resume', 'count', 1);
-  }
-  await Resume.remove({ userId });
-  return await addResume(userId, resume);
-};
+// const reset = async (userId, resume, cache) => {
+//   const findResult = await findResume({ userId });
+//   if (!findResult) {
+//     cache.hincrby('resume', 'count', 1);
+//   }
+//   await Resume.remove({ userId });
+//   return await addResume(userId, resume);
+// };
 
-const getUpdateTime = async (userId) => {
-  const getResult = await findResume({ userId });
-  return {
-    success: getResult,
-    message: '',
-    result: getResult ? getResult.updated_at : ''
-  };
-};
+// const getUpdateTime = async (userId) => {
+//   const getResult = await findResume({ userId });
+//   return {
+//     success: getResult,
+//     message: '',
+//     result: getResult ? getResult.updated_at : ''
+//   };
+// };
 
-const getResume = async (userId) => {
-  const getResult = await findResume({ userId });
-  if (!getResult) {
-    return {
-      success: false,
-      result: null
-    };
-  }
-  const { resume, updated_at } = getResult;
-  const {
-    info,
-    others,
-    educations,
-    workExperiences,
-    personalProjects
-  } = resume;
-  return {
-    success: true,
-    result: {
-      info,
-      others,
-      educations,
-      workExperiences,
-      personalProjects,
-      updateAt: updated_at
-    }
-  };
-};
+// const getResume = async (userId) => {
+//   const getResult = await findResume({ userId });
+//   if (!getResult) {
+//     return {
+//       success: false,
+//       result: null
+//     };
+//   }
+//   const { resume, updated_at } = getResult;
+//   const {
+//     info,
+//     others,
+//     educations,
+//     workExperiences,
+//     personalProjects
+//   } = resume;
+//   return {
+//     success: true,
+//     result: {
+//       info,
+//       others,
+//       educations,
+//       workExperiences,
+//       personalProjects,
+//       updateAt: updated_at
+//     }
+//   };
+// };
 
 const findAll = async () => await Resume.find({});
 
 export default {
-  reset,
+  // reset,
   update,
   findAll,
   initialResume,
-  getUpdateTime,
+  // getUpdateTime,
   find: findResumes,
-  findOne: getResume,
+  // findOne: getResume,
 };

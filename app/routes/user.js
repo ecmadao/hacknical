@@ -43,6 +43,6 @@ router.patch(
   cache.del()
 );
 
-router.get('/login/github', User.githubLogin);
+router.get('/login/github', User.loginByGitHub);
 
 module.exports = router;

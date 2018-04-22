@@ -108,7 +108,7 @@ class MobileSetting extends React.Component {
     Api.github.getShareRecords().then((result) => {
       this.initialGithubInfo(result);
     });
-    Api.resume.getPubResumeStatus().then((result) => {
+    Api.resume.getResumeInfo().then((result) => {
       this.initialResumeInfo(result);
     });
   }
@@ -250,7 +250,7 @@ class MobileSetting extends React.Component {
   postResumeShareStatus() {
     const { resumeInfo } = this.state;
     const { openShare } = resumeInfo;
-    Api.resume.postPubResumeShareStatus(!openShare).then(() => {
+    Api.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
       const initial = this.initialInfo('resumeInfo');
       initial({
         openShare: !openShare
@@ -261,7 +261,7 @@ class MobileSetting extends React.Component {
   toggleResumeSimplifyUrl() {
     const { resumeInfo } = this.state;
     const { simplifyUrl } = resumeInfo;
-    Api.resume.togglePubResumeSimplifyUrl(!simplifyUrl).then(() => {
+    Api.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
       const initial = this.initialInfo('resumeInfo');
       initial({
         simplifyUrl: !simplifyUrl

@@ -4,23 +4,6 @@ import ShareAnalyse from '../share-analyse';
 import logger from '../../utils/logger';
 import notify from '../../services/notify';
 
-/**
- * private
- */
-const getGithubInfo = (userInfo) => {
-  const {
-    id,
-    login,
-    name,
-    email,
-  } = userInfo;
-  return {
-    id,
-    login,
-    name,
-    email,
-  };
-};
 
 const findUser = async options =>
   await User.findOne(options);
@@ -40,19 +23,6 @@ const updateUserInfo = async (options = {}) => {
   await user.save();
   return {
     success: true
-  };
-};
-
-const updateUser = async (userInfo) => {
-  const newGithubInfo = getGithubInfo(userInfo);
-  const lastUpdateTime = new Date();
-  newGithubInfo.lastUpdateTime = lastUpdateTime;
-  const findUserResult = await findUserByLogin(userInfo.login);
-  findUserResult.githubInfo = newGithubInfo;
-  await findUserResult.save();
-  return {
-    success: true,
-    result: lastUpdateTime
   };
 };
 
@@ -169,7 +139,6 @@ const findAll = async () => await User.find({});
 export default {
   loginWithGithub,
   findUserByLogin,
-  updateUser,
   updateUserInfo,
   findGithubSections,
   updateGithubSections,

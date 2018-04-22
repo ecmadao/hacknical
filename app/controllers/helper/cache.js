@@ -5,12 +5,12 @@ const getCache = (key, options = {}) => async (ctx, next) => {
   const cacheKey = getCacheKey(ctx)(key, options);
   const result = await ctx.cache.get(cacheKey);
   if (result) {
-    logger.info(`[CACHE:GET][${cacheKey}]`);
-    ctx.body = {
-      success: true,
-      result,
-    };
-    return;
+    // logger.info(`[CACHE:GET][${cacheKey}]`);
+    // ctx.body = {
+    //   success: true,
+    //   result,
+    // };
+    // return;
   }
   ctx.query.cacheKeys = [cacheKey];
   ctx.query.shouldCache = true;

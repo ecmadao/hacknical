@@ -1,8 +1,10 @@
-import User from '../models/users';
+
 import Api from '../services/api';
 import getCacheKey from './helper/cacheKey';
 import { getGithubSections } from './shared';
 import logger from '../utils/logger';
+import UserAPI from '../services/user';
+import notify from '../services/notify';
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx);
@@ -43,32 +45,30 @@ const logout = async (ctx) => {
   ctx.redirect('/');
 };
 
-const githubLogin = async (ctx) => {
+const loginByGitHub = async (ctx) => {
   const { code } = ctx.request.query;
   try {
     const githubToken = await Api.getToken(code);
-    logger.debug(`githubToken: ${githubToken}`);
-
     const userInfo = await Api.getLogin(githubToken);
     logger.debug(userInfo);
 
     if (userInfo.login) {
       ctx.session.githubToken = githubToken;
       ctx.session.githubLogin = userInfo.login;
-      const loginResult = await User.loginWithGithub(
-        userInfo,
-        ctx.cache,
-        ctx.mq
-      );
-      logger.debug(loginResult);
 
-      if (loginResult.success) {
-        const user = loginResult.result;
-        logger.info(`[USER:LOGIN][${userInfo.login}]`);
-        ctx.session.userId = user.userId;
-        if (user && user.initialed) Api.updateUserData(ctx.session.githubLogin, githubToken);
-        return ctx.redirect(`/${ctx.session.githubLogin}`);
-      }
+      const user = await UserAPI.createUser(userInfo);
+      notify('slack').send({
+        mq: ctx.mq,
+        data: {
+          type: 'login',
+          data: `<https://github.com/${userInfo.login}|${userInfo.login}> logined!`
+        }
+      });
+
+      logger.info(`[USER:LOGIN] ${JSON.stringify(user)}`);
+      ctx.session.userId = user.userId;
+      if (user && user.initialed) Api.updateUserData(ctx.session.githubLogin, githubToken);
+      return ctx.redirect(`/${ctx.session.githubLogin}`);
     }
     return ctx.redirect('/user/logout');
   } catch (err) {
@@ -79,10 +79,8 @@ const githubLogin = async (ctx) => {
 
 const initialFinished = async (ctx) => {
   const { userId } = ctx.session;
-  await User.updateUserInfo({
-    userId,
-    initialed: true
-  });
+
+  await UserAPI.updateUser(userId, { initialed: true });
   ctx.cache.hincrby('github', 'count', 1);
 
   ctx.body = {
@@ -93,17 +91,21 @@ const initialFinished = async (ctx) => {
 
 const getGithubShareSections = async (ctx) => {
   const { login } = ctx.query;
-  const sections = await User.findGithubSections(login || ctx.session.githubLogin);
+  const user = await UserAPI.getUser({
+    login: login || ctx.session.githubLogin
+  });
+
   ctx.body = {
     success: true,
-    result: sections
+    result: user.githubSections
   };
 };
 
 const setGithubShareSections = async (ctx) => {
+  const { userId } = ctx.session;
   const githubSections = getGithubSections(ctx.request.body);
 
-  await User.updateGithubSections(ctx.session.githubLogin, githubSections);
+  await UserAPI.updateUser(userId, { githubSections });
   ctx.body = {
     success: true
   };
@@ -111,19 +113,21 @@ const setGithubShareSections = async (ctx) => {
 
 const getPinnedRepos = async (ctx) => {
   const { login } = ctx.query;
-  const pinnedRepos = await User.findPinnedRepos(login || ctx.session.githubLogin);
+  const user = await UserAPI.getUser({
+    login: login || ctx.session.githubLogin
+  });
   ctx.body = {
     success: true,
-    result: pinnedRepos
+    result: user.pinnedRepos
   }
 };
 
 const setPinnedRepos = async (ctx, next) => {
-  const login = ctx.session.githubLogin;
+  const { userId, githubLogin } = ctx.session;
   const { pinnedRepos } = ctx.request.body;
   const repos = pinnedRepos.split(',');
 
-  await User.updatePinnedRepos(login, repos);
+  await UserAPI.updateUser(userId, { pinnedRepos: repos });
 
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
@@ -133,7 +137,7 @@ const setPinnedRepos = async (ctx, next) => {
     cacheKey('commits', {
       session: ['githubLogin']
     }),
-    cacheKey(`sharedUser.${login}`)
+    cacheKey(`sharedUser.${githubLogin}`)
   ];
 
   ctx.body = {
@@ -146,7 +150,7 @@ const setPinnedRepos = async (ctx, next) => {
 export default {
   // user
   logout,
-  githubLogin,
+  loginByGitHub,
   initialFinished,
   getPinnedRepos,
   setPinnedRepos,

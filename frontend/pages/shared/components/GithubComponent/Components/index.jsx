@@ -64,8 +64,8 @@ class GithubComponent extends React.Component {
 
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
-      !isShare && this.getGithubScientific(user.login);
-      !scientific.statistic && this.getGithubStatistic(user.login);
+      // !isShare && this.getGithubScientific(user.login);
+      // !scientific.statistic && this.getGithubStatistic(user.login);
       !repositoriesLoaded && this.getGithubRepositories(user.login);
       setTimeout(() => removeDOM('#loading'), 1000);
     }

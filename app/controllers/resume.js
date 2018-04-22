@@ -1,57 +1,48 @@
-/* eslint eqeqeq: "off" */
+/* eslint eqeqeq: "off", guard-for-in: "off" */
+
 import config from 'config';
-import Resume from '../models/resumes';
-import User from '../models/users';
-import ResumePub from '../models/resume-pub';
-import ShareAnalyse from '../models/share-analyse';
+// import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
-import { getGithubSections } from './shared';
+// import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 import notify from '../services/notify';
 import {
   formatObject
 } from '../utils/helper';
+import UserAPI from '../services/user';
 
 /* ===================== private ===================== */
 
-const URL = config.get('url');
+// const URL = config.get('url');
 const HTTPS_URL = config.get('httpsUrl');
 
-const getResumeShareStatus = (findPubResume, locale, login = null) => {
-  const { result, success, message } = findPubResume;
-  if (!success) {
-    return {
-      error: message,
-      success: true,
-      result: null
-    };
-  }
-
+const getResumeShareStatus = (resumeInfo, locale) => {
+  // TODO:
+  // migrate. old resume pub has no login data
   const {
+    login,
     github,
     template,
     useGithub,
     resumeHash,
     openShare,
     simplifyUrl,
-  } = result;
+  } = resumeInfo;
+
   return {
-    success: true,
-    result: {
-      github,
-      locale,
-      template,
-      openShare,
-      useGithub,
-      resumeHash,
-      simplifyUrl,
-      githubUrl: null,
-      url: simplifyUrl
-        ? `${login}/resume?locale=${locale}`
-        : `resume/${resumeHash}?locale=${locale}`
-    }
+    github,
+    locale,
+    template,
+    openShare,
+    useGithub,
+    resumeHash,
+    simplifyUrl,
+    githubUrl: null,
+    url: simplifyUrl && login
+      ? `${login}/resume?locale=${locale}`
+      : `resume/${resumeHash}?locale=${locale}`
   };
 };
 
@@ -59,11 +50,10 @@ const getResumeShareStatus = (findPubResume, locale, login = null) => {
 
 const getResume = async (ctx) => {
   const { userId } = ctx.session;
-  const getResult = await Resume.findOne(userId);
-  const { result } = getResult;
+  const resume = await UserAPI.getResume({ userId });
 
   ctx.body = {
-    result,
+    result: resume,
     success: true,
   };
 };
@@ -73,52 +63,17 @@ const setResume = async (ctx, next) => {
   const { userId, githubLogin } = ctx.session;
 
   const targetResume = formatObject(resume);
-  const setResult = await Resume.reset(userId, targetResume, ctx.cache);
+  const result = await UserAPI.updateResume({
+    userId,
+    login: githubLogin,
+    resume: targetResume
+  });
 
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey(`resume.${result.hash}`)
+  ];
   logger.info(`[RESUME:UPDATE][${githubLogin}]`);
-
-  if (resume.info && resume.info.email) {
-    User.updateUserInfo({
-      userId,
-      email: resume.info.email,
-    });
-  }
-  let resumeInfo = null;
-  if (setResult.success) {
-    // check & add resume share info
-    let checkResult = await ResumePub.findOne({ userId });
-    if (!checkResult.success) {
-      checkResult = await ResumePub.addPubResume(userId, githubLogin);
-      const {
-        openShare,
-        resumeHash,
-      } = checkResult.result;
-      await ctx.cache.hset('share-resume-login', githubLogin, JSON.stringify({
-        userId,
-        openShare,
-        resumeHash,
-      }));
-      await ctx.cache.hset('share-resume-hash', resumeHash, JSON.stringify({
-        userId,
-        openShare,
-        login: githubLogin,
-      }));
-    }
-    resumeInfo = checkResult.success ? {
-      useGithub: checkResult.result.useGithub,
-      openShare: checkResult.result.openShare,
-      url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
-    } : null;
-  }
-
-  const checkPubResume = await ResumePub.findOne({ userId });
-  if (checkPubResume.success) {
-    const hash = checkPubResume.result.resumeHash;
-    const cacheKey = getCacheKey(ctx);
-    ctx.query.deleteKeys = [
-      cacheKey(`resume.${hash}`)
-    ];
-  }
 
   notify('slack').send({
     mq: ctx.mq,
@@ -129,9 +84,40 @@ const setResume = async (ctx, next) => {
   });
 
   ctx.body = {
+    result,
     success: true,
     message: ctx.__('messages.success.save'),
-    result: resumeInfo
+  };
+
+  await next();
+};
+
+const patchResume = async (ctx, next) => {
+  const { userId, githubLogin } = ctx.session;
+  const resume = await UserAPI.getResume({ userId });
+
+  for (const key in ctx.request.body) {
+    const data = ctx.request.body[key];
+
+    for (const k of data) {
+      resume[key][k] = data[k];
+    }
+  }
+
+  const result = await UserAPI.updateResume({
+    userId,
+    resume,
+    login: githubLogin,
+  });
+
+  const cacheKey = getCacheKey(ctx);
+  ctx.query.deleteKeys = [
+    cacheKey(`resume.${result.hash}`)
+  ];
+
+  ctx.body = {
+    result,
+    success: true,
   };
 
   await next();
@@ -139,29 +125,22 @@ const setResume = async (ctx, next) => {
 
 const downloadResume = async (ctx) => {
   const { userId, githubLogin, locale } = ctx.session;
-  const checkPubResume = await ResumePub.findOne({ userId });
-  if (!checkPubResume.success) {
-    ctx.body = {
-      error: ctx.__('messages.error.resume'),
-      success: true
-    };
-    return;
-  }
-  const hash = checkPubResume.result.resumeHash;
-  const findResumePub = await ResumePub.findByHash(hash);
-  const { result } = findResumePub;
-  const { template } = result;
-  const updateTime = await Resume.getUpdateTime(userId);
+
+  const result = await UserAPI.getResumeInfo({ userId });
+  const { template, resumeHash } = result;
+
+  const resume = await UserAPI.getResume({ userId });
+  const updateTime = resume.updated_at;
   const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
-    `${HTTPS_URL}/resume/${hash}?locale=${locale}&userId=${userId}&notrace=true`;
+    `${HTTPS_URL}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true`;
 
   notify('slack').send({
     mq: ctx.mq,
     data: {
       type: 'download',
-      data: `【${githubLogin}:${hash}】`
+      data: `【${githubLogin}:${resumeHash}】`
     }
   });
 
@@ -184,277 +163,160 @@ const downloadResume = async (ctx) => {
   };
 };
 
-const _resumePage = async (ctx, hash) => {
+const resumePage = async (ctx) => {
+  const { resumeInfo } = ctx;
+  const { login } = resumeInfo;
+  const user = await UserAPI.getUser({ login });
+
   const { isMobile } = ctx.state;
-  const { fromDownload } = ctx.session;
-  const { isAdmin, userName, userLogin } = ctx.query;
-  if (!hash) return ctx.redirect('/404');
+  const { fromDownload, githubLogin } = ctx.session;
+  const isAdmin = login === githubLogin;
+  const { userName, userId } = user;
+
   if (isMobile) {
     await ctx.render('user/mobile/resume', {
       title: ctx.__('resumePage.title', userName),
-      resumeHash: hash,
-      login: userLogin,
+      login,
+      userId,
+      fromDownload,
       user: {
+        login,
         isAdmin,
-        login: userLogin,
       },
       hideFooter: true,
-      fromDownload,
     });
   } else {
     await ctx.render('resume/share', {
-      title: ctx.__('resumePage.title', userName),
+      login,
+      userId,
       fromDownload,
-      resumeHash: hash,
-      login: userLogin,
-      hideFooter: true
+      hideFooter: true,
+      title: ctx.__('resumePage.title', userName),
     });
   }
 };
 
-const resumePage = async (ctx) => {
+const getResumeByHash = async (ctx, next) => {
   const { hash } = ctx.query;
-  await _resumePage(ctx, hash);
-};
-
-const getPubResume = async (ctx, next) => {
-  const { hash } = ctx.query;
-  const findResume = await ResumePub.getPubResume(hash);
-  const { result, success } = findResume;
-  const error = success ? '' : ctx.__('messages.error.resume');
+  const result = await UserAPI.getResume({ hash });
 
   ctx.body = {
     result,
-    error,
     success: true,
   };
 
   await next();
 };
 
-const getPubResumePage = async (ctx) => {
-  const { hash } = ctx.params;
-  await _resumePage(ctx, hash);
-};
-
-const getPubResumeHash = async (ctx, next) => {
-  const { hash } = ctx.query;
-  ctx.body = {
-    result: hash,
-    success: true,
-  };
-  await next();
-};
-
-const getPubResumeStatus = async (ctx) => {
-  const { hash } = ctx.params;
-  const { fromDownload, locale } = ctx.session;
-  const findPubResume = await ResumePub.findByHash(hash);
-  const shareResult = getResumeShareStatus(findPubResume, locale);
-
-  const { success, result } = shareResult;
-  if (success && result && fromDownload) {
-    const { userId } = findPubResume.result;
-    const user = await User.findOne({ userId });
-    shareResult.result.githubUrl =
-      `${URL}/${user.githubLogin}/github?locale=${locale}`;
+const getResumeInfo = async (ctx) => {
+  const { hash, userId } = ctx.query;
+  const { locale } = ctx.session;
+  const qs = {};
+  if (hash) {
+    qs.hash = hash;
+  } else if (userId) {
+    qs.userId = userId;
+  } else {
+    qs.userId = ctx.session.userId;
   }
+  const resumeInfo = await UserAPI.getResumeInfo(qs);
 
-  ctx.body = shareResult;
-};
-
-const getResumeStatus = async (ctx) => {
-  const { userId, locale, githubLogin } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-
-  ctx.body = getResumeShareStatus(findPubResume, locale, githubLogin);
-};
-
-const setResumeShareStatus = async (ctx) => {
-  const { enable } = ctx.request.body;
-  const resultMessage = Boolean(enable) == true
-    ? 'messages.share.toggleOpen'
-    : 'messages.share.toggleClose';
+  let result = null;
+  if (resumeInfo) {
+    result = getResumeShareStatus(resumeInfo, locale);
+  }
   ctx.body = {
+    result,
     success: true,
-    message: ctx.__(resultMessage)
   };
 };
 
-const setResumeShareTemplate = async (ctx) => {
-  const { template } = ctx.request.body;
-  const { userId } = ctx.session;
-
-  await ResumePub.updatePubResume(userId, { template });
-  ctx.body = {
-    success: true,
-    result: template,
-    message: ctx.__('messages.resume.template'),
-  };
-};
-
-const setResumeGithubStatus = async (ctx) => {
-  const { enable } = ctx.request.body;
-  const { userId } = ctx.session;
-
-  await ResumePub.updatePubResume(userId, {
-    useGithub: enable
-  });
-  const resultMessage = Boolean(enable) == true
-    ? 'messages.resume.linkGithub'
-    : 'messages.resume.unlinkGithub';
-  ctx.body = {
-    success: true,
-    message: ctx.__(resultMessage)
-  };
-};
-
-const setGithubShareSection = async (ctx) => {
-  const { userId } = ctx.session;
-  const githubSections = getGithubSections(ctx.request.body);
-
-  await ResumePub.updatePubResume(userId, {
-    github: githubSections
-  });
-  ctx.body = {
-    success: true
-  };
-};
-
+// TODO:
+// migrate to redis
 const getShareRecords = async (ctx) => {
-  const { userId, githubLogin } = ctx.session;
-  const findPubResume = await ResumePub.findOne({ userId });
-  const { result, success, message } = findPubResume;
-  if (!success) {
-    ctx.body = {
-      error: message,
-      success: true,
-      result: {
-        url: '',
-        viewDevices: [],
-        viewSources: [],
-        pageViews: [],
-        openShare: false
-      }
-    };
-    return;
-  }
-
-  const shareAnalyses =
-    await ShareAnalyse.find({
-      userId,
-      url: new RegExp('resume'),
-    });
-  const viewDevices = [];
-  const viewSources = [];
-  const pageViews = [];
-  for (let i = 0; i < shareAnalyses.length; i += 1) {
-    const shareAnalyse = shareAnalyses[i];
-    viewDevices.push(...shareAnalyse.viewDevices);
-    viewSources.push(...shareAnalyse.viewSources);
-    pageViews.push(...shareAnalyse.pageViews);
-  }
+  const { githubLogin } = ctx.session;
   ctx.body = {
     success: true,
     result: {
-      pageViews,
-      viewDevices,
-      viewSources,
-      openShare: result.openShare,
+      pageViews: [],
+      viewDevices: [],
+      viewSources: [],
+      openShare: false,
       url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
     }
   };
+
+  // const findPubResume = await ResumePub.findOne({ userId });
+  // const { result, success, message } = findPubResume;
+  // if (!success) {
+  //   ctx.body = {
+  //     error: message,
+  //     success: true,
+  //     result: {
+  //       url: '',
+  //       viewDevices: [],
+  //       viewSources: [],
+  //       pageViews: [],
+  //       openShare: false
+  //     }
+  //   };
+  //   return;
+  // }
+
+  // const shareAnalyses =
+  //   await ShareAnalyse.find({
+  //     userId,
+  //     url: new RegExp('resume'),
+  //   });
+  // const viewDevices = [];
+  // const viewSources = [];
+  // const pageViews = [];
+  // for (let i = 0; i < shareAnalyses.length; i += 1) {
+  //   const shareAnalyse = shareAnalyses[i];
+  //   viewDevices.push(...shareAnalyse.viewDevices);
+  //   viewSources.push(...shareAnalyse.viewSources);
+  //   pageViews.push(...shareAnalyse.pageViews);
+  // }
+  // ctx.body = {
+  //   success: true,
+  //   result: {
+  //     pageViews,
+  //     viewDevices,
+  //     viewSources,
+  //     openShare: result.openShare,
+  //     url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
+  //   }
+  // };
 };
 
-const getResumeShareUrl = async (ctx) => {
+const setResumeInfo = async (ctx) => {
+  const { info } = ctx.request.body;
   const { userId, githubLogin } = ctx.session;
-  const findResult = await ResumePub.findOne({ userId });
-  const { success, result } = findResult;
-  let url = '';
-  if (success) {
-    url = 'hacknical.com';
-    const { resumeHash, resumeHashV0, simplifyUrl } = result;
-    url = simplifyUrl
-      ? `${url}/${githubLogin}/resume`
-      : `${url}/resume/${resumeHash || resumeHashV0}`;
-  }
-  ctx.body = {
-    success: true,
-    result: url
-  };
-};
 
-const setResumeShareUrl = async (ctx) => {
-  const { simplifyUrl } = ctx.request.body;
-  const resultMessage = Boolean(simplifyUrl) == true
-    ? 'messages.resume.simplifyUrl'
-    : 'messages.resume.unSimplifyUrl';
-  ctx.body = {
-    success: true,
-    message: ctx.__(resultMessage)
-  };
-};
-
-const __patchResumeData = async (ctx, data) => {
-  const { userId } = ctx.session;
-  await Resume.update({
-    target: {
-      resume: data
-    },
+  const result = await UserAPI.setResumeInfo({
+    info,
     userId,
-  });
-  const checkPubResume = await ResumePub.findOne({ userId });
-  if (checkPubResume.success) {
-    const hash = checkPubResume.result.resumeHash;
-    const cacheKey = getCacheKey(ctx);
-    ctx.query.deleteKeys = [
-      cacheKey(`resume.${hash}`)
-    ];
-  }
-};
-
-const setHireAvailable = async (ctx, next) => {
-  const { hireAvailable } = ctx.request.body;
-  await __patchResumeData(ctx, {
-    info: { hireAvailable }
-  });
-  ctx.body = {
-    success: true,
-    message: ctx.__('messages.resume.hireAvailable')
-  };
-
-  await next();
-};
-
-const setResumeType = async (ctx, next) => {
-  const { freshGraduate } = ctx.request.body;
-  await __patchResumeData(ctx, {
-    info: { freshGraduate }
+    login: githubLogin
   });
 
   ctx.body = {
+    result,
     success: true,
   };
-  await next();
 };
 
 export default {
+  // ============
   getResume,
   setResume,
-  downloadResume,
-  getPubResume,
+  patchResume,
+  // ============
   resumePage,
-  getPubResumeHash,
-  getPubResumePage,
-  getResumeStatus,
-  getPubResumeStatus,
-  setResumeShareStatus,
-  setResumeShareTemplate,
-  setResumeGithubStatus,
-  setGithubShareSection,
+  getResumeByHash,
+  // ============
+  downloadResume,
   getShareRecords,
-  setHireAvailable,
-  getResumeShareUrl,
-  setResumeShareUrl,
-  setResumeType,
+  // ============
+  getResumeInfo,
+  setResumeInfo,
 };

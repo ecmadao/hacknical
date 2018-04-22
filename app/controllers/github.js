@@ -1,11 +1,11 @@
 /* eslint eqeqeq: "off" */
 import Api from '../services/api';
 import ShareAnalyse from '../models/share-analyse';
-import User from '../models/users';
 import {
   combineReposCommits
 } from './helper/github';
 import { is, sortBy } from '../utils/helper';
+import UserAPI from '../services/user';
 
 /* ================== private func ==================== */
 
@@ -218,10 +218,7 @@ const getUpdateStatus = async (ctx) => {
     lastUpdateTime
   } = statusResult;
   if (Number(status) === 1) {
-    await User.updateUserInfo({
-      userId,
-      initialed: true
-    });
+    await UserAPI.updateUser(userId, { initialed: true });
   }
   const result = {
     status,

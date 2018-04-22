@@ -59,14 +59,14 @@ const handleInfoChange = createAction('HANDLE_INFO_CHANGE');
 const handleEditChange = createAction('HANDLE_EDIT_CHANGE');
 
 const toggleHireAvailable = hireAvailable => (dispatch) => {
-  Api.resume.patchHireAvailable(hireAvailable).then(() => {
+  Api.resume.patchResume({ info: { hireAvailable } }).then(() => {
     dispatch(handleInfoChange({ hireAvailable }));
     dispatch(handleEditChange(false));
   });
 };
 
 const toggleResumeType = freshGraduate => (dispatch) => {
-  Api.resume.patchResumeType(freshGraduate).then(() => {
+  Api.resume.patchResume({ info: { freshGraduate } }).then(() => {
     dispatch(handleInfoChange({ freshGraduate }));
     dispatch(handleEditChange(false));
   });
@@ -153,13 +153,14 @@ const {
 const setPubResumeStatus = createAction('SET_PUB_RESUME_STATUS');
 const initialPubResumeStatus = createAction('INITIAL_PUB_RESUME_STATUS');
 const fetchPubResumeStatus = () => (dispatch) => {
-  Api.resume.getPubResumeStatus().then((result) => {
+  Api.resume.getResumeInfo().then((result) => {
     result && dispatch(initialPubResumeStatus(result));
   });
 };
+
 const postShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().resume.shareInfo;
-  Api.resume.postPubResumeShareStatus(!openShare).then(() => {
+  Api.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
     dispatch(setPubResumeStatus(!openShare));
   });
 };
@@ -168,7 +169,7 @@ const postShareStatus = () => (dispatch, getState) => {
 const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');
 const postShareTemplate = template => (dispatch, getState) => {
   if (template !== getState().resume.shareInfo) {
-    Api.resume.postPubResumeTemplate(template).then((result) => {
+    Api.resume.patchResumeInfo({ template }).then((result) => {
       result && dispatch(setPubResumeTemplate(result));
     });
   }
@@ -177,10 +178,9 @@ const postShareTemplate = template => (dispatch, getState) => {
 // resume download
 const downloadResume = () => (dispatch, getState) => {
   dispatch(toggleDownloadButton(true));
-  const { info, shareInfo } = getState().resume;
-  const { resumeHash } = shareInfo;
+  const { info } = getState().resume;
   const { name } = info;
-  Api.resume.download(resumeHash).then((result) => {
+  Api.resume.download().then((result) => {
     if (result) {
       Push.create(downloadSuccess, {
         icon: '/vendor/images/hacknical-logo-nofity.png',

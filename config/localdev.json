@@ -8,9 +8,21 @@
     "url": "mongodb://localhost:27017/hawkeye"
   },
   "services": {
-    "api": {
+    "github": {
       "url": "http://127.0.0.1:5002",
-      "timeouts": [20000, 20000, 20000]
+      "timeouts": [2000, 2000, 2000],
+      "auth": {
+        "publicKey": "07a9c1c",
+        "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
+      }
+    },
+    "user": {
+      "url": "http://127.0.0.1:6001",
+      "timeouts": [2000, 2000, 2000],
+      "auth": {
+        "publicKey": "12345",
+        "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
+      }
     },
     "slack": {
       "url": null
@@ -24,10 +36,6 @@
   },
   "url": "http://localhost:4000",
   "httpsUrl": "http://localhost:4000",
-  "auth": {
-    "publicKey": "07a9c1c",
-    "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
-  },
   "mq": {
     "config": {
       "host": "127.0.0.1",
