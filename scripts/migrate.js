@@ -1,5 +1,7 @@
 require('babel-core/register')();
 require('babel-polyfill');
 
-require('./migrate/resumeHash');
+// TODO:
+// migrate share-analysis, use type instead of url
+// require('./migrate/resumeHash');
 // require('./migrate/userId');

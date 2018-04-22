@@ -45,6 +45,8 @@ const updateUser = (userId, data) =>
     method: 'put'
   });
 
+const getUserCount = () => fetchApi('/count');
+
 /* =========================================================== */
 
 const getResume = qs =>
@@ -81,14 +83,20 @@ const setResumeInfo = ({ userId, login, info }) =>
     baseUrl: BASE_RESUME_URL
   });
 
+const getResumeCount = () => fetchApi('/count', {
+  baseUrl: BASE_RESUME_URL
+});
+
 export default {
   /* ===== user ===== */
   getUser,
   updateUser,
   createUser,
+  getUserCount,
   /* ===== resume ===== */
   getResume,
   updateResume,
+  getResumeCount,
   /* ===== resume info ===== */
   getResumeInfo,
   setResumeInfo,

@@ -1,5 +1,4 @@
 import ShareAnalyse from './schema';
-import User from '../users';
 import dateHelper, { getValidateDate } from '../../utils/date';
 
 const findShare = async (options = {}) =>
@@ -9,48 +8,27 @@ const findShares = async (options = {}) =>
   await ShareAnalyse.find(options);
 
 const createShare = async (options) => {
-  const { userId, url } = options;
-  const findResult = await findShare({ userId, url });
+  const { login, type } = options;
+  const findResult = await findShare({ login, type });
   if (findResult) {
     return { success: true };
   }
   await ShareAnalyse.create(options);
 };
 
-const changeShareStatus = async (options) => {
-  const { enable, url, login } = options;
-  const analyses = await findShares({ login, url });
-
-  for (let i = 0; i < analyses.length; i += 1) {
-    const analyse = analyses[i];
-    analyse.enable = enable;
-    await analyse.save();
-  }
-  return true;
-};
-
-const checkShareEnable = async (options) => {
-  const analyse = await findShare(options);
-  return {
-    success: analyse && analyse.enable
-  };
-};
-
 const updateViewData = async (options) => {
   const {
-    url,
+    type,
     from,
     login,
     browser,
     platform,
   } = options;
-  const analyse = await findShare({ url });
+  const analyse = await findShare({ type, login });
   if (!analyse && login) {
-    const user = await User.findUserByLogin(login);
     await createShare({
-      url,
+      type,
       login,
-      userId: user.userId,
       viewDevices: [{
         platform,
         count: 1
@@ -112,8 +90,6 @@ const findAll = async () => await ShareAnalyse.find({});
 export default {
   createShare,
   updateViewData,
-  checkShareEnable,
-  changeShareStatus,
   findAll,
   find: findShares,
   findOne: findShare,

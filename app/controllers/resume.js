@@ -1,11 +1,10 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
 import config from 'config';
-// import ShareAnalyse from '../models/share-analyse';
+import ShareAnalyse from '../models/share-analyse';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
-// import { getGithubSections } from './shared';
 import logger from '../utils/logger';
 import notify from '../services/notify';
 import {
@@ -228,62 +227,47 @@ const getResumeInfo = async (ctx) => {
   };
 };
 
-// TODO:
-// migrate to redis
 const getShareRecords = async (ctx) => {
-  const { githubLogin } = ctx.session;
+  const { userId, githubLogin } = ctx.session;
+
+  const resumeInfo = await UserAPI.getResumeInfo({ userId });
+  if (!resumeInfo) {
+    return ctx.body = {
+      success: true,
+      result: {
+        url: '',
+        viewDevices: [],
+        viewSources: [],
+        pageViews: [],
+        openShare: false
+      }
+    };
+  }
+
+  const shareAnalyses =
+    await ShareAnalyse.find({
+      login: githubLogin,
+      type: 'resume'
+    });
+  const viewDevices = [];
+  const viewSources = [];
+  const pageViews = [];
+  for (let i = 0; i < shareAnalyses.length; i += 1) {
+    const shareAnalyse = shareAnalyses[i];
+    viewDevices.push(...shareAnalyse.viewDevices);
+    viewSources.push(...shareAnalyse.viewSources);
+    pageViews.push(...shareAnalyse.pageViews);
+  }
   ctx.body = {
     success: true,
     result: {
-      pageViews: [],
-      viewDevices: [],
-      viewSources: [],
-      openShare: false,
+      pageViews,
+      viewDevices,
+      viewSources,
+      openShare: resumeInfo.openShare,
       url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
     }
   };
-
-  // const findPubResume = await ResumePub.findOne({ userId });
-  // const { result, success, message } = findPubResume;
-  // if (!success) {
-  //   ctx.body = {
-  //     error: message,
-  //     success: true,
-  //     result: {
-  //       url: '',
-  //       viewDevices: [],
-  //       viewSources: [],
-  //       pageViews: [],
-  //       openShare: false
-  //     }
-  //   };
-  //   return;
-  // }
-
-  // const shareAnalyses =
-  //   await ShareAnalyse.find({
-  //     userId,
-  //     url: new RegExp('resume'),
-  //   });
-  // const viewDevices = [];
-  // const viewSources = [];
-  // const pageViews = [];
-  // for (let i = 0; i < shareAnalyses.length; i += 1) {
-  //   const shareAnalyse = shareAnalyses[i];
-  //   viewDevices.push(...shareAnalyse.viewDevices);
-  //   viewSources.push(...shareAnalyse.viewSources);
-  //   pageViews.push(...shareAnalyse.pageViews);
-  // }
-  // ctx.body = {
-  //   success: true,
-  //   result: {
-  //     pageViews,
-  //     viewDevices,
-  //     viewSources,
-  //     openShare: result.openShare,
-  //     url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
-  //   }
-  // };
 };
 
 const setResumeInfo = async (ctx) => {

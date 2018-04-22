@@ -4,7 +4,7 @@ import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
 import cache from '../controllers/helper/cache';
 import check from '../controllers/helper/check';
-// import analyse from '../controllers/helper/analyse';
+import record from '../controllers/helper/record';
 import share from '../controllers/helper/share';
 
 const router = koaRouter({
@@ -54,6 +54,7 @@ router.get('/shared/public',
 
 router.get('/:hash',
   share.resumeEnable('params.hash'),
+  record.resume('params.hash'),
   Resume.resumePage
 );
 

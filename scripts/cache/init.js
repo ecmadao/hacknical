@@ -1,8 +1,8 @@
+
 import config from 'config';
-import Users from '../../app/models/users';
-import Resumes from '../../app/models/resumes';
 import ShareAnalyse from '../../app/models/share-analyse';
 import { getRedis } from '../../app/middlewares/cache';
+import UserAPI from '../../app/services/user';
 
 const redisUrl = config.get('database.redis');
 
@@ -11,16 +11,16 @@ const init = async () => {
     const cache = getRedis({
       url: redisUrl
     });
-    const users = await Users.findAll();
-    const resumes = await Resumes.findAll();
+    const userCount = await UserAPI.getUserCount();
+    const resumeCount = await UserAPI.getResumeCount();
     const allAnalyse = await ShareAnalyse.findAll();
 
-    console.log(`users: ${users.length}`);
-    console.log(`resumes: ${resumes.length}`);
+    console.log(`users: ${userCount}`);
+    console.log(`resumes: ${resumeCount}`);
 
-    await cache.incrby('users', users.length);
-    await cache.hincrby('github', 'count', users.length);
-    await cache.hincrby('resume', 'count', resumes.length);
+    await cache.incrby('users', userCount);
+    await cache.hincrby('github', 'count', userCount);
+    await cache.hincrby('resume', 'count', resumeCount);
 
     let githubPageview = 0;
     let resumePageview = 0;

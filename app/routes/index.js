@@ -7,7 +7,7 @@ import Home from '../controllers/home';
 import GitHub from '../controllers/github';
 import Resume from '../controllers/resume';
 import user from '../controllers/helper/user';
-// import analyse from '../controllers/helper/analyse';
+import record from '../controllers/helper/record';
 import share from '../controllers/helper/share';
 
 const router = koaRouter();
@@ -49,13 +49,13 @@ router.get(
 router.get(
   '/:login/github',
   share.githubEnable(),
-  // analyse.github(),
+  record.github('params.login'),
   GitHub.githubPage
 );
 router.get(
   '/:login/resume',
   share.resumeEnable('params.login'),
-  // analyse.resume('query.hash'),
+  record.resume('params.login'),
   Resume.resumePage
 );
 router.get(

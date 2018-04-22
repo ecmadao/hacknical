@@ -44,13 +44,10 @@ const _getCommits = async (login, token) => {
 /* ================== router handler ================== */
 
 const toggleShare = async (ctx) => {
-  const { githubLogin } = ctx.session;
+  const { userId } = ctx.session;
   const { enable } = ctx.request.body;
-  await ShareAnalyse.changeShareStatus({
-    enable,
-    login: githubLogin,
-    url: new RegExp('github')
-  });
+
+  await UserAPI.updateUser(userId, { githubShare: Boolean(enable) });
   const message = Boolean(enable) == true
     ? 'messages.share.toggleOpen'
     : 'messages.share.toggleClose'
@@ -145,11 +142,10 @@ const getUserOrganizations = async (ctx, next) => {
 const getUser = async (ctx, next) => {
   const { login } = ctx.params;
   const user = await _getUser(ctx);
-  const shareAnalyse =
-    await ShareAnalyse.findOne({ login, url: new RegExp('github') });
+  const userInfo = await UserAPI.getUser({ login });
 
   const result = Object.assign({}, user);
-  result.openShare = shareAnalyse.enable;
+  result.openShare = userInfo.githubShare;
   result.shareUrl = `${login}/github?locale=${ctx.session.locale}`;
   ctx.body = {
     success: true,
@@ -185,8 +181,9 @@ const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session;
   const shareAnalyses = await ShareAnalyse.find({
     login: githubLogin,
-    url: new RegExp('github')
+    type: 'github'
   });
+  const userInfo = await UserAPI.getUser({ login: githubLogin });
 
   const viewDevices = [];
   const viewSources = [];
@@ -204,7 +201,7 @@ const getShareRecords = async (ctx) => {
       pageViews,
       viewDevices,
       viewSources,
-      openShare: shareAnalyses[0] ? shareAnalyses[0].enable : false,
+      openShare: userInfo.githubShare,
       url: `${githubLogin}/github?locale=${locale}`,
     }
   };
