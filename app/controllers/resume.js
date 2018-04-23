@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
 import config from 'config';
-import ShareAnalyse from '../models/share-analyse';
+import Records from '../../models/records';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
@@ -244,19 +244,18 @@ const getShareRecords = async (ctx) => {
     };
   }
 
-  const shareAnalyses =
-    await ShareAnalyse.find({
-      login: githubLogin,
-      type: 'resume'
-    });
+  const records = await Records.getRecords(ctx.db, {
+    login: githubLogin,
+    type: 'resume'
+  });
   const viewDevices = [];
   const viewSources = [];
   const pageViews = [];
-  for (let i = 0; i < shareAnalyses.length; i += 1) {
-    const shareAnalyse = shareAnalyses[i];
-    viewDevices.push(...shareAnalyse.viewDevices);
-    viewSources.push(...shareAnalyse.viewSources);
-    pageViews.push(...shareAnalyse.pageViews);
+
+  for (const record of records) {
+    viewDevices.push(...record.viewDevices);
+    viewSources.push(...record.viewSources);
+    pageViews.push(...record.pageViews);
   }
   ctx.body = {
     success: true,

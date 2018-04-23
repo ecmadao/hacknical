@@ -4,4 +4,4 @@ require('babel-polyfill');
 // TODO:
 // migrate share-analysis, use type instead of url
 // require('./migrate/resumeHash');
-// require('./migrate/userId');
+require('./migrate/share');

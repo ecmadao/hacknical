@@ -1,6 +1,6 @@
 /* eslint eqeqeq: "off" */
 import Api from '../services/api';
-import ShareAnalyse from '../models/share-analyse';
+import Records from '../models/records';
 import {
   combineReposCommits
 } from './helper/github';
@@ -179,7 +179,7 @@ const githubPage = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session;
-  const shareAnalyses = await ShareAnalyse.find({
+  const records = await Records.getRecords(ctx.db, {
     login: githubLogin,
     type: 'github'
   });
@@ -188,11 +188,11 @@ const getShareRecords = async (ctx) => {
   const viewDevices = [];
   const viewSources = [];
   const pageViews = [];
-  for (let i = 0; i < shareAnalyses.length; i += 1) {
-    const shareAnalyse = shareAnalyses[i];
-    viewDevices.push(...shareAnalyse.viewDevices);
-    viewSources.push(...shareAnalyse.viewSources);
-    pageViews.push(...shareAnalyse.pageViews);
+
+  for (const record of records) {
+    viewDevices.push(...record.viewDevices);
+    viewSources.push(...record.viewSources);
+    pageViews.push(...record.pageViews);
   }
   ctx.body = {
     success: true,

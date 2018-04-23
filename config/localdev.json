@@ -3,9 +3,9 @@
   "port": "4000",
   "appKey": "hacknical-key",
   "appName": "hacknical-local",
-  "redis": "redis://localhost:6379/3",
   "database": {
-    "url": "mongodb://localhost:27017/hawkeye"
+    "redis": "redis://localhost:6379/3",
+    "mongo": "mongodb://localhost:27017/hawkeye"
   },
   "services": {
     "github": {

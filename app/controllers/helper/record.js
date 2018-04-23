@@ -1,5 +1,5 @@
 
-import ShareAnalyse from '../../models/share-analyse';
+import Records from '../../models/records';
 import logger from '../../utils/logger';
 import notify from '../../services/notify';
 import { getValue } from '../../utils/helper';
@@ -13,7 +13,7 @@ const updateViewData = async (ctx, options) => {
     login = null,
   } = options;
 
-  await ShareAnalyse.updateViewData({
+  await Records.updateRecords({
     type,
     login,
     platform,
