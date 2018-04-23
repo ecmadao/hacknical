@@ -63,7 +63,7 @@ const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => 
   const { notrace } = ctx.query;
 
   const user = await getUser(ctx, key);
-  const login = user.githubLogin || user.githubInfo.login;
+  const login = user.githubLogin;
 
   const { githubLogin, fromDownload } = ctx.session;
   const isAdmin = user && login === githubLogin;

@@ -101,7 +101,8 @@
 
 .timelineContent {
   width: 140px;
-  text-align: center;
+  text-align: left;
+  line-height: 1.5em;
 }
 
 .timelineItem {

@@ -21,11 +21,14 @@ import mqMiddleware from '../middlewares/mq';
 import router from '../routes';
 import logger from '../utils/logger';
 import platform from '../middlewares/platform';
+import { initIndex } from '../models/dbIndex';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
 const appName = config.get('appName');
 const redis = config.get('database.redis');
+
+initIndex();
 
 const app = new Koa();
 app.proxy = true;

@@ -7,7 +7,7 @@ const githubEnable = (key = 'params.login') => async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const user = await UserAPI.getUser({ login });
 
-  const userLogin = user.githubLogin || user.githubInfo.login;
+  const userLogin = user.githubLogin;
   if (userLogin !== login || (!user.githubShare && userLogin !== githubLogin)) {
     return ctx.redirect('/404');
   }

@@ -213,6 +213,7 @@ class CodeCourse extends React.Component {
         >
           <div className={githubStyles.timelineWrapper}>
             {this.renderTimeline({
+              name,
               color,
               timeline,
               totalSeconds
@@ -225,6 +226,7 @@ class CodeCourse extends React.Component {
 
   renderTimeline(options) {
     const {
+      name,
       color,
       timeline,
       totalSeconds,
@@ -235,6 +237,7 @@ class CodeCourse extends React.Component {
     } = this.state;
     let preToSecond = minDateSeconds;
     let preCommit = null;
+
     for (let i = 0; i < timeline.length; i += 1) {
       const item = timeline[i];
       const {
@@ -255,6 +258,7 @@ class CodeCourse extends React.Component {
           }}
           tipsoContent={
             <div className={githubStyles.timelineContent}>
+              {name}<br/>
               {getDateBySeconds(from)} ~ {getDateBySeconds(to)}<br/>
               {commits === -1
                   ? githubTexts.emptyCommit

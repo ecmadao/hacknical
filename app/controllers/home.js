@@ -77,7 +77,7 @@ const initial = async (ctx) => {
 };
 
 const statistic = async (ctx) => {
-  const usersCount = await ctx.cache.get('users');
+  const usersCount = await UserAPI.getUserCount();
   const githubHashFields = await ctx.cache.hgetall('github');
   const resumeHashFields = await ctx.cache.hgetall('resume');
 
