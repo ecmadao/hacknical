@@ -1,5 +1,4 @@
 {
-  "production": false,
   "port": "4000",
   "appKey": "hacknical-key",
   "appName": "hacknical-local",
@@ -51,5 +50,6 @@
     "organizationId": "",
     "secretToken": "",
     "active": false
-  }
+  },
+  "downloads": "../../public/downloads"
 }

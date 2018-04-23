@@ -77,7 +77,7 @@ const collectResumeRecordByHash = (key = 'params.hash') => async (ctx, next) => 
     !fromDownload
     && (!isAdmin && (notrace !== true || notrace !== 'true' || notrace === 'false'))
     && user) {
-    updateViewData(ctx, { login: user.login, type: 'resume' });
+    updateViewData(ctx, { login, type: 'resume' });
   }
 };
 

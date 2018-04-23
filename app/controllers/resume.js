@@ -46,11 +46,11 @@ const getResumeShareStatus = (resumeInfo, locale) => {
 
 const getResume = async (ctx) => {
   const { userId } = ctx.session;
-  const resume = await UserAPI.getResume({ userId });
+  const data = await UserAPI.getResume({ userId });
 
   ctx.body = {
-    result: resume,
     success: true,
+    result: data ? data.resume : null,
   };
 };
 
@@ -90,12 +90,14 @@ const setResume = async (ctx, next) => {
 
 const patchResume = async (ctx, next) => {
   const { userId, githubLogin } = ctx.session;
-  const resume = await UserAPI.getResume({ userId });
+  const getResult = await UserAPI.getResume({ userId });
+  const resume = Object.assign({}, getResult ? getResult.resume : {});
   const { data } = ctx.request.body;
 
   for (const key in data) {
     const d = data[key];
     for (const k in d) {
+      if (!resume[key]) resume[key] = {};
       resume[key][k] = d[k];
     }
   }
@@ -125,8 +127,17 @@ const downloadResume = async (ctx) => {
   const result = await UserAPI.getResumeInfo({ userId });
   const { template, resumeHash } = result;
 
-  const resume = await UserAPI.getResume({ userId });
-  const updateTime = resume.updated_at;
+  const findResult = await UserAPI.getResume({ userId });
+
+  if (!findResult) {
+    return ctx.body = {
+      result: '',
+      success: true,
+      message: ctx.__('messages.error.emptyResume'),
+    };
+  }
+
+  const updateTime = findResult.update_at;
   const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
@@ -149,6 +160,7 @@ const downloadResume = async (ctx) => {
       folder: githubLogin,
       title: `${template}-${locale}-${seconds}-resume.pdf`
     });
+    logger.info(`[RESUME:RENDERED][${resultUrl}]`);
   } catch (e) {
     logger.error(`[RESUME:DOWNLOAD:ERROR]${e}`);
   }
@@ -194,7 +206,12 @@ const resumePage = async (ctx) => {
 
 const getResumeByHash = async (ctx, next) => {
   const { hash } = ctx.query;
-  const result = await UserAPI.getResume({ hash });
+  const findResult = await UserAPI.getResume({ hash });
+  let result = null;
+  if (findResult) {
+    result = findResult.resume;
+    result.updateAt = findResult.update_at;
+  }
 
   ctx.body = {
     result,

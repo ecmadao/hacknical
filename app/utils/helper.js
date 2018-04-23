@@ -1,3 +1,4 @@
+
 import pangu from 'pangu';
 
 const { spacing } = pangu;
@@ -47,10 +48,10 @@ const formatString = (value, callback = null) => {
   if (is.string(value)) {
     const result = spacing(value);
     if (is.func(callback)) {
-      callback(result)
+      callback(result);
     }
   } else {
-    loopObject(value, spacing);
+    loopObject(value);
   }
 };
 

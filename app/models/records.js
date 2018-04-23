@@ -58,7 +58,7 @@ const updateRecords = async (db, options) => {
 
   const dateNow = dateHelper.getDateNow();
   const hourNow = dateHelper.getHourNow();
-  const date = `${dateNow} ${hourNow}:00`;
+  const date = `${dateNow}T${hourNow}:00:00`;
 
   // pageViews
   await updateOrInsert(recordCol, {
