@@ -1,8 +1,9 @@
+
 import config from 'config';
-import Users from '../../app/models/users';
-import Resumes from '../../app/models/resumes';
-import ShareAnalyse from '../../app/models/share-analyse';
+import Records from '../../app/models/records';
 import { getRedis } from '../../app/middlewares/cache';
+import UserAPI from '../../app/services/user';
+import getMongo from '../../app/utils/database';
 
 const redisUrl = config.get('database.redis');
 
@@ -11,21 +12,24 @@ const init = async () => {
     const cache = getRedis({
       url: redisUrl
     });
-    const users = await Users.findAll();
-    const resumes = await Resumes.findAll();
-    const allAnalyse = await ShareAnalyse.findAll();
+    const userCount = await UserAPI.getUserCount();
+    const resumeCount = await UserAPI.getResumeCount();
 
-    console.log(`users: ${users.length}`);
-    console.log(`resumes: ${resumes.length}`);
+    const db = await getMongo();
+    const col = db.collection('records');
+    const records = await col.find({}).toArray();
 
-    await cache.incrby('users', users.length);
-    await cache.hincrby('github', 'count', users.length);
-    await cache.hincrby('resume', 'count', resumes.length);
+    console.log(`users: ${userCount}`);
+    console.log(`resumes: ${resumeCount}`);
+
+    await cache.incrby('users', userCount);
+    await cache.hincrby('github', 'count', userCount);
+    await cache.hincrby('resume', 'count', resumeCount);
 
     let githubPageview = 0;
     let resumePageview = 0;
 
-    allAnalyse.forEach((analyse) => {
+    records.forEach((analyse) => {
       const { login, pageViews } = analyse;
       const viewCount = pageViews.reduce((prev, current) => {
         let count = parseInt(current.count, 10);

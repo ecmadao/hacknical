@@ -3,9 +3,7 @@ import config from 'config';
 import logger from './logger';
 import getSignature from './signature';
 
-const auth = config.get('auth');
 const name = config.get('appName');
-const retryTimes = config.get('services.api.timeouts');
 const REQUEST_JSON_METHODS = ['PUT', 'POST', 'DELETE'];
 
 const verify = (options = {}, appName = name) => {
@@ -17,6 +15,8 @@ const verify = (options = {}, appName = name) => {
   options.json = true;
 
   try {
+    const auth = config.get(`services.${options.source}.auth`);
+    delete options.source;
     const { secretKey, publicKey } = auth;
     let contentType = '';
     if (REQUEST_JSON_METHODS.find(method => method === options.method)) {
@@ -48,7 +48,7 @@ const fetchData = options => new Promise((resolve, reject) => {
   });
 });
 
-const fetch = async (options, timeouts = retryTimes) => {
+const fetch = async (options, timeouts = [2000]) => {
   verify(options);
 
   let err = null;
@@ -58,6 +58,7 @@ const fetch = async (options, timeouts = retryTimes) => {
       if (time) {
         options.timeout = time;
       }
+      logger.info(`[FETCH:START] ${JSON.stringify(options)}`);
       const result = await fetchData(options);
       err = null;
       return result;

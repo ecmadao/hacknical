@@ -2,7 +2,7 @@ import koaRouter from 'koa-router';
 import GitHub from '../controllers/github';
 import user from '../controllers/helper/user';
 import cache from '../controllers/helper/cache';
-import analyse from '../controllers/helper/analyse';
+import record from '../controllers/helper/record';
 import check from '../controllers/helper/check';
 import share from '../controllers/helper/share';
 
@@ -59,7 +59,7 @@ router.patch(
 router.get(
   '/:login',
   share.githubEnable(),
-  analyse.github(),
+  record.github('params.login'),
   GitHub.githubPage
 );
 

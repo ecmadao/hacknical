@@ -1,8 +1,11 @@
+
 import config from 'config';
 import fetch from '../utils/fetch';
 
 const appName = config.get('appName');
-const API_URL = config.get('services.api.url');
+const SERVICE = config.get('services.github');
+const API_URL = SERVICE.url;
+const TIMEOUTS = SERVICE.timeouts;
 const BASE_GITHUB_URL = `${API_URL}/api/github`;
 const BASE_SCIENTIFIC_URL = `${API_URL}/api/scientific`;
 
@@ -12,10 +15,10 @@ const BASE_SCIENTIFIC_URL = `${API_URL}/api/scientific`;
 const fetchApi = (url, options = {}) => {
   const {
     body,
-    timeouts,
     qs = {},
     headers = {},
     method = 'get',
+    timeouts = TIMEOUTS,
     baseUrl = BASE_GITHUB_URL
   } = options;
   headers['X-App-Name'] = appName;
@@ -23,75 +26,76 @@ const fetchApi = (url, options = {}) => {
     qs,
     body,
     headers,
+    source: 'github',
     url: `${baseUrl}${url}`,
   }, timeouts);
 };
 
 /* =========================== api funcs =========================== */
 
-const getZen = async token => fetchApi('/zen', {
+const getZen = token => fetchApi('/zen', {
   qs: { token }
 });
-const getOctocat = async () => fetchApi('/octocat');
+const getOctocat = () => fetchApi('/octocat');
 
-const getVerify = async () => fetchApi('/verify');
-const getToken = async code => fetchApi('/token', {
+const getVerify = () => fetchApi('/verify');
+const getToken = code => fetchApi('/token', {
   qs: { code }
 });
 
-const getLogin = async token => fetchApi('/login', {
+const getLogin = token => fetchApi('/login', {
   qs: { token }
 });
-const getUser = async (login, token) =>
+const getUser = (login, token) =>
   fetchApi(`/${login}`, {
     qs: { token }
   });
 
-const getUserRepositories = async (login, token) =>
+const getUserRepositories = (login, token) =>
   fetchApi(`/${login}/repositories`, {
     qs: { token }
   });
-const getUserContributed = async (login, token) =>
+const getUserContributed = (login, token) =>
   fetchApi(`/${login}/contributed`, {
     qs: { token }
   });
-const getUserCommits = async (login, token) =>
+const getUserCommits = (login, token) =>
   fetchApi(`/${login}/commits`, {
     qs: { token }
   });
-const getUserOrganizations = async (login, token) =>
+const getUserOrganizations = (login, token) =>
   fetchApi(`/${login}/organizations`, {
     qs: { token }
   });
 
-const getUpdateStatus = async login =>
+const getUpdateStatus = login =>
   fetchApi(`/${login}/update/status`);
 
-const updateUserData = async (login, token) =>
+const updateUserData = (login, token) =>
   fetchApi(`/${login}/update`, {
     method: 'put',
     body: { token },
     timeouts: [null]
   });
 
-const getHotmap = async (login, locale) =>
+const getHotmap = (login, locale) =>
   fetchApi(`/${login}/hotmap`, {
     qs: { locale }
   });
 
-const getUserStatistic = async (login, token) =>
+const getUserStatistic = (login, token) =>
   fetchApi(`/${login}/statistic`, {
     qs: { token },
     baseUrl: BASE_SCIENTIFIC_URL,
   });
 
-const getUserPredictions = async (login, token) =>
+const getUserPredictions = (login, token) =>
   fetchApi(`/${login}/predictions`, {
     qs: { token },
     baseUrl: BASE_SCIENTIFIC_URL,
   });
 
-const removePrediction = async (login, fullName) =>
+const removePrediction = (login, fullName) =>
   fetchApi(`/${login}/predictions`, {
     baseUrl: BASE_SCIENTIFIC_URL,
     method: 'delete',
@@ -100,7 +104,7 @@ const removePrediction = async (login, fullName) =>
     }
   });
 
-const putPredictionsFeedback = async (login, fullName, liked) =>
+const putPredictionsFeedback = (login, fullName, liked) =>
   fetchApi(`/${login}/predictions`, {
     baseUrl: BASE_SCIENTIFIC_URL,
     method: 'put',

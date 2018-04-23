@@ -53,8 +53,7 @@ class ReposModal extends React.Component {
   onSubmit() {
     const { pinned } = this.state;
     const { onClose } = this.props;
-    const pinnedRepos = pinned.join(',');
-    Api.user.setPinnedRepos(pinnedRepos);
+    Api.user.setUserInfo({ pinnedRepos: pinned });
     this.changeState({
       rawPinned: [...pinned]
     });
@@ -89,8 +88,8 @@ class ReposModal extends React.Component {
   }
 
   async fetchPinnedRepositories() {
-    const result = await Api.user.getPinnedRepos();
-    const pinned = result.length ? result : this.defaultPinned();
+    const user = await Api.user.getUserInfo();
+    const pinned = user.pinnedRepos || this.defaultPinned();
     this.changeState({
       pinned: [...pinned],
       rawPinned: [...pinned]

@@ -13,7 +13,7 @@ const renderApp = (domId, props = {}) => {
 
 $(() => {
   renderApp('resume', {
-    hash: window.resumeHash,
-    login: window.login
+    login: window.login,
+    userId: window.userId,
   });
 });

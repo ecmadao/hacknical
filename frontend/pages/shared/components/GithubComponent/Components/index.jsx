@@ -64,8 +64,8 @@ class GithubComponent extends React.Component {
 
     if (!preState.user.login && user.login) {
       this.getGithubSections(user.login);
-      !isShare && this.getGithubScientific(user.login);
-      !scientific.statistic && this.getGithubStatistic(user.login);
+      // !isShare && this.getGithubScientific(user.login);
+      // !scientific.statistic && this.getGithubStatistic(user.login);
       !repositoriesLoaded && this.getGithubRepositories(user.login);
       setTimeout(() => removeDOM('#loading'), 1000);
     }
@@ -152,8 +152,8 @@ class GithubComponent extends React.Component {
   }
 
   async getGithubSections(login = '') {
-    const sections = await Api.user.getSections(login);
-    this.changeState({ sections });
+    const userInfo = await Api.user.getUserInfo(login);
+    this.changeState({ sections: userInfo.githubSections });
   }
 
   async getGithubCommits(login = '') {
@@ -205,9 +205,12 @@ class GithubComponent extends React.Component {
   }
 
   async changeGithubSection(sections) {
-    await Api.user.setSections(sections);
+    const newSections = objectAssign({}, this.state.sections, sections);
+    await Api.user.setUserInfo({
+      githubSections: newSections
+    });
     this.setState({
-      sections: objectAssign({}, this.state.sections, sections)
+      sections: newSections
     });
   }
 
@@ -316,6 +319,7 @@ class GithubComponent extends React.Component {
           onFeedback={this.onPredictionFeedback}
           canOperate={false}
         />
+        {/*
         <GitHubSection
           loaded={statisticLoaded}
           title={{
@@ -335,6 +339,7 @@ class GithubComponent extends React.Component {
           disabled={this.disabledSection('statistic')}
           hide={this.hideSection('statistic')}
         />
+        */}
         <GitHubSection
           loaded={repositoriesLoaded || commitLoaded}
           commitDatas={commitDatas}

@@ -12,6 +12,7 @@ import views from 'koa-views';
 import userAgent from 'koa-useragent';
 import staticServer from 'koa-static';
 
+import mongoMiddleware from '../middlewares/mongo';
 import assetsPath from '../middlewares/assets';
 import { redisMiddleware } from '../middlewares/cache';
 import catchError from '../middlewares/error';
@@ -74,6 +75,8 @@ app.use(redisMiddleware({
 }));
 // mq
 app.use(mqMiddleware());
+// mongo
+app.use(mongoMiddleware());
 // locale
 app.use(checkLocale());
 // catch error

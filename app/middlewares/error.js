@@ -20,7 +20,7 @@ const catchError = () => async (ctx, next) => {
     }
   } catch (err) {
     logger.error(err);
-    ctx.redirect('/user/logout');
+    // ctx.redirect('/user/logout');
   }
 }
 

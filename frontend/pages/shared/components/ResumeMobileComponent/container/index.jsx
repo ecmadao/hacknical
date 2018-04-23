@@ -11,14 +11,14 @@ const ResumeMobileComponent = props => (
 );
 
 ResumeMobileComponent.propTypes = {
-  hash: PropTypes.string,
   login: PropTypes.string,
+  userId: PropTypes.string,
   fromDownload: PropTypes.bool
 };
 
 ResumeMobileComponent.defaultProps = {
   login: window.login,
-  hash: window.resumeHash,
+  userId: window.userId,
   fromDownload: window.fromDownload === 'true' || window.fromDownload === true,
 };
 

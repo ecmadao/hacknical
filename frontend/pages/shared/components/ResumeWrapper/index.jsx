@@ -15,7 +15,6 @@ class ResumeWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hash: props.hash,
       loading: true,
       updateAt: '',
       initialized: true,
@@ -46,20 +45,12 @@ class ResumeWrapper extends React.Component {
   }
 
   async fetchResumeData() {
-    let { hash } = this.state;
-    const { login } = this.props;
-    if (!hash) {
-      hash = await Api.resume.getPubResumeHash(login);
-      this.setState({ hash });
-    }
-    this.fetchResume(hash);
-    this.fetchShareInfo(hash);
-  }
+    const { userId } = this.props;
+    const resumeInfo = await Api.resume.getResumeInfo({ userId });
+    const { resumeHash } = resumeInfo;
 
-  fetchShareInfo(hash) {
-    Api.resume.getPubResumeStatus(hash).then((result) => {
-      this.initialShareInfo(result);
-    });
+    this.initialShareInfo(resumeInfo);
+    this.fetchResume(resumeHash);
   }
 
   fetchResume(hash) {

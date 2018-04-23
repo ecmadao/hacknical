@@ -4,12 +4,8 @@ const MongoSchema = mongoose.Schema;
 
 const ShareAnalyseSchema = new MongoSchema({
   login: String,
-  userId: String,
   url: String,
-  enable: {
-    type: Boolean,
-    default: true
-  },
+  type: String,
   pageViews: [{
     count: Number,
     date: String
@@ -28,10 +24,8 @@ const ShareAnalyseSchema = new MongoSchema({
 });
 
 ShareAnalyseSchema.index({
-  userId: 1,
   login: 1,
-  url: 1,
-  enable: 1,
+  type: 1,
 });
 
 export default mongoose.model('ShareAnalyse', ShareAnalyseSchema);

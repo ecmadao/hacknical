@@ -2,7 +2,7 @@
 import config from 'config';
 import { wrapMsg } from './shared';
 
-const homepage = config.get('httpsUrl');
+const homepage = config.get('url');
 const sendcloud = config.get('services.sendcloud');
 const qName = config.get('mq.channels')['qname-messenger'];
 const EMAIL_URL = sendcloud.url;

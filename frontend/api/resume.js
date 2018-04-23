@@ -1,59 +1,33 @@
 import { getData, putData, patchData } from './base';
 
-const getResume = () => getData('/resume/edit');
+const getResume = () => getData('/resume');
+const setResume = resume => putData('/resume', { resume });
+const patchResume = data => patchData('/resume', { data });
 
-const setResume = resume =>
-  putData('/resume/edit', { resume });
+const download = () => getData('/resume/download');
 
-const download = (hash = window.resumeHash) =>
-  getData('/resume/download', { hash });
+const getPubResume = hash => getData('/resume/shared/public', { hash });
 
-const getPubResume = hash => getData('/resume/pub', { hash });
-const getPubResumeHash = login => getData('/resume/hash', { login });
-const getPubResumeStatus = (hash) => {
-  if (hash) {
-    return getData(`/resume/${hash}/share`);
-  }
-  return getData('/resume/share');
+const getResumeInfo = (options = {}) => {
+  const { hash, userId } = options;
+  const qs = {};
+  if (hash) qs.hash = hash;
+  if (userId) qs.userId = userId;
+  return getData('/resume/info', qs);
 };
 
-const patchHireAvailable = hireAvailable =>
-  patchData('/resume/hireAvailable', { hireAvailable });
+const patchResumeInfo = info => patchData('/resume/info', { info });
 
-const patchResumeType = freshGraduate =>
-  patchData('/resume/resumeType', { freshGraduate });
-
-const postPubResumeShareStatus = enable =>
-  patchData('/resume/share/status', { enable });
-
-const togglePubResumeSimplifyUrl = simplifyUrl =>
-  patchData('/resume/shareUrl', { simplifyUrl });
-
-const postPubResumeGithubStatus = enable =>
-  patchData('/resume/share/github', { enable });
-
-const postPubResumeGithubSection = option =>
-  patchData('/resume/github/section', option);
-
-const postPubResumeTemplate = template =>
-  patchData('/resume/share/template', { template });
-
-const getShareRecords = () =>
-  getData('/resume/share/records');
+const getShareRecords = () => getData('/resume/records');
 
 export default {
   getResume,
   setResume,
+  patchResume,
+  // =================================
   download,
   getPubResume,
-  getPubResumeHash,
-  getPubResumeStatus,
-  postPubResumeShareStatus,
-  togglePubResumeSimplifyUrl,
-  postPubResumeGithubStatus,
-  postPubResumeGithubSection,
-  postPubResumeTemplate,
+  patchResumeInfo,
+  getResumeInfo,
   getShareRecords,
-  patchHireAvailable,
-  patchResumeType,
 };

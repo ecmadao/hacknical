@@ -1,11 +1,11 @@
 /* eslint eqeqeq: "off" */
 import Api from '../services/api';
-import ShareAnalyse from '../models/share-analyse';
-import User from '../models/users';
+import Records from '../models/records';
 import {
   combineReposCommits
 } from './helper/github';
 import { is, sortBy } from '../utils/helper';
+import UserAPI from '../services/user';
 
 /* ================== private func ==================== */
 
@@ -44,13 +44,10 @@ const _getCommits = async (login, token) => {
 /* ================== router handler ================== */
 
 const toggleShare = async (ctx) => {
-  const { githubLogin } = ctx.session;
+  const { userId } = ctx.session;
   const { enable } = ctx.request.body;
-  await ShareAnalyse.changeShareStatus({
-    enable,
-    login: githubLogin,
-    url: new RegExp('github')
-  });
+
+  await UserAPI.updateUser(userId, { githubShare: Boolean(enable) });
   const message = Boolean(enable) == true
     ? 'messages.share.toggleOpen'
     : 'messages.share.toggleClose'
@@ -145,11 +142,10 @@ const getUserOrganizations = async (ctx, next) => {
 const getUser = async (ctx, next) => {
   const { login } = ctx.params;
   const user = await _getUser(ctx);
-  const shareAnalyse =
-    await ShareAnalyse.findOne({ login, url: new RegExp('github') });
+  const userInfo = await UserAPI.getUser({ login });
 
   const result = Object.assign({}, user);
-  result.openShare = shareAnalyse.enable;
+  result.openShare = userInfo.githubShare;
   result.shareUrl = `${login}/github?locale=${ctx.session.locale}`;
   ctx.body = {
     success: true,
@@ -183,19 +179,20 @@ const githubPage = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session;
-  const shareAnalyses = await ShareAnalyse.find({
+  const records = await Records.getRecords(ctx.db, {
     login: githubLogin,
-    url: new RegExp('github')
+    type: 'github'
   });
+  const userInfo = await UserAPI.getUser({ login: githubLogin });
 
   const viewDevices = [];
   const viewSources = [];
   const pageViews = [];
-  for (let i = 0; i < shareAnalyses.length; i += 1) {
-    const shareAnalyse = shareAnalyses[i];
-    viewDevices.push(...shareAnalyse.viewDevices);
-    viewSources.push(...shareAnalyse.viewSources);
-    pageViews.push(...shareAnalyse.pageViews);
+
+  for (const record of records) {
+    viewDevices.push(...record.viewDevices);
+    viewSources.push(...record.viewSources);
+    pageViews.push(...record.pageViews);
   }
   ctx.body = {
     success: true,
@@ -204,7 +201,7 @@ const getShareRecords = async (ctx) => {
       pageViews,
       viewDevices,
       viewSources,
-      openShare: shareAnalyses[0] ? shareAnalyses[0].enable : false,
+      openShare: userInfo.githubShare,
       url: `${githubLogin}/github?locale=${locale}`,
     }
   };
@@ -218,10 +215,7 @@ const getUpdateStatus = async (ctx) => {
     lastUpdateTime
   } = statusResult;
   if (Number(status) === 1) {
-    await User.updateUserInfo({
-      userId,
-      initialed: true
-    });
+    await UserAPI.updateUser(userId, { initialed: true });
   }
   const result = {
     status,

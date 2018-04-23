@@ -1,11 +1,10 @@
 {
-  "production": false,
-  "port": "4000",
-  "appKey": "hacknical-key",
+  "port": "",
+  "appKey": "",
   "appName": "hacknical",
   "database": {
-    "redis": "redis://localhost:6379/3",
-    "mongo": "mongodb://localhost:27017/hawkeye"
+    "redis": "",
+    "mongo": ""
   },
   "links": {
     "github": "https://github.com/ecmadao/hacknical",
@@ -17,15 +16,9 @@
     "AccessKey": "",
     "SecretKey": ""
   },
-  "services": {
-    "api": {
-      "url": "",
-      "timeouts": []
-    },
-    "slack": null
-  },
+  "services": {},
   "cdn": "",
-  "httpsUrl": "localhost:4000",
+  "url": "",
   "log": {
     "appender": {
       "type": "console"

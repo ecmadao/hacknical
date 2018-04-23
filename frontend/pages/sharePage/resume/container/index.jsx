@@ -11,13 +11,13 @@ const ResumeShare = props => (
 );
 
 ResumeShare.propTypes = {
-  hash: PropTypes.string,
-  login: PropTypes.string
+  login: PropTypes.string,
+  userId: PropTypes.string,
 };
 
 ResumeShare.defaultProps = {
-  hash: window.resumeHash,
   login: window.login,
+  userId: window.userId,
 };
 
 export default ResumeShare;

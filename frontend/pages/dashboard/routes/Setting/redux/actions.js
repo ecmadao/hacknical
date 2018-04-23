@@ -68,7 +68,7 @@ const postGithubShareStatus = () => (dispatch, getState) => {
 
 // resume
 const fetchResumeShareInfo = () => (dispatch) => {
-  Api.resume.getPubResumeStatus().then((result) => {
+  Api.resume.getResumeInfo().then((result) => {
     dispatch(initialResumeShareInfo(result));
   });
 };
@@ -76,7 +76,7 @@ const fetchResumeShareInfo = () => (dispatch) => {
 const postResumeGithubStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { useGithub } = resumeInfo;
-  Api.resume.postPubResumeGithubStatus(!useGithub).then(() => {
+  Api.resume.patchResumeInfo({ useGithub: !useGithub }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       useGithub: !useGithub
     })));
@@ -86,7 +86,7 @@ const postResumeGithubStatus = () => (dispatch, getState) => {
 const postResumeShareStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { openShare } = resumeInfo;
-  Api.resume.postPubResumeShareStatus(!openShare).then(() => {
+  Api.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       openShare: !openShare
     })));
@@ -96,7 +96,7 @@ const postResumeShareStatus = () => (dispatch, getState) => {
 const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { simplifyUrl } = resumeInfo;
-  Api.resume.togglePubResumeSimplifyUrl(!simplifyUrl).then(() => {
+  Api.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       simplifyUrl: !simplifyUrl
     })));
@@ -105,11 +105,10 @@ const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
 
 const postResumeShareSection = (section, checked) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
-  Api.resume.postPubResumeGithubSection({
-    [section]: checked
-  }).then(() => {
+  const githubInfo = objectAssign({}, resumeInfo.github, { [section]: checked });
+  Api.resume.patchResumeInfo({ github: githubInfo }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      github: objectAssign({}, resumeInfo.github, { [section]: checked })
+      github: githubInfo
     })));
   });
 };
