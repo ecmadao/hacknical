@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
 import config from 'config';
-import Records from '../../models/records';
+import Records from '../models/records';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';

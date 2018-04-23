@@ -17,13 +17,7 @@
     "AccessKey": "",
     "SecretKey": ""
   },
-  "services": {
-    "api": {
-      "url": "",
-      "timeouts": []
-    },
-    "slack": null
-  },
+  "services": {},
   "cdn": "",
   "url": "localhost:4000",
   "log": {
