@@ -13,7 +13,7 @@ const updateViewData = async (ctx, options) => {
     login = null,
   } = options;
 
-  await Records.updateRecords({
+  await Records.updateRecords(ctx.db, {
     type,
     login,
     platform,
