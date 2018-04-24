@@ -74,7 +74,7 @@ const getUserOrganizations = (login, token) =>
   });
 
 const getUpdateStatus = login =>
-  getFromCache(`/${login}/update/status`);
+  fetchApi(`/${login}/update/status`);
 
 const updateUserData = (login, token) =>
   fetchApi(`/${login}/update`, {
