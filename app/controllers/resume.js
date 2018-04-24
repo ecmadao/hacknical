@@ -207,6 +207,7 @@ const resumePage = async (ctx) => {
 const getResumeByHash = async (ctx, next) => {
   const { hash } = ctx.query;
   const findResult = await UserAPI.getResume({ hash });
+
   let result = null;
   if (findResult) {
     result = findResult.resume;

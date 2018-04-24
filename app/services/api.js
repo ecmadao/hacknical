@@ -1,6 +1,7 @@
 
 import config from 'config';
 import fetch from '../utils/fetch';
+import cache from '../utils/cache';
 
 const appName = config.get('appName');
 const SERVICE = config.get('services.github');
@@ -10,7 +11,6 @@ const BASE_GITHUB_URL = `${API_URL}/api/github`;
 const BASE_SCIENTIFIC_URL = `${API_URL}/api/scientific`;
 
 /* =========================== basic funcs =========================== */
-
 
 const fetchApi = (url, options = {}) => {
   const {
@@ -31,45 +31,50 @@ const fetchApi = (url, options = {}) => {
   }, timeouts);
 };
 
+const TTL = 300; // 5 min
+const getFromCache = cache.wrapFn(
+  fetchApi, 'hacknical-github', { ttl: TTL }
+);
+
 /* =========================== api funcs =========================== */
 
-const getZen = token => fetchApi('/zen', {
+const getZen = token => getFromCache('/zen', {
   qs: { token }
 });
-const getOctocat = () => fetchApi('/octocat');
+const getOctocat = () => getFromCache('/octocat');
 
-const getVerify = () => fetchApi('/verify');
-const getToken = code => fetchApi('/token', {
+const getVerify = () => getFromCache('/verify');
+const getToken = code => getFromCache('/token', {
   qs: { code }
 });
 
-const getLogin = token => fetchApi('/login', {
+const getLogin = token => getFromCache('/login', {
   qs: { token }
 });
 const getUser = (login, token) =>
-  fetchApi(`/${login}`, {
+  getFromCache(`/${login}`, {
     qs: { token }
   });
 
 const getUserRepositories = (login, token) =>
-  fetchApi(`/${login}/repositories`, {
+  getFromCache(`/${login}/repositories`, {
     qs: { token }
   });
 const getUserContributed = (login, token) =>
-  fetchApi(`/${login}/contributed`, {
+  getFromCache(`/${login}/contributed`, {
     qs: { token }
   });
 const getUserCommits = (login, token) =>
-  fetchApi(`/${login}/commits`, {
+  getFromCache(`/${login}/commits`, {
     qs: { token }
   });
 const getUserOrganizations = (login, token) =>
-  fetchApi(`/${login}/organizations`, {
+  getFromCache(`/${login}/organizations`, {
     qs: { token }
   });
 
 const getUpdateStatus = login =>
-  fetchApi(`/${login}/update/status`);
+  getFromCache(`/${login}/update/status`);
 
 const updateUserData = (login, token) =>
   fetchApi(`/${login}/update`, {
@@ -79,18 +84,18 @@ const updateUserData = (login, token) =>
   });
 
 const getHotmap = (login, locale) =>
-  fetchApi(`/${login}/hotmap`, {
+  getFromCache(`/${login}/hotmap`, {
     qs: { locale }
   });
 
 const getUserStatistic = (login, token) =>
-  fetchApi(`/${login}/statistic`, {
+  getFromCache(`/${login}/statistic`, {
     qs: { token },
     baseUrl: BASE_SCIENTIFIC_URL,
   });
 
 const getUserPredictions = (login, token) =>
-  fetchApi(`/${login}/predictions`, {
+  getFromCache(`/${login}/predictions`, {
     qs: { token },
     baseUrl: BASE_SCIENTIFIC_URL,
   });

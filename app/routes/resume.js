@@ -49,7 +49,11 @@ router.patch('/info',
 
 router.get('/shared/public',
   check.query('hash'),
-  Resume.getResumeByHash
+  cache.get('resume', {
+    keys: ['query.hash']
+  }),
+  Resume.getResumeByHash,
+  cache.set()
 );
 
 router.get('/:hash',

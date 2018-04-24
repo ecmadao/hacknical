@@ -1,6 +1,7 @@
 
 import config from 'config';
 import fetch from '../utils/fetch';
+import cache from '../utils/cache';
 
 const appName = config.get('appName');
 const SERVICE = config.get('services.user');
@@ -28,6 +29,11 @@ const fetchApi = (url = '', options = {}) => {
   }, timeouts);
 };
 
+const TTL = 600; // 10 min
+const getFromCache = cache.wrapFn(
+  fetchApi, 'hacknical-user', { ttl: TTL }
+);
+
 const getUser = qs => fetchApi('', { qs });
 
 const createUser = data =>
@@ -45,7 +51,7 @@ const updateUser = (userId, data) =>
     method: 'put'
   });
 
-const getUserCount = () => fetchApi('/count');
+const getUserCount = () => getFromCache('/count');
 
 /* =========================================================== */
 
@@ -83,7 +89,7 @@ const setResumeInfo = ({ userId, login, info }) =>
     baseUrl: BASE_RESUME_URL
   });
 
-const getResumeCount = () => fetchApi('/count', {
+const getResumeCount = () => getFromCache('/count', {
   baseUrl: BASE_RESUME_URL
 });
 

@@ -103,6 +103,7 @@
   width: 140px;
   text-align: left;
   line-height: 1.5em;
+  padding-left: 10px;
 }
 
 .timelineItem {

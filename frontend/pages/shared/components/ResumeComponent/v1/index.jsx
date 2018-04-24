@@ -11,7 +11,7 @@ import locales from 'LOCALES';
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 
 const resumeLocales = locales('resume');
-const { hoursBefore } = dateHelper.relative;
+const { minutesBefore } = dateHelper.relative;
 
 const info = (options) => {
   const { text, icon, type, style = '' } = options;
@@ -277,7 +277,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     if (!check) return null;
     const { updateText, updateAt } = check;
     return baseInfo(
-      `${updateText}${hoursBefore(updateAt)}`,
+      `${updateText}${minutesBefore(updateAt)}`,
       'exclamation-circle',
       { style: styles.right_info_tip }
     );

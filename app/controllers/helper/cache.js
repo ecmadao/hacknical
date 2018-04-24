@@ -5,12 +5,12 @@ const getCache = (key, options = {}) => async (ctx, next) => {
   const cacheKey = getCacheKey(ctx)(key, options);
   const result = await ctx.cache.get(cacheKey);
   if (result) {
-    // logger.info(`[CACHE:GET][${cacheKey}]`);
-    // ctx.body = {
-    //   success: true,
-    //   result,
-    // };
-    // return;
+    logger.info(`[REQUEST-CACHE:GET][${cacheKey}]`);
+    ctx.body = {
+      success: true,
+      result,
+    };
+    return;
   }
   ctx.query.cacheKeys = [cacheKey];
   ctx.query.shouldCache = true;
@@ -25,7 +25,7 @@ const setCache = (options = {}) => async (ctx) => {
   if (cacheKeys && cacheKeys.length && result && shouldCache) {
     for (let i = 0; i < cacheKeys.length; i += 1) {
       const cacheKey = cacheKeys[i];
-      logger.info(`[CACHE:SET][${cacheKey}]`);
+      logger.info(`[REQUEST-CACHE:SET][${cacheKey}]`);
       await ctx.cache.set(cacheKey, result, { expire });
     }
   }
@@ -34,7 +34,7 @@ const setCache = (options = {}) => async (ctx) => {
 const removeCache = (keys = []) => async (ctx) => {
   const targetKeys = ctx.query.deleteKeys || keys;
   for (let i = 0; i < targetKeys.length; i += 1) {
-    logger.info(`[CACHE:DEL][${targetKeys[i]}]`);
+    logger.info(`[REQUEST-CACHE:DEL][${targetKeys[i]}]`);
     await ctx.cache.del(targetKeys[i]);
   }
 };

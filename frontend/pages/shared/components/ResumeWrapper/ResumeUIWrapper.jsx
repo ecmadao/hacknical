@@ -50,7 +50,7 @@ class ResumeUIWrapper extends React.Component {
   }
 
   renderUpdateTime() {
-    const { resume, updateText, fromDownload, } = this.props;
+    const { resume, updateText, fromDownload } = this.props;
     const { updateAt } = resume;
     if (!updateAt || fromDownload) return false;
     return {

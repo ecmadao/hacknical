@@ -150,6 +150,7 @@
     "assets-webpack-plugin": "^3.5.1",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
+    "cache-manager": "^2.9.0",
     "co-redis": "^2.1.1",
     "config": "^1.21.0",
     "eventemitter3": "^3.0.1",

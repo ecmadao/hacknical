@@ -10,7 +10,7 @@ import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 import { renderBaseInfo, section } from '../shared/common';
 
 const resumeTexts = locales('resume');
-const { hoursBefore } = dateHelper.relative;
+const { minutesBefore } = dateHelper.relative;
 
 const renderWorkProjects = (projects = []) =>
   projects.map((project, index) => {
@@ -292,7 +292,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
     const { updateText, updateAt } = check;
     return (
       <div className={styles.footerRight}>
-        {updateText}{hoursBefore(updateAt)}
+        {updateText}{minutesBefore(updateAt)}
       </div>
     );
   }
