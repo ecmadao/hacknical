@@ -82,7 +82,11 @@
 			"unSimplifyUrl": "Simplify share url closed"
     },
     "update": {
-			"pending": "Data is updating in the background"
+      "succeed": "Data update succeed",
+			"pending": "Data is updating in the background",
+			"running": "Data is updating in the background",
+			"failed": "GitHub token expired, please re-login",
+			"frequently": "Update too frequently, please retry later"
 		}
   }
 }

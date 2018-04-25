@@ -82,7 +82,11 @@
 			"unSimplifyUrl": "已关闭简化的分享链接"
 		},
 		"update": {
-			"pending": "数据在后台更新中"
+			"succeed": "数据更新完成",
+			"pending": "数据在后台更新中",
+			"running": "数据在后台更新中",
+			"failed": "GitHub token 过期，请退出后重新登录",
+			"frequently": "更新频繁，请稍后重试"
 		}
   }
 }

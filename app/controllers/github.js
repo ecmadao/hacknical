@@ -2,7 +2,8 @@
 import Api from '../services/api';
 import Records from '../models/records';
 import {
-  combineReposCommits
+  combineReposCommits,
+  UPDATE_STATUS_TEXT
 } from './helper/github';
 import { is, sortBy } from '../utils/helper';
 import UserAPI from '../services/user';
@@ -207,26 +208,32 @@ const getShareRecords = async (ctx) => {
   };
 };
 
+const refreshEnable = status => status !== 2 && status !== 3;
+
 const getUpdateStatus = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   const statusResult = await Api.getUpdateStatus(githubLogin);
   const {
     status,
-    lastUpdateTime
+    lastUpdateTime,
   } = statusResult;
-  if (Number(status) === 1) {
+
+  const statusCode = parseInt(status, 10);
+  if (statusCode === 1) {
     await UserAPI.updateUser(userId, { initialed: true });
   }
+  const messageKey = UPDATE_STATUS_TEXT[statusCode];
+
   const result = {
     status,
     lastUpdateTime,
-    refreshEnable: Number(status) !== 2
-      && Number(status) !== 3
+    refreshEnable: refreshEnable(statusCode)
       && (new Date() - new Date(lastUpdateTime)) / (60 * 1000) > 10,
   };
   ctx.body = {
     result,
     success: true,
+    message: messageKey ? ctx.__(messageKey) : '',
   };
 };
 
