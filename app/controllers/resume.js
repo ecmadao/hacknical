@@ -137,7 +137,7 @@ const downloadResume = async (ctx) => {
     };
   }
 
-  const updateTime = findResult.update_at;
+  const updateTime = findResult.update_at || findResult.updated_at;
   const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
@@ -211,7 +211,7 @@ const getResumeByHash = async (ctx, next) => {
   let result = null;
   if (findResult) {
     result = findResult.resume;
-    result.updateAt = findResult.update_at;
+    result.updateAt = findResult.updated_at;
   }
 
   ctx.body = {
