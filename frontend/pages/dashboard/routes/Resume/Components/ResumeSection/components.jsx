@@ -3,35 +3,66 @@ import cx from 'classnames';
 import { Input, Button } from 'light-ui';
 import styles from '../../styles/resume.css';
 
+export const TipsoInputs = (props) => {
+  const {
+    children,
+    prefixIcons,
+  } = props;
+
+  const inputs = [];
+  children.forEach((child, i) => {
+    let prefix = null;
+    if (prefixIcons[i]) {
+      prefix = (
+        <i className={`fa fa-${prefixIcons[i]}`} aria-hidden="true" />
+      );
+    }
+    inputs.push((
+      <div className={styles.tipsoInput} key={i}>
+        {prefix}
+        {child}
+      </div>
+    ));
+  });
+
+  return (
+    <div className={styles.project_link_wrapper}>
+      {inputs}
+    </div>
+  );
+};
+
 export const TipsoInput = (props) => {
   const {
     type,
     value,
     required,
-    placeholder,
     onChange,
     className,
-    disabled = false
+    placeholder,
+    disabled = false,
+    prefixIcons = ['link'],
   } = props;
   return (
-    <div className={styles.project_link_wrapper}>
-      <i className="fa fa-link" aria-hidden="true" />
-      &nbsp;&nbsp;
-      <Input
-        type={type}
-        value={value}
-        disabled={disabled}
-        required={required}
-        onChange={onChange}
-        theme="borderless"
-        subTheme="underline"
-        className={cx(
-          styles.tipso_input,
-          className
-        )}
-        placeholder={placeholder}
-      />
-    </div>
+    <TipsoInputs prefixIcons={prefixIcons}>
+      {[
+        <Input
+          key="0"
+          type={type}
+          value={value}
+          disabled={disabled}
+          required={required}
+          onChange={onChange}
+          theme="borderless"
+          subTheme="underline"
+          className={cx(
+            styles.tipso_input,
+            className
+          )}
+          placeholder={placeholder}
+        />
+      ]}
+    </TipsoInputs>
   );
 };
 

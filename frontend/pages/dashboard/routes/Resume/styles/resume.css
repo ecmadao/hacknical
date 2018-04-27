@@ -144,6 +144,11 @@
   }
 }
 
+.resumeLinks_wrapper {
+  composes: resume_wrapper;
+  display: inherit;
+}
+
 .resumeRow {
   display: flex;
   flex-direction: row;
@@ -342,7 +347,7 @@
   height: 80px;
   border-radius: 2px;
   cursor: pointer;
-  margin: 5px;
+  margin: 5px 10px 5px 0;
   position: relative;
   border: 1px solid var(--oc-gray-3);
   background-color: var(--oc-white);
@@ -366,12 +371,63 @@
   &:last-child {
     margin-right: 0;
   }
+
+  &:hover {
+    & .linkDelButton {
+      display: block;
+    }
+  }
+}
+
+.resume_link_new {
+  composes: resume_link;
+  filter: grayscale(100%);
+  transition: filter 0.6s;
+  position: relative;
+  display: inline-block;
+
+  & img {
+    transform: scale(0.7);
+  }
+
+  &:hover {
+    filter: grayscale(0%);
+  }
+}
+
+.linkDelButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  transform: translate(50%, -50%);
+
+  & i {
+    display: inline-block;
+    cursor: pointer;
+    color: var(--oc-gray-5);
+    font-size: 1.5em;
+
+    &:hover {
+      color: var(--oc-red-5);
+    }
+  }
 }
 
 .project_link_wrapper {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tipsoInput {
+  display: flex;
   flex-direction: row;
   align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
 }
 
 .icon_button {

@@ -18,6 +18,7 @@ class Others extends React.Component {
     this.changeSupplement = this.changeSupplement.bind(this);
     this.handleOthersChange = this.handleOthersChange.bind(this);
     this.changeSocialLink = this.changeSocialLink.bind(this);
+    this.deleteSocialLink = this.deleteSocialLink.bind(this);
   }
 
   handleOthersChange(key) {
@@ -40,20 +41,37 @@ class Others extends React.Component {
   }
 
   changeSocialLink(index) {
-    return (value) => {
-      this.props.actions.changeSocialLink(value, index);
+    return (option) => {
+      this.props.actions.changeSocialLink(option, index);
+    };
+  }
+
+  deleteSocialLink(index) {
+    return () => {
+      this.props.actions.deleteSocialLink(index);
     };
   }
 
   renderSocialLinks() {
-    const { socialLinks } = this.props;
-    return socialLinks.map((social, index) => (
+    const { actions, socialLinks } = this.props;
+    const links = socialLinks.map((social, index) => (
       <SocialLink
         key={index}
         social={social}
         onChange={this.changeSocialLink(index)}
+        onDelete={this.deleteSocialLink(index)}
       />
     ));
+    links.push((
+      <div
+        key={links.length}
+        onClick={actions.addSocialLink}
+        className={styles.resume_link_new}
+      >
+        <img src={require('SRC/images/add.png')} alt="newLink" />
+      </div>
+    ));
+    return links;
   }
 
   render() {
@@ -110,7 +128,7 @@ class Others extends React.Component {
           <div className={styles.resume_title}>
             {resumeTexts.links.title}
           </div>
-          <div className={styles.resume_wrapper}>
+          <div className={styles.resumeLinks_wrapper}>
             {this.renderSocialLinks()}
           </div>
         </div>

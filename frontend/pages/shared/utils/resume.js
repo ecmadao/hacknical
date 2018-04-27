@@ -4,11 +4,32 @@ import { SOCIAL_LINKS } from 'SHARED/datas/resume';
 export const objectassign = (baseObj, targetObj) =>
   objectAssign({}, baseObj, targetObj);
 
-export const validateSocialLinks = socialLinks =>
-  SOCIAL_LINKS.map((social) => {
-    const targetSocial = socialLinks.filter(s => s.name === social.name);
-    if (targetSocial.length) {
-      return targetSocial[0];
-    }
-    return social;
-  });
+
+export const validateSocialLinks = (socialLinks) => {
+  const tmp = {}
+  const results = [];
+
+  for (const socialLink of socialLinks) {
+    if (socialLink.url) tmp[socialLink.name.toLowerCase()] = socialLink;
+  }
+
+  for (const SOCIAL_LINK of SOCIAL_LINKS) {
+    const data = tmp[SOCIAL_LINK.name] || SOCIAL_LINK;
+    results.push(objectAssign({}, data, {
+      deleteable: false,
+      icon: SOCIAL_LINK.icon,
+      text: SOCIAL_LINK.text
+    }));
+    delete tmp[SOCIAL_LINK.name];
+  }
+
+  for (const name of Object.keys(tmp)) {
+    const data = tmp[name];
+    results.push(Object.assign({}, data, {
+      icon: 'browser.png',
+      deleteable: true
+    }));
+  }
+
+  return results;
+};

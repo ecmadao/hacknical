@@ -16,6 +16,7 @@
     display: none;
     cursor: pointer;
     color: var(--oc-gray-5);
+    line-height: 1.7em;
 
     &:hover {
       color: var(--oc-red-5);

@@ -105,11 +105,13 @@ export const EDUCATIONS = [
 export const SOCIAL_LINKS = [
   {
     name: 'github',
+    text: 'GitHub',
     icon: 'github.png',
     url: ''
   },
   {
     name: 'segmentfault',
+    text: 'Segmentfault',
     icon: 'sg.jpg',
     url: ''
   },
@@ -121,6 +123,7 @@ export const SOCIAL_LINKS = [
   },
   {
     name: 'stackoverflow',
+    text: 'Stackoverflow',
     icon: 'stackoverflow.png',
     url: ''
   },
@@ -129,14 +132,28 @@ export const SOCIAL_LINKS = [
     text: '稀土掘金',
     icon: 'gold.jpeg',
     url: ''
+  },
+  {
+    name: 'leetcode',
+    text: 'LeetCode',
+    icon: 'leetcode.png',
+    url: ''
+  },
+  {
+    name: 'codewars',
+    text: 'Codewars',
+    icon: 'codewars.png',
+    url: ''
   }
 ];
 export const LINK_NAMES = {
-  github: 'github',
-  segmentfault: 'segmentfault',
+  github: 'GitHub',
+  segmentfault: 'Segmentfault',
   blog: '个人博客',
-  stackoverflow: 'stackoverflow',
-  xitu: '稀土掘金'
+  stackoverflow: 'Stackoverflow',
+  xitu: '稀土掘金',
+  leetcode: 'LeetCode',
+  codewars: 'Codewars',
 };
 
 export const INFO = {

@@ -53,6 +53,7 @@ const reducers = handleActions({
     const sections = info.freshGraduate
       ? RESUME_SECTIONS.freshGraduate
       : RESUME_SECTIONS.normal;
+
     return ({
       ...state,
       loading: false,
@@ -439,14 +440,47 @@ const reducers = handleActions({
   CHANGE_SOCIAL_LINK(state, action) {
     const { others } = state;
     const { socialLinks } = others;
-    const { url, index } = action.payload;
+    const { option, index } = action.payload;
     return ({
       ...state,
       edited: true,
       others: objectassign(others, {
         socialLinks: [...socialLinks.slice(0, index),
-          objectassign(socialLinks[index], { url }),
+          objectassign(socialLinks[index], option),
           ...socialLinks.slice(index + 1)]
+      })
+    });
+  },
+
+  DELETE_SOCIAL_LINK(state, action) {
+    const { index } = action.payload;
+    const { others } = state;
+    const { socialLinks } = others;
+
+    return ({
+      ...state,
+      edited: true,
+      others: objectassign(others, {
+        socialLinks: [...socialLinks.slice(0, index),
+          ...socialLinks.slice(index + 1)]
+      })
+    });
+  },
+
+  ADD_SOCIAL_LINK(state) {
+    const { others } = state;
+    const { socialLinks } = others;
+
+    return ({
+      ...state,
+      edited: true,
+      others: objectassign(others, {
+        socialLinks: [...socialLinks, {
+          url: '',
+          name: '',
+          deleteable: true,
+          icon: 'browser.png',
+        }]
       })
     });
   },

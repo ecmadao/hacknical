@@ -10,6 +10,8 @@ import { LINK_NAMES } from 'SHARED/datas/resume';
 
 const validateDate = dateHelper.validator.date;
 const sortByDate = sortBySeconds('startTime');
+const getLinkText = social =>
+  social.text || LINK_NAMES[social.name] || LINK_NAMES[social.name.toLowerCase()] || social.name;
 
 const formatResume = (resume) => {
   const {
@@ -80,10 +82,10 @@ const formatResume = (resume) => {
   const formatSocials = validateSocialLinks(socialLinks)
     .filter(social => validator.url(social.url))
     .map((social) => {
-      const { url, name, text } = social;
+      const { url } = social;
       return {
         url,
-        text: text || LINK_NAMES[name] || name,
+        text: getLinkText(social),
         validateUrl: validateUrl(url),
       };
     });

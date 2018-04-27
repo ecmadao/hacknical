@@ -27,12 +27,18 @@ const fetchResume = () => (dispatch) => {
 
 const saveResume = () => (dispatch, getState) => {
   const { resume } = getState();
-  const { posting } = resume;
-  if (posting) { return; }
+  const { posting, others } = resume;
+  const { socialLinks } = others;
+
+  if (posting) return;
 
   dispatch(togglePosting(true));
 
-  const postResume = objectAssign({}, resume);
+  const postResume = objectAssign({}, resume, {
+    others: objectAssign({}, others, {
+      socialLinks: socialLinks.filter(item => item.url && (item.text || item.name))
+    })
+  });
   delete postResume.loading;
   delete postResume.posting;
   delete postResume.edited;
@@ -128,6 +134,8 @@ const {
 const {
   changeSupplement,
   changeSocialLink,
+  deleteSocialLink,
+  addSocialLink,
   handleOthersInfoChange,
   addLocation,
   deleteLocation,
@@ -138,8 +146,10 @@ const {
 } = createActions(
   {
     CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index }),
-    CHANGE_SOCIAL_LINK: (url, index) => ({ url, index })
+    CHANGE_SOCIAL_LINK: (option, index) => ({ option, index }),
+    DELETE_SOCIAL_LINK: index => ({ index })
   },
+  'ADD_SOCIAL_LINK',
   'HANDLE_OTHERS_INFO_CHANGE',
   'ADD_LOCATION',
   'DELETE_LOCATION',
@@ -238,6 +248,8 @@ export default {
   // others
   changeSupplement,
   changeSocialLink,
+  deleteSocialLink,
+  addSocialLink,
   handleOthersInfoChange,
   addLocation,
   deleteLocation,
