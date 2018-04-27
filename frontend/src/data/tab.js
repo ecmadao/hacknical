@@ -6,7 +6,7 @@ const TABS = [
   {
     id: 'records',
     name: tabs.records.text,
-    icon: 'fa-user-circle',
+    icon: 'fa-pie-chart',
     enable: true,
     tipso: tabs.records.tipso
   },
