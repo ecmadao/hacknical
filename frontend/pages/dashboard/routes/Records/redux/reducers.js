@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'UTILS/object-assign';
-import { getValidateViewSources } from 'UTILS/analysis';
+import { getValidateViewSources } from 'UTILS/records';
 import { VIEW_TYPES } from '../shared/data';
 
 const initialState = {

@@ -266,6 +266,7 @@ const getShareRecords = async (ctx) => {
     login: githubLogin,
     type: 'resume'
   });
+
   const viewDevices = [];
   const viewSources = [];
   const pageViews = [];

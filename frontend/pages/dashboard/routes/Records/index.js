@@ -4,11 +4,11 @@ import asyncComponent from 'SHARED/components/AsyncComponent';
 
 export default (store, options) => {
   const { login, device } = options;
-  const profileComponent = {
+  const recordsComponent = {
     desktop: asyncComponent(
       () => System.import('./Components/Desktop')
         .then((component) => {
-          injectReducer(store, { key: 'profile', reducer });
+          injectReducer(store, { key: 'records', reducer });
           return component.default;
         })
     ),
@@ -17,9 +17,9 @@ export default (store, options) => {
         .then(component => component.default)
     ),
   };
-  const ProfileComponent = profileComponent[device];
+  const RecordsComponent = recordsComponent[device];
   return {
-    path: `/${login}/profile`,
-    component: ProfileComponent
+    path: `/${login}/records`,
+    component: RecordsComponent
   };
 };

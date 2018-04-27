@@ -47,7 +47,7 @@ const checkValidateUser = () => async (ctx, next) => {
 };
 
 const VALIDATE_DASHBOARD = new Set([
-  'profile',
+  'records',
   'archive',
   'visualize',
   'setting'

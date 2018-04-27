@@ -1,3 +1,4 @@
+
 import WECHAT from 'SRC/data/wechat';
 
 const WECHAT_FROM = Object.keys(WECHAT);

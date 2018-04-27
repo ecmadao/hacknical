@@ -7,18 +7,18 @@ import { Loading } from 'light-ui';
 
 import Api from 'API';
 import dateHelper from 'UTILS/date';
-import { getValidateViewSources } from 'UTILS/analysis';
+import { getValidateViewSources } from 'UTILS/records';
 import { LINE_CONFIG, RADAR_CONFIG } from 'SHARED/datas/chart_config';
-import styles from '../styles/profile.css';
+import styles from '../styles/records.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
 import Slick from 'SHARED/components/Slick';
 import locales from 'LOCALES';
 import github from 'UTILS/github';
 
 const sortByCount = github.sortByX({ key: 'count' });
-const analysisTexts = locales('dashboard').profile.common;
+const analysisTexts = locales('dashboard').records.common;
 
-class MobileProfile extends React.Component {
+class MobileRecords extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -345,8 +345,8 @@ class MobileProfile extends React.Component {
   }
 }
 
-MobileProfile.defaultProps = {
+MobileRecords.defaultProps = {
   login: window.login,
 };
 
-export default MobileProfile;
+export default MobileRecords;

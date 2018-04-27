@@ -2,19 +2,19 @@ import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import profileActions from '../../redux/actions';
-import styles from '../../styles/profile.css';
+import recordsActions from '../../redux/actions';
+import styles from '../../styles/records.css';
 import locales from 'LOCALES';
-import ShareAnalysis from './ShareAnalysis';
-import { PROFILE_SECTIONS } from '../../shared/data';
+import ShareRecords from './ShareRecords';
+import { RECORDS_SECTIONS } from '../../shared/data';
 
-const profileTexts = locales('dashboard').profile;
+const recordsTexts = locales('dashboard').records;
 
-class Profile extends React.Component {
+class Records extends React.Component {
   renderNavigation() {
     const { activeTab, actions } = this.props;
-    return Object.keys(PROFILE_SECTIONS).map((key, index) => {
-      const { ID, TEXT } = PROFILE_SECTIONS[key];
+    return Object.keys(RECORDS_SECTIONS).map((key, index) => {
+      const { ID, TEXT } = RECORDS_SECTIONS[key];
       const sectionClass = cx(
         styles.section,
         activeTab === ID && styles.active
@@ -35,10 +35,10 @@ class Profile extends React.Component {
   get actions() {
     const { actions, activeTab } = this.props;
     const sectionActions = {
-      [PROFILE_SECTIONS.RESUME.ID]: {
+      [RECORDS_SECTIONS.RESUME.ID]: {
         fetchShareData: actions.fetchResumeShareData,
       },
-      [PROFILE_SECTIONS.GITHUB.ID]: {
+      [RECORDS_SECTIONS.GITHUB.ID]: {
         fetchShareData: actions.fetchGithubShareData,
       },
     };
@@ -52,7 +52,7 @@ class Profile extends React.Component {
     const { activeTab } = this.props;
     return {
       ...this.props[activeTab],
-      text: profileTexts[activeTab].shareText,
+      text: recordsTexts[activeTab].shareText,
     };
   }
 
@@ -64,7 +64,7 @@ class Profile extends React.Component {
         <div className={styles.navigation}>
           {this.renderNavigation()}
         </div>
-        <ShareAnalysis
+        <ShareRecords
           actions={this.actions}
           index={activeTab}
           {...this.analysisProps}
@@ -76,14 +76,14 @@ class Profile extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    ...state.profile
+    ...state.records
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(profileActions, dispatch)
+    actions: bindActionCreators(recordsActions, dispatch)
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Records);

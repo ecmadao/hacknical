@@ -96,8 +96,8 @@ const datas = {
   },
   options: {
     genders: {
-      male: '男性',
-      female: '女性'
+      male: '男',
+      female: '女'
     },
     person: {
       male: '他',

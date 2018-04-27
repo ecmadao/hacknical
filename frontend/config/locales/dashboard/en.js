@@ -1,7 +1,7 @@
 const datas = {
   tabs: {
-    profile: {
-      text: 'Profile',
+    records: {
+      text: 'Records',
       tipso: 'record your shared page datas'
     },
     resume: {
@@ -31,7 +31,7 @@ const datas = {
     feedback: 'Feedback',
     logout: 'Logout'
   },
-  profile: {
+  records: {
     resume: {
       title: 'Resume',
       shareText: 'Scan QR code to share resume'

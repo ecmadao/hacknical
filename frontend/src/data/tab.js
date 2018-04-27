@@ -4,11 +4,11 @@ const { tabs } = locales('dashboard');
 
 const TABS = [
   {
-    id: 'profile',
-    name: tabs.profile.text,
+    id: 'records',
+    name: tabs.records.text,
     icon: 'fa-user-circle',
     enable: true,
-    tipso: tabs.profile.tipso
+    tipso: tabs.records.tipso
   },
   {
     id: 'archive',

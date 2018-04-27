@@ -1,7 +1,7 @@
 const datas = {
   tabs: {
-    profile: {
-      text: '用户信息',
+    records: {
+      text: '数据统计',
       tipso: '记录你分享出去的页面的浏览量'
     },
     resume: {
@@ -31,7 +31,7 @@ const datas = {
     feedback: '意见反馈',
     logout: '退出登录'
   },
-  profile: {
+  records: {
     resume: {
       title: '简历',
       shareText: '扫码分享个人简历'

@@ -3,7 +3,7 @@ import { injectReducer } from '../redux/reducer';
 import initReducers from './App/redux/reducers';
 import App from './App';
 import Github from './Github';
-import Profile from './Profile';
+import Records from './Records';
 import Resume from './Resume';
 import Setting from './Setting';
 
@@ -35,7 +35,7 @@ export const createRoutes = (store, props) => {
   return [{
     component: App,
     routes: [
-      Profile(store, options),
+      Records(store, options),
       Resume(store, options),
       Github(store, options),
       Setting(store, options),

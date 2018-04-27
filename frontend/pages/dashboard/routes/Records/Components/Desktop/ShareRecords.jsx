@@ -16,16 +16,16 @@ import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
 import { RADAR_CONFIG } from 'SHARED/datas/chart_config';
 import dateHelper from 'UTILS/date';
-import styles from '../../styles/profile.css';
+import styles from '../../styles/records.css';
 import locales from 'LOCALES';
 import { VIEW_TYPES } from '../../shared/data';
 import StockChart from 'COMPONENTS/HighStock';
 import { getPVStockConfig } from 'UTILS/stock';
 
-const profileTexts = locales('dashboard').profile.common;
+const recordsTexts = locales('dashboard').records.common;
 const sortByCount = github.sortByX({ key: 'count' });
 
-class ShareAnalysis extends React.Component {
+class ShareRecords extends React.Component {
   constructor(props) {
     super(props);
     this.qrcode = null;
@@ -178,7 +178,7 @@ class ShareAnalysis extends React.Component {
     const radarConfig = deepcopy(RADAR_CONFIG);
     radarConfig.data.labels = labels;
     radarConfig.data.datasets[0].data = datas;
-    radarConfig.options.title.text = profileTexts.platformChartTitle;
+    radarConfig.options.title.text = recordsTexts.platformChartTitle;
 
     this.viewDevicesChart = new Chart(this.viewDevices, radarConfig);
   }
@@ -191,7 +191,7 @@ class ShareAnalysis extends React.Component {
     const radarConfig = deepcopy(RADAR_CONFIG);
     radarConfig.data.labels = labels;
     radarConfig.data.datasets[0].data = datas;
-    radarConfig.options.title.text = profileTexts.browserChartTitle;
+    radarConfig.options.title.text = recordsTexts.browserChartTitle;
 
     this.viewSourcesChart = new Chart(this.viewSources, radarConfig);
   }
@@ -220,17 +220,17 @@ class ShareAnalysis extends React.Component {
         <InfoCard
           tipsoTheme="dark"
           mainText={viewCount}
-          subText={profileTexts.pv}
+          subText={recordsTexts.pv}
         />
         <InfoCard
           tipsoTheme="dark"
           mainText={platforms.slice(0, 2).join(',')}
-          subText={profileTexts.platform}
+          subText={recordsTexts.platform}
         />
         <InfoCard
           tipsoTheme="dark"
           mainText={browsers.join(',')}
-          subText={profileTexts.browser}
+          subText={recordsTexts.browser}
         />
       </CardGroup>
     );
@@ -349,7 +349,7 @@ class ShareAnalysis extends React.Component {
   }
 }
 
-ShareAnalysis.propTypes = {
+ShareRecords.propTypes = {
   index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   loading: PropTypes.bool,
   text: PropTypes.string,
@@ -361,7 +361,7 @@ ShareAnalysis.propTypes = {
   viewType: PropTypes.string,
 };
 
-ShareAnalysis.defaultProps = {
+ShareRecords.defaultProps = {
   index: 0,
   loading: true,
   text: '',
@@ -376,4 +376,4 @@ ShareAnalysis.defaultProps = {
   viewType: '',
 };
 
-export default ShareAnalysis;
+export default ShareRecords;

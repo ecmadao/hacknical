@@ -49,7 +49,6 @@ const updateRecords = async (db, options) => {
     login,
     platform,
     count = 1,
-    from = '',
     browser = '',
   } = options;
   const query = { type, login };
@@ -109,12 +108,10 @@ const updateRecords = async (db, options) => {
     baseQuery: query,
     insertQuery: {
       'viewSources.browser': { $ne: browser },
-      'viewSources.from': { $ne: from }
     },
     insertExec: {
       $addToSet: {
         viewSources: {
-          from,
           count,
           browser,
         }
@@ -122,7 +119,6 @@ const updateRecords = async (db, options) => {
     },
     updateQuery: {
       'viewSources.browser': browser,
-      'viewSources.from': from
     },
     updateExec: {
       $inc: {

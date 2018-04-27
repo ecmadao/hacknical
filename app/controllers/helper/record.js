@@ -6,7 +6,6 @@ import { getValue } from '../../utils/helper';
 import UserAPI from '../../services/user';
 
 const updateViewData = async (ctx, options) => {
-  const { from } = ctx.query;
   const { platform, browser } = ctx.state;
   const {
     type = null,
@@ -17,7 +16,6 @@ const updateViewData = async (ctx, options) => {
     type,
     login,
     platform,
-    from: from || '',
     browser: browser || '',
   });
   if (type) {

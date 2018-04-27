@@ -1,6 +1,6 @@
 const data = {
   tabs: {
-    profile: 'Profil',
+    records: 'Profil',
     resume: 'CV',
     github: 'GitHub',
     setting: 'Paramètres'
@@ -11,7 +11,7 @@ const data = {
     feedback: 'Feedback',
     logout: 'Déconnexion'
   },
-  profile: {
+  records: {
     resume: {
       title: 'Partage du CV',
       shareText: 'Scanner QR code pour partager le CV'
