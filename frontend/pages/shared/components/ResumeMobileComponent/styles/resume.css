@@ -187,3 +187,12 @@
 .section-withlink {
   overflow: hidden;
 }
+
+.listLink {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--oc-green-7);
+  display: inline-block;
+}

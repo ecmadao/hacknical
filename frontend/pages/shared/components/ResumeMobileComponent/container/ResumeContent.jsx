@@ -333,6 +333,58 @@ class ResumeContent extends ResumeUIWrapper {
     );
   }
 
+  renderSocialLinks(key) {
+    const { others } = this.props.resume;
+    const { socialLinks } = others;
+    if (!socialLinks.length) return null;
+
+    const linkDoms = [];
+    socialLinks.forEach((socialLink, i) => {
+      const {
+        url,
+        text,
+        validateUrl,
+      } = socialLink;
+      if (url) {
+        linkDoms.push((
+          <li key={i}>
+            {text}&nbsp;:
+            <br/>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.listLink}
+              href={validateUrl}
+            >
+              {url}
+            </a>
+          </li>
+        ));
+      }
+    });
+
+    return (
+      <div className={styles['resume-section']} key={key}>
+        <div className={styles['section-row']}>
+          <div className={styles['row-left']}>
+            {resumeLocales.sections.others.links.title}
+          </div>
+          <div className={styles['row-right']}>
+            <ul
+              className={cx(
+                styles['section-list'],
+                styles.sideText,
+                styles.stress
+              )}
+            >
+              {linkDoms}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { resume, updateText } = this.props;
     const { updateAt, initialized } = resume;
