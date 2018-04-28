@@ -57,7 +57,9 @@ class Others extends React.Component {
     const links = socialLinks.map((social, index) => (
       <SocialLink
         key={index}
+        index={index}
         social={social}
+        total={socialLinks.length}
         onChange={this.changeSocialLink(index)}
         onDelete={this.deleteSocialLink(index)}
       />

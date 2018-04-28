@@ -77,11 +77,13 @@ const datas = {
       and: 'and',
       links: {
         title: 'Other Links',
-        github: 'Your github link',
-        segmentfault: 'Your segmentfault link',
+        github: 'Your GitHub link',
+        segmentfault: 'Your Segmentfault link',
         blog: 'Your blog link',
-        stackoverflow: 'Your stackoverflow link',
-        xitu: 'Your xitu link'
+        stackoverflow: 'Your Stackoverflow link',
+        xitu: 'Your xitu link',
+        addLinkName: 'Add link name',
+        addLinkUrl: 'Add url',
       }
     }
   },

@@ -77,11 +77,13 @@ const datas = {
       and: '与',
       links: {
         title: '其他链接',
-        github: '填写 github 地址',
-        segmentfault: '填写 segmentfault 地址',
-        blog: '填写 blog 地址',
-        stackoverflow: '填写 stackoverflow 地址',
-        xitu: '填写 稀土掘金 地址'
+        github: '填写 GitHub 地址',
+        segmentfault: '填写 Segmentfault 地址',
+        blog: '填写博客地址',
+        stackoverflow: '填写 Stackoverflow 地址',
+        xitu: '填写 稀土掘金 地址',
+        addLinkName: '填写链接名称',
+        addLinkUrl: '填写链接地址',
       }
     }
   },

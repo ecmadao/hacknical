@@ -6,6 +6,9 @@ import { Tipso, Input } from 'light-ui';
 import validator from 'UTILS/validator';
 import styles from '../../styles/resume.css';
 import { TipsoInputs } from './components';
+import locales from 'LOCALES';
+
+const resumeTexts = locales('resume').sections.others;
 
 const renderTipsoInputs = (links) => {
   const prefixIcons = [];
@@ -47,71 +50,80 @@ const renderTipsoInputs = (links) => {
   )
 };
 
-const SocialLink = (props) => {
-  const {
-    social,
-    onChange,
-    onDelete,
-    className = ''
-  } = props;
-  const {
-    url,
-    text,
-    icon,
-    name,
-    deleteable,
-  } = social;
-
-  const itemClass = cx(
-    styles.resume_link,
-    validator.url(url) && styles.active,
-    className
-  );
-
-  const onInputChange = type => value => onChange({ [type]: value });
-
-  const links = [
-    {
-      type: 'string',
-      value: text || name,
-      prefix: 'header',
-      disabled: !deleteable,
-      required: true,
-      onChange: onInputChange('name'),
-      placeholder: 'Add name'
-    },
-    {
-      type: 'url',
-      value: url,
-      prefix: 'link',
-      disabled: false,
-      required: true,
-      onChange: onInputChange('url'),
-      placeholder: 'Add url'
+class SocialLink extends React.Component {
+  componentDidMount() {
+    const { total, index, social } = this.props;
+    if (index === total - 1 && !social.name && !social.url) {
+      this.container.click();
     }
-  ];
+  }
 
-  return (
-    <Tipso
-      trigger="click"
-      tipsoContent={(
-        renderTipsoInputs(links)
-      )}
-    >
-      <div className={itemClass}>
-        <img src={require(`SRC/images/${icon}`)} alt={name} />
-        {deleteable ? (
-          <div className={styles.linkDelButton}>
-            <i
-              className="fa fa-close"
-              aria-hidden="true"
-              onClick={onDelete}
-            />
-          </div>
-        ) : null}
-      </div>
-    </Tipso>
-  );
-};
+  render() {
+    const {
+      social,
+      onChange,
+      onDelete,
+      className = ''
+    } = this.props;
+    const {
+      url,
+      text,
+      icon,
+      name,
+      deleteable,
+    } = social;
 
-export default SocialLink
+    const itemClass = cx(
+      styles.resume_link,
+      validator.url(url) && styles.active,
+      className
+    );
+
+    const onInputChange = type => value => onChange({ [type]: value });
+
+    const links = [
+      {
+        type: 'string',
+        value: text || name,
+        prefix: 'header',
+        disabled: !deleteable,
+        required: true,
+        onChange: onInputChange('name'),
+        placeholder: resumeTexts.links.addLinkName
+      },
+      {
+        type: 'url',
+        value: url,
+        prefix: 'link',
+        disabled: false,
+        required: true,
+        onChange: onInputChange('url'),
+        placeholder: resumeTexts.links.addLinkUrl
+      }
+    ];
+
+    return (
+      <Tipso
+        trigger="click"
+        tipsoContent={(
+          renderTipsoInputs(links)
+        )}
+      >
+        <div className={itemClass}>
+          <img src={require(`SRC/images/${icon}`)} alt={name} />
+          {deleteable ? (
+            <div ref={ref => (this.container = ref)} className={styles.linkDelButton}>
+              <i
+                className="fa fa-close"
+                aria-hidden="true"
+                onClick={onDelete}
+              />
+            </div>
+          ) : null}
+        </div>
+      </Tipso>
+    );
+  }
+}
+
+export default SocialLink;
