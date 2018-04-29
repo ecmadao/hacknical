@@ -1,4 +1,5 @@
-import keyboardJS from 'keyboardjs';
+
+import hotkeys from 'hotkeys-js';
 
 class Hotkeys {
   constructor() {
@@ -6,9 +7,10 @@ class Hotkeys {
   }
 
   _baseBind(what, callback) {
-    keyboardJS.bind(what, (e) => {
+    hotkeys(what, (event) => {
+      // Prevent the default refresh event under WINDOWS system
+      event.preventDefault();
       callback && callback();
-      e.preventDefault();
       return false;
     });
     return this;

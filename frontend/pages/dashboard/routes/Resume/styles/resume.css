@@ -189,7 +189,7 @@
   margin-bottom: 10px;
   display: inline-block;
   cursor: pointer;
-  margin-top: 15px;
+  margin-top: 25px;
 
   & i {
     color: var(--oc-green-5);
