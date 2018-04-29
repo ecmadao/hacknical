@@ -68,3 +68,8 @@
   flex: 1;
   background-color: var(--oc-gray-3);
 }
+
+.githubCard {
+  border: 1px solid var(--oc-gray-4) !important;
+  box-shadow: none !important;
+}

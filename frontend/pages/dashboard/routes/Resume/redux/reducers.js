@@ -453,7 +453,7 @@ const reducers = handleActions({
   },
 
   DELETE_SOCIAL_LINK(state, action) {
-    const { index } = action.payload;
+    const index = action.payload;
     const { others } = state;
     const { socialLinks } = others;
 

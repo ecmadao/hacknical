@@ -62,7 +62,7 @@ class GitHubSection extends React.Component {
       disabled,
       className,
       canOperate,
-      wrapperClass,
+      cardClass,
     } = this.props;
     const { showOperations } = this.state;
     if (hide) return <EmptyDOM />;
@@ -87,7 +87,7 @@ class GitHubSection extends React.Component {
         </div>
         <BaseSection
           disabled={disabled}
-          wrapperClass={wrapperClass}
+          cardClass={cardClass}
           handleClick={this.handleMenuClick}
         >
           <Section {...this.props} />
@@ -116,7 +116,7 @@ GitHubSection.propTypes = {
   className: PropTypes.string,
   callback: PropTypes.func,
   intro: PropTypes.object,
-  wrapperClass: PropTypes.string,
+  cardClass: PropTypes.string,
 };
 
 GitHubSection.defaultProps = {
@@ -133,7 +133,7 @@ GitHubSection.defaultProps = {
   className: '',
   callback: () => {},
   intro: null,
-  wrapperClass: '',
+  cardClass: '',
 };
 
 export default GitHubSection;

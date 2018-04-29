@@ -242,7 +242,7 @@ class GithubComponent extends React.Component {
       statisticLoaded,
       repositoriesLoaded,
     } = this.state;
-    const { isShare, containerStyle } = this.props;
+    const { isShare, containerClass, cardClass } = this.props;
     const { predictions, statistic } = scientific;
 
     const origin = window.location.origin;
@@ -263,7 +263,7 @@ class GithubComponent extends React.Component {
       <div
         className={cx(
           styles.container,
-          containerStyle
+          containerClass
         )}
       >
         {isShare ? (
@@ -282,6 +282,7 @@ class GithubComponent extends React.Component {
           hide={this.hideSection('hotmap')}
           disabled={this.disabledSection('hotmap')}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
           intro={{
             icon: 'question-circle',
@@ -300,8 +301,10 @@ class GithubComponent extends React.Component {
           hide={this.hideSection('info')}
           disabled={this.disabledSection('info')}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
         />
+        {/*
         <GitHubSection
           title={{
             text: githubTexts.predictions.title,
@@ -314,11 +317,12 @@ class GithubComponent extends React.Component {
           predictions={predictions}
           section="predictions"
           key="github-section-predictions"
-          wrapperClass={styles.scientificWrapper}
+          cardClass={styles.scientificWrapper}
           hide={isShare || !predictions.length}
           onFeedback={this.onPredictionFeedback}
           canOperate={false}
         />
+        */}
         {/*
         <GitHubSection
           loaded={statisticLoaded}
@@ -359,6 +363,7 @@ class GithubComponent extends React.Component {
             text: githubTexts.repos.tipso
           }}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
         />
         <GitHubSection
@@ -379,6 +384,7 @@ class GithubComponent extends React.Component {
             text: githubTexts.course.tipso
           }}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
         />
         <GitHubSection
@@ -398,6 +404,7 @@ class GithubComponent extends React.Component {
             text: githubTexts.contributed.tipso
           }}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
         />
         <GitHubSection
@@ -417,6 +424,7 @@ class GithubComponent extends React.Component {
             text: githubTexts.orgs.tipso
           }}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
         />
         <GitHubSection
@@ -435,6 +443,7 @@ class GithubComponent extends React.Component {
           hide={this.hideSection('languages')}
           disabled={this.disabledSection('languages')}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
         />
         <GitHubSection
@@ -456,6 +465,7 @@ class GithubComponent extends React.Component {
           hide={this.hideSection('commits')}
           disabled={this.disabledSection('commits')}
           isShare={isShare}
+          cardClass={cardClass}
           callback={this.changeGithubSection}
         />
         {!isShare ? (
@@ -492,14 +502,16 @@ GithubComponent.propTypes = {
   login: PropTypes.string,
   isShare: PropTypes.bool,
   githubSection: PropTypes.object,
-  containerStyle: PropTypes.string,
+  containerClass: PropTypes.string,
+  cardClass: PropTypes.string,
 };
 
 GithubComponent.defaultProps = {
   login: window.login,
   isShare: false,
   githubSection: {},
-  containerStyle: '',
+  containerClass: '',
+  cardClass: '',
 };
 
 export default GithubComponent;

@@ -107,6 +107,7 @@ class ResumeUIWrapper extends React.Component {
             isShare
             login={login}
             githubSection={github}
+            cardClass={styles.githubCard}
           />
         </div>
       </div>

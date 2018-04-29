@@ -10,10 +10,10 @@ const BaseSection = (props) => {
     disabled,
     children,
     handleClick,
-    wrapperClass = ''
+    cardClass = ''
   } = props;
   return (
-    <div className={cx(cardStyles.info_card, wrapperClass)}>
+    <div className={cx(cardStyles.info_card, cardClass)}>
       {disabled ? (
         <div
           onClick={handleClick}

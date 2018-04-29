@@ -147,8 +147,8 @@ const {
   {
     CHANGE_SUPPLEMENT: (supplement, index) => ({ supplement, index }),
     CHANGE_SOCIAL_LINK: (option, index) => ({ option, index }),
-    DELETE_SOCIAL_LINK: index => ({ index })
   },
+  'DELETE_SOCIAL_LINK',
   'ADD_SOCIAL_LINK',
   'HANDLE_OTHERS_INFO_CHANGE',
   'ADD_LOCATION',
@@ -179,8 +179,8 @@ const postShareStatus = () => (dispatch, getState) => {
 const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');
 const postShareTemplate = template => (dispatch, getState) => {
   if (template !== getState().resume.shareInfo) {
-    Api.resume.patchResumeInfo({ template }).then((result) => {
-      result && dispatch(setPubResumeTemplate(result));
+    Api.resume.patchResumeInfo({ template }).then(() => {
+      dispatch(setPubResumeTemplate(template));
     });
   }
 };
