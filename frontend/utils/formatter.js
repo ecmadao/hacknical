@@ -7,7 +7,7 @@ export const formatUrl = (url) => {
 
 /* ================================================================= */
 
-const BASE_URL_REG = /(http:\/\/|https:\/\/)?((\w|=|\?|\.|\/|&|-)+)/g;
+const BASE_URL_REG = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
 
 const formatWithUrl = (text, url) => {
   const sections = text.split(url);
@@ -49,7 +49,7 @@ export const formatTextWithUrl = (text) => {
   let results = [{
     type: 'span',
     value: text
-  }]
+  }];
   if (!urls) return results;
 
   for (const url of urls) {
