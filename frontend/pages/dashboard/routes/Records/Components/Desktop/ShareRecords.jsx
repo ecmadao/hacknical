@@ -135,7 +135,7 @@ class ShareRecords extends React.Component {
     const { pageViews } = this.props;
     const validatePageViews = {};
 
-    pageViews.forEach((pageView) => {
+    for (const pageView of pageViews) {
       const { count, date } = pageView;
       const validateDate = this.getPageViewDate(date);
       if (!validatePageViews[validateDate]) {
@@ -145,7 +145,7 @@ class ShareRecords extends React.Component {
         };
       }
       validatePageViews[validateDate].count += count;
-    });
+    }
     const dateLabels = Object.keys(validatePageViews);
     const viewDates = dateLabels.map(key => validatePageViews[key]);
 

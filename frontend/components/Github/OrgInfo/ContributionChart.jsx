@@ -42,10 +42,11 @@ class ContributionChart extends React.Component {
   updateCharts(contributions) {
     const data = [];
     const labels = [];
-    contributions.forEach((contribution) => {
+
+    for (const contribution of contributions) {
       data.push(contribution.data);
       labels.push(dateHelper.date.bySeconds(contribution.week));
-    });
+    }
     this.contributionReviewChart.data.labels = labels;
     this.contributionReviewChart.data.datasets[0].data = data;
     this.contributionReviewChart.update();
@@ -54,10 +55,11 @@ class ContributionChart extends React.Component {
   renderContributionChart(contributions) {
     const data = [];
     const labels = [];
-    contributions.forEach((contribution) => {
+
+    for (const contribution of contributions) {
       data.push(contribution.data);
       labels.push(dateHelper.date.bySeconds(contribution.week));
-    });
+    }
     this.contributionReviewChart = new Chart(this.contributionChart, {
       type: 'line',
       data: {

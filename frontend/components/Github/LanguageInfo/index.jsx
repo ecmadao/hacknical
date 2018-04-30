@@ -96,10 +96,11 @@ class LanguageInfo extends React.Component {
       .slice(0, 6)
       .map(language => ({ star: languageSkills[language], language }))
       .sort(sortByLanguageStar);
-    languageArray.forEach((obj) => {
+
+    for (const obj of languageArray) {
       languages.push(obj.language);
       skills.push(obj.star);
-    });
+    }
 
     this.languageSkillChart = new Chart(this.languageSkill, {
       type: 'polarArea',

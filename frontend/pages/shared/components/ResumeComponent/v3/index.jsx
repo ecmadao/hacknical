@@ -9,6 +9,7 @@ import locales from 'LOCALES';
 import { objectassign } from 'SHARED/utils/resume';
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 import { renderBaseInfo, section } from '../shared/common';
+import { renderTextWithUrl } from 'UTILS/helper';
 
 const resumeTexts = locales('resume');
 const { minutesBefore } = dateHelper.relative;
@@ -63,7 +64,7 @@ const renderWorkProjects = (projects = []) =>
     const { name, url, details } = project;
     const projectDetails = details.map((detail, i) => (
       <li key={i}>
-        {detail}
+        {renderTextWithUrl(detail)}
       </li>
     ));
     return (
@@ -126,7 +127,7 @@ const renderEduRow = (options) => {
 
   const experiencesDetails = experiences.map((experience, i) => (
     <li key={i}>
-      {experience}
+      {renderTextWithUrl(experience)}
     </li>
   ));
   return (
@@ -203,7 +204,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li key={index}>
-        {supplement}
+        {renderTextWithUrl(supplement)}
       </li>
     ));
 

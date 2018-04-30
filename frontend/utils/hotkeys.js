@@ -9,8 +9,9 @@ class Hotkeys {
   _baseBind(what, callback) {
     hotkeys(what, (event) => {
       // Prevent the default refresh event under WINDOWS system
-      event.preventDefault();
       callback && callback();
+      event.preventDefault();
+      event.stopPropagation();
       return false;
     });
     return this;

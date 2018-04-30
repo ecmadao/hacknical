@@ -29,8 +29,8 @@ const init = async () => {
     let githubPageview = 0;
     let resumePageview = 0;
 
-    records.forEach((analyse) => {
-      const { login, pageViews } = analyse;
+    for (const record of records) {
+      const { login, pageViews } = record;
       const viewCount = pageViews.reduce((prev, current) => {
         let count = parseInt(current.count, 10);
         if (Number.isNaN(count)) count = 0;
@@ -41,7 +41,7 @@ const init = async () => {
       } else {
         resumePageview += viewCount;
       }
-    });
+    }
     await cache.hincrby('github', 'pageview', githubPageview);
     await cache.hincrby('resume', 'pageview', resumePageview);
 

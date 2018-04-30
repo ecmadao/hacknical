@@ -3,7 +3,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Tipso, Input } from 'light-ui';
-import validator from 'UTILS/validator';
+import { isUrl } from 'UTILS/helper';
 import styles from '../../styles/resume.css';
 import { TipsoInputs } from './components';
 import locales from 'LOCALES';
@@ -75,7 +75,7 @@ class SocialLink extends React.Component {
 
     const itemClass = cx(
       styles.resume_link,
-      validator.url(url) && styles.active,
+      isUrl(url) && styles.active,
       className
     );
 

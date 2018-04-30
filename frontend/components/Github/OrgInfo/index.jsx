@@ -53,13 +53,14 @@ class OrgInfo extends React.Component {
     const { organizations } = this.state;
     const { login } = this.props;
     const filterRepos = [];
-    organizations.forEach((organization) => {
+
+    for (const organization of organizations) {
       const repos = organization.repos
         .filter(repository => repository.contributors.some(contributor =>
             contributor.login === login)
         );
       filterRepos.push(...repos);
-    });
+    }
     const totalStar = filterRepos.reduce(
       (prev, current) => current.stargazers_count + prev, 0
     );

@@ -3,17 +3,16 @@ import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
 import { Loading } from 'light-ui';
 import dateHelper from 'UTILS/date';
-import validator from 'UTILS/validator';
 import Slick from 'SHARED/components/Slick';
 import styles from '../styles/resume.css';
 import { GENDERS } from 'SHARED/datas/resume';
-import { validateUrl } from 'UTILS/helper';
+import { hasUrl, renderTextWithUrl } from 'UTILS/helper';
+import { formatUrl } from 'UTILS/formatter';
 import locales from 'LOCALES';
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 
 const resumeLocales = locales('resume');
 const { hoursBefore } = dateHelper.relative;
-const { hasUrl } = validator;
 
 const LINK_OPTIONS = {
   text: '',
@@ -36,7 +35,7 @@ const LinkInfo = (options = LINK_OPTIONS) => {
     <a
       target="_blank"
       rel="noopener noreferrer"
-      href={type === 'link' ? validateUrl(url) : url}
+      href={type === 'link' ? formatUrl(url) : url}
       className={cx(styles.linkText, className)}
     >
       {showIcon ? (
@@ -200,7 +199,7 @@ class ResumeContent extends ResumeUIWrapper {
               hasUrl(detail) && styles['section-withlink']
             )}
           >
-            {detail}
+            {renderTextWithUrl(detail)}
           </li>
         ));
         return (
@@ -234,7 +233,7 @@ class ResumeContent extends ResumeUIWrapper {
                   hasUrl(desc) && styles['section-withlink']
                 )}
               >
-                {desc}
+                {renderTextWithUrl(desc)}
               </div>
             ) : null}
           </div>
@@ -268,7 +267,7 @@ class ResumeContent extends ResumeUIWrapper {
           hasUrl(supplement) && styles['section-withlink']
         )}
       >
-        {supplement}
+        {renderTextWithUrl(supplement)}
       </li>
     ));
 

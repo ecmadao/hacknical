@@ -1,3 +1,4 @@
+
 const getOwnPropSymbols = Object.getOwnPropertySymbols;
 const propIsEnumerable = Object.prototype.propertyIsEnumerable;
 

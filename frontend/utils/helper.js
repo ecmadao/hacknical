@@ -1,6 +1,9 @@
-/* eslint arrow-body-style: "off" */
+/* eslint arrow-body-style: "off", react/no-array-index-key: "off" */
 
+import React from 'react';
+import validator from 'validator';
 import dateHelper from './date';
+import { formatUrl, formatTextWithUrl } from './formatter';
 
 const getSeconds = dateHelper.seconds.getByDate;
 
@@ -46,7 +49,7 @@ export const getMaxTarget = (array, func = item => [item]) => {
   let resultIndex = 0;
   let result = 0;
 
-  array.forEach((item) => {
+  for (const item of array) {
     const target = func(item);
     const currentMaxIndex = getMaxIndex(target);
     const currentMax = parseInt(target[currentMaxIndex], 10);
@@ -54,7 +57,7 @@ export const getMaxTarget = (array, func = item => [item]) => {
       result = currentMax;
       resultIndex = currentMaxIndex;
     }
-  });
+  }
   return [result, resultIndex];
 };
 
@@ -138,13 +141,14 @@ export const sortBySeconds = key =>
  */
 export const faltten = (array, key = null) => {
   const result = [];
-  array.forEach((item) => {
+
+  for (const item of array) {
     if (Array.isArray(item)) {
       result.concat(item);
     } else {
       result.push(key ? item[key] : item);
     }
-  });
+  }
   return result
 };
 
@@ -163,12 +167,47 @@ export const splitArray = (array, size = 1) => {
     .map((i, index) => array.slice(index * size, (index + 1) * size));
 };
 
+const URL_REG =
+  /(https|http|ftp|rtsp|mms)?:\/\/([a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9])(com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])*/i;
 
-export const validateUrl = (url) => {
-  return /^http/.test(url) ? url : `//${url}`;
-};
+export const isUrl = value => validator.isURL(value);
+
+export const hasUrl = text => URL_REG.test(text);
 
 export const sleep = ms =>
   new Promise(resolve => setTimeout(resolve, ms));
 
 export const removeDOM = dom => $(dom) && $(dom).remove();
+
+export const renderTextWithUrl = (text) => {
+  return formatTextWithUrl(text).map((section, index) => {
+    const { type, value } = section;
+    if (type === 'a' && isUrl(value)) {
+      return (
+        <a
+          key={index}
+          target="_blank"
+          rel="noopener noreferrer"
+          href={formatUrl(value)}
+        >
+          {value}
+        </a>
+      );
+    }
+    return (<span key={index}>{value}</span>);
+  });
+};
+
+export const toPromise = f => (...args) =>
+  new Promise((resolve, reject) => {
+    const result = f(...args);
+    try {
+      return result.then(resolve, reject); // promise.
+    } catch (e) {
+      if (e instanceof TypeError) {
+        resolve(result); // resolve naked value.
+      } else {
+        reject(e); // pass unhandled exception to caller.
+      }
+    }
+  });

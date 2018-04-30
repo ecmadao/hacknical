@@ -31,10 +31,10 @@ const reValueObject = (object, key) => (value) => { object[key] = value; };
 
 const loopObject = (object) => {
   if (is.object(object)) {
-    Object.keys(object).forEach((key) => {
+    for (const key of Object.keys(object)) {
       const value = object[key];
       formatString(value, reValueObject(object, key));
-    });
+    }
   }
 
   if (is.array(object)) {
@@ -78,9 +78,9 @@ export const formatObject = (object = {}) => {
 export const getValue = (object, key) => {
   const sections = key.split('.');
   let result = object;
-  sections.forEach((section) => {
-    result = result[section]
-  });
+  for (const section of sections) {
+    result = result[section];
+  }
   return result;
 };
 

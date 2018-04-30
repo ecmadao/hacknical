@@ -91,14 +91,14 @@ class RepositoryInfo extends React.Component {
     const colors = [];
     const standardStarCount = ownedRepositories[0].stargazers_count;
 
-    ownedRepositories.forEach((userRepo) => {
+    for (const userRepo of ownedRepositories) {
       const { stargazers_count, name } = userRepo;
       datas.push(stargazers_count);
       labels.push(name);
       let opacity = stargazers_count / standardStarCount;
       opacity = opacity === 1 ? opacity : opacity * 0.8;
       colors.push(`rgba(55, 178, 77, ${opacity < 0.1 ? 0.1 : opacity})`);
-    });
+    }
     this.reposStarsChart = new Chart(this.reposStars, {
       type: 'doughnut',
       data: {

@@ -43,7 +43,7 @@ export const combineReposCommits = (reposCommits) => {
     };
   }
 
-  reposCommits.forEach((repository) => {
+  for (const repository of reposCommits) {
     const { created_at, commits, name } = repository;
     const month = getMonth(created_at);
     result.monthReview[month].repos.push(name);
@@ -77,12 +77,12 @@ export const combineReposCommits = (reposCommits) => {
         result.monthReview[targetMonth].commitsCount += dayCommit;
       });
     }
-  });
+  }
 
-  Object.keys(dailyCommitsTmp).forEach((weekday) => {
+  for (const weekday of Object.keys(dailyCommitsTmp)) {
     result.dailyCommits.push(dailyCommitsTmp[weekday].avg);
     result.totalDailyCommits.push(dailyCommitsTmp[weekday].total);
-  });
+  }
 
   result.commits = Object.keys(commitsTmp).map(week => commitsTmp[week]);
   return result;
@@ -90,14 +90,13 @@ export const combineReposCommits = (reposCommits) => {
 
 export const getReposLanguages = (repos) => {
   const languages = [];
-  repos.forEach((repository) => {
+
+  for (const repository of repos) {
     const { language } = repository;
     if (!languages.some(item => item === language)) {
-      if (language) {
-        languages.push(language);
-      }
+      language && languages.push(language);
     }
-  });
+  }
   return languages;
 };
 

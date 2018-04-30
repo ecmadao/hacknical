@@ -102,9 +102,9 @@ class CommitInfo extends React.Component {
     /* daily commits chart view */
     if (chartType === CHART_CONTROLLERS.DAY.ID) {
       if (!this.dailyCommits.length) {
-        commits.forEach((item) => {
-          item.days.forEach((day, dayIndex) => {
-            const seconds = item.week - ((7 - dayIndex) * 24 * 60 * 60);
+        for (const commit of commits) {
+          commit.days.forEach((day, dayIndex) => {
+            const seconds = commit.week - ((7 - dayIndex) * 24 * 60 * 60);
             const validateDate = getDateBySeconds(seconds);
             this.dailyCommits.push({
               seconds,
@@ -112,7 +112,7 @@ class CommitInfo extends React.Component {
               start: validateDate,
             });
           });
-        });
+        }
       }
       return {
         commitsDates: this.dailyCommits,
@@ -123,13 +123,14 @@ class CommitInfo extends React.Component {
     /* monthly commits chart view */
     if (!this.monthlyCommits.length) {
       const monthlyCommits = {};
-      commits.forEach((item) => {
-        const endDate = getDateBySeconds(item.week);
+
+      for (const commit of commits) {
+        const endDate = getDateBySeconds(commit.week);
         const [year, month, day] = endDate.split('-');
         const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
 
         const thisMonthKey = `${year}-${parseInt(month, 10)}`;
-        const totalCommits = item.days.slice(sliceIndex).reduce(
+        const totalCommits = commit.days.slice(sliceIndex).reduce(
           (pre, next) => pre + next, 0);
         const targetCommits = monthlyCommits[thisMonthKey];
         monthlyCommits[thisMonthKey] = Number.isNaN(targetCommits)
@@ -140,14 +141,14 @@ class CommitInfo extends React.Component {
           const preMonthKey = parseInt(month, 10) - 1 <= 0
             ? `${parseInt(year, 10) - 1}-12`
             : `${year}-${parseInt(month, 10) - 1}`;
-          const preTotalCommits = item.days.slice(0, sliceIndex).reduce(
+          const preTotalCommits = commit.days.slice(0, sliceIndex).reduce(
             (pre, next) => pre + next, 0);
           const preTargetCommits = monthlyCommits[preMonthKey];
           monthlyCommits[preMonthKey] = Number.isNaN(preTargetCommits)
             ? preTotalCommits
             : preTotalCommits + preTargetCommits;
         }
-      });
+      }
 
       this.monthlyCommits = Object.keys(monthlyCommits).map((key) => {
         const seconds = getSecondsByDate(key);

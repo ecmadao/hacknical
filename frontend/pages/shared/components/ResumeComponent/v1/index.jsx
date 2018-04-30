@@ -2,8 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
-import { validateUrl } from 'UTILS/helper';
-import validator from 'UTILS/validator';
+import { isUrl, renderTextWithUrl } from 'UTILS/helper';
+import { formatUrl } from 'UTILS/formatter';
 import { objectassign } from 'SHARED/utils/resume';
 import styles from './v1.css';
 import statusLabels from '../shared/StatusLabels';
@@ -30,18 +30,18 @@ const info = (options) => {
 
 const linkInfo = (options) => {
   const { url, title, style = '' } = options;
-  const hasUrl = validator.url(url);
+  const isurl = isUrl(url);
   const headerClass = cx(
     styles.info_header,
-    hasUrl && styles.link,
+    isurl && styles.link,
     style
   );
 
-  return hasUrl ? (
+  return isurl ? (
     <a
       target="_blank"
       rel="noopener noreferrer"
-      href={validateUrl(url)}
+      href={formatUrl(url)}
       className={headerClass}
     >
       <i className="fa fa-link" aria-hidden="true" />&nbsp;
@@ -82,7 +82,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
 
         const experienceDetails = experiences.map((experience, i) => (
           <li key={i}>
-            {experience}
+            {renderTextWithUrl(experience)}
           </li>
         ));
         return (
@@ -128,6 +128,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           position,
           projects,
         } = experience;
+
         const workProjects = this.renderProjects(projects);
         return (
           <div key={index} className={styles.section_wrapper}>
@@ -158,7 +159,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
       const { name, url, details } = project;
       const projectDetails = details.map((detail, i) => (
         <li key={i}>
-          {detail}
+          {renderTextWithUrl(detail)}
         </li>
       ));
       return (
@@ -219,7 +220,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li key={index}>
-        {supplement}
+        {renderTextWithUrl(supplement)}
       </li>
     ));
 

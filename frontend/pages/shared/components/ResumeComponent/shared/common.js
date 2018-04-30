@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import styles from './common.css';
-import { validateUrl } from 'UTILS/helper';
+import { formatUrl } from 'UTILS/formatter';
 
 export const renderBaseInfo = (options = {}) => {
   const {
@@ -50,7 +50,7 @@ export const renderBaseInfo = (options = {}) => {
   } else if (url) {
     return (
       <a
-        href={validateUrl(url)}
+        href={formatUrl(url)}
         target="_blank"
         rel="noopener noreferrer"
         className={linkClass}

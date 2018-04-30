@@ -3,15 +3,18 @@ import objectAssign from 'UTILS/object-assign';
 import {
   validateSocialLinks
 } from 'SHARED/utils/resume';
-import validator from 'UTILS/validator';
 import dateHelper from 'UTILS/date';
-import { sortBySeconds, validateUrl } from 'UTILS/helper';
+import { sortBySeconds, isUrl } from 'UTILS/helper';
+import { formatUrl } from 'UTILS/formatter';
 import { LINK_NAMES } from 'SHARED/datas/resume';
 
 const validateDate = dateHelper.validator.date;
 const sortByDate = sortBySeconds('startTime');
 const getLinkText = social =>
-  social.text || LINK_NAMES[social.name] || LINK_NAMES[social.name.toLowerCase()] || social.name;
+  social.text
+  || LINK_NAMES[social.name]
+  || LINK_NAMES[social.name.toLowerCase()]
+  || social.name;
 
 const formatResume = (resume) => {
   const {
@@ -80,13 +83,13 @@ const formatResume = (resume) => {
     .filter(project => project.title);
 
   const formatSocials = validateSocialLinks(socialLinks)
-    .filter(social => validator.url(social.url))
+    .filter(social => isUrl(social.url))
     .map((social) => {
       const { url } = social;
       return {
         url,
         text: getLinkText(social),
-        validateUrl: validateUrl(url),
+        validateUrl: formatUrl(url),
       };
     });
 

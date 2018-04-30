@@ -15,18 +15,20 @@ const getReposStars = repos =>
 
 const getLanguageDistribution = (repos) => {
   const reposLanguages = {};
-  repos.forEach((repository) => {
+
+  for (const repository of repos) {
     const { language } = repository;
     reposLanguages[language] = Number.isNaN(reposLanguages[language])
       ? 1
       : reposLanguages[language] + 1;
-  });
+  }
   return reposLanguages;
 };
 
 const getLanguageSkill = (repos) => {
   const reposLanguages = {};
-  repos.forEach((repository) => {
+
+  for (const repository of repos) {
     const { language, languages, stargazers_count } = repository;
     if (!languages) {
       reposLanguages[language] = Number.isNaN(reposLanguages[language])
@@ -34,30 +36,33 @@ const getLanguageSkill = (repos) => {
         : reposLanguages[language] + parseInt(stargazers_count, 10);
       return;
     }
-    Object.keys(languages).forEach((lang) => {
+
+    for (const lang of Object.keys(languages)) {
       if (reposLanguages[lang]) {
         reposLanguages[lang] += parseInt(stargazers_count, 10);
       } else {
         reposLanguages[lang] = parseInt(stargazers_count, 10);
       }
-    });
-  });
+    }
+  }
   return reposLanguages;
 }
 
 const getLanguageUsed = (repos) => {
   const result = {};
-  repos.forEach((repository) => {
+
+  for (const repository of repos) {
     const { languages } = repository;
-    if (!languages) { return; }
-    Object.keys(languages).forEach((language) => {
+    if (!languages) return;
+
+    for (const language of Object.keys(languages)) {
       if (result[language]) {
         result[language] += languages[language];
       } else {
         result[language] = languages[language];
       }
-    });
-  });
+    }
+  }
   return result;
 };
 
@@ -117,10 +122,10 @@ const getReposByX = x => (repos, items) =>
 const getReposInfo = (commits, repos) => commits.map((commit) => {
   const { name } = commit;
   const targetRepos = repos.filter(
-    repository => repository.name === name);
-  if (!targetRepos.length) {
-    return commit;
-  }
+    repository => repository.name === name
+  );
+  if (!targetRepos.length) return commit;
+
   const {
     language,
     html_url,
@@ -128,6 +133,7 @@ const getReposInfo = (commits, repos) => commits.map((commit) => {
     forks_count,
     stargazers_count,
   } = targetRepos[0];
+
   commit.forks_count = forks_count;
   commit.language = language;
   commit.stargazers_count = stargazers_count;
@@ -146,19 +152,20 @@ const getReposCommits = (repos, commits) => repos.map((repository) => {
 });
 
 const getTotalCount = (repos) => {
-  let totalStar = 0;
-  let totalFork = 0;
-  repos.forEach((repository) => {
-    totalStar += repository.stargazers_count;
-    totalFork += repository.forks_count;
+  const tmp = repos.reduce((pre, repository) => {
+    pre.totalStar += repository.stargazers_count;
+    pre.totalFork += repository.forks_count;
+    return pre;
+  }, {
+    totalStar: 0,
+    totalFork: 0,
   });
-  return [totalStar, totalFork]
+
+  return [tmp.totalStar, tmp.totalFork];
 };
 
 const getCreatedRepos = repos =>
-  repos.filter(
-    repository => !repository.fork
-  );
+  repos.filter(repository => !repository.fork);
 
 const getYearlyRepos = (repos) => {
   const yearAgoSeconds = dateHelper.seconds.beforeYears(1);

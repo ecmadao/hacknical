@@ -120,7 +120,8 @@ class MobileRecords extends React.Component {
   renderViewsChart() {
     const { pageViews } = this.dataObj;
     const validatePageViews = [];
-    pageViews.forEach((pageView) => {
+
+    for (const pageView of pageViews) {
       const { count, date } = pageView;
       const filterPageViews = validatePageViews.filter(
         validatePageView => validatePageView.date === date
@@ -133,7 +134,8 @@ class MobileRecords extends React.Component {
           date
         });
       }
-    });
+    }
+
     const dateLabels = validatePageViews.map((pageView) => {
       const { date } = pageView;
       return `${dateHelper.validator.fullDate(date)} ${dateHelper.validator.hour(date)}:00`;

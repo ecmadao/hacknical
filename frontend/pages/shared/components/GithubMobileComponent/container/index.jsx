@@ -200,13 +200,14 @@ class GithubMobileComponent extends React.Component {
     const dateLabels = [];
 
     const monthlyCommits = {};
-    commits.forEach((item) => {
-      const endDate = getDateBySeconds(item.week);
+
+    for (const commit of commits) {
+      const endDate = getDateBySeconds(commits.week);
       const [year, month, day] = endDate.split('-');
       const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
 
       const thisMonthKey = `${year}-${parseInt(month, 10)}`;
-      const totalCommits = item.days.slice(sliceIndex).reduce(
+      const totalCommits = commits.days.slice(sliceIndex).reduce(
         (pre, next) => pre + next, 0
       );
       const targetCommits = monthlyCommits[thisMonthKey];
@@ -218,19 +219,19 @@ class GithubMobileComponent extends React.Component {
         const preMonthKey = parseInt(month, 10) - 1 <= 0
           ? `${parseInt(year, 10) - 1}-12`
           : `${year}-${parseInt(month, 10) - 1}`;
-        const preTotalCommits = item.days.slice(0, sliceIndex)
+        const preTotalCommits = commits.days.slice(0, sliceIndex)
           .reduce((pre, next) => pre + next, 0);
         const preTargetCommits = monthlyCommits[preMonthKey];
         monthlyCommits[preMonthKey] = Number.isNaN(preTargetCommits)
           ? preTotalCommits
           : preTotalCommits + preTargetCommits;
       }
-    });
+    }
 
-    Object.keys(monthlyCommits).forEach((key) => {
+    for (const key of Object.keys(monthlyCommits)) {
       commitDates.push(monthlyCommits[key]);
       dateLabels.push(key);
-    });
+    }
     this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChart, {
       type: 'line',
       data: {
@@ -281,10 +282,11 @@ class GithubMobileComponent extends React.Component {
       .slice(0, 6)
       .map(language => ({ star: languageSkills[language], language }))
       .sort(sortByLanguageStar);
-    languageArray.forEach((obj) => {
+
+    for (const obj of languageArray) {
       languages.push(obj.language);
       skills.push(obj.star);
-    });
+    }
 
     this.languageSkillChart = new Chart(this.languageSkill, {
       type: 'radar',
