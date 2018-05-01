@@ -34,7 +34,7 @@ const getLanguageSkill = (repos) => {
       reposLanguages[language] = Number.isNaN(reposLanguages[language])
         ? parseInt(stargazers_count, 10)
         : reposLanguages[language] + parseInt(stargazers_count, 10);
-      return;
+      continue;
     }
 
     for (const lang of Object.keys(languages)) {
@@ -53,7 +53,7 @@ const getLanguageUsed = (repos) => {
 
   for (const repository of repos) {
     const { languages } = repository;
-    if (!languages) return;
+    if (!languages) continue;
 
     for (const language of Object.keys(languages)) {
       if (result[language]) {

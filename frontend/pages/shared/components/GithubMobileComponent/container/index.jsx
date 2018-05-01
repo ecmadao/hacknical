@@ -52,7 +52,7 @@ class GithubMobileComponent extends React.Component {
         commits: []
       },
       languageDistributions: {},
-      languageSkills: [],
+      languageSkills: {},
       languageUsed: {},
       refreshEnable: false,
       refreshing: false,
@@ -202,12 +202,12 @@ class GithubMobileComponent extends React.Component {
     const monthlyCommits = {};
 
     for (const commit of commits) {
-      const endDate = getDateBySeconds(commits.week);
+      const endDate = getDateBySeconds(commit.week);
       const [year, month, day] = endDate.split('-');
       const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
 
       const thisMonthKey = `${year}-${parseInt(month, 10)}`;
-      const totalCommits = commits.days.slice(sliceIndex).reduce(
+      const totalCommits = commit.days.slice(sliceIndex).reduce(
         (pre, next) => pre + next, 0
       );
       const targetCommits = monthlyCommits[thisMonthKey];
@@ -219,7 +219,7 @@ class GithubMobileComponent extends React.Component {
         const preMonthKey = parseInt(month, 10) - 1 <= 0
           ? `${parseInt(year, 10) - 1}-12`
           : `${year}-${parseInt(month, 10) - 1}`;
-        const preTotalCommits = commits.days.slice(0, sliceIndex)
+        const preTotalCommits = commit.days.slice(0, sliceIndex)
           .reduce((pre, next) => pre + next, 0);
         const preTargetCommits = monthlyCommits[preMonthKey];
         monthlyCommits[preMonthKey] = Number.isNaN(preTargetCommits)
@@ -498,6 +498,7 @@ class GithubMobileComponent extends React.Component {
       repositoriesLoaded,
       languageDistributions
     } = this.state;
+
     const { isAdmin, login, isShare } = this.props;
 
     if (!repositoriesLoaded) return null;
