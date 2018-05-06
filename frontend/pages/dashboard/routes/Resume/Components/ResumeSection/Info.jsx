@@ -41,13 +41,14 @@ class Info extends React.Component {
       email,
       phone,
       name,
-      gender,
       location,
       intention,
       disabled,
       hireAvailable,
       freshGraduate,
+      gender = 'male',
     } = this.props;
+
     return (
       <div className={styles.resume_piece_container}>
         <div className={styles.resume_title}>

@@ -295,9 +295,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     } = resume;
     const resumeInfo = info || {};
     const { useGithub, githubUrl } = shareInfo;
-    const its = resumeInfo.gender === 'male'
-      ? resumeLocales.options.person.male
-      : resumeLocales.options.person.female;
+    const its = resumeLocales.options.person[resumeInfo.gender] || resumeLocales.options.person.male;
     const viewGitHub = resumeLocales.options.view.replace(/%s/, its);
     const githubSection = this.renderGitHub();
     if (githubSection) return githubSection;

@@ -1,5 +1,5 @@
 
-import hotkeys from 'hotkeys-js';
+import keyboardjs from 'keyboardjs';
 
 class Hotkeys {
   constructor() {
@@ -7,7 +7,7 @@ class Hotkeys {
   }
 
   _baseBind(what, callback) {
-    hotkeys(what, (event) => {
+    keyboardjs.bind(what, (event) => {
       // Prevent the default refresh event under WINDOWS system
       callback && callback();
       event.preventDefault();
@@ -18,23 +18,23 @@ class Hotkeys {
   }
 
   submit(callback) {
-    return this._baseBind('command + enter', callback);
+    return this._baseBind('command+enter', callback);
   }
 
   save(callback) {
-    return this._baseBind('command + s', callback);
+    return this._baseBind('command+s', callback);
   }
 
   preview(callback) {
-    return this._baseBind('command + p', callback);
+    return this._baseBind('command+p', callback);
   }
 
   next(callback) {
-    return this._baseBind('shift + right', callback);
+    return this._baseBind('shift+right', callback);
   }
 
   previous(callback) {
-    return this._baseBind('shift + left', callback);
+    return this._baseBind('shift+left', callback);
   }
 
   bind(what, dom, callback = null) {
