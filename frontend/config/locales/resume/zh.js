@@ -64,7 +64,8 @@ const datas = {
       homepage: '没有线上地址还怎么展现实力？（选填）',
       projectDesc: '填写项目描述',
       technologies: '添加使用的技术',
-      mainButton: '添加个人项目'
+      mainButton: '添加个人项目',
+      introText: '按下回车即可添加'
     },
     others: {
       title: '其他补充',

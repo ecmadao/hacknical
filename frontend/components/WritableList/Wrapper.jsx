@@ -54,7 +54,6 @@ class Wrapper extends React.Component {
             onChange={onChange}
             onKeyDown={onKeyDown}
             wrapperClassName={styles.wrapper}
-            inputClassName={styles.input}
             tipsoTheme="dark"
           >
             <div className={styles.intro}>

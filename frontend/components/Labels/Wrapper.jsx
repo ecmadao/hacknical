@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Label } from 'light-ui';
+import { Label, InputGroup } from 'light-ui';
 import styles from './labels.css';
 
 class Wrapper extends React.Component {
@@ -37,6 +37,7 @@ class Wrapper extends React.Component {
       max,
       value,
       labels,
+      introText,
       disabled,
       onKeyDown,
       onChange,
@@ -47,7 +48,7 @@ class Wrapper extends React.Component {
         {this.renderLabels()}
         { labels.length < max ? (
           <div className={styles.label_input_wrapper}>
-            <Input
+            <InputGroup
               value={value}
               required={false}
               theme="borderless"
@@ -56,7 +57,19 @@ class Wrapper extends React.Component {
               onChange={onChange}
               onKeyDown={onKeyDown}
               disabled={disabled}
-            />
+              wrapperClassName={styles.wrapper}
+              tipsoTheme="dark"
+              tipsoPosition="bottom"
+              tipsoStyle={{
+                left: '0',
+                transform: 'translateX(0) translateY(7px)'
+              }}
+              inputClassName={styles.input}
+            >
+              <div className={styles.intro}>
+                {introText}
+              </div>
+            </InputGroup>
           </div>
         ) : ''}
       </div>
@@ -65,6 +78,7 @@ class Wrapper extends React.Component {
 }
 
 Wrapper.propTypes = {
+  introText: PropTypes.string,
   placeholder: PropTypes.string,
   labels: PropTypes.array,
   onDelete: PropTypes.func,
@@ -74,6 +88,7 @@ Wrapper.propTypes = {
 Wrapper.defaultProps = {
   labels: [],
   max: 10,
+  introText: '',
   placeholder: '',
   onDelete: () => {},
 };

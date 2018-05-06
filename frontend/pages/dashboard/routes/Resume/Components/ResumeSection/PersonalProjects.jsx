@@ -79,6 +79,7 @@ class PersonalProjects extends React.Component {
               labels={techs}
               disabled={disabled}
               onAdd={this.addTech(index)}
+              introText={resumeTexts.introText}
               onDelete={this.deleteTech(index)}
               placeholder={`+ ${resumeTexts.technologies}`}
             />

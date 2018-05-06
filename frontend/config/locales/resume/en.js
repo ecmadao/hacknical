@@ -64,7 +64,8 @@ const datas = {
       homepage: 'Talk is cheap, show me your code',
       projectDesc: 'Project desc',
       technologies: 'Technologies',
-      mainButton: 'Add personal projects'
+      mainButton: 'Add personal projects',
+      introText: 'Press enter to add'
     },
     others: {
       title: 'Others Info',

@@ -63,3 +63,17 @@
 .label {
   margin: 5px;
 }
+
+.wrapper {
+  flex: 1;
+  display: flex;
+}
+
+.intro {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.input {
+  flex: 0.5;
+}
