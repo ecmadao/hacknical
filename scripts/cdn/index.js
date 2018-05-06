@@ -27,10 +27,11 @@ const uptoken = (bucket, key) => {
 const fileUploader = async (token, key, localFile) => {
   for (let i = 0; i < 3; i += 1) {
     try {
+      console.log(`[UPLOAD-FILE][COUNT:${i}] ${localFile}`);
       await uploadFile(token, key, localFile);
       return true;
     } catch (e) {
-      throw new Error(e);
+      console.error(e);
     }
   }
   throw new Error('Upload error');
@@ -46,7 +47,7 @@ const uploadFile = (token, key, localFile) => {
         resolve(true);
       } else {
         // 上传失败， 处理返回代码
-        console.log('Upload Error!', err);
+        console.error('Upload Error!', err);
         reject(false);
       }
     });
