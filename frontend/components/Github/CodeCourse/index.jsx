@@ -350,7 +350,7 @@ class CodeCourse extends React.Component {
                     clickable={false}
                     className={githubStyles.reposLabel}
                   />
-                ) : ''}
+                ) : null}
               </span>
               <div className={githubStyles.tipso_line} />
               <ReposBaseInfo

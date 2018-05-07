@@ -9,7 +9,7 @@
   "services": {
     "github": {
       "url": "http://127.0.0.1:5002",
-      "timeouts": [2000, 2000, 2000],
+      "timeouts": [4000, 4000, 4000],
       "auth": {
         "publicKey": "07a9c1c",
         "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
@@ -17,7 +17,7 @@
     },
     "user": {
       "url": "http://127.0.0.1:6001",
-      "timeouts": [2000, 2000, 2000],
+      "timeouts": [4000, 4000, 4000],
       "auth": {
         "publicKey": "12345",
         "secretKey": "6cf75c66dcc02caa7e0eef7170a9"

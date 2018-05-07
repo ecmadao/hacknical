@@ -173,13 +173,13 @@
   }
 
   &::before {
-    top: 4px;
-    border-bottom: 5px solid rgba(155, 155, 155, 0.2);
+    top: 7px;
+    border-bottom: 7px solid rgba(155, 155, 155, 0.2);
   }
 
   &::after {
-    top: 5px;
-    border-bottom: 5px solid var(--oc-white);
+    top: 8px;
+    border-bottom: 7px solid var(--oc-white);
   }
 
   & .tipso_title {
