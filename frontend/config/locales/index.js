@@ -1,7 +1,13 @@
 /* eslint-disable import/no-dynamic-require, global-require */
 
+const getQurtyLocale = () => {
+  const { search } = window.location;
+  const match = RegExp('locale=([^&]*)').exec(search);
+  return match && match[1] ? match[1] : '';
+};
+
 const validateLocale = () => {
-  const locale = window.locale || 'en';
+  const locale = window.locale || getQurtyLocale() || 'en';
   if (/^en/.test(locale)) {
     return 'en';
   }
