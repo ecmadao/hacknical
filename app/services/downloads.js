@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import klawSync from 'klaw-sync';
 import config from 'config';
+import logger from '../utils/logger';
 
 const sourcePath = config.get('downloads');
 
@@ -47,14 +48,15 @@ const downloadResume = async (url, options = {}) => {
     title,
     folder
   } = options;
-  const resultFloder = path.join(sourcePath, folder);
+  const resultFloder = path.resolve(__dirname, sourcePath, folder);
 
   // makesure folder exist
   await fs.ensureDirSync(sourcePath);
   await fs.ensureDir(resultFloder);
 
-  const filePath = path.join(resultFloder, title);
+  const filePath = path.resolve(resultFloder, title);
   const resultPath = `/downloads/${folder}/${title}`;
+  logger.info(`[RESUME:DOWNLOAD:PATH] ${filePath}`);
 
   if (fs.existsSync(filePath)) {
     return resultPath;

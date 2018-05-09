@@ -156,7 +156,7 @@ const downloadResume = async (ctx) => {
   });
 
   logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
-  ctx.cache.hincrby('resume', 'download', 1);
+  await ctx.cache.hincrby('resume', 'download', 1);
 
   let resultUrl = '';
   try {

@@ -19,7 +19,7 @@ const updateViewData = async (ctx, options) => {
     browser: browser || '',
   });
   if (type) {
-    ctx.cache.hincrby(type, 'pageview', 1);
+    await ctx.cache.hincrby(type, 'pageview', 1);
     notify('slack').send({
       mq: ctx.mq,
       data: {

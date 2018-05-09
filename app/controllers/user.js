@@ -80,7 +80,7 @@ const initialFinished = async (ctx) => {
   const { userId } = ctx.session;
 
   await UserAPI.updateUser(userId, { initialed: true });
-  ctx.cache.hincrby('github', 'count', 1);
+  await ctx.cache.hincrby('github', 'count', 1);
 
   ctx.body = {
     success: true,
