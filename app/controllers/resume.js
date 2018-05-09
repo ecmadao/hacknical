@@ -65,6 +65,10 @@ const setResume = async (ctx, next) => {
     resume: targetResume
   });
 
+  if (result.newResume) {
+    await ctx.cache.hincrby('resume', 'count', 1);
+  }
+
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
     cacheKey(`resume.${result.hash}`)
