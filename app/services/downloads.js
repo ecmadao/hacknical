@@ -56,7 +56,7 @@ const downloadResume = async (url, options = {}) => {
 
   const filePath = path.resolve(resultFloder, title);
   const resultPath = `/downloads/${folder}/${title}`;
-  logger.info(`[RESUME:DOWNLOAD:PATH] ${filePath}`);
+  logger.info(`[RESUME:DOWNLOAD:RENDER-PATH] ${filePath}`);
 
   if (fs.existsSync(filePath)) {
     return resultPath;

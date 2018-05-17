@@ -1,9 +1,8 @@
 
 import config from 'config';
-import Records from '../../app/models/records';
 import { getRedis } from '../../app/middlewares/cache';
 import UserAPI from '../../app/services/user';
-import getMongo from '../../app/utils/database';
+import StatAPI from '../../app/services/stat';
 
 const redisUrl = config.get('database.redis');
 
@@ -14,17 +13,21 @@ const init = async () => {
     });
     const userCount = await UserAPI.getUserCount();
     const resumeCount = await UserAPI.getResumeCount();
-
-    const db = await getMongo();
-    const col = db.collection('records');
-    const records = await col.find({}).toArray();
+    const records = await StatAPI.getAllRecords();
 
     console.log(`users: ${userCount}`);
     console.log(`resumes: ${resumeCount}`);
 
-    await cache.incrby('users', userCount);
-    await cache.hincrby('github', 'count', userCount);
-    await cache.hincrby('resume', 'count', resumeCount);
+    await StatAPI.putStat({
+      type: 'github',
+      action: 'count',
+      count: userCount
+    });
+    await StatAPI.putStat({
+      type: 'resume',
+      action: 'count',
+      count: resumeCount
+    });
 
     let githubPageview = 0;
     let resumePageview = 0;
@@ -42,8 +45,17 @@ const init = async () => {
         resumePageview += viewCount;
       }
     }
-    await cache.hincrby('github', 'pageview', githubPageview);
-    await cache.hincrby('resume', 'pageview', resumePageview);
+
+    await StatAPI.putStat({
+      type: 'github',
+      action: 'pageview',
+      count: githubPageview
+    });
+    await StatAPI.putStat({
+      type: 'resume',
+      action: 'pageview',
+      count: resumePageview
+    });
 
     console.log('cache initial finished!');
   } catch (e) {

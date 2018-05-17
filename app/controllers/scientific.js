@@ -1,6 +1,8 @@
+
 import Api from '../services/api';
 import notify from '../services/notify';
 import getCacheKey from './helper/cacheKey';
+import StatAPI from '../services/stat';
 
 const getUserStatistic = async (ctx) => {
   const { login } = ctx.params;
@@ -21,7 +23,14 @@ const getUserPredictions = async (ctx) => {
   const results = [];
   await Promise.all(result.map(async (repository) => {
     const { full_name } = repository;
-    const likedCount = await ctx.cache.hget('scientific-feedback', `${full_name}.liked`);
+
+    const stats = await StatAPI.getStat({
+      type: 'scientific-feedback',
+      action: `${full_name}.liked`
+    });
+    const stat = stats[0] || { count: 0 };
+
+    const likedCount = stat.count;
     repository.likedCount = likedCount || 0;
     results.push(repository);
   }));
@@ -53,7 +62,11 @@ const removePrediction = async (ctx, next) => {
       params: ['login']
     })
   ];
-  ctx.cache.hincrby('scientific-prediction', `${login}.remove`, 1);
+
+  await StatAPI.putStat({
+    type: 'scientific-prediction',
+    action: `${login}.remove`
+  });
   ctx.body = {
     success: true,
   };
@@ -83,8 +96,14 @@ const putPredictionFeedback = async (ctx, next) => {
       params: ['login']
     })
   ];
-  ctx.cache.hincrby('scientific-prediction', `${login}.${likeText}`, 1);
-  ctx.cache.hincrby('scientific-feedback', `${fullName}.${likeText}`, 1);
+  await StatAPI.putStat({
+    type: 'scientific-prediction',
+    action: `${login}.${likeText}`
+  });
+  await StatAPI.putStat({
+    type: 'scientific-feedback',
+    action: `${fullName}.${likeText}`
+  });
   ctx.body = {
     success: true,
   };

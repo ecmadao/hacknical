@@ -3,8 +3,7 @@
   "appKey": "",
   "appName": "hacknical",
   "database": {
-    "redis": "",
-    "mongo": ""
+    "redis": ""
   },
   "links": {
     "github": "https://github.com/ecmadao/hacknical",

@@ -3,8 +3,7 @@
   "appKey": "hacknical-key",
   "appName": "hacknical-local",
   "database": {
-    "redis": "redis://localhost:6379/3",
-    "mongo": "mongodb://localhost:27017/hawkeye"
+    "redis": "redis://localhost:6379/3"
   },
   "services": {
     "github": {
@@ -17,6 +16,14 @@
     },
     "user": {
       "url": "http://127.0.0.1:6001",
+      "timeouts": [4000, 4000, 4000],
+      "auth": {
+        "publicKey": "12345",
+        "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
+      }
+    },
+    "stat": {
+      "url": "http://127.0.0.1:6002",
       "timeouts": [4000, 4000, 4000],
       "auth": {
         "publicKey": "12345",

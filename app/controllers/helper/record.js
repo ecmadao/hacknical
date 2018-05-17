@@ -1,9 +1,9 @@
 
-import Records from '../../models/records';
 import logger from '../../utils/logger';
 import notify from '../../services/notify';
 import { getValue } from '../../utils/helper';
 import UserAPI from '../../services/user';
+import StatAPI from '../../services/stat';
 
 const updateViewData = async (ctx, options) => {
   const { platform, browser } = ctx.state;
@@ -12,14 +12,17 @@ const updateViewData = async (ctx, options) => {
     login = null,
   } = options;
 
-  await Records.updateRecords(ctx.db, {
+  await StatAPI.putRecords({
     type,
     login,
     platform,
     browser: browser || '',
   });
   if (type) {
-    await ctx.cache.hincrby(type, 'pageview', 1);
+    await StatAPI.putStat({
+      type,
+      action: 'pageview'
+    });
     notify('slack').send({
       mq: ctx.mq,
       data: {

@@ -4,6 +4,7 @@ import getCacheKey from './helper/cacheKey';
 import logger from '../utils/logger';
 import UserAPI from '../services/user';
 import notify from '../services/notify';
+import StatAPI from '../services/stat';
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx);
@@ -80,7 +81,10 @@ const initialFinished = async (ctx) => {
   const { userId } = ctx.session;
 
   await UserAPI.updateUser(userId, { initialed: true });
-  await ctx.cache.hincrby('github', 'count', 1);
+  await StatAPI.putStat({
+    type: 'github',
+    action: 'count'
+  });
 
   ctx.body = {
     success: true,

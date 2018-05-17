@@ -1,7 +1,6 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
 import config from 'config';
-import Records from '../models/records';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
@@ -11,6 +10,7 @@ import {
   formatObject
 } from '../utils/helper';
 import UserAPI from '../services/user';
+import StatAPI from '../services/stat';
 
 /* ===================== private ===================== */
 
@@ -66,7 +66,10 @@ const setResume = async (ctx, next) => {
   });
 
   if (result.newResume) {
-    await ctx.cache.hincrby('resume', 'count', 1);
+    await StatAPI.putStat({
+      type: 'resume',
+      action: 'count'
+    });
   }
 
   const cacheKey = getCacheKey(ctx);
@@ -156,7 +159,11 @@ const downloadResume = async (ctx) => {
   });
 
   logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
-  await ctx.cache.hincrby('resume', 'download', 1);
+
+  await StatAPI.putStat({
+    type: 'resume',
+    action: 'download'
+  });
 
   let resultUrl = '';
   try {
@@ -266,7 +273,7 @@ const getShareRecords = async (ctx) => {
     };
   }
 
-  const records = await Records.getRecords(ctx.db, {
+  const records = await StatAPI.getRecords({
     login: githubLogin,
     type: 'resume'
   });

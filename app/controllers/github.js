@@ -1,12 +1,12 @@
 /* eslint eqeqeq: "off" */
 import Api from '../services/api';
-import Records from '../models/records';
 import {
   combineReposCommits,
   UPDATE_STATUS_TEXT
 } from './helper/github';
 import { is, sortBy } from '../utils/helper';
 import UserAPI from '../services/user';
+import StatAPI from '../services/stat';
 
 /* ================== private func ==================== */
 
@@ -180,7 +180,8 @@ const githubPage = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session;
-  const records = await Records.getRecords(ctx.db, {
+
+  const records = await StatAPI.getRecords({
     login: githubLogin,
     type: 'github'
   });

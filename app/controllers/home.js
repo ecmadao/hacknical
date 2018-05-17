@@ -3,6 +3,7 @@ import Api from '../services/api';
 import getLanguages from '../config/languages';
 import logger from '../utils/logger';
 import UserAPI from '../services/user';
+import StatAPI from '../services/stat';
 
 const landingPage = async (ctx) => {
   const { locale } = ctx.state;
@@ -76,17 +77,25 @@ const initial = async (ctx) => {
   });
 };
 
+const combineStat = stats => stats.reduce((pre, cur) => {
+  pre[cur.action] = (pre[cur.action] || 0) + cur.count;
+  return pre;
+}, {});
+
 const statistic = async (ctx) => {
-  const usersCount = await UserAPI.getUserCount();
-  const githubHashFields = await ctx.cache.hgetall('github');
-  const resumeHashFields = await ctx.cache.hgetall('resume');
+  const users = await UserAPI.getUserCount();
+  const githubFields = await StatAPI.getStat({ type: 'github' });
+  const resumeFields = await StatAPI.getStat({ type: 'resume' });
+
+  const github = combineStat(githubFields || []);
+  const resume = combineStat(resumeFields || []);
 
   ctx.body = {
     success: true,
     result: {
-      users: usersCount,
-      github: githubHashFields,
-      resume: resumeHashFields
+      users,
+      github,
+      resume
     }
   };
 };

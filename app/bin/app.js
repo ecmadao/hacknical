@@ -12,7 +12,6 @@ import views from 'koa-views';
 import userAgent from 'koa-useragent';
 import staticServer from 'koa-static';
 
-import mongoMiddleware from '../middlewares/mongo';
 import assetsPath from '../middlewares/assets';
 import { redisMiddleware } from '../middlewares/cache';
 import catchError from '../middlewares/error';
@@ -21,14 +20,11 @@ import mqMiddleware from '../middlewares/mq';
 import router from '../routes';
 import logger from '../utils/logger';
 import platform from '../middlewares/platform';
-import { initIndex } from '../models/dbIndex';
 
 const appKey = config.get('appKey');
 const port = config.get('port');
 const appName = config.get('appName');
 const redis = config.get('database.redis');
-
-initIndex();
 
 const app = new Koa();
 app.proxy = true;
@@ -78,8 +74,6 @@ app.use(redisMiddleware({
 }));
 // mq
 app.use(mqMiddleware());
-// mongo
-app.use(mongoMiddleware());
 // locale
 app.use(checkLocale());
 // catch error
