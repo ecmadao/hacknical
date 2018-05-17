@@ -33,13 +33,13 @@ const init = async () => {
     let resumePageview = 0;
 
     for (const record of records) {
-      const { login, pageViews } = record;
+      const { type, pageViews } = record;
       const viewCount = pageViews.reduce((prev, current) => {
         let count = parseInt(current.count, 10);
         if (Number.isNaN(count)) count = 0;
         return count + prev;
       }, 0);
-      if (login) {
+      if (type === 'github') {
         githubPageview += viewCount;
       } else {
         resumePageview += viewCount;
