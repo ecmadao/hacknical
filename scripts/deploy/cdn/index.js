@@ -1,8 +1,8 @@
 import qiniu from 'qiniu';
 import config from 'config';
 import klawSync from 'klaw-sync';
-import PATH from '../path.js';
-import CONFIG_PATH from '../../config/path';
+import PATH from '../../path.js';
+import CONFIG_PATH from '../../../config/path';
 
 const BucketName = config.get('qiniu.BucketName');
 const AccessKey = config.get('qiniu.AccessKey');
