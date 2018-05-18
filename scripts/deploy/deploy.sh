@@ -17,20 +17,17 @@ deploy_frontend() {
 
 download_file() {
   echo " =====  download file ===== "
-  FILEPATH=$1
-  if [ ! -f $FILEPATH ]; then
-    # download webpack.json
-    JSON_URL="$ASSETS/$REV/assets/$FILE"
-    wget $JSON_URL
-    mv -f $FILE "$ROOT/app/config/"
-  fi
+  # download webpack.json
+  JSON_URL="$ASSETS/$REV/assets/$FILE"
+  wget $JSON_URL
+  mv -f $FILE "$ROOT/app/config/"
 }
 
-download_file $filepath
+download_file
 
 if [ ! -f $filepath ]; then
   deploy_frontend
-  download_file $filepath
+  download_file
 fi
 
 echo " =====  deploy backend ===== "
