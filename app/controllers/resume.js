@@ -1,6 +1,5 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
-import config from 'config';
 import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
@@ -13,8 +12,6 @@ import UserAPI from '../services/user';
 import StatAPI from '../services/stat';
 
 /* ===================== private ===================== */
-
-const URL = config.get('url');
 
 const getResumeShareStatus = (resumeInfo, locale) => {
   const {
@@ -148,7 +145,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
-    `${URL}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true`;
+    `${ctx.request.origin}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true`;
 
   notify('slack').send({
     mq: ctx.mq,

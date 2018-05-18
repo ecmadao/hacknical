@@ -2,7 +2,6 @@
 import config from 'config';
 import { wrapMsg } from './shared';
 
-const homepage = config.get('url');
 const sendcloud = config.get('services.sendcloud');
 const qName = config.get('mq.channels')['qname-messenger'];
 const EMAIL_URL = sendcloud.url;
@@ -20,8 +19,9 @@ class EmailMsg {
     if (!EMAIL_URL) return;
     const {
       to,
+      msg,
       template,
-      msg = { '%url%': [homepage] },
+      // msg = { '%url%': [homepage] },
     } = options;
     const templateOptions = this._getOptions(template);
     const sendOptions = Object.assign({}, {
