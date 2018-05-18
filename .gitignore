@@ -7,3 +7,4 @@
 .idea
 .vscode
 /log
+/app/config/webpack-assets.json
