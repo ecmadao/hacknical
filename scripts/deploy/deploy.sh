@@ -20,14 +20,15 @@ download_file() {
   # download webpack.json
   JSON_URL="$ASSETS/$REV/assets/$FILE"
   wget $JSON_URL
+
+  if [ ! -f "./$FILE" ]; then
+    deploy_frontend
+    wget $JSON_URL
+  fi
   mv -f $FILE "$ROOT/app/config/"
 }
 
 download_file
-if [ ! -f "./$FILE" ]; then
-  deploy_frontend
-  download_file
-fi
 
 echo " =====  deploy backend ===== "
 # start app backend

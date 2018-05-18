@@ -22,8 +22,9 @@ const assetsPath = (assetsName) => {
   let result = '';
   if (!publicAsset || !publicAsset[type]) {
     result = `${PATH.CDN_URL}${assetsName}`;
+  } else {
+    result = publicAsset[type];
   }
-  result = publicAsset[type];
   logger.info(`[ASSETS] ${result}`);
   return result;
 };
