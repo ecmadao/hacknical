@@ -3,9 +3,10 @@
 import path from 'path';
 import fs from 'fs';
 import PATH from '../../config/path';
+import logger from '../utils/logger';
 
 let manifest = {};
-const manifestPath = path.resolve('../config', 'webpack-assets.json');
+const manifestPath = path.resolve(__dirname, '../config', 'webpack-assets.json');
 if (fs.existsSync(manifestPath)) {
   manifest = require(`${manifestPath}`);
 }
@@ -17,10 +18,14 @@ const assetsPath = (assetsName) => {
   const name = sections.slice(0, -1).join('.');
   const type = sections.slice(-1)[0];
   const publicAsset = getAssetName(name);
+
+  let result = '';
   if (!publicAsset || !publicAsset[type]) {
-    return `${PATH.CDN_URL}${assetsName}`;
+    result = `${PATH.CDN_URL}${assetsName}`;
   }
-  return publicAsset[type];
+  result = publicAsset[type];
+  logger.info(`[ASSETS] ${result}`);
+  return result;
 };
 
 export default assetsPath;
