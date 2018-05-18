@@ -24,8 +24,7 @@ download_file() {
 }
 
 download_file
-
-if [ ! -f $filepath ]; then
+if [ ! -f "./$FILE" ]; then
   deploy_frontend
   download_file
 fi
