@@ -5,10 +5,8 @@ const git = require('git-rev-sync');
 const CDN = config.get('cdn');
 const appName = config.get('appName');
 const appVersion = git.short();
-const HACKNICAL_SERVER_NAME = process.env.HACKNICAL_SERVER_NAME;
-const CDN_URI = HACKNICAL_SERVER_NAME
-  ? `${appName}/${HACKNICAL_SERVER_NAME}/${appVersion}`
-  : `${appName}/${appVersion}`;
+// const HACKNICAL_SERVER_NAME = process.env.HACKNICAL_SERVER_NAME;
+const CDN_URI = `${appName}/${appVersion}`;
 
 const CDN_URL = CDN ? `${CDN}/${CDN_URI}/` : '/';
 const PUBLIC_PATH = CDN ? `${CDN}/${CDN_URI}/assets/` : '/assets/';

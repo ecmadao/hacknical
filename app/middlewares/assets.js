@@ -5,7 +5,7 @@ import fs from 'fs';
 import PATH from '../../config/path';
 
 let manifest = {};
-const manifestPath = path.resolve(PATH.BUILD_PATH, 'webpack-assets.json');
+const manifestPath = path.resolve('../config', 'webpack-assets.json');
 if (fs.existsSync(manifestPath)) {
   manifest = require(`${manifestPath}`);
 }
