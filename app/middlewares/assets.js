@@ -14,8 +14,10 @@ if (fs.existsSync(manifestPath)) {
 const getAssetName = asset => manifest[asset];
 
 const assetsPath = (assetsName) => {
-  const sections = assetsName.split('.');
-  const name = sections.slice(0, -1).join('.');
+  const finalName = assetsName.split('/').slice(-1)[0];
+  const sections = finalName.split('.');
+  // So file base name should not has dot
+  const name = sections[0];
   const type = sections.slice(-1)[0];
   const publicAsset = getAssetName(name);
 

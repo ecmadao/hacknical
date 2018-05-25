@@ -8,7 +8,7 @@
       }
     </style>
   {% endif %}
-  <link href="{{ assetsPath("share_github.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("assets/share_github.bundle.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -35,5 +35,5 @@
     window.isShare = true;
     window.login = "{{ user.login }}";
   </script>
-  <script async defer src="{{ assetsPath("share_github.js") }}"></script>
+  <script async defer src="{{ assetsPath("assets/share_github.bundle.js") }}"></script>
 {% endblock %}

@@ -33,7 +33,8 @@ download_file
 echo " =====  deploy backend ===== "
 # start app backend
 npm run build-app
-npm run restart
+npm run stop
+npm run start
 bash ./scripts/opbeat.sh
 
 echo " =====  done ===== "

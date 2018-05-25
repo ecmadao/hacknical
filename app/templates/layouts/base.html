@@ -41,7 +41,7 @@
     <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#37b24d">
     <title>{{ title }}</title>
-    <link href="{{ assetsPath("base.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ assetsPath("assets/base.bundle.css") }}" rel="stylesheet" type="text/css">
     <style>
       #wechat-image {
         position: absolute;
@@ -74,9 +74,9 @@
     window.locale = "{{ locale }}";
     window.isMobile = "{{ isMobile }}";
   </script>
-  <script src="{{ assetsPath("react.js") }}"></script>
-  <script src="{{ assetsPath("runtime.js") }}"></script>
-  <script async defer src="{{ assetsPath("base.js") }}"></script>
+  <script src="{{ assetsPath("assets/react.dll.js") }}"></script>
+  <script src="{{ assetsPath("assets/runtime.dll.js") }}"></script>
+  <script async defer src="{{ assetsPath("assets/base.bundle.js") }}"></script>
   {% block js %}
   {% endblock %}
 </html>

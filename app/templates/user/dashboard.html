@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <link href="{{ assetsPath("dashboard.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("assets/dashboard.bundle.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -23,5 +23,5 @@
     window.dashboardRoute = "{{ dashboardRoute }}";
   </script>
   <script defer src="{{ assetsPath("vendor/qrcode.min.js") }}"></script>
-  <script async defer src="{{ assetsPath("dashboard.js") }}"></script>
+  <script async defer src="{{ assetsPath("assets/dashboard.bundle.js") }}"></script>
 {% endblock %}
