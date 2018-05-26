@@ -269,34 +269,13 @@ class Resume extends React.Component {
             />
           </div>
         </div>
-        <div className={styles.resume_sections}>
-          <ResumeSection section={activeSection} disabled={loading} />
-          <div className={cx(styles.resume_operations, styles.bottom)}>
-            <div className={styles.operations_wrapper}>
-              {currentIndex > 0 && (
-                <Button
-                  value={resumeTexts.buttons.pre}
-                  color="dark"
-                  className={styles.operation}
-                  onClick={() => this.handleSectionIndexChange(currentIndex - 1)}
-                  leftIcon={(
-                    <i className="fa fa-angle-left" aria-hidden="true" />
-                  )}
-                />
-              )}
-              {currentIndex < max - 1 && (
-                <Button
-                  value={resumeTexts.buttons.next}
-                  className={styles.operation}
-                  onClick={() => this.handleSectionIndexChange(currentIndex + 1)}
-                  rightIcon={(
-                    <i className="fa fa-angle-right" aria-hidden="true" />
-                  )}
-                />
-              )}
-            </div>
-          </div>
-        </div>
+        <ResumeSection
+          maxIndex={max}
+          disabled={loading}
+          currentIndex={currentIndex}
+          section={activeSection}
+          onSectionChange={this.handleSectionIndexChange}
+        />
         <ResumeFormatter
           resume={resume}
           shareInfo={shareInfo}

@@ -29,7 +29,7 @@ const datas = {
       freshGraduate: 'I\'m fresh graduate',
       gender: 'Gender'
     },
-    edu: {
+    educations: {
       title: 'Education Experience',
       subTitle: 'In-School Experience',
       mainButton: 'Add edu experience',
@@ -40,7 +40,7 @@ const datas = {
       addEduExperience: 'What did you do in your college?',
       introText: 'Write the activities you joined or achievements, then press enter to create it'
     },
-    work: {
+    workExperiences: {
       title: 'Work Experience',
       subTitle: 'Internship Experience',
       mainButton: 'Add work experience',
@@ -58,7 +58,7 @@ const datas = {
       addProjectDesc: 'Add project desc',
       introText: 'Wirte the project desc then press enter to create it'
     },
-    projects: {
+    personalProjects: {
       title: 'Personal Projects',
       projectName: 'Project name',
       homepage: 'Talk is cheap, show me your code',

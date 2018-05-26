@@ -6,7 +6,7 @@ import Education from './Education';
 import locales from 'LOCALES';
 import SectionWrapper from '../shared/SectionWrapper';
 
-const resumeTexts = locales('resume').sections.edu;
+const resumeTexts = locales('resume').sections.educations;
 
 class Educations extends React.Component {
   constructor(props) {
@@ -48,8 +48,8 @@ class Educations extends React.Component {
     const { actions } = this.props;
     return (
       <SectionWrapper
+        editButton
         {...this.props}
-        title={resumeTexts.title}
         button={resumeTexts.mainButton}
         onClick={actions.addEducation}
       >

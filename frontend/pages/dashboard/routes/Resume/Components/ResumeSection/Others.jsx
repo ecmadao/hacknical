@@ -5,9 +5,9 @@ import { Input } from 'light-ui';
 import resumeActions from '../../redux/actions';
 import WritableList from 'COMPONENTS/WritableList';
 import SocialLink from './shared/SocialLink';
-import SectionTip from './shared/SectionTip';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
+import SectionWrapper from './shared/SectionWrapper';
 
 const resumeTexts = locales('resume').sections.others;
 
@@ -88,16 +88,8 @@ class Others extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <SectionWrapper {...this.props}>
         <div className={styles.resume_piece_container}>
-          <div className={styles.resume_title}>
-            {resumeTexts.title}
-            &nbsp;
-            <SectionTip
-              section="others"
-              freshGraduate={freshGraduate}
-            />
-          </div>
           <div className={styles.resume_wrapper}>
             <Input
               theme="flat"
@@ -141,7 +133,7 @@ class Others extends React.Component {
             {this.renderSocialLinks()}
           </div>
         </div>
-      </div>
+      </SectionWrapper>
     );
   }
 }

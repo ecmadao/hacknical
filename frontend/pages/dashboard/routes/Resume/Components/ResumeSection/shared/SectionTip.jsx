@@ -32,13 +32,8 @@ const SectionTip = (props) => {
   } = props;
 
   if (hideTip) return null;
-
-  console.log(`section: ${section}`);
-  console.log(`freshGraduate: ${freshGraduate}`);
-
   const tip = text || getTips(section, freshGraduate);
   if (!tip) return null;
-  console.log(`tip: ${tip}`);
 
   return (
     <Tipso

@@ -6,7 +6,7 @@ import WorkExperience from './WorkExperience';
 import locales from 'LOCALES';
 import SectionWrapper from '../shared/SectionWrapper';
 
-const resumeTexts = locales('resume').sections.work;
+const resumeTexts = locales('resume').sections.workExperiences;
 
 class WorkExperiences extends React.Component {
   constructor(props) {
@@ -74,8 +74,8 @@ class WorkExperiences extends React.Component {
     const { actions } = this.props;
     return (
       <SectionWrapper
+        editButton
         {...this.props}
-        title={resumeTexts.title}
         button={resumeTexts.mainButton}
         onClick={actions.addWorkExperience}
       >

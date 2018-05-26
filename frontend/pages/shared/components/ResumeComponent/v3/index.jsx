@@ -231,7 +231,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
     return section({
       key,
       rows: projects,
-      title: resumeTexts.sections.projects.title,
+      title: super.getSectionTitle('personalProjects'),
     });
   }
 
@@ -249,7 +249,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
     return section({
       key,
       rows: edus,
-      title: super.getSectionTitle('edu')
+      title: super.getSectionTitle('educations')
     });
   }
 
@@ -265,7 +265,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
     return section({
       key,
       rows: exps,
-      title: super.getSectionTitle('work')
+      title: super.getSectionTitle('workExperiences')
     });
   }
 

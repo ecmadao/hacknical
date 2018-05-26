@@ -12,13 +12,13 @@ const data = {
     info: {
       title: 'Informations de base'
     },
-    edu: {
+    educations: {
       title: 'Education Experience'
     },
-    work: {
+    workExperiences: {
       title: 'Work Experience'
     },
-    projects: {
+    personalProjects: {
       title: 'Personal Projects'
     },
     others: {

@@ -7,7 +7,7 @@ import TipsoInput from '../shared/TipsoInput';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales('resume').sections.work;
+const resumeTexts = locales('resume').sections.workExperiences;
 
 class WorkExperience extends React.Component {
   constructor(props) {

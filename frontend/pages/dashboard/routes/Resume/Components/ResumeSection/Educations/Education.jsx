@@ -7,7 +7,7 @@ import { EDUCATIONS } from 'SHARED/datas/resume';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales('resume').sections.edu;
+const resumeTexts = locales('resume').sections.educations;
 
 class Education extends React.Component {
   constructor(props) {

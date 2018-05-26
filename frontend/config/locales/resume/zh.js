@@ -29,7 +29,7 @@ const datas = {
       freshGraduate: '我是应届生',
       gender: '性别'
     },
-    edu: {
+    educations: {
       title: '教育经历',
       subTitle: '在校经历',
       mainButton: '添加教育经历',
@@ -40,7 +40,7 @@ const datas = {
       addEduExperience: '你在学校做了什么？',
       introText: '输入社团活动、在校期间取得的成就，并按下回车来创建'
     },
-    work: {
+    workExperiences: {
       title: '工作经历',
       subTitle: '实习经历',
       mainButton: '添加工作经历',
@@ -58,7 +58,7 @@ const datas = {
       addProjectDesc: '新增项目描述',
       introText: '输入一句项目描述，并按下回车来创建'
     },
-    projects: {
+    personalProjects: {
       title: '个人项目',
       projectName: '填写项目名称',
       homepage: '没有线上地址还怎么展现实力？（选填）',

@@ -6,6 +6,7 @@ import resumeActions from '../../redux/actions';
 import { GENDERS } from 'SHARED/datas/resume';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
+import SectionWrapper from './shared/SectionWrapper';
 
 const resumeTexts = locales('resume').sections.info;
 
@@ -38,96 +39,96 @@ class Info extends React.Component {
 
   render() {
     const {
+      name,
       email,
       phone,
-      name,
+      disabled,
       location,
       intention,
-      disabled,
       hireAvailable,
       freshGraduate,
       gender = 'male',
     } = this.props;
 
     return (
-      <div className={styles.resume_piece_container}>
-        <div className={styles.resume_title}>
-          {resumeTexts.title}
-        </div>
-        <div className={styles.resume_wrapper}>
-          <Input
-            theme="flat"
-            value={name}
-            disabled={disabled}
-            placeholder={resumeTexts.name}
-            onChange={this.handleInfoChange('name')}
-          />
-          <SelectorV2
-            theme="flat"
-            value={gender}
-            options={GENDERS}
-            disabled={disabled}
-            onChange={this.handleInfoChange('gender')}
-          />
-        </div>
-        <div className={styles.resume_wrapper}>
-          <Input
-            type="email"
-            theme="flat"
-            value={email}
-            disabled={disabled}
-            placeholder={resumeTexts.email}
-            onChange={this.handleInfoChange('email')}
-          />
-          <Input
-            type="phone"
-            theme="flat"
-            value={phone}
-            disabled={disabled}
-            placeholder={resumeTexts.phone}
-            onChange={this.handleInfoChange('phone')}
-          />
-        </div>
-        <div className={styles.resume_wrapper}>
-          <Input
-            theme="flat"
-            value={intention}
-            disabled={disabled}
-            placeholder={resumeTexts.job}
-            onChange={this.handleInfoChange('intention')}
-          />
-          <Input
-            theme="flat"
-            value={location}
-            disabled={disabled}
-            placeholder={resumeTexts.position}
-            onChange={this.handleInfoChange('location')}
-          />
-        </div>
-        <div className={styles.resumeRow}>
-          <div className={styles.resumeSwitcherWrapper}>
-            {resumeTexts.freshGraduate}
-            &nbsp;&nbsp;
-            <Switcher
-              version="v2"
+      <SectionWrapper {...this.props}>
+        <div className={styles.resume_piece_container}>
+          <div className={styles.resume_wrapper}>
+            <Input
+              theme="flat"
+              value={name}
               disabled={disabled}
-              checked={freshGraduate}
-              onChange={this.handleResumeTypeChange}
+              placeholder={resumeTexts.name}
+              onChange={this.handleInfoChange('name')}
+            />
+            <SelectorV2
+              theme="flat"
+              value={gender}
+              options={GENDERS}
+              disabled={disabled}
+              onChange={this.handleInfoChange('gender')}
             />
           </div>
-          &nbsp;&nbsp;&nbsp;
-          <div className={styles.resumeSwitcherWrapper}>
-            {resumeTexts.hireAvailable}
-            &nbsp;&nbsp;
-            <Switcher
-              version="v2"
+          <div className={styles.resume_wrapper}>
+            <Input
+              type="email"
+              theme="flat"
+              value={email}
               disabled={disabled}
-              checked={hireAvailable}
-              onChange={this.handleAvailableChange}
+              placeholder={resumeTexts.email}
+              onChange={this.handleInfoChange('email')}
+            />
+            <Input
+              type="phone"
+              theme="flat"
+              value={phone}
+              disabled={disabled}
+              placeholder={resumeTexts.phone}
+              onChange={this.handleInfoChange('phone')}
             />
           </div>
+          <div className={styles.resume_wrapper}>
+            <Input
+              theme="flat"
+              value={intention}
+              disabled={disabled}
+              placeholder={resumeTexts.job}
+              onChange={this.handleInfoChange('intention')}
+            />
+            <Input
+              theme="flat"
+              value={location}
+              disabled={disabled}
+              placeholder={resumeTexts.position}
+              onChange={this.handleInfoChange('location')}
+            />
+          </div>
+          <div className={styles.resumeRow}>
+            <div className={styles.resumeSwitcherWrapper}>
+              {resumeTexts.freshGraduate}
+              &nbsp;&nbsp;
+              <Switcher
+                version="v2"
+                disabled={disabled}
+                checked={freshGraduate}
+                onChange={this.handleResumeTypeChange}
+              />
+            </div>
+            &nbsp;&nbsp;&nbsp;
+            <div className={styles.resumeSwitcherWrapper}>
+              {resumeTexts.hireAvailable}
+              &nbsp;&nbsp;
+              <Switcher
+                version="v2"
+                disabled={disabled}
+                checked={hireAvailable}
+                onChange={this.handleAvailableChange}
+              />
+            </div>
+          </div>
         </div>
-      </div>
+        <div />
+      </SectionWrapper>
     );
   }
 }

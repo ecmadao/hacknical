@@ -245,7 +245,7 @@ class ResumeContent extends ResumeUIWrapper {
       <div className={styles['resume-section']} key={key}>
         <div className={styles['section-row']}>
           <div className={styles['row-left']}>
-            {resumeLocales.sections.projects.title}
+            {super.getSectionTitle('personalProjects')}
           </div>
           <div className={cx(styles['row-right'], styles['right-container'])}>
             {projects}

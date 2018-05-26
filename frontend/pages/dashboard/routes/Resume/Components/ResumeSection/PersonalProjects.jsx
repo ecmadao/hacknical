@@ -10,7 +10,7 @@ import locales from 'LOCALES';
 import SectionWrapper from './shared/SectionWrapper';
 import TipsoInput from './shared/TipsoInput';
 
-const resumeTexts = locales('resume').sections.projects;
+const resumeTexts = locales('resume').sections.personalProjects;
 
 class PersonalProjects extends React.Component {
   constructor(props) {
@@ -113,8 +113,8 @@ class PersonalProjects extends React.Component {
     const { actions } = this.props;
     return (
       <SectionWrapper
+        editButton
         {...this.props}
-        title={resumeTexts.title}
         button={resumeTexts.mainButton}
         onClick={actions.addPersonalProject}
       >

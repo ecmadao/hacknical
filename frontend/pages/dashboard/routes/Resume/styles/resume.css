@@ -29,6 +29,7 @@
 
   &.bottom {
     padding: 5px 50px 5px;
+    border-bottom: 1px solid var(--bgDeep);
   }
 
   &::after {
@@ -110,6 +111,28 @@
 .resume_sections {
   composes: card from 'STYLES/common.css';
   margin-left: 15px;
+  transition: transform 0.1s, opacity 0.1s;
+  opacity: 1;
+}
+
+.resume_sections-hidden {
+  opacity: 0;
+  transform: translateX(-5%) scale(1);
+}
+
+.resume_sections-entering {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.resume_sections-entered {
+  opacity: 1;
+  transform: inherit;
+}
+
+.resume_sections-exiting {
+  opacity: 0;
+  transform: scale(0.9);
 }
 
 .info_container {

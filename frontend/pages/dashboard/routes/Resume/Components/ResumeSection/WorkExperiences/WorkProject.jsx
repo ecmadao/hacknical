@@ -6,7 +6,7 @@ import WritableList from 'COMPONENTS/WritableList';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
-const resumeTexts = locales('resume').sections.work;
+const resumeTexts = locales('resume').sections.workExperiences;
 
 class WorkProject extends React.Component {
   constructor(props) {
