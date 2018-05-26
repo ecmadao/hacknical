@@ -37,8 +37,13 @@ const datas = {
       major: '院系 & 专业',
       entranceAt: '入学时间',
       graduateAt: '毕业时间',
-      addEduExperience: '你在学校做了什么？',
-      introText: '输入社团活动、在校期间取得的成就，并按下回车来创建'
+      addEduExperience: '你在学校做了什么？填入描述，并按下回车来创建',
+      introList: [
+        '可以通过一些在校经历来反映你的热情和学习能力',
+        '参与过什么比赛或者社团活动？又从中贡献了什么，学到了什么？',
+        '不用吝啬，把你引以为豪的经历都抛出来吧'
+      ],
+      introText: '写写独特的学习或实习经历？'
     },
     workExperiences: {
       title: '工作经历',
@@ -55,25 +60,38 @@ const datas = {
       joinedProjects: '参与项目',
       projectName: '项目名称',
       projectHomepage: '项目线上地址可以让对方更快的了解你（选填）',
-      addProjectDesc: '新增项目描述',
-      introText: '输入一句项目描述，并按下回车来创建'
+      addProjectDesc: '输入项目描述，并按下回车来创建',
+      introText: '不要填写项目中使用的软件/硬件环境、硬件环境、开发工具之类',
+      introList: [
+        '首先应该大致介绍项目背景，这个项目是干什么的？',
+        '描述自己在项目中扮演的角色、自己的职责',
+        '自己在项目内使用的技术，都做了哪些事',
+        '项目最终结果、自身评估'
+      ]
     },
     personalProjects: {
       title: '个人项目',
       projectName: '填写项目名称',
       homepage: '没有线上地址还怎么展现实力？（选填）',
-      projectDesc: '填写项目描述',
+      projectDesc: '填写项目描述。利用什么技术做了什么，最终达到了怎样的效果？',
       technologies: '添加使用的技术',
       mainButton: '添加个人项目',
-      introText: '按下回车即可添加'
+      introText: '按下回车即可添加',
+      introList: []
     },
     others: {
       title: '其他补充',
       expectSalary: '期待月薪',
       expectCity: '期望工作地点',
       yourDream: '你的梦想/slogan？',
-      personalIntro: '新增个人介绍、自我评价',
-      introText: '输入一句个人介绍，并按下回车来创建',
+      personalIntro: '填写个人介绍、自我评价，并按下回车来创建',
+      introList: [
+        '还有哪些想要展现的技能、经历？',
+        '还可以说说自身对公司的期望，或者自己下一步想要实现的目标',
+        '太普遍的基础技能，或者软硬件环境之类的技术或许可以忽略不讲',
+        '不要突出自己的软肋，不要随便用“精通”二字',
+      ],
+      introText: '个人介绍切勿泛泛空谈',
       selfAssessment: '自我评价',
       and: '与',
       links: {

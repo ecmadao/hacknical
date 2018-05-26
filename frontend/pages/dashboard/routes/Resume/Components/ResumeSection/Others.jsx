@@ -121,7 +121,8 @@ class Others extends React.Component {
             onAdd={this.addSupplement}
             onDelete={this.deleteSupplement}
             onChange={this.changeSupplement}
-            introText={resumeTexts.introText}
+            introList={resumeTexts.introList}
+            defaultIntro={resumeTexts.introText}
             placeholder={resumeTexts.personalIntro}
           />
         </div>

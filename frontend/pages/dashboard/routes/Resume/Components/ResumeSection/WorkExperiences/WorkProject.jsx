@@ -81,7 +81,8 @@ class WorkProject extends React.Component {
         </div>
         <WritableList
           placeholder={resumeTexts.addProjectDesc}
-          introText={resumeTexts.introText}
+          defaultIntro={resumeTexts.introText}
+          introList={resumeTexts.introList}
           items={project.details}
           onAdd={this.addDetail}
           onDelete={this.deleteDetail}

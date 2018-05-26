@@ -133,7 +133,8 @@ class Education extends React.Component {
               onAdd={this.addExperience}
               onDelete={this.deleteExperience}
               onChange={this.changeExperience}
-              introText={resumeTexts.introText}
+              introList={resumeTexts.introList}
+              defaultIntro={resumeTexts.introText}
               placeholder={resumeTexts.addEduExperience}
             />
           </div>

@@ -40,7 +40,15 @@ class Wrapper extends React.Component {
   }
 
   render() {
-    const { value, placeholder, introText, onChange, onKeyDown } = this.props;
+    const {
+      items,
+      value,
+      onChange,
+      onKeyDown,
+      introList,
+      placeholder,
+      defaultIntro,
+    } = this.props;
     return (
       <ul className={styles.items_wrapper}>
         {this.renderListItems()}
@@ -57,7 +65,7 @@ class Wrapper extends React.Component {
             tipsoTheme="dark"
           >
             <div className={styles.intro}>
-              {introText}
+              {introList[items.length] || defaultIntro}
             </div>
           </InputGroup>
         </li>
@@ -69,7 +77,8 @@ class Wrapper extends React.Component {
 Wrapper.propTypes = {
   items: PropTypes.array,
   placeholder: PropTypes.string,
-  introText: PropTypes.string,
+  defaultIntro: PropTypes.string,
+  introList: PropTypes.array,
   onDelete: PropTypes.func,
   onChange: PropTypes.func
 };
@@ -77,7 +86,8 @@ Wrapper.propTypes = {
 Wrapper.defaultProps = {
   items: [],
   placeholder: '',
-  introText: '',
+  defaultIntro: '',
+  introList: [],
   onDelete: () => {},
   onChange: () => {}
 };
