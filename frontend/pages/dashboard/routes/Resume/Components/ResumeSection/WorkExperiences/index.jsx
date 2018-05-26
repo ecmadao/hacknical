@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import resumeActions from '../../../redux/actions';
 import WorkExperience from './WorkExperience';
 import locales from 'LOCALES';
-import { SectionWrapper } from '../components';
+import SectionWrapper from '../shared/SectionWrapper';
 
 const resumeTexts = locales('resume').sections.work;
 
@@ -72,10 +71,10 @@ class WorkExperiences extends React.Component {
   }
 
   render() {
-    const { actions, disabled } = this.props;
+    const { actions } = this.props;
     return (
       <SectionWrapper
-        disabled={disabled}
+        {...this.props}
         title={resumeTexts.title}
         button={resumeTexts.mainButton}
         onClick={actions.addWorkExperience}
@@ -87,8 +86,11 @@ class WorkExperiences extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { workExperiences } = state.resume;
-  return { workExperiences };
+  const { workExperiences, info } = state.resume;
+  return {
+    workExperiences,
+    freshGraduate: info.freshGraduate,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { InputGroup, Input } from 'light-ui';
 import DateSlider from 'COMPONENTS/DateSlider';
 import WorkProject from './WorkProject';
-import { TipsoInput } from '../components';
+import TipsoInput from '../shared/TipsoInput';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 

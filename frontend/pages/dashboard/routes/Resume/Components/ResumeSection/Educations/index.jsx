@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import resumeActions from '../../../redux/actions';
 import Education from './Education';
 import locales from 'LOCALES';
-import { SectionWrapper } from '../components';
+import SectionWrapper from '../shared/SectionWrapper';
 
 const resumeTexts = locales('resume').sections.edu;
 
@@ -46,10 +45,10 @@ class Educations extends React.Component {
   }
 
   render() {
-    const { actions, disabled } = this.props;
+    const { actions } = this.props;
     return (
       <SectionWrapper
-        disabled={disabled}
+        {...this.props}
         title={resumeTexts.title}
         button={resumeTexts.mainButton}
         onClick={actions.addEducation}

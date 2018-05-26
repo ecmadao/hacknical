@@ -7,7 +7,8 @@ import Labels from 'COMPONENTS/Labels';
 import styles from '../../styles/resume.css';
 import resumeActions from '../../redux/actions';
 import locales from 'LOCALES';
-import { TipsoInput, SectionWrapper } from './components';
+import SectionWrapper from './shared/SectionWrapper';
+import TipsoInput from './shared/TipsoInput';
 
 const resumeTexts = locales('resume').sections.projects;
 
@@ -109,10 +110,10 @@ class PersonalProjects extends React.Component {
   }
 
   render() {
-    const { actions, disabled } = this.props;
+    const { actions } = this.props;
     return (
       <SectionWrapper
-        disabled={disabled}
+        {...this.props}
         title={resumeTexts.title}
         button={resumeTexts.mainButton}
         onClick={actions.addPersonalProject}
@@ -124,8 +125,11 @@ class PersonalProjects extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { personalProjects } = state.resume;
-  return { personalProjects };
+  const { personalProjects, info } = state.resume;
+  return {
+    personalProjects,
+    freshGraduate: info.freshGraduate,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

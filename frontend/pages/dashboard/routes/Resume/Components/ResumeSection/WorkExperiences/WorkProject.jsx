@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { InputGroup } from 'light-ui';
-import { TipsoInput } from '../components';
+import TipsoInput from '../shared/TipsoInput';
 import WritableList from 'COMPONENTS/WritableList';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';

@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Input } from 'light-ui';
 import resumeActions from '../../redux/actions';
 import WritableList from 'COMPONENTS/WritableList';
-import SocialLink from './SocialLink';
+import SocialLink from './shared/SocialLink';
+import SectionTip from './shared/SectionTip';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
 
@@ -83,6 +84,7 @@ class Others extends React.Component {
       supplements,
       expectSalary,
       expectLocation,
+      freshGraduate,
     } = this.props;
 
     return (
@@ -90,6 +92,11 @@ class Others extends React.Component {
         <div className={styles.resume_piece_container}>
           <div className={styles.resume_title}>
             {resumeTexts.title}
+            &nbsp;
+            <SectionTip
+              section="others"
+              freshGraduate={freshGraduate}
+            />
           </div>
           <div className={styles.resume_wrapper}>
             <Input
@@ -140,8 +147,11 @@ class Others extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { others } = state.resume;
-  return { ...others };
+  const { others, info } = state.resume;
+  return {
+    ...others,
+    freshGraduate: info.freshGraduate,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

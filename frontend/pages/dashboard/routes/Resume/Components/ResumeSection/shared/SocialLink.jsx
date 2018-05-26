@@ -4,8 +4,8 @@ import React from 'react';
 import cx from 'classnames';
 import { Tipso, Input } from 'light-ui';
 import { isUrl } from 'UTILS/helper';
-import styles from '../../styles/resume.css';
-import { TipsoInputs } from './components';
+import styles from '../../../styles/resume.css';
+import TipsoInputs from './TipsoInputs';
 import locales from 'LOCALES';
 
 const resumeTexts = locales('resume').sections.others;
