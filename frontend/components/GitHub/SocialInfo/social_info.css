@@ -1,0 +1,49 @@
+@import 'open-color/open-color.css';
+
+.info_content {
+  display: flex;
+  width: 100%;
+
+  & .info_social {
+    flex: 1;
+    min-height: 90px;
+    transition: color 0.2s, box-shadow 0.2s;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    margin: 15px 7.5px;
+
+    &:first-child {
+      margin-left: 15px;
+    }
+
+    &:last-child {
+      margin-right: 15px;
+    }
+
+    &:hover {
+      color: var(--oc-white);
+      box-shadow: var(--shadowCard);
+
+      & span {
+        color: var(--oc-white);
+
+        &:first-child {
+          color: var(--oc-white);
+        }
+      }
+    }
+
+    & span {
+      transition: color 0.2s;
+      color: rgba(255, 255, 255, 0.5);
+
+      &:first-child {
+        line-height: 90px;
+        font-size: 2.5em;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+}

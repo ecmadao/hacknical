@@ -44,6 +44,7 @@ class AnimationComponent extends React.Component {
 
   render() {
     const { status } = this.state;
+    console.log(`status: ${status}`);
     const children = cloneElement(this.props.children, {
       status,
       onExit: this.onExit,

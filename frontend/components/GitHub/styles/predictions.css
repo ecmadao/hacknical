@@ -1,0 +1,139 @@
+@import 'open-color/open-color.css';
+
+:root {
+  --speed: .2s;
+  --easing: cubic-bezier(.55,0,.1,1);
+  --modalContentOpacity: 0;
+  --scale: scale(0.8);
+  --scaleActive: scale(1);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.predictionCard {
+  height: 80px;
+  margin-top: 0;
+}
+
+.cardTitle {
+  color: var(--oc-gray-7);
+  cursor: pointer;
+  transition: color 0.2s;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--oc-green-7);
+  }
+}
+
+.subInfo {
+  font-size: 14px;
+  color: #adb5bd;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.subContent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.subBottom {
+  padding-top: 7px;
+  margin-top: 7px;
+  border-top: 1px solid var(--oc-gray-2);
+}
+
+.iconLink {
+  color: var(--oc-gray-5);
+  cursor: pointer;
+  margin-right: 5px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--oc-green-5);
+  }
+}
+
+.iconText {
+  color: var(--oc-gray-5);
+  margin-right: 10px;
+
+  & i {
+    margin-right: 5px;
+  }
+}
+
+.cardMenu {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+
+  & i {
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--oc-gray-5);
+  }
+}
+
+.menuWrapper {
+  position: absolute;
+  box-shadow: var(--shadow2);
+  border-radius: 2px;
+  background-color: var(--oc-white);
+  top: 100%;
+  font-size: 12px;
+
+  z-index: var(--zIndex0);
+  opacity: var(--modalContentOpacity);
+  visibility: hidden;
+  backface-visibility: hidden;
+  transform: var(--scale) translateY(10px);
+  transition: all var(--speed) var(--easing);
+}
+
+.menuActive {
+  z-index: var(--zIndex99);
+  visibility: visible;
+  opacity: 1;
+  transform: var(--scaleActive) translateY(10px);
+}
+
+.menuItem {
+  padding: 10px;
+  min-width: 75px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--oc-gray-2);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--oc-gray-2);
+  }
+
+  & i {
+    margin-right: 7px;
+  }
+}
+
+.liked {
+  & i {
+    color: var(--oc-yellow-7);
+  }
+}
+
+.disliked {
+  & i {
+    color: var(--oc-red-7);
+  }
+}

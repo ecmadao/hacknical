@@ -2,11 +2,11 @@ import asyncComponent from 'SHARED/components/AsyncComponent';
 
 const githubComponent = {
   desktop: asyncComponent(
-    () => System.import('SHARED/components/GithubComponent')
+    () => System.import('SHARED/components/GitHubComponent')
       .then(component => component.default)
   ),
   mobile: asyncComponent(
-    () => System.import('SHARED/components/GithubMobileComponent')
+    () => System.import('SHARED/components/GitHubMobileComponent')
       .then(component => component.default)
   ),
 };

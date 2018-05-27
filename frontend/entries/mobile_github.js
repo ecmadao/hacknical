@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GitHubMobileShare from 'SHARED/components/GithubMobileComponent';
+import GitHubMobileShare from 'SHARED/components/GitHubMobileComponent';
 import 'SRC/vendor/mobile/github.css';
 import initialHeadroom from 'SRC/vendor/shared/headroom';
 

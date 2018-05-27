@@ -1,0 +1,92 @@
+@import 'open-color/open-color.css';
+
+.container {
+  composes: dashboard_content from 'STYLES/common.css';
+}
+
+.card {
+  border-radius: 3px;
+  transition: box-shadow 0.2s;
+  box-shadow: var(--shadow1);
+
+  &:hover {
+    box-shadow: var(--shadow4);
+  }
+}
+
+.info_card {
+  composes: card from 'STYLES/common.css';
+}
+
+.github_calendar {
+  composes: card from 'STYLES/common.css';
+  border-color: transparent;
+  background-color: var(--oc-white);
+  text-align: center;
+
+  & h2:first-child {
+    margin-bottom: 10px;
+    font-weight: 300;
+    padding-top: 10px;
+    display: none;
+  }
+}
+
+.info_card_container {
+  composes: card_container from 'STYLES/common.css';
+
+  & .info_header {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid var(--bgDeep);
+
+    & .info_avator {
+      width: 80px;
+
+      & img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+      }
+    }
+
+    & .info_user {
+      flex: 1;
+
+      & a {
+        font-size: 1.3em;
+        display: block;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: var(--oc-gray-7);
+        transition: color 0.2s;
+
+        &:hover {
+          color: var(--oc-green-7);
+        }
+      }
+
+      & span {
+        font-size: 12px;
+      }
+
+      & blockquote {
+        padding: 0 1em;
+        border-left: 0.25em solid var(--oc-gray-5);
+        margin: 15px 0;
+      }
+    }
+  }
+}
+
+.shareInfo {
+  composes: minText from 'STYLES/common.css';
+  text-align: right;
+  margin-top: 30px;
+  margin-bottom: -45px;
+}
+
+.scientificWrapper {
+  box-shadow: none;
+  background-color: transparent;
+}

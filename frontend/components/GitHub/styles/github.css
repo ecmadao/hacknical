@@ -1,0 +1,732 @@
+@import 'open-color/open-color.css';
+
+.reposIntros {
+  display: flex;
+  flex-direction: column;
+
+  & .reposIntro {
+    margin-bottom: 5px;
+    display: flex;
+    position: relative;
+
+    & .reposIntroLine {
+      width: 8px;
+      border-radius: 3px;
+      margin-right: 15px;
+    }
+
+    & .introInfoWrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      max-width: 90%;
+    }
+
+    & .introInfo {
+      font-size: 14px;
+      color: var(--oc-gray-5);
+      line-height: 1.7em;
+
+      & .introTitle {
+        color: var(--oc-gray-7);
+        line-height: 1.5em;
+      }
+    }
+
+    &:hover {
+      & .tipso_wrapper {
+        opacity: 1;
+        z-index: 99;
+        visibility: visible;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+.languageLabelWrapper {
+  padding: 15px 20px;
+}
+
+/* chosed repos */
+.reposTimelineContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.reposDates {
+  display: flex;
+  color: var(--oc-gray-5);
+  font-size: 12px;
+
+  & .reposDate {
+    flex: 1;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.reposTimelines {
+  display: flex;
+  flex-direction: column;
+
+  & .reposTimelineWrapper {
+    height: 25px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+}
+
+.timelineWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.timelineTipso {
+  height: 100%;
+
+  &:first-child {
+    margin-left: inherit;
+  }
+}
+
+.timelineContent {
+  width: 140px;
+  text-align: left;
+  line-height: 1.5em;
+  padding-left: 10px;
+}
+
+.timelineItem {
+  opacity: 0.6;
+  border-radius: 20px;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  height: 100%;
+
+  &.timelineOld {
+    background-color: var(--oc-gray-3) !important;
+    border-radius: 20px 0 0 20px;
+  }
+
+  &.timelineNew {
+    border-radius: 0 20px 20px 0;
+  }
+}
+
+/* repos tipso */
+.tipso_wrapper {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  composes: tipso-z-index from 'STYLES/common.css';
+
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  backface-visibility: hidden;
+  transform: scale(0.8);
+  transition: all .2s cubic-bezier(.55,0,.1,1);
+
+  &.active {
+    z-index: 99;
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tipso_container {
+  background-color: var(--oc-white);
+  border-radius: 3px;
+  box-shadow: var(--shadow4);
+  padding: 15px;
+  font-size: 12px;
+  color: rgba(74, 74, 74, 0.6);
+  line-height: 1.5em;
+  min-width: 200px;
+  margin-top: 12px;
+
+  &.tipso_large {
+    min-width: 250px;
+  }
+
+  &::before,
+  &::after {
+    width: 0;
+    height: 0;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 10px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+  }
+
+  &::before {
+    top: 7px;
+    border-bottom: 7px solid rgba(155, 155, 155, 0.2);
+  }
+
+  &::after {
+    top: 8px;
+    border-bottom: 7px solid var(--oc-white);
+  }
+
+  & .tipso_title {
+    font-size: 16px;
+    line-height: 2em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: var(--oc-gray-7);
+  }
+
+  & a {
+    color: var(--oc-gray-7);
+    transition: color 0.3s;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--oc-green-7);
+    }
+  }
+
+  & p {
+    line-height: 2em;
+  }
+
+  & blockquote,
+  & span {
+    line-height: 1.5em;
+  }
+
+  & blockquote {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+
+  & .tipso_line {
+    width: 100%;
+    height: 1px;
+    background-color: var(--oc-gray-2);
+    margin: 10px 0;
+  }
+}
+
+.repos_review {
+  width: 100%;
+}
+
+.repos_show_container {
+  width: 95%;
+  margin-left: 2.5%;
+  padding: 15px 0;
+  min-height: 80px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.repos_chart {
+  flex: 1;
+  position: relative;
+  max-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & .chart_center {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    text-align: center;
+  }
+}
+
+.pieChart {
+  width: 250px !important;
+  max-width: 250px !important;
+  height: auto !important;
+  z-index: 1;
+}
+
+.radarChart {
+  width: 250px !important;
+  max-width: 250px !important;
+  height: auto !important;
+}
+
+.repos_chart_container {
+  width: auto;
+  margin-left: 0;
+  display: flex;
+  justify-content: center;
+
+  &.with_chart {
+    padding: 15px;
+    min-height: 80px;
+  }
+
+  &.small_margin {
+    margin-top: -30px !important;
+  }
+}
+
+.repos_show_container {
+  display: block;
+
+  & p.repos_show_title {
+    padding-left: 10px;
+    margin-left: 2px;
+    margin-bottom: 15px;
+    border-left: 3px solid var(--oc-gray-5);
+    line-height: 40px !important;
+    font-size: 2em;
+    font-weight: bold;
+
+    & span {
+      font-size: 16px;
+      font-weight: normal;
+      color: var(--oc-gray-5);
+    }
+  }
+}
+
+.repos_show {
+  display: flex;
+  padding: 10px;
+  padding-bottom: 15px;
+  border-radius: 3px;
+  position: relative;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--oc-gray-3);
+  }
+
+  & .repos_info {
+    padding-right: 50px;
+    width: 100%;
+
+    & .repos_info_name {
+      text-decoration: none;
+      color: var(--oc-gray-7);
+      line-height: 1.5em;
+      font-size: 16px;
+
+      &:hover {
+        color: var(--oc-green-7);
+      }
+    }
+  }
+}
+
+.repos_short_desc {
+  font-size: 14px;
+  color: var(--oc-gray-5);
+}
+
+.repos_star {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &.active {
+    color: var(--oc-green-7);
+  }
+}
+
+/* orgs */
+.orgs_container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.org_row {
+  flex: 1;
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--oc-gray-2);
+}
+
+.org_item_container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.org_item {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: border-bottom 0.3s;
+
+  & img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+  }
+}
+
+.org_item_active {
+  border-bottom: 3px solid var(--oc-green-7);
+}
+
+.org_detail {
+
+}
+
+.org_info {
+  line-height: 1.8em;
+
+  & a {
+    color: var(--oc-green-7);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.org_info_title {
+  composes: org_info;
+  border-left: 3px solid var(--oc-gray-5);
+  padding-left: 15px;
+  margin: 15px 0 30px;
+}
+
+.orgs_coordinate {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  & .repos_xAxes {
+    height: 2px;
+    width: 95%;
+    background-color: var(--oc-gray-4);
+    margin-bottom: 10px;
+    position: relative;
+
+    & .xAxes_text {
+      position: absolute;
+      font-size: 12px;
+      color: var(--oc-gray-4);
+      left: 50%;
+      top: -15px;
+      transform: translateX(-50%);
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-left: 10px solid var(--oc-gray-4);
+      border-bottom: 5px solid transparent;
+      right: -2px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  & .repos_wrapper {
+    display: flex;
+    flex-direction: row;
+
+    & .repos {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    & .repos_yAxes {
+      width: 2px;
+      max-width: 2px;
+      flex: 1;
+      margin-left: 20px;
+      margin-right: 10px;
+      background-color: var(--oc-gray-4);
+      position: relative;
+
+      & .yAxes_text {
+        position: absolute;
+        font-size: 12px;
+        color: var(--oc-gray-4);
+        top: 50%;
+        left: 3px;
+        transform: translateY(-50%);
+        writing-mode: vertical-rl;
+      }
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 10px solid var(--oc-gray-4);
+        top: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+}
+
+/* org repos */
+.repos_item {
+  flex: 1;
+  position: relative;
+  margin-top: 10px;
+}
+
+.repos_contributions {
+  border-radius: 20px;
+  width: 100%;
+  background-color: var(--oc-gray-1);
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    & .tipso_wrapper {
+      z-index: 99;
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.repos_contributions_disabled {
+  cursor: default;
+}
+
+.user_contributions {
+  border-radius: 20px;
+  background-color: var(--oc-green-7);
+  height: 20px;
+}
+
+.contributions_chart_container {
+  width: 100%;
+  padding-bottom: 10px;
+
+  & .chart_container {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+.contribution_dates {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0 10px 0;
+}
+
+.contribution_date {
+  flex: 1;
+  color: var(--oc-gray-5);
+  font-size: 14px;
+
+  &:first-child {
+    text-align: left;
+  }
+
+  &:last-child {
+    text-align: right;
+  }
+}
+
+.repos_title {
+  font-size: 18px;
+  color: var(--oc-green-7);
+}
+
+.org_repos_infos {
+  display: flex;
+  font-size: 14px;
+  flex-direction: column;
+}
+
+.org_repos_info {
+  margin: 5px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.info_strong {
+  position: relative;
+  font-weight: bolder;
+
+  &.strong-1 {
+    color: var(--oc-yellow-4);
+  }
+
+  &.strong-2 {
+    color: var(--oc-yellow-5);
+  }
+
+  &.strong-3 {
+    color: var(--oc-yellow-6);
+  }
+
+  &.strong-4 {
+    color: var(--oc-yellow-7);
+  }
+
+  &.strong-5 {
+    color: var(--oc-yellow-8);
+  }
+}
+
+.info_tipso {
+  bottom: 120%;
+}
+
+.org_repos_desc_info {
+  composes: org_repos_info;
+  margin-top: 15px;
+
+  & blockquote {
+    color: var(--oc-gray-6);
+    border-left: 2px solid var(--oc-gray-6);
+    padding-left: 10px;
+  }
+}
+
+/* hotmap */
+.githubCalendar {
+  composes: card from 'STYLES/common.css';
+  border-color: transparent;
+  background-color: var(--oc-white);
+  text-align: center;
+  min-height: 200px;
+  padding-top: 20px;
+
+  & h2:first-child {
+    margin-bottom: 10px;
+    font-weight: 300;
+    padding-top: 10px;
+    display: none;
+  }
+}
+
+.githubHotmap {
+  overflow: hidden;
+  margin: 0 15px 5px;
+}
+
+.hotmapCards {
+  border-top: 1px solid #eaeaea;
+}
+
+.hotmapControllers {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+
+  & .hotmapController {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+
+    &:first-child {
+      justify-content: flex-start;
+      padding-left: 5px;
+    }
+
+    &:last-child {
+      justify-content: flex-end;
+      padding-right: 5px;
+    }
+
+    & i {
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+  }
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  min-height: auto;
+}
+
+/* ========== */
+
+.reposTitleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.reposLabel {
+  padding: 0 7px;
+}
+
+.languageLabel {
+  margin: 5px 7px;
+}
+
+.reposRows {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px;
+}
+
+.showMoreButton {
+  height: 30px;
+  line-height: 30px;
+  color: var(--oc-gray-5);
+  cursor: pointer;
+  text-align: center;
+  background-color: transparent;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--oc-gray-1);
+  }
+}

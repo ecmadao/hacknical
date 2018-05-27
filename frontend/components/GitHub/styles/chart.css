@@ -1,0 +1,63 @@
+@import 'open-color/open-color.css';
+
+.canvas_container {
+  padding: 20px;
+  position: relative;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+  }
+}
+
+.chart_info_container {
+  width: 100%;
+  border-bottom: 1px solid var(--oc-gray-2);
+  display: flex;
+  flex-direction: row;
+
+  &:last-child {
+    margin-bottom: 30px;
+  }
+}
+
+.chart_controllers {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: var(--zIndex9);
+  border-radius: 2px;
+  background-color: var(--oc-gray-7);
+  font-size: 12px;
+  padding: 7px;
+  color: var(--oc-gray-5);
+}
+
+.chart_controller {
+  cursor: pointer;
+
+  &.controller_active {
+    color: var(--oc-white);
+  }
+}
+
+.chart_bottom_container {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  margin-top: 10px;
+  flex-direction: row;
+
+  & .chart_bottom {
+    flex: 1;
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}

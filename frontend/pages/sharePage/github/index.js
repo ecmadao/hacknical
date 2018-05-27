@@ -2,11 +2,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GithubComponent from 'SHARED/components/GithubComponent';
+import GitHubComponent from 'SHARED/components/GitHubComponent';
 
 const renderApp = (domId, props = {}) => {
   ReactDOM.render(
-    <GithubComponent
+    <GitHubComponent
       {...props}
     />,
     document.getElementById(domId)
