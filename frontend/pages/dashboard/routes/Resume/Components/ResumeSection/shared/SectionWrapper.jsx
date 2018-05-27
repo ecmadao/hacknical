@@ -1,11 +1,10 @@
 
 import React from 'react';
-import { Button } from 'light-ui';
+import { Button, AnimationComponent } from 'light-ui';
 import cx from 'classnames';
 import SectionTip from './SectionTip';
 import locales from 'LOCALES';
 import styles from '../../../styles/resume.css';
-import AnimationComponent from 'COMPONENTS/AnimationComponent';
 
 const resumeTexts = locales('resume');
 

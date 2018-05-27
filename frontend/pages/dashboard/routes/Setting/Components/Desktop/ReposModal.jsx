@@ -10,6 +10,9 @@ import locales from 'LOCALES';
 
 const settingTexts = locales('dashboard').setting.github;
 
+// TODO:
+// Pinned ReposModal was disabled in 2018/02/06 commit:
+// Disable pinned repositories filter & fix shared page view data count issue
 class ReposModal extends React.Component {
   constructor(props) {
     super(props);

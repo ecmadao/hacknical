@@ -45,13 +45,20 @@ const SwitcherPane = (props) => {
 };
 
 const CheckPane = (props) => {
-  const { onChange, checked, text } = props;
+  const {
+    text,
+    checked,
+    onChange,
+    className
+  } = props;
+
   return (
     <div
       onClick={() => onChange(!checked)}
       className={cx(
         styles.info_container_large,
-        styles.check_info_container
+        styles.check_info_container,
+        className
       )}
     >
       <div className={styles.info}>
@@ -84,36 +91,43 @@ class Setting extends React.Component {
       return (
         <div className={styles.info_container_wrapper}>
           <CheckPane
+            className={styles.sectionCheck}
             text={settingTexts.resume.showHotmap}
             checked={resumeInfo.github.hotmap}
             onChange={shareSection('hotmap')}
           />
           <CheckPane
+            className={styles.sectionCheck}
             text={settingTexts.resume.showRepos}
             checked={resumeInfo.github.repos}
             onChange={shareSection('repos')}
           />
           <CheckPane
+            className={styles.sectionCheck}
             text={settingTexts.resume.showCourse}
             checked={resumeInfo.github.course}
             onChange={shareSection('course')}
           />
           <CheckPane
+            className={styles.sectionCheck}
             text={settingTexts.resume.showOrgs}
             checked={resumeInfo.github.orgs}
             onChange={shareSection('orgs')}
           />
           <CheckPane
+            className={styles.sectionCheck}
             text={settingTexts.resume.showLanguages}
             checked={resumeInfo.github.languages}
             onChange={shareSection('languages')}
           />
           <CheckPane
+            className={styles.sectionCheck}
             text={settingTexts.resume.showCommits}
             checked={resumeInfo.github.commits}
             onChange={shareSection('commits')}
           />
           <CheckPane
+            className={styles.sectionCheck}
             text={settingTexts.resume.showContributed}
             checked={resumeInfo.github.contributed}
             onChange={shareSection('contributed')}

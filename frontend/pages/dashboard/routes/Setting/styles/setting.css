@@ -25,6 +25,18 @@
   }
 }
 
+.sectionCheck {
+  background-color: var(--oc-gray-1) !important;
+
+  &:hover {
+    background-color: var(--oc-gray-3) !important;
+  }
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--oc-gray-3);
+  }
+}
+
 .base_container {
   &:not(:first-child) {
     border-top: 1px solid var(--oc-gray-2);

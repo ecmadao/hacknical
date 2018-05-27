@@ -7,6 +7,7 @@ import {
 import { is, sortBy } from '../utils/helper';
 import UserAPI from '../services/user';
 import StatAPI from '../services/stat';
+import logger from '../utils/logger';
 
 /* ================== private func ==================== */
 
@@ -181,10 +182,16 @@ const githubPage = async (ctx) => {
 const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session;
 
-  const records = await StatAPI.getRecords({
-    login: githubLogin,
-    type: 'github'
-  });
+  let records = [];
+  try {
+    records = await StatAPI.getRecords({
+      login: githubLogin,
+      type: 'github'
+    });
+  } catch (e) {
+    logger.error(e);
+  }
+
   const userInfo = await UserAPI.getUser({ login: githubLogin });
 
   const viewDevices = [];

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import GitHubSection from './GithubSection';
-import AnimationComponent from 'COMPONENTS/AnimationComponent';
+import { AnimationComponent } from 'light-ui';
 
 const GitHub = props => (
   <AnimationComponent>
