@@ -95,6 +95,18 @@ const postResumeShareStatus = () => (dispatch, getState) => {
   });
 };
 
+const toggleResumeReminder = enable => (dispatch, getState) => {
+  const { resumeInfo } = getState().setting;
+
+  const reminder = objectAssign({}, resumeInfo.reminder, { enable });
+
+  Api.resume.patchResumeReminder(reminder).then(() => {
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
+      reminder
+    })));
+  });
+};
+
 const postResumeReminderChange = (key, value) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const preVal = resumeInfo.reminder[key];
@@ -148,6 +160,7 @@ export default {
   fetchResumeShareInfo,
   postResumeGithubStatus,
   postResumeShareStatus,
+  toggleResumeReminder,
   postResumeReminderChange,
   toggleResumeSimplifyUrl,
   postResumeShareSection,

@@ -86,7 +86,7 @@ const datas = {
       showCommits: '展示 commit 概览',
       showContributed: '展示 对他人仓库的贡献',
       reminder: {
-        title: '定期提醒我定期维护简历',
+        title: '定期提醒我维护简历',
         sendEmailTo: '发送邮件到',
         placeholder: '接收提醒的邮箱'
       },

@@ -7,79 +7,11 @@ import settingActions from '../../redux/actions';
 import styles from '../../styles/setting.css';
 import locales from 'LOCALES';
 import { REMINDER_INTERVALS } from 'SHARED/datas/resume';
+import SwitcherPanel from './SwitcherPanel';
+import Panel from './Panel';
+import CheckPanel from './CheckPanel'
 
 const settingTexts = locales('dashboard').setting;
-
-const SwitcherPane = (props) => {
-  const {
-    text,
-    checked,
-    onChange,
-    className,
-    tipso = null,
-    disabled = false
-  } = props;
-  return (
-    <div
-      className={cx(
-        styles.info_container,
-        className
-      )}
-    >
-      <div className={styles.info}>
-        {text}
-        {tipso ? (
-          <Tipso
-            theme="dark"
-            className={styles.tipso}
-            wrapperClass={styles.tipsoWrapper}
-            tipsoContent={<span>{tipso}</span>}
-          >
-            <span className={styles.tipsoIntro}>
-              <i className="fa fa-question-circle" aria-hidden="true" />
-            </span>
-          </Tipso>
-        ) : null}
-      </div>
-      <Switcher
-        onChange={onChange}
-        checked={checked}
-        version="v2"
-        disabled={disabled}
-      />
-    </div>
-  );
-};
-
-const CheckPane = (props) => {
-  const {
-    text,
-    checked,
-    onChange,
-    className
-  } = props;
-
-  return (
-    <div
-      onClick={() => onChange(!checked)}
-      className={cx(
-        styles.info_container_large,
-        styles.check_info_container,
-        className
-      )}
-    >
-      <div className={styles.info}>
-        {text}
-      </div>
-      <div className={styles.check_container}>
-        <i
-          aria-hidden="true"
-          className={`fa fa-${checked ? 'check-square' : 'square-o'}`}
-        />
-      </div>
-    </div>
-  );
-};
 
 class Setting extends React.Component {
   constructor(props) {
@@ -101,75 +33,79 @@ class Setting extends React.Component {
 
     if (resumeInfo.useGithub && resumeInfo.github) {
       return (
-        <div className={styles.info_container_wrapper}>
-          <CheckPane
+        <Panel key="resumeGithubSetting-2">
+          <CheckPanel
             className={styles['subSection-clickable']}
             text={settingTexts.resume.showHotmap}
             checked={resumeInfo.github.hotmap}
             onChange={shareSection('hotmap')}
           />
-          <CheckPane
+          <CheckPanel
             className={styles['subSection-clickable']}
             text={settingTexts.resume.showRepos}
             checked={resumeInfo.github.repos}
             onChange={shareSection('repos')}
           />
-          <CheckPane
+          <CheckPanel
             className={styles['subSection-clickable']}
             text={settingTexts.resume.showCourse}
             checked={resumeInfo.github.course}
             onChange={shareSection('course')}
           />
-          <CheckPane
+          <CheckPanel
             className={styles['subSection-clickable']}
             text={settingTexts.resume.showOrgs}
             checked={resumeInfo.github.orgs}
             onChange={shareSection('orgs')}
           />
-          <CheckPane
+          <CheckPanel
             className={styles['subSection-clickable']}
             text={settingTexts.resume.showLanguages}
             checked={resumeInfo.github.languages}
             onChange={shareSection('languages')}
           />
-          <CheckPane
+          <CheckPanel
             className={styles['subSection-clickable']}
             text={settingTexts.resume.showCommits}
             checked={resumeInfo.github.commits}
             onChange={shareSection('commits')}
           />
-          <CheckPane
+          <CheckPanel
             className={styles['subSection-clickable']}
             text={settingTexts.resume.showContributed}
             checked={resumeInfo.github.contributed}
             onChange={shareSection('contributed')}
           />
-        </div>
+        </Panel>
       );
     }
+    return null;
   }
 
   renderResumeGithubSetting() {
     const { resumeInfo, actions } = this.props;
     const resumeInfoLoading = resumeInfo && resumeInfo.loading;
+    const panels = [];
 
-    if (resumeInfo && resumeInfo.openShare) {
-      return (
-        <div className={styles.base_container}>
-          <SwitcherPane
+    if (resumeInfo) {
+      panels.push((
+        <Panel key="resumeGithubSetting-1">
+          <SwitcherPanel
             id="use-github-switch"
             text={settingTexts.resume.useGithub}
             onChange={resumeInfoLoading ? () => {} : actions.postResumeGithubStatus}
             checked={(resumeInfo && resumeInfo.useGithub) || false}
             disabled={resumeInfoLoading}
           />
-          {resumeInfoLoading
-            ? null
-            : this.renderGithubShareSectionsSetting()
-          }
-        </div>
+        </Panel>
+      ));
+    }
+    if (!resumeInfoLoading && resumeInfo.useGithub) {
+      panels.push(
+        this.renderGithubShareSectionsSetting()
       );
     }
+    return panels;
   }
 
   postResumeReminderChange(key) {
@@ -184,44 +120,47 @@ class Setting extends React.Component {
     } = this.props;
 
     const resumeInfoLoading = resumeInfo && resumeInfo.loading;
+    const panels = [];
 
-    return (
-      <div className={styles.info_container_wrapper}>
-        <SwitcherPane
+    panels.push((
+      <Panel key="resumeReminderSetting-1">
+        <SwitcherPanel
           text={settingTexts.resume.reminder.title}
-          onChange={resumeInfoLoading
-              ? () => {}
-              : this.postResumeReminderChange('enable')}
+          onChange={actions.toggleResumeReminder}
           disabled={resumeInfoLoading || resumeInfo.disabled}
           checked={(resumeInfo && resumeInfo.reminder.enable) || false}
         />
-        {
-          resumeInfo && resumeInfo.reminder.enable ? (
-            <div className={cx(styles.info_container, styles.subSection)}>
-              <SelectorV2
-                color="white"
-                theme="flat"
-                options={REMINDER_INTERVALS}
-                value={resumeInfo.reminder.type}
-                onChange={this.postResumeReminderChange('crontab')}
-              />
-              &nbsp;
-              {settingTexts.resume.reminder.sendEmailTo}
-              &nbsp;
-              <Input
-                type="email"
-                theme="borderless"
-                subTheme="underline"
-                className={styles.sectionInput}
-                placeholder={settingTexts.resume.reminder.placeholder}
-                value={resumeInfo.reminder.email}
-                onChange={this.postResumeReminderChange('email')}
-              />
-            </div>
-          ) : null
-        }
-      </div>
-    );
+      </Panel>
+    ));
+
+    if (resumeInfo && resumeInfo.reminder.enable) {
+      panels.push((
+        <Panel key="resumeReminderSetting-2">
+          <div className={cx(styles.info_container, styles.subSection)}>
+            <SelectorV2
+              color="white"
+              theme="flat"
+              options={REMINDER_INTERVALS}
+              value={resumeInfo.reminder.type}
+              onChange={this.postResumeReminderChange('type')}
+            />
+            &nbsp;
+            {settingTexts.resume.reminder.sendEmailTo}
+            &nbsp;
+            <Input
+              type="email"
+              theme="borderless"
+              subTheme="underline"
+              className={styles.sectionInput}
+              placeholder={settingTexts.resume.reminder.placeholder}
+              value={resumeInfo.reminder.email}
+              onChange={this.postResumeReminderChange('email')}
+            />
+          </div>
+        </Panel>
+      ));
+    }
+    return panels;
   }
 
   renderResumeShareSetting() {
@@ -231,10 +170,11 @@ class Setting extends React.Component {
     } = this.props;
 
     const resumeInfoLoading = resumeInfo && resumeInfo.loading;
+    const panels = [];
 
-    return (
-      <div className={styles.info_container_wrapper}>
-        <SwitcherPane
+    panels.push((
+      <Panel key="resumeShareSetting-1">
+        <SwitcherPanel
           text={settingTexts.resume.openShare}
           onChange={resumeInfoLoading
               ? () => {}
@@ -242,21 +182,30 @@ class Setting extends React.Component {
           disabled={resumeInfoLoading || resumeInfo.disabled}
           checked={(resumeInfo && resumeInfo.openShare) || false}
         />
-        {resumeInfo && resumeInfo.openShare ? (
-          <SwitcherPane
+      </Panel>
+    ));
+
+    if (resumeInfo && resumeInfo.openShare) {
+      let tip = settingTexts.resume.simplifyUrlTip;
+      tip = tip.replace(':login', resumeInfo.login);
+      tip = tip.replace(':hash', resumeInfo.resumeHash);
+
+      panels.push((
+        <Panel key="resumeShareSetting-2">
+          <SwitcherPanel
             className={styles.subSection}
             text={settingTexts.resume.simplifyUrl}
-            tipso={settingTexts.resume.simplifyUrlTip}
+            tipso={tip}
             onChange={resumeInfoLoading
                 ? () => {}
                 : actions.toggleResumeSimplifyUrl}
             disabled={resumeInfoLoading || resumeInfo.disabled}
             checked={resumeInfo && resumeInfo.simplifyUrl}
           />
-        ) : null}
-        {this.renderResumeGithubSetting()}
-      </div>
-    );
+        </Panel>
+      ));
+    }
+    return panels;
   }
 
   render() {
@@ -277,15 +226,17 @@ class Setting extends React.Component {
             &nbsp;&nbsp;{settingTexts.github.title}
           </p>
           <div className={styles.card}>
-            <div className={styles.info_container_wrapper}>
-              <SwitcherPane
+
+            <Panel>
+              <SwitcherPanel
                 text={settingTexts.github.openShare}
                 onChange={actions.postGithubShareStatus}
                 checked={githubInfo.openShare}
                 disabled={githubInfo.loading}
               />
-            </div>
-            <div className={styles.info_container_wrapper}>
+            </Panel>
+
+            <Panel>
               {loading ? (
                 <Loading className={styles.info_loading} loading />
               ) : null}
@@ -300,7 +251,8 @@ class Setting extends React.Component {
                   onClick={actions.refreshGithubDatas}
                 />
               </div>
-            </div>
+            </Panel>
+
           </div>
         </div>
         <div className={styles.card_container}>
@@ -317,6 +269,7 @@ class Setting extends React.Component {
             ) : null}
             {this.renderResumeReminderSetting()}
             {this.renderResumeShareSetting()}
+            {this.renderResumeGithubSetting()}
           </div>
         </div>
       </div>
@@ -325,9 +278,7 @@ class Setting extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    ...state.setting
-  };
+  return { ...state.setting };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -26,6 +26,7 @@ const getResumeShareStatus = (resumeInfo, locale) => {
   } = resumeInfo;
 
   return {
+    login,
     github,
     locale,
     template,
@@ -314,8 +315,6 @@ const setResumeInfo = async (ctx) => {
   };
 };
 
-// TODO:
-// check email and crontab
 const setResumeReminder = async (ctx) => {
   const { reminder } = ctx.request.body;
   const { userId, githubLogin } = ctx.session;

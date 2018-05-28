@@ -1,0 +1,34 @@
+
+@import 'open-color/open-color.css';
+
+.panel {
+  width: 100%;
+  position: relative;
+  background-color: var(--oc-white);
+  transition: transform 0.25s, opacity 0.25s;
+  opacity: 1;
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--oc-gray-2);
+  }
+}
+
+.panel-hidden {
+  opacity: 0;
+  transform: translateY(-10%);
+}
+
+.panel-entering {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.panel-entered {
+  opacity: 1;
+  transform: inherit;
+}
+
+.panel-exiting {
+  opacity: 0;
+  transform: translateY(-10%);
+}

@@ -84,6 +84,8 @@ const reducers = handleActions({
       disabled: false,
       github: result.github,
       reminder: result.reminder,
+      login: result.login,
+      resumeHash: result.resumeHash,
     }) : objectAssign({}, info, {
       loading: false,
       disabled: true,

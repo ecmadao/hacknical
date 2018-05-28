@@ -93,6 +93,7 @@ class ShareModal extends React.Component {
                 id="shareUrl"
                 theme="flat"
                 value={link}
+                className={styles.shareInput}
               />
               <IconButton
                 color="gray"

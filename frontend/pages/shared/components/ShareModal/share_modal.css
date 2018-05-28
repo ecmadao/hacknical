@@ -73,11 +73,15 @@
 .share_container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .copy_button {
   cursor: pointer;
   padding: 0 10px;
+}
+
+.shareInput {
+  max-width: 150px;
 }
