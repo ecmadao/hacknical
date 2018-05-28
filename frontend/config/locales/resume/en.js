@@ -119,6 +119,12 @@ const datas = {
       doctor: 'Doctor',
       others: 'Others'
     },
+    reminders: {
+      quarterly: 'Quarterly',
+      monthly: 'Monthly',
+      weekly: 'Weekly',
+      days3: 'Every 3 days'
+    },
     view: 'Check %s GitHub visualize report',
     back: 'Back'
   },

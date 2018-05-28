@@ -46,6 +46,11 @@ router.patch('/info',
   check.body('info'),
   Resume.setResumeInfo,
 );
+router.patch('/reminder',
+  user.checkSession(session.requiredSessions),
+  check.body('reminder'),
+  Resume.setResumeReminder,
+);
 
 router.get('/shared/public',
   check.query('hash'),

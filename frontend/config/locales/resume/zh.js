@@ -133,6 +133,12 @@ const datas = {
       doctor: '博士',
       others: '其他'
     },
+    reminders: {
+      quarterly: '每季度',
+      monthly: '每月',
+      weekly: '每周',
+      days3: '每三天'
+    },
     view: '查看%s的 GitHub 总结报告',
     back: '返回'
   },

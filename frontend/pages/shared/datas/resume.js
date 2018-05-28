@@ -3,6 +3,7 @@ import locales from 'LOCALES';
 const resumeTexts = locales('resume');
 const navTexts = resumeTexts.navs;
 const genderTexts = resumeTexts.options.genders;
+const reminderTexts = resumeTexts.options.reminders;
 const eduTexts = resumeTexts.options.edus;
 
 const RESUME_SECTION_IDS = {
@@ -12,6 +13,32 @@ const RESUME_SECTION_IDS = {
   PERSONAL_PROJECTS: 'personalProjects',
   OTHERS: 'others',
 };
+
+const REMINDER_CRON_TYPES = {
+  QUARTERLY: 'quarterly',
+  MONTHLY: 'monthly',
+  WEEKLY: 'weekly',
+  DAYS3: 'days3',
+};
+
+export const REMINDER_INTERVALS = [
+  {
+    id: REMINDER_CRON_TYPES.QUARTERLY,
+    value: reminderTexts.quarterly
+  },
+  {
+    id: REMINDER_CRON_TYPES.MONTHLY,
+    value: reminderTexts.monthly
+  },
+  {
+    id: REMINDER_CRON_TYPES.WEEKLY,
+    value: reminderTexts.weekly
+  },
+  {
+    id: REMINDER_CRON_TYPES.DAYS3,
+    value: reminderTexts.days3
+  },
+];
 
 export const RESUME_SECTIONS = {
   normal: [

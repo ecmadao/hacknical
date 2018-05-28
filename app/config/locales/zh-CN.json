@@ -58,7 +58,8 @@
       "frequent": "更新过于频繁，请在 %s 分钟后稍后重试",
       "update": "数据更新失败",
 			"resume": "没有找到简历",
-			"emptyResume": "请先创建简历"
+			"emptyResume": "请先创建简历",
+			"invalidateEmail": "请填写正确的邮箱"
     },
 		"success": {
       "save": "储存成功",

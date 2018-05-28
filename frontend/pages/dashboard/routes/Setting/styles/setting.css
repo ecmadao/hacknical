@@ -25,8 +25,17 @@
   }
 }
 
-.sectionCheck {
+.subSection {
   background-color: var(--oc-gray-1) !important;
+}
+
+.sectionInput {
+  max-width: 250px;
+  flex: 1;
+}
+
+.subSection-clickable {
+  composes: subSection;
 
   &:hover {
     background-color: var(--oc-gray-3) !important;

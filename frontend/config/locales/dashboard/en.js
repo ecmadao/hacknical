@@ -85,6 +85,11 @@ const datas = {
       showLanguages: 'Show languages',
       showCommits: 'Show commits',
       showContributed: 'Show contributed repos',
+      reminder: {
+        title: 'Remind me update my resume',
+        sendEmailTo: 'Send email to',
+        placeholder: 'your email address'
+      },
     }
   }
 };

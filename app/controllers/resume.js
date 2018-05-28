@@ -17,6 +17,7 @@ const getResumeShareStatus = (resumeInfo, locale) => {
   const {
     login,
     github,
+    reminder,
     template,
     useGithub,
     resumeHash,
@@ -28,6 +29,7 @@ const getResumeShareStatus = (resumeInfo, locale) => {
     github,
     locale,
     template,
+    reminder,
     openShare,
     useGithub,
     resumeHash,
@@ -312,6 +314,24 @@ const setResumeInfo = async (ctx) => {
   };
 };
 
+// TODO:
+// check email and crontab
+const setResumeReminder = async (ctx) => {
+  const { reminder } = ctx.request.body;
+  const { userId, githubLogin } = ctx.session;
+
+  const result = await UserAPI.patchResumeReminder({
+    reminder,
+    userId,
+    login: githubLogin
+  });
+
+  ctx.body = {
+    result,
+    success: true,
+  };
+};
+
 export default {
   // ============
   getResume,
@@ -326,4 +346,5 @@ export default {
   // ============
   getResumeInfo,
   setResumeInfo,
+  setResumeReminder
 };

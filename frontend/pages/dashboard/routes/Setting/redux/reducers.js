@@ -11,6 +11,7 @@ const initialState = {
     useGithub: false,
     openShare: false,
     github: {},
+    reminder: {},
     disabled: true,
     simplifyUrl: true,
   },
@@ -82,6 +83,7 @@ const reducers = handleActions({
       loading: false,
       disabled: false,
       github: result.github,
+      reminder: result.reminder,
     }) : objectAssign({}, info, {
       loading: false,
       disabled: true,

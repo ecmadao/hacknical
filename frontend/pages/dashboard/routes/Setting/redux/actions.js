@@ -76,6 +76,7 @@ const fetchResumeShareInfo = () => (dispatch) => {
 const postResumeGithubStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { useGithub } = resumeInfo;
+
   Api.resume.patchResumeInfo({ useGithub: !useGithub }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       useGithub: !useGithub
@@ -86,6 +87,7 @@ const postResumeGithubStatus = () => (dispatch, getState) => {
 const postResumeShareStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { openShare } = resumeInfo;
+
   Api.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       openShare: !openShare
@@ -93,9 +95,24 @@ const postResumeShareStatus = () => (dispatch, getState) => {
   });
 };
 
+const postResumeReminderChange = (key, value) => (dispatch, getState) => {
+  const { resumeInfo } = getState().setting;
+  const preVal = resumeInfo.reminder[key];
+  if (preVal === value) return;
+
+  const reminder = objectAssign({}, resumeInfo.reminder, { [key]: value });
+
+  Api.resume.patchResumeReminder({ [key]: value }).then(() => {
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
+      reminder
+    })));
+  });
+};
+
 const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
   const { simplifyUrl } = resumeInfo;
+
   Api.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       simplifyUrl: !simplifyUrl
@@ -105,10 +122,11 @@ const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
 
 const postResumeShareSection = (section, checked) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
-  const githubInfo = objectAssign({}, resumeInfo.github, { [section]: checked });
-  Api.resume.patchResumeInfo({ github: githubInfo }).then(() => {
+  const github = objectAssign({}, resumeInfo.github, { [section]: checked });
+
+  Api.resume.patchResumeInfo({ github }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      github: githubInfo
+      github
     })));
   });
 };
@@ -130,6 +148,7 @@ export default {
   fetchResumeShareInfo,
   postResumeGithubStatus,
   postResumeShareStatus,
+  postResumeReminderChange,
   toggleResumeSimplifyUrl,
   postResumeShareSection,
 };

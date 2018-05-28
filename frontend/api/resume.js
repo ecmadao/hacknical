@@ -17,6 +17,7 @@ const getResumeInfo = (options = {}) => {
 };
 
 const patchResumeInfo = info => patchData('/resume/info', { info });
+const patchResumeReminder = reminder => patchData('/resume/reminder', { reminder });
 
 const getShareRecords = () => getData('/resume/records');
 
@@ -28,6 +29,7 @@ export default {
   download,
   getPubResume,
   patchResumeInfo,
+  patchResumeReminder,
   getResumeInfo,
   getShareRecords,
 };

@@ -4,7 +4,7 @@ import logger from './logger';
 import getSignature from './signature';
 
 const name = config.get('appName');
-const REQUEST_JSON_METHODS = ['PUT', 'POST', 'DELETE'];
+const REQUEST_JSON_METHODS = ['PUT', 'POST', 'DELETE', 'PATCH'];
 
 const verify = (options = {}, appName = name) => {
   if (!options.headers) options.headers = {};
@@ -87,6 +87,10 @@ export default {
   },
   delete: (options, timeouts) => {
     options.method = 'DELETE';
+    return fetch(options, timeouts);
+  },
+  patch: (options, timeouts) => {
+    options.method = 'PATCH';
     return fetch(options, timeouts);
   },
 };

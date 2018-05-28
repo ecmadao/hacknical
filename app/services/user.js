@@ -89,6 +89,17 @@ const setResumeInfo = ({ userId, login, info }) =>
     baseUrl: BASE_RESUME_URL
   });
 
+const patchResumeReminder = ({ userId, login, reminder }) =>
+  fetchApi('/reminder', {
+    body: {
+      login,
+      userId,
+      reminder,
+    },
+    method: 'patch',
+    baseUrl: BASE_RESUME_URL
+  });
+
 const getResumeCount = () => getFromCache('/count', {
   baseUrl: BASE_RESUME_URL
 });
@@ -106,4 +117,5 @@ export default {
   /* ===== resume info ===== */
   getResumeInfo,
   setResumeInfo,
+  patchResumeReminder,
 };

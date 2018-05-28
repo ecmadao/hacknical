@@ -58,7 +58,8 @@
       "frequent": "Request frequently, please retry %s min later",
       "update": "Update failed",
       "resume": "Can not find your resume",
-      "emptyResume": "Please create your resume"
+      "emptyResume": "Please create your resume",
+      "invalidateEmail": "Invalidate email"
     },
     "success": {
       "save": "Save succeeded",
