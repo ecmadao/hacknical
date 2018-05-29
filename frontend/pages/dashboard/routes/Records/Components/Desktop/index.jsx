@@ -7,31 +7,16 @@ import styles from '../../styles/records.css';
 import locales from 'LOCALES';
 import ShareRecords from './ShareRecords';
 import { RECORDS_SECTIONS } from '../../shared/data';
+import Navigation from 'COMPONENTS/Navigation';
+import { AnimationComponent } from 'light-ui';
 
 const recordsTexts = locales('dashboard').records;
+const sections = Object.keys(RECORDS_SECTIONS).map(key => ({
+  id: RECORDS_SECTIONS[key].ID,
+  text: RECORDS_SECTIONS[key].TEXT,
+}));
 
 class Records extends React.Component {
-  renderNavigation() {
-    const { activeTab, actions } = this.props;
-    return Object.keys(RECORDS_SECTIONS).map((key, index) => {
-      const { ID, TEXT } = RECORDS_SECTIONS[key];
-      const sectionClass = cx(
-        styles.section,
-        activeTab === ID && styles.active
-      );
-      return (
-        <div className={sectionClass} key={index}>
-          <div
-            className={styles.section_wrapper}
-            onClick={() => actions.onAnalysisDataTabChange(ID)}
-          >
-            {TEXT}
-          </div>
-        </div>
-      );
-    });
-  }
-
   get actions() {
     const { actions, activeTab } = this.props;
     const sectionActions = {
@@ -57,27 +42,29 @@ class Records extends React.Component {
   }
 
   render() {
-    const { activeTab } = this.props;
+    const { activeTab, actions } = this.props;
 
     return (
       <div className={styles.container}>
-        <div className={styles.navigation}>
-          {this.renderNavigation()}
-        </div>
-        <ShareRecords
-          actions={this.actions}
-          index={activeTab}
-          {...this.analysisProps}
+        <Navigation
+          sections={sections}
+          activeSection={activeTab}
+          handleSectionChange={actions.onAnalysisDataTabChange}
         />
+        <AnimationComponent>
+          <ShareRecords
+            actions={this.actions}
+            index={activeTab}
+            {...this.analysisProps}
+          />
+        </AnimationComponent>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    ...state.records
-  };
+  return { ...state.records };
 }
 
 function mapDispatchToProps(dispatch) {

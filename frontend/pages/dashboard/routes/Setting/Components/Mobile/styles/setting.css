@@ -71,3 +71,7 @@
   border: 1px solid var(--oc-gray-4);
   border-radius: 2px;
 }
+
+.subRow {
+  background-color: var(--oc-gray-1) !important;
+}

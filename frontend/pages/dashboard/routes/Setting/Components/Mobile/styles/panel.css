@@ -1,0 +1,29 @@
+
+@import 'open-color/open-color.css';
+
+.panel {
+  position: relative;
+  background-color: var(--oc-white);
+  transition: transform 0.25s, opacity 0.25s;
+  opacity: 1;
+}
+
+.panel-hidden {
+  opacity: 0;
+  transform: translateY(-10%);
+}
+
+.panel-entering {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.panel-entered {
+  opacity: 1;
+  transform: inherit;
+}
+
+.panel-exiting {
+  opacity: 0;
+  transform: translateY(-10%);
+}

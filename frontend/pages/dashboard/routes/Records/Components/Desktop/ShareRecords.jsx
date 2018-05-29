@@ -291,14 +291,21 @@ class ShareRecords extends React.Component {
   }
 
   render() {
-    const { loading, info } = this.props;
+    const { loading, info, status, onTransitionEnd } = this.props;
     const controllerClass = cx(
       styles.share_controller_card,
       !info.openShare && styles.disabled
     );
     const config = getPVStockConfig(this.pageViewsData);
     return (
-      <div className={styles.card_container}>
+      <div
+        className={cx(
+          styles.card_container,
+          styles.recordsContainer,
+          styles[`recordsContainer-${status}`]
+        )}
+        onTransitionEnd={onTransitionEnd}
+      >
         {loading ? '' : (
           <div className={controllerClass}>
             {this.renderShareController()}

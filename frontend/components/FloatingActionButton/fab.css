@@ -1,0 +1,25 @@
+
+.fab {
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 1;
+}
+
+.fab-hidden {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.fab-entering {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fab-entered {
+  opacity: 1;
+  transform: inherit;
+}
+
+.fab-exiting {
+  opacity: 0;
+  transform: scale(0.5);
+}

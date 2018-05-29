@@ -1,65 +1,20 @@
 import React from 'react';
 import cx from 'classnames';
-import Clipboard from 'clipboard';
-import { IconButton, Switcher, Input } from 'light-ui';
+import { IconButton } from 'light-ui';
 import objectAssign from 'UTILS/object-assign';
 import Api from 'API';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
 import locales from 'LOCALES';
-import message from 'SHARED/utils/message';
 import HeartBeat from 'UTILS/heartbeat';
+import SwitcherPanel from './SwitcherPanel';
+import SettingPanel from './SettingPanel';
+import InputPanel from './InputPanel';
 
 const modalTexts = locales('shareModal');
 const settingTexts = locales('dashboard').setting;
 
-const SwitcherPane = (props) => {
-  const {
-    text,
-    checked,
-    onChange,
-    disabled = false
-  } = props;
-  return (
-    <div className={styles.itemPane}>
-      <div className={styles.paneTextContainer}>
-        {text}
-      </div>
-      <Switcher
-        size="small"
-        version="v3"
-        onChange={onChange}
-        checked={checked}
-        disabled={disabled}
-      />
-    </div>
-  );
-};
-
-const SettingPane = (props) => {
-  const {
-    title,
-    children,
-    sectionClassName = '',
-  } = props;
-  return (
-    <div className={styles.paneContainer}>
-      <div className={styles.paneHeader}>
-        {title}
-      </div>
-      <div
-        className={cx(
-          sharedStyles.mobile_card,
-          styles.settingSection,
-          sectionClassName
-        )}
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
 
 class MobileSetting extends React.Component {
   constructor(props) {
@@ -92,16 +47,6 @@ class MobileSetting extends React.Component {
   }
 
   componentDidMount() {
-    this.renderClipboard({
-      which: 'githubClipboard',
-      inputId: 'githubShareUrl',
-      buttonId: 'githubCopyButton',
-    });
-    this.renderClipboard({
-      which: 'resumeClipboard',
-      inputId: 'resumeShareUrl',
-      buttonId: 'resumeCopyButton',
-    });
     Api.github.updateStatus().then((result) => {
       this.setUpdateStatus(result);
     });
@@ -110,47 +55,6 @@ class MobileSetting extends React.Component {
     });
     Api.resume.getResumeInfo().then((result) => {
       this.initialResumeInfo(result);
-    });
-  }
-
-  componentDidUpdate() {
-    this.removeClipboard('githubClipboard');
-    this.removeClipboard('resumeClipboard');
-    this.renderClipboard({
-      which: 'githubClipboard',
-      inputId: 'githubShareUrl',
-      buttonId: 'githubCopyButton',
-    });
-    this.renderClipboard({
-      which: 'resumeClipboard',
-      inputId: 'resumeShareUrl',
-      buttonId: 'resumeCopyButton',
-    });
-  }
-
-  componentWillUnmount() {
-    this.removeClipboard('githubClipboard');
-    this.removeClipboard('resumeClipboard');
-  }
-
-  removeClipboard(which) {
-    this[which] && this[which].destroy();
-  }
-
-  renderClipboard(options) {
-    const {
-      which,
-      inputId,
-      buttonId,
-    } = options;
-    this[which] = new Clipboard(`#${buttonId}`, {
-      text: () => $(`#${inputId}`).val()
-    });
-    this[which].on('success', () => {
-      message.notice(modalTexts.notice.copy, 1800);
-    });
-    this[which].on('error', () => {
-      message.error(modalTexts.error.copy, 1800);
     });
   }
 
@@ -269,30 +173,6 @@ class MobileSetting extends React.Component {
     });
   }
 
-  renderClipInput(options) {
-    const {
-      url, inputId, buttonId, disabled
-    } = options;
-    const { login } = this.props;
-    return (
-      <div className={styles.itemPane}>
-        <Input
-          id={inputId}
-          theme="flat"
-          disabled={disabled}
-          className={disabled ? styles.shareDisabled : ''}
-          value={url}
-        />
-        <IconButton
-          color="gray"
-          icon="clipboard"
-          id={buttonId}
-          disabled={disabled}
-        />
-      </div>
-    );
-  }
-
   render() {
     const {
       loading,
@@ -305,7 +185,7 @@ class MobileSetting extends React.Component {
 
     return (
       <div className={styles.setting}>
-        <SettingPane title={settingTexts.refresh}>
+        <SettingPanel title={settingTexts.refresh}>
           <div className={styles.paneTextContainer}>
             {updateTime}<br />
             <span>
@@ -319,45 +199,47 @@ class MobileSetting extends React.Component {
             className={styles.iconButton}
             onClick={this.refreshGithubDatas}
           />
-        </SettingPane>
-        <SettingPane title={settingTexts.shareConfig} sectionClassName={styles.settingRow}>
-          <SwitcherPane
+        </SettingPanel>
+        <SettingPanel title={settingTexts.shareConfig} sectionClassName={styles.settingRow}>
+          <SwitcherPanel
             text={settingTexts.github.openShare}
             onChange={this.postGithubShareStatus}
             checked={githubInfo.openShare}
             disabled={githubInfo.loading || githubInfo.disabled}
           />
-          <SwitcherPane
+          <SwitcherPanel
             text={settingTexts.resume.openShare}
             onChange={this.postResumeShareStatus}
             checked={resumeInfo.openShare}
             disabled={resumeInfo.loading || resumeInfo.disabled}
           />
           {resumeInfo.openShare ? (
-            <SwitcherPane
+            <SwitcherPanel
               text={settingTexts.resume.simplifyUrl}
               onChange={this.toggleResumeSimplifyUrl}
               checked={resumeInfo.simplifyUrl}
               disabled={resumeInfo.loading || resumeInfo.disabled}
             />
           ) : null}
-        </SettingPane>
-        <SettingPane title={settingTexts.shareUrl} sectionClassName={styles.settingRow}>
-          {this.renderClipInput({
-            inputId: 'githubShareUrl',
-            buttonId: 'githubCopyButton',
-            disabled: !githubInfo.openShare,
-            url: `${window.location.host}/${githubInfo.url}`
-          })}
-          {this.renderClipInput({
-            inputId: 'resumeShareUrl',
-            buttonId: 'resumeCopyButton',
-            disabled: !resumeInfo.openShare,
-            url: resumeInfo.simplifyUrl
+        </SettingPanel>
+        <SettingPanel title={settingTexts.shareUrl} sectionClassName={styles.settingRow}>
+          <InputPanel
+            inputId="githubShareUrl"
+            buttonId="githubCopyButton"
+            disabled={!githubInfo.openShare}
+            url={`${window.location.host}/${githubInfo.url}`}
+          />
+          <InputPanel
+            inputId="resumeShareUrl"
+            buttonId="resumeCopyButton"
+            disabled={!resumeInfo.openShare}
+            url={
+              resumeInfo.simplifyUrl
               ? `${window.location.host}/${login}/resume?locale=${locale}`
               : `${window.location.host}/resume/${resumeInfo.hash}?locale=${locale}`
-          })}
-        </SettingPane>
+            }
+          />
+        </SettingPanel>
       </div>
     );
   }

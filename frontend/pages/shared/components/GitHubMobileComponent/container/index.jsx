@@ -6,7 +6,8 @@ import cx from 'classnames';
 import Headroom from 'headroom.js';
 import objectAssign from 'UTILS/object-assign';
 import ScrollReveal from 'scrollreveal';
-import { Loading, InfoCard, CardGroup, FloatingActionButton } from 'light-ui';
+import { Loading, InfoCard, CardGroup } from 'light-ui';
+import FAB from 'COMPONENTS/FloatingActionButton';
 
 import Api from 'API';
 import github from 'UTILS/github';
@@ -634,7 +635,7 @@ class GitHubMobileComponent extends React.Component {
 
         {isAdmin && !isShare ? (
           <div ref={ref => (this.refreshButton = ref)}>
-            <FloatingActionButton
+            <FAB
               icon="refresh"
               color="dark"
               onClick={this.refreshGithubDatas}

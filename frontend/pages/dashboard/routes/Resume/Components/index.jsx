@@ -16,6 +16,7 @@ import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
 import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter';
 import message from 'SHARED/utils/message';
+import Navigation from 'COMPONENTS/Navigation';
 
 const resumeTexts = locales('resume');
 const editedConfirm = resumeTexts.editedConfirm
@@ -29,6 +30,8 @@ class Resume extends React.Component {
       openShareModal: false,
       openTemplateModal: false,
     };
+
+    this.navigationInit = false;
     this.onBeforeUnload = this.onBeforeUnload.bind(this);
     this.downloadResume = this.downloadResume.bind(this);
     this.handlePreview = this.handlePreview.bind(this);
@@ -41,26 +44,6 @@ class Resume extends React.Component {
   }
 
   componentDidMount() {
-    const $navigation = $('#resume_navigation');
-    const navTop = $navigation.offset().top;
-    const $document = $(document);
-    $(window).scroll(() => {
-      const currentTop = $document.scrollTop();
-      if (currentTop + 80 + 65 >= navTop) {
-        const navLeft = $navigation.offset().left;
-        $navigation.css({
-          position: 'fixed',
-          left: navLeft,
-          top: 80
-        });
-      } else {
-        $navigation.css({
-          position: 'absolute',
-          left: -120,
-          top: 63
-        });
-      }
-    });
     this.props.actions.fetchResume();
     this.props.actions.fetchPubResumeStatus();
     this.bindHotkeys();
@@ -69,6 +52,32 @@ class Resume extends React.Component {
       window.addEventListener('beforeunload', this.onBeforeUnload, true);
     } else {
       window.attachEvent('onbeforeunload', this.onBeforeUnload);
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.navigationInit && $('#resume_navigation').length) {
+      this.navigationInit = true;
+      const $navigation = $('#resume_navigation');
+      const navTop = $navigation.offset().top;
+      const $document = $(document);
+      $(window).scroll(() => {
+        const currentTop = $document.scrollTop();
+        if (currentTop + 80 + 65 >= navTop) {
+          const navLeft = $navigation.offset().left;
+          $navigation.css({
+            position: 'fixed',
+            left: navLeft,
+            top: 80
+          });
+        } else {
+          $navigation.css({
+            position: 'absolute',
+            left: -120,
+            top: 63
+          });
+        }
+      });
     }
   }
 
@@ -141,28 +150,6 @@ class Resume extends React.Component {
     this.props.actions.handleActiveSectionChange(id);
   }
 
-  renderNavigation() {
-    const { resume } = this.props;
-    const { activeSection, sections } = resume;
-    return sections.map((section, index) => {
-      const { id, text } = section;
-      const sectionClass = cx(
-        styles.resume_section,
-        activeSection === id && styles.active
-      );
-      return (
-        <div className={sectionClass} key={index}>
-          <div
-            className={styles.section_wrapper}
-            onClick={() => this.handleSectionChange(id)}
-          >
-            {text}
-          </div>
-        </div>
-      );
-    });
-  }
-
   get currentIndex() {
     const { activeSection, sections } = this.props.resume;
     let currentIndex = 0;
@@ -206,9 +193,12 @@ class Resume extends React.Component {
 
     return (
       <div className={styles.resume_container}>
-        <div id="resume_navigation" className={styles.resume_navigation}>
-          {this.renderNavigation()}
-        </div>
+        <Navigation
+          id="resume_navigation"
+          sections={sections}
+          activeSection={activeSection}
+          handleSectionChange={this.handleSectionChange}
+        />
         <div className={styles.resume_operations}>
           <div className={styles.operations_wrapper}>
             <IconButton

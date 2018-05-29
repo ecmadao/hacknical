@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
-import { FloatingActionButton } from 'light-ui';
+import FAB from 'COMPONENTS/FloatingActionButton';
 import Api from 'API';
 import GitHub from 'COMPONENTS/GitHub';
 import ShareModal from 'SHARED/components/ShareModal';
@@ -481,7 +481,7 @@ class GitHubComponent extends React.Component {
           />
         ) : ''}
         {!isShare ? (
-          <FloatingActionButton
+          <FAB
             icon="share-alt"
             style={{
               position: 'fixed',

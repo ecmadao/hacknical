@@ -45,7 +45,7 @@
 
 .container-exiting {
   opacity: 0;
-  transform: scale(0.9);
+  transform: translateY(-15%);
 }
 
 .empty_card {
