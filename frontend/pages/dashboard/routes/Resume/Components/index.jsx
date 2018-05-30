@@ -31,7 +31,7 @@ class Resume extends React.Component {
       openTemplateModal: false,
     };
 
-    this.navigationInit = false;
+    this.$navigation = null;
     this.onBeforeUnload = this.onBeforeUnload.bind(this);
     this.downloadResume = this.downloadResume.bind(this);
     this.handlePreview = this.handlePreview.bind(this);
@@ -56,22 +56,21 @@ class Resume extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.navigationInit && $('#resume_navigation').length) {
-      this.navigationInit = true;
-      const $navigation = $('#resume_navigation');
-      const navTop = $navigation.offset().top;
+    if (!this.$navigation && $('#resume_navigation').length) {
+      this.$navigation = $('#resume_navigation');
+      const navTop = this.$navigation.offset().top;
       const $document = $(document);
       $(window).scroll(() => {
         const currentTop = $document.scrollTop();
         if (currentTop + 80 + 65 >= navTop) {
-          const navLeft = $navigation.offset().left;
-          $navigation.css({
+          const navLeft = this.$navigation.offset().left;
+          this.$navigation.css({
             position: 'fixed',
             left: navLeft,
             top: 80
           });
         } else {
-          $navigation.css({
+          this.$navigation.css({
             position: 'absolute',
             left: -120,
             top: 63
