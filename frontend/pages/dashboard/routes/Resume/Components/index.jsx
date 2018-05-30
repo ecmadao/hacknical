@@ -31,7 +31,6 @@ class Resume extends React.Component {
       openTemplateModal: false,
     };
 
-    this.$navigation = null;
     this.onBeforeUnload = this.onBeforeUnload.bind(this);
     this.downloadResume = this.downloadResume.bind(this);
     this.handlePreview = this.handlePreview.bind(this);
@@ -52,31 +51,6 @@ class Resume extends React.Component {
       window.addEventListener('beforeunload', this.onBeforeUnload, true);
     } else {
       window.attachEvent('onbeforeunload', this.onBeforeUnload);
-    }
-  }
-
-  componentDidUpdate() {
-    if (!this.$navigation && $('#resume_navigation').length) {
-      this.$navigation = $('#resume_navigation');
-      const navTop = this.$navigation.offset().top;
-      const $document = $(document);
-      $(window).scroll(() => {
-        const currentTop = $document.scrollTop();
-        if (currentTop + 80 + 65 >= navTop) {
-          const navLeft = this.$navigation.offset().left;
-          this.$navigation.css({
-            position: 'fixed',
-            left: navLeft,
-            top: 80
-          });
-        } else {
-          this.$navigation.css({
-            position: 'absolute',
-            left: -120,
-            top: 63
-          });
-        }
-      });
     }
   }
 
@@ -193,6 +167,7 @@ class Resume extends React.Component {
     return (
       <div className={styles.resume_container}>
         <Navigation
+          fixed
           id="resume_navigation"
           sections={sections}
           activeSection={activeSection}
