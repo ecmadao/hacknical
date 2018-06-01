@@ -30,10 +30,10 @@ class MessageQueue {
       qname = mqName
     } = options;
     if (!message) return;
-    logger.info(`[MQ:SEND][${message}]`);
+    logger.info(`[MQ:SEND][${qname}:${JSON.stringify(message)}]`);
     return wrap(this.mq.sendMessage, {
       qname,
-      message
+      message: JSON.stringify(message)
     });
   }
 }

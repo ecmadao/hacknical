@@ -1,9 +1,7 @@
 
 import config from 'config';
-import { wrapMsg } from './shared';
 
-const slack = config.get('services.slack');
-const slackUrl = slack.url;
+const slack = config.get('services.messenger.slack');
 const qName = config.get('mq.channels')['qname-messenger'];
 
 class SlackMsg {
@@ -17,15 +15,15 @@ class SlackMsg {
     this._scientificMsg = this._scientificMsg.bind(this);
   }
 
-  send(msg) {
-    if (!slackUrl) return;
+  async send(msg) {
     const message = this.format(msg);
-    this.mq.sendMessage({
-      message: wrapMsg({
-        message,
-        url: slackUrl,
+
+    slack.channel && await this.mq.sendMessage({
+      message: {
+        data: message,
         type: 'slack',
-      }),
+        channel: slack.channel
+      },
       qname: qName
     });
   }

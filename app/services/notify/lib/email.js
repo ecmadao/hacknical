@@ -1,57 +1,33 @@
 
 import config from 'config';
-import { wrapMsg } from './shared';
 
-const sendcloud = config.get('services.sendcloud');
+const email = config.get('services.messenger.email');
 const qName = config.get('mq.channels')['qname-messenger'];
-const EMAIL_URL = sendcloud.url;
-const API_USER = sendcloud.user;
-const API_KEY = sendcloud.key;
-const REPLY_TO = sendcloud.replyTo;
-const TEMPLATES = sendcloud.templates;
 
 class EmailMsg {
   constructor(mq) {
     this.mq = mq;
   }
 
-  send(options = {}) {
-    if (!EMAIL_URL) return;
+  async send(options = {}) {
     const {
       to,
       msg,
-      template,
-      // msg = { '%url%': [homepage] },
+      template = email.template,
     } = options;
-    const templateOptions = this._getOptions(template);
-    const sendOptions = Object.assign({}, {
-      replyTo: REPLY_TO,
-      apiUser: API_USER,
-      apiKey: API_KEY,
-      subject: 'welcome to hacknical'
-    }, templateOptions, {
-      xsmtpapi: JSON.stringify({
-        to: [to],
-        sub: msg
-      }),
-    });
-    this.mq.sendMessage({
-      message: wrapMsg({
-        message: sendOptions,
-        type: 'email',
-        url: EMAIL_URL,
-      }),
+
+    email.channel && await this.mq.sendMessage({
+      message: {
+        data: {
+          to,
+          msg,
+          template,
+        },
+        type: email.type,
+        channel: email.channel
+      },
       qname: qName
     });
-  }
-
-  _getOptions(templateKey) {
-    const template = TEMPLATES[templateKey] || {};
-    return {
-      templateInvokeName: template.id,
-      fromName: template.fromName,
-      from: template.from
-    };
   }
 }
 

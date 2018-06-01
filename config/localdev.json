@@ -30,14 +30,15 @@
         "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
       }
     },
-    "slack": {
-      "url": null
-    },
-    "sendcloud": {
-      "url": null,
-      "user": null,
-      "key": null,
-      "templates": {}
+    "messenger": {
+      "slack": {
+        "channel": "hacknical"
+      },
+      "email": {
+        "type": "sendcloud",
+        "channel": "hacknical_app",
+        "template": "hacknical_welcome"
+      }
     }
   },
   "mq": {
