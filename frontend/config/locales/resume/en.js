@@ -68,7 +68,8 @@ const datas = {
       technologies: 'Technologies',
       mainButton: 'Add personal projects',
       introText: 'Press enter to add',
-      introList: []
+      introList: [],
+      textareaWordCount: '%n letters typed'
     },
     others: {
       title: 'Others Info',

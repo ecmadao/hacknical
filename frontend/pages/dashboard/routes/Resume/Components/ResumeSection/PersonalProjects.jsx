@@ -71,6 +71,7 @@ class PersonalProjects extends React.Component {
               type="textarea"
               disabled={disabled}
               placeholder={resumeTexts.projectDesc}
+              wordCountTemplate={resumeTexts.textareaWordCount}
               onChange={this.handleProjectChange(index)('desc')}
             />
           </div>

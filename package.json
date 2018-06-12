@@ -164,7 +164,7 @@
     "koa-static": "^4.0.2",
     "koa-useragent": "^1.0.0",
     "koa-views": "^6.1.3",
-    "light-ui": "^1.2.5",
+    "light-ui": "^1.2.14",
     "log4js": "^1.1.1",
     "moment": "^2.17.0",
     "nunjucks": "^3.0.1",

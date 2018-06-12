@@ -77,7 +77,8 @@ const datas = {
       technologies: '添加使用的技术',
       mainButton: '添加个人项目',
       introText: '按下回车即可添加',
-      introList: []
+      introList: [],
+      textareaWordCount: '已输入 %n 字'
     },
     others: {
       title: '其他补充',
