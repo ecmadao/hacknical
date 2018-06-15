@@ -30,6 +30,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .operations_wrapper_left {
@@ -39,6 +41,9 @@
 }
 
 .operation {
+  margin-top: 0px;
+  margin-bottom: 0px;
+
   &:last-child {
     margin-right: 0;
   }
@@ -396,6 +401,8 @@
   margin-left: 0 !important;
   margin-right: 5px !important;
   display: inline-flex;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .icon_button_tipso {
