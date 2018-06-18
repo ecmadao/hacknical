@@ -3,6 +3,7 @@
   font-family: 'Geo';
   font-style: normal;
   font-weight: 400;
+  font-display: auto;
   src: local('Geo'),
   local('Geo-Regular'),
   url('./fonts/Geo_latin.woff2') format('woff2'),

@@ -68,7 +68,7 @@ const datas = {
       title: '参与贡献的仓库',
       showMore: '展现更多',
       hideMore: '收起',
-      tipso: '对他人仓库的 Issue, PR 都会被记为贡献',
+      tipso: '过去一年内对他人仓库的 Issue, PR 都会被记为贡献',
       emptyText: '暂未抓取到仓库信息，请在设置中进行刷新',
     },
     orgs: {

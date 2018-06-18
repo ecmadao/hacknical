@@ -11,7 +11,6 @@ import {
   getOffsetLeft,
   getOffsetRight
 } from 'UTILS/helper';
-import github from 'UTILS/github';
 import locales from 'LOCALES';
 import ReposBaseInfo from '../ReposBaseInfo';
 import cardStyles from '../styles/info_card.css';
@@ -41,9 +40,9 @@ class CodeCourse extends React.Component {
     };
   }
 
-  getRepositoriesMap() {
+  get repositoriesDict() {
     const { repositories = [] } = this.props;
-    const repositoriesMap = {};
+    const repositoriesDict = {};
     for (let i = 0; i < repositories.length; i += 1) {
       const repository = repositories[i];
       const {
@@ -58,8 +57,11 @@ class CodeCourse extends React.Component {
         watchers_count,
         stargazers_count,
       } = repository;
-      repositoriesMap[name] = {
+      const color = getRamdomColor(name);
+
+      repositoriesDict[name] = {
         fork,
+        color,
         language,
         html_url,
         created_at,
@@ -70,19 +72,15 @@ class CodeCourse extends React.Component {
         stargazers_count,
       };
     }
-    return repositoriesMap;
+    return repositoriesDict;
   }
 
   formatRepositories() {
-    const {
-      yearAgoSeconds,
-      minDateSeconds,
-      maxDateSeconds
-    } = this.state;
+    const { minDateSeconds } = this.state;
     const results = [];
     const { commitDatas } = this.props;
     if (!commitDatas.length) return results;
-    const repositoriesMap = this.getRepositoriesMap();
+    const repositoriesDict = this.repositoriesDict;
 
     const showedCount = Math.min(this.state.showedCount, commitDatas.length);
     for (let i = 0; i < showedCount; i += 1) {
@@ -108,6 +106,7 @@ class CodeCourse extends React.Component {
           const dailyCommit = days[d];
           const daySeconds = week - ((7 - d) * SECONDS_PER_DAY);
           if (daySeconds < minDateSeconds) continue;
+
           if (!dailyCommit) {
             if (preCommit) {
               if (timeline.length && timeline[timeline.length - 1].to === startCommitDaySeconds) {
@@ -147,7 +146,7 @@ class CodeCourse extends React.Component {
         });
       }
 
-      const repository = repositoriesMap[name];
+      const repository = repositoriesDict[name];
       results.push({
         name,
         login,
@@ -197,14 +196,9 @@ class CodeCourse extends React.Component {
     return repos.map((repository, index) => {
       const {
         name,
+        color,
         timeline,
       } = repository;
-
-      let color = repository.color;
-      if (!color) {
-        color = getRamdomColor(name);
-        repository.color = color;
-      }
 
       return (
         <div
@@ -290,7 +284,6 @@ class CodeCourse extends React.Component {
       const {
         name,
         fork,
-        color,
         html_url,
         language,
         pushed_at,
@@ -300,31 +293,14 @@ class CodeCourse extends React.Component {
         watchers_count,
         stargazers_count,
       } = repository;
-      const rgb = hex2Rgba(color);
-      return (
-        <div className={githubStyles.reposIntro} key={index}>
-          <div
-            className={githubStyles.reposIntroLine}
-            style={{
-              background: `linear-gradient(to bottom, ${rgb(OPACITY.max)}, ${rgb(OPACITY.max)})`
-            }}
-          />
-          <div className={githubStyles.introInfoWrapper}>
-            <div className={githubStyles.introInfo}>
-              <a
-                className={githubStyles.introTitle}
-                href={html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {name}
-              </a>
-              <br />
-              <span>{description}</span>
-            </div>
-          </div>
 
-          <div className={githubStyles.tipso_wrapper}>
+      const color = repository.color || getRamdomColor(name);
+      const rgb = hex2Rgba(color);
+
+      return (
+        <Tipso
+          key={index}
+          tipsoContent={(
             <div className={cx(githubStyles.tipso_container, githubStyles.tipso_large)}>
               <span className={githubStyles.tipso_title}>
                 <a
@@ -363,9 +339,31 @@ class CodeCourse extends React.Component {
                 {getValidateDate(created_at)} ~ {getValidateDate(pushed_at)}
               </span>
             </div>
+          )}
+        >
+          <div className={githubStyles.reposIntro}>
+            <div
+              className={githubStyles.reposIntroLine}
+              style={{
+                background: `linear-gradient(to bottom, ${rgb(OPACITY.max)}, ${rgb(OPACITY.max)})`
+              }}
+            />
+            <div className={githubStyles.introInfoWrapper}>
+              <div className={githubStyles.introInfo}>
+                <a
+                  className={githubStyles.introTitle}
+                  href={html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {name}
+                </a>
+                <br />
+                <span>{description}</span>
+              </div>
+            </div>
           </div>
-
-        </div>
+        </Tipso>
       );
     });
   }

@@ -2,6 +2,7 @@
    font-family: 'Noto Sans SC';
    font-style: normal;
    font-weight: 400;
+   font-display: auto;
    src: local('NotoSansSC-Light'),
         url('./fonts/NotoSansSC-Light.woff2') format('woff2'),
         url('./fonts/NotoSansSC-Light.woff') format('woff'),

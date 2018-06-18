@@ -3,6 +3,7 @@
   font-family: 'Libre Barcode 128 Text';
   font-style: normal;
   font-weight: 400;
+  font-display: auto;
   src: local('Libre Barcode 128 Text Regular'),
   local('LibreBarcode128Text-Regular'),
   url('./fonts/Libre_Barcode_128_Text_latin.woff2') format('woff2'),

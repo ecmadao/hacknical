@@ -65,9 +65,9 @@ class Hotmap extends React.Component {
       legend: levelRanges,
       domainLabelFormat: '%Y-%m',
       legendColors: {
-        min: '#DCDCDC',
-        max: '#196127',
-        empty: '#DCDCDC'
+        min: '#dae289',
+        max: '#3b6427',
+        empty: '#ededed'
       },
     });
   }

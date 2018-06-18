@@ -73,9 +73,11 @@ class ContributedInfo extends React.Component {
     return (
       <div className={styles.reposRows}>
         {reposRows}
-        <div className={styles.showMoreButton} onClick={this.showMore}>
-          {this.buttonText}
-        </div>
+        {repositories.length > DEFAULT_REPOSITORIES ? (
+          <div className={styles.showMoreButton} onClick={this.showMore}>
+            {this.buttonText}
+          </div>
+        ) : null}
       </div>
     );
   }

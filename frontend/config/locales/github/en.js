@@ -68,7 +68,7 @@ const datas = {
       title: 'Contributed repositories',
       showMore: 'show more',
       hideMore: 'hide',
-      tipso: 'Issue, PR for others repos will be marked as contributions',
+      tipso: 'Issue, PR for others repositories in the last year will be marked as contributions',
       emptyText: 'No repositories info, please refresh in settings',
     },
     orgs: {

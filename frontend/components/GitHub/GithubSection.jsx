@@ -69,7 +69,6 @@ class GitHubSection extends React.Component {
     const { showOperations } = this.state;
     if (hide) return <EmptyDOM />;
     const Section = config[section] || EmptyDOM;
-    // console.log(`container-${status}`);
 
     return (
       <div

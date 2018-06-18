@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Label } from 'light-ui';
+import { Label, Tipso } from 'light-ui';
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
@@ -42,59 +42,57 @@ class OrgRepos extends React.Component {
     } = repository;
 
     return (
-      <div className={styles.tipso_wrapper}>
-        <div className={styles.tipso_container}>
-          <span className={styles.tipso_title}>
-            <a
-              href={html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {name}
-            </a>
+      <div className={styles.tipso_container}>
+        <span className={styles.tipso_title}>
+          <a
+            href={html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {name}
+          </a>
+          <Label
+            theme="ghost"
+            color="darkLight"
+            text={`<${language}>`}
+            clickable={false}
+            style={{ lineHeight: 'normal' }}
+          />
+          {fork ? (
             <Label
-              theme="ghost"
+              min
               color="darkLight"
-              text={`<${language}>`}
+              text="forked"
+              icon="code-fork"
               clickable={false}
-              style={{ lineHeight: 'normal' }}
+              className={styles.reposLabel}
             />
-            {fork ? (
-              <Label
-                min
-                color="darkLight"
-                text="forked"
-                icon="code-fork"
-                clickable={false}
-                className={styles.reposLabel}
-              />
-            ) : ''}
+          ) : ''}
+        </span>
+        <span>{fullDate(created_at)} ~ {fullDate(pushed_at)}</span>
+        <div className={styles.tipso_line} />
+        <span>
+          <i
+            className="fa fa-star"
+            aria-hidden="true"
+          />
+          &nbsp;{stargazers_count}
+          &nbsp;&nbsp;&nbsp;
+          <i
+            className="fa fa-code-fork"
+            aria-hidden="true"
+          />
+          &nbsp;{forks_count}
+          &nbsp;&nbsp;
+          <span
+            className={cx(
+            styles.info_strong,
+            styles[`strong-${contributionLevel(contributionPercentage)}`]
+            )}
+          >
+            {githubTexts.contributionPercentage}: {`${contributionPercentage.toFixed(2)}%`}
           </span>
-          <span>{fullDate(created_at)} ~ {fullDate(pushed_at)}</span>
-          <div className={styles.tipso_line} />
-          <span>
-            <i
-              className="fa fa-star"
-              aria-hidden="true"
-            />
-            &nbsp;{stargazers_count}
-            &nbsp;&nbsp;&nbsp;
-            <i
-              className="fa fa-code-fork"
-              aria-hidden="true"
-            />
-            &nbsp;{forks_count}
-            &nbsp;&nbsp;
-            <span
-              className={cx(
-              styles.info_strong,
-              styles[`strong-${contributionLevel(contributionPercentage)}`]
-              )}
-            >
-              {githubTexts.contributionPercentage}: {`${contributionPercentage.toFixed(2)}%`}
-            </span>
-          </span>
-        </div>
+        </span>
       </div>
     );
   }
@@ -128,19 +126,25 @@ class OrgRepos extends React.Component {
 
       return (
         <div className={styles.repos_item} key={index}>
-          <div
-            onClick={clickFunc}
-            className={contributionClass}
+          <Tipso
+            position="bottom"
+            wrapperClass={styles.tipsoWrapper}
+            className={styles.tipsoContainer}
+            tipsoContent={this.renderReposTipso(repository, percentage)}
           >
             <div
-              style={{
-                width: `${percentage}%`,
-                opacity: percentage / 50
-              }}
-              className={styles.user_contributions}
-            />
-            {this.renderReposTipso(repository, percentage)}
-          </div>
+              onClick={clickFunc}
+              className={contributionClass}
+            >
+              <div
+                style={{
+                  width: `${percentage}%`,
+                  opacity: percentage / 50
+                }}
+                className={styles.user_contributions}
+              />
+            </div>
+          </Tipso>
           {activeIndex === index && percentage ? (
             <ContributionChart
               percentage={percentage}
