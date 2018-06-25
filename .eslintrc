@@ -20,6 +20,7 @@
     "comma-dangle": 0,
     "no-underscore-dangle": 0,
     "no-multi-spaces": 0,
+    "arrow-body-style": 0,
     "no-param-reassign": ["error", { "props": false }],
     "react/jsx-equals-spacing": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

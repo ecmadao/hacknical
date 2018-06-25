@@ -72,25 +72,16 @@ const fetch = async (options, timeouts = [2000]) => {
   }
 };
 
-export default {
-  get: (options, timeouts) => {
-    options.method = 'GET';
-    return fetch(options, timeouts);
-  },
-  post: (options, timeouts) => {
-    options.method = 'POST';
-    return fetch(options, timeouts);
-  },
-  put: (options, timeouts) => {
-    options.method = 'PUT';
-    return fetch(options, timeouts);
-  },
-  delete: (options, timeouts) => {
-    options.method = 'DELETE';
-    return fetch(options, timeouts);
-  },
-  patch: (options, timeouts) => {
-    options.method = 'PATCH';
-    return fetch(options, timeouts);
-  },
+const handler = {
+  get: (target, method) => {
+    return (...args) => {
+      const [options, timeouts] = args;
+      options.method = method.toUpperCase();
+      return fetch(options, timeouts);
+    };
+  }
 };
+
+const proxy = new Proxy({}, handler);
+export default proxy;
+
