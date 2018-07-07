@@ -31,7 +31,7 @@ const fetchApi = (url, options = {}) => {
   }, timeouts);
 };
 
-const TTL = 300; // 5 min
+const TTL = 60; // 1 min
 const getFromCache = cache.wrapFn(
   fetchApi, 'hacknical-github', { ttl: TTL }
 );
