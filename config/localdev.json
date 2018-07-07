@@ -52,11 +52,5 @@
       "qname-messenger": "messenger-local"
     }
   },
-  "opbeat": {
-    "appId": "",
-    "organizationId": "",
-    "secretToken": "",
-    "active": false
-  },
   "downloads": "../../public/downloads"
 }

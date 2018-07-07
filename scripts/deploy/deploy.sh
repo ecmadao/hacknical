@@ -35,6 +35,5 @@ echo " =====  deploy backend ===== "
 npm run build-app
 npm run stop
 npm run start
-bash ./scripts/opbeat.sh
 
 echo " =====  done ===== "
