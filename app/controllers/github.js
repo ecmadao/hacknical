@@ -235,6 +235,7 @@ const getUpdateStatus = async (ctx) => {
   const result = {
     status,
     lastUpdateTime,
+    finished: statusCode !== 2 && statusCode !== 3,
     refreshEnable: refreshEnable(statusCode)
       && (new Date() - new Date(lastUpdateTime)) / (60 * 1000) > 10,
   };
