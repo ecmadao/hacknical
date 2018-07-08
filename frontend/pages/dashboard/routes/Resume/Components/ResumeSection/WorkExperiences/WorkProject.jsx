@@ -53,7 +53,6 @@ class WorkProject extends React.Component {
       <div className={styles.project_container}>
         <div className={styles.project_name_wrapper}>
           <InputGroup
-            autoFocus
             theme="flat"
             value={project.name}
             disabled={disabled}

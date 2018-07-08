@@ -41,7 +41,6 @@ class PersonalProjects extends React.Component {
               <i className="fa fa-trash-o" aria-hidden="true" />
             </div>
             <InputGroup
-              autoFocus
               value={title}
               theme="flat"
               disabled={disabled}

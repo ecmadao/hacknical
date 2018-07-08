@@ -55,7 +55,6 @@ class Info extends React.Component {
         <div className={styles.resume_piece_container}>
           <div className={styles.resume_wrapper}>
             <Input
-              autoFocus
               theme="flat"
               value={name}
               disabled={disabled}

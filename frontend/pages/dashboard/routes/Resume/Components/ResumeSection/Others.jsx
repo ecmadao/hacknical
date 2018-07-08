@@ -92,7 +92,6 @@ class Others extends React.Component {
         <div className={styles.resume_piece_container}>
           <div className={styles.resume_wrapper}>
             <Input
-              autoFocus
               theme="flat"
               type="number"
               disabled={disabled}

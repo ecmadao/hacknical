@@ -90,7 +90,6 @@ class Education extends React.Component {
             <i className="fa fa-trash-o" aria-hidden="true" />
           </div>
           <Input
-            autoFocus
             theme="flat"
             value={school}
             disabled={disabled}
