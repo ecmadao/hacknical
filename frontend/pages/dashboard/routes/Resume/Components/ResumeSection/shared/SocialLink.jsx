@@ -29,6 +29,7 @@ const renderTipsoInputs = (links) => {
         key={i}
         type={type}
         value={value}
+        autoFocus={i === 0}
         disabled={disabled}
         required={required}
         onChange={onChange}

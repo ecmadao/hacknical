@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Input } from 'light-ui';
 import styles from '../../../styles/resume.css';
 
 const TipsoInputs = (props) => {

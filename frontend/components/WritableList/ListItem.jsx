@@ -8,6 +8,7 @@ const ListItem = (props) => {
   return (
     <li className={styles.list_item}>-&nbsp;&nbsp;
       <Input
+        autoFocus
         value={item}
         onChange={onChange}
         placeholder={placeholder}

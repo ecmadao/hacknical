@@ -73,6 +73,7 @@ class WorkExperience extends React.Component {
         </div>
         <div className={styles.resume_wrapper}>
           <InputGroup
+            autoFocus
             theme="flat"
             value={company}
             disabled={disabled}
