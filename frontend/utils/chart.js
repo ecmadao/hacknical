@@ -2,7 +2,7 @@
 import objectAssign from 'UTILS/object-assign';
 import github from './github';
 import { GREEN_COLORS } from './colors';
-import { LINE_CONFIG } from 'SHARED/datas/chart_config';
+import { LINE_CONFIG } from 'UTILS/constant/chart';
 
 const getStarDatasets = repos => ({
   type: 'bar',

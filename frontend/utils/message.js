@@ -1,3 +1,4 @@
+
 import { Message } from 'light-ui/lib/raw';
 
 const message = new Message({

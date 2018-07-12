@@ -48,8 +48,7 @@ export const combineReposCommits = (reposCommits) => {
     const month = getMonth(created_at);
     result.monthReview[month].repos.push(name);
 
-    for (let i = 0; i < commits.length; i += 1) {
-      const commit = commits[i];
+    for (const commit of commits) {
       const { total, days, week } = commit;
       result.total += total;
 
@@ -61,7 +60,9 @@ export const combineReposCommits = (reposCommits) => {
         }
       }
       commitsTmp[week].total += total;
-      days.forEach((dayCommit, index) => {
+
+      for (let index = 0; index < days.length; index += 1) {
+        const dayCommit = days[index];
         commitsTmp[week].days[index] += dayCommit;
 
         if (dayCommit) {
@@ -75,7 +76,7 @@ export const combineReposCommits = (reposCommits) => {
         const daySeconds = week - ((7 - index) * 24 * 60 * 60);
         const targetMonth = getDateBySeconds(daySeconds, 'M');
         result.monthReview[targetMonth].commitsCount += dayCommit;
-      });
+      }
     }
   }
 
@@ -89,15 +90,13 @@ export const combineReposCommits = (reposCommits) => {
 };
 
 export const getReposLanguages = (repos) => {
-  const languages = [];
+  const languages = new Set();
 
   for (const repository of repos) {
     const { language } = repository;
-    if (!languages.some(item => item === language)) {
-      language && languages.push(language);
-    }
+    language && languages.add(language);
   }
-  return languages;
+  return [...languages.values()];
 };
 
 export const UPDATE_STATUS_TEXT = {

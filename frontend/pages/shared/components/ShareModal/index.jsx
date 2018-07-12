@@ -1,6 +1,5 @@
 /* eslint no-new: "off" */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Clipboard from 'clipboard';
@@ -8,7 +7,7 @@ import { IconButton, Input, PortalModal } from 'light-ui';
 import locales from 'LOCALES';
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/colors';
 import styles from './share_modal.css';
-import message from 'SHARED/utils/message';
+import message from 'UTILS/message';
 
 const modalTexts = locales('shareModal');
 const DARK_COLORS = MD_COLORS.slice(-2);

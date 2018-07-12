@@ -1,3 +1,4 @@
+
 import Chart from 'chart.js';
 import { GREEN_COLORS } from 'UTILS/colors';
 

@@ -4,7 +4,7 @@ import { Label } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import { isUrl, renderTextWithUrl } from 'UTILS/helper';
 import { formatUrl } from 'UTILS/formatter';
-import { objectassign } from 'SHARED/utils/resume';
+import { objectassign } from 'UTILS/resume';
 import styles from './v1.css';
 import statusLabels from '../shared/StatusLabels';
 import locales from 'LOCALES';

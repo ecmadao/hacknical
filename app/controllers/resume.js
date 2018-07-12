@@ -131,10 +131,14 @@ const patchResume = async (ctx, next) => {
 const downloadResume = async (ctx) => {
   const { userId, githubLogin, locale } = ctx.session;
 
-  const result = await UserAPI.getResumeInfo({ userId });
+  const [
+    result,
+    findResult
+  ] = await Promise.all([
+    UserAPI.getResumeInfo({ userId }),
+    UserAPI.getResume({ userId })
+  ]);
   const { template, resumeHash } = result;
-
-  const findResult = await UserAPI.getResume({ userId });
 
   if (!findResult) {
     return ctx.body = {

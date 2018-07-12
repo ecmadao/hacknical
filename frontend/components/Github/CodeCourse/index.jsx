@@ -5,7 +5,7 @@ import {
   randomColor,
   hex2Rgba,
 } from 'UTILS/colors';
-import { OPACITY } from 'UTILS/const-value';
+import { OPACITY } from 'UTILS/constant';
 import dateHelper from 'UTILS/date';
 import {
   getOffsetLeft,

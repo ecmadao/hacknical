@@ -6,7 +6,7 @@ import FAB from 'COMPONENTS/FloatingActionButton';
 import Api from 'API';
 import GitHub from 'COMPONENTS/GitHub';
 import ShareModal from 'SHARED/components/ShareModal';
-import USER from 'SRC/data/user';
+import { USER } from 'UTILS/constant';
 import github from 'UTILS/github';
 import locales from 'LOCALES';
 import styles from '../styles/github.css';

@@ -8,7 +8,7 @@ import { Tipso, Label } from 'light-ui';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import dateHelper from 'UTILS/date';
-import { LINE_CONFIG } from 'SHARED/datas/chart_config';
+import { LINE_CONFIG } from 'UTILS/constant/chart';
 import locales from 'LOCALES';
 import { contributionLevel } from './helper';
 import ReposBaseInfo from '../ReposBaseInfo';

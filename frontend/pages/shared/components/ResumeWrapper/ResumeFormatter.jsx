@@ -1,12 +1,13 @@
+
 import { cloneElement } from 'react';
 import objectAssign from 'UTILS/object-assign';
 import {
   validateSocialLinks
-} from 'SHARED/utils/resume';
+} from 'UTILS/resume';
 import dateHelper from 'UTILS/date';
 import { sortBySeconds, isUrl } from 'UTILS/helper';
 import { formatUrl } from 'UTILS/formatter';
-import { LINK_NAMES } from 'SHARED/datas/resume';
+import { LINK_NAMES } from 'UTILS/constant/resume';
 
 const validateDate = dateHelper.validator.date;
 const sortByDate = sortBySeconds('startTime');

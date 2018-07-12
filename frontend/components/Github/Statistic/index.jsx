@@ -6,7 +6,7 @@ import githubStyles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import locales from 'LOCALES';
 import { Loading } from 'light-ui';
-import { RADAR_CONFIG } from 'SHARED/datas/chart_config';
+import { RADAR_CONFIG } from 'UTILS/constant/chart';
 
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;

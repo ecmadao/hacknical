@@ -14,7 +14,7 @@ import {
 } from 'light-ui';
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/colors';
-import { RADAR_CONFIG } from 'SHARED/datas/chart_config';
+import { RADAR_CONFIG } from 'UTILS/constant/chart';
 import dateHelper from 'UTILS/date';
 import styles from '../../styles/records.css';
 import locales from 'LOCALES';

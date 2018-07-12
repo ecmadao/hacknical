@@ -80,11 +80,13 @@ const loginByGitHub = async (ctx) => {
 const initialFinished = async (ctx) => {
   const { userId } = ctx.session;
 
-  await UserAPI.updateUser(userId, { initialed: true });
-  await StatAPI.putStat({
-    type: 'github',
-    action: 'count'
-  });
+  await Promise.all([
+    UserAPI.updateUser(userId, { initialed: true }),
+    StatAPI.putStat({
+      type: 'github',
+      action: 'count'
+    })
+  ]);
 
   ctx.body = {
     success: true,

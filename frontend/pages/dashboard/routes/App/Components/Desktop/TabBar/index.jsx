@@ -1,7 +1,7 @@
 /* eslint no-alert: "off" */
 import React from 'react';
 import { connect } from 'react-redux';
-import TABS from 'SRC/data/tab';
+import { TABS } from 'UTILS/constant';
 import Tab from './Tab';
 import locales from 'LOCALES';
 import Topbar from '../../shared/Topbar';

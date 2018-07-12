@@ -5,7 +5,6 @@ import dateHelper from 'UTILS/date';
 import styles from './v2.css';
 import statusLabels from '../shared/StatusLabels';
 import locales from 'LOCALES';
-import { objectassign } from 'SHARED/utils/resume';
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 import { renderBaseInfo, section } from '../shared/common';
 import { renderTextWithUrl } from 'UTILS/helper';

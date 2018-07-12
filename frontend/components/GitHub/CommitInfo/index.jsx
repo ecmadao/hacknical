@@ -5,8 +5,8 @@ import objectAssign from 'UTILS/object-assign';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import dateHelper from 'UTILS/date';
-import { DAYS, MONTHS } from 'UTILS/const-value';
-import { LINE_CONFIG } from 'SHARED/datas/chart_config';
+import { DAYS, MONTHS } from 'UTILS/constant';
+import { LINE_CONFIG } from 'UTILS/constant/chart';
 import {
   getMaxIndex,
   getMaxTarget,

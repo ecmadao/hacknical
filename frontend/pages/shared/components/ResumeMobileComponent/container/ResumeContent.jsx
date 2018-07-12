@@ -5,7 +5,6 @@ import { Loading } from 'light-ui';
 import dateHelper from 'UTILS/date';
 import Slick from 'SHARED/components/Slick';
 import styles from '../styles/resume.css';
-import { GENDERS } from 'SHARED/datas/resume';
 import { hasUrl, renderTextWithUrl } from 'UTILS/helper';
 import { formatUrl } from 'UTILS/formatter';
 import locales from 'LOCALES';

@@ -4,7 +4,7 @@ import { polyfill } from 'es6-promise';
 import param from 'jquery-param';
 import 'isomorphic-fetch';
 import NProgress from 'nprogress';
-import message from 'SHARED/utils/message';
+import message from 'UTILS/message';
 
 require('nprogress/nprogress.css');
 

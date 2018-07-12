@@ -3,7 +3,7 @@ import { Input, SelectorV2 } from 'light-ui';
 import WritableList from 'COMPONENTS/WritableList';
 import DateSlider from 'COMPONENTS/DateSlider'
 import dateHelper from 'UTILS/date';
-import { EDUCATIONS } from 'SHARED/datas/resume';
+import { EDUCATIONS } from 'UTILS/constant/resume';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 

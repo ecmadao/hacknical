@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import Clipboard from 'clipboard';
 import { Input, IconButton, AnimationComponent } from 'light-ui';
-import message from 'SHARED/utils/message';
+import message from 'UTILS/message';
 import styles from '../styles/setting.css';
 import panelStyles from '../styles/panel.css';
 

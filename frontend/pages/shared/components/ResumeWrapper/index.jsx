@@ -4,7 +4,7 @@ import Api from 'API';
 import {
   INFO,
   OTHERS,
-} from 'SHARED/datas/resume';
+} from 'UTILS/constant/resume';
 import locales from 'LOCALES';
 import ResumeFormatter from './ResumeFormatter';
 import { removeDOM } from 'UTILS/helper';

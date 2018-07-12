@@ -1,5 +1,5 @@
 
-import WECHAT from 'SRC/data/wechat';
+import { WECHAT } from 'UTILS/constant';
 
 const WECHAT_FROM = Object.keys(WECHAT);
 

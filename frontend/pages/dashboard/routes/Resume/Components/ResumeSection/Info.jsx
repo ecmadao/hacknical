@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input, SelectorV2, Switcher } from 'light-ui';
 import resumeActions from '../../redux/actions';
-import { GENDERS } from 'SHARED/datas/resume';
+import { GENDERS } from 'UTILS/constant/resume';
 import styles from '../../styles/resume.css';
 import locales from 'LOCALES';
 import SectionWrapper from './shared/SectionWrapper';

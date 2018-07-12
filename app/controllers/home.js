@@ -83,9 +83,15 @@ const combineStat = stats => stats.reduce((pre, cur) => {
 }, {});
 
 const statistic = async (ctx) => {
-  const users = await UserAPI.getUserCount();
-  const githubFields = await StatAPI.getStat({ type: 'github' });
-  const resumeFields = await StatAPI.getStat({ type: 'resume' });
+  const [
+    users,
+    githubFields,
+    resumeFields
+  ] = await Promise.all([
+    UserAPI.getUserCount(),
+    StatAPI.getStat({ type: 'github' }),
+    StatAPI.getStat({ type: 'resume' })
+  ]);
 
   const github = combineStat(githubFields || []);
   const resume = combineStat(resumeFields || []);

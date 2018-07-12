@@ -8,7 +8,7 @@ import { Loading } from 'light-ui';
 import Api from 'API';
 import dateHelper from 'UTILS/date';
 import { getValidateViewSources } from 'UTILS/records';
-import { LINE_CONFIG, RADAR_CONFIG } from 'SHARED/datas/chart_config';
+import { LINE_CONFIG, RADAR_CONFIG } from 'UTILS/constant/chart';
 import styles from '../styles/records.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
 import Slick from 'SHARED/components/Slick';

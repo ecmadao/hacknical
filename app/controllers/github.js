@@ -62,19 +62,22 @@ const toggleShare = async (ctx) => {
 const getAllRepositories = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
   const repos = await Api.getUserRepositories(githubLogin, githubToken);
-  const result = repos.filter(repository => !repository.fork)
-    .map((repository) => {
+  const result = [];
+
+  for (const repository of repos) {
+    if (!repository.fork) {
       const {
         name,
         language,
         stargazers_count
       } = repository;
-      return {
+      result.push({
         name,
         language,
-        stargazers_count,
-      };
-    });
+        stargazers_count
+      });
+    }
+  }
 
   ctx.body = {
     result,
@@ -143,8 +146,10 @@ const getUserOrganizations = async (ctx, next) => {
 
 const getUser = async (ctx, next) => {
   const { login } = ctx.params;
-  const user = await _getUser(ctx);
-  const userInfo = await UserAPI.getUser({ login });
+  const [user, userInfo] = await Promise.all([
+    _getUser(ctx),
+    UserAPI.getUser({ login })
+  ]);
 
   const result = Object.assign({}, user);
   result.openShare = userInfo.githubShare;
@@ -216,11 +221,12 @@ const getShareRecords = async (ctx) => {
   };
 };
 
-const refreshEnable = status => status !== 2 && status !== 3;
+const updateFinished = status => status !== 2 && status !== 3;
 
 const getUpdateStatus = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   const statusResult = await Api.getUpdateStatus(githubLogin);
+  logger.info(`${githubLogin} update status: ${JSON.stringify(statusResult)}`);
   const {
     status,
     lastUpdateTime,
@@ -235,8 +241,8 @@ const getUpdateStatus = async (ctx) => {
   const result = {
     status,
     lastUpdateTime,
-    finished: statusCode !== 2 && statusCode !== 3,
-    refreshEnable: refreshEnable(statusCode)
+    finished: updateFinished(statusCode),
+    refreshEnable: updateFinished(statusCode)
       && (new Date() - new Date(lastUpdateTime)) / (60 * 1000) > 10,
   };
   ctx.body = {
@@ -249,6 +255,7 @@ const getUpdateStatus = async (ctx) => {
 const updateUserData = async (ctx) => {
   const { githubToken, githubLogin } = ctx.session;
   await Api.updateUserData(githubLogin, githubToken);
+
   ctx.body = {
     message: ctx.__('messages.update.pending'),
     success: true,
@@ -259,6 +266,7 @@ const getZen = async (ctx) => {
   const { githubToken } = ctx.session;
   const val = await Api.getZen(githubToken);
   const result = is.object(val) ? '' : val;
+
   ctx.body = {
     result,
     success: true,
@@ -277,6 +285,7 @@ const getUserHotmap = async (ctx, next) => {
   const { login } = ctx.params;
   const { locale } = ctx.session;
   const result = await Api.getHotmap(login, locale);
+
   ctx.body = {
     result,
     success: true,

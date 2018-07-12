@@ -6,7 +6,7 @@ import cx from 'classnames';
 import Headroom from 'headroom.js';
 import objectAssign from 'UTILS/object-assign';
 import ScrollReveal from 'scrollreveal';
-import { Loading, InfoCard, CardGroup } from 'light-ui';
+import { InfoCard, CardGroup } from 'light-ui';
 import FAB from 'COMPONENTS/FloatingActionButton';
 
 import Api from 'API';
@@ -19,16 +19,15 @@ import {
   getFirstMatchTarget,
 } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
-import { DAYS } from 'UTILS/const-value';
-import { LINE_CONFIG } from 'SHARED/datas/chart_config';
+import { DAYS, USER } from 'UTILS/constant';
+import { LINE_CONFIG } from 'UTILS/constant/chart';
 import styles from '../styles/github.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
 import Slick from 'SHARED/components/Slick';
 import locales from 'LOCALES';
-import USER from 'SRC/data/user';
 import Hotmap from 'COMPONENTS/GitHub/Hotmap';
 import 'SRC/vendor/mobile/github.css';
-import message from 'SHARED/utils/message';
+import message from 'UTILS/message';
 import HeartBeat from 'UTILS/heartbeat';
 
 const sortByLanguageStar = github.sortByX({ key: 'star' });

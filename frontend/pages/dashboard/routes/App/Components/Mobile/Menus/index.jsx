@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { PortalModal } from 'light-ui';
 import styles from '../../../styles/mobile.css';
 import Topbar from '../../shared/Topbar';
-import TABS from 'SRC/data/tab';
+import { TABS } from 'UTILS/constant';
 import locales from 'LOCALES';
 import MenuWrapper from '../../shared/MenuWrapper';
 

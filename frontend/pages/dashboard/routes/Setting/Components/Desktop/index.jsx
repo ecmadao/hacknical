@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { Loading, Button, Switcher, Tipso, SelectorV2, Input } from 'light-ui';
+import { Loading, Button, SelectorV2, Input } from 'light-ui';
 import settingActions from '../../redux/actions';
 import styles from '../../styles/setting.css';
 import locales from 'LOCALES';
-import { REMINDER_INTERVALS } from 'SHARED/datas/resume';
+import { REMINDER_INTERVALS } from 'UTILS/constant/resume';
 import SwitcherPanel from './SwitcherPanel';
 import Panel from './Panel';
 import CheckPanel from './CheckPanel'

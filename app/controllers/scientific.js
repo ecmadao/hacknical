@@ -96,14 +96,18 @@ const putPredictionFeedback = async (ctx, next) => {
       params: ['login']
     })
   ];
-  await StatAPI.putStat({
-    type: 'scientific-prediction',
-    action: `${login}.${likeText}`
-  });
-  await StatAPI.putStat({
-    type: 'scientific-feedback',
-    action: `${fullName}.${likeText}`
-  });
+
+  await Promise.all([
+    StatAPI.putStat({
+      type: 'scientific-prediction',
+      action: `${login}.${likeText}`
+    }),
+    StatAPI.putStat({
+      type: 'scientific-feedback',
+      action: `${fullName}.${likeText}`
+    })
+  ]);
+
   ctx.body = {
     success: true,
   };
