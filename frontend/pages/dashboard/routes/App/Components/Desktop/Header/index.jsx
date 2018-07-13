@@ -3,6 +3,7 @@ import { Tipso } from 'light-ui';
 import locales from 'LOCALES';
 import styles from '../../../styles/desktop.css';
 import MenuWrapper from '../../shared/MenuWrapper';
+import { URLS } from 'UTILS/constant';
 
 const headers = locales('dashboard').headers;
 
@@ -56,7 +57,7 @@ class Header extends MenuWrapper {
             >
               <div className={styles.headerMenuWrapper}>
                 <a
-                  href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale || 'en'}.md`}
+                  href={`${URLS.REPOSITORY}/blob/master/doc/ABOUT-${locale || 'en'}.md`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.header_menu_icon_right}
@@ -76,7 +77,7 @@ class Header extends MenuWrapper {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.header_menu_icon_right}
-                  href="https://github.com/ecmadao/hacknical/issues"
+                  href={`${URLS.ISSUE}/new`}
                 >
                   <i className="fa fa-info-circle" aria-hidden="true" />
                 </a>

@@ -3,9 +3,12 @@ import locales from 'LOCALES';
 const { days, months } = locales('datas');
 const { tabs } = locales('dashboard');
 
+const BASE_URL = 'https://github.com';
+
 export const URLS = {
-  GITHUB: 'https://github.com',
-  REPOSITORY: 'https://github.com/ecmadao/hacknical'
+  GITHUB: BASE_URL,
+  REPOSITORY: `${BASE_URL}/ecmadao/hacknical`,
+  ISSUE: `${BASE_URL}/ecmadao/hacknical/issues`
 };
 
 export const DAYS = [

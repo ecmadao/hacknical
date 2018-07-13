@@ -58,10 +58,10 @@ const TemplateModal = (props) => {
         </div>
         <div className={styles.bottom}>
           <a
-            rel="noopener"
             target="_blank"
             className={styles.link}
-            href={`${URLS.REPOSITORY}/issues/new?template=-feature--resume-template.md&title=Resume+template`}
+            rel="noopener noreferrer"
+            href={`${URLS.ISSUE}/new?template=-feature--resume-template.md&title=Resume+template`}
           >
             {resumeTexts.modal.contributeTemplate}
           </a>
