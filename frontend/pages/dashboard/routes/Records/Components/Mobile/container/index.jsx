@@ -11,7 +11,7 @@ import { getValidateViewSources } from 'UTILS/records';
 import { LINE_CONFIG, RADAR_CONFIG } from 'UTILS/constant/chart';
 import styles from '../styles/records.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
-import Slick from 'SHARED/components/Slick';
+import Slick from 'COMPONENTS/Slick';
 import locales from 'LOCALES';
 import github from 'UTILS/github';
 

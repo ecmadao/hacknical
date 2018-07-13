@@ -15,7 +15,9 @@ const datas = {
     downloadError: '简历生成失败'
   },
   modal: {
-    shareText: '分享你的个人简历'
+    shareText: '分享你的个人简历',
+    chooseTemplate: '简历模板选择',
+    contributeTemplate: '有更好的模板建议？在 issue 里提出反馈'
   },
   sections: {
     info: {

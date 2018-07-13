@@ -3,7 +3,7 @@ import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
 import { Loading } from 'light-ui';
 import dateHelper from 'UTILS/date';
-import Slick from 'SHARED/components/Slick';
+import Slick from 'COMPONENTS/Slick';
 import styles from '../styles/resume.css';
 import { hasUrl, renderTextWithUrl } from 'UTILS/helper';
 import { formatUrl } from 'UTILS/formatter';

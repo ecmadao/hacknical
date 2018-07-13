@@ -3,6 +3,11 @@ import locales from 'LOCALES';
 const { days, months } = locales('datas');
 const { tabs } = locales('dashboard');
 
+export const URLS = {
+  GITHUB: 'https://github.com',
+  REPOSITORY: 'https://github.com/ecmadao/hacknical'
+};
+
 export const DAYS = [
   days.sunday,
   days.monday,
@@ -91,4 +96,41 @@ export const TABS = [
     enable: true,
     tipso: tabs.setting.tipso
   }
+];
+
+export const MD_COLORS = [
+  '#3498db',
+  '#2980b9',
+  '#2ecc71',
+  '#27ae60',
+  '#1abc9c',
+  '#16a085',
+  '#9b59b6',
+  '#8e44ad',
+  '#34495e',
+  '#2c3e50',
+  '#f1c40f',
+  '#f39c12',
+  '#e67e22',
+  '#d35400',
+  '#e74c3c',
+  '#c0392b',
+  '#95a5a6',
+  '#7f8c8d'
+];
+
+export const GREEN_COLORS = [
+  'rgba(55, 178, 77, 1)',
+  'rgba(55, 178, 77, 0.9)',
+  'rgba(55, 178, 77, 0.8)',
+  'rgba(55, 178, 77, 0.6)',
+  'rgba(55, 178, 77, 0.4)',
+  'rgba(55, 178, 77, 0.2)',
+  'rgba(55, 178, 77, 0.1)',
+];
+
+export const RESUME_TEMPLATES = [
+  'v1',
+  'v2',
+  'v3'
 ];

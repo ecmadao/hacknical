@@ -1,4 +1,5 @@
-import asyncComponent from 'SHARED/components/AsyncComponent';
+
+import asyncComponent from 'COMPONENTS/AsyncComponent';
 
 const githubComponent = {
   desktop: asyncComponent(

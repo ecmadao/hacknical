@@ -23,7 +23,7 @@ import { DAYS, USER } from 'UTILS/constant';
 import { LINE_CONFIG } from 'UTILS/constant/chart';
 import styles from '../styles/github.css';
 import sharedStyles from 'SHARED/styles/mobile.css';
-import Slick from 'SHARED/components/Slick';
+import Slick from 'COMPONENTS/Slick';
 import locales from 'LOCALES';
 import Hotmap from 'COMPONENTS/GitHub/Hotmap';
 import 'SRC/vendor/mobile/github.css';

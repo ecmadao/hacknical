@@ -1,0 +1,33 @@
+@import 'open-color/open-color.css';
+
+.wrapper {
+  padding: 15px 0 0;
+  width: 100%;
+}
+
+.container {
+  & .infoWrapper {
+    padding: 10px 0px 10px 15px;
+
+    &:last-child {
+      & .infoCard {
+        width: 150px;
+        padding-right: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  & .infoCard {
+    border-radius: 2px;
+    box-shadow: var(--shadow2);
+    padding: 10px 25px 7px;
+    background-color: var(--oc-green-7);
+
+    & i {
+      margin-right: 10px;
+    }
+  }
+}

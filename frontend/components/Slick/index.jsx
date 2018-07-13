@@ -2,8 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick.min';
-import sharedStyles from 'SHARED/styles/mobile.css';
-import MinInfoCard from 'SHARED/components/MinInfoCard';
+import styles from './slick.css';
+import MinInfoCard from 'COMPONENTS/MinInfoCard';
 
 const initialSlick = (dom) => {
   $(dom).slick({
@@ -41,13 +41,13 @@ class Slick extends React.Component {
     return this.props.sliders.map((slider, index) => (
       <div
         key={index}
-        className={sharedStyles.chart_info_wrapper}
+        className={styles.infoWrapper}
       >
         <MinInfoCard
           icon={slider.icon}
           mainText={slider.mainText}
           subText={slider.subText}
-          className={sharedStyles.chart_info_card}
+          className={styles.infoCard}
         />
       </div>
     ));
@@ -59,13 +59,13 @@ class Slick extends React.Component {
       <div
         id={wrapperId}
         className={cx(
-          sharedStyles.share_info_wrapper,
+          styles.wrapper,
           className
         )}
       >
         <div
           id={slickId}
-          className={sharedStyles.chart_info_container}
+          className={styles.container}
         >
           {this.renderSliders()}
         </div>

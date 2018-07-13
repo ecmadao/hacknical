@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
-import asyncComponent from 'SHARED/components/AsyncComponent';
+import asyncComponent from 'COMPONENTS/AsyncComponent';
 import AppAction from './redux/actions';
 
 const dashboard = {

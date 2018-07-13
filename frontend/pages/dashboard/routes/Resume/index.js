@@ -1,6 +1,6 @@
 import { injectReducer } from '../../redux/reducer';
 import reducer from './redux/reducers';
-import asyncComponent from 'SHARED/components/AsyncComponent';
+import asyncComponent from 'COMPONENTS/AsyncComponent';
 
 export default (store, options) => {
   const { login, device } = options;

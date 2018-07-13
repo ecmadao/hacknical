@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import github from 'UTILS/github';
-import { GREEN_COLORS } from 'UTILS/colors';
+import { GREEN_COLORS } from 'UTILS/constant';
 import styles from './social_info.css';
 import locales from 'LOCALES';
 

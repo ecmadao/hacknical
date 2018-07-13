@@ -15,7 +15,9 @@ const datas = {
     downloadError: 'Resume create failed'
   },
   modal: {
-    shareText: 'to share your resume'
+    shareText: 'to share your resume',
+    chooseTemplate: 'Choose resume template',
+    contributeTemplate: 'Have advice for template? Come to create issue!'
   },
   sections: {
     info: {

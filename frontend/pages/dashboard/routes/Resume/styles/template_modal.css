@@ -1,9 +1,13 @@
+@import 'open-color/open-color.css';
+
 :root {
   --speed: .2s;
   --easing: cubic-bezier(.55,0,.1,1);
   --modalContentOpacity: 0;
-  --scale: scale(0.8);
-  --scaleActive: scale(1);
+}
+
+.modal {
+  height: initial;
 }
 
 .modalWrapper {
@@ -38,17 +42,19 @@
   height: 195px;
   border-radius: 3px;
   position: relative;
+  transform: scale(0.9);
+  transition: transform var(--speed) var(--easing);
 }
 
 .templateContainerActive {
   cursor: default;
   box-shadow: var(--MDShadow3);
+  transform: scale(1);
 
   & .templateWrapper {
     z-index: var(--zIndex99);
     visibility: visible;
     opacity: 1;
-    /*transform: var(--scaleActive);*/
   }
 }
 
@@ -60,12 +66,11 @@
   opacity: var(--modalContentOpacity);
   visibility: hidden;
   backface-visibility: hidden;
-  /*transform: var(--scale);*/
-  transition: all var(--speed) var(--easing);
+  transition: opacity var(--speed) var(--easing);
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.2);
-  color: #fff;
+  color: var(--oc-white);;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,4 +96,18 @@
 
 .templatev3 {
   background-image: url("./images/v3.png");
+}
+
+.bottom {
+  margin-top: 30px;
+  font-size: 12px;
+}
+
+.link {
+  color: #797979;
+  transition: color var(--speed) var(--easing);
+
+  &:hover {
+    color: var(--oc-green-9);
+  }
 }

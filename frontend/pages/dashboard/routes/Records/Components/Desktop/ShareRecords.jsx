@@ -13,7 +13,7 @@ import {
   IconButton,
 } from 'light-ui';
 import github from 'UTILS/github';
-import { GREEN_COLORS } from 'UTILS/colors';
+import { GREEN_COLORS } from 'UTILS/constant';
 import { RADAR_CONFIG } from 'UTILS/constant/chart';
 import dateHelper from 'UTILS/date';
 import styles from '../../styles/records.css';

@@ -1,4 +1,4 @@
-import asyncComponent from '../../AsyncComponent';
+import asyncComponent from 'COMPONENTS/AsyncComponent';
 
 export default asyncComponent(
   () => System.import('SHARED/components/GitHubComponent')

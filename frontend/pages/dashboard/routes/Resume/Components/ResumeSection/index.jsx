@@ -1,12 +1,6 @@
 
 import React from 'react';
-import asyncComponent from 'SHARED/components/AsyncComponent';
-
-import Info from './Info';
-import Educations from './Educations';
-import WorkExperiences from './WorkExperiences';
-import PersonalProjects from './PersonalProjects';
-import Others from './Others';
+import asyncComponent from 'COMPONENTS/AsyncComponent';
 
 
 const sections = {

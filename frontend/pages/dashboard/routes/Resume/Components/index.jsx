@@ -1,7 +1,6 @@
 /* eslint no-param-reassign: "off" */
 
 import React from 'react';
-import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, IconButton, Tipso } from 'light-ui';
