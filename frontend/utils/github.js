@@ -231,7 +231,7 @@ const formatCommitsTimeline = () => {
               timeline.push(preCommit);
               preCommit = null;
             }
-          } else if (preCommits) {
+          } else if (preCommit) {
             preCommit.commits += dailyCommit;
             preCommit.to = daySeconds;
           } else {
