@@ -28,22 +28,6 @@ class Operations extends React.Component {
     onFocusChange && onFocusChange(status);
   }
 
-  // componentDidMount() {
-  //   if (document.addEventListener) {
-  //     document.addEventListener('click', this.handleOutsideClick, true);
-  //   } else {
-  //     document.attachEvent('click', this.handleOutsideClick);
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   if (document.removeEventListener) {
-  //     document.removeEventListener('click', this.handleOutsideClick, true);
-  //   } else {
-  //     document.detachEvent('click', this.handleOutsideClick);
-  //   }
-  // }
-
   handleOutsideClick() {
     this.changeOperationStatus(false);
   }

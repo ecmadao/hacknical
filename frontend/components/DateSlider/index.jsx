@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Slider } from 'light-ui';
 import styles from './date_slider.css';
 import dateHelper from 'UTILS/date';
+import { SECONDS_PER_DAY } from 'UTILS/constant';
 
 const getDateBySeconds = dateHelper.date.bySeconds;
 const getDateBeforeYears = dateHelper.date.beforeYears;
@@ -11,7 +12,6 @@ const getValidatorFullDate = dateHelper.validator.fullDate;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const afterDays = dateHelper.date.afterDays;
 
-const SECONDS_PER_DAY = 24 * 60 * 60 * 30;
 const MAX_DATE = afterDays(1);
 
 class DateSlider extends React.Component {

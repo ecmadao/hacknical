@@ -1,5 +1,6 @@
 
 import dateHelper from './date';
+import { SECONDS_PER_DAY } from './constant';
 
 const getFullDateBySecond = dateHelper.validator.fullDateBySeconds;
 const getSecondsByDate = dateHelper.seconds.getByDate;
@@ -194,6 +195,80 @@ const longestContributeRepos = repos => getMaxObject(repos, (currentRepos, maxRe
   return currentPresist > maxRepos.persistTime;
 });
 
+const formatCommitsTimeline = () => {
+  let preCommits = [];
+  let results = [];
+
+  return (commitDatas, dict, minDateSeconds) => {
+    if (!commitDatas.length) return [];
+    if (preCommits.length === commitDatas.length) return results;
+
+    results = [];
+    for (const commitData of commitDatas) {
+      const {
+        name,
+        login,
+        commits,
+        pushed_at,
+        created_at,
+        totalCommits,
+      } = commitData;
+
+      if (!totalCommits) continue;
+      const timeline = [];
+      let preCommit = null;
+
+      for (const commit of commits) {
+        const { days, week } = commit;
+
+        for (let d = 0; d < days.length; d += 1) {
+          const dailyCommit = days[d];
+          const daySeconds = week + (d * SECONDS_PER_DAY);
+          if (daySeconds < minDateSeconds) continue;
+
+          if (!dailyCommit) {
+            if (preCommit) {
+              timeline.push(preCommit);
+              preCommit = null;
+            }
+          } else if (preCommits) {
+            preCommit.commits += dailyCommit;
+            preCommit.to = daySeconds;
+          } else {
+            preCommit = {
+              to: daySeconds,
+              from: daySeconds,
+              commits: dailyCommit,
+            };
+          }
+        }
+      }
+      if (preCommit) timeline.push(preCommit);
+
+      if (timeline.length && timeline[0].from > minDateSeconds) {
+        timeline.unshift({
+          commits: -1,
+          to: timeline[0].from,
+          from: minDateSeconds,
+        });
+      }
+
+      const repository = dict[name];
+      results.push({
+        name,
+        login,
+        timeline,
+        totalCommits,
+        ...repository,
+        pushed_at: pushed_at || repository.pushed_at,
+        created_at: created_at || repository.created_at,
+      });
+    }
+    preCommits = commitDatas;
+    return results;
+  };
+};
+
 export default {
   baseUrl,
   getReposNames,
@@ -217,5 +292,7 @@ export default {
   getTotalCount,
   getYearlyRepos,
   getCreatedRepos,
-  longestContributeRepos
+  longestContributeRepos,
+  /* ================== */
+  formatCommitsTimeline
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
 import { Loading } from 'light-ui';
 import Api from 'API';
 import cardStyles from '../styles/info_card.css';

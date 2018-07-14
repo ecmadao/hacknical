@@ -11,6 +11,8 @@ export const URLS = {
   ISSUE: `${BASE_URL}/ecmadao/hacknical/issues`
 };
 
+export const SECONDS_PER_DAY = 24 * 60 * 60;
+
 export const DAYS = [
   days.sunday,
   days.monday,

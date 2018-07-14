@@ -2,15 +2,12 @@ import React from 'react';
 import cx from 'classnames';
 import { Label, Tipso, Loading } from 'light-ui';
 import {
-  randomColor,
   hex2Rgba,
+  randomColor,
 } from 'UTILS/colors';
-import { OPACITY } from 'UTILS/constant';
+import { OPACITY, SECONDS_PER_DAY } from 'UTILS/constant';
 import dateHelper from 'UTILS/date';
-import {
-  getOffsetLeft,
-  getOffsetRight
-} from 'UTILS/helper';
+import githubHelper from 'UTILS/github';
 import locales from 'LOCALES';
 import ReposBaseInfo from '../ReposBaseInfo';
 import cardStyles from '../styles/info_card.css';
@@ -19,13 +16,10 @@ import githubStyles from '../styles/github.css';
 const getRamdomColor = randomColor();
 const githubTexts = locales('github').sections.course;
 const getSecondsByDate = dateHelper.seconds.getByDate;
-const getRelativeTime = dateHelper.relative.hoursBefore;
 const getValidateDate = dateHelper.validator.fullDate;
 const getDateBySeconds = seconds =>
   dateHelper.validator.fullDateBySeconds(seconds).split('T')[0];
-
-const SECONDS_PER_DAY = 24 * 60 * 60;
-const oneDayOffset = (before, now) => now - before === SECONDS_PER_DAY;
+const formatCommitsTimeline = githubHelper.formatCommitsTimeline();
 
 class CodeCourse extends React.Component {
   constructor(props) {
@@ -41,7 +35,10 @@ class CodeCourse extends React.Component {
   }
 
   get repositoriesDict() {
+    if (this._repositoriesDict) return this._repositoriesDict;
     const { repositories = [] } = this.props;
+    if (!repositories.length) return {};
+
     const repositoriesDict = {};
     for (let i = 0; i < repositories.length; i += 1) {
       const repository = repositories[i];
@@ -72,92 +69,21 @@ class CodeCourse extends React.Component {
         stargazers_count,
       };
     }
+    this._repositoriesDict = repositoriesDict;
     return repositoriesDict;
   }
 
   formatRepositories() {
     const { minDateSeconds } = this.state;
-    const results = [];
     const { commitDatas } = this.props;
-    if (!commitDatas.length) return results;
     const repositoriesDict = this.repositoriesDict;
-
     const showedCount = Math.min(this.state.showedCount, commitDatas.length);
-    for (let i = 0; i < showedCount; i += 1) {
-      const commitData = commitDatas[i];
-      const {
-        name,
-        login,
-        commits,
-        pushed_at,
-        created_at,
-        totalCommits,
-      } = commitData;
-      if (!totalCommits) continue;
-      const timeline = [];
-      let preCommit = null;
-      let startCommitDaySeconds = null;
-      let totalCommitsInRange = 0;
 
-      for (let j = 0; j < commits.length; j += 1) {
-        const commit = commits[j];
-        const { days, total, week } = commit;
-        for (let d = 0; d < days.length; d += 1) {
-          const dailyCommit = days[d];
-          const daySeconds = week - ((7 - d) * SECONDS_PER_DAY);
-          if (daySeconds < minDateSeconds) continue;
-
-          if (!dailyCommit) {
-            if (preCommit) {
-              if (timeline.length && timeline[timeline.length - 1].to === startCommitDaySeconds) {
-                timeline[timeline.length - 1].to = daySeconds;
-                timeline[timeline.length - 1].commits += totalCommitsInRange;
-              } else {
-                timeline.push({
-                  to: daySeconds,
-                  from: startCommitDaySeconds,
-                  commits: totalCommitsInRange,
-                });
-              }
-            }
-            preCommit = null;
-            startCommitDaySeconds = null;
-            totalCommitsInRange = 0;
-          } else {
-            preCommit = dailyCommit;
-            totalCommitsInRange += dailyCommit;
-            if (!startCommitDaySeconds) startCommitDaySeconds = daySeconds;
-          }
-        }
-      }
-      if (preCommit) {
-        timeline.push({
-          to: commits[commits.length - 1].week,
-          from: startCommitDaySeconds,
-          commits: totalCommitsInRange,
-        });
-      }
-
-      if (timeline.length && timeline[0].from > minDateSeconds) {
-        timeline.unshift({
-          commits: -1,
-          to: timeline[0].from,
-          from: minDateSeconds,
-        });
-      }
-
-      const repository = repositoriesDict[name];
-      results.push({
-        name,
-        login,
-        timeline,
-        totalCommits,
-        ...repository,
-        pushed_at: pushed_at || repository.pushed_at,
-        created_at: created_at || repository.created_at,
-      });
-    }
-    return results;
+    return formatCommitsTimeline(
+      commitDatas.slice(0, showedCount),
+      repositoriesDict,
+      minDateSeconds
+    );
   }
 
   renderChosedRepos() {
@@ -191,8 +117,6 @@ class CodeCourse extends React.Component {
     } = this.state;
     const totalSeconds = maxDateSeconds - minDateSeconds;
 
-    const offsetLeft = getOffsetLeft(minDateSeconds, maxDateSeconds);
-    const offsetRight = getOffsetRight(minDateSeconds, maxDateSeconds);
     return repos.map((repository, index) => {
       const {
         name,
@@ -239,7 +163,7 @@ class CodeCourse extends React.Component {
         from,
         commits
       } = item;
-      const width = ((to - from) * 100) / totalSeconds;
+      const width = ((to + SECONDS_PER_DAY - from) * 100) / totalSeconds;
       const marginLeft = ((from - preToSecond) * 100) / totalSeconds;
       timelineDOMs.push(
         <Tipso
@@ -255,8 +179,8 @@ class CodeCourse extends React.Component {
               {name}<br/>
               {getDateBySeconds(from)} ~ {getDateBySeconds(to)}<br/>
               {commits === -1
-                  ? githubTexts.emptyCommit
-                  : `${commits} commits`
+                ? githubTexts.emptyCommit
+                : `${commits} commits`
               }
             </div>
           }
