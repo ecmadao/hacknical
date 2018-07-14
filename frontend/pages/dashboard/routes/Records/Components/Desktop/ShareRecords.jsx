@@ -260,7 +260,7 @@ class ShareRecords extends React.Component {
       } = VIEW_TYPES[key];
       const isActive = ID === viewType;
       const onClick = isActive
-        ? () => {}
+        ? Function.prototype
         : () => actions.onViewTypeChange(ID);
 
       controllers.push((

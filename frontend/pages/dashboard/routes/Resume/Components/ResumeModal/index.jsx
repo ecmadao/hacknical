@@ -69,9 +69,9 @@ ResumeModal.propTypes = {
 
 ResumeModal.defaultProps = {
   openModal: false,
-  onClose: () => {},
-  onShare: () => {},
-  onDownload: () => {},
+  onClose: Function.prototype,
+  onShare: Function.prototype,
+  onDownload: Function.prototype,
   resume: {},
   shareInfo: {},
 };

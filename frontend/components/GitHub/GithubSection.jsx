@@ -142,7 +142,7 @@ GitHubSection.defaultProps = {
     icon: ''
   },
   className: '',
-  callback: () => {},
+  callback: Function.prototype,
   intro: null,
   cardClass: '',
   status: 'hidden'

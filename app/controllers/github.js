@@ -1,4 +1,5 @@
 /* eslint eqeqeq: "off" */
+import config from 'config';
 import Api from '../services/api';
 import {
   combineReposCommits,
@@ -8,6 +9,8 @@ import { is, sortBy } from '../utils/helper';
 import UserAPI from '../services/user';
 import StatAPI from '../services/stat';
 import logger from '../utils/logger';
+
+const services = config.get('services.github');
 
 /* ================== private func ==================== */
 
@@ -223,6 +226,9 @@ const getShareRecords = async (ctx) => {
 
 const updateFinished = status => status !== 2 && status !== 3;
 
+const refreshEnable = (status, lastUpdate) =>
+  updateFinished(status) && new Date() - new Date(lastUpdate) > services.refreshInterval;
+
 const getUpdateStatus = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   const statusResult = await Api.getUpdateStatus(githubLogin);
@@ -242,8 +248,7 @@ const getUpdateStatus = async (ctx) => {
     status,
     lastUpdateTime,
     finished: updateFinished(statusCode),
-    refreshEnable: updateFinished(statusCode)
-      && (new Date() - new Date(lastUpdateTime)) / (60 * 1000) > 10,
+    refreshEnable: refreshEnable(statusCode, lastUpdateTime),
   };
   ctx.body = {
     result,

@@ -143,8 +143,8 @@ DateSlider.defaultProps = {
   initialEnd: getDateBeforeYears(1),
   startText: '开始时间',
   endText: '结束时间',
-  onStartChange: () => {},
-  onEndChange: () => {}
+  onStartChange: Function.prototype,
+  onEndChange: Function.prototype,
 };
 
 export default DateSlider;

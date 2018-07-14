@@ -120,7 +120,7 @@ ShareModal.defaultProps = {
     link: '',
     text: ''
   },
-  onClose: () => {},
+  onClose: Function.prototype,
 }
 
 export default ShareModal;

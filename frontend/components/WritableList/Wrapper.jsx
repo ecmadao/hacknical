@@ -88,8 +88,8 @@ Wrapper.defaultProps = {
   placeholder: '',
   defaultIntro: '',
   introList: [],
-  onDelete: () => {},
-  onChange: () => {}
+  onDelete: Function.prototype,
+  onChange: Function.prototype
 };
 
 export default Wrapper;

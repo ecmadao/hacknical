@@ -122,7 +122,7 @@ CardMenu.propTypes = {
 
 CardMenu.defaultProps = {
   items: [],
-  onFocusChange: () => {}
+  onFocusChange: Function.prototype
 };
 
 export default CardMenu;

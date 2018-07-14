@@ -31,8 +31,8 @@ ListItem.propTypes = {
 
 ListItem.defaultProps = {
   item: '',
-  onDelete: () => {},
-  onChange: () => {}
+  onDelete: Function.prototype,
+  onChange: Function.prototype
 };
 
 export default ListItem;

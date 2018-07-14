@@ -118,7 +118,7 @@ class OrgRepos extends React.Component {
         : 0;
       const clickFunc = percentage
         ? () => this.changeAcitveRepos(index)
-        : () => {};
+        : Function.prototype;
       const contributionClass = cx(
         styles.repos_contributions,
         !percentage && styles.repos_contributions_disabled

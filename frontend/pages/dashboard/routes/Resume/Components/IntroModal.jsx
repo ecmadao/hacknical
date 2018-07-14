@@ -44,7 +44,7 @@ IntroModal.propTypes = {
 
 IntroModal.defaultProps = {
   openModal: false,
-  onClose: () => {},
+  onClose: Function.prototype,
   intros: [],
 };
 

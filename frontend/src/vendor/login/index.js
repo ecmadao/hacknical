@@ -108,7 +108,7 @@ const renderStatistic = async (statistic, animation = true) => {
 };
 
 $(() => {
-  particlesJS.load('login', '/vendor/particlesjs-config.json', () => {});
+  particlesJS.load('login', '/vendor/particlesjs-config.json', Function.prototype);
   if ($('.statistic-container')[0]) {
     fetchStatistic()
       .then(data => renderStatistic(data))

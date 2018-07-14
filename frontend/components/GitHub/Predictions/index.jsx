@@ -76,7 +76,7 @@ class Predictions extends React.PureComponent {
     const {
       onFeedback
     } = this.props;
-    if (liked === newLike) return () => {};
+    if (liked === newLike) return Function.prototype;
     return () => {
       onFeedback && onFeedback(index, newLike)
     };

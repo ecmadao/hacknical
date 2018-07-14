@@ -106,7 +106,7 @@ Operations.propTypes = {
 Operations.defaultProps = {
   items: [],
   className: '',
-  onFocusChange: () => {}
+  onFocusChange: Function.prototype
 };
 
 export default Operations;

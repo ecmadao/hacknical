@@ -315,7 +315,7 @@ class CommitInfo extends React.Component {
       } = CHART_CONTROLLERS[key];
       const isActive = ID === chartType;
       const onClick = isActive
-        ? () => {}
+        ? Function.prototype
         : () => this.changeChartType(ID);
 
       controllers.push((

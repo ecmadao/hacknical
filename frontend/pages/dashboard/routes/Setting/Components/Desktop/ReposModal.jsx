@@ -205,8 +205,8 @@ ReposModal.propTypes = {
 
 ReposModal.defaultProps = {
   openModal: false,
-  onClose: () => {},
-  fetchData: () => {},
+  onClose: Function.prototype,
+  fetchData: Function.prototype,
 };
 
 export default ReposModal;

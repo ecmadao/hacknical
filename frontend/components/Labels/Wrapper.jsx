@@ -90,7 +90,7 @@ Wrapper.defaultProps = {
   max: 10,
   introText: '',
   placeholder: '',
-  onDelete: () => {},
+  onDelete: Function.prototype,
 };
 
 export default Wrapper;

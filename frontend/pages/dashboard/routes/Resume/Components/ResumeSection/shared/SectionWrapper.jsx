@@ -90,8 +90,8 @@ SectionWrapper.defaultProps = {
   children: null,
   button: '',
   disabled: false,
-  onClick: () => {},
-  onSectionChange: () => {},
+  onClick: Function.prototype,
+  onSectionChange: Function.prototype,
 };
 
 export default SectionWrapper;

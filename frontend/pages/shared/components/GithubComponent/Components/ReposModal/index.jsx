@@ -123,7 +123,7 @@ ReposModal.propTypes = {
 
 ReposModal.defaultProps = {
   openModal: false,
-  onClose: () => {},
+  onClose: Function.prototype,
   selectedItems: [],
   repos: [],
   languages: []

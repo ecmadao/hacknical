@@ -45,7 +45,7 @@ TipsoInput.defaultProps = {
   required: false,
   placeholder: '',
   className: '',
-  onChange: () => {},
+  onChange: Function.prototype,
   disabled: false,
 };
 

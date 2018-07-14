@@ -93,7 +93,7 @@ class Setting extends React.Component {
           <SwitcherPanel
             id="use-github-switch"
             text={settingTexts.resume.useGithub}
-            onChange={resumeInfoLoading ? () => {} : actions.postResumeGithubStatus}
+            onChange={resumeInfoLoading ? Function.prototype : actions.postResumeGithubStatus}
             checked={(resumeInfo && resumeInfo.useGithub) || false}
             disabled={resumeInfoLoading}
           />
@@ -177,7 +177,7 @@ class Setting extends React.Component {
         <SwitcherPanel
           text={settingTexts.resume.openShare}
           onChange={resumeInfoLoading
-              ? () => {}
+              ? Function.prototype
               : actions.postResumeShareStatus}
           disabled={resumeInfoLoading || resumeInfo.disabled}
           checked={(resumeInfo && resumeInfo.openShare) || false}
@@ -197,7 +197,7 @@ class Setting extends React.Component {
             text={settingTexts.resume.simplifyUrl}
             tipso={tip}
             onChange={resumeInfoLoading
-                ? () => {}
+                ? Function.prototype
                 : actions.toggleResumeSimplifyUrl}
             disabled={resumeInfoLoading || resumeInfo.disabled}
             checked={resumeInfo && resumeInfo.simplifyUrl}
