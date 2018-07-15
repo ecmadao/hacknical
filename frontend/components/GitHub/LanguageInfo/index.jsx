@@ -240,7 +240,7 @@ class LanguageInfo extends React.Component {
                 ref={ref => (this.languageUsed = ref)}
               />
             </div>
-          ) : ''}
+          ) : null}
           {languages.length ? (
             <div className={githubStyles.repos_chart}>
               <canvas

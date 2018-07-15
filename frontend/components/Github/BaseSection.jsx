@@ -21,7 +21,7 @@ const BaseSection = (props) => {
         >
           {operationTexts.share.enable}
         </div>
-      ) : ''}
+      ) : null}
       {children}
     </div>
   );

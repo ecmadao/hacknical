@@ -58,12 +58,12 @@ class CardMenu extends React.PureComponent {
           key={index}
           onClick={this.handleMenuClick(onClick)}
         >
-          { icon ? (
+          {icon ? (
             <i
               className={`fa fa-${icon}`}
               aria-hidden="true"
             />
-          ) : '' }
+          ) : null}
           {text}
         </div>
       );

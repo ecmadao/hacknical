@@ -152,14 +152,14 @@ class OrgInfo extends React.Component {
               {blog}
             </a>
           </div>
-        ) : ''}
+        ) : null}
         {description ? (
           <div className={styles.org_info}>
             <i className="fa fa-quote-left" aria-hidden="true" />
             &nbsp;&nbsp;
             {description}
           </div>
-        ) : ''}
+        ) : null}
         <OrgRepos
           repos={repos}
           login={login}
@@ -183,7 +183,7 @@ class OrgInfo extends React.Component {
     }
     const cards = loaded && organizations.length
       ? this.renderOrgsCard()
-      : '';
+      : null;
     return (
       <div className={className}>
         {cards}

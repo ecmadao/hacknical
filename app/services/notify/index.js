@@ -1,27 +1,12 @@
-/* eslint global-require: "off", import/no-dynamic-require: "off", no-unsafe-finally: "off" */
-import fs from 'fs';
+
 import path from 'path';
-import logger from '../../utils/logger';
+import { shadowImport } from '../../utils/loader';
 
-const buildDeliver = folder =>
-  fs.readdirSync(folder)
-    .filter(file =>
-      file !== 'shared.js' && fs.statSync(path.resolve(folder, file)).isFile()
-    )
-    .reduce((pre, cur) => {
-      const filepath = path.resolve(folder, cur);
-      const key = cur.split('.').slice(0, -1).join('.');
-      try {
-        const module = require(`${filepath}`).default;
-        pre[key] = module;
-      } catch (e) {
-        logger.error(e);
-      } finally {
-        return pre;
-      }
-    }, {});
-
-const DELIVER = buildDeliver(path.join(__dirname, 'lib'));
+const PREFIX = 'notify';
+const DELIVER = shadowImport(path.join(__dirname, 'lib'), {
+  prefix: PREFIX,
+  excludes: ['shared.js']
+});
 
 const send = Deliver => (options) => {
   const { mq, data } = options;
@@ -31,7 +16,7 @@ const send = Deliver => (options) => {
 };
 
 const notify = (source) => {
-  const Deliver = DELIVER[source];
+  const Deliver = DELIVER[Symbol.for(`${PREFIX}.${source}`)];
   if (!Deliver) throw new Error(`Can not find target source: ${source}`);
 
   return {

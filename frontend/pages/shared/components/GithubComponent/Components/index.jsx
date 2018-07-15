@@ -268,7 +268,7 @@ class GitHubComponent extends React.Component {
           <div className={styles.shareInfo}>
             {githubLocales.updateAt}{secondsBefore(lastUpdateTime)}
           </div>
-        ) : ''}
+        ) : null}
         <GitHub
           login={login}
           title={{
@@ -477,7 +477,7 @@ class GitHubComponent extends React.Component {
             toggleShare={this.changeShareStatus}
             onClose={() => this.toggleShareModal(false)}
           />
-        ) : ''}
+        ) : null}
         {!isShare ? (
           <FAB
             icon="share-alt"
@@ -490,7 +490,7 @@ class GitHubComponent extends React.Component {
             color="green"
             onClick={() => this.toggleShareModal(true)}
           />
-        ) : ''}
+        ) : null}
       </div>
     );
   }

@@ -23,7 +23,7 @@ class ReposItem extends React.Component {
               />
               &nbsp;{repository.stargazers_count}&nbsp;&nbsp;
             </span>
-          ) : ''}
+          ) : null}
           {repository.fork ? (
             <Label
               icon="code-fork"
@@ -31,7 +31,7 @@ class ReposItem extends React.Component {
               color="darkLight"
               clickable={false}
             />
-          ) : ''}
+          ) : null}
           <br />
           <span>{repository.description}</span>
         </div>

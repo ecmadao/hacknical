@@ -220,7 +220,7 @@ class RepositoryInfo extends React.Component {
               </div>
             </div>
           </div>
-        ) : ''}
+        ) : null}
         {ownedRepositories.length ? (
           <div className={chartStyles.canvas_container}>
             <canvas
@@ -228,7 +228,7 @@ class RepositoryInfo extends React.Component {
               ref={ref => (this.reposReview = ref)}
             />
           </div>
-        ) : ''}
+        ) : null}
       </div>
     );
   }

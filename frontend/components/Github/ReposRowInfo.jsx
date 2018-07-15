@@ -39,7 +39,7 @@ const ReposRowInfo = (props) => {
               color="darkLight"
               clickable={false}
             />
-          ) : ''}
+          ) : null}
         </div>
         <span className={githubStyles.repos_short_desc}>
           {repository.description}

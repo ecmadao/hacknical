@@ -306,7 +306,7 @@ class ShareRecords extends React.Component {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        {loading ? '' : (
+        {loading ? null : (
           <div className={controllerClass}>
             {this.renderShareController()}
           </div>

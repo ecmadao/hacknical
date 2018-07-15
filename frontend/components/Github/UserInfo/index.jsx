@@ -28,7 +28,7 @@ const UserInfo = (props) => {
           <span>
             {githubTexts.joinedAt}{dateHelper.validator.fullDate(user.created_at)}
           </span>
-          {user.bio ? <blockquote>{user.bio}</blockquote> : ''}
+          {user.bio ? <blockquote>{user.bio}</blockquote> : null}
         </div>
       </div>
       <SocialInfo user={user} />

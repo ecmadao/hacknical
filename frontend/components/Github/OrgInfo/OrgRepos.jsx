@@ -67,7 +67,7 @@ class OrgRepos extends React.Component {
               clickable={false}
               className={styles.reposLabel}
             />
-          ) : ''}
+          ) : null}
         </span>
         <span>{fullDate(created_at)} ~ {fullDate(pushed_at)}</span>
         <div className={styles.tipso_line} />

@@ -561,7 +561,7 @@ class GitHubMobileComponent extends React.Component {
           <div className={styles.repos_wrapper}>
             <div className={styles.repos_contents_wrapper}>
               <div className={styles.repos_contents}>
-                {repositoriesLoaded ? this.renderLanguageLines() : ''}
+                {repositoriesLoaded ? this.renderLanguageLines() : null}
               </div>
               <div className={styles.repos_yAxes}>
                 <div className={styles.yAxes_text}>
@@ -630,7 +630,7 @@ class GitHubMobileComponent extends React.Component {
               />
             </div>
           </div>
-        ) : ''}
+        ) : null}
 
         {isAdmin && !isShare ? (
           <div ref={ref => (this.refreshButton = ref)}>
@@ -642,7 +642,7 @@ class GitHubMobileComponent extends React.Component {
               disabled={refreshing}
             />
           </div>
-        ) : ''}
+        ) : null}
       </div>
     );
   }

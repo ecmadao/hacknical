@@ -71,7 +71,7 @@ class Wrapper extends React.Component {
               </div>
             </InputGroup>
           </div>
-        ) : ''}
+        ) : null}
       </div>
     );
   }

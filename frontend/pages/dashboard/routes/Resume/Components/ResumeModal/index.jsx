@@ -30,7 +30,7 @@ const ResumeModal = (props) => {
           resume={resume}
           shareInfo={shareInfo}
         />
-        {openModal ? <ShortMessage text="按 ESC 即可退出预览" /> : ''}
+        {openModal ? <ShortMessage text="按 ESC 即可退出预览" /> : null}
       </div>
       <FAB
         icon="share-alt"
