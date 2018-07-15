@@ -9,7 +9,7 @@ import cardStyles from './styles/info_card.css';
 import locales from 'LOCALES';
 import BaseSection from './BaseSection';
 
-const operationTexts = locales('github').operations;
+const operationTexts = locales('github.operations');
 const EmptyDOM = () => (<div />);
 
 class GitHubSection extends React.Component {

@@ -1,8 +1,10 @@
 
 import React from 'react';
 import { Tipso } from 'light-ui';
+import locales from 'LOCALES';
 import styles from '../../../styles/resume.css';
 
+// TODO: add en version
 const TIPS = {
   educations: {
     graduate: '应届生可能没有很多的经验，可以用学校和在校经历弥补',

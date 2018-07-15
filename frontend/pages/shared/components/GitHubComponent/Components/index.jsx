@@ -11,9 +11,7 @@ import github from 'UTILS/github';
 import locales from 'LOCALES';
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
-import {
-  removeDOM,
-} from 'UTILS/helper';
+import { removeDOM } from 'UTILS/helper';
 
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;

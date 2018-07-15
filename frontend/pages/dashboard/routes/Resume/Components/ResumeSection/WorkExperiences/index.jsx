@@ -6,7 +6,7 @@ import WorkExperience from './WorkExperience';
 import locales from 'LOCALES';
 import SectionWrapper from '../shared/SectionWrapper';
 
-const resumeTexts = locales('resume').sections.workExperiences;
+const resumeTexts = locales('resume.sections.workExperiences');
 
 class WorkExperiences extends React.Component {
   constructor(props) {

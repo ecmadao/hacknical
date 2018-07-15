@@ -3,7 +3,7 @@ import cx from 'classnames';
 import cardStyles from './styles/info_card.css';
 import locales from 'LOCALES';
 
-const operationTexts = locales('github').operations;
+const operationTexts = locales('github.operations');
 
 const BaseSection = (props) => {
   const {

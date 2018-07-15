@@ -22,6 +22,11 @@ const datas = {
     11: '十一月',
     12: '十二月',
   },
+  dateSlider: {
+    untilNow: '至今',
+    endDate: '结束时间',
+    startDate: '开始时间',
+  }
 };
 
 export default datas;

@@ -56,3 +56,27 @@ export const LINE_CONFIG = {
   pointHitRadius: 10,
   spanGaps: false,
 };
+
+export const DOUGHNUT_CONFIG = {
+  responsive: true,
+  title: {
+    display: true,
+  },
+  legend: {
+    display: false,
+  },
+  scales: {
+    xAxes: [{
+      display: false,
+      gridLines: {
+        display: false
+      }
+    }],
+    yAxes: [{
+      display: false,
+      gridLines: {
+        display: false
+      }
+    }],
+  }
+};

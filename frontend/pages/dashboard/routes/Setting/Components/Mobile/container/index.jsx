@@ -1,18 +1,15 @@
 import React from 'react';
-import cx from 'classnames';
 import { IconButton } from 'light-ui';
 import objectAssign from 'UTILS/object-assign';
 import Api from 'API';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
-import sharedStyles from 'SHARED/styles/mobile.css';
 import locales from 'LOCALES';
 import HeartBeat from 'UTILS/heartbeat';
 import SwitcherPanel from './SwitcherPanel';
 import SettingPanel from './SettingPanel';
 import InputPanel from './InputPanel';
 
-const modalTexts = locales('shareModal');
 const settingTexts = locales('dashboard').setting;
 
 

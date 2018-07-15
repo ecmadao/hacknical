@@ -6,7 +6,7 @@ import SocialInfo from 'COMPONENTS/GitHub/SocialInfo';
 import styles from '../styles/info_card.css';
 import locales from 'LOCALES';
 
-const githubTexts = locales('github').sections.baseInfo;
+const githubTexts = locales('github.sections.baseInfo');
 
 const UserInfo = (props) => {
   const { user, className } = props;

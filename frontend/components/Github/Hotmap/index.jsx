@@ -12,7 +12,7 @@ import locales, { formatLocale } from 'LOCALES';
 import formatHotmap from '../utils/hotmap';
 import dateHelper from 'UTILS/date';
 
-const githubTexts = locales('github').sections.hotmap;
+const githubTexts = locales('github.sections.hotmap');
 
 class Hotmap extends React.Component {
   constructor(props) {

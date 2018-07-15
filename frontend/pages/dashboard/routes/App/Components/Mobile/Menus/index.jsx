@@ -7,7 +7,7 @@ import { TABS } from 'UTILS/constant';
 import locales from 'LOCALES';
 import MenuWrapper from '../../shared/MenuWrapper';
 
-const { tabs } = locales('dashboard');
+const tabs = locales('dashboard.tabs');
 
 class Menus extends MenuWrapper {
   constructor(props) {

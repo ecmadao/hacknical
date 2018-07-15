@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import recordsActions from '../../redux/actions';

@@ -7,7 +7,6 @@ import styles from './fab.css';
 const _FAB = (props) => {
   const {
     status,
-    className,
     onTransitionEnd
   } = props;
 

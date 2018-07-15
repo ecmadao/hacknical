@@ -7,9 +7,9 @@ import styles from '../styles/github.css';
 import locales from 'LOCALES';
 import ReposRowInfo from '../ReposRowInfo';
 import objectAssign from 'UTILS/object-assign';
+import { DEFAULT_REPOSITORIES } from 'UTILS/constant';
 
-const DEFAULT_REPOSITORIES = 5;
-const githubTexts = locales('github').sections.contributed;
+const githubTexts = locales('github.sections.contributed');
 
 class ContributedInfo extends React.Component {
   constructor(props) {

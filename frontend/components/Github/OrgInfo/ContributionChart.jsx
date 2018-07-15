@@ -13,7 +13,7 @@ import locales from 'LOCALES';
 import { contributionLevel } from './helper';
 import ReposBaseInfo from '../ReposBaseInfo';
 
-const githubTexts = locales('github').sections.orgs;
+const githubTexts = locales('github.sections.orgs');
 
 class ContributionChart extends React.Component {
   constructor(props) {

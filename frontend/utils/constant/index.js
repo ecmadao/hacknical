@@ -1,7 +1,8 @@
 import locales from 'LOCALES';
 
 const { days, months } = locales('datas');
-const { tabs } = locales('dashboard');
+const tabs = locales('dashboard.tabs');
+const githubTexts = locales('github.sections.commits');
 
 const BASE_URL = 'https://github.com';
 
@@ -10,6 +11,26 @@ export const URLS = {
   REPOSITORY: `${BASE_URL}/ecmadao/hacknical`,
   ISSUE: `${BASE_URL}/ecmadao/hacknical/issues`
 };
+
+export const CHART_CONTROLLERS = {
+  MONTH: {
+    ID: 'monthly',
+    FORMAT: 'YYYY-MM',
+    TEXT: githubTexts.monthlyView
+  },
+  WEEK: {
+    ID: 'weekly',
+    FORMAT: 'YYYY-MM-DD',
+    TEXT: githubTexts.weeklyView
+  },
+  DAY: {
+    ID: 'daily',
+    FORMAT: 'YYYY-MM-DD',
+    TEXT: githubTexts.dailyView
+  }
+};
+
+export const DEFAULT_REPOSITORIES = 5;
 
 export const SECONDS_PER_DAY = 24 * 60 * 60;
 

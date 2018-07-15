@@ -1,10 +1,9 @@
 
 import dateHelper from './date';
-import { SECONDS_PER_DAY } from './constant';
+import { URLS, SECONDS_PER_DAY } from 'UTILS/constant';
 
 const getFullDateBySecond = dateHelper.validator.fullDateBySeconds;
 const getSecondsByDate = dateHelper.seconds.getByDate;
-const baseUrl = 'https://github.com';
 
 const getReposNames = repos =>
   repos.map(repository => repository.name);
@@ -270,7 +269,7 @@ const formatCommitsTimeline = () => {
 };
 
 export default {
-  baseUrl,
+  baseUrl: URLS.GITHUB,
   getReposNames,
   getReposForks,
   getReposStars,

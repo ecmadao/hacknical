@@ -8,7 +8,7 @@ import locales from 'LOCALES';
 import ContributionChart from './ContributionChart';
 import { contributionLevel } from './helper';
 
-const githubTexts = locales('github').sections.orgs;
+const githubTexts = locales('github.sections.orgs');
 const fullDate = dateHelper.validator.fullDate;
 
 class OrgRepos extends React.Component {

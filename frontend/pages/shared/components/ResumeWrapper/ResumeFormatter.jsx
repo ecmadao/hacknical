@@ -1,9 +1,7 @@
 
 import { cloneElement } from 'react';
 import objectAssign from 'UTILS/object-assign';
-import {
-  validateSocialLinks
-} from 'UTILS/resume';
+import { validateSocialLinks } from 'UTILS/resume';
 import dateHelper from 'UTILS/date';
 import { sortBySeconds, isUrl } from 'UTILS/helper';
 import { formatUrl } from 'UTILS/formatter';

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Slider } from 'light-ui';
 import styles from './date_slider.css';
 import dateHelper from 'UTILS/date';
+import locales from 'LOCALES';
 import { SECONDS_PER_DAY } from 'UTILS/constant';
 
 const getDateBySeconds = dateHelper.date.bySeconds;
@@ -11,7 +12,7 @@ const getValidatorDate = dateHelper.validator.date;
 const getValidatorFullDate = dateHelper.validator.fullDate;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const afterDays = dateHelper.date.afterDays;
-
+const localeTexts = locales('datas.dateSlider');
 const MAX_DATE = afterDays(1);
 
 class DateSlider extends React.Component {
@@ -67,15 +68,15 @@ class DateSlider extends React.Component {
 
   render() {
     const {
+      endText,
       minDate,
       maxDate,
       startText,
-      endText
     } = this.props;
 
     const {
+      endDate,
       startDate,
-      endDate
     } = this.state;
     const validateEndDate = getValidatorFullDate(endDate);
 
@@ -93,7 +94,7 @@ class DateSlider extends React.Component {
             const fullDate = getValidatorFullDate(date);
             return (
               <div className={styles.slider_tipso}>
-                {MAX_DATE === fullDate ? '至今' : getValidatorDate(date)}
+                {MAX_DATE === fullDate ? localeTexts.untilNow : getValidatorDate(date)}
               </div>
             );
           }}
@@ -111,7 +112,7 @@ class DateSlider extends React.Component {
             <span>
               {
                 MAX_DATE === validateEndDate
-                  ? '至今'
+                  ? localeTexts.untilNow
                   : getValidatorDate(endDate)
               }
             </span>
@@ -141,8 +142,8 @@ DateSlider.defaultProps = {
   maxDate: MAX_DATE,
   initialStart: getDateBeforeYears(2),
   initialEnd: getDateBeforeYears(1),
-  startText: '开始时间',
-  endText: '结束时间',
+  startText: localeTexts.startDate,
+  endText: localeTexts.endDate,
   onStartChange: Function.prototype,
   onEndChange: Function.prototype,
 };

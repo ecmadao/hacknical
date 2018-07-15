@@ -1,5 +1,5 @@
 
-import { MD_COLORS } from './constant';
+import { MD_COLORS } from 'UTILS/constant';
 
 export const hex2Rgb = (hex) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

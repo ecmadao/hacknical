@@ -8,8 +8,7 @@ import locales from 'LOCALES';
 import { Loading } from 'light-ui';
 import { RADAR_CONFIG } from 'UTILS/constant/chart';
 
-const githubLocales = locales('github');
-const githubTexts = githubLocales.sections;
+const githubTexts = locales('github.sections');
 
 class Statistic extends React.Component {
   constructor(props) {

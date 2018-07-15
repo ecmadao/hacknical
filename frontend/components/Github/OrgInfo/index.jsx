@@ -12,7 +12,7 @@ import { splitArray } from 'UTILS/helper';
 import dateHelper from 'UTILS/date';
 
 const fullDate = dateHelper.validator.fullDate;
-const githubTexts = locales('github').sections.orgs;
+const githubTexts = locales('github.sections.orgs');
 
 class OrgInfo extends React.Component {
   constructor(props) {

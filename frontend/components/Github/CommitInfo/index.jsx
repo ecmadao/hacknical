@@ -5,7 +5,7 @@ import objectAssign from 'UTILS/object-assign';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import dateHelper from 'UTILS/date';
-import { DAYS, MONTHS } from 'UTILS/constant';
+import { DAYS, MONTHS, CHART_CONTROLLERS } from 'UTILS/constant';
 import { LINE_CONFIG } from 'UTILS/constant/chart';
 import {
   getMaxIndex,
@@ -21,23 +21,6 @@ import { getCommitsStockConfig } from 'UTILS/stock';
 const githubTexts = locales('github').sections.commits;
 const getDateBySeconds = dateHelper.date.bySeconds;
 const getSecondsByDate = dateHelper.seconds.getByDate;
-const CHART_CONTROLLERS = {
-  MONTH: {
-    ID: 'monthly',
-    FORMAT: 'YYYY-MM',
-    TEXT: githubTexts.monthlyView
-  },
-  WEEK: {
-    ID: 'weekly',
-    FORMAT: 'YYYY-MM-DD',
-    TEXT: githubTexts.weeklyView
-  },
-  DAY: {
-    ID: 'daily',
-    FORMAT: 'YYYY-MM-DD',
-    TEXT: githubTexts.dailyView
-  }
-};
 
 class CommitInfo extends React.Component {
   constructor(props) {

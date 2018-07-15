@@ -10,7 +10,7 @@ import locales from 'LOCALES';
 import SectionWrapper from './shared/SectionWrapper';
 import TipsoInput from './shared/TipsoInput';
 
-const resumeTexts = locales('resume').sections.personalProjects;
+const resumeTexts = locales('resume.sections.personalProjects');
 
 class PersonalProjects extends React.Component {
   constructor(props) {

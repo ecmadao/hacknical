@@ -11,32 +11,10 @@ import locales from 'LOCALES';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
+import { CHART_OPTIONS } from 'UTILS/constant/chart';
 
-const githubTexts = locales('github').sections.repos;
+const githubTexts = locales('github.sections.repos');
 const getValidateDate = dateHelper.validator.fullDate;
-const CHART_OPTIONS = {
-  responsive: true,
-  title: {
-    display: true,
-  },
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [{
-      display: false,
-      gridLines: {
-        display: false
-      }
-    }],
-    yAxes: [{
-      display: false,
-      gridLines: {
-        display: false
-      }
-    }],
-  }
-};
 
 class RepositoryInfo extends React.Component {
   constructor(props) {

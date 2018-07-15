@@ -34,15 +34,32 @@ export const formatLocale = () => {
   return 'zh-CN';
 };
 
-const getLocale = (page) => {
-  const locale = validateLocale();
-  let datas = {};
-  try {
-    datas = require(`./${page}/${locale}.js`).default;
-  } catch (e) {
-    datas = require(`./${page}/en.js`).default;
+const getData = (dict, keys) => {
+  let tmp = dict;
+  for (const key of keys) {
+    tmp = tmp[key];
+    if (!tmp) throw new Error(`Can not find ${keys.join('.')}`);
   }
-  return datas;
+  return tmp;
 };
 
-export default getLocale;
+const getLocale = () => {
+  const tmp = new Map();
+  const locale = validateLocale();
+
+  return (dataPath) => {
+    const [file, ...dataKeys] = dataPath.split('.');
+    if (tmp.has(file)) return getData(tmp.get(file), dataKeys);
+
+    let datas = {};
+    try {
+      datas = require(`./${file}/${locale}.js`).default;
+    } catch (e) {
+      datas = require(`./${file}/en.js`).default;
+    }
+    tmp.set(file, datas);
+    return getData(tmp.get(file), dataKeys);
+  };
+};
+
+export default getLocale();

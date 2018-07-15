@@ -6,7 +6,7 @@ import Education from './Education';
 import locales from 'LOCALES';
 import SectionWrapper from '../shared/SectionWrapper';
 
-const resumeTexts = locales('resume').sections.educations;
+const resumeTexts = locales('resume.sections.educations');
 
 class Educations extends React.Component {
   constructor(props) {

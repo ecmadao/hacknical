@@ -19,7 +19,7 @@ import cardStyles from '../styles/info_card.css';
 import ReposRowInfo from '../ReposRowInfo';
 
 const sortByLanguageStar = github.sortByX({ key: 'star' });
-const githubTexts = locales('github').sections.languages;
+const githubTexts = locales('github.sections.languages');
 const getRamdomColor = randomColor();
 
 class LanguageInfo extends React.Component {

@@ -6,7 +6,7 @@ import { GREEN_COLORS } from 'UTILS/constant';
 import styles from './social_info.css';
 import locales from 'LOCALES';
 
-const githubTexts = locales('github').sections.social;
+const githubTexts = locales('github.sections.social');
 
 const getUserCardColor = (user) => {
   const { public_repos, followers, following } = user;

@@ -4,8 +4,7 @@ import styles from '../styles/predictions.css';
 import CardMenu from './CardMenu';
 import locales from 'LOCALES';
 
-const githubLocales = locales('github');
-const githubTexts = githubLocales.sections;
+const githubTexts = locales('github.sections');
 
 const formatCount = (count) => {
   if (count < 1000) return count;

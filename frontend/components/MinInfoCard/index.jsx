@@ -11,7 +11,7 @@ const MinInfoCard = (props) => {
       <div className={styles.info_main_text}>
         {icon ? (
           <i className={`fa fa-${icon}`} aria-hidden="true" />
-        ) : ''}
+        ) : null}
         {mainText}
       </div>
     </div>
