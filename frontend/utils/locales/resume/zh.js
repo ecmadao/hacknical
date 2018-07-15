@@ -173,7 +173,19 @@ const datas = {
         '技术经验越多越好；但如果缺乏，至少要表现出成长潜力'
       ]
     }
-  ]
+  ],
+  tips: {
+    educations: {
+      graduate: '应届生可能没有很多的经验，可以用学校和在校经历弥补',
+      normal: ''
+    },
+    workExperiences: {
+      graduate: '有相关实习经历是再好不过了，但还请牢记“宁缺毋滥”',
+      normal: '突出重点项目，按时间从近到远，和职位需求匹配度高低来决定自己书写的重点'
+    },
+    personalProjects: '个人项目可以侧面展现自己的学习能力和职业发展路线',
+    others: '太基础的技能就不用强调了。正确书写技术名词，切记请勿随意“精通”'
+  }
 };
 
 export default datas;

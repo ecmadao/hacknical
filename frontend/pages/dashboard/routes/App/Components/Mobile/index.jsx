@@ -5,18 +5,16 @@ import Menus from './Menus';
 
 const Mobile = (props) => {
   const {
-    routes,
     login,
-    locale,
-    location,
+    routes,
     isAdmin,
+    location,
     changeActiveTab
   } = props;
   return (
     <div className={styles.app}>
       <Menus
         login={login}
-        locale={locale}
         location={location}
         changeActiveTab={changeActiveTab}
       />

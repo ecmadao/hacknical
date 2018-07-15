@@ -9,7 +9,6 @@ const renderOctocat = () => {
 $(() => {
   renderApp('root', {
     login: window.login,
-    locale: window.locale,
     isAdmin: window.isAdmin === 'true',
     isMobile: window.isMobile === 'true',
     dashboardRoute: window.dashboardRoute || 'visualize',

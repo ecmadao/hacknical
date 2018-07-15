@@ -6,7 +6,7 @@ const getQurtyLocale = () => {
   return match && match[1] ? match[1] : '';
 };
 
-const validateLocale = () => {
+export const getLocale = () => {
   const locale = window.locale || getQurtyLocale() || 'en';
   if (/^en/.test(locale)) {
     return 'en';
@@ -21,7 +21,7 @@ const validateLocale = () => {
 };
 
 export const formatLocale = () => {
-  const locale = validateLocale();
+  const locale = getLocale();
   if (/^en/.test(locale)) {
     return locale;
   }
@@ -43,9 +43,9 @@ const getData = (dict, keys) => {
   return tmp;
 };
 
-const getLocale = () => {
+const getLocaleData = () => {
   const tmp = new Map();
-  const locale = validateLocale();
+  const locale = getLocale();
 
   return (dataPath) => {
     const [file, ...dataKeys] = dataPath.split('.');
@@ -62,4 +62,4 @@ const getLocale = () => {
   };
 };
 
-export default getLocale();
+export default getLocaleData();

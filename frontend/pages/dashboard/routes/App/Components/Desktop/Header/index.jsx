@@ -1,11 +1,12 @@
 import React from 'react';
 import { Tipso } from 'light-ui';
-import locales from 'LOCALES';
+import locales, { getLocale } from 'LOCALES';
 import styles from '../../../styles/desktop.css';
 import MenuWrapper from '../../shared/MenuWrapper';
 import { URLS } from 'UTILS/constant';
 
 const headers = locales('dashboard').headers;
+const locale = getLocale();
 
 class Header extends MenuWrapper {
   renderLanguageOptions() {
@@ -29,7 +30,6 @@ class Header extends MenuWrapper {
 
   render() {
     const { zen } = this.state;
-    const locale = window.locale || 'en';
 
     return (
       <div className={styles.app_header}>

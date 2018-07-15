@@ -3,7 +3,7 @@ import logger from '../../utils/logger';
 
 const getLanguages = (currentLanguage) => {
   const locale = currentLanguage || 'zh';
-  if (locale === 'fr') { locale === 'en' }
+  if (locale === 'fr') locale === 'en';
   let datas = [];
   try {
     datas = require(`./${locale}.js`).default;

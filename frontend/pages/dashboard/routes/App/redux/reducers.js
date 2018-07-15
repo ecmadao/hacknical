@@ -7,7 +7,6 @@ const initialState = {
   tabBarActive: true,
   activeTab: 'visualize',
   isMobile: false,
-  locale: 'en',
   isAdmin: false,
 };
 

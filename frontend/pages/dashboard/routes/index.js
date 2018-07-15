@@ -11,7 +11,6 @@ export const createRoutes = (store, props) => {
   const {
     login,
     dashboardRoute,
-    locale = 'en',
     isAdmin = false,
     isMobile = false,
   } = props;
@@ -19,7 +18,6 @@ export const createRoutes = (store, props) => {
     key: 'app',
     reducer: initReducers({
       login,
-      locale,
       isAdmin,
       isMobile,
       activeTab: dashboardRoute,

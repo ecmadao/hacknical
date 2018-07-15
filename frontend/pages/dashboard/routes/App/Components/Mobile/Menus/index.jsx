@@ -4,10 +4,11 @@ import { PortalModal } from 'light-ui';
 import styles from '../../../styles/mobile.css';
 import Topbar from '../../shared/Topbar';
 import { TABS } from 'UTILS/constant';
-import locales from 'LOCALES';
+import locales, { getLocale } from 'LOCALES';
 import MenuWrapper from '../../shared/MenuWrapper';
 
 const tabs = locales('dashboard.tabs');
+const locale = getLocale();
 
 class Menus extends MenuWrapper {
   constructor(props) {
@@ -66,7 +67,6 @@ class Menus extends MenuWrapper {
   }
 
   render() {
-    const { locale } = this.props;
     const { zen, menuActive } = this.state;
     const aboutUrl = `https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`;
     return (
