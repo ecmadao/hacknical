@@ -11,7 +11,7 @@ import locales from 'LOCALES';
 import chartStyles from '../styles/chart.css';
 import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
-import { CHART_OPTIONS } from 'UTILS/constant/chart';
+import { DOUGHNUT_CONFIG } from 'UTILS/constant/chart';
 
 const githubTexts = locales('github.sections.repos');
 const getValidateDate = dateHelper.validator.fullDate;
@@ -58,7 +58,7 @@ class RepositoryInfo extends React.Component {
           githubTexts.forkedRepos
         ]
       },
-      options: CHART_OPTIONS
+      options: DOUGHNUT_CONFIG
     });
   }
 
@@ -83,7 +83,7 @@ class RepositoryInfo extends React.Component {
         datasets: [chart.doughnut(datas, colors)],
         labels
       },
-      options: CHART_OPTIONS
+      options: DOUGHNUT_CONFIG
     });
   }
 
