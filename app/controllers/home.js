@@ -4,6 +4,7 @@ import getLanguages from '../config/languages';
 import logger from '../utils/logger';
 import UserAPI from '../services/user';
 import StatAPI from '../services/stat';
+import notify from '../services/notify';
 
 const landingPage = async (ctx) => {
   const { locale } = ctx.state;
@@ -52,6 +53,12 @@ const dashboard = async (ctx) => {
   if (!user.initialed) {
     ctx.redirect('/initial');
   }
+  notify('slack').send({
+    mq: ctx.mq,
+    data: {
+      data: `Used by <https://github.com/${githubLogin}|${githubLogin}>`
+    }
+  });
   await ctx.render('user/dashboard', {
     dashboardRoute,
     login: githubLogin,
