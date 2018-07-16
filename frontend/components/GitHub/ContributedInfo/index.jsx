@@ -15,9 +15,9 @@ class ContributedInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repositories: [],
       loaded: false,
       showMore: false,
+      repositories: [],
     };
     this.showMore = this.showMore.bind(this);
   }
@@ -30,7 +30,7 @@ class ContributedInfo extends React.Component {
   }
 
   async getGithubContributed(login) {
-    const { repositories } = await Api.github.getContributed(login);
+    const repositories = await Api.github.getContributed(login);
     this.setGithubContributed(repositories);
   }
 

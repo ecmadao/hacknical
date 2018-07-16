@@ -7,13 +7,11 @@ import {
   InfoCard,
   CardGroup,
 } from 'light-ui';
-import github from 'UTILS/github';
-import { randomColor } from 'UTILS/colors';
-import {
-  getMaxIndex,
-} from 'UTILS/helper';
 import locales from 'LOCALES';
 import chart from 'UTILS/chart';
+import github from 'UTILS/github';
+import { randomColor } from 'UTILS/colors';
+import { getMaxIndex } from 'UTILS/helper';
 import githubStyles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import ReposRowInfo from '../ReposRowInfo';

@@ -1,7 +1,7 @@
 import CommitInfo from './CommitInfo';
 import LanguageInfo from './LanguageInfo';
 import RepositoryInfo from './RepositoryInfo';
-import OrgInfo from './OrgInfo';
+import OrganizationsInfo from './OrganizationsInfo';
 import UserInfo from './UserInfo';
 import Hotmap from './Hotmap';
 import CodeCourse from './CodeCourse';
@@ -13,7 +13,7 @@ export default {
   hotmap: Hotmap,
   info: UserInfo,
   repos: RepositoryInfo,
-  orgs: OrgInfo,
+  orgs: OrganizationsInfo,
   languages: LanguageInfo,
   commits: CommitInfo,
   course: CodeCourse,

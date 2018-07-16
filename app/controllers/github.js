@@ -1,6 +1,6 @@
 /* eslint eqeqeq: "off" */
 import config from 'config';
-import Api from '../services/api';
+import GitHubAPI from '../services/github';
 import {
   combineReposCommits,
   UPDATE_STATUS_TEXT
@@ -16,7 +16,7 @@ const services = config.get('services.github');
 
 const _getUser = async (ctx) => {
   const { login } = ctx.params;
-  const user = await Api.getUser(login);
+  const user = await GitHubAPI.getUser(login);
   if (!user) {
     return ctx.redirect('/404');
   }
@@ -24,19 +24,19 @@ const _getUser = async (ctx) => {
 };
 
 const _getRepositories = async (login, token) => {
-  const repositories = await Api.getUserRepositories(login, token);
+  const repositories = await GitHubAPI.getUserRepositories(login, token);
   repositories.sort(sortBy.star);
   return repositories;
 };
 
 const _getContributed = async (login, token) => {
-  const repos = await Api.getUserContributed(login, token);
+  const repos = await GitHubAPI.getUserContributed(login, token);
   repos.sort(sortBy.star);
   return repos;
 };
 
 const _getCommits = async (login, token) => {
-  const commits = await Api.getUserCommits(login, token);
+  const commits = await GitHubAPI.getUserCommits(login, token);
   const formatCommits = combineReposCommits(commits);
   commits.sort(sortBy.x('totalCommits', parseInt));
 
@@ -64,7 +64,7 @@ const toggleShare = async (ctx) => {
 
 const getAllRepositories = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const repos = await Api.getUserRepositories(githubLogin, githubToken);
+  const repos = await GitHubAPI.getUserRepositories(githubLogin, githubToken);
   const result = [];
 
   for (const repository of repos) {
@@ -95,9 +95,7 @@ const getUserContributed = async (ctx, next) => {
     await _getContributed(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
-    result: {
-      repositories,
-    }
+    result: repositories
   };
   await next();
 };
@@ -107,9 +105,7 @@ const getUserRepositories = async (ctx, next) => {
     await _getRepositories(ctx.params.login, ctx.session.githubToken);
   ctx.body = {
     success: true,
-    result: {
-      repositories,
-    },
+    result: repositories,
   };
   await next();
 };
@@ -134,15 +130,27 @@ const getUserCommits = async (ctx, next) => {
   await next();
 };
 
+const getUserLanguages = async (ctx, next) => {
+  const { login } = ctx.params;
+  const { githubToken } = ctx.session;
+
+  const languages = await GitHubAPI.getUserLanguages(login, githubToken);
+  ctx.body = {
+    success: true,
+    result: languages
+  };
+  await next();
+};
+
 const getUserOrganizations = async (ctx, next) => {
   const { login } = ctx.params;
   const { githubToken } = ctx.session;
   const organizations =
-    await Api.getUserOrganizations(login, githubToken);
+    await GitHubAPI.getUserOrganizations(login, githubToken);
 
   ctx.body = {
     success: true,
-    result: { organizations }
+    result: organizations
   };
   await next();
 };
@@ -158,8 +166,8 @@ const getUser = async (ctx, next) => {
   result.openShare = userInfo.githubShare;
   result.shareUrl = `${login}/github?locale=${ctx.session.locale}`;
   ctx.body = {
+    result,
     success: true,
-    result
   };
   await next();
 };
@@ -231,7 +239,7 @@ const refreshEnable = (status, lastUpdate) =>
 
 const getUpdateStatus = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
-  const statusResult = await Api.getUpdateStatus(githubLogin);
+  const statusResult = await GitHubAPI.getUpdateStatus(githubLogin);
   logger.info(`${githubLogin} update status: ${JSON.stringify(statusResult)}`);
   const {
     status,
@@ -259,7 +267,7 @@ const getUpdateStatus = async (ctx) => {
 
 const updateUserData = async (ctx) => {
   const { githubToken, githubLogin } = ctx.session;
-  await Api.updateUserData(githubLogin, githubToken);
+  await GitHubAPI.updateUserData(githubLogin, githubToken);
 
   ctx.body = {
     message: ctx.__('messages.update.pending'),
@@ -269,7 +277,7 @@ const updateUserData = async (ctx) => {
 
 const getZen = async (ctx) => {
   const { githubToken } = ctx.session;
-  const val = await Api.getZen(githubToken);
+  const val = await GitHubAPI.getZen(githubToken);
   const result = is.object(val) ? '' : val;
 
   ctx.body = {
@@ -279,7 +287,7 @@ const getZen = async (ctx) => {
 };
 
 const getOctocat = async (ctx) => {
-  const result = await Api.getOctocat();
+  const result = await GitHubAPI.getOctocat();
   ctx.body = {
     result,
     success: true,
@@ -289,7 +297,7 @@ const getOctocat = async (ctx) => {
 const getUserHotmap = async (ctx, next) => {
   const { login } = ctx.params;
   const { locale } = ctx.session;
-  const result = await Api.getHotmap(login, locale);
+  const result = await GitHubAPI.getHotmap(login, locale);
 
   ctx.body = {
     result,
@@ -307,6 +315,7 @@ export default {
   getShareRecords,
   getUserHotmap,
   getUserCommits,
+  getUserLanguages,
   getUserContributed,
   getUserRepositories,
   getUserOrganizations,

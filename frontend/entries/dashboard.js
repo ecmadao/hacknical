@@ -2,9 +2,8 @@ import renderApp from 'PAGES/dashboard';
 import 'SRC/vendor/dashboard/dashboard.css';
 import Api from 'API';
 
-const renderOctocat = () => {
-  Api.github.octocat().then(octocat => console.log(octocat))
-};
+const renderOctocat = () =>
+  Api.github.octocat().then(console.log);
 
 $(() => {
   renderApp('root', {

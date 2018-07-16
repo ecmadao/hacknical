@@ -10,6 +10,7 @@ const getAllRepositories = () => fetchInfo('/repositories/all');
 const getRepositories = login => fetchInfo(`/${login}/repositories`);
 const getContributed = login => fetchInfo(`/${login}/contributed`);
 const getCommits = login => fetchInfo(`/${login}/commits`);
+const getLanguages = login => fetchInfo(`/${login}/languages`);
 const getOrganizations = login => fetchInfo(`/${login}/organizations`);
 const getUser = login => fetchInfo(`/${login}/info`);
 const getUserHotmap = login => fetchInfo(`/${login}/hotmap`);
@@ -21,7 +22,7 @@ const toggleShare = enable => patchInfo('/share/status', { enable });
 const getShareRecords = () => fetchInfo('/share/records');
 
 const update = () => putInfo('/update');
-const updateStatus = () => fetchInfo('/update/status');
+const getUpdateStatus = () => fetchInfo('/update/status');
 
 const zen = () => fetchInfo('/zen');
 const octocat = () => fetchInfo('/octocat');
@@ -32,6 +33,7 @@ export default {
   // github info
   getUser,
   getCommits,
+  getLanguages,
   getUserHotmap,
   getContributed,
   getRepositories,
@@ -39,7 +41,7 @@ export default {
   getAllRepositories,
   // for refresh & initial
   update,
-  updateStatus,
+  getUpdateStatus,
   // share status
   toggleShare,
   getShareRecords,

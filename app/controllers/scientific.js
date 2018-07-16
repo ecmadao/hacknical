@@ -1,5 +1,5 @@
 
-import Api from '../services/api';
+import GitHubAPI from '../services/github';
 import notify from '../services/notify';
 import getCacheKey from './helper/cacheKey';
 import StatAPI from '../services/stat';
@@ -7,7 +7,7 @@ import StatAPI from '../services/stat';
 const getUserStatistic = async (ctx) => {
   const { login } = ctx.params;
   const { githubToken } = ctx.session;
-  const result = await Api.getUserStatistic(login, githubToken);
+  const result = await GitHubAPI.getUserStatistic(login, githubToken);
   ctx.body = {
     result,
     success: true,
@@ -18,7 +18,7 @@ const getUserPredictions = async (ctx) => {
   const { login } = ctx.params;
   const { githubToken, githubLogin } = ctx.session;
   const result = login === githubLogin
-    ? (await Api.getUserPredictions(githubLogin, githubToken) || [])
+    ? (await GitHubAPI.getUserPredictions(githubLogin, githubToken) || [])
     : [];
   const results = [];
   await Promise.all(result.map(async (repository) => {
@@ -45,7 +45,7 @@ const removePrediction = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const { fullName } = ctx.request.body;
   if (login === githubLogin) {
-    await Api.removePrediction(login, fullName);
+    await GitHubAPI.removePrediction(login, fullName);
   }
 
   notify('slack').send({
@@ -78,7 +78,7 @@ const putPredictionFeedback = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const { fullName, liked } = ctx.request.body;
   if (login === githubLogin) {
-    await Api.putPredictionsFeedback(login, fullName, liked);
+    await GitHubAPI.putPredictionsFeedback(login, fullName, liked);
   }
 
   const likeText = Number(liked) > 0 ? 'liked' : 'disliked';

@@ -1,13 +1,12 @@
 
 /* eslint arrow-body-style: "off" */
+import { BASE_URL_REG } from 'UTILS/constant'
 
 export const formatUrl = (url) => {
   return /^http/.test(url) ? url : `//${url}`;
 };
 
 /* ================================================================= */
-
-const BASE_URL_REG = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
 
 const formatWithUrl = (text, url) => {
   const sections = text.split(url);

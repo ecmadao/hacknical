@@ -39,7 +39,7 @@ class ResumeWrapper extends React.Component {
   componentDidUpdate(preProps, preState) {
     const { loading } = this.state;
     if (!loading && preState.loading) {
-      setTimeout(() => removeDOM('#loading'), 500);
+      removeDOM('#loading', { async: true, timeout: 500 });
       setTimeout(() => window.done = true, 2000);
     }
   }

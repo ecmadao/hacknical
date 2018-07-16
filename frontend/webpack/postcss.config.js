@@ -8,7 +8,7 @@ module.exports = {
     'postcss-import': {},
     'postcss-cssnext': {
       autoprefixer: {
-        browsers: "ie >= 9"
+        browsers: 'ie >= 9'
       },
       features: {
         customProperties: {

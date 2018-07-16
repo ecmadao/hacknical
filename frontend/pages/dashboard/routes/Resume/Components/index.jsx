@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, IconButton, Tipso } from 'light-ui';
 import styles from '../styles/resume.css';
-import ShareModal from 'SHARED/components/ShareModal';
+import ShareModal from 'COMPONENTS/ShareModal';
 import ResumeSection from './ResumeSection';
 import ResumeModal from './ResumeModal';
 import TemplateModal from './TemplateModal';

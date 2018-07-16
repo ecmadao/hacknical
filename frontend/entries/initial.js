@@ -46,7 +46,7 @@ $(() => {
     .then((instance) => {
       const heartBeat = new HeartBeat({
         interval: 1000, // 1s
-        callback: () => Api.github.updateStatus().then((result) => {
+        callback: () => Api.github.getUpdateStatus().then((result) => {
           if (result && result.finished) {
             heartBeat.stop();
             Api.user.initialed();

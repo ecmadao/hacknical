@@ -1,6 +1,6 @@
 import React from 'react';
 import objectAssign from 'UTILS/object-assign';
-import WritableGroupWrapper from '../WritableGroupWrapper';
+import WritableGroupWrapper from '../shared/WritableGroupWrapper';
 import Wrapper from './Wrapper';
 
 const WritableList = (props) => {
@@ -10,9 +10,7 @@ const WritableList = (props) => {
   wrapperProps.onLabelChange = props.onChange;
 
   return (
-    <WritableGroupWrapper
-      onAdd={props.onAdd}
-    >
+    <WritableGroupWrapper onAdd={props.onAdd}>
       <Wrapper {...wrapperProps} />
     </WritableGroupWrapper>
   )

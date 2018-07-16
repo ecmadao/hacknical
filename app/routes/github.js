@@ -92,6 +92,15 @@ router.get(
   cache.set()
 );
 router.get(
+  '/:login/languages',
+  share.githubEnable(),
+  cache.get('user-languages', {
+    params: ['login']
+  }),
+  GitHub.getUserLanguages,
+  cache.set()
+);
+router.get(
   '/:login/organizations',
   share.githubEnable(),
   cache.get('user-organizations', {

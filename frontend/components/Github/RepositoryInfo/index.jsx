@@ -203,10 +203,10 @@ class RepositoryInfo extends React.Component {
                 ref={ref => (this.reposForks = ref)}
               />
               <div className={githubStyles.chart_center}>
-                {totalReposCount ? parseInt(
-                  (ownedRepositories.length * 100) / totalReposCount,
-                  10
-                ) : 0}%<br />
+                {totalReposCount
+                  ? parseInt((ownedRepositories.length * 100) / totalReposCount, 10)
+                  : 0
+                }%<br />
                 {githubTexts.originalRepos}
               </div>
             </div>

@@ -7,7 +7,7 @@ import { removeDOM } from 'UTILS/helper';
 
 class AppContainer extends React.Component {
   componentDidMount() {
-    setTimeout(() => removeDOM('#loading'), 500);
+    removeDOM('#loading', { async: true, timeout: 500 });
   }
 
   render() {

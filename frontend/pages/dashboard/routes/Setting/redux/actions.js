@@ -5,8 +5,7 @@ import Api from 'API';
 import locales from 'LOCALES';
 import HeartBeat from 'UTILS/heartbeat';
 
-const githubLocales = locales('github');
-const updateMsg = githubLocales.message.update;
+const updateMsg = locales('github.message.update');
 
 const {
   toggleGithubModal,
@@ -24,7 +23,7 @@ const {
 
 // github data update
 const fetchGithubUpdateTime = () => (dispatch) => {
-  Api.github.updateStatus().then((result) => {
+  Api.github.getUpdateStatus().then((result) => {
     dispatch(setUpdateStatus(result));
   });
 };
@@ -34,7 +33,7 @@ const refreshGithubDatas = () => (dispatch) => {
   Api.github.update().then(() => {
     const heartBeat = new HeartBeat({
       interval: 3000, // 3s
-      callback: () => Api.github.updateStatus().then((result) => {
+      callback: () => Api.github.getUpdateStatus().then((result) => {
         if (result && Number(result.status) === 1) {
           heartBeat.stop();
           dispatch(setUpdateStatus(result));

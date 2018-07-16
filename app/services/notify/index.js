@@ -2,7 +2,7 @@
 import path from 'path';
 import { shadowImport } from '../../utils/loader';
 
-const PREFIX = 'notify';
+const PREFIX = __dirname.split('/').slice(-1)[0];
 const DELIVER = shadowImport(path.join(__dirname, 'lib'), {
   prefix: PREFIX,
   excludes: ['shared.js']

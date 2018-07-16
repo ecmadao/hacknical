@@ -160,3 +160,5 @@ export const RESUME_TEMPLATES = [
   'v2',
   'v3'
 ];
+
+export const BASE_URL_REG = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;

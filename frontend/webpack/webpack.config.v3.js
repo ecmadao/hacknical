@@ -2,14 +2,10 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CleanPlugin = require('clean-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const PATH = require('../../config/path');
 
-const styleVariables = require(path.join(PATH.SOURCE_PATH, 'src/styles/variables'));
-
 const entryFiles = fs.readdirSync(PATH.ENTRY_PATH);
-const files = [];
 const entries = {};
 
 entryFiles

@@ -46,6 +46,7 @@ class GitHubMobileComponent extends React.Component {
       commitLoaded: false,
       repositories: [],
       commits: [],
+      languages: {},
       commitDatas: {
         dailyCommits: [],
         total: 0,
@@ -64,17 +65,18 @@ class GitHubMobileComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.getGithubUser();
-    this.getGithubRepositories();
-    this.getRefreshStatus();
-    setTimeout(() => removeDOM('#loading'), 1000);
+    this.fetchGithubUser();
+    this.fetchGithubRepositories();
+    this.fetchRefreshStatus();
+    this.fetchLanguages();
+    removeDOM('#loading', { async: true });
   }
 
   componentDidUpdate(preProps, preState) {
     this.renderCharts();
     const { repositoriesLoaded, commitLoaded } = this.state;
     if (repositoriesLoaded && !preState.repositoriesLoaded) {
-      this.getGithubCommits();
+      this.fetchGithubCommits();
     }
     repositoriesLoaded && commitLoaded && this.initialScrollReveal();
     commitLoaded && !preState.commitLoaded && this.renderRepositoriesChart();
@@ -91,39 +93,43 @@ class GitHubMobileComponent extends React.Component {
     }
   }
 
-  async getRefreshStatus() {
+  async fetchRefreshStatus() {
     const { isAdmin } = this.props;
     if (!isAdmin) return;
-    const result = await Api.github.updateStatus();
+    const result = await Api.github.getUpdateStatus();
     this.setRefreshStatus(result);
   }
 
   setRefreshStatus(data) {
-    const {
-      refreshEnable,
-    } = data;
+    const { refreshEnable } = data;
     this.setState({
-      refreshing: false,
       refreshEnable,
+      refreshing: false,
     });
   }
 
-  async getGithubUser() {
+  async fetchGithubUser() {
     const { login } = this.props;
     const user = await Api.github.getUser(login);
     this.setState({ user });
   }
 
-  async getGithubCommits() {
+  async fetchGithubCommits() {
     const { login } = this.props;
     const result = await Api.github.getCommits(login);
     this.setGithubCommits(result);
   }
 
-  async getGithubRepositories() {
+  async fetchGithubRepositories() {
     const { login } = this.props;
-    const { repositories } = await Api.github.getRepositories(login);
+    const repositories = await Api.github.getRepositories(login);
     this.setGithubRepositories(repositories);
+  }
+
+  async fetchLanguages() {
+    const { login } = this.props;
+    const languages = await Api.github.getLanguages(login);
+    this.setState({ languages });
   }
 
   refreshGithubDatas() {
@@ -135,7 +141,7 @@ class GitHubMobileComponent extends React.Component {
     Api.github.update().then(() => {
       const heartBeat = new HeartBeat({
         interval: 3000, // 3s
-        callback: () => Api.github.updateStatus().then((result) => {
+        callback: () => Api.github.getUpdateStatus().then((result) => {
           if (result && Number(result.status) === 1) {
             heartBeat.stop();
             this.setRefreshStatus(result);
@@ -161,23 +167,23 @@ class GitHubMobileComponent extends React.Component {
 
   setGithubRepositories(repositories = []) {
     this.setState({
-      repositories: [...repositories],
-      languageDistributions: github.getLanguageDistribution(repositories),
-      languageSkills: github.getLanguageSkill(repositories),
-      languageUsed: github.getLanguageUsed(repositories),
       repositoriesLoaded: true,
+      repositories: [...repositories],
+      languageUsed: github.getLanguageUsed(repositories),
+      languageSkills: github.getLanguageSkill(repositories),
+      languageDistributions: github.getLanguageDistribution(repositories),
     });
   }
 
   initialScrollReveal() {
     const sr = ScrollReveal({ reset: true });
     try {
-      sr.reveal('#repos_chart', { duration: 150 });
-      sr.reveal('#skill_chart', { duration: 150 });
-      sr.reveal('#commits_chart', { duration: 150 });
-      // sr.reveal('#commits_wrapper', { duration: 150 });
-      sr.reveal('#repos_wrapper', { duration: 150 });
-      // sr.reveal('#language_wrapper', { duration: 150 });
+      sr.reveal('#reposChart', { duration: 150 });
+      sr.reveal('#skillChart', { duration: 150 });
+      sr.reveal('#commitsChart', { duration: 150 });
+      // sr.reveal('#commitsWrapper', { duration: 150 });
+      sr.reveal('#reposWrapper', { duration: 150 });
+      // sr.reveal('#languageWrapper', { duration: 150 });
     } catch (e) {
       console.log(e);
     }
@@ -351,7 +357,7 @@ class GitHubMobileComponent extends React.Component {
 
   renderCommitsInfo() {
     const { commitDatas, commits } = this.state;
-    const { dailyCommits, total } = commitDatas;
+    const { total, dailyCommits } = commitDatas;
     // commits
     const totalCommits = commits[0] ? commits[0].totalCommits : 0;
     // day info
@@ -370,7 +376,7 @@ class GitHubMobileComponent extends React.Component {
 
     return (
       <CardGroup
-        id="commits_wrapper"
+        id="commitsWrapper"
         className={cx(
           styles.info_with_chart_wrapper,
           sharedStyles.info_share
@@ -408,7 +414,7 @@ class GitHubMobileComponent extends React.Component {
     );
   }
 
-  renderReposInfo() {
+  renderRepositoriesInfo() {
     const { repositories } = this.state;
     const [totalStar, totalFork] = github.getTotalCount(repositories);
 
@@ -446,7 +452,7 @@ class GitHubMobileComponent extends React.Component {
 
     return (
       <Slick
-        wrapperId="repos_wrapper"
+        wrapperId="reposWrapper"
         sliders={sliders}
       />
     );
@@ -454,6 +460,12 @@ class GitHubMobileComponent extends React.Component {
 
   renderLanguageLines() {
     const { languageUsed } = this.state;
+
+    console.log('\n ================== languageUsed ');
+    console.log(languageUsed);
+    console.log('\n ================== languages ');
+    console.log(this.state.languages);
+
     const color = getRamdomColor('LanguageLines');
     const languages = Object.keys(languageUsed)
       .sort(github.sortByLanguage(languageUsed))
@@ -540,7 +552,7 @@ class GitHubMobileComponent extends React.Component {
         />
         <div className={cx(sharedStyles.mobile_card, styles.mobile_card_full)}>
           <div
-            id="repos_chart"
+            id="reposChart"
             className={cx(sharedStyles.info_chart, styles.repos_chart)}
           >
             <canvas
@@ -548,7 +560,7 @@ class GitHubMobileComponent extends React.Component {
               ref={ref => (this.reposReview = ref)}
             />
           </div>
-          {this.renderReposInfo()}
+          {this.renderRepositoriesInfo()}
         </div>
 
         <div
@@ -579,7 +591,7 @@ class GitHubMobileComponent extends React.Component {
           )}
         >
           <CardGroup
-            id="language_wrapper"
+            id="languageWrapper"
             className={cx(
               sharedStyles.info_with_chart,
               sharedStyles.info_share
@@ -599,7 +611,7 @@ class GitHubMobileComponent extends React.Component {
             />
           </CardGroup>
           <div
-            id="skill_chart"
+            id="skillChart"
             className={sharedStyles.info_chart}
             style={{ marginTop: '15px' }}
           >
@@ -620,7 +632,7 @@ class GitHubMobileComponent extends React.Component {
           >
             {this.renderCommitsInfo()}
             <div
-              id="commits_chart"
+              id="commitsChart"
               className={sharedStyles.info_chart}
             >
               <strong>{githubTexts.commits.monthlyCommitChartTitle}</strong>

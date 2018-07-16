@@ -44,7 +44,7 @@ class MobileSetting extends React.Component {
   }
 
   componentDidMount() {
-    Api.github.updateStatus().then((result) => {
+    Api.github.getUpdateStatus().then((result) => {
       this.setUpdateStatus(result);
     });
     Api.github.getShareRecords().then((result) => {
@@ -64,7 +64,7 @@ class MobileSetting extends React.Component {
     Api.github.update().then(() => {
       const heartBeat = new HeartBeat({
         interval: 3000, // 3s
-        callback: () => Api.github.updateStatus().then((result) => {
+        callback: () => Api.github.getUpdateStatus().then((result) => {
           if (result && Number(result.status) === 1) {
             heartBeat.stop();
             this.setUpdateStatus(result);

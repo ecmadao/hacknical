@@ -177,7 +177,14 @@ export const hasUrl = text => URL_REG.test(text);
 export const sleep = ms =>
   new Promise(resolve => setTimeout(resolve, ms));
 
-export const removeDOM = dom => $(dom) && $(dom).remove();
+export const removeDOM = (dom, options = {}) => {
+  const { async = false, timeout = 1000 } = options;
+  if (async) {
+    setTimeout(() => removeDOM(dom), timeout);
+  } else {
+    $(dom) && $(dom).remove();
+  }
+};
 
 export const renderTextWithUrl = (text) => {
   return formatTextWithUrl(text).map((section, index) => {

@@ -5,7 +5,7 @@ import objectAssign from 'UTILS/object-assign';
 import FAB from 'COMPONENTS/FloatingActionButton';
 import Api from 'API';
 import GitHub from 'COMPONENTS/GitHub';
-import ShareModal from 'SHARED/components/ShareModal';
+import ShareModal from 'COMPONENTS/ShareModal';
 import { USER } from 'UTILS/constant';
 import github from 'UTILS/github';
 import locales from 'LOCALES';
@@ -25,6 +25,7 @@ class GitHubComponent extends React.Component {
     this.state = {
       loading: true,
       sections: {},
+      languages: {},
       chosedRepos: [],
       commitDatas: [],
       commitInfos: [],
@@ -61,19 +62,16 @@ class GitHubComponent extends React.Component {
     const { isShare } = this.props;
 
     if (!preState.user.login && user.login) {
-      this.getGithubSections(user.login);
+      this.fetchGithubSections(user.login);
+      this.fetchLanguages(user.login);
       // !isShare && this.getGithubScientific(user.login);
       // !scientific.statistic && this.getGithubStatistic(user.login);
-      !repositoriesLoaded && this.getGithubRepositories(user.login);
-      setTimeout(() => removeDOM('#loading'), 1000);
+      !repositoriesLoaded && this.fetchGithubRepositories(user.login);
+      removeDOM('#loading', { async: true });
     }
-    if (repositoriesLoaded && !preState.repositoriesLoaded) {
-      !commitLoaded && this.getGithubCommits(user.login);
+    if (repositoriesLoaded && !preState.repositoriesLoaded && user.login) {
+      !commitLoaded && this.fetchGithubCommits(user.login);
     }
-  }
-
-  changeState(newState) {
-    this.setState(newState);
   }
 
   async getGithubStatistic(login = '') {
@@ -140,30 +138,31 @@ class GitHubComponent extends React.Component {
 
   async getGithubUser(login = '') {
     const user = await Api.github.getUser(login);
-    this.changeState({ user });
+    this.setState({ user });
     this.toggleLoading(false);
   }
 
-  async getGithubRepositories(login = '') {
-    const { repositories } = await Api.github.getRepositories(login);
-    this.setGithubRepositories(repositories);
-  }
-
-  async getGithubSections(login = '') {
-    const userInfo = await Api.user.getUserInfo(login);
-    this.changeState({ sections: userInfo.githubSections });
-  }
-
-  async getGithubCommits(login = '') {
-    const result = await Api.github.getCommits(login);
-    this.setGithubCommits(result);
-  }
-
-  setGithubRepositories(repositories = []) {
+  async fetchGithubRepositories(login = '') {
+    const repositories = await Api.github.getRepositories(login);
     this.setState({
       repositoriesLoaded: true,
       repositories: [...repositories.sort(sortByLanguageStar)],
     });
+  }
+
+  async fetchGithubSections(login = '') {
+    const userInfo = await Api.user.getUserInfo(login);
+    this.setState({ sections: userInfo.githubSections });
+  }
+
+  async fetchGithubCommits(login = '') {
+    const result = await Api.github.getCommits(login);
+    this.setGithubCommits(result);
+  }
+
+  async fetchLanguages(login = '') {
+    const result = await Api.github.getLanguages(login);
+    this.setState({ languages: result });
   }
 
   setGithubCommits(result) {

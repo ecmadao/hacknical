@@ -1,3 +1,4 @@
+
 export const contributionLevel = (percentage) => {
   if (percentage >= 90) { return 5; }
   if (percentage >= 80) { return 4; }

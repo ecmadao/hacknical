@@ -11,7 +11,7 @@ import { contributionLevel } from './helper';
 const githubTexts = locales('github.sections.orgs');
 const fullDate = dateHelper.validator.fullDate;
 
-class OrgRepos extends React.Component {
+class OrganizationRepos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -191,14 +191,14 @@ class OrgRepos extends React.Component {
   }
 }
 
-OrgRepos.propTypes = {
+OrganizationRepos.propTypes = {
   repos: PropTypes.array,
   login: PropTypes.string,
 };
 
-OrgRepos.defaultProps = {
+OrganizationRepos.defaultProps = {
   repos: [],
   login: ''
 };
 
-export default OrgRepos;
+export default OrganizationRepos;

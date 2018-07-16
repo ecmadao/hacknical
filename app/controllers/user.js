@@ -1,5 +1,5 @@
 
-import Api from '../services/api';
+import GitHubAPI from '../services/github';
 import getCacheKey from './helper/cacheKey';
 import logger from '../utils/logger';
 import UserAPI from '../services/user';
@@ -48,8 +48,8 @@ const logout = async (ctx) => {
 const loginByGitHub = async (ctx) => {
   const { code } = ctx.request.query;
   try {
-    const githubToken = await Api.getToken(code);
-    const userInfo = await Api.getLogin(githubToken);
+    const githubToken = await GitHubAPI.getToken(code);
+    const userInfo = await GitHubAPI.getLogin(githubToken);
     logger.debug(userInfo);
 
     if (userInfo.login) {
@@ -67,7 +67,7 @@ const loginByGitHub = async (ctx) => {
 
       logger.info(`[USER:LOGIN] ${JSON.stringify(user)}`);
       ctx.session.userId = user.userId;
-      if (user && user.initialed) Api.updateUserData(ctx.session.githubLogin, githubToken);
+      if (user && user.initialed) GitHubAPI.updateUserData(ctx.session.githubLogin, githubToken);
       return ctx.redirect(`/${ctx.session.githubLogin}`);
     }
     return ctx.redirect('/user/logout');
@@ -119,9 +119,9 @@ const setUserInfo = async (ctx) => {
 export default {
   // user
   logout,
-  loginByGitHub,
-  initialFinished,
   clearCache,
   getUserInfo,
   setUserInfo,
+  loginByGitHub,
+  initialFinished,
 };

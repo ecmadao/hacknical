@@ -4,17 +4,17 @@ import cx from 'classnames';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
 import Api from 'API';
-import OrgRepos from './OrgRepos';
+import locales from 'LOCALES';
+import dateHelper from 'UTILS/date';
+import { splitArray } from 'UTILS/helper';
+import OrganizationRepos from './OrganizationRepos';
 import cardStyles from '../styles/info_card.css';
 import styles from '../styles/github.css';
-import locales from 'LOCALES';
-import { splitArray } from 'UTILS/helper';
-import dateHelper from 'UTILS/date';
 
 const fullDate = dateHelper.validator.fullDate;
 const githubTexts = locales('github.sections.orgs');
 
-class OrgInfo extends React.Component {
+class OrganizationsInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,10 +33,10 @@ class OrgInfo extends React.Component {
   }
 
   async getGithubOrganizations(login) {
-    const result = await Api.github.getOrganizations(login);
+    const organizations = await Api.github.getOrganizations(login);
     this.setState({
       loaded: true,
-      organizations: [...result.organizations]
+      organizations: [...organizations]
     });
   }
 
@@ -160,7 +160,7 @@ class OrgInfo extends React.Component {
             {description}
           </div>
         ) : null}
-        <OrgRepos
+        <OrganizationRepos
           repos={repos}
           login={login}
         />
@@ -177,8 +177,8 @@ class OrgInfo extends React.Component {
     } else {
       component = !organizations.length
         ? (<div className={cardStyles.empty_card}>
-          {githubTexts.emptyText}
-        </div>)
+            {githubTexts.emptyText}
+          </div>)
         : this.renderOrgsReview();
     }
     const cards = loaded && organizations.length
@@ -193,16 +193,16 @@ class OrgInfo extends React.Component {
   }
 }
 
-OrgInfo.propTypes = {
+OrganizationsInfo.propTypes = {
   className: PropTypes.string,
   userLogin: PropTypes.string,
   login: PropTypes.string,
 };
 
-OrgInfo.defaultProps = {
+OrganizationsInfo.defaultProps = {
   login: '',
   userLogin: '',
   className: ''
 };
 
-export default OrgInfo;
+export default OrganizationsInfo;

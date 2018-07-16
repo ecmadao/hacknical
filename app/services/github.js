@@ -68,6 +68,10 @@ const getUserCommits = (login, token) =>
   getFromCache(`/${login}/commits`, {
     qs: { token }
   });
+const getUserLanguages = (login, token) =>
+  getFromCache(`/${login}/languages`, {
+    qs: { token }
+  });
 const getUserOrganizations = (login, token) =>
   getFromCache(`/${login}/organizations`, {
     qs: { token }
@@ -129,10 +133,11 @@ export default {
   getLogin,
   /* ===== */
   getUser,
-  getUserRepositories,
   getUserCommits,
-  getUserOrganizations,
+  getUserLanguages,
   getUserContributed,
+  getUserRepositories,
+  getUserOrganizations,
   /* ===== */
   getUpdateStatus,
   updateUserData,

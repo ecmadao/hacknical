@@ -1,5 +1,5 @@
 
-import Api from '../services/api';
+import GitHubAPI from '../services/github';
 import getLanguages from '../config/languages';
 import logger from '../utils/logger';
 import UserAPI from '../services/user';
@@ -8,7 +8,7 @@ import StatAPI from '../services/stat';
 const landingPage = async (ctx) => {
   const { locale } = ctx.state;
   const languages = getLanguages(locale);
-  const clientId = await Api.getVerify();
+  const clientId = await GitHubAPI.getVerify();
 
   await ctx.render('user/login', {
     languages,
