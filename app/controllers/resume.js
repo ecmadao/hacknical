@@ -195,7 +195,7 @@ const resumePage = async (ctx) => {
   const { userName, userId } = user;
 
   if (isMobile) {
-    await ctx.render('user/mobile/resume', {
+    await ctx.render('resume/mobile', {
       title: ctx.__('resumePage.title', userName),
       login,
       userId,
@@ -207,7 +207,7 @@ const resumePage = async (ctx) => {
       hideFooter: true,
     });
   } else {
-    await ctx.render('resume/share', {
+    await ctx.render('resume/desktop', {
       login,
       userId,
       fromDownload,

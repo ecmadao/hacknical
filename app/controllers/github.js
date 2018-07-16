@@ -187,9 +187,9 @@ const githubPage = async (ctx) => {
       : ctx.__('messages.share.text')
   };
   if (isMobile) {
-    await ctx.render('user/mobile/github', options);
+    await ctx.render('github/mobile', options);
   } else {
-    await ctx.render('github/share', options);
+    await ctx.render('github/desktop', options);
   }
 };
 

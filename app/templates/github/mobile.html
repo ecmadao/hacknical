@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <link href="{{ assetsPath("assets/mobile_github.bundle.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("assets/github_mobile.bundle.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -28,5 +28,5 @@
     window.isAdmin = '{{ user.isAdmin }}';
     window.login = '{{ user.login }}';
   </script>
-  <script async defer src="{{ assetsPath("assets/mobile_github.bundle.js") }}"></script>
+  <script async defer src="{{ assetsPath("assets/github_mobile.bundle.js") }}"></script>
 {% endblock %}

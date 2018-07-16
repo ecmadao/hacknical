@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block css %}
-  <link href="{{ assetsPath("assets/mobile_resume.bundle.css") }}" rel="stylesheet" type="text/css">
+  <link href="{{ assetsPath("assets/resume_mobile.bundle.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -22,5 +22,5 @@
     window.userId = '{{ userId }}';
     window.fromDownload = '{{ fromDownload }}';
   </script>
-  <script async defer src="{{ assetsPath("assets/mobile_resume.bundle.js") }}"></script>
+  <script async defer src="{{ assetsPath("assets/resume_mobile.bundle.js") }}"></script>
 {% endblock %}
