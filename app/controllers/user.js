@@ -101,8 +101,8 @@ const getUserInfo = async (ctx) => {
   });
 
   ctx.body = {
+    result: user,
     success: true,
-    result: user
   };
 };
 

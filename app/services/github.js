@@ -43,12 +43,12 @@ const getZen = token => getFromCache('/zen', {
 });
 const getOctocat = () => getFromCache('/octocat');
 
-const getVerify = () => getFromCache('/verify');
-const getToken = code => getFromCache('/token', {
+const getVerify = () => fetchApi('/verify');
+const getToken = code => fetchApi('/token', {
   qs: { code }
 });
 
-const getLogin = token => getFromCache('/login', {
+const getLogin = token => fetchApi('/login', {
   qs: { token }
 });
 const getUser = (login, token) =>
@@ -128,9 +128,9 @@ export default {
   getZen,
   getOctocat,
   /* ===== */
-  getVerify,
   getToken,
   getLogin,
+  getVerify,
   /* ===== */
   getUser,
   getUserCommits,
@@ -139,13 +139,13 @@ export default {
   getUserRepositories,
   getUserOrganizations,
   /* ===== */
-  getUpdateStatus,
   updateUserData,
+  getUpdateStatus,
   /* ===== */
   getHotmap,
   /* ===== */
+  removePrediction,
   getUserStatistic,
   getUserPredictions,
-  removePrediction,
   putPredictionsFeedback,
 };

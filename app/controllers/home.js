@@ -11,28 +11,28 @@ const landingPage = async (ctx) => {
   const clientId = await GitHubAPI.getVerify();
 
   await ctx.render('user/login', {
-    languages,
     clientId,
+    languages,
+    languageId: locale,
     title: ctx.__('loginPage.title'),
     login: ctx.__('loginPage.login'),
     about: ctx.__('loginPage.about'),
+    languageText: ctx.__('language.text'),
     loginText: ctx.__('loginPage.loginText'),
     loginButtonText: ctx.__('loginPage.loginButtonText'),
-    languageText: ctx.__('language.text'),
-    languageId: locale,
     statistic: {
+      resumes: ctx.__('loginPage.statistic.resumes'),
       developers: ctx.__('loginPage.statistic.developers'),
       githubPageview: ctx.__('loginPage.statistic.githubPageview'),
       resumePageview: ctx.__('loginPage.statistic.resumePageview'),
-      resumes: ctx.__('loginPage.statistic.resumes'),
     }
   });
 };
 
 const handle404 = async (ctx) => {
   await ctx.render('error/404', {
-    title: ctx.__('errorPage.title'),
     text: ctx.__('errorPage.text'),
+    title: ctx.__('errorPage.title'),
     redirectText: ctx.__('errorPage.redirectText')
   });
 };

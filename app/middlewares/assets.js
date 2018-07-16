@@ -6,7 +6,9 @@ import PATH from '../../config/path';
 import logger from '../utils/logger';
 
 let manifest = {};
-const manifestPath = path.resolve(__dirname, '../config', 'webpack-assets.json');
+const manifestPath =
+  path.resolve(__dirname, '../config', 'webpack-assets.json');
+
 if (fs.existsSync(manifestPath)) {
   manifest = require(`${manifestPath}`);
 }

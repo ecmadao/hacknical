@@ -12,7 +12,6 @@ import FAB from 'COMPONENTS/FloatingActionButton';
 import Api from 'API';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
-import { randomColor } from 'UTILS/colors';
 import {
   removeDOM,
   getMaxIndex,
@@ -26,6 +25,7 @@ import sharedStyles from 'SHARED/styles/mobile.css';
 import Slick from 'COMPONENTS/Slick';
 import locales from 'LOCALES';
 import Hotmap from 'COMPONENTS/GitHub/Hotmap';
+import LanguageLines from 'COMPONENTS/GitHub/LanguageLines';
 import 'SRC/vendor/mobile/github.css';
 import message from 'UTILS/message';
 import HeartBeat from 'UTILS/heartbeat';
@@ -35,7 +35,6 @@ const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
 const githubMsg = githubLocales.message;
 const getDateBySeconds = dateHelper.date.bySeconds;
-const getRamdomColor = randomColor();
 
 class GitHubMobileComponent extends React.Component {
   constructor(props) {
@@ -458,54 +457,14 @@ class GitHubMobileComponent extends React.Component {
     );
   }
 
-  renderLanguageLines() {
-    const { languageUsed } = this.state;
-
-    console.log('\n ================== languageUsed ');
-    console.log(languageUsed);
-    console.log('\n ================== languages ');
-    console.log(this.state.languages);
-
-    const color = getRamdomColor('LanguageLines');
-    const languages = Object.keys(languageUsed)
-      .sort(github.sortByLanguage(languageUsed))
-      .slice(0, 9);
-    const maxUsedCounts = languageUsed[languages[0]];
-    const languagesCount = languages.length;
-
-    return languages.map((language, index) => {
-      const style = {
-        backgroundColor: color,
-        opacity: `${(languagesCount - index) / languagesCount}`,
-      };
-      const barStyle = {
-        width: `${((languageUsed[language] * 100) / maxUsedCounts).toFixed(2)}%`
-      };
-      return (
-        <div className={styles.repos_item} key={index}>
-          <div
-            style={barStyle}
-            className={styles.item_chart}
-          >
-            <div
-              style={style}
-              className={styles.commit_bar}
-            />
-          </div>
-          <div className={styles.item_data}>
-            {language}
-          </div>
-        </div>
-      );
-    });
-  }
-
   render() {
     const {
       user,
       commits,
+      languages,
       refreshing,
       commitLoaded,
+      languageUsed,
       languageSkills,
       repositoriesLoaded,
       languageDistributions
@@ -570,18 +529,12 @@ class GitHubMobileComponent extends React.Component {
             styles.languages_line
           )}
         >
-          <div className={styles.repos_wrapper}>
-            <div className={styles.repos_contents_wrapper}>
-              <div className={styles.repos_contents}>
-                {repositoriesLoaded ? this.renderLanguageLines() : null}
-              </div>
-              <div className={styles.repos_yAxes}>
-                <div className={styles.yAxes_text}>
-                  {githubTexts.languages.frequency}
-                </div>
-              </div>
-            </div>
-          </div>
+          <LanguageLines
+            dynamicOpacity
+            languages={languages}
+            languageUsed={languageUsed}
+            loaded={repositoriesLoaded}
+          />
         </div>
 
         <div

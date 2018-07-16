@@ -230,6 +230,7 @@ class GitHubComponent extends React.Component {
     const {
       user,
       sections,
+      languages,
       scientific,
       commitDatas,
       commitInfos,
@@ -430,6 +431,7 @@ class GitHubComponent extends React.Component {
           languageDistributions={github.getLanguageDistribution(repositories)}
           languageUsed={github.getLanguageUsed(repositories)}
           languageSkills={github.getLanguageSkill(repositories)}
+          languages={languages}
           title={{
             text: githubTexts.languages.title,
             icon: 'code'

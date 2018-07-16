@@ -13,7 +13,7 @@ import ReposBaseInfo from '../ReposBaseInfo';
 import cardStyles from '../styles/info_card.css';
 import githubStyles from '../styles/github.css';
 
-const getRamdomColor = randomColor();
+const getRamdomColor = randomColor('CodeCourse');
 const githubTexts = locales('github').sections.course;
 const getSecondsByDate = dateHelper.seconds.getByDate;
 const getValidateDate = dateHelper.validator.fullDate;

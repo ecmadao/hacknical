@@ -172,25 +172,21 @@ const getUser = async (ctx, next) => {
 
 const githubPage = async (ctx) => {
   const { login } = ctx.params;
-  const { isMobile, locale } = ctx.state;
+  const { locale, template, isMobile } = ctx.state;
   const { githubLogin } = ctx.session;
   const title = ctx.__('sharePage.title', login);
   const options = {
     title,
+    locale,
     user: {
       login,
       isAdmin: login === githubLogin,
     },
-    locale,
     shareText: isMobile
       ? ctx.__('messages.share.mobileText')
       : ctx.__('messages.share.text')
   };
-  if (isMobile) {
-    await ctx.render('github/mobile', options);
-  } else {
-    await ctx.render('github/desktop', options);
-  }
+  await ctx.render(`github/${template}`, options);
 };
 
 const getShareRecords = async (ctx) => {
@@ -268,8 +264,8 @@ const updateUserData = async (ctx) => {
   await GitHubAPI.updateUserData(githubLogin, githubToken);
 
   ctx.body = {
-    message: ctx.__('messages.update.pending'),
     success: true,
+    message: ctx.__('messages.update.pending'),
   };
 };
 
@@ -310,16 +306,16 @@ export default {
   // github info
   getUser,
   toggleShare,
-  getShareRecords,
   getUserHotmap,
   getUserCommits,
+  getShareRecords,
   getUserLanguages,
   getUserContributed,
   getUserRepositories,
   getUserOrganizations,
   /* ===== refresh & update ====== */
-  getUpdateStatus,
   updateUserData,
+  getUpdateStatus,
   /* ========== */
   getZen,
   getOctocat,

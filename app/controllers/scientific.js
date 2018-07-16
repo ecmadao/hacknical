@@ -35,8 +35,8 @@ const getUserPredictions = async (ctx) => {
     results.push(repository);
   }));
   ctx.body = {
-    result: results,
     success: true,
+    result: results,
   };
 };
 

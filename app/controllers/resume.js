@@ -189,32 +189,22 @@ const resumePage = async (ctx) => {
   const { login } = resumeInfo;
   const user = await UserAPI.getUser({ login });
 
-  const { isMobile } = ctx.state;
+  const { template } = ctx.state;
   const { fromDownload, githubLogin } = ctx.session;
   const isAdmin = login === githubLogin;
   const { userName, userId } = user;
 
-  if (isMobile) {
-    await ctx.render('resume/mobile', {
-      title: ctx.__('resumePage.title', userName),
+  await ctx.render(`resume/${template}`, {
+    login,
+    userId,
+    fromDownload,
+    user: {
       login,
-      userId,
-      fromDownload,
-      user: {
-        login,
-        isAdmin,
-      },
-      hideFooter: true,
-    });
-  } else {
-    await ctx.render('resume/desktop', {
-      login,
-      userId,
-      fromDownload,
-      hideFooter: true,
-      title: ctx.__('resumePage.title', userName),
-    });
-  }
+      isAdmin,
+    },
+    hideFooter: true,
+    title: ctx.__('resumePage.title', userName),
+  });
 };
 
 const getResumeByHash = async (ctx, next) => {

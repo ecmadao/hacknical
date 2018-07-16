@@ -5,6 +5,8 @@ const setPlatform = () => async (ctx, next) => {
   ctx.state.browser = userAgent.browser;
   ctx.state.platform = userAgent.platform;
   ctx.state.isMobile = userAgent.isMobile;
+  ctx.state.template = userAgent.isMobile ? 'mobile' : 'desktop';
+
   await next();
   const { githubLogin } = ctx.session;
   logger.info(
