@@ -18,7 +18,7 @@ const checkBody = (...params) => async (ctx, next) => {
 };
 
 const checkSession = (params = []) => async (ctx, next) => {
-  const result = params.every(key => ctx.sessions[key]);
+  const result = params.every(key => ctx.session[key]);
   if (!result) {
     ctx.body = {
       success: true,
