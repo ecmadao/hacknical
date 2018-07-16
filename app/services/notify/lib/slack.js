@@ -32,7 +32,7 @@ class SlackMsg {
     if (msg.type) {
       return this.formatMsg[msg.type](msg.data);
     }
-    return msg;
+    return msg.data;
   }
 
   get formatMsg() {
