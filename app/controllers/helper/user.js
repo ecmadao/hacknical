@@ -1,19 +1,8 @@
 
 import session from './session';
+import { VALIDATE_DASHBOARD } from '../../utils/constant';
 
 const check = (params, sessions) => params.some(key => sessions[key]);
-
-const checkSession = (params = []) => async (ctx, next) => {
-  if (!check(params, ctx.session)) {
-    ctx.body = {
-      success: true,
-      message: 'session 缺失，请登录',
-      url: '/'
-    };
-    return;
-  }
-  await next();
-};
 
 const checkNotLogin = () => async (ctx, next) => {
   const checkResult = check(session.requiredSessions, ctx.session);
@@ -32,9 +21,6 @@ const checkIfLogin = (redirect = '/')  => async (ctx, next) => {
   await next();
 };
 
-const checkIsEmail = email =>
-  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-
 const checkValidateUser = () => async (ctx, next) => {
   const { login } = ctx.params;
   const { githubLogin } = ctx.session;
@@ -46,13 +32,6 @@ const checkValidateUser = () => async (ctx, next) => {
   await next();
 };
 
-const VALIDATE_DASHBOARD = new Set([
-  'records',
-  'archive',
-  'visualize',
-  'setting'
-]);
-
 const checkValidateDashboard = () => async (ctx, next) => {
   const { dashboardRoute } = ctx.params;
   const { githubLogin } = ctx.session;
@@ -61,10 +40,8 @@ const checkValidateDashboard = () => async (ctx, next) => {
 };
 
 export default {
-  checkSession,
   checkIfLogin,
   checkNotLogin,
-  checkIsEmail,
   checkValidateUser,
   checkValidateDashboard,
 };

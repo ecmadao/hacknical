@@ -1,10 +1,8 @@
 /* eslint eqeqeq: "off" */
 import config from 'config';
 import GitHubAPI from '../services/github';
-import {
-  combineReposCommits,
-  UPDATE_STATUS_TEXT
-} from './helper/github';
+import { combineReposCommits } from './helper/github';
+import { UPDATE_STATUS_TEXT } from '../utils/constant';
 import { is, sortBy } from '../utils/helper';
 import UserAPI from '../services/user';
 import StatAPI from '../services/stat';

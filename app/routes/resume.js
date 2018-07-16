@@ -1,6 +1,5 @@
 import koaRouter from 'koa-router';
 import Resume from '../controllers/resume';
-import user from '../controllers/helper/user';
 import session from '../controllers/helper/session';
 import cache from '../controllers/helper/cache';
 import check from '../controllers/helper/check';
@@ -12,29 +11,29 @@ const router = koaRouter({
 });
 
 router.get('/',
-  user.checkSession(session.requiredSessions),
+  check.session(session.requiredSessions),
   Resume.getResume
 );
 router.put('/',
-  user.checkSession(session.requiredSessions),
+  check.session(session.requiredSessions),
   check.body('resume'),
   Resume.setResume,
   cache.del()
 );
 router.patch('/',
-  user.checkSession(session.requiredSessions),
+  check.session(session.requiredSessions),
   check.body('data'),
   Resume.patchResume,
   cache.del()
 );
 
 router.get('/download',
-  user.checkSession(session.requiredSessions),
+  check.session(session.requiredSessions),
   Resume.downloadResume
 );
 
 router.get('/records',
-  user.checkSession(session.requiredSessions),
+  check.session(session.requiredSessions),
   Resume.getShareRecords
 );
 
@@ -42,12 +41,12 @@ router.get('/info',
   Resume.getResumeInfo
 );
 router.patch('/info',
-  user.checkSession(session.requiredSessions),
+  check.session(session.requiredSessions),
   check.body('info'),
   Resume.setResumeInfo,
 );
 router.patch('/reminder',
-  user.checkSession(session.requiredSessions),
+  check.session(session.requiredSessions),
   check.body('reminder'),
   Resume.setResumeReminder,
 );

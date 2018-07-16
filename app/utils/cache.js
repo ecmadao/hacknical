@@ -25,9 +25,10 @@ function wrapFn(fn, prefix = 'cache', options) {
 
   return (...args) => {
     let hitCache = true;
-    const cacheKey = getCacheKey(args);
+    const tmpKey = getCacheKey(args);
+    const cacheKey = `${prefix}-${fn.name}-${tmpKey ? `-${tmpKey}` : ''}`;
 
-    return cache.wrap(`${prefix}-${fn.name}-${cacheKey}`, () => {
+    return cache.wrap(cacheKey, () => {
       hitCache = false;
       return fn(...args);
     }, finallyOptions).then((data) => {

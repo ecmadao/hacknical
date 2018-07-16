@@ -99,10 +99,3 @@ export const getReposLanguages = (repos) => {
   return [...languages.values()];
 };
 
-export const UPDATE_STATUS_TEXT = {
-  1: 'messages.update.succeed',
-  // 2: 'messages.update.pending',
-  // 3: 'messages.update.running',
-  4: 'messages.update.failed',
-  5: 'messages.update.frequently',
-};

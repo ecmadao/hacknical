@@ -2,9 +2,10 @@ import request from 'request';
 import config from 'config';
 import logger from './logger';
 import getSignature from './signature';
+import { REQUEST_JSON_METHODS } from './constant';
 
 const name = config.get('appName');
-const REQUEST_JSON_METHODS = ['PUT', 'POST', 'DELETE', 'PATCH'];
+
 
 const verify = (options = {}, appName = name) => {
   if (!options.headers) options.headers = {};

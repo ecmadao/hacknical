@@ -5,11 +5,9 @@ import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import logger from '../utils/logger';
 import notify from '../services/notify';
-import {
-  formatObject
-} from '../utils/helper';
 import UserAPI from '../services/user';
 import StatAPI from '../services/stat';
+import { formatObject } from '../utils/helper';
 
 /* ===================== private ===================== */
 

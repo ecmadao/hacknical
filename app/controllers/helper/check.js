@@ -17,7 +17,21 @@ const checkBody = (...params) => async (ctx, next) => {
   await next();
 };
 
+const checkSession = (params = []) => async (ctx, next) => {
+  const result = params.every(key => ctx.sessions[key]);
+  if (!result) {
+    ctx.body = {
+      success: true,
+      message: 'session 缺失，请登录',
+      url: '/'
+    };
+    return;
+  }
+  await next();
+};
+
 export default {
   query: checkQuery,
-  body: checkBody
+  body: checkBody,
+  session: checkSession,
 };

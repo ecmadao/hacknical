@@ -1,8 +1,5 @@
-const REQUIRED_SESSIONS = [
-  'userId',
-  'githubToken',
-  'githubLogin'
-];
+
+import { REQUIRED_SESSIONS } from '../../utils/constant';
 
 export default {
   requiredSessions: REQUIRED_SESSIONS
