@@ -32,4 +32,18 @@ router.patch(
 
 router.get('/login/github', User.loginByGitHub);
 
+router.get('/notifies/all',
+  user.checkIfLogin(),
+  User.getNotifies
+);
+router.put('/notifies/read',
+  user.checkIfLogin(),
+  check.body('ids'),
+  User.markNotifies
+);
+router.get('/notifies/unread',
+  user.checkIfLogin(),
+  User.getUnreadNotifies
+);
+
 module.exports = router;

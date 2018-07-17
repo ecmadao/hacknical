@@ -1,6 +1,6 @@
 import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'UTILS/object-assign';
-import Api from 'API';
+import API from 'API';
 import { wrapper } from './wrapper';
 import { observer } from './observer';
 
@@ -26,7 +26,7 @@ const {
   'HANDLE_ACTIVE_SECTION_CHANGE'
 );
 const fetchResume = () => (dispatch) => {
-  Api.resume.getResume().then((result) => {
+  API.resume.getResume().then((result) => {
     if (result) {
       dispatch(initialResume(result));
     } else {
@@ -53,7 +53,7 @@ const saveResume = params => (dispatch, getState) => {
   delete postResume.edited;
   delete postResume.shareInfo;
 
-  Api.resume.setResume(postResume, params).then((result) => {
+  API.resume.setResume(postResume, params).then((result) => {
     result && dispatch(initialPubResumeStatus(result));
     dispatch(togglePosting(false));
     dispatch(toggleEdited(false));
@@ -66,14 +66,14 @@ const saveResume = params => (dispatch, getState) => {
 const handleInfoChange = createAction('HANDLE_INFO_CHANGE');
 
 const toggleHireAvailable = hireAvailable => (dispatch) => {
-  Api.resume.patchResume({ info: { hireAvailable } }).then(() => {
+  API.resume.patchResume({ info: { hireAvailable } }).then(() => {
     dispatch(handleInfoChange({ hireAvailable }));
     dispatch(toggleEdited(false));
   });
 };
 
 const toggleResumeType = freshGraduate => (dispatch) => {
-  Api.resume.patchResume({ info: { freshGraduate } }).then(() => {
+  API.resume.patchResume({ info: { freshGraduate } }).then(() => {
     dispatch(handleInfoChange({ freshGraduate }));
     dispatch(toggleEdited(false));
   });
@@ -165,14 +165,14 @@ const {
 
 // resume share
 const fetchPubResumeStatus = () => (dispatch) => {
-  Api.resume.getResumeInfo().then((result) => {
+  API.resume.getResumeInfo().then((result) => {
     result && dispatch(initialPubResumeStatus(result));
   });
 };
 
 const postShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().resume.shareInfo;
-  Api.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
+  API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
     dispatch(setPubResumeStatus(!openShare));
   });
 };
@@ -181,7 +181,7 @@ const postShareStatus = () => (dispatch, getState) => {
 const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');
 const postShareTemplate = template => (dispatch, getState) => {
   if (template !== getState().resume.shareInfo) {
-    Api.resume.patchResumeInfo({ template }).then(() => {
+    API.resume.patchResumeInfo({ template }).then(() => {
       dispatch(setPubResumeTemplate(template));
     });
   }

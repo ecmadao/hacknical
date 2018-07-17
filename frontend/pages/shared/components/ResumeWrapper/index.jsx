@@ -1,6 +1,6 @@
 import React from 'react';
 import objectAssign from 'UTILS/object-assign';
-import Api from 'API';
+import API from 'API';
 import {
   INFO,
   OTHERS,
@@ -46,7 +46,7 @@ class ResumeWrapper extends React.Component {
 
   async fetchResumeData() {
     const { userId } = this.props;
-    const resumeInfo = await Api.resume.getResumeInfo({ userId });
+    const resumeInfo = await API.resume.getResumeInfo({ userId });
     const { resumeHash } = resumeInfo;
 
     this.initialShareInfo(resumeInfo);
@@ -57,7 +57,7 @@ class ResumeWrapper extends React.Component {
     if (!hash) {
       this.initialResume({ initialized: false });
     } else {
-      Api.resume.getPubResume(hash).then((result) => {
+      API.resume.getPubResume(hash).then((result) => {
         result && this.initialResume(result);
       });
     }

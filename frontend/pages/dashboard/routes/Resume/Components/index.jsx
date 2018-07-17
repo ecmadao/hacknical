@@ -14,7 +14,7 @@ import IntroModal from './IntroModal';
 import resumeActions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
-import Api from 'API';
+import API from 'API';
 import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter';
 import message from 'UTILS/message';
 import Navigation from 'COMPONENTS/Navigation';
@@ -92,7 +92,7 @@ class Resume extends React.Component {
     message.notice(messages.download, 1800);
     const { actions, resume } = this.props;
     actions.toggleDownloadButton(true);
-    Api.resume.download().then((result) => {
+    API.resume.download().then((result) => {
       if (result) {
         const { name } = resume.info;
         Push.create(messages.downloadSuccess, {

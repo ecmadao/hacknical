@@ -5,7 +5,7 @@ import deepcopy from 'deepcopy';
 import objectAssign from 'UTILS/object-assign';
 import { Loading } from 'light-ui';
 
-import Api from 'API';
+import API from 'API';
 import dateHelper from 'UTILS/date';
 import { getValidateViewSources } from 'UTILS/records';
 import { LINE_CONFIG, RADAR_CONFIG } from 'UTILS/constant/chart';
@@ -95,8 +95,8 @@ class MobileRecords extends React.Component {
 
   get fetchShareData() {
     const fetchFuncs = {
-      github: Api.github.getShareRecords,
-      resume: Api.resume.getShareRecords
+      github: API.github.getShareRecords,
+      resume: API.resume.getShareRecords
     };
     const { activeTab } = this.state;
     return fetchFuncs[activeTab];

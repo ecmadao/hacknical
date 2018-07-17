@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Loading } from 'light-ui';
-import Api from 'API';
+import API from 'API';
 import cardStyles from '../styles/info_card.css';
 import styles from '../styles/github.css';
 import locales from 'LOCALES';
@@ -30,7 +30,7 @@ class ContributedInfo extends React.Component {
   }
 
   async getGithubContributed(login) {
-    const repositories = await Api.github.getContributed(login);
+    const repositories = await API.github.getContributed(login);
     this.setGithubContributed(repositories);
   }
 

@@ -5,7 +5,7 @@ import cx from 'classnames';
 import CalHeatMap from 'cal-heatmap';
 import 'cal-heatmap/cal-heatmap.css';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
-import Api from 'API';
+import API from 'API';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import locales, { formatLocale } from 'LOCALES';
@@ -39,7 +39,7 @@ class Hotmap extends React.Component {
 
   async getHotmap(login) {
     this.githubCalendar = true;
-    const result = await Api.github.getUserHotmap(login);
+    const result = await API.github.getUserHotmap(login);
     const hotmap = formatHotmap(result);
     const local = formatLocale();
     const cal = new CalHeatMap();

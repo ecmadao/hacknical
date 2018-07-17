@@ -1,5 +1,5 @@
 import { createActions } from 'redux-actions';
-import Api from 'API';
+import API from 'API';
 
 const {
   onAnalysisDataTabChange,
@@ -16,7 +16,7 @@ const {
 // github
 const fetchGithubShareData = () => (dispatch) => {
   dispatch(toggleAnalysisDataLoading(true));
-  Api.github.getShareRecords().then((result) => {
+  API.github.getShareRecords().then((result) => {
     dispatch(initialAnalysisData(result));
   });
 };
@@ -24,7 +24,7 @@ const fetchGithubShareData = () => (dispatch) => {
 // resume
 const fetchResumeShareData = () => (dispatch) => {
   dispatch(toggleAnalysisDataLoading(true));
-  Api.resume.getShareRecords().then((result) => {
+  API.resume.getShareRecords().then((result) => {
     dispatch(initialAnalysisData(result));
   });
 };

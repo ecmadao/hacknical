@@ -1,5 +1,5 @@
 import React from 'react';
-import Api from 'API';
+import API from 'API';
 
 class MenuWrapper extends React.PureComponent {
   constructor(props) {
@@ -16,12 +16,12 @@ class MenuWrapper extends React.PureComponent {
   }
 
   async getZen() {
-    const zen = await Api.github.zen();
+    const zen = await API.github.zen();
     this.setState({ zen });
   }
 
   async getLanguages() {
-    const languages = await Api.home.languages();
+    const languages = await API.home.languages();
     this.setState({ languages });
   }
 }

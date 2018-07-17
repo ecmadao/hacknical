@@ -1,5 +1,5 @@
 /* eslint new-cap: "off" */
-import Api from 'API';
+import API from 'API';
 import 'STYLES/fonts-hack.css';
 import 'SRC/vendor/initial/index.css';
 import Rock from 'PAGES/initial';
@@ -30,7 +30,7 @@ $(() => {
       chars: '$ Start fetching your informations'
     })
     .then(instance => instance.loading())
-    .then(() => Api.github.update())
+    .then(() => API.github.update())
     .then(() => rock.roll({ chars: '$ Fetching repositories' }))
     .then(instance => instance.loading())
     .then(instance => instance.wait(300))
@@ -46,10 +46,10 @@ $(() => {
     .then((instance) => {
       const heartBeat = new HeartBeat({
         interval: 1000, // 1s
-        callback: () => Api.github.getUpdateStatus().then((result) => {
+        callback: () => API.github.getUpdateStatus().then((result) => {
           if (result && result.finished) {
             heartBeat.stop();
-            Api.user.initialed();
+            API.user.initialed();
             instance
               .roll({
                 chars: `$ Initialize finished!!! ${EMOJI.rock}${EMOJI.fireworks}${EMOJI.rock}`,

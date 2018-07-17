@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton } from 'light-ui';
 import objectAssign from 'UTILS/object-assign';
-import Api from 'API';
+import API from 'API';
 import dateHelper from 'UTILS/date';
 import styles from '../styles/setting.css';
 import locales from 'LOCALES';
@@ -44,13 +44,13 @@ class MobileSetting extends React.Component {
   }
 
   componentDidMount() {
-    Api.github.getUpdateStatus().then((result) => {
+    API.github.getUpdateStatus().then((result) => {
       this.setUpdateStatus(result);
     });
-    Api.github.getShareRecords().then((result) => {
+    API.github.getShareRecords().then((result) => {
       this.initialGithubInfo(result);
     });
-    Api.resume.getResumeInfo().then((result) => {
+    API.resume.getResumeInfo().then((result) => {
       this.initialResumeInfo(result);
     });
   }
@@ -61,10 +61,10 @@ class MobileSetting extends React.Component {
 
   refreshGithubDatas() {
     this.toggleSettingLoading(true);
-    Api.github.update().then(() => {
+    API.github.update().then(() => {
       const heartBeat = new HeartBeat({
         interval: 3000, // 3s
-        callback: () => Api.github.getUpdateStatus().then((result) => {
+        callback: () => API.github.getUpdateStatus().then((result) => {
           if (result && Number(result.status) === 1) {
             heartBeat.stop();
             this.setUpdateStatus(result);
@@ -140,7 +140,7 @@ class MobileSetting extends React.Component {
   postGithubShareStatus() {
     const { githubInfo } = this.state;
     const { openShare } = githubInfo;
-    Api.github.toggleShare(!openShare).then(() => {
+    API.github.toggleShare(!openShare).then(() => {
       const initial = this.initialInfo('githubInfo');
       initial({
         openShare: !openShare
@@ -151,7 +151,7 @@ class MobileSetting extends React.Component {
   postResumeShareStatus() {
     const { resumeInfo } = this.state;
     const { openShare } = resumeInfo;
-    Api.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
+    API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
       const initial = this.initialInfo('resumeInfo');
       initial({
         openShare: !openShare
@@ -162,7 +162,7 @@ class MobileSetting extends React.Component {
   toggleResumeSimplifyUrl() {
     const { resumeInfo } = this.state;
     const { simplifyUrl } = resumeInfo;
-    Api.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
+    API.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
       const initial = this.initialInfo('resumeInfo');
       initial({
         simplifyUrl: !simplifyUrl

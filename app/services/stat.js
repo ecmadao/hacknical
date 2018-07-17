@@ -9,6 +9,7 @@ const API_URL = SERVICE.url;
 const TIMEOUTS = SERVICE.timeouts;
 const BASE_RECORDS_URL = `${API_URL}/api/records`;
 const BASE_STAT_URL = `${API_URL}/api/stat`;
+const BASE_NOTIFY_URL = `${API_URL}/api/notify`;
 
 const fetchApi = (url = '', options = {}) => {
   const {
@@ -58,6 +59,18 @@ const putStat = data =>
     baseUrl: BASE_STAT_URL
   });
 
+const getNotifies = locale =>
+  getFromCache(`${BASE_NOTIFY_URL}/all`, { locale });
+
+const getUnreadNotifies = (userId, locale) =>
+  getFromCache(`${BASE_NOTIFY_URL}/${userId}`, { locale });
+
+const markNotifies = (userId, ids) =>
+  fetchApi(`${BASE_NOTIFY_URL}/${userId}`, {
+    method: 'put',
+    body: { ids }
+  });
+
 export default {
   /* ===== records ===== */
   getRecords,
@@ -67,4 +80,9 @@ export default {
   /* ===== stat ===== */
   getStat,
   putStat,
+
+  /* ===== notify ===== */
+  getNotifies,
+  markNotifies,
+  getUnreadNotifies
 };

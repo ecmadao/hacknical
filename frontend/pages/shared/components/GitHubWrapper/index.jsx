@@ -3,7 +3,7 @@ import React, { cloneElement } from 'react';
 import { polyfill } from 'es6-promise';
 import objectAssign from 'UTILS/object-assign';
 import { USER } from 'UTILS/constant';
-import Api from 'API';
+import API from 'API';
 import github from 'UTILS/github';
 import { removeDOM } from 'UTILS/helper';
 
@@ -54,7 +54,7 @@ class GitHubWrapper extends React.Component {
   }
 
   async fetchGithubStatistic(login = '') {
-    const statistic = await Api.scientific.getUserStatistic(login);
+    const statistic = await API.scientific.getUserStatistic(login);
     const { scientific } = this.state;
     this.setState({
       statisticLoaded: true,
@@ -63,7 +63,7 @@ class GitHubWrapper extends React.Component {
   }
 
   async fetchGithubScientific(login = '') {
-    const predictions = await Api.scientific.getUserPredictions(login);
+    const predictions = await API.scientific.getUserPredictions(login);
     const { scientific } = this.state;
     this.setState({
       scientific: objectAssign(scientific, { predictions: predictions || [] })
@@ -71,12 +71,12 @@ class GitHubWrapper extends React.Component {
   }
 
   async fetchGithubUser(login = '') {
-    const user = await Api.github.getUser(login);
+    const user = await API.github.getUser(login);
     this.setState({ user, loading: false });
   }
 
   async fetchGithubRepositories(login = '') {
-    const repositories = await Api.github.getRepositories(login);
+    const repositories = await API.github.getRepositories(login);
     this.setState({
       repositoriesLoaded: true,
       languageUsed: github.getLanguageUsed(repositories),
@@ -87,12 +87,12 @@ class GitHubWrapper extends React.Component {
   }
 
   async fetchGithubCommits(login = '') {
-    const result = await Api.github.getCommits(login);
+    const result = await API.github.getCommits(login);
     this.setGithubCommits(result);
   }
 
   async fetchLanguages(login = '') {
-    const result = await Api.github.getLanguages(login);
+    const result = await API.github.getLanguages(login);
     this.setState({ languages: result });
   }
 
@@ -126,7 +126,7 @@ class GitHubWrapper extends React.Component {
         predictions
       })
     });
-    Api.scientific.putPredictionFeedback(login, prediction.full_name, liked);
+    API.scientific.putPredictionFeedback(login, prediction.full_name, liked);
   }
 
   onPredictionDelete(index) {
@@ -142,7 +142,7 @@ class GitHubWrapper extends React.Component {
         predictions
       })
     });
-    Api.scientific.removePrediction(login, prediction.full_name);
+    API.scientific.removePrediction(login, prediction.full_name);
   }
 
   onPredictionFeedback(index, liked) {
@@ -156,7 +156,7 @@ class GitHubWrapper extends React.Component {
   async changeShareStatus() {
     const { user } = this.state;
     const { openShare } = user;
-    await Api.github.toggleShare(!openShare);
+    await API.github.toggleShare(!openShare);
     this.toggleShare(!openShare);
   }
 

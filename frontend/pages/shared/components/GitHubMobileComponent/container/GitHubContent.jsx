@@ -9,7 +9,7 @@ import ScrollReveal from 'scrollreveal';
 import { InfoCard, CardGroup } from 'light-ui';
 import FAB from 'COMPONENTS/FloatingActionButton';
 
-import Api from 'API';
+import API from 'API';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import {
@@ -73,7 +73,7 @@ class GitHubContent extends React.Component {
   async fetchRefreshStatus() {
     const { isAdmin } = this.props;
     if (!isAdmin) return;
-    const result = await Api.github.getUpdateStatus();
+    const result = await API.github.getUpdateStatus();
     this.setRefreshStatus(result);
   }
 
@@ -91,10 +91,10 @@ class GitHubContent extends React.Component {
       return;
     }
     this.setState({ refreshing: true });
-    Api.github.update().then(() => {
+    API.github.update().then(() => {
       const heartBeat = new HeartBeat({
         interval: 3000, // 3s
-        callback: () => Api.github.getUpdateStatus().then((result) => {
+        callback: () => API.github.getUpdateStatus().then((result) => {
           if (result && Number(result.status) === 1) {
             heartBeat.stop();
             this.setRefreshStatus(result);

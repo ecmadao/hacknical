@@ -1,6 +1,6 @@
 import 'particles.js';
 import './styles/index.css';
-import Api from 'API';
+import API from 'API';
 import { sleep } from 'UTILS/helper';
 import HeartBeat from 'UTILS/heartbeat';
 
@@ -56,7 +56,7 @@ const statisticTemplate = `
   </div>
 `;
 
-const fetchStatistic = Api.home.statistic;
+const fetchStatistic = API.home.statistic;
 
 const renderStatistic = async (statistic, animation = true) => {
   const {

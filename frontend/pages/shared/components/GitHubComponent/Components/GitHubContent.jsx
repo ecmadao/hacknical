@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import objectAssign from 'UTILS/object-assign';
 import FAB from 'COMPONENTS/FloatingActionButton';
-import Api from 'API';
+import API from 'API';
 import GitHub from 'COMPONENTS/GitHub';
 import ShareModal from 'COMPONENTS/ShareModal';
 import locales from 'LOCALES';
@@ -38,13 +38,13 @@ class GitHubContent extends React.Component {
   }
 
   async fetchGithubSections(login = '') {
-    const userInfo = await Api.user.getUserInfo(login);
+    const userInfo = await API.user.getUserInfo(login);
     this.setState({ sections: userInfo.githubSections });
   }
 
   async changeGithubSection(sections) {
     const newSections = objectAssign({}, this.state.sections, sections);
-    await Api.user.setUserInfo({
+    await API.user.setUserInfo({
       githubSections: newSections
     });
     this.setState({

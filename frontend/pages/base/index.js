@@ -1,7 +1,7 @@
-// import Api from 'API';
+// import API from 'API';
 //
 // const renderOctocat = async () => {
-//   const octocat = await Api.github.octocat();
+//   const octocat = await API.github.octocat();
 //   console.log(octocat);
 // };
 //

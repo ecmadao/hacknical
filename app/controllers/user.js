@@ -116,6 +116,35 @@ const setUserInfo = async (ctx) => {
   };
 };
 
+const getUnreadNotifies = async (ctx) => {
+  const { userId, locale } = ctx.session;
+
+  const datas = await StatAPI.getUnreadNotifies(userId, locale);
+  ctx.body = {
+    result: datas,
+    success: true
+  };
+};
+
+const getNotifies = async (ctx) => {
+  const { locale } = ctx.session;
+  const datas = await StatAPI.getNotifies(locale);
+  ctx.body = {
+    result: datas,
+    success: true
+  };
+};
+
+const markNotifies = async (ctx) => {
+  const { userId } = ctx.session;
+  const { ids } = ctx.request.body;
+
+  await StatAPI.markNotifies(userId, ids);
+  ctx.body = {
+    success: true
+  };
+};
+
 export default {
   // user
   logout,
@@ -124,4 +153,8 @@ export default {
   setUserInfo,
   loginByGitHub,
   initialFinished,
+  // notify
+  getNotifies,
+  markNotifies,
+  getUnreadNotifies,
 };

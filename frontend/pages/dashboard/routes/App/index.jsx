@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import asyncComponent from 'COMPONENTS/AsyncComponent';
 import AppAction from './redux/actions';
+import API from 'API';
 
 const dashboard = {
   mobile: asyncComponent(
@@ -16,6 +17,10 @@ const dashboard = {
 };
 
 class App extends React.Component {
+  componentDidMount() {
+
+  }
+
   componentWillMount() {
     // https://github.com/ReactTraining/react-router/issues/3854
     const {

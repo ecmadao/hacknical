@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PortalModal, Button, Loading, Input } from 'light-ui';
-import Api from 'API';
+import API from 'API';
 import ReposCard from './ReposCard';
 import styles from '../../styles/modal.css';
 import locales from 'LOCALES';
@@ -56,7 +56,7 @@ class ReposModal extends React.Component {
   onSubmit() {
     const { pinned } = this.state;
     const { onClose } = this.props;
-    Api.user.setUserInfo({ pinnedRepos: pinned });
+    API.user.setUserInfo({ pinnedRepos: pinned });
     this.changeState({
       rawPinned: [...pinned]
     });
@@ -79,7 +79,7 @@ class ReposModal extends React.Component {
 
   async fetchRepositories() {
     const { pinned } = this.state;
-    const result = await Api.github.getAllRepositories();
+    const result = await API.github.getAllRepositories();
     const pinnedRepos = pinned.length ? pinned : this.defaultPinned(result);
     this.changeState({
       repositories: [...result],
@@ -91,7 +91,7 @@ class ReposModal extends React.Component {
   }
 
   async fetchPinnedRepositories() {
-    const user = await Api.user.getUserInfo();
+    const user = await API.user.getUserInfo();
     const pinned = user.pinnedRepos || this.defaultPinned();
     this.changeState({
       pinned: [...pinned],

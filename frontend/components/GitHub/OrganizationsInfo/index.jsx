@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
 
-import Api from 'API';
+import API from 'API';
 import locales from 'LOCALES';
 import dateHelper from 'UTILS/date';
 import { splitArray } from 'UTILS/helper';
@@ -33,7 +33,7 @@ class OrganizationsInfo extends React.Component {
   }
 
   async getGithubOrganizations(login) {
-    const organizations = await Api.github.getOrganizations(login);
+    const organizations = await API.github.getOrganizations(login);
     this.setState({
       loaded: true,
       organizations: [...organizations]
