@@ -42,8 +42,8 @@ class GitHubMobileContent extends React.Component {
 
   componentDidUpdate(preProps) {
     this.renderCharts();
-    const { repositoriesLoaded, commitLoaded, hotmapLoaded } = this.props;
-    repositoriesLoaded && commitLoaded && hotmapLoaded && this.initialScrollReveal();
+    const { commitLoaded } = this.props;
+    this.initialScrollReveal();
     commitLoaded && !preProps.commitLoaded && this.reposChartDOM && this.renderRepositoriesChart();
 
     if (this.props.isAdmin && !this.headroom && this.refreshButton) {
@@ -59,6 +59,11 @@ class GitHubMobileContent extends React.Component {
   }
 
   initialScrollReveal() {
+    const { repositoriesLoaded, commitLoaded, hotmapLoaded } = this.props;
+    if (!repositoriesLoaded || !commitLoaded || !hotmapLoaded) return;
+    if (this.scrollRevealLoaded) return;
+
+    this.scrollRevealLoaded = true;
     const sr = ScrollReveal({ reset: true });
     try {
       sr.reveal('#reposChartDOM', { duration: 150 });
