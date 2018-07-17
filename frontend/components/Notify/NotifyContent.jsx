@@ -67,7 +67,7 @@ const _NotifyContent = (props) => {
             className="fa fa-thumbs-o-up"
             onClick={() => upvote(message.id)}
           />
-          &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <i
             className="fa fa-thumbs-o-down"
             onClick={() => downvote(message.id)}
