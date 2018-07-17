@@ -39,8 +39,9 @@ const handle404 = async (ctx) => {
 };
 
 const dashboard = async (ctx) => {
-  const { login, dashboardRoute = 'visualize' } = ctx.params;
+  const { template } = ctx.state;
   const { githubLogin, userId } = ctx.session;
+  const { login, dashboardRoute = 'visualize' } = ctx.params;
   const user = await UserAPI.getUser({ userId });
 
   logger.debug(`githubLogin: ${githubLogin}, userId: ${userId}`);
@@ -56,7 +57,7 @@ const dashboard = async (ctx) => {
   notify('slack').send({
     mq: ctx.mq,
     data: {
-      data: `Used by <https://github.com/${githubLogin}|${githubLogin}>`
+      data: `Used by <https://github.com/${githubLogin}|${githubLogin}> on ${template}`
     }
   });
   await ctx.render('user/dashboard', {
