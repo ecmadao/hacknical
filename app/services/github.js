@@ -87,6 +87,13 @@ const updateUserData = (login, token) =>
     timeouts: [null]
   });
 
+const updateUser = (login, data) =>
+  fetchApi(`/${login}`, {
+    method: 'patch',
+    body: { data },
+    timeouts: [null]
+  });
+
 const getHotmap = (login, locale) =>
   getFromCache(`/${login}/hotmap`, {
     qs: { locale }
@@ -133,6 +140,7 @@ export default {
   getVerify,
   /* ===== */
   getUser,
+  updateUser,
   getUserCommits,
   getUserLanguages,
   getUserContributed,
