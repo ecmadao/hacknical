@@ -70,12 +70,14 @@ class GitHubContent extends React.Component {
   render() {
     const {
       user,
+      hotmap,
       languages,
       commitDatas,
       commitInfos,
       repositories,
       commitLoaded,
       languageUsed,
+      hotmapLoaded,
       languageSkills,
       repositoriesLoaded,
       languageDistributions,
@@ -112,6 +114,8 @@ class GitHubContent extends React.Component {
         ) : null}
         <GitHub
           login={login}
+          hotmap={hotmap}
+          loaded={hotmapLoaded}
           title={{
             text: githubTexts.hotmap.title,
             icon: 'cloud-upload'

@@ -29,7 +29,6 @@ class Notify extends React.Component {
 
   render() {
     const { messages } = this.state;
-    console.log(messages);
     if (!messages || !messages.length) return null;
     return (
       <NotifyContent

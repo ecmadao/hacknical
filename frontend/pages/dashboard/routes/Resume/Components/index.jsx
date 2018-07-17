@@ -55,16 +55,14 @@ class Resume extends React.Component {
       window.attachEvent('onbeforeunload', this.onBeforeUnload);
     }
 
-    // this.heartBeat = new HeartBeat({
-    //   interval: 60000, // 1 min
-    //   callback: () => {
-    //     const { resume, actions } = this.props;
-    //     if (resume.edited) {
-    //       actions.saveResume();
-    //     }
-    //   }
-    // });
-    // this.heartBeat.takeoff();
+    this.heartBeat = new HeartBeat({
+      interval: 600000, // 10 min
+      callback: () => {
+        const { resume, actions } = this.props;
+        if (resume.edited) actions.saveResume();
+      }
+    });
+    this.heartBeat.takeoff();
   }
 
   componentWillUnmount() {

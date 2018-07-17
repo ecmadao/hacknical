@@ -5,11 +5,9 @@ import cx from 'classnames';
 import CalHeatMap from 'cal-heatmap';
 import 'cal-heatmap/cal-heatmap.css';
 import { Loading, InfoCard, CardGroup } from 'light-ui';
-import API from 'API';
 import styles from '../styles/github.css';
 import cardStyles from '../styles/info_card.css';
 import locales, { formatLocale } from 'LOCALES';
-import formatHotmap from '../utils/hotmap';
 import dateHelper from 'UTILS/date';
 
 const githubTexts = locales('github.sections.hotmap');
@@ -17,36 +15,22 @@ const githubTexts = locales('github.sections.hotmap');
 class Hotmap extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loaded: false,
-      hotmap: {
-        start: null,
-        end: null,
-        datas: null,
-        total: null,
-        streak: null,
-      }
-    }
     this.githubCalendar = false;
   }
 
   componentDidUpdate() {
-    const { login } = this.props;
-    if (!this.githubCalendar && login && $('#cal-heatmap')[0]) {
-      this.getHotmap(login);
+    if (!this.githubCalendar && $('#cal-heatmap')[0]) {
+      this.renderHotmap();
     }
   }
 
-  async getHotmap(login) {
+  renderHotmap() {
+    const { loaded, hotmap } = this.props;
+    if (!loaded) return;
+
     this.githubCalendar = true;
-    const result = await API.github.getUserHotmap(login);
-    const hotmap = formatHotmap(result);
     const local = formatLocale();
     const cal = new CalHeatMap();
-    this.setState({
-      loaded: true,
-      hotmap
-    });
     const {
       start,
       datas,
@@ -73,8 +57,7 @@ class Hotmap extends React.Component {
   }
 
   renderCardGroup() {
-    const { hotmap } = this.state;
-    const { renderCards } = this.props;
+    const { renderCards, hotmap } = this.props;
     if (!hotmap.datas || !renderCards) return null;
     const {
       end,
@@ -145,8 +128,7 @@ class Hotmap extends React.Component {
   }
 
   render() {
-    const { loaded } = this.state;
-    const { className } = this.props;
+    const { className, loaded } = this.props;
     return (
       <div
         className={cx(

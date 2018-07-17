@@ -35,7 +35,7 @@ const githubTexts = githubLocales.sections;
 const githubMsg = githubLocales.message;
 const getDateBySeconds = dateHelper.date.bySeconds;
 
-class GitHubContent extends React.Component {
+class GitHubMobileContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,9 +54,9 @@ class GitHubContent extends React.Component {
 
   componentDidUpdate(preProps) {
     this.renderCharts();
-    const { repositoriesLoaded, commitLoaded } = this.props;
-    repositoriesLoaded && commitLoaded && this.initialScrollReveal();
-    commitLoaded && !preProps.commitLoaded && this.renderRepositoriesChart();
+    const { repositoriesLoaded, commitLoaded, hotmapLoaded } = this.props;
+    repositoriesLoaded && commitLoaded && hotmapLoaded && this.initialScrollReveal();
+    commitLoaded && !preProps.commitLoaded && this.reposChartDOM && this.renderRepositoriesChart();
 
     if (this.props.isAdmin && !this.headroom && this.refreshButton) {
       this.headroom = new Headroom(this.refreshButton, {
@@ -68,6 +68,10 @@ class GitHubContent extends React.Component {
       });
       this.headroom.init();
     }
+  }
+
+  componentWillUnmount() {
+    this.heartBeat && this.heartBeat.stop();
   }
 
   async fetchRefreshStatus() {
@@ -92,29 +96,29 @@ class GitHubContent extends React.Component {
     }
     this.setState({ refreshing: true });
     API.github.update().then(() => {
-      const heartBeat = new HeartBeat({
-        interval: 3000, // 3s
+      this.heartBeat = new HeartBeat({
+        interval: 5000, // 5s
         callback: () => API.github.getUpdateStatus().then((result) => {
-          if (result && Number(result.status) === 1) {
-            heartBeat.stop();
+          if (result && result.finished) {
+            this.heartBeat.stop();
             this.setRefreshStatus(result);
             window.location.reload(false);
           }
         })
       });
-      heartBeat.takeoff();
+      this.heartBeat.takeoff();
     });
   }
 
   initialScrollReveal() {
     const sr = ScrollReveal({ reset: true });
     try {
-      sr.reveal('#reposChart', { duration: 150 });
-      sr.reveal('#skillChart', { duration: 150 });
-      sr.reveal('#commitsChart', { duration: 150 });
-      // sr.reveal('#commitsWrapper', { duration: 150 });
-      sr.reveal('#reposWrapper', { duration: 150 });
-      // sr.reveal('#languageWrapper', { duration: 150 });
+      sr.reveal('#reposChartDOM', { duration: 150 });
+      sr.reveal('#skillChartDOM', { duration: 150 });
+      sr.reveal('#commitsChartDOM', { duration: 150 });
+      sr.reveal('#commitsWrapperDOM', { duration: 150 });
+      sr.reveal('#reposWrapperDOM', { duration: 150 });
+      sr.reveal('#languageWrapperDOM', { duration: 150 });
     } catch (e) {
       console.error(e);
     }
@@ -124,11 +128,11 @@ class GitHubContent extends React.Component {
     const { repositories, commitInfos } = this.props;
     const { commits } = commitInfos;
     if (repositories.length) {
-      !this.reposChart && this.renderRepositoriesChart();
-      !this.languageSkillChart && this.renderLanguagesChart();
+      !this.reposChart && this.reposChartDOM && this.renderRepositoriesChart();
+      !this.languageSkillChart && this.languageSkillDOM && this.renderLanguagesChart();
     }
     if (commits.length) {
-      !this.commitsYearlyReviewChart && this.renderYearlyChart(commits);
+      !this.commitsYearlyReviewChart && this.commitsYearlyChartDOM && this.renderYearlyChart(commits);
     }
   }
 
@@ -169,7 +173,7 @@ class GitHubContent extends React.Component {
       commitDates.push(monthlyCommits[key]);
       dateLabels.push(key);
     }
-    this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChart, {
+    this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChartDOM, {
       type: 'line',
       data: {
         labels: dateLabels,
@@ -225,7 +229,7 @@ class GitHubContent extends React.Component {
       skills.push(obj.star);
     }
 
-    this.languageSkillChart = new Chart(this.languageSkill, {
+    this.languageSkillChart = new Chart(this.languageSkillDOM, {
       type: 'radar',
       data: {
         labels: languages,
@@ -254,7 +258,7 @@ class GitHubContent extends React.Component {
         chart.repos.commitsDatasets(renderedRepos, commitDatas)
       );
     }
-    this.reposChart = new Chart(this.reposReview, {
+    this.reposChart = new Chart(this.reposChartDOM, {
       type: 'bar',
       data: {
         datasets,
@@ -307,7 +311,7 @@ class GitHubContent extends React.Component {
 
     return (
       <CardGroup
-        id="commitsWrapper"
+        id="commitsWrapperDOM"
         className={cx(
           styles.info_with_chart_wrapper,
           sharedStyles.info_share
@@ -383,7 +387,7 @@ class GitHubContent extends React.Component {
 
     return (
       <Slick
-        wrapperId="reposWrapper"
+        wrapperId="reposWrapperDOM"
         sliders={sliders}
       />
     );
@@ -393,10 +397,12 @@ class GitHubContent extends React.Component {
     const { refreshing } = this.state;
     const {
       user,
+      hotmap,
       languages,
       commitDatas,
       commitLoaded,
       languageUsed,
+      hotmapLoaded,
       languageSkills,
       repositoriesLoaded,
       languageDistributions
@@ -438,17 +444,19 @@ class GitHubContent extends React.Component {
         </div>
         <Hotmap
           login={login}
+          hotmap={hotmap}
           renderCards={false}
+          loaded={hotmapLoaded}
           className={styles.hotmapContainer}
         />
         <div className={cx(sharedStyles.mobile_card, styles.mobile_card_full)}>
           <div
-            id="reposChart"
+            id="reposChartDOM"
             className={cx(sharedStyles.info_chart, styles.repos_chart)}
           >
             <canvas
               className={styles.max_canvas}
-              ref={ref => (this.reposReview = ref)}
+              ref={ref => (this.reposChartDOM = ref)}
             />
           </div>
           {this.renderRepositoriesInfo()}
@@ -476,7 +484,7 @@ class GitHubContent extends React.Component {
           )}
         >
           <CardGroup
-            id="languageWrapper"
+            id="languageWrapperDOM"
             className={cx(
               sharedStyles.info_with_chart,
               sharedStyles.info_share
@@ -496,12 +504,12 @@ class GitHubContent extends React.Component {
             />
           </CardGroup>
           <div
-            id="skillChart"
+            id="skillChartDOM"
             className={sharedStyles.info_chart}
             style={{ marginTop: '15px' }}
           >
             <canvas
-              ref={ref => (this.languageSkill = ref)}
+              ref={ref => (this.languageSkillDOM = ref)}
               className={sharedStyles.min_canvas}
             />
           </div>
@@ -517,13 +525,13 @@ class GitHubContent extends React.Component {
           >
             {this.renderCommitsInfo()}
             <div
-              id="commitsChart"
+              id="commitsChartDOM"
               className={sharedStyles.info_chart}
             >
               <strong>{githubTexts.commits.monthlyCommitChartTitle}</strong>
               <canvas
                 className={sharedStyles.max_canvas}
-                ref={ref => (this.commitsYearlyChart = ref)}
+                ref={ref => (this.commitsYearlyChartDOM = ref)}
               />
             </div>
           </div>
@@ -545,10 +553,10 @@ class GitHubContent extends React.Component {
   }
 }
 
-GitHubContent.defaultProps = {
+GitHubMobileContent.defaultProps = {
   isShare: false,
   login: window.login,
   isAdmin: window.isAdmin === 'true',
 };
 
-export default GitHubContent;
+export default GitHubMobileContent;

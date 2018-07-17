@@ -32,9 +32,9 @@ const refreshGithubDatas = () => (dispatch) => {
   dispatch(toggleSettingLoading(true));
   API.github.update().then(() => {
     const heartBeat = new HeartBeat({
-      interval: 3000, // 3s
+      interval: 5000, // 5s
       callback: () => API.github.getUpdateStatus().then((result) => {
-        if (result && Number(result.status) === 1) {
+        if (result && result.finished) {
           heartBeat.stop();
           dispatch(setUpdateStatus(result));
           Push.create(updateMsg.header, {

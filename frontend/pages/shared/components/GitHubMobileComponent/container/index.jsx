@@ -1,13 +1,13 @@
 import React from 'react';
 import GitHubWrapper from '../../GitHubWrapper';
-import GitHubContent from './GitHubContent';
+import GitHubMobileContent from './GitHubMobileContent';
 
 const GitHubMobileComponent = props => (
   <GitHubWrapper
     login={props.login}
     isShare={props.isShare}
   >
-    <GitHubContent {...props} />
+    <GitHubMobileContent {...props} />
   </GitHubWrapper>
 );
 

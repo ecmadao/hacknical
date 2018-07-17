@@ -6,6 +6,7 @@ import { USER } from 'UTILS/constant';
 import API from 'API';
 import github from 'UTILS/github';
 import { removeDOM } from 'UTILS/helper';
+import formatHotmap from 'UTILS/hotmap';
 
 polyfill();
 
@@ -37,6 +38,14 @@ class GitHubWrapper extends React.Component {
       languageUsed: {},
       languageSkills: {},
       languageDistributions: {},
+      hotmapLoaded: false,
+      hotmap: {
+        start: null,
+        end: null,
+        datas: null,
+        total: null,
+        streak: null,
+      }
     };
     this.changeShareStatus = this.changeShareStatus.bind(this);
   }
@@ -50,6 +59,7 @@ class GitHubWrapper extends React.Component {
       this.fetchGithubCommits(login),
       this.fetchGithubRepositories(login),
     ]);
+    this.fetchHotmap(login);
     removeDOM('#loading', { async: true });
   }
 
@@ -94,6 +104,12 @@ class GitHubWrapper extends React.Component {
   async fetchLanguages(login = '') {
     const result = await API.github.getLanguages(login);
     this.setState({ languages: result });
+  }
+
+  async fetchHotmap(login) {
+    const result = await API.github.getUserHotmap(login);
+    const hotmap = formatHotmap(result);
+    this.setState({ hotmap, hotmapLoaded: true });
   }
 
   setGithubCommits(result) {
