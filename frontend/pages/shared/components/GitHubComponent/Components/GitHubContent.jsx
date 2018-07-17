@@ -9,7 +9,6 @@ import ShareModal from 'COMPONENTS/ShareModal';
 import locales from 'LOCALES';
 import styles from '../styles/github.css';
 import dateHelper from 'UTILS/date';
-import { removeDOM } from 'UTILS/helper';
 
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
@@ -32,7 +31,6 @@ class GitHubContent extends React.Component {
     if (!preProps.user.login && user.login) {
       this.fetchGithubSections(user.login);
     }
-    removeDOM('#loading', { async: true });
   }
 
   toggleShareModal(openShareModal) {

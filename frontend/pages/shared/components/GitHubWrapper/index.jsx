@@ -1,9 +1,13 @@
 
 import React, { cloneElement } from 'react';
+import { polyfill } from 'es6-promise';
 import objectAssign from 'UTILS/object-assign';
 import { USER } from 'UTILS/constant';
 import Api from 'API';
 import github from 'UTILS/github';
+import { removeDOM } from 'UTILS/helper';
+
+polyfill();
 
 const sortByLanguageStar = github.sortByX({ key: 'stargazers_count' });
 
@@ -40,26 +44,13 @@ class GitHubWrapper extends React.Component {
   componentDidMount() {
     const { login } = this.props;
     this.fetchGithubUser(login);
-  }
-
-  componentDidUpdate(preProps, preState) {
-    const {
-      user,
-      scientific,
-      commitLoaded,
-      repositoriesLoaded,
-    } = this.state;
-    const { isShare } = this.props;
-
-    if (!preState.user.login && user.login) {
-      this.fetchLanguages(user.login);
-      // !isShare && this.getGithubScientific(user.login);
-      // !scientific.statistic && this.getGithubStatistic(user.login);
-      !repositoriesLoaded && this.fetchGithubRepositories(user.login);
-    }
-    if (repositoriesLoaded && !preState.repositoriesLoaded && user.login) {
-      !commitLoaded && this.fetchGithubCommits(user.login);
-    }
+    Promise.all([
+      this.fetchGithubUser(login),
+      this.fetchLanguages(login),
+      this.fetchGithubCommits(login),
+      this.fetchGithubRepositories(login),
+    ]);
+    removeDOM('#loading', { async: true });
   }
 
   async fetchGithubStatistic(login = '') {
@@ -88,9 +79,9 @@ class GitHubWrapper extends React.Component {
     const repositories = await Api.github.getRepositories(login);
     this.setState({
       repositoriesLoaded: true,
-      repositories: [...repositories.sort(sortByLanguageStar)],
       languageUsed: github.getLanguageUsed(repositories),
       languageSkills: github.getLanguageSkill(repositories),
+      repositories: [...repositories.sort(sortByLanguageStar)],
       languageDistributions: github.getLanguageDistribution(repositories),
     });
   }

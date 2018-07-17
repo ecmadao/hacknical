@@ -13,7 +13,6 @@ import Api from 'API';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import {
-  removeDOM,
   getMaxIndex,
   getFirstMatchTarget,
 } from 'UTILS/helper';
@@ -51,7 +50,6 @@ class GitHubContent extends React.Component {
 
   componentDidMount() {
     this.fetchRefreshStatus();
-    removeDOM('#loading', { async: true });
   }
 
   componentDidUpdate(preProps) {
@@ -534,11 +532,11 @@ class GitHubContent extends React.Component {
         {isAdmin && !isShare ? (
           <div ref={ref => (this.refreshButton = ref)}>
             <FAB
-              icon="refresh"
               color="dark"
+              icon="refresh"
+              disabled={refreshing}
               onClick={this.refreshGithubDatas}
               className={refreshing ? styles.roating : ''}
-              disabled={refreshing}
             />
           </div>
         ) : null}
