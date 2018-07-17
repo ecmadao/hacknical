@@ -78,14 +78,13 @@ const reducers = handleActions({
   TOGGLE_POSTING(state, action) {
     return ({
       ...state,
-      edited: action.payload,
       posting: action.payload
     });
   },
-  RESET_EDITED(state) {
+  TOGGLE_EDITED(state, action) {
     return ({
       ...state,
-      edited: false,
+      edited: action.payload,
     });
   },
   HANDLE_ACTIVE_SECTION_CHANGE(state, action) {
@@ -105,15 +104,8 @@ const reducers = handleActions({
       : RESUME_SECTIONS.normal;
     return ({
       ...state,
-      edited: true,
       sections: [...sections],
       info: objectassign(info, action.payload),
-    });
-  },
-  HANDLE_EDIT_CHANGE(state, action) {
-    return ({
-      ...state,
-      edited: action.payload,
     });
   },
 
@@ -126,7 +118,6 @@ const reducers = handleActions({
     });
     return ({
       ...state,
-      edited: true,
       educations: [...educations, newEdu]
     });
   },
@@ -136,9 +127,10 @@ const reducers = handleActions({
     const index = action.payload;
     return ({
       ...state,
-      edited: true,
-      educations: [...educations.slice(0, index),
-        ...educations.slice(index + 1)]
+      educations: [
+        ...educations.slice(0, index),
+        ...educations.slice(index + 1)
+      ]
     });
   },
 
@@ -147,10 +139,11 @@ const reducers = handleActions({
     const { edu, index } = action.payload;
     return ({
       ...state,
-      edited: true,
-      educations: [...educations.slice(0, index),
+      educations: [
+        ...educations.slice(0, index),
         objectassign(educations[index], edu),
-        ...educations.slice(index + 1)]
+        ...educations.slice(index + 1)
+      ]
     });
   },
 
@@ -159,12 +152,14 @@ const reducers = handleActions({
     const { workExperiences } = state;
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences, objectassign(WORK_EXPERIENCE, {
-        startTime: getDateBeforeYears(1),
-        endTime: getCurrentDate(),
-        projects: []
-      })]
+      workExperiences: [
+        ...workExperiences,
+        objectassign(WORK_EXPERIENCE, {
+          startTime: getDateBeforeYears(1),
+          endTime: getCurrentDate(),
+          projects: []
+        })
+      ]
     });
   },
 
@@ -173,9 +168,10 @@ const reducers = handleActions({
     const index = action.payload;
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences.slice(0, index),
-        ...workExperiences.slice(index + 1)]
+      workExperiences: [
+        ...workExperiences.slice(0, index),
+        ...workExperiences.slice(index + 1)
+      ]
     });
   },
 
@@ -186,12 +182,13 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences.slice(0, index),
+      workExperiences: [
+        ...workExperiences.slice(0, index),
         objectassign(workExperience, {
           projects: [...workExperience.projects, WORK_PROJECT]
         }),
-        ...workExperiences.slice(index + 1)]
+        ...workExperiences.slice(index + 1)
+      ]
     });
   },
 
@@ -203,13 +200,14 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences.slice(0, workIndex),
+      workExperiences: [
+        ...workExperiences.slice(0, workIndex),
         objectassign(workExperience, {
           projects: [...projects.slice(0, projectIndex),
             ...projects.slice(projectIndex + 1)]
         }),
-        ...workExperiences.slice(workIndex + 1)]
+        ...workExperiences.slice(workIndex + 1)
+      ]
     });
   },
 
@@ -222,17 +220,20 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences.slice(0, workIndex),
+      workExperiences: [
+        ...workExperiences.slice(0, workIndex),
         objectassign(workExperience, {
-          projects: [...projects.slice(0, projectIndex),
+          projects: [
+            ...projects.slice(0, projectIndex),
             objectassign(project, {
               details: [...project.details, detail]
             }),
-            ...projects.slice(projectIndex + 1)]
+            ...projects.slice(projectIndex + 1)
+          ]
         }),
-        ...workExperiences.slice(workIndex + 1)]
-    })
+        ...workExperiences.slice(workIndex + 1)
+      ]
+    });
   },
 
   DELETE_WORK_PROJECT_DETAIL(state, action) {
@@ -244,18 +245,23 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences.slice(0, workIndex),
+      workExperiences: [
+        ...workExperiences.slice(0, workIndex),
         objectassign(workExperience, {
-          projects: [...projects.slice(0, projectIndex),
+          projects: [
+            ...projects.slice(0, projectIndex),
             objectassign(project, {
-              details: [...project.details.slice(0, detailIndex),
-                ...project.details.slice(detailIndex + 1)]
+              details: [
+                ...project.details.slice(0, detailIndex),
+                ...project.details.slice(detailIndex + 1)
+              ]
             }),
-            ...projects.slice(projectIndex + 1)]
+            ...projects.slice(projectIndex + 1)
+          ]
         }),
-        ...workExperiences.slice(workIndex + 1)]
-    })
+        ...workExperiences.slice(workIndex + 1)
+      ]
+    });
   },
 
   HANDLE_WORK_PROJECT_CHANGE(state, action) {
@@ -267,15 +273,18 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences.slice(0, workIndex),
+      workExperiences: [
+        ...workExperiences.slice(0, workIndex),
         objectassign(workExperience, {
-          projects: [...projects.slice(0, projectIndex),
+          projects: [
+            ...projects.slice(0, projectIndex),
             objectassign(project, workProject),
-            ...projects.slice(projectIndex + 1)]
+            ...projects.slice(projectIndex + 1)
+          ]
         }),
-        ...workExperiences.slice(workIndex + 1)]
-    })
+        ...workExperiences.slice(workIndex + 1)
+      ]
+    });
   },
 
   HANDLE_WORK_EXPERIENCE_CHANGE(state, action) {
@@ -284,10 +293,11 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      workExperiences: [...workExperiences.slice(0, index),
+      workExperiences: [
+        ...workExperiences.slice(0, index),
         objectassign(workExperiences[index], workExperience),
-        ...workExperiences.slice(index + 1)]
+        ...workExperiences.slice(index + 1)
+      ]
     });
   },
 
@@ -296,8 +306,10 @@ const reducers = handleActions({
     const { personalProjects } = state;
     return ({
       ...state,
-      edited: true,
-      personalProjects: [...personalProjects, objectassign({}, PERSONAL_PROJECT)]
+      personalProjects: [
+        ...personalProjects,
+        objectassign({}, PERSONAL_PROJECT)
+      ]
     });
   },
 
@@ -307,9 +319,10 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      personalProjects: [...personalProjects.slice(0, index),
-        ...personalProjects.slice(index + 1)]
+      personalProjects: [
+        ...personalProjects.slice(0, index),
+        ...personalProjects.slice(index + 1)
+      ]
     });
   },
 
@@ -319,10 +332,11 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      personalProjects: [...personalProjects.slice(0, index),
+      personalProjects: [
+        ...personalProjects.slice(0, index),
         objectassign(personalProjects[index], personalProject),
-        ...personalProjects.slice(index + 1)]
+        ...personalProjects.slice(index + 1)
+      ]
     });
   },
 
@@ -333,12 +347,13 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      personalProjects: [...personalProjects.slice(0, index),
+      personalProjects: [
+        ...personalProjects.slice(0, index),
         objectassign(personalProject, {
           techs: [...personalProject.techs, tech]
         }),
-        ...personalProjects.slice(index + 1)]
+        ...personalProjects.slice(index + 1)
+      ]
     });
   },
 
@@ -350,12 +365,16 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
-      personalProjects: [...personalProjects.slice(0, projectIndex),
+      personalProjects: [
+        ...personalProjects.slice(0, projectIndex),
         objectassign(personalProject, {
-          techs: [...techs.slice(0, techIndex), ...techs.slice(techIndex + 1)]
+          techs: [
+            ...techs.slice(0, techIndex),
+            ...techs.slice(techIndex + 1)
+          ]
         }),
-        ...personalProjects.slice(projectIndex + 1)]
+        ...personalProjects.slice(projectIndex + 1)
+      ]
     });
   },
 
@@ -364,7 +383,6 @@ const reducers = handleActions({
     const { others } = state;
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, action.payload)
     });
   },
@@ -374,7 +392,6 @@ const reducers = handleActions({
     const { expectLocations } = others;
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
         expectLocations: [...expectLocations, action.payload]
       })
@@ -387,10 +404,11 @@ const reducers = handleActions({
     const index = action.payload;
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
-        expectLocations: [...expectLocations.slice(0, index),
-          ...expectLocations.slice(index + 1)]
+        expectLocations: [
+          ...expectLocations.slice(0, index),
+          ...expectLocations.slice(index + 1)
+        ]
       })
     });
   },
@@ -402,11 +420,12 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
-        supplements: [...supplements.slice(0, index),
+        supplements: [
+          ...supplements.slice(0, index),
           supplement,
-          ...supplements.slice(index + 1)]
+          ...supplements.slice(index + 1)
+        ]
       })
     });
   },
@@ -416,7 +435,6 @@ const reducers = handleActions({
     const { supplements } = others;
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
         supplements: [...supplements, action.payload]
       })
@@ -429,10 +447,11 @@ const reducers = handleActions({
     const index = action.payload;
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
-        supplements: [...supplements.slice(0, index),
-          ...supplements.slice(index + 1)]
+        supplements: [
+          ...supplements.slice(0, index),
+          ...supplements.slice(index + 1)
+        ]
       })
     });
   },
@@ -443,11 +462,12 @@ const reducers = handleActions({
     const { option, index } = action.payload;
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
-        socialLinks: [...socialLinks.slice(0, index),
+        socialLinks: [
+          ...socialLinks.slice(0, index),
           objectassign(socialLinks[index], option),
-          ...socialLinks.slice(index + 1)]
+          ...socialLinks.slice(index + 1)
+        ]
       })
     });
   },
@@ -459,10 +479,11 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
-        socialLinks: [...socialLinks.slice(0, index),
-          ...socialLinks.slice(index + 1)]
+        socialLinks: [
+          ...socialLinks.slice(0, index),
+          ...socialLinks.slice(index + 1)
+        ]
       })
     });
   },
@@ -473,7 +494,6 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      edited: true,
       others: objectassign(others, {
         socialLinks: [...socialLinks, {
           url: '',

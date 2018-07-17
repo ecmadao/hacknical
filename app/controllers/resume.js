@@ -54,6 +54,7 @@ const getResume = async (ctx) => {
 
 const setResume = async (ctx, next) => {
   const { resume } = ctx.request.body;
+  const { message } = ctx.query;
   const { userId, githubLogin } = ctx.session;
 
   const targetResume = formatObject(resume);
@@ -87,7 +88,7 @@ const setResume = async (ctx, next) => {
   ctx.body = {
     result,
     success: true,
-    message: ctx.__('messages.success.save'),
+    message: message ? ctx.__('messages.success.save') : null,
   };
 
   await next();

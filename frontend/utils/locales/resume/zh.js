@@ -3,6 +3,7 @@ const datas = {
   editedConfirm: '简历已编辑，不保存吗？',
   buttons: {
     save: '保存',
+    saving: '保存中',
     preview: '预览',
     pre: '上一步',
     next: '下一步'

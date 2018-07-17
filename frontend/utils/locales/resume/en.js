@@ -3,6 +3,7 @@ const datas = {
   editedConfirm: "Resume edited, don't wanna save?",
   buttons: {
     save: 'Save',
+    saving: 'Saving',
     preview: 'Preview',
     pre: 'Pre',
     next: 'Next'

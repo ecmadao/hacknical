@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Push from 'push.js';
 import { Button, IconButton, Tipso } from 'light-ui';
 import styles from '../styles/resume.css';
 import ShareModal from 'COMPONENTS/ShareModal';
@@ -13,12 +14,14 @@ import IntroModal from './IntroModal';
 import resumeActions from '../redux/actions';
 import Hotkeys from 'UTILS/hotkeys';
 import locales from 'LOCALES';
+import Api from 'API';
 import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter';
 import message from 'UTILS/message';
 import Navigation from 'COMPONENTS/Navigation';
+import HeartBeat from 'UTILS/heartbeat';
 
 const resumeTexts = locales('resume');
-const editedConfirm = resumeTexts.editedConfirm
+const { editedConfirm, messages } = resumeTexts;
 
 class Resume extends React.Component {
   constructor(props) {
@@ -51,16 +54,28 @@ class Resume extends React.Component {
     } else {
       window.attachEvent('onbeforeunload', this.onBeforeUnload);
     }
+
+    // this.heartBeat = new HeartBeat({
+    //   interval: 60000, // 1 min
+    //   callback: () => {
+    //     const { resume, actions } = this.props;
+    //     if (resume.edited) {
+    //       actions.saveResume();
+    //     }
+    //   }
+    // });
+    // this.heartBeat.takeoff();
   }
 
   componentWillUnmount() {
     const { actions } = this.props;
-    actions.resetEdited();
+    actions.toggleEdited(false);
     if (window.removeEventListener) {
       window.removeEventListener('beforeunload', this.onBeforeUnload, true);
     } else {
       window.detachEvent('onbeforeunload', this.onBeforeUnload);
     }
+    this.heartBeat && this.heartBeat.stop();
   }
 
   onBeforeUnload(e) {
@@ -74,15 +89,36 @@ class Resume extends React.Component {
   }
 
   downloadResume() {
-    message.notice(resumeTexts.messages.download, 1800);
-    const { actions } = this.props;
-    actions.downloadResume();
+    message.notice(messages.download, 1800);
+    const { actions, resume } = this.props;
+    actions.toggleDownloadButton(true);
+    Api.resume.download().then((result) => {
+      if (result) {
+        const { name } = resume.info;
+        Push.create(messages.downloadSuccess, {
+          icon: '/vendor/images/hacknical-logo-nofity.png',
+          timeout: 3000,
+        });
+        const a = document.createElement('a');
+        a.href = result;
+        a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`;
+        a.click();
+      } else {
+        Push.create(messages.downloadError, {
+          icon: '/vendor/images/hacknical-logo-nofity.png',
+          timeout: 3000,
+        });
+      }
+      actions.toggleDownloadButton(false);
+    });
   }
 
   bindHotkeys() {
     const hotkeys = new Hotkeys();
     hotkeys
-      .save(this.props.actions.saveResume)
+      .save(
+        () => this.props.actions.saveResume('message=1')
+      )
       .preview(() => this.handleModalStatus(true))
       .next(() => {
         const currentIndex = this.currentIndex;
@@ -99,8 +135,8 @@ class Resume extends React.Component {
   }
 
   handlePreview() {
-    const { actions, resume } = this.props;
-    if (resume.edited) {
+    const { actions, resume, posting, loading } = this.props;
+    if (resume.edited && !posting && !loading) {
       actions.saveResume();
     }
     this.handleModalStatus(true);
@@ -124,12 +160,7 @@ class Resume extends React.Component {
 
   get currentIndex() {
     const { activeSection, sections } = this.props.resume;
-    let currentIndex = 0;
-    sections.forEach((section, index) => {
-      if (section.id === activeSection) {
-        currentIndex = index;
-      }
-    });
+    const currentIndex = sections.findIndex(section => section.id === activeSection);
     return currentIndex;
   }
 
@@ -151,6 +182,7 @@ class Resume extends React.Component {
       actions,
     } = this.props;
     const {
+      posting,
       loading,
       sections,
       shareInfo,
@@ -223,9 +255,12 @@ class Resume extends React.Component {
               )}
             />
             <Button
-              value={resumeTexts.buttons.save}
+              disabled={posting}
+              value={posting
+                ? resumeTexts.buttons.saving
+                : resumeTexts.buttons.save}
               className={styles.operation}
-              onClick={actions.saveResume}
+              onClick={() => actions.saveResume('message=1')}
               leftIcon={(
                 <i className="fa fa-save" aria-hidden="true" />
               )}
