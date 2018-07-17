@@ -250,6 +250,7 @@ const getUpdateStatus = async (ctx) => {
     status,
     lastUpdateTime,
     finished: updateFinished(statusCode),
+    refreshing: !updateFinished(statusCode),
     refreshEnable: refreshEnable(statusCode, lastUpdateTime),
   };
   ctx.body = {

@@ -9,7 +9,6 @@ import ScrollReveal from 'scrollreveal';
 import { InfoCard, CardGroup } from 'light-ui';
 import FAB from 'COMPONENTS/FloatingActionButton';
 
-import API from 'API';
 import github from 'UTILS/github';
 import chart from 'UTILS/chart';
 import {
@@ -26,30 +25,19 @@ import locales from 'LOCALES';
 import Hotmap from 'COMPONENTS/GitHub/Hotmap';
 import LanguageLines from 'COMPONENTS/GitHub/LanguageLines';
 import 'SRC/vendor/mobile/github.css';
-import message from 'UTILS/message';
-import HeartBeat from 'UTILS/heartbeat';
 
 const sortByLanguageStar = github.sortByX({ key: 'star' });
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;
-const githubMsg = githubLocales.message;
 const getDateBySeconds = dateHelper.date.bySeconds;
 
 class GitHubMobileContent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      refreshEnable: false,
-      refreshing: false,
-    };
+
     this.reposChart = null;
     this.languageSkillChart = null;
     this.commitsYearlyReviewChart = null;
-    this.refreshGithubDatas = this.refreshGithubDatas.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchRefreshStatus();
   }
 
   componentDidUpdate(preProps) {
@@ -68,46 +56,6 @@ class GitHubMobileContent extends React.Component {
       });
       this.headroom.init();
     }
-  }
-
-  componentWillUnmount() {
-    this.heartBeat && this.heartBeat.stop();
-  }
-
-  async fetchRefreshStatus() {
-    const { isAdmin } = this.props;
-    if (!isAdmin) return;
-    const result = await API.github.getUpdateStatus();
-    this.setRefreshStatus(result);
-  }
-
-  setRefreshStatus(data) {
-    const { refreshEnable } = data;
-    this.setState({
-      refreshEnable,
-      refreshing: false,
-    });
-  }
-
-  refreshGithubDatas() {
-    if (!this.state.refreshEnable) {
-      message.error(githubMsg.update.error);
-      return;
-    }
-    this.setState({ refreshing: true });
-    API.github.update().then(() => {
-      this.heartBeat = new HeartBeat({
-        interval: 5000, // 5s
-        callback: () => API.github.getUpdateStatus().then((result) => {
-          if (result && result.finished) {
-            this.heartBeat.stop();
-            this.setRefreshStatus(result);
-            window.location.reload(false);
-          }
-        })
-      });
-      this.heartBeat.takeoff();
-    });
   }
 
   initialScrollReveal() {
@@ -394,11 +342,11 @@ class GitHubMobileContent extends React.Component {
   }
 
   render() {
-    const { refreshing } = this.state;
     const {
       user,
       hotmap,
       languages,
+      refreshing,
       commitDatas,
       commitLoaded,
       languageUsed,
@@ -543,7 +491,7 @@ class GitHubMobileContent extends React.Component {
               color="dark"
               icon="refresh"
               disabled={refreshing}
-              onClick={this.refreshGithubDatas}
+              onClick={this.props.onRefresh}
               className={refreshing ? styles.roating : ''}
             />
           </div>

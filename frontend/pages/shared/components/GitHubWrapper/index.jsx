@@ -4,11 +4,16 @@ import { polyfill } from 'es6-promise';
 import objectAssign from 'UTILS/object-assign';
 import { USER } from 'UTILS/constant';
 import API from 'API';
+import locales from 'LOCALES';
 import github from 'UTILS/github';
 import { removeDOM } from 'UTILS/helper';
 import formatHotmap from 'UTILS/hotmap';
+import HeartBeat from 'UTILS/heartbeat';
+import message from 'UTILS/message';
 
 polyfill();
+
+const githubMsg = locales('github.message');
 
 const sortByLanguageStar = github.sortByX({ key: 'stargazers_count' });
 
@@ -47,6 +52,8 @@ class GitHubWrapper extends React.Component {
         streak: null,
       }
     };
+    this.onRefresh = this.onRefresh.bind(this);
+    this.setRefreshStatus = this.setRefreshStatus.bind(this);
     this.changeShareStatus = this.changeShareStatus.bind(this);
   }
 
@@ -58,9 +65,14 @@ class GitHubWrapper extends React.Component {
       this.fetchLanguages(login),
       this.fetchGithubCommits(login),
       this.fetchGithubRepositories(login),
+      this.fetchUpdateStatus()
     ]);
     this.fetchHotmap(login);
     removeDOM('#loading', { async: true });
+  }
+
+  componentWillUnmount() {
+    this.heartBeat && this.heartBeat.stop();
   }
 
   async fetchGithubStatistic(login = '') {
@@ -110,6 +122,56 @@ class GitHubWrapper extends React.Component {
     const result = await API.github.getUserHotmap(login);
     const hotmap = formatHotmap(result);
     this.setState({ hotmap, hotmapLoaded: true });
+  }
+
+  async fetchUpdateStatus() {
+    const { isAdmin } = this.props;
+    if (!isAdmin) return;
+    const result = await API.github.getUpdateStatus();
+    this.setRefreshStatus(result);
+  }
+
+  setRefreshStatus(data) {
+    const { refreshing, refreshEnable } = data;
+    this.setState({
+      refreshing,
+      refreshEnable,
+    });
+    if (refreshing && !this.heartBeat) {
+      this.createRefresh();
+    }
+  }
+
+  createRefresh() {
+    if (this.heartBeat) return;
+    this.heartBeat = new HeartBeat({
+      interval: 4000, // 4s
+      callback: () => API.github.getUpdateStatus().then((result) => {
+        if (!result) return;
+        if (result.finished) {
+          this.heartBeat.stop();
+          this.setRefreshStatus(result);
+          message.notice(githubMsg.update);
+          setTimeout(() => {
+            window.location.reload(false);
+          }, 3000);
+        }
+      })
+    });
+    this.heartBeat.takeoff();
+  }
+
+  onRefresh() {
+    const { refreshEnable } = this.state;
+    if (!refreshEnable) {
+      message.error(githubMsg.update.error);
+      return;
+    }
+    this.setRefreshStatus({
+      refreshing: true,
+      refreshEnable: false
+    });
+    API.github.update().then(this.createRefresh);
   }
 
   setGithubCommits(result) {
@@ -190,9 +252,16 @@ class GitHubWrapper extends React.Component {
 
     const component = cloneElement(children, {
       ...this.state,
+      onRefresh: this.onRefresh
     });
     return component;
   }
 }
+
+GitHubWrapper.defaultProps = {
+  isShare: false,
+  login: window.login,
+  isAdmin: window.isAdmin === 'true',
+};
 
 export default GitHubWrapper;

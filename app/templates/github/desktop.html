@@ -34,6 +34,7 @@
   <script>
     window.isShare = true;
     window.login = "{{ user.login }}";
+    window.isAdmin = '{{ user.isAdmin }}';
   </script>
   <script async defer src="{{ assetsPath("assets/github_desktop.bundle.js") }}"></script>
 {% endblock %}

@@ -4,7 +4,8 @@ const datas = {
     update: {
       header: 'Update succeed',
       body: 'GitHub data successfully update',
-      error: 'Too frequent to update😕'
+      error: 'Too frequent to update😕',
+      success: 'Update succeed. Auto refresh page 3s later'
     },
   },
   sections: {
