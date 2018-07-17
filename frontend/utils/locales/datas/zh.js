@@ -26,6 +26,10 @@ const datas = {
     untilNow: '至今',
     endDate: '结束时间',
     startDate: '开始时间',
+  },
+  notify: {
+    headline: '%s 发布新版本',
+    feedback: '意见反馈'
   }
 };
 

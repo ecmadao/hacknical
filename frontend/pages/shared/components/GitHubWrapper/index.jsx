@@ -174,7 +174,6 @@ class GitHubWrapper extends React.Component {
 
     const component = cloneElement(children, {
       ...this.state,
-      changeShareStatus: this.changeShareStatus
     });
     return component;
   }

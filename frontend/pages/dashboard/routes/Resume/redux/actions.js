@@ -205,33 +205,28 @@ const resumeEditActions = {
   toggleHireAvailable,
   toggleResumeType,
   // edu
-  addEducation,
   deleteEducation,
   handleEduChange,
   // workExperience
-  addWorkExperience,
   deleteWorkExperience,
-  addWorkProject,
   deleteWorkProject,
-  addWorkProjectDetail,
   deleteWorkProjectDetail,
   handleWorkProjectChange,
   handleWorkExperienceChange,
   // personalProjects
-  addPersonalProject,
   deletePersonalProject,
   handlePersonalProjectChange,
   addProjectTech,
   deleteProjectTech,
   // others
+  addSupplement,
   changeSupplement,
   changeSocialLink,
   deleteSocialLink,
-  addSocialLink,
   handleOthersInfoChange,
-  addSupplement,
   deleteSupplement,
 };
+
 
 export default objectAssign(
   {
@@ -255,6 +250,13 @@ export default objectAssign(
     postShareTemplate,
     // resume download
     toggleDownloadButton,
+    // edit resume
+    addEducation,
+    addWorkExperience,
+    addWorkProject,
+    addWorkProjectDetail,
+    addPersonalProject,
+    addSocialLink,
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name]);

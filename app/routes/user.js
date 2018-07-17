@@ -45,5 +45,13 @@ router.get('/notifies/unread',
   user.checkIfLogin(),
   User.getUnreadNotifies
 );
+router.patch('/notifies/upvote/:messageId',
+  user.checkIfLogin(),
+  User.notifyUpvote
+);
+router.patch('/notifies/downvote/:messageId',
+  user.checkIfLogin(),
+  User.notifyDownvote
+);
 
 module.exports = router;

@@ -218,3 +218,22 @@ export const toPromise = f => (...args) =>
       }
     }
   });
+
+export const random = (list) => {
+  const index = Math.floor(Math.random() * list.length);
+  return list[index];
+};
+
+export const observer = (action, options = {}) => {
+  let timeout = null;
+  const { interval = 3000 } = options;
+
+  return (...args) => {
+    if (timeout) return;
+    action(...args);
+    timeout = setTimeout(() => {
+      clearTimeout(timeout);
+      timeout = null;
+    }, interval);
+  };
+};

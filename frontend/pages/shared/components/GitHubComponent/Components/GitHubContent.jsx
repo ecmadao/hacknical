@@ -75,14 +75,13 @@ class GitHubContent extends React.Component {
       commitInfos,
       repositories,
       commitLoaded,
-      openShareModal,
       languageUsed,
       languageSkills,
       repositoriesLoaded,
       languageDistributions,
     } = this.props;
-    console.log(this.props);
-    const { sections } = this.state;
+
+    const { sections, openShareModal } = this.state;
     const { isShare, containerClass, cardClass } = this.props;
 
     const origin = window.location.origin;
@@ -188,21 +187,21 @@ class GitHubContent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHub
-          login={login}
-          userLogin={this.props.login}
+          languages={languages}
+          repositories={repositories}
+          loaded={repositoriesLoaded}
+          languageUsed={languageUsed}
+          languageSkills={languageSkills}
+          languageDistributions={languageDistributions}
           title={{
-            text: githubTexts.contributed.title,
-            icon: 'plug'
+            text: githubTexts.languages.title,
+            icon: 'code'
           }}
-          section="contributed"
-          key="github-section-contributed"
-          sectionStatus={sections.contributed}
-          hide={this.hideSection('contributed')}
-          disabled={this.disabledSection('contributed')}
-          intro={{
-            icon: 'question-circle',
-            text: githubTexts.contributed.tipso
-          }}
+          section="languages"
+          key="github-section-languages"
+          sectionStatus={sections.languages}
+          hide={this.hideSection('languages')}
+          disabled={this.disabledSection('languages')}
           isShare={isShare}
           cardClass={cardClass}
           callback={this.changeGithubSection}
@@ -228,21 +227,21 @@ class GitHubContent extends React.Component {
           callback={this.changeGithubSection}
         />
         <GitHub
-          languages={languages}
-          repositories={repositories}
-          loaded={repositoriesLoaded}
-          languageUsed={languageUsed}
-          languageSkills={languageSkills}
-          languageDistributions={languageDistributions}
+          login={login}
+          userLogin={this.props.login}
           title={{
-            text: githubTexts.languages.title,
-            icon: 'code'
+            text: githubTexts.contributed.title,
+            icon: 'plug'
           }}
-          section="languages"
-          key="github-section-languages"
-          sectionStatus={sections.languages}
-          hide={this.hideSection('languages')}
-          disabled={this.disabledSection('languages')}
+          section="contributed"
+          key="github-section-contributed"
+          sectionStatus={sections.contributed}
+          hide={this.hideSection('contributed')}
+          disabled={this.disabledSection('contributed')}
+          intro={{
+            icon: 'question-circle',
+            text: githubTexts.contributed.tipso
+          }}
           isShare={isShare}
           cardClass={cardClass}
           callback={this.changeGithubSection}
@@ -277,7 +276,6 @@ class GitHubContent extends React.Component {
               link: `${origin}/${shareUrl}`,
               text: shareText
             }}
-            toggleShare={this.props.changeShareStatus}
             onClose={() => this.toggleShareModal(false)}
           />
         ) : null}

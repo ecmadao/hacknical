@@ -60,15 +60,36 @@ const putStat = data =>
   });
 
 const getNotifies = locale =>
-  getFromCache(`${BASE_NOTIFY_URL}/all`, { locale });
+  getFromCache('/all', {
+    qs: { locale },
+    baseUrl: BASE_NOTIFY_URL,
+  });
 
 const getUnreadNotifies = (userId, locale) =>
-  getFromCache(`${BASE_NOTIFY_URL}/${userId}`, { locale });
+  fetchApi(`/${userId}`, {
+    qs: { locale },
+    baseUrl: BASE_NOTIFY_URL,
+  });
 
 const markNotifies = (userId, ids) =>
-  fetchApi(`${BASE_NOTIFY_URL}/${userId}`, {
+  fetchApi(`/${userId}`, {
     method: 'put',
-    body: { ids }
+    body: { ids },
+    baseUrl: BASE_NOTIFY_URL
+  });
+
+const notifyUpvote = (userId, messageId) =>
+  fetchApi(`/upvote/${userId}`, {
+    method: 'patch',
+    body: { messageId },
+    baseUrl: BASE_NOTIFY_URL
+  });
+
+const notifyDownvote = (userId, messageId) =>
+  fetchApi(`/downvote/${userId}`, {
+    method: 'patch',
+    body: { messageId },
+    baseUrl: BASE_NOTIFY_URL
   });
 
 export default {
@@ -84,5 +105,7 @@ export default {
   /* ===== notify ===== */
   getNotifies,
   markNotifies,
+  notifyUpvote,
+  notifyDownvote,
   getUnreadNotifies
 };

@@ -6,17 +6,8 @@ import Rock from 'PAGES/initial';
 import styles from 'PAGES/initial/styles/initial.css';
 import Button from 'PAGES/initial/button';
 import HeartBeat from 'UTILS/heartbeat';
+import { EMOJI } from 'UTILS/constant';
 
-const EMOJI = {
-  rocket: '🚀',
-  winking: '😉',
-  heartEyes: '😍',
-  smiling: '😝',
-  heart: '\u2764\uFE0F',
-  fireworks: '🎉',
-  rock: '🤘',
-  smile: '😌',
-};
 const redirect = (url = '/') => () => { window.location = url; };
 
 $(() => {

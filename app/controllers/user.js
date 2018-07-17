@@ -145,6 +145,24 @@ const markNotifies = async (ctx) => {
   };
 };
 
+const notifyUpvote = async (ctx) => {
+  const { userId } = ctx.session;
+  const { messageId } = ctx.params;
+  await StatAPI.notifyUpvote(userId, messageId);
+  ctx.body = {
+    success: true
+  };
+};
+
+const notifyDownvote = async (ctx) => {
+  const { userId } = ctx.session;
+  const { messageId } = ctx.params;
+  await StatAPI.notifyDownvote(userId, messageId);
+  ctx.body = {
+    success: true
+  };
+};
+
 export default {
   // user
   logout,
@@ -156,5 +174,7 @@ export default {
   // notify
   getNotifies,
   markNotifies,
+  notifyUpvote,
+  notifyDownvote,
   getUnreadNotifies,
 };

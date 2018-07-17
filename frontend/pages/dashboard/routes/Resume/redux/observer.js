@@ -1,7 +1,7 @@
 
 export const observer = (action, options = {}) => {
   let timeout = null;
-  const { interval = 3000 } = options;
+  const { interval = 6000 } = options;
 
   return (dispatch, ...args) => {
     if (timeout) return;

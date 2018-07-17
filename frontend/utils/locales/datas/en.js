@@ -22,6 +22,15 @@ const datas = {
     11: 'November',
     12: 'December',
   },
+  dateSlider: {
+    untilNow: 'Until now',
+    endDate: 'End at',
+    startDate: 'Start at',
+  },
+  notify: {
+    headline: 'New version published at %s',
+    feedback: 'feedback'
+  }
 };
 
 export default datas;

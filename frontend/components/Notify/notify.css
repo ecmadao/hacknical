@@ -1,0 +1,101 @@
+
+.notify {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 350px;
+  min-height: 150px;
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  background-color: rgba(27, 27, 28, 0.95);
+  box-shadow: var(--MDShadow5);
+  z-index: var(--zIndex9999);
+  transition: right 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  padding: 15px;
+}
+
+.notify-hidden {
+  opacity: 0;
+  right: -100%;
+}
+
+.notify-entering {
+  opacity: 1;
+  right: 20px;
+}
+
+.notify-entered {
+  opacity: 1;
+  right: 20px;
+}
+
+.notify-exiting {
+  opacity: 0;
+  right: -100%;
+}
+
+.top {
+  width: 100%;
+  height: 20px;
+}
+
+.header {
+  width: 95%;
+  height: 40px;
+  font-size: 14px;
+  line-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content {
+  width: 100%;
+  flex-grow: 1;
+  font-size: 14px;
+  padding-top: 10px;
+  line-height: 1.7em;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.bottom {
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+
+  & i, & a {
+    transition: opacity 0.2s;
+    opacity: 0.7;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.bottomLink {
+  flex: 1;
+  text-align: right;
+}
+
+.link {
+  font-size: 12px;
+  text-decoration: none;
+  color: #fff;
+}

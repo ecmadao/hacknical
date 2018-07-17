@@ -11,6 +11,9 @@ const getNotifies = () => getData('/user/notifies/all');
 const markNotifies = ids => putData('/user/notifies/read', { ids });
 const getUnreadNotifies = () => getData('/user/notifies/unread');
 
+const upvote = messageId => patchData(`/user/notifies/upvote/${messageId}`);
+const downvote = messageId => patchData(`/user/notifies/downvote/${messageId}`);
+
 export default {
   logout,
   initialed,
@@ -18,5 +21,8 @@ export default {
   setUserInfo,
   getNotifies,
   markNotifies,
-  getUnreadNotifies
+  getUnreadNotifies,
+  // vote
+  upvote,
+  downvote
 };

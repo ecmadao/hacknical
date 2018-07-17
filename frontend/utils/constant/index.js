@@ -162,3 +162,14 @@ export const RESUME_TEMPLATES = [
 ];
 
 export const BASE_URL_REG = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+
+export const EMOJI = {
+  rocket: '🚀',
+  winking: '😉',
+  heartEyes: '😍',
+  smiling: '😝',
+  heart: '\u2764\uFE0F',
+  fireworks: '🎉',
+  rock: '🤘',
+  smile: '😌',
+};

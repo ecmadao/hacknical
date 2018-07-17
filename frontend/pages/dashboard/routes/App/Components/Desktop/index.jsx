@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import TabBar from './TabBar';
+import Notify from 'COMPONENTS/Notify';
 import styles from '../../styles/desktop.css';
 
 const Desktop = (props) => {
@@ -22,6 +23,7 @@ const Desktop = (props) => {
           tabBarActive={tabBarActive}
           changeActiveTab={changeActiveTab}
         />
+        <Notify />
       </div>
       <div className={styles.app_content}>
         <div className={styles.content_container}>
