@@ -151,7 +151,7 @@ class GitHubWrapper extends React.Component {
         if (result.finished) {
           this.heartBeat.stop();
           this.setRefreshStatus(result);
-          message.notice(githubMsg.update);
+          message.notice(githubMsg.update.success);
           setTimeout(() => {
             window.location.reload(false);
           }, 3000);
@@ -171,7 +171,7 @@ class GitHubWrapper extends React.Component {
       refreshing: true,
       refreshEnable: false
     });
-    API.github.update().then(this.createRefresh);
+    API.github.update().then(() => this.createRefresh());
   }
 
   setGithubCommits(result) {
