@@ -5,7 +5,8 @@ import initialHeadroom from 'SRC/vendor/shared/headroom';
 $(() => {
   renderApp('share', {
     login: window.login,
-    isShare: window.isShare
+    isShare: window.isShare,
+    isAdmin: window.isAdmin === 'true'
   });
   initialHeadroom('#share_banner');
 });
