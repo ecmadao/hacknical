@@ -27,7 +27,6 @@ const ResumeComponent = (props) => {
 ResumeComponent.defaultProps = {
   resume: {},
   shareInfo: {},
-  viewId: 'v0',
   login: window.login,
   fromDownload: window.fromDownload === 'true' || window.fromDownload === true,
 };

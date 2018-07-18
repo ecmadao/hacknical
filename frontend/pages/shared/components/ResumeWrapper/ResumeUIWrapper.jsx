@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import locales from 'LOCALES';
-import styles from '../ResumeComponent/shared/common.css';
-import AsyncGithub from '../ResumeComponent/shared/AsyncGithub';
+import styles from '../Resume/Desktop/shared/common.css';
+import AsyncGithub from '../shared/AsyncGithub';
 
 const resumeLocales = locales('resume');
 

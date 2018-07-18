@@ -190,12 +190,12 @@ const resumePage = async (ctx) => {
   const { login } = resumeInfo;
   const user = await UserAPI.getUser({ login });
 
-  const { template } = ctx.state;
+  const { device } = ctx.state;
   const { fromDownload, githubLogin } = ctx.session;
   const isAdmin = login === githubLogin;
   const { userName, userId } = user;
 
-  await ctx.render(`resume/${template}`, {
+  await ctx.render(`resume/${device}`, {
     login,
     userId,
     fromDownload,

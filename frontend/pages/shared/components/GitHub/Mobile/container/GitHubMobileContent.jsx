@@ -69,9 +69,9 @@ class GitHubMobileContent extends React.Component {
       sr.reveal('#reposChartDOM', { duration: 150 });
       sr.reveal('#skillChartDOM', { duration: 150 });
       sr.reveal('#commitsChartDOM', { duration: 150 });
-      sr.reveal('#commitsWrapperDOM', { duration: 150 });
+      // sr.reveal('#commitsWrapperDOM', { duration: 150 });
       sr.reveal('#reposWrapperDOM', { duration: 150 });
-      sr.reveal('#languageWrapperDOM', { duration: 150 });
+      // sr.reveal('#languageWrapperDOM', { duration: 150 });
     } catch (e) {
       console.error(e);
     }
