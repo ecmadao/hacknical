@@ -1,5 +1,5 @@
 import React from 'react';
-import GitHubWrapper from '../../GitHubWrapper';
+import GitHubWrapper from 'SHARED/components/GitHubWrapper';
 import GitHubContent from './GitHubContent';
 
 const GitHubComponent = props => (

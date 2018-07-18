@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ResumeMobileShare from 'SHARED/components/ResumeMobileComponent';
+import ResumeMobileShare from 'SHARED/components/Resume/Mobile';
 import 'SRC/vendor/shared/loading.css';
 
 const renderApp = (domId, props = {}) => {

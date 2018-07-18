@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ResumeComponent from 'SHARED/components/ResumeComponent';
+import ResumeComponent from 'SHARED/components/Resume/Desktop';
 import ResumeWrapper from 'SHARED/components/ResumeWrapper';
 import styles from '../styles/share.css';
 

@@ -5,7 +5,7 @@ import {
   ShortMessage,
 } from 'light-ui';
 import FAB from 'COMPONENTS/FloatingActionButton';
-import ResumeComponent from 'SHARED/components/ResumeComponent';
+import ResumeComponent from 'SHARED/components/Resume/Desktop';
 import styles from '../../styles/modal.css';
 
 const ResumeModal = (props) => {
