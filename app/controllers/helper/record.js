@@ -6,7 +6,7 @@ import UserAPI from '../../services/user';
 import StatAPI from '../../services/stat';
 
 const updateViewData = async (ctx, options) => {
-  const { platform, browser } = ctx.state;
+  const { platform, browser, device } = ctx.state;
   const {
     type = null,
     login = null,
@@ -27,7 +27,7 @@ const updateViewData = async (ctx, options) => {
       mq: ctx.mq,
       data: {
         type: 'view',
-        data: `【${type.toUpperCase()}:${login}】`
+        data: `【${type.toUpperCase()}:${login}】${device.toUpperCase()}:${platform.toUpperCase()}:${browser.toUpperCase()}`
       }
     });
   }

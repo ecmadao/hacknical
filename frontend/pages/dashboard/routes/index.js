@@ -10,6 +10,7 @@ import Setting from './Setting';
 export const createRoutes = (store, props) => {
   const {
     login,
+    device,
     dashboardRoute,
     isAdmin = false,
     isMobile = false,
@@ -23,7 +24,6 @@ export const createRoutes = (store, props) => {
       activeTab: dashboardRoute,
     })
   });
-  const device = isMobile ? 'mobile' : 'desktop';
   const options = {
     login,
     device,

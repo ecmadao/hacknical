@@ -39,7 +39,7 @@ const handle404 = async (ctx) => {
 };
 
 const dashboard = async (ctx) => {
-  const { template, browser } = ctx.state;
+  const { device, browser, platform } = ctx.state;
   const { githubLogin, userId } = ctx.session;
   const { login, dashboardRoute = 'visualize' } = ctx.params;
   const user = await UserAPI.getUser({ userId });
@@ -57,7 +57,7 @@ const dashboard = async (ctx) => {
   notify('slack').send({
     mq: ctx.mq,
     data: {
-      data: `Used by <https://github.com/${githubLogin}|${githubLogin}> on [${template}:${browser}]`
+      data: `【USAGE:${githubLogin}】${device.toUpperCase()}:${platform.toUpperCase()}:${browser.toUpperCase()}`
     }
   });
   await ctx.render('user/dashboard', {

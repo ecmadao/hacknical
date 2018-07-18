@@ -172,7 +172,7 @@ const getUser = async (ctx, next) => {
 
 const githubPage = async (ctx) => {
   const { login } = ctx.params;
-  const { locale, template, isMobile } = ctx.state;
+  const { locale, device, isMobile } = ctx.state;
   const { githubLogin } = ctx.session;
   const title = ctx.__('sharePage.title', login);
   const options = {
@@ -186,7 +186,7 @@ const githubPage = async (ctx) => {
       ? ctx.__('messages.share.mobileText')
       : ctx.__('messages.share.text')
   };
-  await ctx.render(`github/${template}`, options);
+  await ctx.render(`github/${device}`, options);
 };
 
 const getShareRecords = async (ctx) => {
