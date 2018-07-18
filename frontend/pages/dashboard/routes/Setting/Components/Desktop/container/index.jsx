@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
 import { Loading, Button, SelectorV2, Input } from 'light-ui';
-import settingActions from '../../redux/actions';
-import styles from '../../styles/setting.css';
+import settingActions from '../../../redux/actions';
+import styles from '../styles/setting.css';
 import locales from 'LOCALES';
 import { REMINDER_INTERVALS } from 'UTILS/constant/resume';
 import SwitcherPanel from './SwitcherPanel';
@@ -13,17 +13,21 @@ import CheckPanel from './CheckPanel'
 
 const settingTexts = locales('dashboard').setting;
 
-class Setting extends React.Component {
+class DesktopSetting extends React.Component {
   constructor(props) {
     super(props);
     this.postResumeReminderChange = this.postResumeReminderChange.bind(this);
   }
 
   componentDidMount() {
-    const { actions, loading, resumeInfo, githubInfo } = this.props;
-    loading && actions.fetchGithubUpdateTime();
-    resumeInfo && resumeInfo.loading && actions.fetchResumeShareInfo();
-    githubInfo && githubInfo.loading && actions.fetchGithubShareInfo();
+    const { actions } = this.props;
+    actions.fetchGithubUpdateStatus();
+    actions.fetchResumeShareInfo();
+    actions.fetchGithubShareInfo();
+    // const { actions, loading, resumeInfo, githubInfo } = this.props;
+    // loading && actions.fetchGithubUpdateStatus();
+    // resumeInfo && resumeInfo.loading && actions.fetchResumeShareInfo();
+    // githubInfo && githubInfo.loading && actions.fetchGithubShareInfo();
   }
 
   renderGithubShareSectionsSetting() {
@@ -84,7 +88,6 @@ class Setting extends React.Component {
 
   renderResumeGithubSetting() {
     const { resumeInfo, actions } = this.props;
-    const resumeInfoLoading = resumeInfo && resumeInfo.loading;
     const panels = [];
 
     if (resumeInfo) {
@@ -93,14 +96,14 @@ class Setting extends React.Component {
           <SwitcherPanel
             id="use-github-switch"
             text={settingTexts.resume.useGithub}
-            onChange={resumeInfoLoading ? Function.prototype : actions.postResumeGithubStatus}
+            onChange={actions.postResumeGithubStatus}
             checked={(resumeInfo && resumeInfo.useGithub) || false}
-            disabled={resumeInfoLoading}
+            disabled={resumeInfo.loading}
           />
         </Panel>
       ));
     }
-    if (!resumeInfoLoading && resumeInfo.useGithub) {
+    if (!resumeInfo.loading && resumeInfo.useGithub) {
       panels.push(
         this.renderGithubShareSectionsSetting()
       );
@@ -169,17 +172,14 @@ class Setting extends React.Component {
       resumeInfo,
     } = this.props;
 
-    const resumeInfoLoading = resumeInfo && resumeInfo.loading;
     const panels = [];
 
     panels.push((
       <Panel key="resumeShareSetting-1">
         <SwitcherPanel
           text={settingTexts.resume.openShare}
-          onChange={resumeInfoLoading
-              ? Function.prototype
-              : actions.postResumeShareStatus}
-          disabled={resumeInfoLoading || resumeInfo.disabled}
+          onChange={actions.postResumeShareStatus}
+          disabled={resumeInfo.loading || resumeInfo.disabled}
           checked={(resumeInfo && resumeInfo.openShare) || false}
         />
       </Panel>
@@ -196,10 +196,8 @@ class Setting extends React.Component {
             className={styles.subSection}
             text={settingTexts.resume.simplifyUrl}
             tipso={tip}
-            onChange={resumeInfoLoading
-                ? Function.prototype
-                : actions.toggleResumeSimplifyUrl}
-            disabled={resumeInfoLoading || resumeInfo.disabled}
+            onChange={actions.toggleResumeSimplifyUrl}
+            disabled={resumeInfo.loading || resumeInfo.disabled}
             checked={resumeInfo && resumeInfo.simplifyUrl}
           />
         </Panel>
@@ -287,4 +285,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Setting);
+export default connect(mapStateToProps, mapDispatchToProps)(DesktopSetting);

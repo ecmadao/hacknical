@@ -15,10 +15,10 @@ import {
 import github from 'UTILS/github';
 import { GREEN_COLORS } from 'UTILS/constant';
 import { RADAR_CONFIG } from 'UTILS/constant/chart';
+import { VIEW_TYPES } from 'UTILS/constant/records';
 import dateHelper from 'UTILS/date';
-import styles from '../../styles/records.css';
+import styles from '../styles/records.css';
 import locales from 'LOCALES';
-import { VIEW_TYPES } from '../../shared/data';
 import StockChart from 'COMPONENTS/HighStock';
 import { getPVStockConfig } from 'UTILS/stock';
 
@@ -43,7 +43,7 @@ class ShareRecords extends React.Component {
   componentDidUpdate() {
     const { loading, actions, fetched } = this.props;
     if (!loading && !fetched) actions.fetchShareData();
-    if (loading || !fetched) { return; }
+    if (loading || !fetched) return;
     !this.viewDevicesChart && this.renderDevicesChart();
     !this.viewSourcesChart && this.renderSourcesChart();
     !this.qrcode && this.renderQrcode();

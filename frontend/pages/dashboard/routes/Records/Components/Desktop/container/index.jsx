@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import recordsActions from '../../redux/actions';
-import styles from '../../styles/records.css';
+import recordsActions from '../../../redux/actions';
+import styles from '../styles/records.css';
 import locales from 'LOCALES';
 import ShareRecords from './ShareRecords';
-import { RECORDS_SECTIONS } from '../../shared/data';
+import { RECORDS_SECTIONS } from 'UTILS/constant/records';
 import Navigation from 'COMPONENTS/Navigation';
 import { AnimationComponent } from 'light-ui';
 
@@ -15,7 +15,7 @@ const sections = Object.keys(RECORDS_SECTIONS).map(key => ({
   text: RECORDS_SECTIONS[key].TEXT,
 }));
 
-class Records extends React.Component {
+class DesktopRecords extends React.Component {
   get actions() {
     const { actions, activeTab } = this.props;
     const sectionActions = {
@@ -36,7 +36,7 @@ class Records extends React.Component {
     const { activeTab } = this.props;
     return {
       ...this.props[activeTab],
-      text: recordsTexts[activeTab].shareText,
+      text: recordsTexts[activeTab.toLowerCase()].shareText,
     };
   }
 
@@ -72,4 +72,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Records);
+export default connect(mapStateToProps, mapDispatchToProps)(DesktopRecords);

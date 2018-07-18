@@ -53,6 +53,7 @@ const datas = {
       hourlyViewChart: 'Hourly',
       dailyViewChart: 'Daily',
       monthlyViewChart: 'Monthly',
+      resume: 'Resume'
     }
   },
   setting: {

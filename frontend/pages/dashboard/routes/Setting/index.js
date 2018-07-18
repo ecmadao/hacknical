@@ -4,20 +4,15 @@ import asyncComponent from 'COMPONENTS/AsyncComponent';
 
 export default (store, options) => {
   const { login, device } = options;
-  const settingComponent = {
-    desktop: asyncComponent(
-      () => System.import('./Components/Desktop')
-        .then((component) => {
-          injectReducer(store, { key: 'setting', reducer });
-          return component.default;
-        })
-    ),
-    mobile: asyncComponent(
-      () => System.import('./Components/Mobile')
-        .then(component => component.default)
-    ),
-  };
-  const SettingComponent = settingComponent[device];
+
+  const SettingComponent = asyncComponent(
+    () => System.import(`./Components/${device[0].toUpperCase()}${device.slice(1).toLowerCase()}`)
+      .then((component) => {
+        injectReducer(store, { key: 'setting', reducer });
+        return component.default;
+      })
+  );
+
   return {
     path: `/${login}/setting`,
     component: SettingComponent

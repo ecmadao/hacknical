@@ -25,11 +25,11 @@ export const VIEW_TYPES = {
 
 export const RECORDS_SECTIONS = {
   RESUME: {
-    ID: 'resume',
+    ID: 'RESUME',
     TEXT: recordsTexts.resume.title
   },
   GITHUB: {
-    ID: 'github',
+    ID: 'GITHUB',
     TEXT: recordsTexts.github.title
   },
 };

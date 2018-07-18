@@ -22,7 +22,7 @@ const {
 );
 
 // github data update
-const fetchGithubUpdateTime = () => (dispatch) => {
+const fetchGithubUpdateStatus = () => (dispatch) => {
   API.github.getUpdateStatus().then((result) => {
     dispatch(setUpdateStatus(result));
   });
@@ -74,7 +74,8 @@ const fetchResumeShareInfo = () => (dispatch) => {
 
 const postResumeGithubStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
-  const { useGithub } = resumeInfo;
+  const { useGithub, loading } = resumeInfo;
+  if (loading) return;
 
   API.resume.patchResumeInfo({ useGithub: !useGithub }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
@@ -85,7 +86,8 @@ const postResumeGithubStatus = () => (dispatch, getState) => {
 
 const postResumeShareStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
-  const { openShare } = resumeInfo;
+  const { openShare, loading } = resumeInfo;
+  if (loading) return;
 
   API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
@@ -122,7 +124,8 @@ const postResumeReminderChange = (key, value) => (dispatch, getState) => {
 
 const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
-  const { simplifyUrl } = resumeInfo;
+  const { simplifyUrl, loading } = resumeInfo;
+  if (loading) return;
 
   API.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
@@ -148,7 +151,7 @@ export default {
   toggleGithubModal,
   toggleSettingLoading,
   setUpdateStatus,
-  fetchGithubUpdateTime,
+  fetchGithubUpdateStatus,
   refreshGithubDatas,
   // github share
   fetchGithubShareInfo,

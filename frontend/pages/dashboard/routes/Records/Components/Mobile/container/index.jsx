@@ -2,18 +2,20 @@ import React from 'react';
 import Chart from 'chart.js';
 import cx from 'classnames';
 import deepcopy from 'deepcopy';
-import objectAssign from 'UTILS/object-assign';
 import { Loading } from 'light-ui';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import API from 'API';
-import dateHelper from 'UTILS/date';
-import { getValidateViewSources } from 'UTILS/records';
-import { LINE_CONFIG, RADAR_CONFIG } from 'UTILS/constant/chart';
-import styles from '../styles/records.css';
-import sharedStyles from 'SHARED/styles/mobile.css';
-import Slick from 'COMPONENTS/Slick';
 import locales from 'LOCALES';
 import github from 'UTILS/github';
+import dateHelper from 'UTILS/date';
+import Slick from 'COMPONENTS/Slick';
+import objectAssign from 'UTILS/object-assign';
+import sharedStyles from 'SHARED/styles/mobile.css';
+import { RECORDS_SECTIONS } from 'UTILS/constant/records';
+import { LINE_CONFIG, RADAR_CONFIG } from 'UTILS/constant/chart';
+import styles from '../styles/records.css';
+import recordsActions from '../../../redux/actions';
 
 const sortByCount = github.sortByX({ key: 'count' });
 const analysisTexts = locales('dashboard').records.common;
@@ -21,55 +23,36 @@ const analysisTexts = locales('dashboard').records.common;
 class MobileRecords extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeTab: 'github',
-      resume: {
-        loading: true,
-        info: {
-          url: '',
-          openShare: false
-        },
-        viewDevices: [],
-        viewSources: [],
-        pageViews: []
-      },
-      github: {
-        loading: true,
-        info: {
-          url: '',
-          openShare: false
-        },
-        viewDevices: [],
-        viewSources: [],
-        pageViews: []
-      }
-    };
     this.pageViewsChart = null;
     this.viewDevicesChart = null;
     this.viewSourcesChart = null;
-
-    this.onTabChange = this.onTabChange.bind(this);
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.actions.fetchShareData();
   }
 
-  componentDidUpdate(preProps, preState) {
-    const { activeTab } = this.state;
-    if (activeTab !== preState.activeTab) {
+  componentDidUpdate(preProps) {
+    const { activeTab } = this.props;
+    if (activeTab !== preProps.activeTab) {
       this.reset();
-      this.fetchData();
+      this.actions.fetchShareData();
     }
-    if (this.loading) return;
+    if (this.data.loading || !this.data.fetched) return;
     this.renderCharts();
   }
 
-  onTabChange(tab) {
-    const { activeTab } = this.state;
-    if (activeTab !== tab) {
-      this.setState({ activeTab: tab });
-    }
+  get actions() {
+    const { actions, activeTab } = this.props;
+    const sectionActions = {
+      [RECORDS_SECTIONS.RESUME.ID]: {
+        fetchShareData: actions.fetchResumeShareData,
+      },
+      [RECORDS_SECTIONS.GITHUB.ID]: {
+        fetchShareData: actions.fetchGithubShareData,
+      },
+    };
+    return sectionActions[activeTab];
   }
 
   reset() {
@@ -78,37 +61,9 @@ class MobileRecords extends React.Component {
     this.viewSourcesChart = null;
   }
 
-  fetchData() {
-    this.fetchShareData().then((result) => {
-      this.initialState(result);
-    });
-  }
-
-  get loading() {
-    const { activeTab } = this.state;
-    const loadings = {
-      github: this.state.github.loading,
-      resume: this.state.resume.loading,
-    };
-    return loadings[activeTab];
-  }
-
-  get fetchShareData() {
-    const fetchFuncs = {
-      github: API.github.getShareRecords,
-      resume: API.resume.getShareRecords
-    };
-    const { activeTab } = this.state;
-    return fetchFuncs[activeTab];
-  }
-
-  get dataObj() {
-    const objs = {
-      github: this.state.github,
-      resume: this.state.resume,
-    };
-    const { activeTab } = this.state;
-    return objs[activeTab];
+  get data() {
+    const { activeTab } = this.props;
+    return this.props[activeTab];
   }
 
   renderCharts() {
@@ -118,7 +73,7 @@ class MobileRecords extends React.Component {
   }
 
   renderViewsChart() {
-    const { pageViews } = this.dataObj;
+    const { pageViews } = this.data;
     const validatePageViews = [];
 
     for (const pageView of pageViews) {
@@ -193,7 +148,7 @@ class MobileRecords extends React.Component {
     const {
       viewDevices,
       viewSources
-    } = this.dataObj;
+    } = this.data;
     const datas = {
       viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
       viewSources: viewSources.sort(sortByCount).slice(0, 6),
@@ -228,29 +183,8 @@ class MobileRecords extends React.Component {
     this.viewSourcesChart = new Chart(this.viewSources, radarConfig);
   }
 
-  initialState(datas) {
-    const { activeTab } = this.state;
-    const {
-      url,
-      openShare,
-      viewDevices,
-      viewSources,
-      pageViews
-    } = datas;
-    const targetObj = this.state[activeTab];
-    this.setState({
-      [activeTab]: objectAssign({}, targetObj, {
-        loading: false,
-        userInfo: objectAssign({}, targetObj.userInfo, { url, openShare }),
-        viewDevices: [...viewDevices],
-        viewSources: getValidateViewSources(viewSources),
-        pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
-      })
-    });
-  }
-
   renderCardInfo() {
-    const { pageViews, viewDevices, viewSources } = this.dataObj;
+    const { pageViews, viewDevices, viewSources } = this.data;
     const pageViewCounts = pageViews.map(item => item.count);
 
     const viewCount = pageViewCounts.reduce(
@@ -309,7 +243,7 @@ class MobileRecords extends React.Component {
   }
 
   render() {
-    const { activeTab } = this.state;
+    const { actions, activeTab } = this.props;
 
     return (
       <div className={styles.analysis}>
@@ -317,20 +251,26 @@ class MobileRecords extends React.Component {
         <div className={styles.tabs}>
           <div className={styles.tabs_wrapper}>
             <div
-              onClick={() => this.onTabChange('github')}
-              className={cx(styles.tab, activeTab === 'github' && styles.tabActive)}
+              onClick={() => actions.onAnalysisDataTabChange(RECORDS_SECTIONS.RESUME.ID)}
+              className={cx(
+                styles.tab,
+                activeTab === RECORDS_SECTIONS.RESUME.ID && styles.tabActive
+              )}
+            >
+              {analysisTexts.resume}
+            </div>
+            <div
+              onClick={() => actions.onAnalysisDataTabChange(RECORDS_SECTIONS.GITHUB.ID)}
+              className={cx(
+                styles.tab,
+                activeTab === RECORDS_SECTIONS.GITHUB.ID && styles.tabActive
+              )}
             >
               GitHub
             </div>
-            <div
-              onClick={() => this.onTabChange('resume')}
-              className={cx(styles.tab, activeTab === 'resume' && styles.tabActive)}
-            >
-              简历
-            </div>
           </div>
         </div>
-        {this.loading ? <Loading loading className={styles.loading} /> : this.renderCardInfo()}
+        {this.data.loading ? <Loading loading className={styles.loading} /> : this.renderCardInfo()}
         {this.renderChartCard('viewDevices')}
         {this.renderChartCard('viewSources')}
 
@@ -347,8 +287,14 @@ class MobileRecords extends React.Component {
   }
 }
 
-MobileRecords.defaultProps = {
-  login: window.login,
-};
+function mapStateToProps(state) {
+  return { ...state.records };
+}
 
-export default MobileRecords;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(recordsActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MobileRecords);

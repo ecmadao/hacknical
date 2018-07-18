@@ -228,9 +228,13 @@ export const observer = (action, options = {}) => {
   let timeout = null;
   const { interval = 3000 } = options;
 
-  return (...args) => {
+  return dispatch => (...args) => {
     if (timeout) return;
-    action(...args);
+    if (dispatch) {
+      dispatch(action(...args));
+    } else {
+      action(...args);
+    }
     timeout = setTimeout(() => {
       clearTimeout(timeout);
       timeout = null;

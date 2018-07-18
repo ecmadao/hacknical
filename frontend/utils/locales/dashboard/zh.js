@@ -53,6 +53,7 @@ const datas = {
       hourlyViewChart: '每小时',
       dailyViewChart: '每日',
       monthlyViewChart: '每月',
+      resume: '简历'
     }
   },
   setting: {

@@ -1,11 +1,12 @@
 import { handleActions } from 'redux-actions';
 import objectAssign from 'UTILS/object-assign';
 import { getValidateViewSources } from 'UTILS/records';
-import { VIEW_TYPES } from '../shared/data';
+import { VIEW_TYPES, RECORDS_SECTIONS } from 'UTILS/constant/records';
 
 const initialState = {
-  activeTab: 'resume',
-  resume: {
+  login: window.login,
+  activeTab: RECORDS_SECTIONS.RESUME.ID,
+  [RECORDS_SECTIONS.RESUME.ID]: {
     loading: false,
     fetched: false,
     info: {
@@ -17,7 +18,7 @@ const initialState = {
     pageViews: [],
     viewType: VIEW_TYPES.HOURLY.ID
   },
-  github: {
+  [RECORDS_SECTIONS.GITHUB.ID]: {
     loading: false,
     fetched: false,
     info: {
@@ -92,7 +93,7 @@ const reducers = handleActions({
     };
     return ({
       ...state,
-      github: objectAssign({}, github, newGithub)
+      [RECORDS_SECTIONS.GITHUB.ID]: objectAssign({}, github, newGithub)
     });
   },
 
@@ -116,7 +117,7 @@ const reducers = handleActions({
     };
     return ({
       ...state,
-      resume: objectAssign({}, resume, newResume)
+      [RECORDS_SECTIONS.RESUME.ID]: objectAssign({}, resume, newResume)
     });
   },
 

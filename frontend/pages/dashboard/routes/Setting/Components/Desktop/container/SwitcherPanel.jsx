@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Switcher, Tipso } from 'light-ui';
-import styles from '../../styles/setting.css';
+import styles from '../styles/setting.css';
 
 const SwitcherPanel = (props) => {
   const {

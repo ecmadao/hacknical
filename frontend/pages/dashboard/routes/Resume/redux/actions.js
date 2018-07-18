@@ -2,7 +2,7 @@ import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'UTILS/object-assign';
 import API from 'API';
 import { wrapper } from './wrapper';
-import { observer } from './observer';
+import { observer } from 'UTILS/helper';
 
 /**
  * initial
@@ -195,7 +195,7 @@ const handleResumeChange = action => wrapper({
     dispatch => dispatch(toggleEdited(true))
   ],
   after: [
-    dispatch => saveResumeObserver(dispatch),
+    dispatch => saveResumeObserver(dispatch)(),
   ]
 });
 

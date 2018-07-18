@@ -18,8 +18,8 @@ const getEmoji = () => {
 const emoji = getEmoji();
 const notifyLocales = locales('datas.notify');
 const getFullDate = dateHelper.validator.fullDate;
-const upvote = observer(API.user.upvote);
-const downvote = observer(API.user.downvote);
+const upvote = observer(API.user.upvote)();
+const downvote = observer(API.user.downvote)();
 
 const getHeadline = date =>
   notifyLocales.headline.replace('%s', getFullDate(date));

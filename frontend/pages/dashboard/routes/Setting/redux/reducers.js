@@ -4,6 +4,7 @@ import dateHelper from 'UTILS/date';
 
 const initialState = {
   loading: true,
+  login: window.login,
   updateTime: null,
   refreshEnable: false,
   resumeInfo: {
@@ -60,11 +61,9 @@ const reducers = handleActions({
 
   INITIAL_GITHUB_SHARE_INFO(state, action) {
     const { githubInfo } = state;
-    const { openShare } = action.payload;
     return ({
       ...state,
-      githubInfo: objectAssign({}, githubInfo, {
-        openShare,
+      githubInfo: objectAssign({}, githubInfo, action.payload, {
         loading: false,
         disabled: false,
       })
@@ -74,25 +73,12 @@ const reducers = handleActions({
   // resume
   INITIAL_RESUME_SHARE_INFO(state, action) {
     const { resumeInfo } = state;
-    const result = action.payload;
-    const info = resumeInfo || {};
-    const newResumeInfo = result ? objectAssign({}, info, {
-      openShare: result.openShare,
-      useGithub: result.useGithub,
-      simplifyUrl: result.simplifyUrl,
-      loading: false,
-      disabled: false,
-      github: result.github,
-      reminder: result.reminder,
-      login: result.login,
-      resumeHash: result.resumeHash,
-    }) : objectAssign({}, info, {
-      loading: false,
-      disabled: true,
-    });
     return ({
       ...state,
-      resumeInfo: newResumeInfo
+      resumeInfo: objectAssign({}, resumeInfo || {}, action.payload || {}, {
+        loading: false,
+        disabled: false,
+      })
     });
   }
 }, initialState)
