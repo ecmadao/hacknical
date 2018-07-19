@@ -73,8 +73,9 @@ const datas = {
       emptyText: 'No repositories info, please refresh in settings',
     },
     orgs: {
-      title: 'Orgs Info',
+      title: 'Organizations Info',
       createdAt: 'Created at ',
+      empty: 'No organizations info',
       joinedRepos: 'Public repos you joined',
       contributionPercentage: 'Contribution percentage',
       emptyText: 'No organizations info, please refresh in settings',

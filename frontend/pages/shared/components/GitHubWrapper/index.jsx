@@ -60,13 +60,11 @@ class GitHubWrapper extends React.Component {
   componentDidMount() {
     const { login } = this.props;
     this.fetchGithubUser(login);
-    Promise.all([
-      this.fetchGithubUser(login),
-      this.fetchLanguages(login),
-      this.fetchGithubCommits(login),
-      this.fetchGithubRepositories(login),
-      this.fetchUpdateStatus()
-    ]);
+    this.fetchGithubUser(login);
+    this.fetchLanguages(login);
+    this.fetchGithubCommits(login);
+    this.fetchGithubRepositories(login);
+    this.fetchUpdateStatus();
     this.fetchHotmap(login);
     removeDOM('#loading', { async: true });
   }
@@ -138,11 +136,11 @@ class GitHubWrapper extends React.Component {
       refreshEnable,
     });
     if (refreshing && !this.heartBeat) {
-      this.createRefresh();
+      this.createHeartBeat();
     }
   }
 
-  createRefresh() {
+  createHeartBeat() {
     if (this.heartBeat) return;
     this.heartBeat = new HeartBeat({
       interval: 4000, // 4s
@@ -171,7 +169,7 @@ class GitHubWrapper extends React.Component {
       refreshing: true,
       refreshEnable: false
     });
-    API.github.update().then(() => this.createRefresh());
+    API.github.update().then(() => this.createHeartBeat());
   }
 
   setGithubCommits(result) {

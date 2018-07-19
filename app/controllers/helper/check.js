@@ -21,9 +21,9 @@ const checkSession = (params = []) => async (ctx, next) => {
   const result = params.every(key => ctx.session[key]);
   if (!result) {
     ctx.body = {
+      url: '/',
       success: true,
-      message: 'session 缺失，请登录',
-      url: '/'
+      message: ctx.__('messages.error.logout'),
     };
     return;
   }

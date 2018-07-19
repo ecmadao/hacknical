@@ -115,8 +115,8 @@ const putPredictionFeedback = async (ctx, next) => {
 };
 
 export default {
+  removePrediction,
   getUserStatistic,
   getUserPredictions,
-  removePrediction,
   putPredictionFeedback,
 };

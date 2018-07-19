@@ -111,7 +111,7 @@ class ContributionChart extends React.Component {
 
   renderContributionDates() {
     const { contribution, repository, percentage } = this.props;
-    if (!contribution.weeks.length) { return '' }
+    if (!contribution.weeks.length) return null;
     // commit dates
     const { weeks } = contribution;
     const startDate = dateHelper.date.bySeconds(weeks[0].week);

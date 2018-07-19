@@ -11,9 +11,9 @@ const githubTexts = locales('github.sections.social');
 const getUserCardColor = (user) => {
   const { public_repos, followers, following } = user;
   const obj = {
-    public_repos,
     followers,
-    following
+    following,
+    public_repos,
   };
   Object.keys(obj)
     .sort(

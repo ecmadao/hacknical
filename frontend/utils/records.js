@@ -12,7 +12,7 @@ export const getValidateViewSources = (viewSources) => {
       count,
       browser,
     } = viewSource;
-    if (browser !== 'unknown' || WECHAT_FROM.some(wechatFrom => wechatFrom === from)) {
+    if (browser.toLowerCase() !== 'unknown' || WECHAT_FROM.some(wechatFrom => wechatFrom === from)) {
       let sourceBrowser = browser;
       if (WECHAT_FROM.some(wechatFrom => wechatFrom === from)) {
         sourceBrowser = 'wechat';

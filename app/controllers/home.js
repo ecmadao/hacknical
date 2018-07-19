@@ -124,10 +124,10 @@ const languages = async (ctx) => {
 };
 
 export default {
-  landingPage,
-  handle404,
-  dashboard,
   initial,
   statistic,
   languages,
+  handle404,
+  dashboard,
+  landingPage,
 };

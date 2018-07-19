@@ -43,13 +43,9 @@ class GitHubContent extends React.Component {
   }
 
   async changeGithubSection(sections) {
-    const newSections = objectAssign({}, this.state.sections, sections);
-    await API.user.setUserInfo({
-      githubSections: newSections
-    });
-    this.setState({
-      sections: newSections
-    });
+    const githubSections = objectAssign({}, this.state.sections, sections);
+    await API.user.setUserInfo({ githubSections });
+    this.setState({ sections: githubSections });
   }
 
   disabledSection(section) {

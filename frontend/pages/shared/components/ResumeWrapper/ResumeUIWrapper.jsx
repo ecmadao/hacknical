@@ -87,7 +87,7 @@ class ResumeUIWrapper extends React.Component {
   renderGitHub() {
     const { showGithub } = this.state;
     const { shareInfo, login } = this.props;
-    const { useGithub, github, githubUrl } = shareInfo;
+    const { useGithub, github } = shareInfo;
 
     return useGithub && showGithub ? (
       <div className={styles.container}>

@@ -18,9 +18,9 @@ class OrganizationsInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      organizations: [],
       loaded: false,
-      activeIndex: 0
+      activeIndex: 0,
+      organizations: [],
     };
     this.changeAcitveOrganization = this.changeAcitveOrganization.bind(this);
   }

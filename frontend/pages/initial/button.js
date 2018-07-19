@@ -9,7 +9,7 @@ const baseButton = (value = 'BOOM!') => `
 `;
 
 const Button = value => ({
-  renderIn: (dom, callback = Function.prototype) => {
+  render: (dom, callback = Function.prototype) => {
     const $buttonContainer = $(baseButton(value));
     const resetButtonPress = () => {
       $buttonContainer.removeClass(styles['button-hover']);

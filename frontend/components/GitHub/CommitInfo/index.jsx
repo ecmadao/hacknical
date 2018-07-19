@@ -291,6 +291,7 @@ class CommitInfo extends React.Component {
     const controllers = [];
     const { chartType } = this.state;
     const chartTypeKeys = Object.keys(CHART_CONTROLLERS);
+
     chartTypeKeys.forEach((key, i) => {
       const {
         ID,
@@ -350,7 +351,7 @@ class CommitInfo extends React.Component {
   }
 
   render() {
-    const { hasCommits, loaded, className } = this.props;
+    const { loaded, className, hasCommits } = this.props;
     let component;
     if (!loaded) {
       component = (<Loading loading />);

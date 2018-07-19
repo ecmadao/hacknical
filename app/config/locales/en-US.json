@@ -59,7 +59,8 @@
       "update": "Update failed",
       "resume": "Can not find your resume",
       "emptyResume": "Please create your resume",
-      "invalidateEmail": "Invalidate email"
+      "invalidateEmail": "Invalidate email",
+      "logout": "Session is missed"
     },
     "success": {
       "save": "Save succeeded",

@@ -49,7 +49,7 @@ class GitHubSection extends React.Component {
         text: sectionStatus ? operationTexts.share.hide : operationTexts.share.show,
         onClick: this.handleMenuClick
       }
-    ]
+    ];
   }
 
   render() {

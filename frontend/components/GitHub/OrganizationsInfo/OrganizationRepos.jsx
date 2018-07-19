@@ -35,8 +35,8 @@ class OrganizationRepos extends React.Component {
       name,
       language,
       html_url,
-      created_at,
       pushed_at,
+      created_at,
       forks_count,
       stargazers_count
     } = repository;
@@ -102,6 +102,7 @@ class OrganizationRepos extends React.Component {
     const { repos, login } = this.props;
 
     const activeIndex = activeReposIndex >= repos.length ? 0 : activeReposIndex;
+
     return repos.map((repository, index) => {
       const { contributors } = repository;
       const filterContributions = contributors
@@ -184,7 +185,7 @@ class OrganizationRepos extends React.Component {
             </div>
           </div>
         ) : (
-          <div className={styles.orgs_coordinate}>暂无数据</div>
+          <div className={styles.orgs_coordinate}>{githubTexts.empty}</div>
         )}
       </div>
     );

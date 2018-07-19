@@ -46,7 +46,7 @@ $(() => {
                 chars: `$ Initialize finished!!! ${EMOJI.rock}${EMOJI.fireworks}${EMOJI.rock}`,
               })
               .then(() =>
-                Button(`BOOM! ${EMOJI.fireworks}${EMOJI.fireworks}`).renderIn($content, redirect())
+                Button(`BOOM! ${EMOJI.fireworks}${EMOJI.fireworks}`).render($content, redirect())
               );
           }
         })

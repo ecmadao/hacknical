@@ -10,7 +10,7 @@ const githubTexts = locales('github.sections.baseInfo');
 
 const UserInfo = (props) => {
   const { user, className } = props;
-  if (!user) { return (<div />); }
+  if (!user) return <div />;
   return (
     <div className={cx(styles.info_card, className)}>
       <div className={styles.info_header}>

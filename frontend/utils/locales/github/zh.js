@@ -74,6 +74,7 @@ const datas = {
     },
     orgs: {
       title: '隶属组织',
+      empty: '暂无数据',
       createdAt: '创建于 ',
       joinedRepos: '参与的公开项目',
       contributionPercentage: '贡献比例',
