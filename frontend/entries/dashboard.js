@@ -1,5 +1,5 @@
 import renderApp from 'PAGES/dashboard';
-import 'SRC/vendor/dashboard/dashboard.css';
+import 'SRC/vendor/dashboard.css';
 import API from 'API';
 
 const renderOctocat = () =>

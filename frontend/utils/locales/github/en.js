@@ -43,7 +43,7 @@ const datas = {
       following: 'Following'
     },
     repos: {
-      title: 'Repos Review',
+      title: 'Repositories Review',
       starsCount: 'Stars count',
       forksCount: 'Forks count',
       reposCount: 'Repos count',
@@ -66,7 +66,7 @@ const datas = {
       tipso: 'Repositories commit in the last year (only show top 10 repositories by commit amount)'
     },
     contributed: {
-      title: 'Contributed repositories',
+      title: 'Contributed Repositories',
       showMore: 'show more',
       hideMore: 'hide',
       tipso: 'Issue, PR for others repositories in the last year will be marked as contributions',

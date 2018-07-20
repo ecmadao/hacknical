@@ -148,10 +148,10 @@ class ResumeContent extends ResumeUIWrapper {
         const {
           url,
           company,
-          startTime,
           endTime,
-          position,
           projects,
+          position,
+          startTime,
         } = experience;
         const workProjects = this.renderWorkProjects(projects);
         return (
@@ -218,6 +218,7 @@ class ResumeContent extends ResumeUIWrapper {
 
   renderPersonalProjects(key) {
     const { personalProjects } = this.props.resume;
+    if (!personalProjects.length) return null;
 
     const projects = personalProjects
       .map((project, index) => {
@@ -239,7 +240,6 @@ class ResumeContent extends ResumeUIWrapper {
         );
       });
 
-    if (!projects.length) return null;
     return (
       <div className={styles['resume-section']} key={key}>
         <div className={styles['section-row']}>
@@ -384,8 +384,8 @@ class ResumeContent extends ResumeUIWrapper {
   }
 
   render() {
-    const { resume, updateText } = this.props;
-    const { updateAt, initialized } = resume;
+    const { resume } = this.props;
+    const { initialized } = resume;
 
     return (
       <div className={styles.resumeContainer}>

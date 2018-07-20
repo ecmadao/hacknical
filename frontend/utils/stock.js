@@ -180,6 +180,7 @@ export const getPVStockConfig = (options) => {
     pageViews,
     dateFormat
   } = options;
+
   const seriesData = pageViews.map((pageView) => {
     const { count, seconds } = pageView;
     return [seconds, count];
@@ -203,14 +204,16 @@ export const getPVStockConfig = (options) => {
 
 export const getCommitsStockConfig = (options) => {
   const {
-    commitsDates,
     dateFormat,
+    commitsDates,
   } = options;
+
   commitsDates.sort((pre, next) => pre.seconds - next.seconds);
   const seriesData = commitsDates.map((item) => {
     const { commits, seconds } = item;
     return [seconds, commits];
   });
+
   const config = objectAssign(
     {},
     BASE_STOCK_CONFIG,
@@ -218,6 +221,7 @@ export const getCommitsStockConfig = (options) => {
   );
   config.series[0].data = seriesData;
   config.xAxis[0].labels.formatter = getLabelFormatter();
+
   if (commitsDates.length) {
     const timestampTo = commitsDates[commitsDates.length - 1].seconds;
     config.xAxis[0].max = timestampTo;

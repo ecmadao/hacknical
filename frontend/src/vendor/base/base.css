@@ -17,20 +17,20 @@ input, button, textarea, select {
 }
 
 body, html, .body-en, .html-en {
-  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
 
   & input, & textarea, & pre {
-    font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+    font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
   }
 }
 
 .body-zh, .html-zh {
-  font-weight: 300;
-  font-family: 'Noto Sans SC', 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  /* font-weight: 200; */
+  font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
 
   & input, & textarea, & pre {
-    font-weight: 300;
-    font-family: 'Noto Sans SC', 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+    /* font-weight: 200; */
+    font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
   }
 }
 

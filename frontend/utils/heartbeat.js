@@ -20,7 +20,7 @@ class HeartBeat {
   }
 
   stop() {
-    clearTimeout(this.timeout);
+    this.clearTimeout();
     this.enable = false;
   }
 

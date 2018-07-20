@@ -285,11 +285,10 @@ class ResumeComponentV1 extends ResumeUIWrapper {
   }
 
   render() {
-    const { resume, shareInfo, updateText } = this.props;
+    const { resume, shareInfo } = this.props;
     const {
       info,
       others,
-      updateAt,
       educations,
       workExperiences
     } = resume;

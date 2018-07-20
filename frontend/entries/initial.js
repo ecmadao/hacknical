@@ -1,8 +1,8 @@
 /* eslint new-cap: "off" */
 import API from 'API';
 import 'STYLES/fonts-hack.css';
-import 'SRC/vendor/initial/index.css';
-import Rock from 'PAGES/initial';
+import 'SRC/vendor/initial.css';
+import Rock from 'PAGES/initial/rock';
 import styles from 'PAGES/initial/styles/initial.css';
 import Button from 'PAGES/initial/button';
 import HeartBeat from 'UTILS/heartbeat';

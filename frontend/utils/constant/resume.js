@@ -8,17 +8,17 @@ const eduTexts = resumeTexts.options.edus;
 
 const RESUME_SECTION_IDS = {
   INFO: 'info',
+  OTHERS: 'others',
   EDUCATIONS: 'educations',
   WORK_EXPERIENCE: 'workExperiences',
   PERSONAL_PROJECTS: 'personalProjects',
-  OTHERS: 'others',
 };
 
 const REMINDER_CRON_TYPES = {
-  QUARTERLY: 'quarterly',
-  MONTHLY: 'monthly',
-  WEEKLY: 'weekly',
   DAYS3: 'days3',
+  WEEKLY: 'weekly',
+  MONTHLY: 'monthly',
+  QUARTERLY: 'quarterly',
 };
 
 export const REMINDER_INTERVALS = [

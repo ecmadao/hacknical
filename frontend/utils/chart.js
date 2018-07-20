@@ -28,33 +28,33 @@ const getCommitDatasets = (repos, commits) => objectAssign({}, LINE_CONFIG, {
   data: github.getReposCommits(repos, commits),
 });
 
-const doughnutDatasets = (datas, backgroundColor = [...GREEN_COLORS].slice(0)) => ({
-  type: 'doughnut',
-  data: datas,
+const doughnutDatasets = (data, backgroundColor = [...GREEN_COLORS].slice(0)) => ({
+  data,
   label: '',
-  backgroundColor,
   borderWidth: 2,
+  backgroundColor,
+  type: 'doughnut',
 });
 
-const polarAreaDatasets = datas => ({
-  type: 'polarArea',
-  data: datas,
+const polarAreaDatasets = data => ({
+  data,
   label: '',
+  type: 'polarArea',
   backgroundColor: [...GREEN_COLORS].slice(1).reverse(),
   borderWidth: 2,
 });
 
-const radarDatasets = datas => ({
-  type: 'radar',
-  data: datas,
+const radarDatasets = data => ({
+  data,
   label: '',
   fill: true,
-  backgroundColor: GREEN_COLORS[4],
+  type: 'radar',
   borderWidth: 2,
-  borderColor: GREEN_COLORS[0],
-  pointBackgroundColor: GREEN_COLORS[0],
   pointBorderColor: '#fff',
+  borderColor: GREEN_COLORS[0],
+  backgroundColor: GREEN_COLORS[4],
   pointHoverBackgroundColor: '#fff',
+  pointBackgroundColor: GREEN_COLORS[0],
   pointHoverBorderColor: GREEN_COLORS[0]
 });
 
@@ -64,7 +64,7 @@ export default {
     forksDatasets: getForkDatasets,
     commitsDatasets: getCommitDatasets,
   },
-  polarArea: polarAreaDatasets,
   radar: radarDatasets,
   doughnut: doughnutDatasets,
+  polarArea: polarAreaDatasets,
 };

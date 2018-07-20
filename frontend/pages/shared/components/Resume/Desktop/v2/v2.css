@@ -23,6 +23,8 @@
   background-color: var(--oc-white);
   box-shadow: var(--shadow1);
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper {
@@ -30,6 +32,7 @@
   border-radius: 4px;
   min-height: 100%;
   padding-bottom: 20px;
+  flex: 1;
 }
 
 .github_wrapper {

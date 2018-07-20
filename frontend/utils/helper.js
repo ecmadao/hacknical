@@ -62,95 +62,30 @@ export const getMaxTarget = (array, func = item => [item]) => {
 };
 
 export const getFirstMatchTarget = (array, target) => {
-  let index = 0;
-  let result = array[index];
-
-  for (let i = 0; i < array.length; i += 1) {
-    const item = array[i];
+  let index = array.findIndex((item) => {
     if (typeof target === 'object') {
       const check = Object.keys(target).every(key => item[key] === target[key]);
-      if (check) {
-        result = item;
-        index = i;
-        break;
-      }
+      if (check) return true;
     } else if (typeof target === 'function') {
-      if (target(item)) {
-        result = item;
-        index = i;
-        break;
-      }
+      if (target(item)) return true;
     } else if (item === target) {
-      result = item;
-      index = i;
-      break;
+      return true;
     }
-  }
-  return [result, index];
+    return false;
+  });
+
+  index = index === -1 ? 0 : index;
+  return [array[index], index];
 };
 
-export const getFirstMatchIndex = (array, target) => {
-  let index = 0;
+export const getFirstMatchIndex = (array, target) =>
+  getFirstMatchTarget(array, target)[1];
 
-  for (let i = 0; i < array.length; i += 1) {
-    const item = array[i];
-    if (typeof target === 'object') {
-      const check = Object.keys(target).every(key => item[key] === target[key]);
-      if (check) {
-        index = i;
-        break;
-      }
-    } else if (typeof target === 'function') {
-      if (target(item)) {
-        index = i;
-        break;
-      }
-    } else if (item === target) {
-      index = i;
-      break;
-    }
-  }
-  return index;
-};
-
-export const getOffsetLeft = (start, end) => (left) => {
-  const length = end - start;
-  return `${Math.floor(((left - start) * 100) / length)}%`;
-};
-
-export const getOffsetRight = (start, end) => (right) => {
-  const length = end - start;
-  return `${Math.floor(((end - right) * 100) / length)}%`;
-};
 
 export const sortBySeconds = key =>
   (thisObj, nextObj) =>
     getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
 
-/*
- * example:
- *
- * array = [1, 2, 3, 4]
- *       ===> [1, 2, 3, 4]
- *
- * array = [[1, 2, 3], [4, 5, 6]]
- *       ===> [1, 2, 3, 4, 5, 6]
- *
- * array = [{a: 1}, {a: 2}, {a: 3}], key = a
- *       ===> [1, 2, 3]
- */
-export const faltten = (array, key = null) => {
-  const result = [];
-
-  for (const item of array) {
-    if (Array.isArray(item)) {
-      result.concat(item);
-    } else {
-      result.push(key ? item[key] : item);
-    }
-  }
-  return result
-};
 
 /*
  * get: array => [1, 2, 3, 4, 5, 6], size => 2

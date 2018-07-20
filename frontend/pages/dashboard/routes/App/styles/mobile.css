@@ -63,7 +63,7 @@
   justify-content: center;
   margin-right: var(--topbarHeight);
   font-size: 1.6em;
-  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+  font-family: 'Geo', 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
 .menuModal {
@@ -138,7 +138,7 @@
 
 .menuLogo {
   flex: 1;
-  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+  font-family: 'Geo', 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
   text-align: left;
   font-size: 2em;
 }

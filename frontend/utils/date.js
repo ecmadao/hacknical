@@ -4,7 +4,7 @@ import { formatLocale } from 'LOCALES';
 const locale = formatLocale();
 moment.locale(locale);
 
-const __validateDate = (rawDate) => {
+const validateDate = (rawDate) => {
   const date = `${rawDate}`;
   let separator = '-';
   let dates = date.split(separator);
@@ -25,7 +25,7 @@ const __validateDate = (rawDate) => {
 };
 
 const formatDate = format => date => moment(date).format(format);
-const getSeconds = date => parseInt(formatDate('X')(__validateDate(date)), 10);
+const getSeconds = date => parseInt(formatDate('X')(validateDate(date)), 10);
 
 const getDateRelativeX = (unit, pn = 1) => format => (before, date) =>
   moment(date).add(pn * parseInt(before, 10), unit).format(format)

@@ -1,5 +1,5 @@
 import 'particles.js';
-import './styles/index.css';
+import './login.css';
 import API from 'API';
 import { sleep } from 'UTILS/helper';
 import HeartBeat from 'UTILS/heartbeat';

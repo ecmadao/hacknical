@@ -1,4 +1,4 @@
-import 'SRC/vendor/404/404.css';
+import 'SRC/vendor/404.css';
 import 'STYLES/fonts-hack.css';
 import Rock from 'PAGES/initial';
 

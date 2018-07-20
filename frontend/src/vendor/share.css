@@ -1,5 +1,5 @@
 @import 'open-color/open-color.css';
-@import "../shared/loading.css";
+@import "./shared/loading.css";
 
 #share {
   width: 100%;

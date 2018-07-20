@@ -192,7 +192,7 @@
 
 
 .statistic {
-  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+  font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
   color: var(--oc-gray-1);
   opacity: 0.5;
   pointer-events: auto;

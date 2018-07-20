@@ -115,17 +115,15 @@ const sortByLanguage = obj =>
 
 const getReposByX = x => (repos, items) =>
   repos.filter(
-    repository => items.some(
-      item => item === repository[x]
-    )
+    repository => items.some(item => item === repository[x])
   );
 
 const getReposInfo = (commits, repos) => commits.map((commit) => {
   const { name } = commit;
-  const targetRepos = repos.filter(
+  const targetRepository = repos.find(
     repository => repository.name === name
   );
-  if (!targetRepos.length) return commit;
+  if (!targetRepository) return commit;
 
   const {
     language,
@@ -133,7 +131,7 @@ const getReposInfo = (commits, repos) => commits.map((commit) => {
     full_name,
     forks_count,
     stargazers_count,
-  } = targetRepos[0];
+  } = targetRepository;
 
   commit.forks_count = forks_count;
   commit.language = language;
@@ -144,10 +142,10 @@ const getReposInfo = (commits, repos) => commits.map((commit) => {
 });
 
 const getReposCommits = (repos, commits) => repos.map((repository) => {
-  const targetRepos = commits.filter(
+  const targetRepository = commits.find(
     commit => commit.name === repository.name);
-  if (targetRepos.length) {
-    return targetRepos[0].totalCommits;
+  if (targetRepository) {
+    return targetRepository.totalCommits;
   }
   return 0;
 });

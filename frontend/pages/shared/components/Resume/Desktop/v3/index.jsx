@@ -279,8 +279,8 @@ class ResumeComponentV3 extends ResumeUIWrapper {
   }
 
   render() {
-    const { resume, shareInfo, updateText } = this.props;
-    const { info, others, updateAt, educations, workExperiences } = resume;
+    const { resume, shareInfo } = this.props;
+    const { info, others, educations, workExperiences } = resume;
     const { useGithub, githubUrl } = shareInfo;
     const its = resumeTexts.options.person[info.gender] || resumeTexts.options.person.male;
     const viewGitHub = resumeTexts.options.view.replace(/%s/, its);

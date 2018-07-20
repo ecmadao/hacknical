@@ -149,7 +149,6 @@ class GitHubWrapper extends React.Component {
         if (result.finished) {
           this.heartBeat.stop();
           this.setRefreshStatus(result);
-          message.notice(githubMsg.update.success);
           setTimeout(() => {
             window.location.reload(false);
           }, 3000);

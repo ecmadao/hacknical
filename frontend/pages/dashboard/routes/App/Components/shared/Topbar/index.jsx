@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Headroom from 'headroom.js';
-import 'SRC/vendor/topBar/index.css';
+import 'SRC/vendor/topBar.css';
 import styles from './topbar.css';
 
 class Topbar extends React.Component {

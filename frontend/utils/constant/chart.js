@@ -2,7 +2,7 @@
 import Chart from 'chart.js';
 import { GREEN_COLORS } from './index';
 
-Chart.defaults.global.defaultFontFamily = '"Geo", "PingFangSC-Light", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", monospace, sans-serif';
+Chart.defaults.global.defaultFontFamily = '"PingFangSC-Light", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", monospace, sans-serif';
 
 export const RADAR_CONFIG = {
   type: 'radar',
