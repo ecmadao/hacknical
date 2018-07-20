@@ -24,7 +24,7 @@ const fetchApi = (url, method, data) => {
   if (rnoContent.test(method)) {
     const query = param(data);
     if (query) {
-      url = url + (/\?/.test(url) ? '&' : '?') + query;
+      url = url + (/\?$/.test(url) ? '&' : '?') + query;
     }
   } else if (data) {
     options.body = JSON.stringify(data);

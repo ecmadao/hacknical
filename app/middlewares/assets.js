@@ -15,7 +15,7 @@ if (fs.existsSync(manifestPath)) {
 
 const getAssetName = asset => manifest[asset];
 
-const assetsPath = (assetsName) => {
+const assetsMiddleware = (assetsName) => {
   const finalName = assetsName.split('/').slice(-1)[0];
   const sections = finalName.split('.');
   // So file base name should not has dot
@@ -33,4 +33,4 @@ const assetsPath = (assetsName) => {
   return result;
 };
 
-export default assetsPath;
+export default assetsMiddleware;

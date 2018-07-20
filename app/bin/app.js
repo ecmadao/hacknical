@@ -12,17 +12,17 @@ import views from 'koa-views';
 import userAgent from 'koa-useragent';
 import staticServer from 'koa-static';
 
-import assetsPath from '../middlewares/assets';
-import { redisMiddleware } from '../middlewares/cache';
-import catchError from '../middlewares/error';
-import checkLocale from '../middlewares/locale';
-import mqMiddleware from '../middlewares/mq';
 import router from '../routes';
 import logger from '../utils/logger';
-import platform from '../middlewares/platform';
+import mqMiddleware from '../middlewares/mq';
+import errorMiddleware from '../middlewares/error';
+import localeMiddleware from '../middlewares/locale';
+import assetsMiddleware from '../middlewares/assets';
+import { redisMiddleware } from '../middlewares/cache';
+import platformMiddleware from '../middlewares/platform';
 
-const appKey = config.get('appKey');
 const port = config.get('port');
+const appKey = config.get('appKey');
 const appName = config.get('appName');
 const redis = config.get('database.redis');
 
@@ -35,7 +35,7 @@ app.use(koaLogger());
 
 // user-agent
 app.use(userAgent);
-app.use(platform.setPlatform());
+app.use(platformMiddleware());
 
 const options = {
   defaultLocale: 'zh-CN',
@@ -75,15 +75,15 @@ app.use(redisMiddleware({
 // mq
 app.use(mqMiddleware());
 // locale
-app.use(checkLocale());
+app.use(localeMiddleware());
 // catch error
-app.use(catchError());
+app.use(errorMiddleware());
 // csrf
 app.use(new Csrf());
 // helper func
 app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
-    assetsPath,
+    assetsPath: assetsMiddleware,
     csrf: ctx.csrf,
     env: process.env.NODE_ENV,
     footer: {

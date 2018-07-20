@@ -6,7 +6,7 @@ import Clipboard from 'clipboard';
 import { IconButton, Input, PortalModal } from 'light-ui';
 import locales from 'LOCALES';
 import { GREEN_COLORS, MD_COLORS } from 'UTILS/constant';
-import styles from './share_modal.css';
+import styles from './modal.css';
 import message from 'UTILS/message';
 
 const modalTexts = locales('shareModal');
@@ -65,13 +65,13 @@ class ShareModal extends React.Component {
     const { openModal, onClose, options } = this.props;
     const { link, openShare, text } = options;
     const modalClass = cx(
-      styles.share_modal_container,
+      styles.modalContainer,
       !openShare && styles.disabled
     );
     const statusText = openShare ? modalTexts.openTitle : modalTexts.closeTitle;
     const statusClass = cx(
-      styles.share_status,
-      !openShare && styles.not_open
+      styles.status,
+      !openShare && styles.notopen
     );
 
     return (
@@ -80,15 +80,15 @@ class ShareModal extends React.Component {
         onClose={onClose}
       >
         <div className={modalClass}>
-          <div className={styles.share_qrcode}>
+          <div className={styles.qrcode}>
             <div ref={ref => (this.qrcode = ref)} />
           </div>
-          <div className={styles.share_info}>
-            <div className={styles.share_controller}>
+          <div className={styles.info}>
+            <div className={styles.controller}>
               <div className={statusClass}>{statusText}</div>
             </div>
             <blockquote>{modalTexts.text}<br />{text}</blockquote>
-            <div className={styles.share_container}>
+            <div className={styles.shareContainer}>
               <Input
                 id="shareUrl"
                 theme="flat"

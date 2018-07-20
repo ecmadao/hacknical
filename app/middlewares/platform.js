@@ -1,6 +1,6 @@
 import logger from '../utils/logger';
 
-const setPlatform = () => async (ctx, next) => {
+const platformMiddleware = () => async (ctx, next) => {
   const { userAgent } = ctx;
   ctx.state.browser = userAgent.browser;
   ctx.state.platform = userAgent.platform;
@@ -16,6 +16,5 @@ const setPlatform = () => async (ctx, next) => {
   );
 };
 
-export default {
-  setPlatform,
-};
+export default platformMiddleware;
+

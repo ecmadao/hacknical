@@ -1,6 +1,6 @@
 @import 'open-color/open-color.css';
 
-.share_modal_container {
+.modalContainer {
   background-color: var(--bg);
   box-shadow: var(--shadow4);
   width: 500px;
@@ -38,14 +38,14 @@
   }
 }
 
-.share_qrcode {
+.qrcode {
   width: 120px;
   height: 120px;
   padding: 40px;
   border-right: 1px dashed var(--oc-gray-5);
 }
 
-.share_info {
+.info {
   flex: 1;
   padding: 40px;
   padding-left: 20px;
@@ -53,7 +53,7 @@
   flex-direction: column;
 }
 
-.share_controller {
+.controller {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -61,25 +61,20 @@
   margin-bottom: 20px;
 }
 
-.share_status {
+.status {
   flex: 1;
   /*padding: 0 10px;*/
 
-  &.not_open {
+  &.notopen {
     color: var(--oc-gray-5);
   }
 }
 
-.share_container {
+.shareContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-}
-
-.copy_button {
-  cursor: pointer;
-  padding: 0 10px;
 }
 
 .shareInput {

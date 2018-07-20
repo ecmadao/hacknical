@@ -1,23 +1,23 @@
 @import 'open-color/open-color.css';
 
-.slider_container {
+.container {
   flex: 1;
   margin: 0 0 10px;
   user-select: none;
 }
 
-.slider_tips_container {
+.tipsContainer {
   flex: 1;
   display: flex;
   flex-direction: row;
   margin-top: -20px;
 }
 
-.slider_tipso {
+.tipso {
   width: 60px;
 }
 
-.slider_tips {
+.tips {
   flex: 1;
   height: 40px;
   line-height: 40px;

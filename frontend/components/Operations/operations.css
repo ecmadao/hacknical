@@ -8,7 +8,7 @@
   --scaleActive: scale(1);
 }
 
-.operations_container {
+.container {
   position: absolute;
   left: -10px;
   top: 5px;
@@ -16,7 +16,7 @@
   z-index: var(--zIndex9);
 }
 
-.operations_more {
+.more {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -38,7 +38,7 @@
   }
 }
 
-.operations_menu {
+.menu {
   position: absolute;
   box-shadow: var(--shadow2);
   border-radius: 2px;
@@ -54,14 +54,14 @@
   transition: all var(--speed) var(--easing);
 }
 
-.operations_menu_active {
+.menuActive {
   z-index: var(--zIndex99);
   visibility: visible;
   opacity: 1;
   transform: var(--scaleActive) translateY(10px);
 }
 
-.operation_item {
+.item {
   padding: 10px 20px;
   min-width: 85px;
   transition: background-color 0.3s;

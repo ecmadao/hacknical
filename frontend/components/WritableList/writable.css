@@ -1,6 +1,6 @@
 @import 'open-color/open-color.css';
 
-.items_wrapper {
+.items {
   font-size: 14px;
   list-style-type: none;
   flex: 1;
@@ -11,7 +11,7 @@
   }
 }
 
-.list_item {
+.list {
   & i {
     display: none;
     cursor: pointer;

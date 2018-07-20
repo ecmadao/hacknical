@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'light-ui';
-import styles from './writable_list.css';
+import styles from './writable.css';
 
 const ListItem = (props) => {
   const { item, onChange, onDelete, placeholder } = props;
   return (
-    <li className={styles.list_item}>-&nbsp;&nbsp;
+    <li className={styles.list}>-&nbsp;&nbsp;
       <Input
         value={item}
         onChange={onChange}

@@ -47,16 +47,16 @@ class Operations extends React.Component {
     const { className } = this.props;
 
     const containerClass = cx(
-      styles.operations_container,
+      styles.container,
       className
     );
     const moreIconClass = cx(
-      styles.operations_more,
+      styles.more,
       showOperations && styles.active
     );
     const menuClass = cx(
-      styles.operations_menu,
-      showOperations && styles.operations_menu_active
+      styles.menu,
+      showOperations && styles.menuActive
     );
     return (
       <OutsideClickHandler

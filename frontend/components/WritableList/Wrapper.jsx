@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { InputGroup } from 'light-ui';
 
-import styles from './writable_list.css';
+import styles from './writable.css';
 import ListItem from './ListItem';
 
 class Wrapper extends React.Component {
@@ -50,7 +50,7 @@ class Wrapper extends React.Component {
       defaultIntro,
     } = this.props;
     return (
-      <ul className={styles.items_wrapper}>
+      <ul className={styles.items}>
         {this.renderListItems()}
         <li>-&nbsp;&nbsp;
           <InputGroup

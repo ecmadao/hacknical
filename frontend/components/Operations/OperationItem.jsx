@@ -8,7 +8,7 @@ const OperationItem = (props) => {
 
   return (
     <div
-      className={styles.operation_item}
+      className={styles.item}
       onClick={onClick}
     >
       {icon ? (

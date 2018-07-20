@@ -44,10 +44,10 @@ class Wrapper extends React.Component {
       placeholder,
     } = this.props;
     return (
-      <div className={styles.labels_wrapper}>
+      <div className={styles.labelsWrapper}>
         {this.renderLabels()}
         { labels.length < max ? (
-          <div className={styles.label_input_wrapper}>
+          <div className={styles.inputWrapper}>
             <InputGroup
               value={value}
               required={false}

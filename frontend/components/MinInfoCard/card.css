@@ -1,6 +1,6 @@
 @import 'open-color/open-color.css';
 
-.info_sub_text.info_sub_text {
+.subText.subText {
   font-size: 12px;
   opacity: 0.5;
   text-align: left;
@@ -8,7 +8,7 @@
   margin-bottom: 3px;
 }
 
-.info_main_text.info_main_text {
+.mainText.mainText {
   font-size: 1.7em;
   color: var(--oc-white);
   text-align: left;

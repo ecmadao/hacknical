@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Slider } from 'light-ui';
-import styles from './date_slider.css';
+import styles from './slider.css';
 import dateHelper from 'UTILS/date';
 import locales from 'LOCALES';
 import { SECONDS_PER_DAY } from 'UTILS/constant';
@@ -81,7 +81,7 @@ class DateSlider extends React.Component {
     const validateEndDate = getValidatorFullDate(endDate);
 
     return (
-      <div className={styles.slider_container}>
+      <div className={styles.container}>
         <Slider
           min={getSecondsByDate(minDate)}
           max={getSecondsByDate(maxDate)}
@@ -93,7 +93,7 @@ class DateSlider extends React.Component {
             const date = getDateBySeconds(seconds);
             const fullDate = getValidatorFullDate(date);
             return (
-              <div className={styles.slider_tipso}>
+              <div className={styles.tipso}>
                 {MAX_DATE === fullDate ? localeTexts.untilNow : getValidatorDate(date)}
               </div>
             );
@@ -101,14 +101,14 @@ class DateSlider extends React.Component {
           onChange={this.onChange}
           minRange={SECONDS_PER_DAY}
         />
-        <div className={styles.slider_tips_container}>
-          <div className={styles.slider_tips}>
+        <div className={styles.tipsContainer}>
+          <div className={styles.tips}>
             {startText}
             <span>
               {getValidatorDate(startDate)}
             </span>
           </div>
-          <div className={styles.slider_tips}>
+          <div className={styles.tips}>
             <span>
               {
                 MAX_DATE === validateEndDate

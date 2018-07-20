@@ -5,10 +5,10 @@ const MinInfoCard = (props) => {
   const { mainText, subText, className, icon } = props;
   return (
     <div className={className}>
-      <div className={styles.info_sub_text}>
+      <div className={styles.subText}>
         {subText}
       </div>
-      <div className={styles.info_main_text}>
+      <div className={styles.mainText}>
         {icon ? (
           <i className={`fa fa-${icon}`} aria-hidden="true" />
         ) : null}
