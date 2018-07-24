@@ -8,8 +8,8 @@ const BucketName = config.get('qiniu.BucketName');
 const AccessKey = config.get('qiniu.AccessKey');
 const SecretKey = config.get('qiniu.SecretKey');
 
-qiniu.conf.ACCESS_KEY = AccessKey;
-qiniu.conf.SECRET_KEY = SecretKey;
+qiniu.conf.ACCESS_KEY = AccessKey || process.env.QINIU_ACCESS_KEY;
+qiniu.conf.SECRET_KEY = SecretKey || process.env.QINIU_SECRET_KEY;
 
 const getFiles = () => {
   const files = klawSync(PATH.PUBLIC_PATH, { nodir: true })

@@ -1,4 +1,4 @@
-# [Hacknical](https://hacknical.com?locale=en)
+# [Hacknical](https://hacknical.com)
 
 **hacknical, hacker & technical**
 

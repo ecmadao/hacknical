@@ -21,16 +21,15 @@ const getDateBySeconds = seconds =>
   dateHelper.validator.fullDateBySeconds(seconds).split('T')[0];
 const formatCommitsTimeline = githubHelper.formatCommitsTimeline();
 
+const yearAgo = dateHelper.date.beforeYears(1);
+const maxDateSeconds = getSecondsByDate(getValidateDate());
+const minDateSeconds = getSecondsByDate(dateHelper.date.beforeMonths(1, yearAgo));
+
 class CodeCourse extends React.Component {
   constructor(props) {
     super(props);
-    const yearAgo = dateHelper.date.beforeYears(1);
-    const dayOfWeek = dateHelper.date.dayOfWeek(yearAgo);
     this.state = {
       showedCount: 10,
-      yearAgoSeconds: getSecondsByDate(yearAgo) - dayOfWeek * SECONDS_PER_DAY,
-      maxDateSeconds: getSecondsByDate(getValidateDate()),
-      minDateSeconds: getSecondsByDate(dateHelper.date.beforeMonths(1, yearAgo)),
     };
   }
 
@@ -74,7 +73,6 @@ class CodeCourse extends React.Component {
   }
 
   formatRepositories() {
-    const { minDateSeconds } = this.state;
     const { commitDatas } = this.props;
     const repositoriesDict = this.repositoriesDict;
     const showedCount = Math.min(this.state.showedCount, commitDatas.length);
@@ -87,7 +85,6 @@ class CodeCourse extends React.Component {
   }
 
   renderChosedRepos() {
-    const { maxDateSeconds, minDateSeconds } = this.state;
     const formatRepositories = this.formatRepositories();
 
     return (
@@ -111,10 +108,6 @@ class CodeCourse extends React.Component {
   }
 
   renderTimeLines(repos) {
-    const {
-      maxDateSeconds,
-      minDateSeconds,
-    } = this.state;
     const totalSeconds = maxDateSeconds - minDateSeconds;
 
     return repos.map((repository, index) => {
@@ -150,9 +143,6 @@ class CodeCourse extends React.Component {
       totalSeconds,
     } = options;
     const timelineDOMs = [<div key={'placeholder'} />];
-    const {
-      minDateSeconds,
-    } = this.state;
     let preToSecond = minDateSeconds;
     let preCommit = null;
 

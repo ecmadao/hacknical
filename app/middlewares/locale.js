@@ -3,20 +3,15 @@ import logger from '../utils/logger';
 const validateQueryLocale = (locale) => {
   const language = locale;
   if (!language) return null;
-  if (/^en/.test(language)) {
-    return 'en';
-  }
-  if (/^fr/.test(language)) {
-    return 'fr';
-  }
-  if (/^zh/.test(language)) {
-    return 'zh';
-  }
+  if (/^en/.test(language)) return 'en';
+  // if (/^fr/.test(language)) return 'fr';
+  if (/^zh/.test(language)) return 'zh';
   return null;
 };
+
 const formatLocale = locale => locale.split(/-|_/)[0];
 
-const checkLocale = () => async (ctx, next) => {
+const localeMiddleware = () => async (ctx, next) => {
   const queryLocale = validateQueryLocale(ctx.query.locale);
   if (queryLocale) {
     ctx.session.locale = queryLocale;
@@ -34,4 +29,4 @@ const checkLocale = () => async (ctx, next) => {
   logger.info(`[LOCALE][${ctx.state.locale}]`);
 };
 
-export default checkLocale;
+export default localeMiddleware;

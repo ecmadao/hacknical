@@ -5,6 +5,9 @@
   "database": {
     "redis": "redis://localhost:6379/3"
   },
+  "qiniu": {
+    "BucketName": "hacknical"
+  },
   "services": {
     "github": {
       "url": "http://127.0.0.1:5002",

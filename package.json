@@ -149,7 +149,6 @@
     "cache-manager": "^2.9.0",
     "co-redis": "^2.1.1",
     "config": "^1.21.0",
-    "eventemitter3": "^3.0.1",
     "font-awesome": "^4.7.0",
     "fs-extra": "^2.0.0",
     "hiredis": "^0.5.0",
@@ -172,8 +171,7 @@
     "phantom": "^4.0.1",
     "redis": "^2.6.3",
     "request": "^2.75.0",
-    "rsmq": "^0.8.2",
-    "shortid": "^2.2.8"
+    "rsmq": "^0.8.2"
   },
   "repository": {
     "url": "git@github.com:ecmadao/hacknical.git",
