@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { InputGroup } from 'light-ui';
-import TipsoInput from '../shared/TipsoInput';
+import { InputGroup, InputGroupV2 } from 'light-ui';
 import WritableList from 'COMPONENTS/WritableList';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
@@ -65,14 +64,28 @@ class WorkProject extends React.Component {
             }}
             wrapperClassName={cx(styles.input_group, styles.single_input)}
           >
-            <TipsoInput
-              value={project.url}
-              placeholder={resumeTexts.projectHomepage}
-              onChange={this.handleProjectChange('url')}
-              className={cx(
-                styles.tipso_input_long,
-                styles.tipso_input_dark
-              )}
+            <InputGroupV2
+              sections={[
+                {
+                  value: 'http://',
+                  disabled: true,
+                  style: {
+                    width: 50,
+                    padding: '0 5px'
+                  }
+                },
+                {
+                  disabled,
+                  type: 'url',
+                  value: project.url.replace(/^https?:\/\//, ''),
+                  placeholder: resumeTexts.projectHomepage,
+                  onChange: this.handleProjectChange('url'),
+                }
+              ]}
+              style={{
+                margin: 0
+              }}
+              theme="underline"
             />
           </InputGroup>
           <div className={styles.project_delete} onClick={onDelete}>

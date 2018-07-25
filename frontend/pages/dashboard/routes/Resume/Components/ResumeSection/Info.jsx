@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, SelectorV2, Switcher } from 'light-ui';
+import { Input, InputGroupV2, SelectorV2, Switcher } from 'light-ui';
 import resumeActions from '../../redux/actions';
 import { GENDERS } from 'UTILS/constant/resume';
 import styles from '../../styles/resume.css';
@@ -50,6 +50,8 @@ class Info extends React.Component {
       gender = 'male',
     } = this.props;
 
+    const [prefix, suffix] = email.split('@');
+
     return (
       <SectionWrapper {...this.props}>
         <div className={styles.resume_piece_container}>
@@ -70,13 +72,30 @@ class Info extends React.Component {
             />
           </div>
           <div className={styles.resume_wrapper}>
-            <Input
-              type="email"
+            <InputGroupV2
+              sections={[
+                {
+                  value: prefix,
+                  placeholder: resumeTexts.emailPrefix,
+                  onChange: val => this.handleInfoChange('email')(`${val}@${suffix}`)
+                },
+                {
+                  value: '@',
+                  disabled: true,
+                  style: {
+                    width: 30,
+                    padding: 0,
+                    textAlign: 'center',
+                  }
+                },
+                {
+                  value: suffix,
+                  placeholder: resumeTexts.emailSuffix,
+                  style: { width: 100 },
+                  onChange: val => this.handleInfoChange('email')(`${prefix}@${val}`)
+                }
+              ]}
               theme="flat"
-              value={email}
-              disabled={disabled}
-              placeholder={resumeTexts.email}
-              onChange={this.handleInfoChange('email')}
             />
             <Input
               type="phone"

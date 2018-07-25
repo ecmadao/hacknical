@@ -54,12 +54,13 @@ class Others extends React.Component {
   }
 
   renderSocialLinks() {
-    const { actions, socialLinks } = this.props;
+    const { actions, disabled, socialLinks } = this.props;
     const links = socialLinks.map((social, index) => (
       <SocialLink
         key={index}
         index={index}
         social={social}
+        disabled={disabled}
         total={socialLinks.length}
         onChange={this.changeSocialLink(index)}
         onDelete={this.deleteSocialLink(index)}
@@ -84,7 +85,6 @@ class Others extends React.Component {
       supplements,
       expectSalary,
       expectLocation,
-      freshGraduate,
     } = this.props;
 
     return (

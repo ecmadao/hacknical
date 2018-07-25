@@ -2,7 +2,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-import { Tipso, Input } from 'light-ui';
+import { Tipso, Input, InputGroupV2 } from 'light-ui';
 import { isUrl } from 'UTILS/helper';
 import styles from '../../../styles/resume.css';
 import TipsoInputs from './TipsoInputs';
@@ -13,38 +13,24 @@ const resumeTexts = locales('resume').sections.others;
 const renderTipsoInputs = (links) => {
   const prefixIcons = [];
   const inputs = links.map((link, i) => {
-    const {
-      type,
-      value,
-      prefix,
-      disabled,
-      required,
-      onChange,
-      placeholder
-    } = link;
+    const { Component, prefix } = link;
     prefixIcons.push(prefix);
 
+    delete link.Component;
+    delete link.prefix;
+
     return (
-      <Input
+      <Component
         key={i}
-        type={type}
-        value={value}
-        disabled={disabled}
-        required={required}
-        onChange={onChange}
-        theme="borderless"
-        subTheme="underline"
-        className={cx(
-          styles.tipso_input,
-          styles.tipso_input_dark
-        )}
-        placeholder={placeholder}
+        {...link}
       />
-    )
+    );
   });
 
   return (
-    <TipsoInputs prefixIcons={prefixIcons}>
+    <TipsoInputs
+      prefixIcons={prefixIcons}
+    >
       {inputs}
     </TipsoInputs>
   )
@@ -63,6 +49,7 @@ class SocialLink extends React.Component {
       social,
       onChange,
       onDelete,
+      disabled,
       className = ''
     } = this.props;
     const {
@@ -83,22 +70,47 @@ class SocialLink extends React.Component {
 
     const links = [
       {
+        Component: Input,
         type: 'string',
         value: text || name,
         prefix: 'header',
         disabled: !deleteable,
         required: true,
+        theme: 'borderless',
+        subTheme: 'underline',
+        className: cx(
+          styles.tipso_input_dark,
+          styles.tipso_input_large
+        ),
         onChange: onInputChange('name'),
         placeholder: resumeTexts.links.addLinkName
       },
       {
-        type: 'url',
-        value: url,
+        Component: InputGroupV2,
+        sections: [
+          {
+            value: 'http://',
+            disabled: true,
+            style: {
+              width: 50,
+              padding: '0 5px'
+            }
+          },
+          {
+            disabled,
+            type: 'url',
+            prefix: 'link',
+            required: true,
+            style: { width: 200 },
+            value: url.replace(/^https?:\/\//, ''),
+            placeholder: resumeTexts.links.addLinkUrl,
+            onChange: onInputChange('url')
+          }
+        ],
         prefix: 'link',
-        disabled: false,
-        required: true,
-        onChange: onInputChange('url'),
-        placeholder: resumeTexts.links.addLinkUrl
+        style: { margin: 0 },
+        theme: 'underline',
+        className: styles.tipsoInputGroup
       }
     ];
 
@@ -108,6 +120,7 @@ class SocialLink extends React.Component {
         tipsoContent={(
           renderTipsoInputs(links)
         )}
+        className={styles.inputGroupTipso}
       >
         <div className={itemClass}>
           <img src={require(`SRC/images/${icon}`)} alt={name} />

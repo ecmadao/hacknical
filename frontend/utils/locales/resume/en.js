@@ -25,6 +25,8 @@ const datas = {
       title: 'Basic Info',
       name: 'Name',
       email: 'Email',
+      emailPrefix: 'Email prefix',
+      emailSuffix: 'Email suffix',
       phone: 'Phone',
       job: 'Wanted job',
       position: 'City',

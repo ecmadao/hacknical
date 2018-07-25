@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { InputGroup, Textarea } from 'light-ui';
+import { InputGroup, InputGroupV2, Textarea } from 'light-ui';
 import Labels from 'COMPONENTS/Labels';
 import styles from '../../styles/resume.css';
 import resumeActions from '../../redux/actions';
 import locales from 'LOCALES';
 import SectionWrapper from './shared/SectionWrapper';
-import TipsoInput from './shared/TipsoInput';
 
 const resumeTexts = locales('resume.sections.personalProjects');
 
@@ -52,15 +51,29 @@ class PersonalProjects extends React.Component {
               wrapperClassName={cx(styles.input_group, styles.single_input)}
               onChange={this.handleProjectChange(index)('title')}
             >
-              <TipsoInput
-                value={url}
-                disabled={disabled}
-                placeholder={resumeTexts.homepage}
-                className={cx(
-                  styles.tipso_input_long,
-                  styles.tipso_input_dark
-                )}
-                onChange={this.handleProjectChange(index)('url')}
+              <InputGroupV2
+                sections={[
+                  {
+                    value: 'http://',
+                    disabled: true,
+                    style: {
+                      width: 50,
+                      padding: '0 5px'
+                    }
+                  },
+                  {
+                    disabled,
+                    type: 'url',
+                    style: { width: 200 },
+                    value: url.replace(/^https?:\/\//, ''),
+                    placeholder: resumeTexts.homepage,
+                    onChange: this.handleProjectChange(index)('url')
+                  }
+                ]}
+                style={{
+                  margin: 0
+                }}
+                theme="underline"
               />
             </InputGroup>
           </div>

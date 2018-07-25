@@ -1,9 +1,7 @@
 import React from 'react';
-import cx from 'classnames';
-import { InputGroup, Input } from 'light-ui';
+import { InputGroup, InputGroupV2, Input } from 'light-ui';
 import DateSlider from 'COMPONENTS/DateSlider';
 import WorkProject from './WorkProject';
-import TipsoInput from '../shared/TipsoInput';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
 
@@ -81,14 +79,28 @@ class WorkExperience extends React.Component {
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}
           >
-            <TipsoInput
-              value={url}
-              placeholder={resumeTexts.homepage}
-              onChange={handleExperienceChange('url')}
-              className={cx(
-                styles.tipso_input_long,
-                styles.tipso_input_dark
-              )}
+            <InputGroupV2
+              sections={[
+                {
+                  value: 'http://',
+                  disabled: true,
+                  style: {
+                    width: 50,
+                    padding: '0 5px'
+                  }
+                },
+                {
+                  disabled,
+                  type: 'url',
+                  value: url.replace(/^https?:\/\//, ''),
+                  placeholder: resumeTexts.homepage,
+                  onChange: handleExperienceChange('url'),
+                }
+              ]}
+              style={{
+                margin: 0
+              }}
+              theme="underline"
             />
           </InputGroup>
           <Input
