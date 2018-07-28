@@ -8,20 +8,27 @@ const DELIVER = shadowImport(path.join(__dirname, 'lib'), {
   excludes: ['shared.js']
 });
 
-const send = Deliver => (options) => {
+const send = (Deliver, options) => {
   const { mq, data } = options;
   process.nextTick(async () => {
     await new Deliver(mq).send(data);
   });
 };
 
-const notify = (source) => {
-  const Deliver = DELIVER[Symbol.for(`${PREFIX}.${source}`)];
-  if (!Deliver) throw new Error(`Can not find target source: ${source}`);
+const handler = {
+  get(_, name) {
+    const key = `${PREFIX}.${name}`;
+    if (!DELIVER[Symbol.for(key)]) {
+      throw new Error(`[INVALIDATE METHOD] unknown source ${name}`);
+    }
 
-  return {
-    send: send(Deliver),
-  };
+    const Deliver = DELIVER[Symbol.for(key)];
+
+    return options => send(Deliver, options);
+  }
 };
 
-export default notify;
+function target() {}
+const SenderFactory = new Proxy(target, handler);
+
+export default SenderFactory;

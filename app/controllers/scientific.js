@@ -48,7 +48,7 @@ const removePrediction = async (ctx, next) => {
     await GitHubAPI.removePrediction(login, fullName);
   }
 
-  notify('slack').send({
+  notify.slack({
     mq: ctx.mq,
     data: {
       type: 'scientific',
@@ -82,7 +82,7 @@ const putPredictionFeedback = async (ctx, next) => {
   }
 
   const likeText = Number(liked) > 0 ? 'liked' : 'disliked';
-  notify('slack').send({
+  notify.slack({
     mq: ctx.mq,
     data: {
       type: 'scientific',

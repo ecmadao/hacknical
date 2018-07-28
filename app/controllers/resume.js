@@ -77,7 +77,7 @@ const setResume = async (ctx, next) => {
   ];
   logger.info(`[RESUME:UPDATE][${githubLogin}]`);
 
-  notify('slack').send({
+  notify.slack({
     mq: ctx.mq,
     data: {
       type: 'resume',
@@ -153,7 +153,7 @@ const downloadResume = async (ctx) => {
   const resumeUrl =
     `${ctx.request.origin}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true`;
 
-  notify('slack').send({
+  notify.slack({
     mq: ctx.mq,
     data: {
       type: 'download',

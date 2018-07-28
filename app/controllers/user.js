@@ -57,7 +57,7 @@ const loginByGitHub = async (ctx) => {
       ctx.session.githubLogin = userInfo.login;
 
       const user = await UserAPI.createUser(userInfo);
-      notify('slack').send({
+      notify.slack({
         mq: ctx.mq,
         data: {
           type: 'login',
@@ -148,7 +148,7 @@ const markNotifies = async (ctx) => {
 const notifyUpvote = async (ctx) => {
   const { userId, githubLogin } = ctx.session;
   const { messageId } = ctx.params;
-  notify('slack').send({
+  notify.slack({
     mq: ctx.mq,
     data: {
       data: `Upvote ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`
@@ -163,7 +163,7 @@ const notifyUpvote = async (ctx) => {
 const notifyDownvote = async (ctx) => {
   const { userId, githubLogin } = ctx.session;
   const { messageId } = ctx.params;
-  notify('slack').send({
+  notify.slack({
     mq: ctx.mq,
     data: {
       data: `Downvote ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`

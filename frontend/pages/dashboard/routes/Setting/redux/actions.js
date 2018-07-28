@@ -3,7 +3,7 @@ import Push from 'push.js';
 import objectAssign from 'UTILS/object-assign';
 import API from 'API';
 import locales from 'LOCALES';
-import HeartBeat from 'UTILS/heartbeat';
+import refresher from 'UTILS/refresher';
 
 const updateMsg = locales('github.message.update');
 
@@ -31,21 +31,14 @@ const fetchGithubUpdateStatus = () => (dispatch) => {
 const refreshGithubDatas = () => (dispatch) => {
   dispatch(toggleSettingLoading(true));
   API.github.update().then(() => {
-    const heartBeat = new HeartBeat({
-      interval: 5000, // 5s
-      callback: () => API.github.getUpdateStatus().then((result) => {
-        if (result && result.finished) {
-          heartBeat.stop();
-          dispatch(setUpdateStatus(result));
-          Push.create(updateMsg.header, {
-            body: updateMsg.body,
-            icon: '/vendor/images/hacknical-logo-nofity.png',
-            timeout: 3000,
-          });
-        }
-      })
+    refresher.fire(5000, (result) => {
+      dispatch(setUpdateStatus(result));
+      Push.create(updateMsg.header, {
+        body: updateMsg.body,
+        icon: '/vendor/images/hacknical-logo-nofity.png',
+        timeout: 3000,
+      });
     });
-    heartBeat.takeoff();
   });
 };
 

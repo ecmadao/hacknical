@@ -8,8 +8,8 @@ import locales from 'LOCALES';
 import github from 'UTILS/github';
 import { removeDOM } from 'UTILS/helper';
 import formatHotmap from 'UTILS/hotmap';
-import HeartBeat from 'UTILS/heartbeat';
 import message from 'UTILS/message';
+import refresher from 'UTILS/refresher';
 
 polyfill();
 
@@ -67,10 +67,6 @@ class GitHubWrapper extends React.Component {
     this.fetchUpdateStatus();
     this.fetchHotmap(login);
     removeDOM('#loading', { async: true });
-  }
-
-  componentWillUnmount() {
-    this.heartBeat && this.heartBeat.stop();
   }
 
   async fetchGithubStatistic(login = '') {
@@ -142,20 +138,13 @@ class GitHubWrapper extends React.Component {
 
   createHeartBeat() {
     if (this.heartBeat) return;
-    this.heartBeat = new HeartBeat({
-      interval: 4000, // 4s
-      callback: () => API.github.getUpdateStatus().then((result) => {
-        if (!result) return;
-        if (result.finished) {
-          this.heartBeat.stop();
-          this.setRefreshStatus(result);
-          setTimeout(() => {
-            window.location.reload(false);
-          }, 3000);
-        }
-      })
+    this.heartBeat = true;
+    refresher.fire(4000, (result) => {
+      this.setRefreshStatus(result);
+      setTimeout(() => {
+        window.location.reload(false);
+      }, 3000);
     });
-    this.heartBeat.takeoff();
   }
 
   onRefresh() {

@@ -23,7 +23,7 @@ const updateViewData = async (ctx, options) => {
       type,
       action: 'pageview'
     });
-    notify('slack').send({
+    notify.slack({
       mq: ctx.mq,
       data: {
         type: 'view',

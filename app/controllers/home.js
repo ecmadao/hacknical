@@ -54,7 +54,7 @@ const dashboard = async (ctx) => {
   if (!user.initialed) {
     ctx.redirect('/initial');
   }
-  notify('slack').send({
+  notify.slack({
     mq: ctx.mq,
     data: {
       data: `【USAGE:${githubLogin}】${device.toUpperCase()}:${platform.toUpperCase()}:${browser.toUpperCase()}`
