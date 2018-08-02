@@ -7,7 +7,7 @@ import API from 'API';
 import styles from './notify.css';
 import dateHelper from 'UTILS/date';
 import { URLS, EMOJI } from 'UTILS/constant';
-import { random, observer } from 'UTILS/helper';
+import { random, throttle } from 'UTILS/helper';
 
 const getEmoji = () => {
   const keys = Object.keys(EMOJI);
@@ -18,8 +18,8 @@ const getEmoji = () => {
 const emoji = getEmoji();
 const notifyLocales = locales('datas.notify');
 const getFullDate = dateHelper.validator.fullDate;
-const upvote = observer(API.user.upvote)();
-const downvote = observer(API.user.downvote)();
+const upvote = throttle(API.user.upvote)();
+const downvote = throttle(API.user.downvote)();
 
 const getHeadline = date =>
   notifyLocales.headline.replace('%s', getFullDate(date));

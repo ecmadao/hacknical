@@ -2,20 +2,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { Loading, Button, SelectorV2, Input } from 'light-ui';
+import { Loading, Button, Input } from 'light-ui';
+import TimePicker from 'rc-times';
+import 'rc-times/css/timepicker.css';
 import settingActions from '../../../redux/actions';
 import styles from '../styles/setting.css';
 import locales from 'LOCALES';
-import { REMINDER_INTERVALS } from 'UTILS/constant/resume';
+import { REMINDER_PREFIX, REMINDER_INTERVALS } from 'UTILS/constant/resume';
 import SwitcherPanel from './SwitcherPanel';
 import Panel from './Panel';
-import CheckPanel from './CheckPanel'
+import CheckPanel from './CheckPanel';
 
-const settingTexts = locales('dashboard').setting;
+const settingTexts = locales('dashboard.setting');
+
+const getReminderIndex = (value) => {
+  let index = REMINDER_INTERVALS.findIndex(obj => obj.id === value);
+  if (index === -1) index = 0;
+  return index;
+};
 
 class DesktopSetting extends React.Component {
   constructor(props) {
     super(props);
+    this.onReminderChange = this.onReminderChange.bind(this);
     this.postResumeReminderChange = this.postResumeReminderChange.bind(this);
   }
 
@@ -111,6 +120,12 @@ class DesktopSetting extends React.Component {
     return panels;
   }
 
+  onReminderChange({ indexs }) {
+    const index = indexs[0];
+    const id = REMINDER_INTERVALS[index].id;
+    this.postResumeReminderChange('type')(id);
+  }
+
   postResumeReminderChange(key) {
     const { actions } = this.props;
     return val => actions.postResumeReminderChange(key, val);
@@ -140,14 +155,19 @@ class DesktopSetting extends React.Component {
       panels.push((
         <Panel key="resumeReminderSetting-2">
           <div className={cx(styles.info_container, styles.subSection)}>
-            <SelectorV2
-              color="white"
-              theme="flat"
-              options={REMINDER_INTERVALS}
-              value={resumeInfo.reminder.type}
-              onChange={this.postResumeReminderChange('type')}
+            <TimePicker
+              sections={[
+                {
+                  prefix: REMINDER_PREFIX,
+                  times: REMINDER_INTERVALS.map(obj => obj.value),
+                  activeIndex: getReminderIndex(resumeInfo.reminder.type)
+                }
+              ]}
+              color="yellow"
+              padding={10}
+              onTimeChange={this.onReminderChange}
             />
-            &nbsp;
+            &nbsp;&nbsp;&nbsp;
             {settingTexts.resume.reminder.sendEmailTo}
             &nbsp;
             <Input

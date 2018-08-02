@@ -126,10 +126,11 @@ const datas = {
       others: 'Others'
     },
     reminders: {
-      quarterly: 'Quarterly',
-      monthly: 'Monthly',
-      weekly: 'Weekly',
-      days3: 'Every 3 days'
+      prefix: 'Every',
+      quarterly: 'Quarter',
+      monthly: 'Month',
+      weekly: 'Week',
+      days3: '3 days'
     },
     view: 'Check %s GitHub visualize report',
     back: 'Back'

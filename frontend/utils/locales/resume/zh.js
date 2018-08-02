@@ -140,10 +140,11 @@ const datas = {
       others: '其他'
     },
     reminders: {
-      quarterly: '每季度',
-      monthly: '每月',
-      weekly: '每周',
-      days3: '每三天'
+      prefix: '每',
+      quarterly: '季度',
+      monthly: '月',
+      weekly: '周',
+      days3: '三天'
     },
     view: '查看%s的 GitHub 总结报告',
     back: '返回'

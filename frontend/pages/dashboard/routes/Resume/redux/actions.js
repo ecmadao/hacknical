@@ -2,7 +2,7 @@ import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'UTILS/object-assign';
 import API from 'API';
 import { wrapper } from './wrapper';
-import { observer } from 'UTILS/helper';
+import { throttle } from 'UTILS/helper';
 
 /**
  * initial
@@ -187,7 +187,7 @@ const postShareTemplate = template => (dispatch, getState) => {
   }
 };
 
-const saveResumeObserver = observer(saveResume);
+const saveResumeObserver = throttle(saveResume);
 
 const handleResumeChange = action => wrapper({
   action,

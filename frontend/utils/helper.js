@@ -159,9 +159,9 @@ export const random = (list) => {
   return list[index];
 };
 
-export const observer = (action, options = {}) => {
+export const throttle = (action, options = {}) => {
   let timeout = null;
-  const { interval = 3000 } = options;
+  const { delay = 3000 } = options;
 
   return dispatch => (...args) => {
     if (timeout) return;
@@ -173,6 +173,6 @@ export const observer = (action, options = {}) => {
     timeout = setTimeout(() => {
       clearTimeout(timeout);
       timeout = null;
-    }, interval);
+    }, delay);
   };
 };

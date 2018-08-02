@@ -21,6 +21,8 @@ const REMINDER_CRON_TYPES = {
   QUARTERLY: 'quarterly',
 };
 
+export const REMINDER_PREFIX = reminderTexts.prefix;
+
 export const REMINDER_INTERVALS = [
   {
     id: REMINDER_CRON_TYPES.QUARTERLY,
