@@ -1,65 +1,58 @@
-## About hacknical
+# About Hacknical
 
-> English version of "About" Doc is not finished yet. You can see this Chinese version instead.
+## What is Hacknical?
 
-### What is hacknical ？
+In my experience, changing jobs, be it when interviewing someone else or being interviewed yourself, is very difficult. Interviewers often don't know enough about skills the interviewee has and some developers with good skills don't know how to show them well. When this happens, there are often one or more of the following flaws in the applicant's resume:
 
-在我工作的经历中，无论是面试别人，或者在换工作时被人面试，都是一件很麻烦的事情。面试官经常对面试者的水平了解不足，而有些水平不错的开发者，也不知道该如何很好的展现自我。在这些状态下，简历里往往会有这样或那样的瑕疵：
+1. The experience on the resume is either not detailed enough or lacks relavant experience.
+2. The candidate doesn't have work online.
+3. The candidate has no visible public or open source code to give the interviewer an idea of his code proficiency and style.
+4. Interviewers lack a metric to understand a developer's degree of proficiency in a certain language.
+5. Interviewees may not be able to pass the interview using their resume, as it doesn't give an idea of their character or personality.
 
-- 工作经历要么描述的太少，要么废话太多
-- 没有实际的线上作品
-- 没有可看的公开或开源代码来让面试官了解自己的代码水平和风格
-- 往往喜欢用 “百分之XX” 这样的进度来表示自己精通某种语言
-- 无法通过简历，看出面试者的灵魂和风格
+Candidates who have are inexperienced can find themselves in an embarrassing interview if they do not have a good template or guide for their resume. Hacknical wants to solve this provlem by allowing users to show their experience in a concise manner and by letting the interviewer easily understand the interviewee's skill level.
 
-所以，对于经验不足的人来说，在书写简历时如果没有一个很好的模板或者引导，比较容易走进一个自嗨的误区。如何言简意赅的展现自己的经历，让面试官认识到自己的水平，则是 hacknical 想要去解决的问题。
+## What can Hacknical do?
 
-### What can it do ?
+Considering the issues raised above, Hacknical will attempt to optimize each step of the resume writing process and guiding you to write a better and more efficient resume.
 
-有了上述的问题，hacknical 会去一步步尝试优化整个流程，引导你写出更好更高效的简历。
+Right now, the app works like this:
 
-目前，功能如下：
+- It provides a better resume fill process.
+- It allows users to log in via github and grab their public repos, commits, languages, stars and followers to generate a more detailed visual summary report.
+- It lets users select between a Github report for their resume, or the Hacknical generated online resume, so that the company they're applying to can know them more accurately.
+- Users can share their Github summary report and generated resume at any time.
 
-- 一个体验更好的简历填写流程。
-- 通过 github 登录，抓取你公开的 repos/commits/languages/star/followers 等信息，生成一张较为详细的可视化总结报告。
-- 你可以选择性的在自己的简历，或者 hacknical 生成的在线简历后面附件上这份 github 报告（推荐），以便让心仪的公司更加精准的了解你。
-- 可以随时选择 公开/私密 自己的在线简历以及 github 总结报告。
+## How Do I Use It?
 
-### How to use ?
+Users can use the app as a tool to view their Github summary report, attach the summary report to your resume and generate their own online resume through it, while optionally attaching the Github summary report.
 
-- 可以单纯的把它作为查看自己 github 总结报告的工具
-- 可以把 github 总结报告附属在自己的简历上
-- 可以通过它生成自己的在线简历，并选择性的附加 github 总结报告
+## What's Next?
 
-### Next ?
+Right now, Hacknical is in the beta stages and not everything works perfectly.
 
-目前，hacknical 仅处于试验阶段，一些地方还不完善：
+**Planned Features**
 
-**计划中的功能：**
+- [x] Predict users' language preferences and trends by analyzing their Github star information
+- [x] Convert users' online resume to PDF
+- [x] Display resumes on mobile
+- [x] Increase statistics available for organisations
+- [ ] Mobile resume editing
+- [ ] More and better resume templates
+- [ ] Increase statistics available contributions to forked projects
 
-- [x] 通过分析用户的 github star 信息，来预测其技术偏好和趋势
-- [x] 将在线简历转为 PDF
-- [ ] 移动端简历的编辑
-- [x] 移动端简历的展示
-- [ ] 更多更好的简历模板
-- [x] 增加对 orgs 的统计
-- [ ] 增加对 fork 项目的 contributions 的统计
+**Known Issues**
 
-**已知的问题：**
+- [x] Users' repos are not fully crawled
+- [x]  After WeChat shares to a circle of friends, the page will be forced to reflow (requires https)
 
-- [x] 用户的 repos 没有抓取完全
-- [x] 微信分享到朋友圈后，页面会被强制重排（需要 https）
+[Raise an issue](https://github.com/ecmadao/hacknical/issues) if you have any other suggestions or find any other problems with the app.
 
-如果有其他的建议，欢迎 [提出 issue](https://github.com/ecmadao/hacknical/issues)
+## Details
 
-### Others
+- Hacknical is an open source project licensed under the [Apache License](https://github.com/ecmadao/hacknical/blob/master/LICENSE).
+- The project repository is located on Github at [ecmadao/hacknical](https://github.com/ecmadao/hacknical).
+- This project is guaranteed to be free for users permanently.
+- To see this app in action, take a look at my [resume]https://hacknical.com/ecmadao/resume) and [Github data analysis report](https://hacknical.com/ecmadao/github), both adapted for the mobile site.
 
-- hacknical 是一个开源项目，遵循 [Apache License](https://github.com/ecmadao/hacknical/blob/master/LICENSE)
-- 项目地址位于：[ecmadao/hacknical](https://github.com/ecmadao/hacknical)
-- 保证对用户永久免费
-- 线上 DEMO
-  - [我的在线简历](https://hacknical.com/ecmadao/resume) -- -- 已适配移动端
-  - [我的 github 数据分析报告](https://hacknical.com/ecmadao/github) -- -- 已适配移动端
-
-你可以 [戳这里](https://github.com/ecmadao/hacknical/issues)，通过 issue 提出你的意见和建议，帮助我更好的完善它，谢谢。
-
+Leave any comments, suggestions or issues at the [issues page](https://github.com/ecmadao/hacknical/issues) to help me improve this app. Thank you.
