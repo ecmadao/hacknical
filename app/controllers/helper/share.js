@@ -1,11 +1,11 @@
 
 import { getValue } from '../../utils/helper';
-import UserAPI from '../../services/user';
+import network from '../../services/network';
 
 const githubEnable = (key = 'params.login') => async (ctx, next) => {
   const login = getValue(ctx, key);
   const { githubLogin } = ctx.session;
-  const user = await UserAPI.getUser({ login });
+  const user = await network.user.getUser({ login });
 
   const userLogin = user.githubLogin;
   if (userLogin !== login || (!user.githubShare && userLogin !== githubLogin)) {
@@ -38,7 +38,7 @@ const resumeParamsFormatter = async (ctx, source) => {
   const value = getValue(ctx, source);
 
   if (key === 'login') {
-    const user = await UserAPI.getUser({ login: value });
+    const user = await network.user.getUser({ login: value });
     return {
       userId: user.userId
     };
@@ -54,7 +54,7 @@ const resumeEnable = (source = 'params.login') => async (ctx, next) => {
   const { userId } = ctx.session;
 
   const qs = await resumeParamsFormatter(ctx, source);
-  const resumeInfo = await UserAPI.getResumeInfo(qs);
+  const resumeInfo = await network.user.getResumeInfo(qs);
 
   if (
     (!resumeInfo

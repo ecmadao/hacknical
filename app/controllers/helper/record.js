@@ -2,8 +2,7 @@
 import logger from '../../utils/logger';
 import notify from '../../services/notify';
 import { getValue } from '../../utils/helper';
-import UserAPI from '../../services/user';
-import StatAPI from '../../services/stat';
+import network from '../../services/network';
 
 const updateViewData = async (ctx, options) => {
   const { platform, browser, device } = ctx.state;
@@ -12,14 +11,14 @@ const updateViewData = async (ctx, options) => {
     login = null,
   } = options;
 
-  await StatAPI.putRecords({
+  await network.stat.putRecords({
     type,
     login,
     platform,
     browser: browser || '',
   });
   if (type) {
-    await StatAPI.putStat({
+    await network.stat.putStat({
       type,
       action: 'pageview'
     });
@@ -51,10 +50,10 @@ const getUser = async (ctx, source) => {
 
   let user;
   if (key === 'hash') {
-    const resumeInfo = await UserAPI.getResumeInfo({ hash: value });
-    user = await UserAPI.getUser({ userId: resumeInfo.userId });
+    const resumeInfo = await network.user.getResumeInfo({ hash: value });
+    user = await network.user.getUser({ userId: resumeInfo.userId });
   } else {
-    user = await UserAPI.getUser({ [key]: value });
+    user = await network.user.getUser({ [key]: value });
   }
 
   return user;

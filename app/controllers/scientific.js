@@ -1,13 +1,12 @@
 
-import GitHubAPI from '../services/github';
+import network from '../services/network';
 import notify from '../services/notify';
 import getCacheKey from './helper/cacheKey';
-import StatAPI from '../services/stat';
 
 const getUserStatistic = async (ctx) => {
   const { login } = ctx.params;
   const { githubToken } = ctx.session;
-  const result = await GitHubAPI.getUserStatistic(login, githubToken);
+  const result = await network.github.getUserStatistic(login, githubToken);
   ctx.body = {
     result,
     success: true,
@@ -18,13 +17,13 @@ const getUserPredictions = async (ctx) => {
   const { login } = ctx.params;
   const { githubToken, githubLogin } = ctx.session;
   const result = login === githubLogin
-    ? (await GitHubAPI.getUserPredictions(githubLogin, githubToken) || [])
+    ? (await network.github.getUserPredictions(githubLogin, githubToken) || [])
     : [];
   const results = [];
   await Promise.all(result.map(async (repository) => {
     const { full_name } = repository;
 
-    const stats = await StatAPI.getStat({
+    const stats = await network.stat.getStat({
       type: 'scientific-feedback',
       action: `${full_name}.liked`
     });
@@ -45,7 +44,7 @@ const removePrediction = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const { fullName } = ctx.request.body;
   if (login === githubLogin) {
-    await GitHubAPI.removePrediction(login, fullName);
+    await network.github.removePrediction(login, fullName);
   }
 
   notify.slack({
@@ -63,7 +62,7 @@ const removePrediction = async (ctx, next) => {
     })
   ];
 
-  await StatAPI.putStat({
+  await network.stat.putStat({
     type: 'scientific-prediction',
     action: `${login}.remove`
   });
@@ -78,7 +77,7 @@ const putPredictionFeedback = async (ctx, next) => {
   const { githubLogin } = ctx.session;
   const { fullName, liked } = ctx.request.body;
   if (login === githubLogin) {
-    await GitHubAPI.putPredictionsFeedback(login, fullName, liked);
+    await network.github.putPredictionsFeedback(login, fullName, liked);
   }
 
   const likeText = Number(liked) > 0 ? 'liked' : 'disliked';
@@ -98,11 +97,11 @@ const putPredictionFeedback = async (ctx, next) => {
   ];
 
   await Promise.all([
-    StatAPI.putStat({
+    network.stat.putStat({
       type: 'scientific-prediction',
       action: `${login}.${likeText}`
     }),
-    StatAPI.putStat({
+    network.stat.putStat({
       type: 'scientific-feedback',
       action: `${fullName}.${likeText}`
     })

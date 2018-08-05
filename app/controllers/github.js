@@ -1,11 +1,9 @@
 /* eslint eqeqeq: "off" */
 import config from 'config';
-import GitHubAPI from '../services/github';
+import network from '../services/network';
 import { combineReposCommits } from './helper/github';
 import { UPDATE_STATUS_TEXT } from '../utils/constant';
 import { is, sortBy } from '../utils/helper';
-import UserAPI from '../services/user';
-import StatAPI from '../services/stat';
 import logger from '../utils/logger';
 
 const services = config.get('services.github');
@@ -14,7 +12,7 @@ const services = config.get('services.github');
 
 const _getUser = async (ctx) => {
   const { login } = ctx.params;
-  const user = await GitHubAPI.getUser(login);
+  const user = await network.github.getUser(login);
   if (!user) {
     return ctx.redirect('/404');
   }
@@ -22,19 +20,19 @@ const _getUser = async (ctx) => {
 };
 
 const _getRepositories = async (login, token) => {
-  const repositories = await GitHubAPI.getUserRepositories(login, token);
+  const repositories = await network.github.getUserRepositories(login, token);
   repositories.sort(sortBy.star);
   return repositories;
 };
 
 const _getContributed = async (login, token) => {
-  const repos = await GitHubAPI.getUserContributed(login, token);
+  const repos = await network.github.getUserContributed(login, token);
   repos.sort(sortBy.star);
   return repos;
 };
 
 const _getCommits = async (login, token) => {
-  const commits = await GitHubAPI.getUserCommits(login, token);
+  const commits = await network.github.getUserCommits(login, token);
   const formatCommits = combineReposCommits(commits);
   commits.sort(sortBy.x('totalCommits', parseInt));
 
@@ -50,7 +48,7 @@ const toggleShare = async (ctx) => {
   const { userId } = ctx.session;
   const { enable } = ctx.request.body;
 
-  await UserAPI.updateUser(userId, { githubShare: Boolean(enable) });
+  await network.user.updateUser(userId, { githubShare: Boolean(enable) });
   const message = Boolean(enable) == true
     ? 'messages.share.toggleOpen'
     : 'messages.share.toggleClose'
@@ -62,7 +60,7 @@ const toggleShare = async (ctx) => {
 
 const getAllRepositories = async (ctx, next) => {
   const { githubLogin, githubToken } = ctx.session;
-  const repos = await GitHubAPI.getUserRepositories(githubLogin, githubToken);
+  const repos = await network.github.getUserRepositories(githubLogin, githubToken);
   const result = [];
 
   for (const repository of repos) {
@@ -132,7 +130,7 @@ const getUserLanguages = async (ctx, next) => {
   const { login } = ctx.params;
   const { githubToken } = ctx.session;
 
-  const languages = await GitHubAPI.getUserLanguages(login, githubToken);
+  const languages = await network.github.getUserLanguages(login, githubToken);
   ctx.body = {
     success: true,
     result: languages
@@ -144,7 +142,7 @@ const getUserOrganizations = async (ctx, next) => {
   const { login } = ctx.params;
   const { githubToken } = ctx.session;
   const organizations =
-    await GitHubAPI.getUserOrganizations(login, githubToken);
+    await network.github.getUserOrganizations(login, githubToken);
 
   ctx.body = {
     success: true,
@@ -157,7 +155,7 @@ const getUser = async (ctx, next) => {
   const { login } = ctx.params;
   const [user, userInfo] = await Promise.all([
     _getUser(ctx),
-    UserAPI.getUser({ login })
+    network.user.getUser({ login })
   ]);
 
   const result = Object.assign({}, user);
@@ -194,7 +192,7 @@ const getShareRecords = async (ctx) => {
 
   let records = [];
   try {
-    records = await StatAPI.getRecords({
+    records = await network.stat.getRecords({
       login: githubLogin,
       type: 'github'
     });
@@ -202,7 +200,7 @@ const getShareRecords = async (ctx) => {
     logger.error(e);
   }
 
-  const userInfo = await UserAPI.getUser({ login: githubLogin });
+  const userInfo = await network.user.getUser({ login: githubLogin });
 
   const viewDevices = [];
   const viewSources = [];
@@ -233,7 +231,7 @@ const refreshEnable = (status, lastUpdate) =>
 
 const getUpdateStatus = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
-  const statusResult = await GitHubAPI.getUpdateStatus(githubLogin);
+  const statusResult = await network.github.getUpdateStatus(githubLogin);
   logger.info(`${githubLogin} update status: ${JSON.stringify(statusResult)}`);
   const {
     status,
@@ -242,7 +240,7 @@ const getUpdateStatus = async (ctx) => {
 
   const statusCode = parseInt(status, 10);
   if (statusCode === 1) {
-    await UserAPI.updateUser(userId, { initialed: true });
+    await network.user.updateUser(userId, { initialed: true });
   }
   const messageKey = UPDATE_STATUS_TEXT[statusCode];
 
@@ -262,7 +260,7 @@ const getUpdateStatus = async (ctx) => {
 
 const updateUserData = async (ctx) => {
   const { githubToken, githubLogin } = ctx.session;
-  await GitHubAPI.updateUserData(githubLogin, githubToken);
+  await network.github.updateUserData(githubLogin, githubToken);
 
   ctx.body = {
     success: true,
@@ -272,7 +270,7 @@ const updateUserData = async (ctx) => {
 
 const getZen = async (ctx) => {
   const { githubToken } = ctx.session;
-  const val = await GitHubAPI.getZen(githubToken);
+  const val = await network.github.getZen(githubToken);
   const result = is.object(val) ? '' : val;
 
   ctx.body = {
@@ -282,7 +280,7 @@ const getZen = async (ctx) => {
 };
 
 const getOctocat = async (ctx) => {
-  const result = await GitHubAPI.getOctocat();
+  const result = await network.github.getOctocat();
   ctx.body = {
     result,
     success: true,
@@ -292,7 +290,7 @@ const getOctocat = async (ctx) => {
 const getUserHotmap = async (ctx, next) => {
   const { login } = ctx.params;
   const { locale } = ctx.session;
-  const result = await GitHubAPI.getHotmap(login, locale);
+  const result = await network.github.getHotmap(login, locale);
 
   ctx.body = {
     result,

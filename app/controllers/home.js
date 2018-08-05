@@ -1,15 +1,13 @@
 
-import GitHubAPI from '../services/github';
+import network from '../services/network';
 import getLanguages from '../config/languages';
 import logger from '../utils/logger';
-import UserAPI from '../services/user';
-import StatAPI from '../services/stat';
 import notify from '../services/notify';
 
 const landingPage = async (ctx) => {
   const { locale } = ctx.state;
   const languages = getLanguages(locale);
-  const clientId = await GitHubAPI.getVerify();
+  const clientId = await network.github.getVerify();
 
   await ctx.render('user/login', {
     clientId,
@@ -42,7 +40,7 @@ const dashboard = async (ctx) => {
   const { device, browser, platform } = ctx.state;
   const { githubLogin, userId } = ctx.session;
   const { login, dashboardRoute = 'visualize' } = ctx.params;
-  const user = await UserAPI.getUser({ userId });
+  const user = await network.user.getUser({ userId });
 
   logger.debug(`githubLogin: ${githubLogin}, userId: ${userId}`);
   logger.debug(user);
@@ -71,7 +69,7 @@ const dashboard = async (ctx) => {
 const initial = async (ctx) => {
   const { githubLogin, userId } = ctx.session;
   logger.debug(`githubLogin: ${githubLogin}, userId: ${userId}`);
-  const user = await UserAPI.getUser({ userId });
+  const user = await network.user.getUser({ userId });
 
   logger.debug(user);
 
@@ -96,9 +94,9 @@ const statistic = async (ctx) => {
     githubFields,
     resumeFields
   ] = await Promise.all([
-    UserAPI.getUserCount(),
-    StatAPI.getStat({ type: 'github' }),
-    StatAPI.getStat({ type: 'resume' })
+    network.user.getUserCount(),
+    network.stat.getStat({ type: 'github' }),
+    network.stat.getStat({ type: 'resume' })
   ]);
 
   const github = combineStat(githubFields || []);

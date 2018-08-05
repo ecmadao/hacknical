@@ -5,8 +5,7 @@ import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import logger from '../utils/logger';
 import notify from '../services/notify';
-import UserAPI from '../services/user';
-import StatAPI from '../services/stat';
+import network from '../services/network';
 import { formatObject } from '../utils/helper';
 
 /* ===================== private ===================== */
@@ -44,7 +43,7 @@ const getResumeShareStatus = (resumeInfo, locale) => {
 
 const getResume = async (ctx) => {
   const { userId } = ctx.session;
-  const data = await UserAPI.getResume({ userId });
+  const data = await network.user.getResume({ userId });
 
   ctx.body = {
     success: true,
@@ -58,14 +57,14 @@ const setResume = async (ctx, next) => {
   const { userId, githubLogin } = ctx.session;
 
   const targetResume = formatObject(resume);
-  const result = await UserAPI.updateResume({
+  const result = await network.user.updateResume({
     userId,
     login: githubLogin,
     resume: targetResume
   });
 
   if (result.newResume) {
-    await StatAPI.putStat({
+    await network.stat.putStat({
       type: 'resume',
       action: 'count'
     });
@@ -96,7 +95,7 @@ const setResume = async (ctx, next) => {
 
 const patchResume = async (ctx, next) => {
   const { userId, githubLogin } = ctx.session;
-  const getResult = await UserAPI.getResume({ userId });
+  const getResult = await network.user.getResume({ userId });
   const resume = Object.assign({}, getResult ? getResult.resume : {});
   const { data } = ctx.request.body;
 
@@ -108,7 +107,7 @@ const patchResume = async (ctx, next) => {
     }
   }
 
-  const result = await UserAPI.updateResume({
+  const result = await network.user.updateResume({
     userId,
     resume,
     login: githubLogin,
@@ -134,8 +133,8 @@ const downloadResume = async (ctx) => {
     result,
     findResult
   ] = await Promise.all([
-    UserAPI.getResumeInfo({ userId }),
-    UserAPI.getResume({ userId })
+    network.user.getResumeInfo({ userId }),
+    network.user.getResume({ userId })
   ]);
   const { template, resumeHash } = result;
 
@@ -163,7 +162,7 @@ const downloadResume = async (ctx) => {
 
   logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
 
-  await StatAPI.putStat({
+  await network.stat.putStat({
     type: 'resume',
     action: 'download'
   });
@@ -188,7 +187,7 @@ const downloadResume = async (ctx) => {
 const resumePage = async (ctx) => {
   const { resumeInfo } = ctx;
   const { login } = resumeInfo;
-  const user = await UserAPI.getUser({ login });
+  const user = await network.user.getUser({ login });
 
   const { device } = ctx.state;
   const { fromDownload, githubLogin } = ctx.session;
@@ -210,7 +209,7 @@ const resumePage = async (ctx) => {
 
 const getResumeByHash = async (ctx, next) => {
   const { hash } = ctx.query;
-  const findResult = await UserAPI.getResume({ hash });
+  const findResult = await network.user.getResume({ hash });
 
   let result = null;
   if (findResult) {
@@ -237,7 +236,7 @@ const getResumeInfo = async (ctx) => {
   } else {
     qs.userId = ctx.session.userId;
   }
-  const resumeInfo = await UserAPI.getResumeInfo(qs);
+  const resumeInfo = await network.user.getResumeInfo(qs);
 
   let result = null;
   if (resumeInfo) {
@@ -252,7 +251,7 @@ const getResumeInfo = async (ctx) => {
 const getShareRecords = async (ctx) => {
   const { userId, githubLogin } = ctx.session;
 
-  const resumeInfo = await UserAPI.getResumeInfo({ userId });
+  const resumeInfo = await network.user.getResumeInfo({ userId });
   if (!resumeInfo) {
     return ctx.body = {
       success: true,
@@ -266,7 +265,7 @@ const getShareRecords = async (ctx) => {
     };
   }
 
-  const records = await StatAPI.getRecords({
+  const records = await network.stat.getRecords({
     login: githubLogin,
     type: 'resume'
   });
@@ -296,7 +295,7 @@ const setResumeInfo = async (ctx) => {
   const { info } = ctx.request.body;
   const { userId, githubLogin } = ctx.session;
 
-  const result = await UserAPI.setResumeInfo({
+  const result = await network.user.setResumeInfo({
     info,
     userId,
     login: githubLogin
@@ -312,7 +311,7 @@ const setResumeReminder = async (ctx) => {
   const { reminder } = ctx.request.body;
   const { userId, githubLogin } = ctx.session;
 
-  const result = await UserAPI.patchResumeReminder({
+  const result = await network.user.patchResumeReminder({
     reminder,
     userId,
     login: githubLogin

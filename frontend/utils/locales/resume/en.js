@@ -150,7 +150,7 @@ const datas = {
       title: 'Instructions',
       texts: [
         'Complete your resume step by step, and you can use cmd/win + s to save it at any time',
-        'Use shift + <-/-> to switch previous/next step',
+        'Use shift + ←/→ to switch previous/next step',
         'Click "Preview"(or using cmd/win + p) to preview your resume'
       ]
     },

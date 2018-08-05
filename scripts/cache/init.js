@@ -1,8 +1,7 @@
 
 import config from 'config';
 import { getRedis } from '../../app/middlewares/cache';
-import UserAPI from '../../app/services/user';
-import StatAPI from '../../app/services/stat';
+import network from '../../app/services/network';
 
 const redisUrl = config.get('database.redis');
 
@@ -11,19 +10,19 @@ const init = async () => {
     const cache = getRedis({
       url: redisUrl
     });
-    const userCount = await UserAPI.getUserCount();
-    const resumeCount = await UserAPI.getResumeCount();
-    const records = await StatAPI.getAllRecords();
+    const userCount = await network.user.getUserCount();
+    const resumeCount = await network.user.getResumeCount();
+    const records = await network.stat.getAllRecords();
 
     console.log(`users: ${userCount}`);
     console.log(`resumes: ${resumeCount}`);
 
-    await StatAPI.putStat({
+    await network.stat.putStat({
       type: 'github',
       action: 'count',
       count: userCount
     });
-    await StatAPI.putStat({
+    await network.stat.putStat({
       type: 'resume',
       action: 'count',
       count: resumeCount
@@ -46,12 +45,12 @@ const init = async () => {
       }
     }
 
-    await StatAPI.putStat({
+    await network.stat.putStat({
       type: 'github',
       action: 'pageview',
       count: githubPageview
     });
-    await StatAPI.putStat({
+    await network.stat.putStat({
       type: 'resume',
       action: 'pageview',
       count: resumePageview

@@ -1,10 +1,8 @@
 
-import GitHubAPI from '../services/github';
+import network from '../services/network';
 import getCacheKey from './helper/cacheKey';
 import logger from '../utils/logger';
-import UserAPI from '../services/user';
 import notify from '../services/notify';
-import StatAPI from '../services/stat';
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx);
@@ -48,15 +46,15 @@ const logout = async (ctx) => {
 const loginByGitHub = async (ctx) => {
   const { code } = ctx.request.query;
   try {
-    const githubToken = await GitHubAPI.getToken(code);
-    const userInfo = await GitHubAPI.getLogin(githubToken);
+    const githubToken = await network.github.getToken(code);
+    const userInfo = await network.github.getLogin(githubToken);
     logger.debug(userInfo);
 
     if (userInfo.login) {
       ctx.session.githubToken = githubToken;
       ctx.session.githubLogin = userInfo.login;
 
-      const user = await UserAPI.createUser(userInfo);
+      const user = await network.user.createUser(userInfo);
       notify.slack({
         mq: ctx.mq,
         data: {
@@ -67,7 +65,9 @@ const loginByGitHub = async (ctx) => {
 
       logger.info(`[USER:LOGIN] ${JSON.stringify(user)}`);
       ctx.session.userId = user.userId;
-      if (user && user.initialed) GitHubAPI.updateUserData(ctx.session.githubLogin, githubToken);
+      if (user && user.initialed) {
+        network.github.updateUserData(ctx.session.githubLogin, githubToken);
+      }
       return ctx.redirect(`/${ctx.session.githubLogin}`);
     }
     return ctx.redirect('/user/logout');
@@ -81,8 +81,8 @@ const initialFinished = async (ctx) => {
   const { userId } = ctx.session;
 
   await Promise.all([
-    UserAPI.updateUser(userId, { initialed: true }),
-    StatAPI.putStat({
+    network.user.updateUser(userId, { initialed: true }),
+    network.stat.putStat({
       type: 'github',
       action: 'count'
     })
@@ -96,7 +96,7 @@ const initialFinished = async (ctx) => {
 
 const getUserInfo = async (ctx) => {
   const { login } = ctx.query;
-  const user = await UserAPI.getUser({
+  const user = await network.user.getUser({
     login: login || ctx.session.githubLogin
   });
 
@@ -110,7 +110,7 @@ const setUserInfo = async (ctx) => {
   const { userId } = ctx.session;
   const { info } = ctx.request.body;
 
-  await UserAPI.updateUser(userId, info);
+  await network.user.updateUser(userId, info);
   ctx.body = {
     success: true
   };
@@ -119,7 +119,7 @@ const setUserInfo = async (ctx) => {
 const getUnreadNotifies = async (ctx) => {
   const { userId, locale } = ctx.session;
 
-  const datas = await StatAPI.getUnreadNotifies(userId, locale);
+  const datas = await network.stat.getUnreadNotifies(userId, locale);
   ctx.body = {
     result: datas,
     success: true
@@ -128,7 +128,7 @@ const getUnreadNotifies = async (ctx) => {
 
 const getNotifies = async (ctx) => {
   const { locale } = ctx.session;
-  const datas = await StatAPI.getNotifies(locale);
+  const datas = await network.stat.getNotifies(locale);
   ctx.body = {
     result: datas,
     success: true
@@ -139,7 +139,7 @@ const markNotifies = async (ctx) => {
   const { userId } = ctx.session;
   const { ids } = ctx.request.body;
 
-  await StatAPI.markNotifies(userId, ids);
+  await network.stat.markNotifies(userId, ids);
   ctx.body = {
     success: true
   };
@@ -154,7 +154,7 @@ const notifyUpvote = async (ctx) => {
       data: `Upvote ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`
     }
   });
-  await StatAPI.notifyUpvote(userId, messageId);
+  await network.stat.notifyUpvote(userId, messageId);
   ctx.body = {
     success: true
   };
@@ -169,7 +169,7 @@ const notifyDownvote = async (ctx) => {
       data: `Downvote ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`
     }
   });
-  await StatAPI.notifyDownvote(userId, messageId);
+  await network.stat.notifyDownvote(userId, messageId);
   ctx.body = {
     success: true
   };

@@ -7,6 +7,7 @@ import logger from './logger';
 export const shadowImport = (folder, options) => {
   const {
     prefix,
+    loader = null,
     params = [],
     excludes = [],
     nameFormatter,
@@ -25,24 +26,36 @@ export const shadowImport = (folder, options) => {
       try {
         let type;
         let Module;
+        let result;
 
-        if (fs.statSync(filepath).isFile()) {
-          type = name.split('.').slice(0, -1).join('.');
-          Module = require(filepath).default;
+        const isFile = fs.statSync(filepath).isFile();
+
+        if (loader) {
+          const fullpath = isFile
+            ? filepath
+            : `${filepath}/index.js`;
+          result = loader(fullpath, name);
         } else {
-          type = name;
-          Module = require(`${filepath}/index.js`).default;
-        }
+          if (fs.statSync(filepath).isFile()) {
+            type = name.split('.').slice(0, -1).join('.');
+            Module = require(filepath).default;
+          } else {
+            type = name;
+            Module = require(`${filepath}/index.js`).default;
+          }
 
-        if (!Module || (requiredExport && Module[requiredExport] === undefined)) {
-          throw new Error(`Module.${requiredExport} missing for ${filepath}`);
+          if (!Module || (requiredExport && Module[requiredExport] === undefined)) {
+            throw new Error(`Module.${requiredExport} missing for ${filepath}`);
+          }
+
+          result = instantiation
+            ? new Module(...params)
+            : Module;
         }
 
         let key = nameFormatter ? nameFormatter(type) : type;
         key = prefix ? `${prefix}.${key}` : key;
-        cur[Symbol.for(key)] = instantiation
-          ? new Module(...params)
-          : Module;
+        cur[Symbol.for(key)] = result;
         logger.info(`Module ${filepath} load as ${key}`);
       } catch (e) {
         logger.error(e);
