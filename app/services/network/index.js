@@ -11,18 +11,19 @@ const APP_NAME = config.get('appName');
 const fetchApi = (baseUrl, source, timeouts) => (options = {}) => {
   const {
     body,
-    url = '',
     qs = {},
     headers = {},
     method = 'get',
   } = options;
   headers['X-App-Name'] = APP_NAME;
+  let { url = '' } = options;
+  url = `api/${url}`.split('/').filter(s => s).join('/');
   return fetch[method]({
     qs,
     body,
     source,
     headers,
-    url: `${baseUrl}/api/${url}`.split('/').filter(s => s).join('/'),
+    url: `${baseUrl}/${url}`,
   }, timeouts);
 };
 
@@ -37,7 +38,7 @@ const DELIVER = shadowImport(path.join(__dirname, 'lib'), {
           throw new Error(`[INVALIDATE METHOD] unknown method ${name}`);
         }
 
-        const service = config.get(`services.${name}`);
+        const service = config.get(`services.${baseName}`);
         const { url, timeouts } = service;
         const request = fetchApi(url, baseName, timeouts);
 

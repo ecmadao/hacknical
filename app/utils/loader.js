@@ -24,25 +24,21 @@ export const shadowImport = (folder, options) => {
     .reduce((cur, name) => {
       const filepath = path.resolve(folder, name);
       try {
-        let type;
         let Module;
         let result;
 
         const isFile = fs.statSync(filepath).isFile();
+        const type = isFile
+          ? name.split('.').slice(0, -1).join('.')
+          : name;
+        const fullpath = isFile
+          ? filepath
+          : `${filepath}/index.js`;
 
         if (loader) {
-          const fullpath = isFile
-            ? filepath
-            : `${filepath}/index.js`;
-          result = loader(fullpath, name);
+          result = loader(fullpath, type);
         } else {
-          if (fs.statSync(filepath).isFile()) {
-            type = name.split('.').slice(0, -1).join('.');
-            Module = require(filepath).default;
-          } else {
-            type = name;
-            Module = require(`${filepath}/index.js`).default;
-          }
+          Module = require(fullpath).default;
 
           if (!Module || (requiredExport && Module[requiredExport] === undefined)) {
             throw new Error(`Module.${requiredExport} missing for ${filepath}`);

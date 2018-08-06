@@ -64,7 +64,7 @@ const setResume = async (ctx, next) => {
   });
 
   if (result.newResume) {
-    await network.stat.putStat({
+    network.stat.putStat({
       type: 'resume',
       action: 'count'
     });
@@ -162,7 +162,7 @@ const downloadResume = async (ctx) => {
 
   logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
 
-  await network.stat.putStat({
+  network.stat.putStat({
     type: 'resume',
     action: 'download'
   });

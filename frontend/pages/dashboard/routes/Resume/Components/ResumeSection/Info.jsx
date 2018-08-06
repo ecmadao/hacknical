@@ -75,9 +75,9 @@ class Info extends React.Component {
             <InputGroupV2
               sections={[
                 {
-                  value: prefix,
+                  value: prefix || '',
                   placeholder: resumeTexts.emailPrefix,
-                  onChange: val => this.handleInfoChange('email')(`${val}@${suffix}`)
+                  onChange: val => this.handleInfoChange('email')(`${val}@${suffix || ''}`)
                 },
                 {
                   value: '@',
@@ -89,10 +89,10 @@ class Info extends React.Component {
                   }
                 },
                 {
-                  value: suffix,
+                  value: suffix || '',
                   placeholder: resumeTexts.emailSuffix,
                   style: { width: 100 },
-                  onChange: val => this.handleInfoChange('email')(`${prefix}@${val}`)
+                  onChange: val => this.handleInfoChange('email')(`${prefix || ''}@${val}`)
                 }
               ]}
               theme="flat"
