@@ -86,3 +86,8 @@
   opacity: 0;
   transform: translateY(-15%);
 }
+
+.navWrapper {
+  max-height: 450px;
+  overflow-y: scroll;
+}

@@ -6,14 +6,16 @@ const datas = {
     saving: '保存中',
     preview: '预览',
     pre: '上一步',
-    next: '下一步'
+    next: '下一步',
+    confirm: '确定'
   },
   messages: {
     download: '简历生成中，请稍后（初次生成所需的时间稍长）',
     downloadTip: '如简历有更新，请先保存再下载',
     templateTip: '改变简历模板',
     downloadSuccess: '简历生成完毕，正在下载',
-    downloadError: '简历生成失败'
+    downloadError: '简历生成失败',
+    addModuleError: '请输入模块名称'
   },
   modal: {
     shareText: '分享你的个人简历',
@@ -120,6 +122,8 @@ const datas = {
     internship: '实习经历',
     projects: '个人项目',
     others: '其他补充',
+    addNew: '新增模块',
+    moduleName: '模块名称'
   },
   options: {
     genders: {

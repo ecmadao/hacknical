@@ -6,14 +6,16 @@ const datas = {
     saving: 'Saving',
     preview: 'Preview',
     pre: 'Pre',
-    next: 'Next'
+    next: 'Next',
+    confirm: 'Confirm'
   },
   messages: {
     download: 'Resume is rendering, please wait later.',
     downloadTip: 'Please save your changes before download resume',
     templateTip: 'Change resume template',
     downloadSuccess: 'Successfully created, downloading now',
-    downloadError: 'Resume create failed'
+    downloadError: 'Resume create failed',
+    addModuleError: 'Please input module name'
   },
   modal: {
     shareText: 'to share your resume',
@@ -106,6 +108,8 @@ const datas = {
     internship: 'Internship',
     projects: 'Projects',
     others: 'Other',
+    addNew: 'Add new',
+    moduleName: 'Module name'
   },
   options: {
     genders: {

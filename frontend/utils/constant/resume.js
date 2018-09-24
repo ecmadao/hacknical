@@ -12,6 +12,7 @@ const RESUME_SECTION_IDS = {
   EDUCATIONS: 'educations',
   WORK_EXPERIENCE: 'workExperiences',
   PERSONAL_PROJECTS: 'personalProjects',
+  ADD_NEW: 'addNew'
 };
 
 const REMINDER_CRON_TYPES = {

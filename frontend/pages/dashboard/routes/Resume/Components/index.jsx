@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Push from 'push.js';
-import { Button, IconButton, Tipso } from 'light-ui';
+import { Button, IconButton, Input, Tipso } from 'light-ui';
 import styles from '../styles/resume.css';
 import ShareModal from 'COMPONENTS/ShareModal';
 import ResumeSection from './ResumeSection';
@@ -19,9 +19,10 @@ import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter';
 import message from 'UTILS/message';
 import Navigation from 'COMPONENTS/Navigation';
 import HeartBeat from 'UTILS/heartbeat';
+import NavSection from './NavSection';
 
 const resumeTexts = locales('resume');
-const { editedConfirm, messages } = resumeTexts;
+const { editedConfirm, messages, navs, buttons } = resumeTexts;
 
 class Resume extends React.Component {
   constructor(props) {
@@ -167,6 +168,12 @@ class Resume extends React.Component {
     this.handleSectionChange(section.id);
   }
 
+  renderSectionCreator() {
+    return (
+      <NavSection />
+    );
+  }
+
   render() {
     const {
       openModal,
@@ -187,6 +194,8 @@ class Resume extends React.Component {
       activeSection,
       downloadDisabled,
     } = resume;
+
+    console.log(sections);
     const { url, openShare, template } = shareInfo;
 
     const origin = window.location.origin;
@@ -201,6 +210,7 @@ class Resume extends React.Component {
           sections={sections}
           activeSection={activeSection}
           handleSectionChange={this.handleSectionChange}
+          tail={this.renderSectionCreator()}
         />
         <div className={styles.resume_operations}>
           <div className={styles.operations_wrapper}>

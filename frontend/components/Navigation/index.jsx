@@ -36,6 +36,7 @@ class Nav extends React.PureComponent {
       id,
       status,
       sections,
+      tail = null,
       activeSection,
       onTransitionEnd,
       handleSectionChange
@@ -68,7 +69,10 @@ class Nav extends React.PureComponent {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        {navs}
+        <div className={styles.navWrapper}>
+          {navs}
+        </div>
+        {tail}
       </div>
     );
   }
