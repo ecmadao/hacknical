@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Input, SelectorV2 } from 'light-ui';
 import WritableList from 'COMPONENTS/WritableList';
@@ -12,52 +13,39 @@ const resumeTexts = locales('resume.sections.educations');
 class Education extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      entranceOpen: false,
-      graduationOpen: false
-    };
+
     this.addExperience = this.addExperience.bind(this);
     this.deleteExperience = this.deleteExperience.bind(this);
     this.changeExperience = this.changeExperience.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
-    this.handleEntranceFocus = this.handleEntranceFocus.bind(this);
-    this.handleGraduationFocus = this.handleGraduationFocus.bind(this);
-  }
-
-  handleEntranceFocus({ focused: entranceOpen }) {
-    this.setState({ entranceOpen });
-  }
-
-  handleGraduationFocus({ focused: graduationOpen }) {
-    this.setState({ graduationOpen });
   }
 
   onDateChange(type) {
-    const { handleEduChange } = this.props;
+    const { handleChange } = this.props;
     return (momentTime) => {
       const time = momentTime.format('L');
-      handleEduChange && handleEduChange(type)(time);
+      handleChange && handleChange(type)(time);
     };
   }
 
   addExperience(experience) {
-    const { edu, handleEduChange } = this.props;
+    const { edu, handleChange } = this.props;
     const { experiences = [] } = edu;
-    handleEduChange('experiences')([...experiences, experience]);
+    handleChange('experiences')([...experiences, experience]);
   }
 
   deleteExperience(index) {
-    const { edu, handleEduChange } = this.props;
+    const { edu, handleChange } = this.props;
     const { experiences } = edu;
-    handleEduChange('experiences')(
+    handleChange('experiences')(
       [...experiences.slice(0, index), ...experiences.slice(index + 1)]
     );
   }
 
   changeExperience(experience, index) {
-    const { edu, handleEduChange } = this.props;
+    const { edu, handleChange } = this.props;
     const { experiences } = edu;
-    handleEduChange('experiences')(
+    handleChange('experiences')(
       [
         ...experiences.slice(0, index),
         experience,
@@ -70,9 +58,9 @@ class Education extends React.Component {
     const {
       edu,
       disabled,
-      deleteEdu,
+      handleDelete,
       freshGraduate,
-      handleEduChange,
+      handleChange,
     } = this.props;
     const {
       major,
@@ -86,7 +74,7 @@ class Education extends React.Component {
     return (
       <div className={styles.resume_piece_container}>
         <div className={styles.resume_wrapper}>
-          <div className={styles.resume_delete} onClick={deleteEdu}>
+          <div className={styles.resume_delete} onClick={handleDelete}>
             <i className="fa fa-trash-o" aria-hidden="true" />
           </div>
           <Input
@@ -95,7 +83,7 @@ class Education extends React.Component {
             disabled={disabled}
             placeholder={resumeTexts.school}
             className={styles.single_input}
-            onChange={handleEduChange('school')}
+            onChange={handleChange('school')}
           />
         </div>
         <div className={styles.resume_wrapper}>
@@ -104,14 +92,14 @@ class Education extends React.Component {
             value={major}
             disabled={disabled}
             placeholder={resumeTexts.major}
-            onChange={handleEduChange('major')}
+            onChange={handleChange('major')}
           />
           <SelectorV2
             theme="flat"
             value={education}
             disabled={disabled}
             options={EDUCATIONS}
-            onChange={handleEduChange('education')}
+            onChange={handleChange('education')}
           />
         </div>
         <div className={styles.resume_wrapper}>
@@ -122,8 +110,8 @@ class Education extends React.Component {
             endText={resumeTexts.graduateAt}
             startText={resumeTexts.entranceAt}
             maxDate={dateHelper.date.afterYears(5)}
-            onStartChange={handleEduChange('startTime')}
-            onEndChange={handleEduChange('endTime')}
+            onStartChange={handleChange('startTime')}
+            onEndChange={handleChange('endTime')}
           />
         </div>
         {freshGraduate ? (

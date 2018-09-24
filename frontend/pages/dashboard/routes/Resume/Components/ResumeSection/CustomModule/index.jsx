@@ -5,30 +5,54 @@ import { bindActionCreators } from 'redux';
 import resumeActions from '../../../redux/actions';
 import locales from 'LOCALES';
 import SectionWrapper from '../shared/SectionWrapper';
+import Section from './Section';
 
 const resumeTexts = locales('resume.sections.custom');
 
 class CustomModule extends React.Component {
   constructor(props) {
     super(props);
-    // this.deleteEdu = this.deleteEdu.bind(this);
-    // this.handleEduChange = this.handleEduChange.bind(this);
+    this.deleteSection = this.deleteSection.bind(this);
+    this.handleSectionChange = this.handleSectionChange.bind(this);
+  }
+
+  handleSectionChange(sectionIndex) {
+    const { actions, moduleIndex } = this.props;
+    return type => (value) => {
+      actions.changeModuleSection({ [type]: value }, moduleIndex, sectionIndex);
+    };
+  }
+
+  deleteSection(sectionIndex) {
+    const { actions, moduleIndex } = this.props;
+    return () => actions.deleteModuleSection(moduleIndex, sectionIndex);
   }
 
   renderModule() {
-    const { module } = this.props;
+    const { module, disabled } = this.props;
     const { sections } = module;
-    return null;
+    return sections.map((section, index) => (
+      <Section
+        key={index}
+        index={index}
+        section={section}
+        disabled={disabled}
+        handleDelete={this.deleteSection(index)}
+        handleChange={this.handleSectionChange(index)}
+      />
+    ));
   }
 
   render() {
-    const { actions, index } = this.props;
+    const { actions, moduleIndex } = this.props;
     return (
       <SectionWrapper
         editButton
+        titleEditable
         {...this.props}
         button={resumeTexts.mainButton}
-        onClick={() => actions.addModuleSection(index)}
+        onTitleChange={actions.changeModuleTitle}
+        onClick={() => actions.addModuleSection(moduleIndex)}
       >
         {this.renderModule()}
       </SectionWrapper>
@@ -38,11 +62,10 @@ class CustomModule extends React.Component {
 
 function mapStateToProps(state) {
   const { customModules, activeSection } = state.resume;
-  const index = customModules.findIndex(module => module.id === activeSection);
-  console.log(`customModule index: ${index}`)
+  const moduleIndex = customModules.findIndex(module => module.id === activeSection);
   return {
-    index,
-    module: customModules[index]
+    moduleIndex,
+    module: customModules[moduleIndex]
   };
 }
 

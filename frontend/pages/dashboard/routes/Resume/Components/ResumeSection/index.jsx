@@ -1,9 +1,6 @@
 
 import React from 'react';
 import asyncComponent from 'COMPONENTS/AsyncComponent';
-import locales from 'LOCALES';
-
-const resumeTexts = locales('resume');
 
 const sections = {
   info: asyncComponent(
@@ -34,10 +31,11 @@ const sections = {
 
 const ResumeSection = (props) => {
   const { section } = props;
-  const Section = sections[section] || sections.custom;
-  const title = resumeTexts.sections[section] ? resumeTexts.sections[section].title : section;
+  const Section = sections[section.id] || sections.custom;
+  const title = section.text;
+
   return (
-    <Section {...props} title={title} />
+    <Section {...props} title={title} section={section.id} />
   );
 };
 

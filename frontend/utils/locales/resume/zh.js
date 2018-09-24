@@ -117,8 +117,12 @@ const datas = {
       }
     },
     custom: {
+      homepage: '相关链接',
       mainButton: '添加一段内容',
       sideButton: '添加描述',
+      introText: '添加相应的描述',
+      sectionTitle: '标题',
+      addSectionDetail: '添加相应的描述'
     }
   },
   navs: {

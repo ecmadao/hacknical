@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Button, AnimationComponent } from 'light-ui';
+import { Input, Button, AnimationComponent } from 'light-ui';
 import cx from 'classnames';
 import SectionTip from './SectionTip';
 import locales from 'LOCALES';
@@ -8,72 +8,132 @@ import styles from '../../../styles/resume.css';
 
 const resumeTexts = locales('resume');
 
-const Wrapper = (props) => {
-  const { onSectionChange, onExit, title } = props;
-  const onStepChange = (step) => {
-    const callback = () => onSectionChange && onSectionChange(step);
-    onExit && onExit(callback);
-  };
+class Wrapper extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div
-      className={cx(
-        styles.resume_sections,
-        styles[`resume_sections-${props.status}`]
-      )}
-      onTransitionEnd={props.onTransitionEnd}
-    >
-      <div className={styles.resume_section_container}>
-        <div className={styles.section_title}>
-          {title}
-          &nbsp;
-          <SectionTip {...props} />
-        </div>
-        <div>
-          {props.children}
-        </div>
-        {props.editButton && (
-          <div className={styles.resume_button_container}>
-            <Button
-              theme="flat"
-              value={props.button}
-              disabled={props.disabled}
-              leftIcon={(
-                <i className="fa fa-plus-circle" aria-hidden="true" />
-              )}
-              onClick={props.onClick}
-            />
-          </div>
+    this.state = {
+      titleEditing: false
+    };
+    this.onTitleChange = this.onTitleChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+  }
+
+  onBlur() {
+    this.setState({ titleEditing: false });
+  }
+
+  onFocus() {
+    const { currentIndex } = this.props;
+    this.setState({ titleEditing: true });
+    setTimeout(() => $(`#section-${currentIndex}`).focus(), 200);
+  }
+
+  onTitleChange(newTitle) {
+    const { titleEditing } = this.state;
+    const { title, titleEditable, onTitleChange } = this.props;
+    titleEditing && titleEditable && onTitleChange && onTitleChange(title, newTitle);
+  }
+
+  render() {
+    const {
+      title,
+      status,
+      onExit,
+      children,
+      maxIndex,
+      editButton,
+      currentIndex,
+      onTransitionEnd,
+      onSectionChange,
+      titleEditable = false,
+    } = this.props;
+    const { titleEditing } = this.state;
+
+    const onStepChange = (step) => {
+      const callback = () => onSectionChange && onSectionChange(step);
+      onExit && onExit(callback);
+    };
+
+    return (
+      <div
+        className={cx(
+          styles.resume_sections,
+          styles[`resume_sections-${status}`]
         )}
-      </div>
-      <div className={cx(styles.resume_operations, styles.bottom)}>
-        <div className={styles.operations_wrapper}>
-          {props.currentIndex > 0 && (
-            <Button
-              value={resumeTexts.buttons.pre}
-              color="dark"
-              className={styles.operation}
-              onClick={() => onStepChange(props.currentIndex - 1)}
-              leftIcon={(
-                <i className="fa fa-angle-left" aria-hidden="true" />
-              )}
+        onTransitionEnd={onTransitionEnd}
+      >
+        <div className={styles.resume_section_container}>
+          <div className={styles.section_title}>
+            <Input
+              value={title}
+              onBlur={this.onBlur}
+              onChange={this.onTitleChange}
+              id={`section-${currentIndex}`}
+              className={styles.sectionTitleInput}
+              theme={titleEditing ? 'flat' : 'ghost'}
+              disabled={!titleEditable || !titleEditing}
+              style={{ width: `${title.length * 12 + 10}px`}}
             />
-          )}
-          {props.currentIndex < props.maxIndex - 1 && (
-            <Button
-              value={resumeTexts.buttons.next}
-              className={styles.operation}
-              onClick={() => onStepChange(props.currentIndex + 1)}
-              rightIcon={(
-                <i className="fa fa-angle-right" aria-hidden="true" />
-              )}
-            />
+            &nbsp;
+            <SectionTip {...this.props} />
+            {titleEditable && (
+              <div className={styles.sectionTitleEdit}>
+                <i
+                  aria-hidden="true"
+                  onClick={this.onFocus}
+                  className="fa fa-pencil"
+                />
+              </div>
+            )}
+          </div>
+          <div>
+            {children}
+          </div>
+          {editButton && (
+            <div className={styles.resume_button_container}>
+              <Button
+                theme="flat"
+                value={this.props.button}
+                disabled={this.props.disabled}
+                leftIcon={(
+                  <i className="fa fa-plus-circle" aria-hidden="true" />
+                )}
+                onClick={this.props.onClick}
+              />
+            </div>
           )}
         </div>
+        <div className={cx(styles.resume_operations, styles.bottom)}>
+          <div className={styles.operations_wrapper}>
+            {currentIndex > 0 && (
+              <Button
+                value={resumeTexts.buttons.pre}
+                color="dark"
+                className={styles.operation}
+                onClick={() => onStepChange(currentIndex - 1)}
+                leftIcon={(
+                  <i className="fa fa-angle-left" aria-hidden="true" />
+                )}
+              />
+            )}
+            {currentIndex < maxIndex - 1 && (
+              <Button
+                value={resumeTexts.buttons.next}
+                className={styles.operation}
+                onClick={() => onStepChange(currentIndex + 1)}
+                rightIcon={(
+                  <i className="fa fa-angle-right" aria-hidden="true" />
+                )}
+              />
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const SectionWrapper = props => (
   <AnimationComponent>

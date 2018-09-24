@@ -83,12 +83,16 @@ const toggleResumeType = freshGraduate => (dispatch) => {
  * Education
  */
 const {
-  handleEduChange,
+  changeEducation,
   addEducation,
   deleteEducation
-} = createActions({
-  HANDLE_EDU_CHANGE: (edu, index) => ({ edu, index })
-}, 'ADD_EDUCATION', 'DELETE_EDUCATION');
+} = createActions(
+  {
+    CHANGE_EDUCATION: (edu, index) => ({ edu, index })
+  },
+  'ADD_EDUCATION',
+  'DELETE_EDUCATION'
+);
 
 /**
  * WorkExperience
@@ -168,9 +172,19 @@ const {
  * custom module
  */
 const {
+  changeModuleSection,
+  deleteModuleSection,
+  changeModuleTitle,
   addCustomModule,
   addModuleSection
 } = createActions(
+  {
+    CHANGE_MODULE_SECTION: (section, moduleIndex, sectionIndex) =>
+      ({ section, moduleIndex, sectionIndex }),
+    DELETE_MODULE_SECTION: (moduleIndex, sectionIndex) =>
+      ({ moduleIndex, sectionIndex }),
+    CHANGE_MODULE_TITLE: (preTitle, title) => ({ preTitle, title })
+  },
   'ADD_CUSTOM_MODULE',
   'ADD_MODULE_SECTION',
 );
@@ -218,7 +232,7 @@ const resumeEditActions = {
   toggleResumeType,
   // edu
   deleteEducation,
-  handleEduChange,
+  changeEducation,
   // workExperience
   deleteWorkExperience,
   deleteWorkProject,
@@ -271,7 +285,10 @@ export default objectAssign(
     addSocialLink,
     // custom
     addCustomModule,
-    addModuleSection
+    addModuleSection,
+    changeModuleTitle,
+    changeModuleSection,
+    deleteModuleSection,
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name]);

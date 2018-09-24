@@ -143,6 +143,23 @@
   margin: 10px 50px 15px;
 }
 
+.sectionTitleInput {
+  padding: 0;
+  margin: 0;
+  flex: initial;
+  max-width: 300px;
+  overflow: hidden;
+}
+
+.sectionTitleEdit {
+  flex: 1;
+  padding-left: 10px;
+
+  & i {
+    cursor: pointer;
+  }
+}
+
 .section_second_title {
   font-size: 14px;
   color: var(--oc-gray-7);

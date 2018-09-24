@@ -22,7 +22,7 @@ import HeartBeat from 'UTILS/heartbeat';
 import NavSection from './NavSection';
 
 const resumeTexts = locales('resume');
-const { editedConfirm, messages, navs, buttons } = resumeTexts;
+const { editedConfirm, messages } = resumeTexts;
 
 class Resume extends React.Component {
   constructor(props) {
@@ -168,6 +168,16 @@ class Resume extends React.Component {
     return customModules.length + sections.length;
   }
 
+  get sections() {
+    const { customModules, sections } = this.props.resume;
+    return [...sections, ...customModules];
+  }
+
+  get currentSection() {
+    const { activeSection } = this.props.resume;
+    return this.sections.find(section => section.id === activeSection);
+  }
+
   handleSectionIndexChange(index) {
     const { resume } = this.props;
     const { sections, customModules } = resume;
@@ -201,10 +211,8 @@ class Resume extends React.Component {
     const {
       posting,
       loading,
-      sections,
       shareInfo,
       activeSection,
-      customModules,
       downloadDisabled,
     } = resume;
 
@@ -221,7 +229,7 @@ class Resume extends React.Component {
           id="resume_navigation"
           currentIndex={currentIndex}
           activeSection={activeSection}
-          sections={[...sections, ...customModules]}
+          sections={this.sections}
           handleSectionChange={this.handleSectionChange}
           tail={this.renderSectionCreator()}
         />
@@ -292,7 +300,7 @@ class Resume extends React.Component {
           maxIndex={max}
           disabled={loading}
           currentIndex={currentIndex}
-          section={activeSection}
+          section={this.currentSection}
           onSectionChange={this.handleSectionIndexChange}
         />
         <ResumeFormatter

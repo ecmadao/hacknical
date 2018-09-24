@@ -19,6 +19,7 @@ class NavSection  extends React.Component {
     this.onTipClose = this.onTipClose.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
   }
 
@@ -27,9 +28,11 @@ class NavSection  extends React.Component {
   }
 
   toggleModal() {
+    const { showModal } = this.state;
     this.setState({
-      showModal: !this.state.showModal
+      showModal: !showModal
     });
+    if (!showModal) setTimeout(() => $('#newModule').focus(), 200);
   }
 
   handleSubmit() {
@@ -52,6 +55,11 @@ class NavSection  extends React.Component {
     handleSubmit && handleSubmit(title);
   }
 
+  handleEnter(e) {
+    if (e.keyCode !== 13) return;
+    this.handleSubmit();
+  }
+
   onTitleChange(title) {
     this.setState({ title });
   }
@@ -71,11 +79,13 @@ class NavSection  extends React.Component {
           <div className={styles.navTipsoContent}>
             <Input
               value={title}
+              id="newModule"
               theme="borderless"
               subTheme="underline"
               className={styles.input}
               onChange={this.onTitleChange}
               placeholder={navs.moduleName}
+              onKeyDown={this.handleEnter}
             />
             <Button
               theme="flat"

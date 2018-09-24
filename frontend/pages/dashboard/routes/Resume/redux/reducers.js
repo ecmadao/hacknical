@@ -1,3 +1,5 @@
+
+import shortid from 'shortid';
 import { handleActions } from 'redux-actions';
 
 import {
@@ -41,7 +43,6 @@ const initialState = {
   activeSection: RESUME_SECTIONS.normal[0].id,
 };
 
-
 const reducers = handleActions({
   // initial
   INITIAL_RESUME(state, action) {
@@ -51,6 +52,7 @@ const reducers = handleActions({
       educations,
       workExperiences,
       personalProjects,
+      customModules = [],
     } = action.payload;
     const sections = info.freshGraduate
       ? RESUME_SECTIONS.freshGraduate
@@ -67,7 +69,8 @@ const reducers = handleActions({
       personalProjects: [...personalProjects],
       others: objectassign(state.others, objectassign(others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]
-      }))
+      })),
+      customModules: [...customModules]
     });
   },
   // loading
@@ -136,7 +139,7 @@ const reducers = handleActions({
     });
   },
 
-  HANDLE_EDU_CHANGE(state, action) {
+  CHANGE_EDUCATION(state, action) {
     const { educations } = state;
     const { edu, index } = action.payload;
     return ({
@@ -550,7 +553,7 @@ const reducers = handleActions({
       ...state,
       customModules: [
         ...customModules,
-        { id: action.payload, text: action.payload, sections: [] }
+        { id: shortid.generate(), text: action.payload, sections: [] }
       ],
       activeSection: action.payload
     });
@@ -569,6 +572,64 @@ const reducers = handleActions({
           sections: [...customModule.sections, Object.assign({}, CUSTOM_SECTION)],
           ...customModules.slice(index + 1)
         })
+      ]
+    });
+  },
+
+  DELETE_MODULE_SECTION(state, action) {
+    const { customModules } = state;
+    const { moduleIndex, sectionIndex } = action.payload;
+    const customModule = customModules[moduleIndex];
+    const { sections } = customModule;
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, moduleIndex),
+        Object.assign({}, customModule, {
+          sections: [
+            ...sections.slice(0, sectionIndex),
+            ...sections.slice(sectionIndex + 1),
+          ]
+        }),
+        ...customModules.slice(moduleIndex + 1),
+      ],
+    });
+  },
+
+  CHANGE_MODULE_SECTION(state, action) {
+    const { customModules } = state;
+    const { section, moduleIndex, sectionIndex } = action.payload;
+    const customModule = customModules[moduleIndex];
+    const { sections } = customModule;
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, moduleIndex),
+        Object.assign({}, customModule, {
+          sections: [
+            ...sections.slice(0, sectionIndex),
+            Object.assign({}, sections[sectionIndex], section),
+            ...sections.slice(sectionIndex + 1),
+          ]
+        }),
+        ...customModules.slice(moduleIndex + 1),
+      ],
+    });
+  },
+
+  CHANGE_MODULE_TITLE(state, action) {
+    const { customModules } = state;
+    const { preTitle, title } = action.payload;
+    const index = customModules.findIndex(module => module.text === preTitle);
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, index),
+        Object.assign({}, customModules[index], { text: title }),
+        ...customModules.slice(index + 1)
       ]
     });
   },
