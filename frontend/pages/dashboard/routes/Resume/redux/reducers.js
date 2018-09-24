@@ -5,6 +5,7 @@ import {
   INFO,
   OTHERS,
   WORK_PROJECT,
+  CUSTOM_SECTION,
   WORK_EXPERIENCE,
   PERSONAL_PROJECT,
   RESUME_SECTIONS,
@@ -34,6 +35,7 @@ const initialState = {
     resumeHash: '',
     template: 'v1',
   },
+  customModules: [],
   downloadDisabled: false,
   sections: RESUME_SECTIONS.normal,
   activeSection: RESUME_SECTIONS.normal[0].id,
@@ -538,6 +540,36 @@ const reducers = handleActions({
     return ({
       ...state,
       downloadDisabled: action.payload
+    });
+  },
+
+  // custom module
+  ADD_CUSTOM_MODULE(state, action) {
+    const { customModules } = state;
+    return ({
+      ...state,
+      customModules: [
+        ...customModules,
+        { id: action.payload, text: action.payload, sections: [] }
+      ],
+      activeSection: action.payload
+    });
+  },
+
+  ADD_MODULE_SECTION(state, action) {
+    const { customModules } = state;
+    const index = action.payload;
+    const customModule = customModules[index];
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, index),
+        Object.assign({}, customModule, {
+          sections: [...customModule.sections, Object.assign({}, CUSTOM_SECTION)],
+          ...customModules.slice(index + 1)
+        })
+      ]
     });
   },
 

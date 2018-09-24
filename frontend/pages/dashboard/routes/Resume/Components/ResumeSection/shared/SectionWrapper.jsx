@@ -9,7 +9,7 @@ import styles from '../../../styles/resume.css';
 const resumeTexts = locales('resume');
 
 const Wrapper = (props) => {
-  const { onSectionChange, onExit } = props;
+  const { onSectionChange, onExit, title } = props;
   const onStepChange = (step) => {
     const callback = () => onSectionChange && onSectionChange(step);
     onExit && onExit(callback);
@@ -25,7 +25,7 @@ const Wrapper = (props) => {
     >
       <div className={styles.resume_section_container}>
         <div className={styles.section_title}>
-          {resumeTexts.sections[props.section].title}
+          {title}
           &nbsp;
           <SectionTip {...props} />
         </div>

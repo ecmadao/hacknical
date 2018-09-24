@@ -15,7 +15,10 @@ const datas = {
     templateTip: 'Change resume template',
     downloadSuccess: 'Successfully created, downloading now',
     downloadError: 'Resume create failed',
-    addModuleError: 'Please input module name'
+    addModuleError: {
+      emptyName: 'Please input module name',
+      duplicateName: 'Module name existed',
+    }
   },
   modal: {
     shareText: 'to share your resume',
@@ -98,6 +101,10 @@ const datas = {
         addLinkName: 'Add link name',
         addLinkUrl: 'Add url',
       }
+    },
+    custom: {
+      mainButton: 'Add section',
+      sideButton: 'Add description',
     }
   },
   navs: {

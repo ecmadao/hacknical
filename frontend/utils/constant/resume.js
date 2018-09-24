@@ -229,6 +229,12 @@ export const PERSONAL_PROJECT = {
   techs: []
 };
 
+export const CUSTOM_SECTION = {
+  title: '',
+  url: '',
+  details: [],
+};
+
 export const OTHERS = {
   expectLocation: '',
   expectLocations: [],

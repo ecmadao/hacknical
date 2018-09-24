@@ -15,7 +15,10 @@ const datas = {
     templateTip: '改变简历模板',
     downloadSuccess: '简历生成完毕，正在下载',
     downloadError: '简历生成失败',
-    addModuleError: '请输入模块名称'
+    addModuleError: {
+      emptyName: '请输入模块名称',
+      duplicateName: '模块名称已存在',
+    }
   },
   modal: {
     shareText: '分享你的个人简历',
@@ -112,6 +115,10 @@ const datas = {
         addLinkName: '填写链接名称',
         addLinkUrl: '填写链接地址',
       }
+    },
+    custom: {
+      mainButton: '添加一段内容',
+      sideButton: '添加描述',
     }
   },
   navs: {

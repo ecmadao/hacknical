@@ -78,6 +78,7 @@ const toggleResumeType = freshGraduate => (dispatch) => {
     dispatch(toggleEdited(false));
   });
 };
+
 /**
  * Education
  */
@@ -160,7 +161,18 @@ const {
   'HANDLE_OTHERS_INFO_CHANGE',
   'ADD_SUPPLEMENT',
   'DELETE_SUPPLEMENT',
-  'TOGGLE_DOWNLOAD_BUTTON'
+  'TOGGLE_DOWNLOAD_BUTTON',
+);
+
+/**
+ * custom module
+ */
+const {
+  addCustomModule,
+  addModuleSection
+} = createActions(
+  'ADD_CUSTOM_MODULE',
+  'ADD_MODULE_SECTION',
 );
 
 // resume share
@@ -257,6 +269,9 @@ export default objectAssign(
     addWorkProjectDetail,
     addPersonalProject,
     addSocialLink,
+    // custom
+    addCustomModule,
+    addModuleSection
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name]);

@@ -120,11 +120,11 @@ class Resume extends React.Component {
       )
       .preview(() => this.handleModalStatus(true))
       .next(() => {
-        const currentIndex = this.currentIndex;
+        const currentIndex = this.sectionActiveIndex;
         this.handleSectionIndexChange(currentIndex + 1);
       })
       .previous(() => {
-        const currentIndex = this.currentIndex;
+        const currentIndex = this.sectionActiveIndex;
         this.handleSectionIndexChange(currentIndex - 1);
       });
   }
@@ -157,20 +157,32 @@ class Resume extends React.Component {
     this.props.actions.handleActiveSectionChange(id);
   }
 
-  get currentIndex() {
-    const { activeSection, sections } = this.props.resume;
-    const currentIndex = sections.findIndex(section => section.id === activeSection);
+  get sectionActiveIndex() {
+    const { activeSection, sections, customModules } = this.props.resume;
+    const currentIndex = [...sections, ...customModules].findIndex(section => section.id === activeSection);
     return currentIndex;
   }
 
+  get sectionMaxLength() {
+    const { customModules, sections } = this.props.resume;
+    return customModules.length + sections.length;
+  }
+
   handleSectionIndexChange(index) {
-    const section = this.props.resume.sections[index];
+    const { resume } = this.props;
+    const { sections, customModules } = resume;
+    const section = [...sections, ...customModules][index];
     this.handleSectionChange(section.id);
   }
 
   renderSectionCreator() {
+    const { resume, actions } = this.props;
+    const { customModules } = resume;
     return (
-      <NavSection />
+      <NavSection
+        customModules={customModules}
+        handleSubmit={actions.addCustomModule}
+      />
     );
   }
 
@@ -192,23 +204,24 @@ class Resume extends React.Component {
       sections,
       shareInfo,
       activeSection,
+      customModules,
       downloadDisabled,
     } = resume;
 
-    console.log(sections);
     const { url, openShare, template } = shareInfo;
 
     const origin = window.location.origin;
-    const currentIndex = this.currentIndex;
-    const max = sections.length;
+    const currentIndex = this.sectionActiveIndex;
+    const max = this.sectionMaxLength;
 
     return (
       <div className={styles.resume_container}>
         <Navigation
           fixed
           id="resume_navigation"
-          sections={sections}
+          currentIndex={currentIndex}
           activeSection={activeSection}
+          sections={[...sections, ...customModules]}
           handleSectionChange={this.handleSectionChange}
           tail={this.renderSectionCreator()}
         />

@@ -34,16 +34,22 @@ class NavSection  extends React.Component {
 
   handleSubmit() {
     const { title } = this.state;
+    const { customModules, handleSubmit } = this.props;
     if (!title) {
-      message.error(messages.addModuleError);
-      return
+      message.error(messages.addModuleError.emptyName);
+      return;
     }
-    const { handleSubmit } = this.props;
+    if (customModules.find(module => module.title === title)) {
+      message.error(messages.addModuleError.duplicateName);
+      return;
+    }
 
     this.setState({
       title: '',
       showModal: false
     });
+
+    handleSubmit && handleSubmit(title);
   }
 
   onTitleChange(title) {

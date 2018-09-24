@@ -1,7 +1,9 @@
 
 import React from 'react';
 import asyncComponent from 'COMPONENTS/AsyncComponent';
+import locales from 'LOCALES';
 
+const resumeTexts = locales('resume');
 
 const sections = {
   info: asyncComponent(
@@ -24,12 +26,18 @@ const sections = {
     () => System.import('./Others')
       .then(component => component.default)
   ),
+  custom: asyncComponent(
+    () => System.import('./CustomModule')
+      .then(component => component.default)
+  ),
 };
 
 const ResumeSection = (props) => {
-  const Section = sections[props.section];
+  const { section } = props;
+  const Section = sections[section] || sections.custom;
+  const title = resumeTexts.sections[section] ? resumeTexts.sections[section].title : section;
   return (
-    <Section {...props} />
+    <Section {...props} title={title} />
   );
 };
 

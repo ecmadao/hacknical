@@ -31,6 +31,16 @@ class Nav extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { sections, currentIndex, activeSection } = this.props;
+    if (activeSection !== prevProps.activeSection) {
+      const $dom = $(`.${styles.navWrapper}`);
+      if (!$dom) return;
+      const height = $dom.height();
+      $dom.scrollTop(height / sections.length * currentIndex);
+    }
+  }
+
   render() {
     const {
       id,
