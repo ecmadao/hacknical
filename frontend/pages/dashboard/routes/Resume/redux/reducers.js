@@ -549,13 +549,14 @@ const reducers = handleActions({
   // custom module
   ADD_CUSTOM_MODULE(state, action) {
     const { customModules } = state;
+    const id = shortid.generate();
     return ({
       ...state,
       customModules: [
         ...customModules,
-        { id: shortid.generate(), text: action.payload, sections: [] }
+        { id, text: action.payload, sections: [] }
       ],
-      activeSection: action.payload
+      activeSection: id
     });
   },
 
