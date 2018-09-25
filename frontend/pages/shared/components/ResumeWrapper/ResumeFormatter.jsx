@@ -93,14 +93,21 @@ const formatResume = (resume) => {
       };
     });
 
+  const formattedModules = customModules
+    .filter((module) => {
+      if (!module.text) return false;
+      const { sections = [] } = module;
+      return sections.filter(section => section.title).length > 0;
+    });
+
   return objectAssign({}, resume, {
-    educations: [...formatEducations],
-    workExperiences: [...formatWorkExperiences],
-    personalProjects: [...formatPersonalProjects],
+    educations: formatEducations,
+    workExperiences: formatWorkExperiences,
+    personalProjects: formatPersonalProjects,
     others: objectAssign({}, others, {
       socialLinks: formatSocials
     }),
-    customModules: customModules.filter(module => module.text)
+    customModules: formattedModules
   });
 }
 

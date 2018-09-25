@@ -28,7 +28,8 @@ class ResumeWrapper extends React.Component {
         useGithub: true,
         githubUrl: null,
         template: 'v0'
-      }
+      },
+      customModules: []
     };
   }
 
@@ -76,6 +77,7 @@ class ResumeWrapper extends React.Component {
       others = OTHERS,
       educations = [],
       initialized = true,
+      customModules = [],
       workExperiences = [],
       personalProjects = [],
       updateAt = new Date(),
@@ -86,6 +88,7 @@ class ResumeWrapper extends React.Component {
       updateAt,
       initialized,
       loading: false,
+      customModules,
       others: objectAssign({}, state.others, others),
       info: objectAssign({}, state.info, info),
       educations: [...educations],

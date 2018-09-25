@@ -151,13 +151,26 @@
   overflow: hidden;
 }
 
-.sectionTitleEdit {
-  flex: 1;
+.sectionTitleButton {
   padding-left: 10px;
 
   & i {
     cursor: pointer;
   }
+}
+
+.sectionTitleButtonRight {
+  flex: 1;
+  justify-content: flex-end;
+  display: flex;
+}
+
+.sectionEdit {
+  color: var(--oc-gray-5);
+}
+
+.sectionRemove {
+  color: var(--oc-red-5);
 }
 
 .section_second_title {

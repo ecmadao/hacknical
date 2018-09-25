@@ -44,15 +44,17 @@ class CustomModule extends React.Component {
   }
 
   render() {
-    const { actions, moduleIndex } = this.props;
+    const { actions, sectionId, moduleIndex } = this.props;
     return (
       <SectionWrapper
+        editable
+        deletable
         editButton
-        titleEditable
         {...this.props}
         button={resumeTexts.mainButton}
         onTitleChange={actions.changeModuleTitle}
         onClick={() => actions.addModuleSection(moduleIndex)}
+        onDelete={() => actions.removeCustomModule(sectionId)}
       >
         {this.renderModule()}
       </SectionWrapper>

@@ -175,6 +175,7 @@ const {
   changeModuleSection,
   deleteModuleSection,
   changeModuleTitle,
+  removeCustomModule,
   addCustomModule,
   addModuleSection
 } = createActions(
@@ -185,6 +186,7 @@ const {
       ({ moduleIndex, sectionIndex }),
     CHANGE_MODULE_TITLE: (preTitle, title) => ({ preTitle, title })
   },
+  'REMOVE_CUSTOM_MODULE',
   'ADD_CUSTOM_MODULE',
   'ADD_MODULE_SECTION',
 );
@@ -255,6 +257,7 @@ const resumeEditActions = {
   changeModuleTitle,
   changeModuleSection,
   deleteModuleSection,
+  removeCustomModule,
 };
 
 

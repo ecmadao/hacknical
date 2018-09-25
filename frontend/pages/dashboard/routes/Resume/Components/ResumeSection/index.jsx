@@ -35,7 +35,7 @@ const ResumeSection = (props) => {
   const title = section.text;
 
   return (
-    <Section {...props} title={title} section={section.id} />
+    <Section {...props} title={title} section={section.id} sectionId={section.id} />
   );
 };
 

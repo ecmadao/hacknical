@@ -560,6 +560,32 @@ const reducers = handleActions({
     });
   },
 
+  REMOVE_CUSTOM_MODULE(state, action) {
+    const moduleId = action.payload;
+    const { sections, customModules, activeSection } = state;
+
+    const allSections = [...sections, ...customModules];
+    const activeIndex = allSections.findIndex(module => module.id === activeSection);
+    const moduleIndex = activeIndex - sections.length;
+    let nextIndex = activeIndex;
+
+    if (activeSection === moduleId) {
+      if (activeIndex === allSections.length - 1) {
+        nextIndex = allSections.length - 2;
+      }
+    }
+
+    const newModules = [
+      ...customModules.slice(0, moduleIndex),
+      ...customModules.slice(moduleIndex + 1)
+    ];
+    return ({
+      ...state,
+      customModules: newModules,
+      activeSection: [...sections, ...newModules][nextIndex].id
+    });
+  },
+
   ADD_MODULE_SECTION(state, action) {
     const { customModules } = state;
     const index = action.payload;

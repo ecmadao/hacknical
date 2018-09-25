@@ -15,9 +15,11 @@ class Wrapper extends React.Component {
     this.state = {
       titleEditing: false
     };
-    this.onTitleChange = this.onTitleChange.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.onTitleChange = this.onTitleChange.bind(this);
   }
 
   onBlur() {
@@ -30,10 +32,20 @@ class Wrapper extends React.Component {
     setTimeout(() => $(`#section-${currentIndex}`).focus(), 200);
   }
 
+  onKeyDown(e) {
+    if (e.keyCode !== 13) return;
+    this.onBlur();
+  }
+
+  onDelete() {
+    const { onDelete } = this.props;
+    onDelete && onDelete();
+  }
+
   onTitleChange(newTitle) {
     const { titleEditing } = this.state;
-    const { title, titleEditable, onTitleChange } = this.props;
-    titleEditing && titleEditable && onTitleChange && onTitleChange(title, newTitle);
+    const { title, editable, onTitleChange } = this.props;
+    titleEditing && editable && onTitleChange && onTitleChange(title, newTitle);
   }
 
   render() {
@@ -47,7 +59,8 @@ class Wrapper extends React.Component {
       currentIndex,
       onTransitionEnd,
       onSectionChange,
-      titleEditable = false,
+      editable = false,
+      deletable = false,
     } = this.props;
     const { titleEditing } = this.state;
 
@@ -69,21 +82,31 @@ class Wrapper extends React.Component {
             <Input
               value={title}
               onBlur={this.onBlur}
+              onKeyDown={this.onKeyDown}
               onChange={this.onTitleChange}
               id={`section-${currentIndex}`}
               className={styles.sectionTitleInput}
               theme={titleEditing ? 'flat' : 'ghost'}
-              disabled={!titleEditable || !titleEditing}
+              disabled={!editable || !titleEditing}
               style={{ width: `${title.length * 12 + 10}px`}}
             />
             &nbsp;
             <SectionTip {...this.props} />
-            {titleEditable && (
-              <div className={styles.sectionTitleEdit}>
+            {editable && (
+              <div className={styles.sectionTitleButton}>
                 <i
                   aria-hidden="true"
                   onClick={this.onFocus}
-                  className="fa fa-pencil"
+                  className={`fa fa-pencil ${styles.sectionEdit}`}
+                />
+              </div>
+            )}
+            {deletable && (
+              <div className={cx(styles.sectionTitleButton, styles.sectionTitleButtonRight)}>
+                <i
+                  aria-hidden="true"
+                  onClick={this.onDelete}
+                  className={`fa fa-trash-o ${styles.sectionRemove}`}
                 />
               </div>
             )}
