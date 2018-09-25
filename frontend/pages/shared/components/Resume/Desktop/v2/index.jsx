@@ -189,6 +189,48 @@ class ResumeComponentV2 extends ResumeUIWrapper {
     });
   }
 
+  renderCustomModule(module, key) {
+    const { sections } = module;
+    const exps = sections
+      .map((section, index) => {
+        const {
+          url,
+          title,
+          details,
+        } = section;
+
+        const projectDetails = details.map((detail, i) => (
+          <li key={i}>
+            {renderTextWithUrl(detail)}
+          </li>
+        ));
+        return (
+          <div className={styles.row} key={index}>
+            <div className={cx(styles.rowLeft, styles.textRight)}>
+              {renderBaseInfo({
+                url,
+                value: title,
+                className: styles.mainText
+              })}
+            </div>
+            <div className={styles.rowRight}>
+              <div>
+                <ul className={styles.list}>
+                  {projectDetails}
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      });
+
+    return section({
+      key,
+      rows: exps,
+      title: module.text
+    });
+  }
+
   renderPersonalProjects(key) {
     const { personalProjects } = this.props.resume;
 
@@ -205,7 +247,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
     });
   }
 
-  getSupplements() {
+  get supplements() {
     const { others } = this.props.resume;
     const { supplements } = others;
     if (!supplements.length) return null;
@@ -228,7 +270,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
     );
   }
 
-  getLinks() {
+  get links() {
     const { others } = this.props.resume;
     const { socialLinks } = others;
     if (!socialLinks.length) return null;
@@ -266,8 +308,8 @@ class ResumeComponentV2 extends ResumeUIWrapper {
   }
 
   renderSupplements(key) {
-    const supplements = this.getSupplements();
-    const otherLinks = this.getLinks();
+    const supplements = this.supplements;
+    const otherLinks = this.links;
     const titles = [];
     if (!supplements && !otherLinks) return null;
     if (supplements) titles.push(resumeTexts.sections.others.selfAssessment);

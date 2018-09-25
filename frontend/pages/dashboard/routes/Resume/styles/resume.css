@@ -143,6 +143,23 @@
   margin: 10px 50px 15px;
 }
 
+.sectionTitleInput {
+  padding: 0 5px;
+  margin: 0;
+  flex: initial;
+  max-width: 300px;
+  overflow: hidden;
+}
+
+.sectionTitleEdit {
+  flex: 1;
+  padding-left: 10px;
+
+  & i {
+    cursor: pointer;
+  }
+}
+
 .section_second_title {
   font-size: 14px;
   color: var(--oc-gray-7);
@@ -488,3 +505,49 @@
   font-size: 12px;
   line-height: 1.5em;
 }
+
+.navSection {
+  color: var(--oc-gray-5);
+  background-color: var(--oc-white);
+  transition: color .2s;
+  height: 40px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border-top: 1px solid var(--oc-gray-3);
+
+  & .navSectionWrapper {
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  & i {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  &:hover {
+    color: var(--oc-gray-7);
+  }
+}
+
+.navTipsoContent {
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  & .button {
+    margin-bottom: 0;
+    padding: 5px 15px;
+  }
+
+  & .input {
+    border-bottom: 1px solid var(--oc-gray-5);
+  }
+}
+

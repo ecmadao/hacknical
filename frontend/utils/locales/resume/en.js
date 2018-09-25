@@ -6,14 +6,19 @@ const datas = {
     saving: 'Saving',
     preview: 'Preview',
     pre: 'Pre',
-    next: 'Next'
+    next: 'Next',
+    confirm: 'Confirm'
   },
   messages: {
     download: 'Resume is rendering, please wait later.',
     downloadTip: 'Please save your changes before download resume',
     templateTip: 'Change resume template',
     downloadSuccess: 'Successfully created, downloading now',
-    downloadError: 'Resume create failed'
+    downloadError: 'Resume create failed',
+    addModuleError: {
+      emptyName: 'Please input module name',
+      duplicateName: 'Module name existed',
+    }
   },
   modal: {
     shareText: 'to share your resume',
@@ -96,6 +101,14 @@ const datas = {
         addLinkName: 'Add link name',
         addLinkUrl: 'Add url',
       }
+    },
+    custom: {
+      mainButton: 'Add new section',
+      sideButton: 'Add description',
+      homepage: 'Related url',
+      introText: 'Description for your section',
+      sectionTitle: 'title',
+      addSectionDetail: 'Add description'
     }
   },
   navs: {
@@ -106,6 +119,8 @@ const datas = {
     internship: 'Internship',
     projects: 'Projects',
     others: 'Other',
+    addNew: 'Add new',
+    moduleName: 'Module name'
   },
   options: {
     genders: {

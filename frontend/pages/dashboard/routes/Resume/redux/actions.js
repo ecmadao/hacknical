@@ -78,16 +78,21 @@ const toggleResumeType = freshGraduate => (dispatch) => {
     dispatch(toggleEdited(false));
   });
 };
+
 /**
  * Education
  */
 const {
-  handleEduChange,
+  changeEducation,
   addEducation,
   deleteEducation
-} = createActions({
-  HANDLE_EDU_CHANGE: (edu, index) => ({ edu, index })
-}, 'ADD_EDUCATION', 'DELETE_EDUCATION');
+} = createActions(
+  {
+    CHANGE_EDUCATION: (edu, index) => ({ edu, index })
+  },
+  'ADD_EDUCATION',
+  'DELETE_EDUCATION'
+);
 
 /**
  * WorkExperience
@@ -160,7 +165,28 @@ const {
   'HANDLE_OTHERS_INFO_CHANGE',
   'ADD_SUPPLEMENT',
   'DELETE_SUPPLEMENT',
-  'TOGGLE_DOWNLOAD_BUTTON'
+  'TOGGLE_DOWNLOAD_BUTTON',
+);
+
+/**
+ * custom module
+ */
+const {
+  changeModuleSection,
+  deleteModuleSection,
+  changeModuleTitle,
+  addCustomModule,
+  addModuleSection
+} = createActions(
+  {
+    CHANGE_MODULE_SECTION: (section, moduleIndex, sectionIndex) =>
+      ({ section, moduleIndex, sectionIndex }),
+    DELETE_MODULE_SECTION: (moduleIndex, sectionIndex) =>
+      ({ moduleIndex, sectionIndex }),
+    CHANGE_MODULE_TITLE: (preTitle, title) => ({ preTitle, title })
+  },
+  'ADD_CUSTOM_MODULE',
+  'ADD_MODULE_SECTION',
 );
 
 // resume share
@@ -206,7 +232,7 @@ const resumeEditActions = {
   toggleResumeType,
   // edu
   deleteEducation,
-  handleEduChange,
+  changeEducation,
   // workExperience
   deleteWorkExperience,
   deleteWorkProject,
@@ -225,6 +251,10 @@ const resumeEditActions = {
   deleteSocialLink,
   handleOthersInfoChange,
   deleteSupplement,
+  // custom
+  changeModuleTitle,
+  changeModuleSection,
+  deleteModuleSection,
 };
 
 
@@ -257,6 +287,9 @@ export default objectAssign(
     addWorkProjectDetail,
     addPersonalProject,
     addSocialLink,
+    // custom
+    addCustomModule,
+    addModuleSection,
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name]);

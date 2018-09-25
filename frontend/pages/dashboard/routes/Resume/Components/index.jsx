@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Push from 'push.js';
-import { Button, IconButton, Tipso } from 'light-ui';
+import { Button, IconButton, Input, Tipso } from 'light-ui';
 import styles from '../styles/resume.css';
 import ShareModal from 'COMPONENTS/ShareModal';
 import ResumeSection from './ResumeSection';
@@ -19,6 +19,7 @@ import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter';
 import message from 'UTILS/message';
 import Navigation from 'COMPONENTS/Navigation';
 import HeartBeat from 'UTILS/heartbeat';
+import NavSection from './NavSection';
 
 const resumeTexts = locales('resume');
 const { editedConfirm, messages } = resumeTexts;
@@ -119,11 +120,11 @@ class Resume extends React.Component {
       )
       .preview(() => this.handleModalStatus(true))
       .next(() => {
-        const currentIndex = this.currentIndex;
+        const currentIndex = this.sectionActiveIndex;
         this.handleSectionIndexChange(currentIndex + 1);
       })
       .previous(() => {
-        const currentIndex = this.currentIndex;
+        const currentIndex = this.sectionActiveIndex;
         this.handleSectionIndexChange(currentIndex - 1);
       });
   }
@@ -156,15 +157,43 @@ class Resume extends React.Component {
     this.props.actions.handleActiveSectionChange(id);
   }
 
-  get currentIndex() {
-    const { activeSection, sections } = this.props.resume;
-    const currentIndex = sections.findIndex(section => section.id === activeSection);
+  get sectionActiveIndex() {
+    const { activeSection, sections, customModules } = this.props.resume;
+    const currentIndex = [...sections, ...customModules].findIndex(section => section.id === activeSection);
     return currentIndex;
   }
 
+  get sectionMaxLength() {
+    const { customModules, sections } = this.props.resume;
+    return customModules.length + sections.length;
+  }
+
+  get sections() {
+    const { customModules, sections } = this.props.resume;
+    return [...sections, ...customModules];
+  }
+
+  get currentSection() {
+    const { activeSection } = this.props.resume;
+    return this.sections.find(section => section.id === activeSection);
+  }
+
   handleSectionIndexChange(index) {
-    const section = this.props.resume.sections[index];
+    const { resume } = this.props;
+    const { sections, customModules } = resume;
+    const section = [...sections, ...customModules][index];
     this.handleSectionChange(section.id);
+  }
+
+  renderSectionCreator() {
+    const { resume, actions } = this.props;
+    const { customModules } = resume;
+    return (
+      <NavSection
+        customModules={customModules}
+        handleSubmit={actions.addCustomModule}
+      />
+    );
   }
 
   render() {
@@ -182,25 +211,27 @@ class Resume extends React.Component {
     const {
       posting,
       loading,
-      sections,
       shareInfo,
       activeSection,
       downloadDisabled,
     } = resume;
+
     const { url, openShare, template } = shareInfo;
 
     const origin = window.location.origin;
-    const currentIndex = this.currentIndex;
-    const max = sections.length;
+    const currentIndex = this.sectionActiveIndex;
+    const max = this.sectionMaxLength;
 
     return (
       <div className={styles.resume_container}>
         <Navigation
           fixed
           id="resume_navigation"
-          sections={sections}
+          currentIndex={currentIndex}
           activeSection={activeSection}
+          sections={this.sections}
           handleSectionChange={this.handleSectionChange}
+          tail={this.renderSectionCreator()}
         />
         <div className={styles.resume_operations}>
           <div className={styles.operations_wrapper}>
@@ -269,7 +300,7 @@ class Resume extends React.Component {
           maxIndex={max}
           disabled={loading}
           currentIndex={currentIndex}
-          section={activeSection}
+          section={this.currentSection}
           onSectionChange={this.handleSectionIndexChange}
         />
         <ResumeFormatter

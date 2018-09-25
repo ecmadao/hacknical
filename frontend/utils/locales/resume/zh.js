@@ -6,14 +6,19 @@ const datas = {
     saving: '保存中',
     preview: '预览',
     pre: '上一步',
-    next: '下一步'
+    next: '下一步',
+    confirm: '确定'
   },
   messages: {
     download: '简历生成中，请稍后（初次生成所需的时间稍长）',
     downloadTip: '如简历有更新，请先保存再下载',
     templateTip: '改变简历模板',
     downloadSuccess: '简历生成完毕，正在下载',
-    downloadError: '简历生成失败'
+    downloadError: '简历生成失败',
+    addModuleError: {
+      emptyName: '请输入模块名称',
+      duplicateName: '模块名称已存在',
+    }
   },
   modal: {
     shareText: '分享你的个人简历',
@@ -110,6 +115,14 @@ const datas = {
         addLinkName: '填写链接名称',
         addLinkUrl: '填写链接地址',
       }
+    },
+    custom: {
+      homepage: '相关链接',
+      mainButton: '添加一段内容',
+      sideButton: '添加描述',
+      introText: '添加相应的描述',
+      sectionTitle: '标题',
+      addSectionDetail: '输入描述'
     }
   },
   navs: {
@@ -120,6 +133,8 @@ const datas = {
     internship: '实习经历',
     projects: '个人项目',
     others: '其他补充',
+    addNew: '新增模块',
+    moduleName: '模块名称'
   },
   options: {
     genders: {

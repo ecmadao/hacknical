@@ -2,7 +2,6 @@
 import React from 'react';
 import asyncComponent from 'COMPONENTS/AsyncComponent';
 
-
 const sections = {
   info: asyncComponent(
     () => System.import('./Info')
@@ -24,12 +23,19 @@ const sections = {
     () => System.import('./Others')
       .then(component => component.default)
   ),
+  custom: asyncComponent(
+    () => System.import('./CustomModule')
+      .then(component => component.default)
+  ),
 };
 
 const ResumeSection = (props) => {
-  const Section = sections[props.section];
+  const { section } = props;
+  const Section = sections[section.id] || sections.custom;
+  const title = section.text;
+
   return (
-    <Section {...props} />
+    <Section {...props} title={title} section={section.id} />
   );
 };
 

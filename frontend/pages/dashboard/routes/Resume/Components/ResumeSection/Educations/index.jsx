@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,22 +12,20 @@ const resumeTexts = locales('resume.sections.educations');
 class Educations extends React.Component {
   constructor(props) {
     super(props);
-    this.deleteEdu = this.deleteEdu.bind(this);
-    this.handleEduChange = this.handleEduChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleEduChange(index) {
+  handleChange(index) {
     const { actions } = this.props;
     return type => (value) => {
-      actions.handleEduChange({ [type]: value }, index);
+      actions.changeEducation({ [type]: value }, index);
     };
   }
 
-  deleteEdu(index) {
+  handleDelete(index) {
     const { actions } = this.props;
-    return () => {
-      actions.deleteEducation(index);
-    };
+    return () => actions.deleteEducation(index);
   }
 
   renderEdu() {
@@ -38,8 +37,8 @@ class Educations extends React.Component {
         index={index}
         disabled={disabled}
         freshGraduate={freshGraduate}
-        deleteEdu={this.deleteEdu(index)}
-        handleEduChange={this.handleEduChange(index)}
+        handleDelete={this.handleDelete(index)}
+        handleChange={this.handleChange(index)}
       />
     ));
   }

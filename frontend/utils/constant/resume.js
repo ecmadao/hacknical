@@ -12,6 +12,7 @@ const RESUME_SECTION_IDS = {
   EDUCATIONS: 'educations',
   WORK_EXPERIENCE: 'workExperiences',
   PERSONAL_PROJECTS: 'personalProjects',
+  ADD_NEW: 'addNew'
 };
 
 const REMINDER_CRON_TYPES = {
@@ -226,6 +227,12 @@ export const PERSONAL_PROJECT = {
   desc: '',
   title: '',
   techs: []
+};
+
+export const CUSTOM_SECTION = {
+  title: '',
+  url: '',
+  details: [],
 };
 
 export const OTHERS = {

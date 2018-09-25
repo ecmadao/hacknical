@@ -151,14 +151,6 @@ const renderEduRow = (options) => {
   );
 };
 
-const renderSupplementRow = () => {
-
-};
-
-const renderLinkRow = () => {
-
-};
-
 class ResumeComponentV3 extends ResumeUIWrapper {
   renderSocialLinks(key) {
     const { others } = this.props.resume;
@@ -264,6 +256,46 @@ class ResumeComponentV3 extends ResumeUIWrapper {
       key,
       rows: exps,
       title: super.getSectionTitle('workExperiences')
+    });
+  }
+
+  renderCustomModule(module, key) {
+    const { sections } = module;
+    const exps = sections
+      .map((section, index) => {
+        const {
+          url,
+          title,
+          details,
+        } = section;
+
+        const projectDetails = details.map((detail, i) => (
+          <li key={i}>
+            {renderTextWithUrl(detail)}
+          </li>
+        ));
+        return (
+          <div className={cx(styles.column, styles.sectionColumn)} key={index}>
+            <div className={styles.row}>
+              <div className={styles.rowHeader}>
+                {renderBaseInfo({
+                  url,
+                  value: title,
+                  className: styles.mainText
+                })}
+              </div>
+            </div>
+            <ul className={styles.list}>
+              {projectDetails}
+            </ul>
+          </div>
+        );
+      });
+
+    return section({
+      key,
+      rows: exps,
+      title: module.text
     });
   }
 

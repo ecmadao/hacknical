@@ -65,7 +65,7 @@ class Wrapper extends React.Component {
             tipsoTheme="dark"
           >
             <div className={styles.intro}>
-              {introList[items.length] || defaultIntro}
+              {introList[items.length] || defaultIntro || placeholder}
             </div>
           </InputGroup>
         </li>

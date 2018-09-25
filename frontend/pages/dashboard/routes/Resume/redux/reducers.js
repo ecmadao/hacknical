@@ -1,3 +1,5 @@
+
+import shortid from 'shortid';
 import { handleActions } from 'redux-actions';
 
 import {
@@ -5,6 +7,7 @@ import {
   INFO,
   OTHERS,
   WORK_PROJECT,
+  CUSTOM_SECTION,
   WORK_EXPERIENCE,
   PERSONAL_PROJECT,
   RESUME_SECTIONS,
@@ -34,11 +37,11 @@ const initialState = {
     resumeHash: '',
     template: 'v1',
   },
+  customModules: [],
   downloadDisabled: false,
   sections: RESUME_SECTIONS.normal,
   activeSection: RESUME_SECTIONS.normal[0].id,
 };
-
 
 const reducers = handleActions({
   // initial
@@ -49,6 +52,7 @@ const reducers = handleActions({
       educations,
       workExperiences,
       personalProjects,
+      customModules = [],
     } = action.payload;
     const sections = info.freshGraduate
       ? RESUME_SECTIONS.freshGraduate
@@ -65,7 +69,8 @@ const reducers = handleActions({
       personalProjects: [...personalProjects],
       others: objectassign(state.others, objectassign(others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]
-      }))
+      })),
+      customModules: [...customModules]
     });
   },
   // loading
@@ -134,7 +139,7 @@ const reducers = handleActions({
     });
   },
 
-  HANDLE_EDU_CHANGE(state, action) {
+  CHANGE_EDUCATION(state, action) {
     const { educations } = state;
     const { edu, index } = action.payload;
     return ({
@@ -538,6 +543,95 @@ const reducers = handleActions({
     return ({
       ...state,
       downloadDisabled: action.payload
+    });
+  },
+
+  // custom module
+  ADD_CUSTOM_MODULE(state, action) {
+    const { customModules } = state;
+    const id = shortid.generate();
+    return ({
+      ...state,
+      customModules: [
+        ...customModules,
+        { id, text: action.payload, sections: [] }
+      ],
+      activeSection: id
+    });
+  },
+
+  ADD_MODULE_SECTION(state, action) {
+    const { customModules } = state;
+    const index = action.payload;
+    const customModule = customModules[index];
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, index),
+        Object.assign({}, customModule, {
+          sections: [...customModule.sections, Object.assign({}, CUSTOM_SECTION)],
+          ...customModules.slice(index + 1)
+        })
+      ]
+    });
+  },
+
+  DELETE_MODULE_SECTION(state, action) {
+    const { customModules } = state;
+    const { moduleIndex, sectionIndex } = action.payload;
+    const customModule = customModules[moduleIndex];
+    const { sections } = customModule;
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, moduleIndex),
+        Object.assign({}, customModule, {
+          sections: [
+            ...sections.slice(0, sectionIndex),
+            ...sections.slice(sectionIndex + 1),
+          ]
+        }),
+        ...customModules.slice(moduleIndex + 1),
+      ],
+    });
+  },
+
+  CHANGE_MODULE_SECTION(state, action) {
+    const { customModules } = state;
+    const { section, moduleIndex, sectionIndex } = action.payload;
+    const customModule = customModules[moduleIndex];
+    const { sections } = customModule;
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, moduleIndex),
+        Object.assign({}, customModule, {
+          sections: [
+            ...sections.slice(0, sectionIndex),
+            Object.assign({}, sections[sectionIndex], section),
+            ...sections.slice(sectionIndex + 1),
+          ]
+        }),
+        ...customModules.slice(moduleIndex + 1),
+      ],
+    });
+  },
+
+  CHANGE_MODULE_TITLE(state, action) {
+    const { customModules } = state;
+    const { preTitle, title } = action.payload;
+    const index = customModules.findIndex(module => module.text === preTitle);
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, index),
+        Object.assign({}, customModules[index], { text: title }),
+        ...customModules.slice(index + 1)
+      ]
     });
   },
 

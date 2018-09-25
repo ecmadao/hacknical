@@ -31,11 +31,22 @@ class Nav extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { sections, currentIndex, activeSection } = this.props;
+    if (activeSection !== prevProps.activeSection) {
+      const $dom = $(`.${styles.navWrapper}`);
+      if (!$dom) return;
+      const height = $dom.height();
+      $dom.scrollTop(height / sections.length * currentIndex);
+    }
+  }
+
   render() {
     const {
       id,
       status,
       sections,
+      tail = null,
       activeSection,
       onTransitionEnd,
       handleSectionChange
@@ -68,7 +79,10 @@ class Nav extends React.PureComponent {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        {navs}
+        <div className={styles.navWrapper}>
+          {navs}
+        </div>
+        {tail}
       </div>
     );
   }

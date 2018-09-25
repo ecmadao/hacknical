@@ -3,7 +3,8 @@ const data = {
     save: 'Sauvegarder',
     preview: 'Prévisualiser',
     pre: 'Précédent',
-    next: 'Suivant'
+    next: 'Suivant',
+    confirm: 'Confirm'
   },
   modal: {
     shareText: 'Partager votre CV'
@@ -30,7 +31,9 @@ const data = {
     edu: 'Edus',
     work: 'Works',
     projects: 'Projects',
-    others: 'Others'
+    others: 'Others',
+    addNew: 'Add new',
+    moduleName: 'Module name'
   },
   options: {
     genders: {

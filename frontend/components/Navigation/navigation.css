@@ -3,6 +3,8 @@
 
 .section {
   flex: 1;
+  width: 50px;
+  overflow: hidden;
 
   & .sectionWrapper {
     cursor: pointer;
@@ -65,6 +67,7 @@
   user-select: none;
   transition: transform 0.3s, opacity 0.3s;
   opacity: 1;
+  z-index: 1;
 }
 
 .navigation-hidden {
@@ -85,4 +88,9 @@
 .navigation-exiting {
   opacity: 0;
   transform: translateY(-15%);
+}
+
+.navWrapper {
+  max-height: 450px;
+  overflow-y: scroll;
 }

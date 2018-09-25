@@ -59,6 +59,16 @@ class ResumeUIWrapper extends React.Component {
     };
   }
 
+  renderCustomModules() {
+    const { resume } = this.props;
+    const { customModules = [] } = resume;
+    return customModules.map((module, index) => this.renderCustomModule(module, index));
+  }
+
+  renderCustomModule(module, key) {
+    return null;
+  }
+
   renderResumeSections() {
     const { resume } = this.props;
     const { info } = resume;
@@ -69,6 +79,7 @@ class ResumeUIWrapper extends React.Component {
         this.renderEducations,
         this.renderWorkExperiences,
         this.renderPersonalProjects,
+        this.renderCustomModules,
         this.renderSupplements,
         this.renderSocialLinks,
       ];
@@ -77,6 +88,7 @@ class ResumeUIWrapper extends React.Component {
         this.renderWorkExperiences,
         this.renderPersonalProjects,
         this.renderEducations,
+        this.renderCustomModules,
         this.renderSupplements,
         this.renderSocialLinks,
       ];
