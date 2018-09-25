@@ -21,6 +21,7 @@ const formatResume = (resume) => {
     educations,
     workExperiences,
     personalProjects,
+    customModules = [],
   } = resume;
   const { socialLinks } = others;
 
@@ -99,6 +100,7 @@ const formatResume = (resume) => {
     others: objectAssign({}, others, {
       socialLinks: formatSocials
     }),
+    customModules: customModules.filter(module => module.text)
   });
 }
 

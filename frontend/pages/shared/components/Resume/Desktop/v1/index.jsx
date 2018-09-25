@@ -213,6 +213,26 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     );
   }
 
+  renderCustomModule(module, key) {
+    const { sections } = module;
+
+    const doms = this.renderProjects(sections.map(section => ({
+      url: section.url,
+      name: section.title,
+      details: section.details
+    })));
+
+    if (!doms.length) return null;
+    return (
+      <div className={styles.section} key={key}>
+        {titleInfo(module.text, 'file-text-o')}
+        <div className={styles.info_wrapper}>
+          {doms}
+        </div>
+      </div>
+    );
+  }
+
   renderSupplements(key) {
     const { others } = this.props.resume;
     const { supplements } = others;

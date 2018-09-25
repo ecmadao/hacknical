@@ -251,6 +251,10 @@ const resumeEditActions = {
   deleteSocialLink,
   handleOthersInfoChange,
   deleteSupplement,
+  // custom
+  changeModuleTitle,
+  changeModuleSection,
+  deleteModuleSection,
 };
 
 
@@ -286,9 +290,6 @@ export default objectAssign(
     // custom
     addCustomModule,
     addModuleSection,
-    changeModuleTitle,
-    changeModuleSection,
-    deleteModuleSection,
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name]);
