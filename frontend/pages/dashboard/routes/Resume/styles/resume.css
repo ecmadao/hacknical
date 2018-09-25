@@ -144,7 +144,7 @@
 }
 
 .sectionTitleInput {
-  padding: 0;
+  padding: 0 5px;
   margin: 0;
   flex: initial;
   max-width: 300px;

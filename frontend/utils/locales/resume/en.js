@@ -103,8 +103,12 @@ const datas = {
       }
     },
     custom: {
-      mainButton: 'Add section',
+      mainButton: 'Add new section',
       sideButton: 'Add description',
+      homepage: 'Related url',
+      introText: 'Description for your section',
+      sectionTitle: 'title',
+      addSectionDetail: 'Add description'
     }
   },
   navs: {
