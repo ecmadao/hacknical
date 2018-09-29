@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { InputGroup, InputGroupV2 } from 'light-ui';
+import { IconButton, InputGroup, InputGroupV2 } from 'light-ui';
 import WritableList from 'COMPONENTS/WritableList';
 import styles from '../../../styles/resume.css';
 import locales from 'LOCALES';
@@ -88,9 +88,13 @@ class WorkProject extends React.Component {
               theme="underline"
             />
           </InputGroup>
-          <div className={styles.project_delete} onClick={onDelete}>
-            <i className="fa fa-trash-o" aria-hidden="true" />
-          </div>
+          <IconButton
+            color="red"
+            icon="trash-o"
+            className={styles.resume_delete}
+            onClick={onDelete}
+          />
+          
         </div>
         <WritableList
           placeholder={resumeTexts.addProjectDesc}

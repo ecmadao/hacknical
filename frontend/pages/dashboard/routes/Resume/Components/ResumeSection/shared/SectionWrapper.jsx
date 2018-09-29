@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Input, Button, AnimationComponent } from 'light-ui';
+import { Input, Button, IconButton, AnimationComponent } from 'light-ui';
 import cx from 'classnames';
 import SectionTip from './SectionTip';
 import locales from 'LOCALES';
@@ -93,20 +93,20 @@ class Wrapper extends React.Component {
             &nbsp;
             <SectionTip {...this.props} />
             {editable && (
-              <div className={styles.sectionTitleButton}>
-                <i
-                  aria-hidden="true"
-                  onClick={this.onFocus}
-                  className={`fa fa-pencil ${styles.sectionEdit}`}
-                />
-              </div>
+              <IconButton
+                color="gray"
+                icon="pencil"
+                onClick={this.onFocus}
+                className={styles.sectionOperationButton}
+              />
             )}
             {deletable && (
-              <div className={cx(styles.sectionTitleButton, styles.sectionTitleButtonRight)}>
-                <i
-                  aria-hidden="true"
+              <div className={styles.sectionOperationRight}>
+                <IconButton
+                  color="red"
+                  icon="trash-o"
                   onClick={this.onDelete}
-                  className={`fa fa-trash-o ${styles.sectionRemove}`}
+                  className={styles.sectionOperationButton}
                 />
               </div>
             )}

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-import { InputGroup, InputGroupV2 } from 'light-ui';
+import { InputGroup, IconButton, InputGroupV2 } from 'light-ui';
 import WritableList from 'COMPONENTS/WritableList';
 import locales from 'LOCALES';
 import styles from '../../../styles/resume.css';
@@ -49,12 +49,12 @@ class Section extends React.Component {
     return (
       <div className={styles.resume_piece_container}>
         <div className={cx(styles.resume_wrapper, styles.with_margin)}>
-          <div
-            className={styles.resume_delete}
+          <IconButton
+            color="red"
+            icon="trash-o"
             onClick={handleDelete}
-          >
-            <i className="fa fa-trash-o" aria-hidden="true" />
-          </div>
+            className={styles.resume_delete}
+          />
           <InputGroup
             value={title}
             theme="flat"

@@ -151,15 +151,12 @@
   overflow: hidden;
 }
 
-.sectionTitleButton {
-  padding-left: 10px;
-
-  & i {
-    cursor: pointer;
-  }
+.sectionOperationButton {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-.sectionTitleButtonRight {
+.sectionOperationRight {
   flex: 1;
   justify-content: flex-end;
   display: flex;
@@ -285,8 +282,10 @@
     position: absolute;
     opacity: 0;
     cursor: pointer;
-    left: -20px;
+    left: -40px;
     top: 50%;
+    margin-top: 0;
+    margin-bottom: 0;
     transform: translateY(-50%);
     transition: opacity 0.2s;
 

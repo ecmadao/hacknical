@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { bindActionCreators } from 'redux';
-import { InputGroup, InputGroupV2, Textarea } from 'light-ui';
+import { IconButton, InputGroup, InputGroupV2, Textarea } from 'light-ui';
 import Labels from 'COMPONENTS/Labels';
 import styles from '../../styles/resume.css';
 import resumeActions from '../../redux/actions';
@@ -33,12 +33,12 @@ class PersonalProjects extends React.Component {
       return (
         <div className={styles.resume_piece_container} key={index}>
           <div className={cx(styles.resume_wrapper, styles.with_margin)}>
-            <div
+            <IconButton
+              color="red"
+              icon="trash-o"
               className={styles.resume_delete}
               onClick={this.deleteProject(index)}
-            >
-              <i className="fa fa-trash-o" aria-hidden="true" />
-            </div>
+            />
             <InputGroup
               value={title}
               theme="flat"

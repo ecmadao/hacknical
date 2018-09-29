@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Input, SelectorV2 } from 'light-ui';
+import { Input, IconButton, SelectorV2 } from 'light-ui';
 import WritableList from 'COMPONENTS/WritableList';
 import DateSlider from 'COMPONENTS/DateSlider'
 import dateHelper from 'UTILS/date';
@@ -74,9 +74,12 @@ class Education extends React.Component {
     return (
       <div className={styles.resume_piece_container}>
         <div className={styles.resume_wrapper}>
-          <div className={styles.resume_delete} onClick={handleDelete}>
-            <i className="fa fa-trash-o" aria-hidden="true" />
-          </div>
+          <IconButton
+            color="red"
+            icon="trash-o"
+            onClick={handleDelete}
+            className={styles.resume_delete}
+          />
           <Input
             theme="flat"
             value={school}

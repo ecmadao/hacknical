@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputGroup, InputGroupV2, Input } from 'light-ui';
+import { IconButton, InputGroup, InputGroupV2, Input } from 'light-ui';
 import DateSlider from 'COMPONENTS/DateSlider';
 import WorkProject from './WorkProject';
 import styles from '../../../styles/resume.css';
@@ -111,9 +111,12 @@ class WorkExperience extends React.Component {
             className={styles.last_input}
             onChange={handleExperienceChange('position')}
           />
-          <div className={styles.resume_delete} onClick={deleteExperience}>
-            <i className="fa fa-trash-o" aria-hidden="true" />
-          </div>
+          <IconButton
+            color="red"
+            icon="trash-o"
+            className={styles.resume_delete}
+            onClick={deleteExperience}
+          />
         </div>
         <div className={styles.resume_wrapper}>
           <DateSlider
