@@ -150,7 +150,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(updateTime);
 
   const resumeUrl =
-    `${ctx.request.origin}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true`;
+    `${ctx.request.origin}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true&fromDownload=true`;
 
   notify.slack({
     mq: ctx.mq,
@@ -187,10 +187,11 @@ const downloadResume = async (ctx) => {
 const resumePage = async (ctx) => {
   const { resumeInfo } = ctx;
   const { login } = resumeInfo;
+  const { fromDownload } = ctx.query;
   const user = await network.user.getUser({ login });
 
   const { device } = ctx.state;
-  const { fromDownload, githubLogin } = ctx.session;
+  const { githubLogin } = ctx.session;
   const isAdmin = login === githubLogin;
   const { userName, userId } = user;
 

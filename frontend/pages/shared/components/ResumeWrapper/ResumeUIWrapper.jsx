@@ -130,7 +130,7 @@ class ResumeUIWrapper extends React.Component {
 ResumeUIWrapper.propTypes = {
   resume: PropTypes.object,
   shareInfo: PropTypes.object,
-  login: PropTypes.string
+  login: PropTypes.string,
 };
 
 ResumeUIWrapper.defaultProps = {
