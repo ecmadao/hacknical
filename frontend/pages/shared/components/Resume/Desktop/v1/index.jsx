@@ -314,6 +314,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     } = resume;
     const resumeInfo = info || {};
     const { useGithub, githubUrl } = shareInfo;
+
     const its = resumeLocales.options.person[resumeInfo.gender] || resumeLocales.options.person.male;
     const viewGitHub = resumeLocales.options.view.replace(/%s/, its);
     const githubSection = this.renderGitHub();
@@ -368,6 +369,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
                 component: githubUrl ? (
                   <a
                     href={githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={styles.right_link_info}
                   >
                     {viewGitHub}

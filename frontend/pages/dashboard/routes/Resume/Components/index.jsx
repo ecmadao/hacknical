@@ -217,6 +217,7 @@ class Resume extends React.Component {
     } = resume;
 
     const { url, openShare, template } = shareInfo;
+    delete shareInfo.githubUrl;
 
     const origin = window.location.origin;
     const currentIndex = this.sectionActiveIndex;
