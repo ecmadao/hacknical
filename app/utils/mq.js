@@ -24,14 +24,24 @@ class MessageQueue {
 
   async createMQBatch() {
     logger.info(`[MQ:CREATE][${this.qname}]`);
-    await MNS.createP(this.qname);
-    this.mqBatch = new AliMNS.MQBatch(this.qname, ACCOUNT, REGION);
+    try {
+      await MNS.createP(this.qname);
+    } catch (e) {
+      logger.debug(e);
+    } finally {
+      this.mqBatch = new AliMNS.MQBatch(this.qname, ACCOUNT, REGION);
+    }
   }
 
   async createMQ() {
     logger.info(`[MQ:CREATE][${this.qname}]`);
-    await MNS.createP(this.qname);
-    this.mq = new AliMNS.MQ(this.qname, ACCOUNT, REGION);
+    try {
+      await MNS.createP(this.qname);
+    } catch (e) {
+      logger.debug(e);
+    } finally {
+      this.mq = new AliMNS.MQ(this.qname, ACCOUNT, REGION);
+    }
   }
 
   async receiveMessages(waitSeconds, numOfMessages) {
