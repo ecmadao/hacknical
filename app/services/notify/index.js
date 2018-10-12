@@ -1,5 +1,6 @@
 
 import path from 'path';
+import logger from '../../utils/logger';
 import { shadowImport } from '../../utils/loader';
 
 const PREFIX = __dirname.split('/').slice(-1)[0];
@@ -11,7 +12,11 @@ const DELIVER = shadowImport(path.join(__dirname, 'lib'), {
 const send = (Deliver, options) => {
   const { mq, data } = options;
   process.nextTick(async () => {
-    await new Deliver(mq).send(data);
+    try {
+      await new Deliver(mq).send(data);
+    } catch (e) {
+      logger.error(e);
+    }
   });
 };
 
