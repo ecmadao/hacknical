@@ -2,7 +2,6 @@
 import config from 'config';
 
 const email = config.get('services.messenger.email');
-const qName = config.get('mq.channels')['qname-messenger'];
 
 class EmailMsg {
   constructor(mq) {
@@ -16,18 +15,15 @@ class EmailMsg {
       template = email.template,
     } = options;
 
-    email.channel && await this.mq.sendMessage({
-      message: {
-        data: {
-          to,
-          msg,
-          template,
-        },
-        type: email.type,
-        channel: email.channel
+    email.channel && await this.mq.sendMessage(JSON.stringify({
+      data: {
+        to,
+        msg,
+        template,
       },
-      qname: qName
-    });
+      type: email.type,
+      channel: email.channel
+    }));
   }
 }
 

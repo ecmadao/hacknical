@@ -2,7 +2,6 @@
 import config from 'config';
 
 const slack = config.get('services.messenger.slack');
-const qName = config.get('mq.channels')['qname-messenger'];
 
 class SlackMsg {
   constructor(mq) {
@@ -18,14 +17,11 @@ class SlackMsg {
   async send(msg) {
     const message = this.format(msg);
 
-    slack.channel && await this.mq.sendMessage({
-      message: {
-        data: message,
-        type: 'slack',
-        channel: slack.channel
-      },
-      qname: qName
-    });
+    slack.channel && await this.mq.sendMessage(JSON.stringify({
+      data: message,
+      type: 'slack',
+      channel: slack.channel
+    }));
   }
 
   format(msg) {

@@ -46,15 +46,7 @@
     }
   },
   "mq": {
-    "config": {
-      "host": "127.0.0.1",
-      "port": 6379,
-      "ns": "geeknical",
-      "options": {}
-    },
-    "channels": {
-      "qname-messenger": "messenger-local"
-    }
+    "qname": "messenger-local"
   },
   "downloads": "../../public/downloads"
 }

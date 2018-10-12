@@ -143,6 +143,7 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
+    "ali-mns": "^2.6.8",
     "assets-webpack-plugin": "^3.5.1",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
@@ -173,7 +174,6 @@
     "rc-times": "0.0.6",
     "redis": "^2.6.3",
     "request": "^2.75.0",
-    "rsmq": "^0.8.2",
     "shortid": "^2.2.13"
   },
   "repository": {

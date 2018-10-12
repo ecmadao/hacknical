@@ -1,49 +1,77 @@
-import RedisSMQ from 'rsmq';
+
+
+import AliMNS from 'ali-mns';
 import config from 'config';
 import logger from './logger';
 
 const mqConfig = config.get('mq');
-const mqName = mqConfig.channels['qname-messenger'];
 
-const wrap = (func, ...params) =>
-  new Promise((resolve, reject) => {
-    func(...params, (error, result) => {
-      if (error) reject(error);
-      resolve(result);
-    });
-  });
+const REGION = mqConfig.region || process.env.HACKNICAL_ALI_MNS_REGION;
+const ACCOUNT = new AliMNS.Account(
+  mqConfig.accountId || process.env.HACKNICAL_ALI_ACCOUNT_ID,
+  mqConfig.accessId || process.env.HACKNICAL_ALI_ACCESS_ID,
+  mqConfig.accessKey || process.env.HACKNICAL_ALI_ACCESS_KEY,
+);
+const MNS = new AliMNS.MNS(
+  ACCOUNT,
+  REGION
+);
 
 class MessageQueue {
-  constructor(options = {}) {
-    const initOptions = Object.assign({}, mqConfig.config, options);
-    this.mq = new RedisSMQ(initOptions);
-    logger.info(`[MQ:CONNECT][${initOptions.host}:${initOptions.port}]`);
+  constructor(qname) {
+    this.qname = qname;
   }
 
-  createQueue(qname = mqName) {
-    return wrap(this.mq.createQueue, { qname });
+  async createMQBatch() {
+    logger.info(`[MQ:CREATE][${this.qname}]`);
+    await MNS.createP(this.qname);
+    this.mqBatch = new AliMNS.MQBatch(this.qname, ACCOUNT, REGION);
   }
 
-  sendMessage(options = {}) {
-    const {
-      message,
-      qname = mqName
-    } = options;
-    if (!message) return;
-    logger.info(`[MQ:SEND][${qname}:${JSON.stringify(message)}]`);
-    return wrap(this.mq.sendMessage, {
-      qname,
-      message: JSON.stringify(message)
-    });
+  async createMQ() {
+    logger.info(`[MQ:CREATE][${this.qname}]`);
+    await MNS.createP(this.qname);
+    this.mq = new AliMNS.MQ(this.qname, ACCOUNT, REGION);
+  }
+
+  async receiveMessages(waitSeconds, numOfMessages) {
+    if (!this.mqBatch) {
+      await this.createQueue();
+    }
+    return await this.mqBatch.recvP(waitSeconds, numOfMessages);
+  }
+
+  async receiveMessage(waitSeconds) {
+    if (!this.mq) {
+      await this.createMQ();
+    }
+    return await this.mq.recvP(waitSeconds);
+  }
+
+  async deleteMessage(receiptHandle) {
+    if (!this.mq) {
+      await this.createMQ();
+    }
+    return await this.mq.deleteP(receiptHandle);
+  }
+
+  async sendMessage(msg) {
+    if (!this.mq) {
+      await this.createMQ();
+    }
+    return await this.mq.sendP(msg);
+  }
+
+  async sendMessages(msgs) {
+    if (!this.mqBatch) {
+      await this.createQueue();
+    }
+    const datas = [];
+    for (const msg of msgs) {
+      datas.push(new AliMNS.Msg(msg, 16));
+    }
+    return await this.mqBatch.sendP(datas);
   }
 }
 
-let instance = null;
-
-const getMQ = (options) => {
-  if (instance) return instance;
-  instance = new MessageQueue(options);
-  return instance;
-};
-
-export default getMQ;
+export default MessageQueue;
