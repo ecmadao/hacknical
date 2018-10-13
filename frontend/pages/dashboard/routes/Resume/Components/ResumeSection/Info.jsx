@@ -73,9 +73,11 @@ class Info extends React.Component {
           </div>
           <div className={styles.resume_wrapper}>
             <InputGroupV2
+              style={{ width: '275px' }}
               sections={[
                 {
                   value: prefix || '',
+                  style: { width: 60 },
                   placeholder: resumeTexts.emailPrefix,
                   onChange: val => this.handleInfoChange('email')(`${val}@${suffix || ''}`)
                 },
@@ -91,7 +93,7 @@ class Info extends React.Component {
                 {
                   value: suffix || '',
                   placeholder: resumeTexts.emailSuffix,
-                  style: { width: 100 },
+                  style: { width: 150 },
                   onChange: val => this.handleInfoChange('email')(`${prefix || ''}@${val}`)
                 }
               ]}
