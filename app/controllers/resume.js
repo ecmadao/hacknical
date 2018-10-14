@@ -32,7 +32,7 @@ const getResumeShareStatus = (resumeInfo, locale) => {
     useGithub,
     resumeHash,
     simplifyUrl,
-    githubUrl: `/${login}/github?locale=${locale}`,
+    githubUrl: `hacknical.com/${login}/github?locale=${locale}`,
     url: simplifyUrl && login
       ? `${login}/resume?locale=${locale}`
       : `resume/${resumeHash}?locale=${locale}`
