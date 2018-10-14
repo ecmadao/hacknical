@@ -48,6 +48,7 @@ class PersonalProjects extends React.Component {
                 left: '0',
                 transform: 'translateX(0)'
               }}
+              inputClassName={styles.resumeFormItem}
               wrapperClassName={cx(styles.input_group, styles.single_input)}
               onChange={this.handleProjectChange(index)('title')}
             >
@@ -74,6 +75,7 @@ class PersonalProjects extends React.Component {
                   margin: 0
                 }}
                 theme="underline"
+                className={styles.resumeFormItem}
               />
             </InputGroup>
           </div>
@@ -84,6 +86,7 @@ class PersonalProjects extends React.Component {
               type="textarea"
               disabled={disabled}
               placeholder={resumeTexts.projectDesc}
+              className={styles.resumeFormItemImportant}
               wordCountTemplate={resumeTexts.textareaWordCount}
               onChange={this.handleProjectChange(index)('desc')}
             />

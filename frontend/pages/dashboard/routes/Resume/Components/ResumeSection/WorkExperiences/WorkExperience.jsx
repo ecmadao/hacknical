@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { IconButton, InputGroup, InputGroupV2, Input } from 'light-ui';
 import DateSlider from 'COMPONENTS/DateSlider';
 import WorkProject from './WorkProject';
@@ -74,7 +75,7 @@ class WorkExperience extends React.Component {
             theme="flat"
             value={company}
             disabled={disabled}
-            inputClassName={styles.inputGroup}
+            inputClassName={cx(styles.inputGroup, styles.resumeFormItem)}
             wrapperClassName={styles.inputTipsoWrapper}
             placeholder={resumeTexts.companyName}
             onChange={handleExperienceChange('company')}
@@ -101,6 +102,7 @@ class WorkExperience extends React.Component {
                 margin: 0
               }}
               theme="underline"
+              className={styles.resumeFormItem}
             />
           </InputGroup>
           <Input
@@ -108,7 +110,7 @@ class WorkExperience extends React.Component {
             value={position}
             disabled={disabled}
             placeholder={resumeTexts.position}
-            className={styles.last_input}
+            className={cx(styles.last_input, styles.resumeFormItem)}
             onChange={handleExperienceChange('position')}
           />
           <IconButton

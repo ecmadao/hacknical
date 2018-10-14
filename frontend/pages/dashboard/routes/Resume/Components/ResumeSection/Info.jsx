@@ -61,6 +61,7 @@ class Info extends React.Component {
               value={name}
               disabled={disabled}
               placeholder={resumeTexts.name}
+              className={styles.resumeFormItem}
               onChange={this.handleInfoChange('name')}
             />
             <SelectorV2
@@ -68,12 +69,14 @@ class Info extends React.Component {
               value={gender}
               options={GENDERS}
               disabled={disabled}
+              className={styles.resumeFormItem}
               onChange={this.handleInfoChange('gender')}
             />
           </div>
           <div className={styles.resume_wrapper}>
             <InputGroupV2
-              style={{ width: '275px' }}
+              style={{ width: '273px' }}
+              className={styles.resumeFormItem}
               sections={[
                 {
                   value: prefix || '',
@@ -104,6 +107,7 @@ class Info extends React.Component {
               theme="flat"
               value={phone}
               disabled={disabled}
+              className={styles.resumeFormItem}
               placeholder={resumeTexts.phone}
               onChange={this.handleInfoChange('phone')}
             />
@@ -113,6 +117,7 @@ class Info extends React.Component {
               theme="flat"
               value={intention}
               disabled={disabled}
+              className={styles.resumeFormItem}
               placeholder={resumeTexts.job}
               onChange={this.handleInfoChange('intention')}
             />
@@ -120,6 +125,7 @@ class Info extends React.Component {
               theme="flat"
               value={location}
               disabled={disabled}
+              className={styles.resumeFormItem}
               placeholder={resumeTexts.position}
               onChange={this.handleInfoChange('location')}
             />
@@ -132,6 +138,7 @@ class Info extends React.Component {
                 version="v2"
                 disabled={disabled}
                 checked={freshGraduate}
+                className={styles.resumeFormItem}
                 onChange={this.handleResumeTypeChange}
               />
             </div>
@@ -143,6 +150,7 @@ class Info extends React.Component {
                 version="v2"
                 disabled={disabled}
                 checked={hireAvailable}
+                className={styles.resumeFormItem}
                 onChange={this.handleAvailableChange}
               />
             </div>

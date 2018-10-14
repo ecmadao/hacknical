@@ -96,6 +96,7 @@ class Others extends React.Component {
               type="number"
               disabled={disabled}
               value={expectSalary}
+              className={styles.resumeFormItem}
               placeholder={resumeTexts.expectSalary}
               onChange={this.handleOthersChange('expectSalary')}
             />
@@ -103,6 +104,7 @@ class Others extends React.Component {
               theme="flat"
               disabled={disabled}
               value={expectLocation}
+              className={styles.resumeFormItem}
               placeholder={resumeTexts.expectCity}
               onChange={this.handleOthersChange('expectLocation')}
             />
@@ -112,6 +114,7 @@ class Others extends React.Component {
               theme="flat"
               value={dream}
               disabled={disabled}
+              className={styles.resumeFormItem}
               placeholder={resumeTexts.yourDream}
               onChange={this.handleOthersChange('dream')}
             />

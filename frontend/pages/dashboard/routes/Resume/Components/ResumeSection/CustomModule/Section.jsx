@@ -64,6 +64,7 @@ class Section extends React.Component {
               left: '0',
               transform: 'translateX(0)'
             }}
+            inputClassName={styles.resumeFormItem}
             wrapperClassName={cx(styles.input_group, styles.single_input)}
             onChange={handleChange('title')}
           >
@@ -90,6 +91,7 @@ class Section extends React.Component {
                 margin: 0
               }}
               theme="underline"
+              className={styles.resumeFormItem}
             />
           </InputGroup>
         </div>

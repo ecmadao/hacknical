@@ -56,6 +56,7 @@ class WorkProject extends React.Component {
             value={project.name}
             disabled={disabled}
             className={styles.last_input}
+            inputClassName={styles.resumeFormItem}
             placeholder={resumeTexts.projectName}
             onChange={this.handleProjectChange('name')}
             tipsoStyle={{
@@ -86,6 +87,7 @@ class WorkProject extends React.Component {
                 margin: 0
               }}
               theme="underline"
+              className={styles.resumeFormItem}
             />
           </InputGroup>
           <IconButton
@@ -94,7 +96,6 @@ class WorkProject extends React.Component {
             className={styles.resume_delete}
             onClick={onDelete}
           />
-          
         </div>
         <WritableList
           placeholder={resumeTexts.addProjectDesc}

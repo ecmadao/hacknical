@@ -1,5 +1,6 @@
 
 import React from 'react';
+import cx from 'classnames';
 import { Input, IconButton, SelectorV2 } from 'light-ui';
 import WritableList from 'COMPONENTS/WritableList';
 import DateSlider from 'COMPONENTS/DateSlider'
@@ -85,8 +86,8 @@ class Education extends React.Component {
             value={school}
             disabled={disabled}
             placeholder={resumeTexts.school}
-            className={styles.single_input}
             onChange={handleChange('school')}
+            className={cx(styles.single_input, styles.resumeFormItem)}
           />
         </div>
         <div className={styles.resume_wrapper}>
@@ -96,6 +97,7 @@ class Education extends React.Component {
             disabled={disabled}
             placeholder={resumeTexts.major}
             onChange={handleChange('major')}
+            className={styles.resumeFormItem}
           />
           <SelectorV2
             theme="flat"
@@ -103,6 +105,7 @@ class Education extends React.Component {
             disabled={disabled}
             options={EDUCATIONS}
             onChange={handleChange('education')}
+            className={styles.resumeFormItem}
           />
         </div>
         <div className={styles.resume_wrapper}>

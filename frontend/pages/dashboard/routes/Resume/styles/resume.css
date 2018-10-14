@@ -563,3 +563,10 @@
   }
 }
 
+.resumeFormItem {
+  border-color: var(--oc-gray-4);
+}
+
+.resumeFormItemImportant {
+  border-color: var(--oc-gray-4) !important;
+}
