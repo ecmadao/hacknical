@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
 import { PortalModal } from 'light-ui';
 import styles from '../../../styles/mobile.css';
@@ -60,7 +61,9 @@ class Menus extends MenuWrapper {
       </a>
     ));
     return (
-      <div className={styles.languagesWrapper}>
+      <div className={cx(styles.menu, styles.languagesWrapper)}>
+        <i className="fa fa-language" aria-hidden="true" />
+        &nbsp;&nbsp;&nbsp;
         {languageDOMs}
       </div>
     );
@@ -111,6 +114,7 @@ class Menus extends MenuWrapper {
                   {tabs.about.text}
                 </a>
                 <div className={styles.menuBottom}>
+                  {this.renderLanguageOptions()}
                   <a href="/user/logout" className={styles.menu}>
                     <i className="fa fa-sign-out" aria-hidden="true" />
                     &nbsp;&nbsp;
@@ -118,7 +122,6 @@ class Menus extends MenuWrapper {
                   </a>
                 </div>
               </div>
-              {this.renderLanguageOptions()}
             </div>
           </PortalModal>
         </div>
