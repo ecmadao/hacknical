@@ -138,7 +138,7 @@ DateSlider.propTypes = {
 
 DateSlider.defaultProps = {
   pushInterval: 'day',
-  minDate: getDateBeforeYears(10),
+  minDate: getDateBeforeYears(20),
   maxDate: MAX_DATE,
   initialStart: getDateBeforeYears(2),
   initialEnd: getDateBeforeYears(1),

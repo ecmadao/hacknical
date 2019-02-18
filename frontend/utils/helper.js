@@ -105,7 +105,7 @@ export const splitArray = (array, size = 1) => {
 const URL_REG =
   /(https|http|ftp|rtsp|mms)?:\/\/([a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9])(com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])*/i;
 
-export const isUrl = value => validator.isURL(value);
+export const isUrl = value => value && validator.isURL(value);
 
 export const hasUrl = text => URL_REG.test(text);
 
