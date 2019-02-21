@@ -44,27 +44,6 @@ class MessageQueue {
     }
   }
 
-  async receiveMessages(waitSeconds, numOfMessages) {
-    if (!this.mqBatch) {
-      await this.createQueue();
-    }
-    return await this.mqBatch.recvP(waitSeconds, numOfMessages);
-  }
-
-  async receiveMessage(waitSeconds) {
-    if (!this.mq) {
-      await this.createMQ();
-    }
-    return await this.mq.recvP(waitSeconds);
-  }
-
-  async deleteMessage(receiptHandle) {
-    if (!this.mq) {
-      await this.createMQ();
-    }
-    return await this.mq.deleteP(receiptHandle);
-  }
-
   async sendMessage(msg) {
     if (!this.mq) {
       await this.createMQ();

@@ -93,7 +93,7 @@ class WorkExperience extends React.Component {
                 {
                   disabled,
                   type: 'url',
-                  value: url.replace(/^https?:\/\//, ''),
+                  value: url ? url.replace(/^https?:\/\//, '') : '',
                   placeholder: resumeTexts.homepage,
                   onChange: handleExperienceChange('url'),
                 }

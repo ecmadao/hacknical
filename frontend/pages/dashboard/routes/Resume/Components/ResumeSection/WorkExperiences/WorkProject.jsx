@@ -78,7 +78,7 @@ class WorkProject extends React.Component {
                 {
                   disabled,
                   type: 'url',
-                  value: project.url.replace(/^https?:\/\//, ''),
+                  value: project.url ? project.url.replace(/^https?:\/\//, '') : '',
                   placeholder: resumeTexts.projectHomepage,
                   onChange: this.handleProjectChange('url'),
                 }

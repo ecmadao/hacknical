@@ -14,6 +14,7 @@ const send = (Deliver, options) => {
   process.nextTick(async () => {
     try {
       await new Deliver(mq).send(data);
+      logger.info(`[notify] ${mq} - ${JSON.stringify(data)}`);
     } catch (e) {
       logger.error(e);
     }

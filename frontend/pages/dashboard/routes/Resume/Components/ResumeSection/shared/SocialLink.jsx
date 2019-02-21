@@ -102,7 +102,7 @@ class SocialLink extends React.Component {
             prefix: 'link',
             required: true,
             style: { width: 200 },
-            value: url.replace(/^https?:\/\//, ''),
+            value: url ? url.replace(/^https?:\/\//, '') : '',
             placeholder: resumeTexts.links.addLinkUrl,
             onChange: onInputChange('url')
           }

@@ -66,7 +66,7 @@ class PersonalProjects extends React.Component {
                     disabled,
                     type: 'url',
                     style: { width: 200 },
-                    value: url.replace(/^https?:\/\//, ''),
+                    value: url ? url.replace(/^https?:\/\//, '') : '',
                     placeholder: resumeTexts.homepage,
                     onChange: this.handleProjectChange(index)('url')
                   }
