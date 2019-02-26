@@ -161,7 +161,8 @@ module.exports = {
       manifest: require(path.join(PATH.BUILD_PATH, 'runtime-manifest.json'))
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.SENTRY': JSON.stringify(process.env.SENTRY)
     }),
     new webpack.BannerPlugin({
       entryOnly: true,

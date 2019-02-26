@@ -1,12 +1,13 @@
-import 'SRC/vendor/404.css';
-import 'STYLES/fonts-hack.css';
-import Rock from 'PAGES/initial/rock';
 
-const redirect = (url = '/') => { window.location = url; };
+import 'SRC/vendor/404.css'
+import 'STYLES/fonts-hack.css'
+import Rock from 'PAGES/initial/rock'
+
+const redirect = url => window.location = url
 
 $(() => {
-  const $content = $('.content-wrapper');
-  const rock = new Rock($content, 50);
+  const $content = $('.content-wrapper')
+  const rock = new Rock($content, 50)
   rock
     .roll({ chars: '$ seems nothing could found ' })
     .then(instance => instance.wait(1000))
@@ -17,5 +18,5 @@ $(() => {
       animation: 'flash',
       time: 600
     }))
-    .then(() => redirect());
-});
+    .then(() => redirect('/'))
+})

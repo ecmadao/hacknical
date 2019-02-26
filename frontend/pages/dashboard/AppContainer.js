@@ -1,13 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { renderRoutes } from 'react-router-config';
-import { ConnectedRouter } from 'react-router-redux';
-import { Provider } from 'react-redux';
-import { removeDOM } from 'UTILS/helper';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { renderRoutes } from 'react-router-config'
+import { ConnectedRouter } from 'react-router-redux'
+import { Provider } from 'react-redux'
+import { removeDOM } from 'UTILS/helper'
+import * as Sentry from '@sentry/browser'
 
 class AppContainer extends React.Component {
   componentDidMount() {
     removeDOM('#loading', { async: true, timeout: 500 });
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
+        scope.setExtra(key, errorInfo[key])
+      })
+      Sentry.captureException(error)
+    })
   }
 
   render() {
