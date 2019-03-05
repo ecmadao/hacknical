@@ -1,16 +1,16 @@
 
-export const ttl = 600;
+export const ttl = 600
 
 export const getUser = qs => ({
   qs,
   url: '/user'
-});
+})
 
 export const createUser = data => ({
   body: { data },
   method: 'post',
   url: '/user'
-});
+})
 
 export const updateUser = (userId, data) => ({
   body: {
@@ -19,34 +19,34 @@ export const updateUser = (userId, data) => ({
   },
   method: 'put',
   url: '/user'
-});
+})
 
 export const getUserCount = () => ({
   useCache: true,
-  url: '/user/count',
-});
+  url: '/user/count'
+})
 
 /* =========================================================== */
 
 export const getResume = qs => ({
   qs,
-  url: '/resume',
-});
+  url: '/resume'
+})
 
 export const updateResume = ({ userId, login, resume }) => ({
   body: {
     login,
     resume,
-    userId,
+    userId
   },
   method: 'put',
-  url: '/resume',
-});
+  url: '/resume'
+})
 
 export const getResumeInfo = qs => ({
   qs,
-  url: '/resume/information',
-});
+  url: '/resume/information'
+})
 
 export const setResumeInfo = ({ userId, login, info }) => ({
   body: {
@@ -55,20 +55,20 @@ export const setResumeInfo = ({ userId, login, info }) => ({
     userId
   },
   method: 'put',
-  url: '/resume/information',
-});
+  url: '/resume/information'
+})
 
 export const patchResumeReminder = ({ userId, login, reminder }) => ({
   body: {
     login,
     userId,
-    reminder,
+    reminder
   },
   method: 'patch',
-  url: '/resume/reminder',
-});
+  url: '/resume/reminder'
+})
 
 export const getResumeCount = () => ({
   useCache: true,
-  url: '/resume/count',
-});
+  url: '/resume/count'
+})

@@ -108,7 +108,7 @@ const datas = {
       homepage: 'Related url',
       introText: 'Description for your section',
       sectionTitle: 'title',
-      addSectionDetail: 'Add description'
+      addSectionDetail: 'Add description, then press Enter to add it'
     }
   },
   navs: {

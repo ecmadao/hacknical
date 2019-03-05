@@ -65,9 +65,12 @@ class Wrapper extends React.Component {
     const { titleEditing } = this.state;
 
     const onStepChange = (step) => {
-      const callback = () => onSectionChange && onSectionChange(step);
-      onExit && onExit(callback);
-    };
+      let index = step
+      if (step < 0) index = 0
+      if (step > maxIndex - 1) index = maxIndex - 1
+      const callback = () => onSectionChange && onSectionChange(index)
+      onExit && onExit(callback)
+    }
 
     return (
       <div

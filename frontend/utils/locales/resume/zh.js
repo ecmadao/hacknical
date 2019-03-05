@@ -122,7 +122,7 @@ const datas = {
       sideButton: '添加描述',
       introText: '添加相应的描述',
       sectionTitle: '标题',
-      addSectionDetail: '输入描述'
+      addSectionDetail: '输入描述，并按下回车添加'
     }
   },
   navs: {

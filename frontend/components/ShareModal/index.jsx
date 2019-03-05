@@ -51,7 +51,7 @@ class ShareModal extends React.Component {
     const colorDark = options.openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
     this.qrcode.innerHTML = '';
 
-    this.qrcode && new QRCode(this.qrcode, {
+    this.qrcode && window.QRCode && new QRCode(this.qrcode, {
       colorDark,
       width: 120,
       height: 120,

@@ -1,9 +1,10 @@
-import moment from 'moment';
 
-moment.locale('zh-cn');
+import moment from 'moment'
 
-const formatDate = date => format => moment(date).format(format);
-const getSeconds = date => parseInt(formatDate(new Date(date))('X'), 10);
+moment.locale('zh-cn')
+
+const formatDate = date => format => moment(date).format(format)
+const getSeconds = date => parseInt(formatDate(new Date(date))('X'), 10)
 
 /**
  * [getValidateDate]
@@ -12,12 +13,12 @@ const getSeconds = date => parseInt(formatDate(new Date(date))('X'), 10);
  * @return {[string]}                   [2017-01-18 09:00]
  */
 export const getValidateDate = (targetDate) => {
-  const [date, time] = targetDate.split('T');
+  const [date, time] = targetDate.split('T')
   if (!time) {
     return date
   }
-  return `${date} ${time.split(':').slice(0, 1)[0]}:00`;
-};
+  return `${date} ${time.split(':').slice(0, 1)[0]}:00`
+}
 
 export default {
   getSeconds,
@@ -30,5 +31,5 @@ export default {
     moment().add(-parseInt(years, 10), 'years').format('L'),
   getMonth: date => formatDate(date)('M'),
   getDateBySeconds: (seconds, format = 'YYYY-MM-DD') =>
-    moment.unix(seconds).format(format),
-};
+    moment.unix(seconds).format(format)
+}

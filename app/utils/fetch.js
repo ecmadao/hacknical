@@ -85,4 +85,3 @@ const handler = {
 
 const proxy = new Proxy({}, handler);
 export default proxy;
-

@@ -156,10 +156,12 @@ class ShareRecords extends React.Component {
   }
 
   renderQrcode() {
-    const { info, index } = this.props;
-    const { url } = info;
-    const qrcodeId = `qrcode-${index}`;
-    $(`#${qrcodeId}`).empty();
+    const { info, index } = this.props
+    const { url } = info
+    const qrcodeId = `qrcode-${index}`
+    $(`#${qrcodeId}`).empty()
+    if (!window.QRCode) return
+
     this.qrcode = new QRCode(document.getElementById(qrcodeId), {
       text: `${window.location.origin}/${url}`,
       width: 120,
@@ -167,7 +169,7 @@ class ShareRecords extends React.Component {
       colorDark: GREEN_COLORS[1],
       colorLight: '#ffffff',
       correctLevel: QRCode.CorrectLevel.H
-    });
+    })
   }
 
   renderDevicesChart() {

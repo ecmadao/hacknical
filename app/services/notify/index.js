@@ -1,40 +1,40 @@
 
-import path from 'path';
-import logger from '../../utils/logger';
-import { shadowImport } from '../../utils/loader';
+import path from 'path'
+import logger from '../../utils/logger'
+import { shadowImport } from '../../utils/loader'
 
-const PREFIX = __dirname.split('/').slice(-1)[0];
+const PREFIX = __dirname.split('/').slice(-1)[0]
 const DELIVER = shadowImport(path.join(__dirname, 'lib'), {
   prefix: PREFIX,
   excludes: ['shared.js']
-});
+})
 
 const send = (Deliver, options) => {
-  const { mq, data } = options;
+  const { mq, data } = options
   process.nextTick(async () => {
     try {
-      await new Deliver(mq).send(data);
-      logger.info(`[notify] ${mq} - ${JSON.stringify(data)}`);
+      await new Deliver(mq).send(data)
+      logger.info(`[notify] ${mq} - ${JSON.stringify(data)}`)
     } catch (e) {
-      logger.error(e);
+      logger.error(e)
     }
-  });
-};
+  })
+}
 
 const handler = {
   get(_, name) {
-    const key = `${PREFIX}.${name}`;
+    const key = `${PREFIX}.${name}`
     if (!DELIVER[Symbol.for(key)]) {
-      throw new Error(`[INVALIDATE METHOD] unknown source ${name}`);
+      throw new Error(`[INVALIDATE METHOD] unknown source ${name}`)
     }
 
-    const Deliver = DELIVER[Symbol.for(key)];
+    const Deliver = DELIVER[Symbol.for(key)]
 
-    return options => send(Deliver, options);
+    return options => send(Deliver, options)
   }
-};
+}
 
 function target() {}
-const SenderFactory = new Proxy(target, handler);
+const SenderFactory = new Proxy(target, handler)
 
-export default SenderFactory;
+export default SenderFactory

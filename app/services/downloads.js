@@ -5,7 +5,6 @@ import fs from 'fs-extra'
 import klawSync from 'klaw-sync'
 import config from 'config'
 import logger from '../utils/logger'
-// import webpage from 'webpage'
 
 const sourcePath = config.get('downloads')
 

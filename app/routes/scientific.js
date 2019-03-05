@@ -1,12 +1,13 @@
-import koaRouter from 'koa-router';
-import Scientific from '../controllers/scientific';
-import cache from '../controllers/helper/cache';
-import check from '../controllers/helper/check';
-import share from '../controllers/helper/share';
+
+import koaRouter from 'koa-router'
+import Scientific from '../controllers/scientific'
+import cache from '../controllers/helper/cache'
+import check from '../controllers/helper/check'
+import share from '../controllers/helper/share'
 
 const router = koaRouter({
   prefix: '/scientific'
-});
+})
 
 router.get(
   '/:login/statistic',
@@ -18,7 +19,7 @@ router.get(
   cache.set({
     expire: 86400 // 24 hours
   })
-);
+)
 
 router.get(
   '/:login/predictions',
@@ -28,7 +29,7 @@ router.get(
   }),
   Scientific.getUserPredictions,
   cache.set()
-);
+)
 
 router.delete(
   '/:login/predictions',
@@ -36,7 +37,7 @@ router.delete(
   check.body('fullName'),
   Scientific.removePrediction,
   cache.del()
-);
+)
 
 router.put(
   '/:login/predictions',
@@ -44,6 +45,6 @@ router.put(
   check.body('fullName', 'liked'),
   Scientific.putPredictionFeedback,
   cache.del()
-);
+)
 
-module.exports = router;
+module.exports = router

@@ -1,4 +1,5 @@
-import crypto from 'crypto';
+
+import crypto from 'crypto'
 
 const getSignature = (options) => {
   const {
@@ -6,8 +7,8 @@ const getSignature = (options) => {
     method,
     secretKey,
     body = '',
-    contentType = '',
-  } = options;
+    contentType = ''
+  } = options
   return crypto.createHmac('sha1', secretKey)
     .update(
       Buffer.from(
@@ -19,7 +20,7 @@ const getSignature = (options) => {
         ].join('\n'),
         'utf-8'
       )
-    ).digest('base64');
-};
+    ).digest('base64')
+}
 
-export default getSignature;
+export default getSignature

@@ -182,7 +182,7 @@ class Resume extends React.Component {
     const { resume } = this.props;
     const { sections, customModules } = resume;
     const section = [...sections, ...customModules][index];
-    this.handleSectionChange(section.id);
+    section && this.handleSectionChange(section.id);
   }
 
   renderSectionCreator() {
