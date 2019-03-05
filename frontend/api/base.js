@@ -51,10 +51,10 @@ const fetchApi = (url, method, data) => {
       }
       NProgress.done();
       return json.result || null;
-    }).catch((ex) => {
-      NProgress.done();
-      throw new Error('Request Parsing Error', ex);
-    });
+    }).catch((e) => {
+      NProgress.done()
+      throw new Error(`[Request Parsing Error] ${url} - ${JSON.stringify(options)}`, e.stack || e)
+    })
 };
 
 const getCsrf = (resolve) => {
