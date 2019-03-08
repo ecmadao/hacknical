@@ -18,12 +18,18 @@
 			"resumePageview": " count that resume page was shared."
 		}
   },
-  "errorPage": {
+  "404Page": {
     "title": "hacknical | not found",
     "404": "404 not found.",
     "text": "WTF? YOU ARE IN THE NO-MANS LAND",
 	  "redirectText": "Going back home in a few seconds"
   },
+  "500Page": {
+		"title": "hacknical | server error",
+		"text": "WTF? Some terrible things happened",
+		"redirectText": "Take a rest~",
+		"500": "Some terrible things happened"
+	},
   "dashboard": {
     "title": "hacknical | %s",
     "about": "about",

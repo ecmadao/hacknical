@@ -18,11 +18,17 @@
 			"resumePageview": " 次简历被分享"
 		}
 	},
-	"errorPage": {
+	"404Page": {
 		"title": "hacknical | 没有找到页面",
     "404": "没有找到页面",
 		"text": "阿西吧！你进入了未知区域",
 		"redirectText": "即将回到首页"
+	},
+	"500Page": {
+		"title": "hacknical | 服务器错误",
+		"text": "阿西吧！服务器貌似挂了..",
+		"redirectText": "休息一会吧~",
+		"500": "服务器错误"
 	},
 	"dashboard": {
 		"title": "hacknical | %s 的个人主页",

@@ -1,12 +1,12 @@
 
-import React from 'react';
-import { Input, Button, IconButton, AnimationComponent } from 'light-ui';
-import cx from 'classnames';
-import SectionTip from './SectionTip';
-import locales from 'LOCALES';
-import styles from '../../../styles/resume.css';
+import React from 'react'
+import { Input, Button, IconButton, AnimationComponent } from 'light-ui'
+import cx from 'classnames'
+import SectionTip from './SectionTip'
+import locales from 'LOCALES'
+import styles from '../../../styles/resume.css'
 
-const resumeTexts = locales('resume');
+const resumeTexts = locales('resume')
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -157,7 +157,7 @@ class Wrapper extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -165,7 +165,7 @@ const SectionWrapper = props => (
   <AnimationComponent>
     <Wrapper {...props} />
   </AnimationComponent>
-);
+)
 
 SectionWrapper.defaultProps = {
   section: 'info',
@@ -177,7 +177,7 @@ SectionWrapper.defaultProps = {
   button: '',
   disabled: false,
   onClick: Function.prototype,
-  onSectionChange: Function.prototype,
-};
+  onSectionChange: Function.prototype
+}
 
-export default SectionWrapper;
+export default SectionWrapper

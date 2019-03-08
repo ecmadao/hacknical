@@ -30,9 +30,9 @@ const landingPage = async (ctx) => {
 
 const handle404 = async (ctx) => {
   await ctx.render('error/404', {
-    text: ctx.__('errorPage.text'),
-    title: ctx.__('errorPage.title'),
-    redirectText: ctx.__('errorPage.redirectText')
+    text: ctx.__('404Page.text'),
+    title: ctx.__('404Page.title'),
+    redirectText: ctx.__('404Page.redirectText')
   });
 };
 

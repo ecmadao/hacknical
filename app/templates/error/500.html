@@ -1,0 +1,19 @@
+
+{% extends "layouts/base.html" %}
+
+{% block css %}
+  <link href="{{ assetsPath("assets/500.bundle.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+  <div class="app">
+    <div class="content">
+      <div class="content-wrapper">
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script async defer src="{{ assetsPath("assets/500.bundle.js") }}"></script>
+{% endblock %}

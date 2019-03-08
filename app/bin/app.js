@@ -113,11 +113,13 @@ app.use(views(path.join(__dirname, '../templates'), {
 }));
 // router
 app.use(router.routes(), router.allowedMethods());
-// error
-app.on('error', (err) => {
-  logger.error(err);
-});
 
-app.listen(process.env.PORT || port);
+const init = async () => {
+  try {
+    app.listen(process.env.PORT || port)
+  } catch (err) {
+    logger.error(`[ERROR][${err || err.stack}]`)
+  }
+}
 
-export default app;
+init()

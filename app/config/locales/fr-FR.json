@@ -11,12 +11,18 @@
     "about": "À propos",
     "loginText": "Utilisez les données de GitHub afin de proposer un meilleur CV"
   },
-  "errorPage": {
+  "404Page": {
     "title": "Hacknical | page introuvable",
     "404": "404 introuvable.",
     "text": "WTF? ÊTES-VOUS PERDU?",
 	  "redirectText": "Retour à l'accueil dans quelques secondes"
   },
+  "500Page": {
+		"title": "hacknical | server error",
+		"text": "WTF? Some terrible things happened",
+		"redirectText": "Take a rest~",
+		"500": "Some terrible things happened"
+	},
   "dashboard": {
     "title": "Hacknical | %s"
   },

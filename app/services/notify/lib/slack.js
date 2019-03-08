@@ -36,6 +36,7 @@ class SlackMsg {
       login: this._loginMsg,
       signup: this._signupMsg,
       resume: this._resumeMsg,
+      error: this._errorMsg,
       download: this._downloadMsg,
       view: this._viewMsg,
       scientific: this._scientificMsg
@@ -56,6 +57,10 @@ class SlackMsg {
 
   _resumeMsg(data) {
     return `*🚀 Resume*\n>${data}`
+  }
+
+  _errorMsg(data) {
+    return `*😱 Error*\n>${data}`
   }
 
   _downloadMsg(data) {
