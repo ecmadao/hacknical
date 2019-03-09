@@ -27,7 +27,11 @@ const catchError = () => async (ctx, next) => {
       mq: ctx.mq,
       data: {
         type: 'error',
-        data: `Error: ${err.message}, status: ${ctx.status}`
+        data: [
+          `[Error] ${err.stack}`,
+          `[Server status] ${ctx.status}`,
+          `[Server session] ${JSON.stringify(ctx.session)}`
+        ].join('\n')
       }
     })
 

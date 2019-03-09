@@ -60,7 +60,7 @@ class SlackMsg {
   }
 
   _errorMsg(data) {
-    return `*😱 Error*\n>${data}`
+    return `*😱 Error*\n${data}`
   }
 
   _downloadMsg(data) {
