@@ -57,9 +57,11 @@ const resumeEnable = (source = 'params.login') => async (ctx, next) => {
   const resumeInfo = await network.user.getResumeInfo(qs);
 
   if (
-    (!resumeInfo
-    || !isResumeOpenShare(resumeInfo, { userId, [key]: value }))
-    && !isResumeDownload(resumeInfo, ctx.query || {})
+    !resumeInfo
+    || (
+      !isResumeOpenShare(resumeInfo, { userId, [key]: value })
+      && !isResumeDownload(resumeInfo, ctx.query || {})
+    )
   ) {
     return ctx.redirect('/404');
   }
