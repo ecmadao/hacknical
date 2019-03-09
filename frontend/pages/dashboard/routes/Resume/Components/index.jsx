@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Push from 'push.js';
-import { Button, IconButton, Input, Tipso } from 'light-ui';
 import styles from '../styles/resume.css';
 import ShareModal from 'COMPONENTS/ShareModal';
 import ResumeSection from './ResumeSection';
@@ -20,6 +19,7 @@ import message from 'UTILS/message';
 import Navigation from 'COMPONENTS/Navigation';
 import HeartBeat from 'UTILS/heartbeat';
 import NavSection from './NavSection';
+import ResumeOperations from './Operations'
 
 const resumeTexts = locales('resume');
 const { editedConfirm, messages } = resumeTexts;
@@ -213,8 +213,8 @@ class Resume extends React.Component {
       loading,
       shareInfo,
       activeSection,
-      downloadDisabled,
-    } = resume;
+      downloadDisabled
+    } = resume
 
     const { url, openShare, template } = shareInfo;
     delete shareInfo.githubUrl;
@@ -234,69 +234,16 @@ class Resume extends React.Component {
           handleSectionChange={this.handleSectionChange}
           tail={this.renderSectionCreator()}
         />
-        <div className={styles.resume_operations}>
-          <div className={styles.operations_wrapper}>
-            <IconButton
-              color="gray"
-              icon="question"
-              className={styles.icon_button}
-              onClick={() => this.handleIntroModalStatus(true)}
-            />
-            <Tipso
-              trigger="hover"
-              theme="dark"
-              className={styles.icon_button_tipso}
-              tipsoContent={(<span>{resumeTexts.messages.templateTip}</span>)}
-            >
-              <IconButton
-                color="gray"
-                icon="file-text"
-                className={styles.icon_button}
-                onClick={() => this.handleTemplateModalStatus(true)}
-              />
-            </Tipso>
-            <Tipso
-              trigger="hover"
-              theme="dark"
-              className={styles.icon_button_tipso}
-              tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}
-            >
-              <IconButton
-                color="gray"
-                icon="download"
-                className={styles.icon_button}
-                onClick={this.downloadResume}
-                disabled={downloadDisabled}
-              />
-            </Tipso>
-            <IconButton
-              color="gray"
-              icon="share-alt"
-              className={styles.icon_button}
-              onClick={() => this.handleShareModalStatus(true)}
-            />
-            <Button
-              value={resumeTexts.buttons.preview}
-              color="dark"
-              onClick={this.handlePreview}
-              className={styles.operation}
-              leftIcon={(
-                <i className="fa fa-file-text-o" aria-hidden="true" />
-              )}
-            />
-            <Button
-              disabled={posting}
-              value={posting
-                ? resumeTexts.buttons.saving
-                : resumeTexts.buttons.save}
-              className={styles.operation}
-              onClick={() => actions.saveResume('message=1')}
-              leftIcon={(
-                <i className="fa fa-save" aria-hidden="true" />
-              )}
-            />
-          </div>
-        </div>
+        <ResumeOperations
+          posting={posting}
+          saveResume={actions.saveResume}
+          downloadDisabled={downloadDisabled}
+          handlePreview={this.handlePreview}
+          downloadResume={this.downloadResume}
+          handleShareModalStatus={this.handleShareModalStatus}
+          handleIntroModalStatus={this.handleIntroModalStatus}
+          handleTemplateModalStatus={this.handleTemplateModalStatus}
+        />
         <ResumeSection
           maxIndex={max}
           disabled={loading}

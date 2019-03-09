@@ -12,6 +12,8 @@
   padding-left: 15px;
   justify-content: flex-end;
   align-items: center;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 1;
 
   &.bottom {
     padding: 5px 50px 5px;
@@ -23,6 +25,26 @@
     display: block;
     clear: both;
   }
+}
+
+.resume_operations-hidden {
+  opacity: 0;
+  transform: translateY(-15%) scale(1);
+}
+
+.resume_operations-entering {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.resume_operations-entered {
+  opacity: 1;
+  transform: inherit;
+}
+
+.resume_operations-exiting {
+  opacity: 0;
+  transform: translateY(-15%) scale(1);
 }
 
 .operations_wrapper {
