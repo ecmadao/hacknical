@@ -2,6 +2,14 @@
 import logger from '../utils/logger'
 import notify from '../services/notify'
 
+const printer = object => Object.keys(object).reduce((list, key) => {
+  if (/^_/.test(key)) return list
+  const rawData = object[key]
+  const data = typeof rawData === 'object' ? JSON.stringify(rawData) : rawData
+  list.push(`> ${key}: ${data}`)
+  return list
+}, []).join('\n')
+
 const catchError = () => async (ctx, next) => {
   try {
     await next()
@@ -28,9 +36,19 @@ const catchError = () => async (ctx, next) => {
       data: {
         type: 'error',
         data: [
-          `[Error] ${err.stack}`,
-          `[Server status] ${ctx.status}`,
-          `[Server session] ${JSON.stringify(ctx.session)}`
+          '[Error]',
+          err.stack,
+          '[Request url]',
+          printer({
+            href: ctx.request.href,
+            method: ctx.request.method,
+            origin: ctx.request.header.origin || ctx.request.origin,
+            querystring: ctx.request.querystring
+          }),
+          '[Server status]',
+          ctx.status,
+          '[Server session]',
+          printer(ctx.session)
         ].join('\n')
       }
     })
