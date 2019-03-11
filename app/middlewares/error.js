@@ -10,25 +10,32 @@ const printer = object => Object.keys(object).reduce((list, key) => {
   return list
 }, []).join('\n')
 
+const redirect = async (ctx) => {
+  const { url } = ctx
+
+  if (/^\/dashboard/g.test(url)) {
+    logger.info(`[OLD URL REQUEST][${ctx.status}][${url}]`)
+    const { githubLogin } = ctx.session
+    if (!githubLogin) {
+      return await ctx.redirect('/user/logout')
+    }
+    return await ctx.redirect(`/${githubLogin}`)
+  }
+}
+
 const catchError = () => async (ctx, next) => {
   try {
     await next()
     const { url } = ctx
 
-    if (/^\/dashboard/g.test(url)) {
-      logger.info(`[OLD URL REQUEST][${ctx.status}][${url}]`)
-      const { githubLogin } = ctx.session
-      if (!githubLogin) {
-        return await ctx.redirect('/user/logout')
-      }
-      return await ctx.redirect(`/${githubLogin}`)
-    }
+    await redirect(ctx)
 
     if (ctx.status === 404) {
       const login = url.split('/')[0]
       await ctx.redirect(`/${login}`)
     }
   } catch (err) {
+    await redirect(ctx)
     logger.error(err)
 
     notify.slack({
