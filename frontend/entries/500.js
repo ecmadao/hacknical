@@ -1,7 +1,10 @@
 
 import 'SRC/vendor/500.css'
 import 'STYLES/fonts-hack.css'
+import Button from 'PAGES/initial/button'
 import Rock from 'PAGES/initial/rock'
+
+const redirect = path => () => window.location = `${window.location.origin}${path}`
 
 $(() => {
   const $content = $('.content-wrapper')
@@ -19,4 +22,7 @@ $(() => {
     .then(instance => instance.loading())
     .then(instance => instance.wait(2000))
     .then(instance => instance.roll({ chars: 'WHAT WOULD U DO IF U WEREN\'T AFRAID?' }))
+    .then(
+      () => Button('$ cd /').render($content, redirect('/'))
+    )
 })

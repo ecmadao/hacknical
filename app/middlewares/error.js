@@ -21,23 +21,21 @@ const redirect = async (ctx) => {
     }
     return await ctx.redirect(`/${githubLogin}`)
   }
+
+  if (ctx.status === 404) {
+    const login = url.split('/')[0]
+    return await ctx.redirect(`/${login}`)
+  }
+
+  return false
 }
 
 const catchError = () => async (ctx, next) => {
   try {
     await next()
-    const { url } = ctx
-
     await redirect(ctx)
-
-    if (ctx.status === 404) {
-      const login = url.split('/')[0]
-      await ctx.redirect(`/${login}`)
-    }
   } catch (err) {
-    await redirect(ctx)
     logger.error(err)
-
     notify.slack({
       mq: ctx.mq,
       data: {
