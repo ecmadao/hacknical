@@ -5,6 +5,7 @@ import { combineReposCommits } from './helper/github';
 import { UPDATE_STATUS_TEXT } from '../utils/constant';
 import { is, sortBy } from '../utils/helper';
 import logger from '../utils/logger';
+import Home from './home'
 
 const services = config.get('services.github');
 
@@ -168,7 +169,7 @@ const getUser = async (ctx, next) => {
   await next();
 };
 
-const githubPage = async (ctx) => {
+const renderGitHubPage = async (ctx) => {
   const { login } = ctx.params;
   const { locale, device, isMobile } = ctx.state;
   const { githubLogin } = ctx.session;
@@ -184,6 +185,8 @@ const githubPage = async (ctx) => {
       ? ctx.__('messages.share.mobileText')
       : ctx.__('messages.share.text')
   };
+
+  Home.cacheControl(ctx)
   await ctx.render(`github/${device}`, options);
 };
 
@@ -300,7 +303,7 @@ const getUserHotmap = async (ctx, next) => {
 };
 
 export default {
-  githubPage,
+  renderGitHubPage,
   getAllRepositories,
   // github info
   getUser,

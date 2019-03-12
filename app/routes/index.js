@@ -25,18 +25,18 @@ fs.readdirSync(__dirname)
 router.get(
   '/',
   user.checkNotLogin(),
-  Home.landingPage
+  Home.renderLandingPage
 )
-router.get('/404', Home.handle404)
+router.get('/404', Home.render404Page)
 router.get(
   '/initial',
   user.checkIfLogin(),
-  Home.initial
+  Home.renderInitialPage
 )
 router.get(
   '/:login',
   user.checkValidateUser(),
-  Home.dashboard
+  Home.renderDashboard
 )
 router.get(
   '/api/statistic',
@@ -50,30 +50,30 @@ router.get(
   '/github/:login',
   share.githubEnable(),
   record.github('params.login'),
-  GitHub.githubPage
+  GitHub.renderGitHubPage
 )
 router.get('/resume/:hash',
   share.resumeEnable('params.hash'),
   record.resume('params.hash'),
-  Resume.resumePage
+  Resume.renderResumePage
 )
 router.get(
   '/:login/github',
   share.githubEnable(),
   record.github('params.login'),
-  GitHub.githubPage
+  GitHub.renderGitHubPage
 )
 router.get(
   '/:login/resume',
   share.resumeEnable('params.login'),
   record.resume('params.login'),
-  Resume.resumePage
+  Resume.renderResumePage
 )
 router.get(
   '/:login/:dashboardRoute',
   user.checkValidateUser(),
   user.checkValidateDashboard(),
-  Home.dashboard
+  Home.renderDashboard
 )
 
 export default router

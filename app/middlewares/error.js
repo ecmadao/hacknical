@@ -2,6 +2,7 @@
 import logger from '../utils/logger'
 import { ERRORS } from '../utils/error'
 import notify from '../services/notify'
+import Home from '../controllers/home'
 
 const printer = object => Object.keys(object).reduce((list, key) => {
   if (/^_/.test(key)) return list
@@ -53,11 +54,7 @@ const render500 = async (ctx, err) => {
     }
   })
 
-  await ctx.render('error/500', {
-    text: ctx.__('500Page.text'),
-    title: ctx.__('500Page.title'),
-    redirectText: ctx.__('500Page.redirectText')
-  })
+  await Home.render500Page(ctx)
 }
 
 const catchError = () => async (ctx, next) => {

@@ -8,6 +8,7 @@ import NewError from '../utils/error';
 import notify from '../services/notify';
 import network from '../services/network';
 import { formatObject } from '../utils/helper';
+import Home from './home'
 
 /* ===================== private ===================== */
 
@@ -181,7 +182,7 @@ const downloadResume = async (ctx) => {
   };
 };
 
-const resumePage = async (ctx) => {
+const renderResumePage = async (ctx) => {
   const { resumeInfo } = ctx;
   const { login } = resumeInfo;
   const { fromDownload } = ctx.query;
@@ -192,6 +193,7 @@ const resumePage = async (ctx) => {
   const isAdmin = login === githubLogin;
   const { userName, userId } = user;
 
+  Home.cacheControl(ctx)
   await ctx.render(`resume/${device}`, {
     login,
     userId,
@@ -327,7 +329,7 @@ export default {
   setResume,
   patchResume,
   // ============
-  resumePage,
+  renderResumePage,
   getResumeByHash,
   // ============
   downloadResume,
