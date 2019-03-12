@@ -1,6 +1,7 @@
 
 import path from 'path'
 import logger from '../../utils/logger'
+import NewError from '../../utils/error'
 import { shadowImport } from '../../utils/loader'
 
 const PREFIX = __dirname.split('/').slice(-1)[0]
@@ -25,7 +26,7 @@ const handler = {
   get(_, name) {
     const key = `${PREFIX}.${name}`
     if (!DELIVER[Symbol.for(key)]) {
-      throw new Error(`[INVALIDATE METHOD] unknown source ${name}`)
+      throw new NewError.UnknownError(`[INVALIDATE METHOD] unknown source ${name}`)
     }
 
     const Deliver = DELIVER[Symbol.for(key)]

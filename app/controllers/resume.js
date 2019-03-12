@@ -4,6 +4,7 @@ import getCacheKey from './helper/cacheKey';
 import Downloads from '../services/downloads';
 import dateHelper from '../utils/date';
 import logger from '../utils/logger';
+import NewError from '../utils/error';
 import notify from '../services/notify';
 import network from '../services/network';
 import { formatObject } from '../utils/helper';
@@ -139,11 +140,7 @@ const downloadResume = async (ctx) => {
   const { template, resumeHash } = result;
 
   if (!findResult) {
-    return ctx.body = {
-      result: '',
-      success: true,
-      message: ctx.__('messages.error.emptyResume'),
-    };
+    throw new NewError.NotfoundError(ctx.__('messages.error.emptyResume'))
   }
 
   const updateTime = findResult.update_at || findResult.updated_at;

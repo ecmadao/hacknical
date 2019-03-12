@@ -6,11 +6,12 @@ import check from '../controllers/helper/check'
 import cache from '../controllers/helper/cache'
 
 const router = koaRouter({
-  prefix: '/user'
+  prefix: '/api/user'
 })
 
 // initial finished
-router.patch('/initialed',
+router.patch(
+  '/initialed',
   user.checkIfLogin(),
   User.initialFinished
 )

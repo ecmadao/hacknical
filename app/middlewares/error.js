@@ -1,5 +1,6 @@
 
 import logger from '../utils/logger'
+import { ERRORS } from '../utils/error'
 import notify from '../services/notify'
 
 const printer = object => Object.keys(object).reduce((list, key) => {
@@ -23,11 +24,40 @@ const redirect = async (ctx) => {
   }
 
   if (ctx.status === 404) {
-    const login = url.split('/')[0]
-    return await ctx.redirect(`/${login}`)
+    return ctx.redirect('/404')
   }
 
   return false
+}
+
+const render500 = async (ctx, err) => {
+  notify.slack({
+    mq: ctx.mq,
+    data: {
+      type: 'error',
+      data: [
+        '[Error]',
+        err.stack,
+        '[Request url]',
+        printer({
+          href: ctx.request.href,
+          method: ctx.request.method,
+          origin: ctx.request.header.origin || ctx.request.origin,
+          querystring: ctx.request.querystring
+        }),
+        '[Server status]',
+        ctx.status,
+        '[Server session]',
+        printer(ctx.session)
+      ].join('\n')
+    }
+  })
+
+  await ctx.render('error/500', {
+    text: ctx.__('500Page.text'),
+    title: ctx.__('500Page.title'),
+    redirectText: ctx.__('500Page.redirectText')
+  })
 }
 
 const catchError = () => async (ctx, next) => {
@@ -36,33 +66,34 @@ const catchError = () => async (ctx, next) => {
     await redirect(ctx)
   } catch (err) {
     logger.error(err)
-    notify.slack({
-      mq: ctx.mq,
-      data: {
-        type: 'error',
-        data: [
-          '[Error]',
-          err.stack,
-          '[Request url]',
-          printer({
-            href: ctx.request.href,
-            method: ctx.request.method,
-            origin: ctx.request.header.origin || ctx.request.origin,
-            querystring: ctx.request.querystring
-          }),
-          '[Server status]',
-          ctx.status,
-          '[Server session]',
-          printer(ctx.session)
-        ].join('\n')
-      }
-    })
 
-    await ctx.render('error/500', {
-      text: ctx.__('500Page.text'),
-      title: ctx.__('500Page.title'),
-      redirectText: ctx.__('500Page.redirectText')
-    })
+    const { message, errorCode } = err
+    const { pathname } = ctx.request.URL
+
+    switch (errorCode) {
+      case ERRORS.LoginError:
+        return await ctx.redirect('/')
+      case ERRORS.ParamsError:
+      case ERRORS.NotfoundError:
+        ctx.body = {
+          message,
+          success: false
+        }
+        return
+      case ERRORS.ServerError:
+        if (/^\/api\//.test(pathname)) {
+          ctx.body = {
+            message,
+            success: false
+          }
+          return
+        }
+        break
+      default:
+        break
+    }
+
+    await render500(ctx, err)
   }
 }
 

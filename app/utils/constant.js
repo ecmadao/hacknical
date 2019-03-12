@@ -21,3 +21,7 @@ export const UPDATE_STATUS_TEXT = {
 }
 
 export const REQUEST_JSON_METHODS = ['PUT', 'POST', 'DELETE', 'PATCH']
+
+export const SIGNAL = {
+  NEED_LOGIN: 'NEED_LOGIN'
+}

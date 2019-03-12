@@ -4,6 +4,7 @@ import config from 'config'
 import path from 'path'
 import fetch from '../../utils/fetch'
 import cache from '../../utils/cache'
+import NewError from '../../utils/error'
 import { shadowImport } from '../../utils/loader'
 
 const APP_NAME = config.get('appName')
@@ -35,7 +36,7 @@ const DELIVER = shadowImport(path.join(__dirname, 'lib'), {
     const handler = {
       get(_, name) {
         if (!module[name]) {
-          throw new Error(`[INVALIDATE METHOD] unknown method ${name}`)
+          throw new NewError.UnknownError(`[INVALIDATE METHOD] unknown method ${name}`)
         }
 
         const service = config.get(`services.${baseName}`)
@@ -65,7 +66,7 @@ const handler = {
   get(_, name) {
     const key = `${PREFIX}.${name}`
     if (!DELIVER[Symbol.for(key)]) {
-      throw new Error(`[INVALIDATE SOURCE] unknown source ${name}`)
+      throw new NewError.UnknownError(`[INVALIDATE SOURCE] unknown source ${name}`)
     }
 
     const deliver = DELIVER[Symbol.for(key)]

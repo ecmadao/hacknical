@@ -3,6 +3,7 @@
 import fs from 'fs'
 import path from 'path'
 import logger from './logger'
+import NewError from './error'
 
 export const shadowImport = (folder, options) => {
   const {
@@ -41,7 +42,7 @@ export const shadowImport = (folder, options) => {
           Module = require(fullpath).default
 
           if (!Module || (requiredExport && Module[requiredExport] === undefined)) {
-            throw new Error(`Module.${requiredExport} missing for ${filepath}`)
+            throw new NewError.UnknownError(`Module.${requiredExport} missing for ${filepath}`)
           }
 
           result = instantiation

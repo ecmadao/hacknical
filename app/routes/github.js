@@ -3,12 +3,11 @@ import koaRouter from 'koa-router'
 import GitHub from '../controllers/github'
 import user from '../controllers/helper/user'
 import cache from '../controllers/helper/cache'
-import record from '../controllers/helper/record'
 import check from '../controllers/helper/check'
 import share from '../controllers/helper/share'
 
 const router = koaRouter({
-  prefix: '/github'
+  prefix: '/api/github'
 })
 
 // zen & octocat
@@ -55,13 +54,6 @@ router.patch(
   user.checkIfLogin(),
   check.body('enable'),
   GitHub.toggleShare
-)
-
-router.get(
-  '/:login',
-  share.githubEnable(),
-  record.github('params.login'),
-  GitHub.githubPage
 )
 
 // share page's datas

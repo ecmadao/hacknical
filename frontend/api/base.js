@@ -12,6 +12,7 @@ polyfill();
 const rnoContent = /^(?:GET|HEAD)$/;
 
 const fetchApi = (url, method, data) => {
+  url = `/api${url}`
   NProgress.start();
   NProgress.set(0.4);
   const options = {
@@ -37,9 +38,6 @@ const fetchApi = (url, method, data) => {
   return fetch(url, options)
     .then(response => response.json())
     .then((json) => {
-      if (!json.success) {
-        throw new Error('Request Server Error');
-      }
       if (json.message) {
         message.notice(json.message);
       }

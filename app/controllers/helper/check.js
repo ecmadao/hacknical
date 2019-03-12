@@ -1,37 +1,48 @@
 
-const checkQuery = (...params) => async (ctx, next) => {
+import NewError from '../../utils/error'
+import { SIGNAL } from '../../utils/constant'
+
+const check = (target, params, options) => {
+  const {
+    signal,
+    errorType = 'PermissionError',
+    templateMsg = '%s missing!'
+  } = options
   for (const param of params) {
-    if (!{}.hasOwnProperty.call(ctx.query, param)) {
-      throw new Error(`required parameters '${param}' is missed.`);
+    if (!{}.hasOwnProperty.call(target, param)) {
+      throw new NewError[errorType](
+        templateMsg.replace('%s', param),
+        signal
+      )
     }
   }
-  await next();
-};
+}
+
+const checkQuery = (...params) => async (ctx, next) => {
+  check(ctx.query, params, {
+    templateMsg: 'required query \'%s\' is missed.'
+  })
+  await next()
+}
 
 const checkBody = (...params) => async (ctx, next) => {
-  for (const param of params) {
-    if (!{}.hasOwnProperty.call(ctx.request.body, param)) {
-      throw new Error(`required body '${param}' is missed.`);
-    }
-  }
-  await next();
-};
+  check(ctx.request.body, params, {
+    templateMsg: 'required body \'%s\' is missed.'
+  })
+  await next()
+}
 
 const checkSession = (params = []) => async (ctx, next) => {
-  const result = params.every(key => ctx.session[key]);
-  if (!result) {
-    ctx.body = {
-      url: '/',
-      success: true,
-      message: ctx.__('messages.error.logout'),
-    };
-    return;
-  }
-  await next();
-};
+  check(ctx.session, params, {
+    signal: SIGNAL.NEED_LOGIN,
+    errorType: 'LoginError',
+    templateMsg: ctx.__('messages.error.logout')
+  })
+  await next()
+}
 
 export default {
   query: checkQuery,
   body: checkBody,
-  session: checkSession,
-};
+  session: checkSession
+}

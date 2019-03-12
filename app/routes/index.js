@@ -34,17 +34,28 @@ router.get(
   Home.initial
 )
 router.get(
-  '/statistic',
-  Home.statistic
-)
-router.get(
-  '/languages',
-  Home.languages
-)
-router.get(
   '/:login',
   user.checkValidateUser(),
   Home.dashboard
+)
+router.get(
+  '/api/statistic',
+  Home.statistic
+)
+router.get(
+  '/api/languages',
+  Home.languages
+)
+router.get(
+  '/github/:login',
+  share.githubEnable(),
+  record.github('params.login'),
+  GitHub.githubPage
+)
+router.get('/resume/:hash',
+  share.resumeEnable('params.hash'),
+  record.resume('params.hash'),
+  Resume.resumePage
 )
 router.get(
   '/:login/github',

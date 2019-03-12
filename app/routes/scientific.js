@@ -6,7 +6,7 @@ import check from '../controllers/helper/check'
 import share from '../controllers/helper/share'
 
 const router = koaRouter({
-  prefix: '/scientific'
+  prefix: '/api/scientific'
 })
 
 router.get(

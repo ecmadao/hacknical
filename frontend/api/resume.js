@@ -1,8 +1,8 @@
 import { getData, putData, patchData } from './base';
 
-const getResume = () => getData('/resume');
-const setResume = (resume, ...params) => putData(`/resume?${params.join('&')}`, { resume });
-const patchResume = data => patchData('/resume', { data });
+const getResume = () => getData('/resume/data');
+const setResume = (resume, ...params) => putData(`/resume/data?${params.join('&')}`, { resume });
+const patchResume = data => patchData('/resume/data', { data });
 
 const download = () => getData('/resume/download');
 
