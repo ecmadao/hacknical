@@ -115,7 +115,7 @@ class Menus extends MenuWrapper {
                 </a>
                 <div className={styles.menuBottom}>
                   {this.renderLanguageOptions()}
-                  <a href="/user/logout" className={styles.menu}>
+                  <a href="/api/user/logout" className={styles.menu}>
                     <i className="fa fa-sign-out" aria-hidden="true" />
                     &nbsp;&nbsp;
                     {tabs.logout.text}

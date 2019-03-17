@@ -70,10 +70,10 @@ const loginByGitHub = async (ctx) => {
       }
       return ctx.redirect(`/${ctx.session.githubLogin}`);
     }
-    return ctx.redirect('/user/logout');
+    return ctx.redirect('/api/user/logout');
   } catch (err) {
     logger.error(err);
-    return ctx.redirect('/user/logout');
+    return ctx.redirect('/api/user/logout');
   }
 };
 

@@ -64,7 +64,7 @@ const renderDashboard = async (ctx) => {
   logger.debug(user)
 
   if (!user || !userId) {
-    return ctx.redirect('/user/logout')
+    return ctx.redirect('/api/user/logout')
   }
 
   if (!user.initialed) {

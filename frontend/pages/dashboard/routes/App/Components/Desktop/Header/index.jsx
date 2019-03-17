@@ -91,7 +91,7 @@ class Header extends MenuWrapper {
             >
               <div className={styles.headerMenuWrapper}>
                 <a
-                  href="/user/logout"
+                  href="/api/user/logout"
                   className={styles.header_menu_icon_right}
                 >
                   <i className="fa fa-sign-out" aria-hidden="true" />

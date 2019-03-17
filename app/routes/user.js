@@ -16,8 +16,12 @@ router.patch(
   User.initialFinished
 )
 
+router.get(
+  '/logout',
+  User.logout
+)
+
 // API
-router.get('/logout', User.logout)
 router.get(
   '/clearCache',
   check.query('login'),

@@ -19,7 +19,7 @@ const redirect = async (ctx) => {
     logger.info(`[OLD URL REQUEST][${ctx.status}][${url}]`)
     const { githubLogin } = ctx.session
     if (!githubLogin) {
-      return await ctx.redirect('/user/logout')
+      return await ctx.redirect('/api/user/logout')
     }
     return await ctx.redirect(`/${githubLogin}`)
   }
