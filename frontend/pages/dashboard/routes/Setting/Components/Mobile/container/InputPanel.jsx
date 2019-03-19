@@ -6,6 +6,9 @@ import { Input, IconButton, AnimationComponent } from 'light-ui';
 import message from 'UTILS/message';
 import styles from '../styles/setting.css';
 import panelStyles from '../styles/panel.css';
+import locales from 'LOCALES';
+
+const modalTexts = locales('shareModal')
 
 class InputPane extends React.Component {
   constructor(props) {
