@@ -8,7 +8,13 @@ import * as Sentry from '@sentry/browser'
 
 class AppContainer extends React.Component {
   componentDidMount() {
-    removeDOM('#loading', { async: true, timeout: 500 });
+    removeDOM('#loading', { async: true, timeout: 500 })
+
+    const { login: name, isMobile } = this.props
+    name && window.LogRocket && window.LogRocket.identify(name, {
+      name,
+      isMobile
+    })
   }
 
   componentDidCatch(error, errorInfo) {
@@ -18,10 +24,17 @@ class AppContainer extends React.Component {
       })
       Sentry.captureException(error)
     })
+
+    Sentry.configureScope((scope) => {
+      scope.addEventProcessor(async (event) => {
+        event.extra.sessionURL = window.LogRocket.sessionURL
+        return event
+      })
+    })
   }
 
   render() {
-    const { history, routes, store } = this.props;
+    const { history, routes, store } = this.props
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
@@ -35,7 +48,7 @@ class AppContainer extends React.Component {
 AppContainer.propTypes = {
   history: PropTypes.object.isRequired,
   routes: PropTypes.array.isRequired,
-  store: PropTypes.object.isRequired,
-};
+  store: PropTypes.object.isRequired
+}
 
-export default AppContainer;
+export default AppContainer

@@ -1,11 +1,11 @@
 /* eslint new-cap: "off" */
-import { injectReducer } from '../redux/reducer';
-import initReducers from './App/redux/reducers';
-import App from './App';
-import Github from './Github';
-import Records from './Records';
-import Resume from './Resume';
-import Setting from './Setting';
+import { injectReducer } from '../redux/reducer'
+import initReducers from './App/redux/reducers'
+import App from './App'
+import Github from './Github'
+import Records from './Records'
+import Resume from './Resume'
+import Setting from './Setting'
 
 export const createRoutes = (store, props) => {
   const {
@@ -13,32 +13,32 @@ export const createRoutes = (store, props) => {
     device,
     dashboardRoute,
     isAdmin = false,
-    isMobile = false,
-  } = props;
+    isMobile = false
+  } = props
   injectReducer(store, {
     key: 'app',
     reducer: initReducers({
       login,
       isAdmin,
       isMobile,
-      activeTab: dashboardRoute,
+      activeTab: dashboardRoute
     })
-  });
+  })
   const options = {
     login,
     device,
     isMobile,
-    dashboardRoute,
-  };
+    dashboardRoute
+  }
   return [{
     component: App,
     routes: [
       Records(store, options),
       Resume(store, options),
       Github(store, options),
-      Setting(store, options),
+      Setting(store, options)
     ]
-  }];
-};
+  }]
+}
 
-export default createRoutes;
+export default createRoutes

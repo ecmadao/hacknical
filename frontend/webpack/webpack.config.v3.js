@@ -1,12 +1,13 @@
-const path = require('path');
-const fs = require('fs');
-const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const AssetsPlugin = require('assets-webpack-plugin');
-const PATH = require('../../config/path');
 
-const entryFiles = fs.readdirSync(PATH.ENTRY_PATH);
-const entries = {};
+const path = require('path')
+const fs = require('fs')
+const webpack = require('webpack')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const AssetsPlugin = require('assets-webpack-plugin')
+const PATH = require('../../config/path')
+
+const entryFiles = fs.readdirSync(PATH.ENTRY_PATH)
+const entries = {}
 
 entryFiles
   .filter(file =>
@@ -16,7 +17,7 @@ entryFiles
     const filename = file.split('.')[0];
     const filepath = path.join(PATH.ENTRY_PATH, file)
     entries[filename] = ['babel-polyfill', filepath];
-});
+})
 
 const postcssLoader = {
   loader: 'postcss-loader',
@@ -25,7 +26,7 @@ const postcssLoader = {
       path: path.join(__dirname, 'postcss.config.js')
     }
   }
-};
+}
 
 const cssModulesLoader = ExtractTextPlugin.extract({
   fallback: 'style-loader',
@@ -40,8 +41,8 @@ const cssModulesLoader = ExtractTextPlugin.extract({
       }
     },
     postcssLoader
-  ],
-});
+  ]
+})
 const cssLoader = ExtractTextPlugin.extract({
   fallback: 'style-loader',
   use: [
@@ -54,7 +55,7 @@ const cssLoader = ExtractTextPlugin.extract({
     },
     postcssLoader
   ]
-});
+})
 
 module.exports = {
   context: PATH.ROOT_PATH,
@@ -144,7 +145,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery': 'jquery',
+      'window.jQuery': 'jquery'
     }),
     new AssetsPlugin({
       path: PATH.BUILD_PATH,
@@ -162,11 +163,11 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.SENTRY': JSON.stringify(process.env.SENTRY)
+      'process.env.SENTRY': JSON.stringify(process.env.HACKNICAL_SENTRY)
     }),
     new webpack.BannerPlugin({
       entryOnly: true,
       banner: 'BUILD WITH LOVE BY ECMADAO'
     })
   ]
-};
+}

@@ -1,27 +1,27 @@
 
-import EventEmitter from 'eventemitter3';
-import API from 'API';
-import HeartBeat from './heartbeat';
+import EventEmitter from 'eventemitter3'
+import API from 'API'
+import HeartBeat from './heartbeat'
 
-const emitter = new EventEmitter();
+const emitter = new EventEmitter()
 
 emitter.once('refresh', (heartBeat) => {
-  heartBeat && heartBeat.takeoff();
-});
+  heartBeat && heartBeat.takeoff()
+})
 
 const fire = (time, callback) => {
   const heartBeat = new HeartBeat({
     interval: time,
     callback: () => API.github.getUpdateStatus().then((result) => {
       if (result && result.finished) {
-        heartBeat.stop();
-        callback && callback(result);
+        heartBeat.stop()
+        callback && callback(result)
       }
     })
-  });
-  emitter.emit('refresh', heartBeat);
-};
+  })
+  emitter.emit('refresh', heartBeat)
+}
 
 export default {
   fire
-};
+}
