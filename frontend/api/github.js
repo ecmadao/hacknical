@@ -1,31 +1,28 @@
-import { getData, patchData, putData } from './base';
 
-const fetchInfo = (url, data = {}) => getData(`/github${url}`, data);
-const patchInfo = (url, data = {}) => patchData(`/github${url}`, data);
-const putInfo = (url, data = {}) => putData(`/github${url}`, data);
+import API from './base'
 
 /* get repos & orgs info & user info */
-const getAllRepositories = () => fetchInfo('/repositories/all');
+const getAllRepositories = () => API.get('/github/repositories/all')
 
-const getRepositories = login => fetchInfo(`/${login}/repositories`);
-const getContributed = login => fetchInfo(`/${login}/contributed`);
-const getCommits = login => fetchInfo(`/${login}/commits`);
-const getLanguages = login => fetchInfo(`/${login}/languages`);
-const getOrganizations = login => fetchInfo(`/${login}/organizations`);
-const getUser = login => fetchInfo(`/${login}/info`);
-const getUserHotmap = login => fetchInfo(`/${login}/hotmap`);
+const getRepositories = login => API.get(`/github/${login}/repositories`)
+const getContributed = login => API.get(`/github/${login}/contributed`)
+const getCommits = login => API.get(`/github/${login}/commits`)
+const getLanguages = login => API.get(`/github/${login}/languages`)
+const getOrganizations = login => API.get(`/github/${login}/organizations`)
+const getUser = login => API.get(`/github/${login}/info`)
+const getUserHotmap = login => API.get(`/github/${login}/hotmap`)
 
 /* toggle user github share */
-const toggleShare = enable => patchInfo('/share/status', { enable });
+const toggleShare = enable => API.patch('/github/share/status', { enable })
 
 /* get github share records */
-const getShareRecords = () => fetchInfo('/share/records');
+const getShareRecords = () => API.get('/github/share/records')
 
-const update = () => putInfo('/update');
-const getUpdateStatus = () => fetchInfo('/update/status');
+const update = () => API.put('/github/update')
+const getUpdateStatus = () => API.get('/github/update/status')
 
-const zen = () => fetchInfo('/zen');
-const octocat = () => fetchInfo('/octocat');
+const zen = () => API.get('/github/zen')
+const octocat = () => API.get('/github/octocat')
 
 export default {
   zen,
@@ -44,5 +41,5 @@ export default {
   getUpdateStatus,
   // share status
   toggleShare,
-  getShareRecords,
-};
+  getShareRecords
+}

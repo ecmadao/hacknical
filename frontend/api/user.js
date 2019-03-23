@@ -1,18 +1,19 @@
-import { getData, patchData, putData } from './base';
 
-const logout = () => getData('/user/logout');
+import API from './base'
 
-const getUserInfo = login => getData('/user/info', { login });
-const setUserInfo = info => patchData('/user/info', { info });
+const logout = () => API.get('/user/logout')
 
-const initialed = () => patchData('/user/initialed');
+const getUserInfo = login => API.get('/user/info', { login })
+const setUserInfo = info => API.patch('/user/info', { info })
 
-const getNotifies = () => getData('/user/notifies/all');
-const markNotifies = ids => putData('/user/notifies/read', { ids });
-const getUnreadNotifies = () => getData('/user/notifies/unread');
+const initialed = () => API.patch('/user/initialed')
 
-const upvote = messageId => patchData(`/user/notifies/upvote/${messageId}`);
-const downvote = messageId => patchData(`/user/notifies/downvote/${messageId}`);
+const getNotifies = () => API.get('/user/notifies/all')
+const markNotifies = ids => API.put('/user/notifies/read', { ids })
+const getUnreadNotifies = () => API.get('/user/notifies/unread')
+
+const upvote = messageId => API.patch(`/user/notifies/upvote/${messageId}`)
+const downvote = messageId => API.patch(`/user/notifies/downvote/${messageId}`)
 
 export default {
   logout,
@@ -25,4 +26,4 @@ export default {
   // vote
   upvote,
   downvote
-};
+}

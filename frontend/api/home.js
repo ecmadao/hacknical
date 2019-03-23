@@ -1,10 +1,11 @@
-import { getData } from './base';
 
-const statistic = () => getData('/statistic');
+import API from './base'
 
-const languages = () => getData('/languages');
+const statistic = () => API.get('/statistic')
+
+const languages = () => API.get('/languages')
 
 export default {
   statistic,
-  languages,
-};
+  languages
+}

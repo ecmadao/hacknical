@@ -1,25 +1,26 @@
-import { getData, putData, patchData } from './base';
 
-const getResume = () => getData('/resume/data');
-const setResume = (resume, ...params) => putData(`/resume/data?${params.join('&')}`, { resume });
-const patchResume = data => patchData('/resume/data', { data });
+import API from './base'
 
-const download = () => getData('/resume/download');
+const getResume = () => API.get('/resume/data')
+const setResume = (resume, ...params) => API.put(`/resume/data?${params.join('&')}`, { resume })
+const patchResume = data => API.patch('/resume/data', { data })
 
-const getPubResume = hash => getData('/resume/shared/public', { hash });
+const download = () => API.get('/resume/download')
+
+const getPubResume = hash => API.get('/resume/shared/public', { hash })
 
 const getResumeInfo = (options = {}) => {
   const { hash, userId } = options;
   const qs = {};
   if (hash) qs.hash = hash;
   if (userId) qs.userId = userId;
-  return getData('/resume/info', qs);
-};
+  return API.get('/resume/info', qs)
+}
 
-const patchResumeInfo = info => patchData('/resume/info', { info });
-const patchResumeReminder = reminder => patchData('/resume/reminder', { reminder });
+const patchResumeInfo = info => API.patch('/resume/info', { info })
+const patchResumeReminder = reminder => API.patch('/resume/reminder', { reminder })
 
-const getShareRecords = () => getData('/resume/records');
+const getShareRecords = () => API.get('/resume/records')
 
 export default {
   getResume,
@@ -31,5 +32,5 @@ export default {
   patchResumeInfo,
   patchResumeReminder,
   getResumeInfo,
-  getShareRecords,
-};
+  getShareRecords
+}

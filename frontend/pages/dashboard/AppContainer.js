@@ -25,12 +25,14 @@ class AppContainer extends React.Component {
       Sentry.captureException(error)
     })
 
-    Sentry.configureScope((scope) => {
-      scope.addEventProcessor(async (event) => {
-        event.extra.sessionURL = window.LogRocket.sessionURL
-        return event
+    if (window.LogRocket) {
+      Sentry.configureScope((scope) => {
+        scope.addEventProcessor(async (event) => {
+          event.extra.sessionURL = window.LogRocket.sessionURL
+          return event
+        })
       })
-    })
+    }
   }
 
   render() {

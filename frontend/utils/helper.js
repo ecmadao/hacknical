@@ -1,11 +1,11 @@
 /* eslint arrow-body-style: "off", react/no-array-index-key: "off" */
 
-import React from 'react';
-import validator from 'validator';
-import dateHelper from './date';
-import { formatUrl, formatTextWithUrl } from './formatter';
+import React from 'react'
+import validator from 'validator'
+import dateHelper from './date'
+import { formatUrl, formatTextWithUrl } from './formatter'
 
-const getSeconds = dateHelper.seconds.getByDate;
+const getSeconds = dateHelper.seconds.getByDate
 
 /*
  * example:
@@ -17,17 +17,17 @@ const getSeconds = dateHelper.seconds.getByDate;
  *       ===> 1
  */
 export const getMaxIndex = (array, key = null) => {
-  let max = 0;
-  let maxIndex = 0;
+  let max = 0
+  let maxIndex = 0
   array.forEach((item, index) => {
-    const target = key ? parseInt(item[key], 10) : parseInt(item, 10);
+    const target = key ? parseInt(item[key], 10) : parseInt(item, 10)
     if (max < target) {
-      max = target;
-      maxIndex = index;
+      max = target
+      maxIndex = index
     }
-  });
-  return maxIndex;
-};
+  })
+  return maxIndex
+}
 
 /**
  * [getMaxTarget description]
@@ -46,45 +46,45 @@ export const getMaxIndex = (array, key = null) => {
  * return [54, 2] ==> max reuslt is 54
  */
 export const getMaxTarget = (array, func = item => [item]) => {
-  let resultIndex = 0;
-  let result = 0;
+  let resultIndex = 0
+  let result = 0
 
   for (const item of array) {
-    const target = func(item);
-    const currentMaxIndex = getMaxIndex(target);
-    const currentMax = parseInt(target[currentMaxIndex], 10);
+    const target = func(item)
+    const currentMaxIndex = getMaxIndex(target)
+    const currentMax = parseInt(target[currentMaxIndex], 10)
     if (result < currentMax) {
-      result = currentMax;
-      resultIndex = currentMaxIndex;
+      result = currentMax
+      resultIndex = currentMaxIndex
     }
   }
-  return [result, resultIndex];
-};
+  return [result, resultIndex]
+}
 
 export const getFirstMatchTarget = (array, target) => {
   let index = array.findIndex((item) => {
     if (typeof target === 'object') {
-      const check = Object.keys(target).every(key => item[key] === target[key]);
-      if (check) return true;
+      const check = Object.keys(target).every(key => item[key] === target[key])
+      if (check) return true
     } else if (typeof target === 'function') {
-      if (target(item)) return true;
+      if (target(item)) return true
     } else if (item === target) {
-      return true;
+      return true
     }
-    return false;
-  });
+    return false
+  })
 
-  index = index === -1 ? 0 : index;
-  return [array[index], index];
-};
+  index = index === -1 ? 0 : index
+  return [array[index], index]
+}
 
 export const getFirstMatchIndex = (array, target) =>
-  getFirstMatchTarget(array, target)[1];
+  getFirstMatchTarget(array, target)[1]
 
 
 export const sortBySeconds = key =>
   (thisObj, nextObj) =>
-    getSeconds(thisObj[key]) - getSeconds(nextObj[key]);
+    getSeconds(thisObj[key]) - getSeconds(nextObj[key])
 
 
 /*
@@ -92,38 +92,38 @@ export const sortBySeconds = key =>
  * return [[1, 2], [3, 4], [5, 6]]
  */
 export const splitArray = (array, size = 1) => {
-  const len = array.length;
+  const len = array.length
   if (len <= size) {
-    return [array];
+    return [array]
   }
-  const loop = Math.floor(len / size) + 1;
+  const loop = Math.floor(len / size) + 1
   return Array
     .from(new Array(loop), () => 0)
-    .map((i, index) => array.slice(index * size, (index + 1) * size));
-};
+    .map((i, index) => array.slice(index * size, (index + 1) * size))
+}
 
 const URL_REG =
-  /(https|http|ftp|rtsp|mms)?:\/\/([a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9])(com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])*/i;
+  /(https|http|ftp|rtsp|mms)?:\/\/([a-z0-9]\.|[a-z0-9][-a-z0-9]{0,61}[a-z0-9])(com|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z])*/i
 
-export const isUrl = value => value && validator.isURL(value);
+export const isUrl = value => value && validator.isURL(value)
 
-export const hasUrl = text => URL_REG.test(text);
+export const hasUrl = text => URL_REG.test(text)
 
 export const sleep = ms =>
-  new Promise(resolve => setTimeout(resolve, ms));
+  new Promise(resolve => setTimeout(resolve, ms))
 
 export const removeDOM = (dom, options = {}) => {
-  const { async = false, timeout = 1000 } = options;
+  const { async = false, timeout = 1000 } = options
   if (async) {
-    setTimeout(() => removeDOM(dom), timeout);
+    setTimeout(() => removeDOM(dom), timeout)
   } else {
-    $(dom) && $(dom).remove();
+    $(dom) && $(dom).remove()
   }
-};
+}
 
 export const renderTextWithUrl = (text) => {
   return formatTextWithUrl(text).map((section, index) => {
-    const { type, value } = section;
+    const { type, value } = section
     if (type === 'a' && isUrl(value)) {
       return (
         <a
@@ -134,45 +134,45 @@ export const renderTextWithUrl = (text) => {
         >
           {value}
         </a>
-      );
+      )
     }
-    return (<span key={index}>{value}</span>);
-  });
-};
+    return (<span key={index}>{value}</span>)
+  })
+}
 
 export const toPromise = f => (...args) =>
   new Promise((resolve, reject) => {
-    const result = f(...args);
+    const result = f(...args)
     try {
-      return result.then(resolve, reject); // promise.
+      return result.then(resolve, reject) // promise.
     } catch (e) {
       if (e instanceof TypeError) {
-        resolve(result); // resolve naked value.
+        resolve(result) // resolve naked value.
       } else {
-        reject(e); // pass unhandled exception to caller.
+        reject(e) // pass unhandled exception to caller.
       }
     }
-  });
+  })
 
 export const random = (list) => {
-  const index = Math.floor(Math.random() * list.length);
-  return list[index];
-};
+  const index = Math.floor(Math.random() * list.length)
+  return list[index]
+}
 
 export const throttle = (action, options = {}) => {
-  let timeout = null;
-  const { delay = 3000 } = options;
+  let timeout = null
+  const { delay = 3000 } = options
 
   return dispatch => (...args) => {
-    if (timeout) return;
+    if (timeout) return
     if (dispatch) {
-      dispatch(action(...args));
+      dispatch(action(...args))
     } else {
-      action(...args);
+      action(...args)
     }
     timeout = setTimeout(() => {
-      clearTimeout(timeout);
-      timeout = null;
-    }, delay);
-  };
-};
+      clearTimeout(timeout)
+      timeout = null
+    }, delay)
+  }
+}

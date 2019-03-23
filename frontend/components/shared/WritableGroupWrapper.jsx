@@ -1,30 +1,31 @@
-import React, { cloneElement } from 'react';
+
+import React, { cloneElement } from 'react'
 
 class WritableGroupWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: ''
-    };
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    }
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
   }
 
   onKeyDown(e) {
-    const { value } = this.state;
+    const { value } = this.state
     if (e.keyCode === 13 && value) {
-      const { onAdd } = this.props;
-      onAdd && onAdd(value);
-      this.clearInput();
+      const { onAdd } = this.props
+      onAdd && onAdd(value)
+      this.clearInput()
     }
   }
 
   handleInputChange(value) {
-    this.setState({ value });
+    this.setState({ value })
   }
 
   clearInput() {
-    this.setState({ value: '' });
+    this.setState({ value: '' })
   }
 
   render() {
@@ -32,9 +33,9 @@ class WritableGroupWrapper extends React.Component {
       value: this.state.value,
       onChange: this.handleInputChange,
       onKeyDown: this.onKeyDown
-    });
-    return child;
+    })
+    return child
   }
 }
 
-export default WritableGroupWrapper;
+export default WritableGroupWrapper

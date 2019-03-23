@@ -1,13 +1,13 @@
-import user from './user';
-import resume from './resume';
-import github from './github';
-import home from './home';
-import scientific from './scientific';
+/* eslint global-require: "off" */
+import 'proxy-polyfill/src/proxy'
 
-export default {
-  user,
-  home,
-  resume,
-  github,
-  scientific,
-};
+const routeHandler = {
+  get: (_, r) => {
+    const route = r.toLowerCase()
+    const fetch = require(`./${route}.js`)
+    return fetch.default
+  }
+}
+
+function target() {}
+export default new Proxy(target, routeHandler)

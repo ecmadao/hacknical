@@ -1,41 +1,41 @@
 
-import { toPromise } from './helper';
+import { toPromise } from './helper'
 
 class HeartBeat {
   constructor(options = {}) {
     const {
       interval = 1000, // 1s
       callback = Function.prototype
-    } = options;
+    } = options
     this.state = {
       interval,
       callback
-    };
-    this.timeout = null;
-    this.enable = true;
+    }
+    this.timeout = null
+    this.enable = true
   }
 
   takeoff(...args) {
-    this.timeout = setTimeout(this.callback(...args), this.state.interval);
+    this.timeout = setTimeout(this.callback(...args), this.state.interval)
   }
 
   stop() {
-    this.clearTimeout();
-    this.enable = false;
+    this.clearTimeout()
+    this.enable = false
   }
 
   callback(...args) {
-    const { callback } = this.state;
+    const { callback } = this.state
     return () => toPromise(callback)(...args).then(() => {
-      this.clearTimeout();
-      this.enable && this.takeoff(...args);
-    });
+      this.clearTimeout()
+      this.enable && this.takeoff(...args)
+    })
   }
 
   clearTimeout() {
-    this.timeout && clearTimeout(this.timeout);
-    this.timeout = null;
+    this.timeout && clearTimeout(this.timeout)
+    this.timeout = null
   }
 }
 
-export default HeartBeat;
+export default HeartBeat

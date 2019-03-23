@@ -1,79 +1,80 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import locales from 'LOCALES';
-import styles from '../Resume/Desktop/shared/common.css';
-import AsyncGithub from '../shared/AsyncGithub';
 
-const resumeLocales = locales('resume');
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import locales from 'LOCALES'
+import styles from '../Resume/Desktop/shared/common.css'
+import AsyncGithub from '../shared/AsyncGithub'
+
+const resumeLocales = locales('resume')
 
 class ResumeUIWrapper extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showGithub: false
-    };
-    this.changeShowGithub = this.changeShowGithub.bind(this);
+    }
+    this.changeShowGithub = this.changeShowGithub.bind(this)
   }
 
   changeShowGithub(showGithub) {
-    this.setState({ showGithub });
+    this.setState({ showGithub })
   }
 
   getSectionTitle(section) {
-    const { resume } = this.props;
-    const { info } = resume;
-    const { freshGraduate } = info;
-    const { title, subTitle } = resumeLocales.sections[section];
-    const result = freshGraduate ? subTitle : title;
-    return result || title;
+    const { resume } = this.props
+    const { info } = resume
+    const { freshGraduate } = info
+    const { title, subTitle } = resumeLocales.sections[section]
+    const result = freshGraduate ? subTitle : title
+    return result || title
   }
 
   renderEducations() {
-    return null;
+    return null
   }
 
   renderWorkExperiences() {
-    return null;
+    return null
   }
 
   renderPersonalProjects() {
-    return null;
+    return null
   }
 
   renderSupplements() {
-    return null;
+    return null
   }
 
   renderSocialLinks() {
-    return null;
+    return null
   }
 
   renderUpdateTime() {
-    const { resume, updateText, fromDownload } = this.props;
-    const { updateAt } = resume;
-    if (!updateAt || fromDownload) return false;
+    const { resume, updateText, fromDownload } = this.props
+    const { updateAt } = resume
+    if (!updateAt || fromDownload) return false
     return {
       updateAt,
-      updateText,
-    };
+      updateText
+    }
   }
 
   renderCustomModules() {
-    const { resume } = this.props;
-    const { customModules = [] } = resume;
-    return customModules.map((module, index) => this.renderCustomModule(module, index));
+    const { resume } = this.props
+    const { customModules = [] } = resume
+    return customModules.map((module, index) => this.renderCustomModule(module, index))
   }
 
   renderCustomModule(module, key) {
-    return null;
+    return null
   }
 
   renderResumeSections() {
-    const { resume } = this.props;
-    const { info } = resume;
-    const { freshGraduate } = info;
-    let sectionFuncs = [];
+    const { resume } = this.props
+    const { info } = resume
+    const { freshGraduate } = info
+    let sectionFuncs = []
     if (freshGraduate) {
       sectionFuncs = [
         this.renderEducations,
@@ -81,8 +82,8 @@ class ResumeUIWrapper extends React.Component {
         this.renderPersonalProjects,
         this.renderCustomModules,
         this.renderSupplements,
-        this.renderSocialLinks,
-      ];
+        this.renderSocialLinks
+      ]
     } else {
       sectionFuncs = [
         this.renderWorkExperiences,
@@ -90,10 +91,10 @@ class ResumeUIWrapper extends React.Component {
         this.renderEducations,
         this.renderCustomModules,
         this.renderSupplements,
-        this.renderSocialLinks,
-      ];
+        this.renderSocialLinks
+      ]
     }
-    return sectionFuncs.map((func, index) => func && func.call(this, index));
+    return sectionFuncs.map((func, index) => func && func.call(this, index))
   }
 
   renderGitHub() {
@@ -123,20 +124,20 @@ class ResumeUIWrapper extends React.Component {
           />
         </div>
       </div>
-    ) : null;
+    ) : null
   }
 }
 
 ResumeUIWrapper.propTypes = {
   resume: PropTypes.object,
   shareInfo: PropTypes.object,
-  login: PropTypes.string,
-};
+  login: PropTypes.string
+}
 
 ResumeUIWrapper.defaultProps = {
   resume: {},
   login: '',
-  shareInfo: {},
-};
+  shareInfo: {}
+}
 
-export default ResumeUIWrapper;
+export default ResumeUIWrapper

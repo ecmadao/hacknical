@@ -1,29 +1,29 @@
 
-import { WECHAT } from 'UTILS/constant';
+import { WECHAT } from 'UTILS/constant'
 
 export const getValidateViewSources = (viewSources) => {
-  const tmpSources = {};
+  const tmpSources = {}
 
   for (const viewSource of viewSources) {
     const {
       from,
       count,
-      browser,
-    } = viewSource;
+      browser
+    } = viewSource
     if (browser.toLowerCase() !== 'unknown' || WECHAT[from]) {
-      let sourceBrowser = browser;
+      let sourceBrowser = browser
       if (WECHAT[from]) {
-        sourceBrowser = 'wechat';
+        sourceBrowser = 'wechat'
       }
       if (tmpSources[sourceBrowser]) {
-        tmpSources[sourceBrowser].count += count;
+        tmpSources[sourceBrowser].count += count
       } else {
         tmpSources[sourceBrowser] = {
           count,
-          browser: sourceBrowser,
-        };
+          browser: sourceBrowser
+        }
       }
     }
   }
-  return Object.keys(tmpSources).map(key => tmpSources[key]);
-};
+  return Object.keys(tmpSources).map(key => tmpSources[key])
+}

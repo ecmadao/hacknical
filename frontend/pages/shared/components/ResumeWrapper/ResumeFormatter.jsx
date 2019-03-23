@@ -1,19 +1,19 @@
 
-import { cloneElement } from 'react';
-import objectAssign from 'UTILS/object-assign';
-import { validateSocialLinks } from 'UTILS/resume';
-import dateHelper from 'UTILS/date';
-import { sortBySeconds, isUrl } from 'UTILS/helper';
-import { formatUrl } from 'UTILS/formatter';
-import { LINK_NAMES } from 'UTILS/constant/resume';
+import { cloneElement } from 'react'
+import objectAssign from 'UTILS/object-assign'
+import { validateSocialLinks } from 'UTILS/resume'
+import dateHelper from 'UTILS/date'
+import { sortBySeconds, isUrl } from 'UTILS/helper'
+import { formatUrl } from 'UTILS/formatter'
+import { LINK_NAMES } from 'UTILS/constant/resume'
 
-const validateDate = dateHelper.validator.date;
-const sortByDate = sortBySeconds('startTime');
+const validateDate = dateHelper.validator.date
+const sortByDate = sortBySeconds('startTime')
 const getLinkText = social =>
   social.text
   || LINK_NAMES[social.name]
   || LINK_NAMES[social.name.toLowerCase()]
-  || social.name;
+  || social.name
 
 const formatResume = (resume) => {
   const {
@@ -21,9 +21,9 @@ const formatResume = (resume) => {
     educations,
     workExperiences,
     personalProjects,
-    customModules = [],
-  } = resume;
-  const { socialLinks } = others;
+    customModules = []
+  } = resume
+  const { socialLinks } = others
 
   const formatWorkExperiences = workExperiences
     .filter(experience => experience.company)
@@ -37,12 +37,12 @@ const formatResume = (resume) => {
         endTime,
         position,
         projects,
-        untilNow,
-      } = experience;
+        untilNow
+      } = experience
 
       const validateEnd = untilNow
         ? '至今'
-        : validateDate(endTime);
+        : validateDate(endTime)
 
       return {
         url,
@@ -52,8 +52,8 @@ const formatResume = (resume) => {
         endTime: validateEnd,
         startTime: validateDate(startTime),
         projects: projects.filter(project => project.name)
-      };
-    });
+      }
+    })
 
   const formatEducations = educations
     .filter(edu => edu.school)
@@ -67,7 +67,7 @@ const formatResume = (resume) => {
         education,
         startTime,
         experiences = []
-      } = edu;
+      } = edu
 
       return {
         school,
@@ -75,30 +75,30 @@ const formatResume = (resume) => {
         education,
         experiences,
         endTime: validateDate(endTime),
-        startTime: validateDate(startTime),
-      };
-    });
+        startTime: validateDate(startTime)
+      }
+    })
 
   const formatPersonalProjects = personalProjects
-    .filter(project => project.title);
+    .filter(project => project.title)
 
   const formatSocials = validateSocialLinks(socialLinks)
     .filter(social => isUrl(social.url))
     .map((social) => {
-      const { url } = social;
+      const { url } = social
       return {
         url,
         text: getLinkText(social),
-        validateUrl: formatUrl(url),
-      };
-    });
+        validateUrl: formatUrl(url)
+      }
+    })
 
   const formattedModules = customModules
     .filter((module) => {
-      if (!module.text) return false;
-      const { sections = [] } = module;
-      return sections.filter(section => section.title).length > 0;
-    });
+      if (!module.text) return false
+      const { sections = [] } = module
+      return sections.filter(section => section.title).length > 0
+    })
 
   return objectAssign({}, resume, {
     educations: formatEducations,
@@ -108,20 +108,20 @@ const formatResume = (resume) => {
       socialLinks: formatSocials
     }),
     customModules: formattedModules
-  });
+  })
 }
 
 const ResumeFormatter = (props) => {
-  const { resume, children } = props;
-  const componentProps = objectAssign({}, props);
-  delete componentProps.resume;
-  delete componentProps.children;
+  const { resume, children } = props
+  const componentProps = objectAssign({}, props)
+  delete componentProps.resume
+  delete componentProps.children
 
   const component = cloneElement(children, {
     ...componentProps,
-    resume: formatResume(resume),
-  });
-  return component;
-};
+    resume: formatResume(resume)
+  })
+  return component
+}
 
-export default ResumeFormatter;
+export default ResumeFormatter
