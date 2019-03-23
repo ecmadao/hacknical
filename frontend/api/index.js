@@ -1,4 +1,5 @@
 /* eslint global-require: "off" */
+
 import 'proxy-polyfill/src/proxy'
 
 const routeHandler = {
