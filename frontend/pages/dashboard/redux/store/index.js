@@ -15,7 +15,7 @@ export const createAppStore = (initialState = {}) => {
     thunk
   ]
   if (window.LogRocket) mids.push(window.LogRocket.reduxMiddleware())
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     mids.unshift(logger)
   }
   mids.unshift(router)
