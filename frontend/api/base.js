@@ -4,7 +4,6 @@ import { polyfill } from 'es6-promise'
 import param from 'jquery-param'
 import 'isomorphic-fetch'
 import NProgress from 'nprogress'
-import 'proxy-polyfill/src/proxy'
 import message from 'UTILS/message'
 
 require('nprogress/nprogress.css')
@@ -58,20 +57,21 @@ const fetchApi = (url, method, data) => {
 
 const getCsrf = () => document.getElementsByTagName('meta')['csrf-token'].content
 
-const methodHandler = {
-  get: (_, m) => {
-    const csrf = getCsrf()
-    const method = m.toUpperCase()
-    return (url, data = {}, prefix = '') => {
-      if (!rnoContent.test(method)) data._csrf = csrf
-      return fetchApi(
-        prefix ? `/${prefix}/${url}` : url,
-        method,
-        data
-      )
-    }
-  }
+const _fetch = m => (url, data = {}) => {
+  const csrf = getCsrf()
+  const method = m.toUpperCase()
+  if (!rnoContent.test(method)) data._csrf = csrf
+  return fetchApi(
+    url,
+    method,
+    data
+  )
 }
 
-function target() {}
-export default new Proxy(target, methodHandler)
+export default {
+  get: _fetch('get'),
+  post: _fetch('post'),
+  put: _fetch('put'),
+  delete: _fetch('delete'),
+  patch: _fetch('patch')
+}
