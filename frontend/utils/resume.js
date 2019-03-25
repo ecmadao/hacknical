@@ -10,7 +10,7 @@ export const validateSocialLinks = (socialLinks) => {
   const results = []
 
   for (const socialLink of socialLinks) {
-    if (socialLink.url) tmp[socialLink.name.toLowerCase()] = socialLink
+    if (socialLink.url && socialLink.name) tmp[socialLink.name.toLowerCase()] = socialLink
   }
 
   for (const SOCIAL_LINK of SOCIAL_LINKS) {
