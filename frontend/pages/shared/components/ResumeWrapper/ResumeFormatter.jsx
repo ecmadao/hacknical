@@ -1,5 +1,6 @@
 
 import { cloneElement } from 'react'
+import deepcopy from 'deepcopy'
 import objectAssign from 'UTILS/object-assign'
 import { validateSocialLinks } from 'UTILS/resume'
 import dateHelper from 'UTILS/date'
@@ -104,11 +105,11 @@ const formatResume = (resume) => {
       const { url } = social
       if (!isUrl(url)) return list
 
-      list.push({
+      list.push(Object.assign({}, social, {
         url: formatUrl(url),
         text: getLinkText(social),
         validateUrl: formatUrl(url)
-      })
+      }))
       return list
     }, [])
 
@@ -126,7 +127,7 @@ const formatResume = (resume) => {
       return list
     }, [])
 
-  return objectAssign({}, resume, {
+  return objectAssign({}, deepcopy(resume), {
     educations: formatEducations,
     workExperiences: formatWorkExperiences,
     personalProjects: formatPersonalProjects,
