@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './operations.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styles from './operations.css'
+import Icon from 'COMPONENTS/Icon'
 
 const OperationItem = (props) => {
   const { item } = props;
@@ -11,12 +12,7 @@ const OperationItem = (props) => {
       className={styles.item}
       onClick={onClick}
     >
-      {icon ? (
-        <i
-          className={`fa fa-${icon}`}
-          aria-hidden="true"
-        />
-      ) : null}
+      <Icon icon={icon} />
       {text}
     </div>
   );

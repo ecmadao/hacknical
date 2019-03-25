@@ -1,17 +1,18 @@
-import React from 'react';
-import cx from 'classnames';
-import objectAssign from 'UTILS/object-assign';
-import { Loading } from 'light-ui';
-import dateHelper from 'UTILS/date';
-import Slick from 'COMPONENTS/Slick';
-import styles from '../styles/resume.css';
-import { hasUrl, renderTextWithUrl } from 'UTILS/helper';
-import { formatUrl } from 'UTILS/formatter';
-import locales from 'LOCALES';
-import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
+import React from 'react'
+import cx from 'classnames'
+import objectAssign from 'UTILS/object-assign'
+import { Loading } from 'light-ui'
+import dateHelper from 'UTILS/date'
+import Slick from 'COMPONENTS/Slick'
+import styles from '../styles/resume.css'
+import { hasUrl } from 'UTILS/helper'
+import { renderTextWithUrl } from '../../shared/common'
+import locales from 'LOCALES'
+import Icon from 'COMPONENTS/Icon'
+import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 
-const resumeLocales = locales('resume');
-const { hoursBefore } = dateHelper.relative;
+const resumeLocales = locales('resume')
+const { hoursBefore } = dateHelper.relative
 
 const LINK_OPTIONS = {
   text: '',
@@ -19,49 +20,45 @@ const LINK_OPTIONS = {
   showIcon: true,
   icon: null,
   className: ''
-};
+}
 
 const LinkInfo = (options = LINK_OPTIONS) => {
   const {
     text,
     url,
     icon,
-    type,
     showIcon,
     className
-  } = objectAssign({}, LINK_OPTIONS, options);
+  } = objectAssign({}, LINK_OPTIONS, options)
+
   return (
     <a
       target="_blank"
       rel="noopener noreferrer"
-      href={type === 'link' ? formatUrl(url) : url}
+      href={url}
       className={cx(styles.linkText, className)}
     >
-      {showIcon ? (
-        icon
-          ? <i className={`fa fa-${icon}`} aria-hidden="true" />
-          : <i className="fa fa-link" aria-hidden="true" />
-      ) : null}
+      <Icon icon={showIcon ? (icon || 'link') : null} />
       {text}
     </a>
-  );
-};
+  )
+}
 
 const HeaderInfo = (options = {}) => {
-  const { url, text, showIcon } = options;
-  if (showIcon === undefined) options.showIcon = false;
+  const { url, text, showIcon } = options
+  if (showIcon === undefined) options.showIcon = false
   if (url) {
-    options.type = 'link';
-    return LinkInfo(options);
+    options.type = 'link'
+    return LinkInfo(options)
   }
-  return <div className={styles['project-header']}>{text}</div>;
-};
+  return <div className={styles['project-header']}>{text}</div>
+}
 
 class ResumeContent extends ResumeUIWrapper {
   renderHeader() {
-    const { info, others } = this.props.resume;
-    const { email, phone, name } = info;
-    const { dream } = others;
+    const { info, others } = this.props.resume
+    const { email, phone, name } = info
+    const { dream } = others
 
     return (
       <div className={styles['section-header']}>
@@ -84,12 +81,12 @@ class ResumeContent extends ResumeUIWrapper {
           className: styles.contact
         }) : null}
       </div>
-    );
+    )
   }
 
   renderEducations(key) {
-    const { resume } = this.props;
-    const { info, educations } = resume;
+    const { resume } = this.props
+    const { info, educations } = resume
 
     const edus = educations
       .map((edu, index) => {
@@ -100,13 +97,13 @@ class ResumeContent extends ResumeUIWrapper {
           startTime,
           education,
           experiences,
-        } = edu;
+        } = edu
 
         const experienceDetails = experiences.map((experience, i) => (
           <li key={i}>
             {experience}
           </li>
-        ));
+        ))
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
@@ -129,19 +126,19 @@ class ResumeContent extends ResumeUIWrapper {
               ) : null}
             </div>
           </div>
-        );
-      });
+        )
+      })
 
-    if (!edus.length) return null;
+    if (!edus.length) return null
     return (
       <div className={styles['resume-section']} key={key}>
         {edus}
       </div>
-    );
+    )
   }
 
   renderWorkExperiences(key) {
-    const { workExperiences } = this.props.resume;
+    const { workExperiences } = this.props.resume
 
     const exps = workExperiences
       .map((experience, index) => {
@@ -152,8 +149,9 @@ class ResumeContent extends ResumeUIWrapper {
           projects,
           position,
           startTime,
-        } = experience;
-        const workProjects = this.renderWorkProjects(projects);
+        } = experience
+        const workProjects = this.renderWorkProjects(projects)
+
         return (
           <div className={styles['section-row']} key={index}>
             <div className={styles['row-left']}>
@@ -175,22 +173,21 @@ class ResumeContent extends ResumeUIWrapper {
               </div>
             </div>
           </div>
-        );
-      });
+        )
+      })
 
-    if (!exps.length) return null;
+    if (!exps.length) return null
     return (
       <div className={styles['resume-section']} key={key}>
         {exps}
       </div>
-    );
+    )
   }
 
   renderWorkProjects(projects) {
     return projects
-      .filter(project => project.name)
       .map((project, index) => {
-        const { name, url, details } = project;
+        const { name, url, details } = project
         const projectDetails = details.map((detail, i) => (
           <li
             key={i}
@@ -200,7 +197,8 @@ class ResumeContent extends ResumeUIWrapper {
           >
             {renderTextWithUrl(detail)}
           </li>
-        ));
+        ))
+
         return (
           <div key={index} className={styles['section-project']}>
             {HeaderInfo({
@@ -212,17 +210,17 @@ class ResumeContent extends ResumeUIWrapper {
               {projectDetails}
             </ul>
           </div>
-        );
-      });
+        )
+      })
   }
 
   renderPersonalProjects(key) {
-    const { personalProjects } = this.props.resume;
-    if (!personalProjects.length) return null;
+    const { personalProjects } = this.props.resume
+    if (!personalProjects.length) return null
 
     const projects = personalProjects
       .map((project, index) => {
-        const { desc, title } = project;
+        const { desc, title } = project
         return (
           <div className={styles['section-project']} key={index}>
             <div className={styles.mainText}>{title}</div>
@@ -237,8 +235,8 @@ class ResumeContent extends ResumeUIWrapper {
               </div>
             ) : null}
           </div>
-        );
-      });
+        )
+      })
 
     return (
       <div className={styles['resume-section']} key={key}>
@@ -251,13 +249,13 @@ class ResumeContent extends ResumeUIWrapper {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   renderSupplements(key) {
-    const { others } = this.props.resume;
-    const { supplements } = others;
-    if (!supplements.length) return null;
+    const { others } = this.props.resume
+    const { supplements } = others
+    if (!supplements.length) return null
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li
@@ -268,7 +266,7 @@ class ResumeContent extends ResumeUIWrapper {
       >
         {renderTextWithUrl(supplement)}
       </li>
-    ));
+    ))
 
     return (
       <div className={styles['resume-section']} key={key}>
@@ -289,18 +287,18 @@ class ResumeContent extends ResumeUIWrapper {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   renderCustomModule(module, key) {
-    const { sections } = module;
+    const { sections } = module
 
     const projects = this.renderWorkProjects(sections.map(section => ({
       url: section.url,
       name: section.title,
       details: section.details
-    })));
-    if (!projects.length) return null;
+    })))
+    if (!projects.length) return null
 
     return (
       <div className={styles['resume-section']} key={key}>
@@ -313,77 +311,77 @@ class ResumeContent extends ResumeUIWrapper {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   renderSlick() {
-    const { loading, resume } = this.props;
-    if (loading) return null;
-    const { info, others } = resume;
-    const { intention, location, gender } = info;
-    const { expectLocation } = others;
-    const sliders = [];
+    const { loading, resume } = this.props
+    if (loading) return null
+
+    const { info, others } = resume
+    const { intention, location, gender } = info
+    const { expectLocation } = others
+    const sliders = []
+
     if (intention) {
       sliders.push({
         mainText: intention,
         subText: resumeLocales.sections.info.job
-      });
+      })
     }
     if (location) {
       sliders.push({
         mainText: location,
         subText: resumeLocales.sections.info.position
-      });
+      })
     }
     if (expectLocation) {
       sliders.push({
         mainText: expectLocation,
         subText: resumeLocales.sections.others.expectCity
-      });
+      })
     }
-    return <Slick sliders={sliders} className={styles.slick} />;
+    return <Slick sliders={sliders} className={styles.slick} />
   }
 
   renderUpdateTime() {
-    const check = super.renderUpdateTime();
-    if (!check) return null;
-    const { updateText, updateAt } = check;
+    const check = super.renderUpdateTime()
+    if (!check) return null
+
+    const { updateText, updateAt } = check
     return (
       <div className={styles.resumeTip} key="resumeTip">
         {updateText}{hoursBefore(updateAt)}
       </div>
-    );
+    )
   }
 
   renderSocialLinks(key) {
-    const { others } = this.props.resume;
-    const { socialLinks } = others;
-    if (!socialLinks.length) return null;
+    const { others } = this.props.resume
+    const { socialLinks } = others
+    if (!socialLinks.length) return null
 
-    const linkDoms = [];
+    const linkDoms = []
     socialLinks.forEach((socialLink, i) => {
       const {
         url,
-        text,
-        validateUrl,
-      } = socialLink;
-      if (url) {
-        linkDoms.push((
-          <li key={i}>
-            {text}&nbsp;:
-            <br/>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.listLink}
-              href={validateUrl}
-            >
-              {url}
-            </a>
-          </li>
-        ));
-      }
-    });
+        text
+      } = socialLink
+      linkDoms.push((
+        <li key={i}>
+          {text}&nbsp;:
+          <br/>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.listLink}
+            href={url}
+          >
+            {url}
+          </a>
+        </li>
+      ))
+    })
 
     return (
       <div className={styles['resume-section']} key={key}>
@@ -404,12 +402,12 @@ class ResumeContent extends ResumeUIWrapper {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   render() {
-    const { resume } = this.props;
-    const { initialized } = resume;
+    const { resume } = this.props
+    const { initialized } = resume
 
     return (
       <div className={styles.resumeContainer}>
@@ -437,9 +435,9 @@ class ResumeContent extends ResumeUIWrapper {
           </div>
         )}
       </div>
-    );
+    )
   }
 }
 
 
-export default ResumeContent;
+export default ResumeContent

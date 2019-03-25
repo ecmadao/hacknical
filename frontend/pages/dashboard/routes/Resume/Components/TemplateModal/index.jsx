@@ -1,12 +1,14 @@
-import React from 'react';
-import cx from 'classnames';
-import { PortalModal } from 'light-ui';
-import locales from 'LOCALES';
-import styles from '../../styles/template_modal.css';
-import modalStyles from '../../styles/modal.css';
-import { URLS, RESUME_TEMPLATES } from 'UTILS/constant';
 
-const resumeTexts = locales('resume');
+import React from 'react'
+import cx from 'classnames'
+import { PortalModal } from 'light-ui'
+import locales from 'LOCALES'
+import styles from '../../styles/template_modal.css'
+import modalStyles from '../../styles/modal.css'
+import { URLS, RESUME_TEMPLATES } from 'UTILS/constant'
+import Icon from 'COMPONENTS/Icon'
+
+const resumeTexts = locales('resume')
 
 const TemplateModal = (props) => {
   const {
@@ -14,7 +16,7 @@ const TemplateModal = (props) => {
     template,
     openModal,
     onTemplateChange
-  } = props;
+  } = props
 
   const templates = RESUME_TEMPLATES.map((templateId, index) => (
     <div className={styles.modalSection} key={index}>
@@ -32,11 +34,11 @@ const TemplateModal = (props) => {
           onClick={() => onTemplateChange(templateId)}
         />
         <div className={styles.templateWrapper}>
-          <i className="fa fa-check-circle" aria-hidden="true" />
+          <Icon icon="check-circle" />
         </div>
       </div>
     </div>
-  ));
+  ))
 
   return (
     <PortalModal
@@ -68,7 +70,7 @@ const TemplateModal = (props) => {
         </div>
       </div>
     </PortalModal>
-  );
-};
+  )
+}
 
-export default TemplateModal;
+export default TemplateModal

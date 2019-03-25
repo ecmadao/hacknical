@@ -1,68 +1,68 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Slider } from 'light-ui';
-import styles from './slider.css';
-import dateHelper from 'UTILS/date';
-import locales from 'LOCALES';
-import { SECONDS_PER_DAY } from 'UTILS/constant';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Slider } from 'light-ui'
+import styles from './slider.css'
+import dateHelper from 'UTILS/date'
+import locales from 'LOCALES'
+import { SECONDS_PER_DAY } from 'UTILS/constant'
 
-const getDateBySeconds = dateHelper.date.bySeconds;
-const getDateBeforeYears = dateHelper.date.beforeYears;
-const getValidatorDate = dateHelper.validator.date;
-const getValidatorFullDate = dateHelper.validator.fullDate;
-const getSecondsByDate = dateHelper.seconds.getByDate;
-const afterDays = dateHelper.date.afterDays;
-const localeTexts = locales('datas.dateSlider');
-const MAX_DATE = afterDays(1);
+const getDateBySeconds = dateHelper.date.bySeconds
+const getDateBeforeYears = dateHelper.date.beforeYears
+const getValidatorDate = dateHelper.validator.date
+const getValidatorFullDate = dateHelper.validator.fullDate
+const getSecondsByDate = dateHelper.seconds.getByDate
+const afterDays = dateHelper.date.afterDays
+const localeTexts = locales('datas.dateSlider')
+const MAX_DATE = afterDays(1)
 
 class DateSlider extends React.Component {
   constructor(props) {
-    super(props);
-    const { initialStart, initialEnd, maxDate } = this.props;
+    super(props)
+    const { initialStart, initialEnd, maxDate } = this.props
     this.state = {
       startDate: initialStart,
       endDate: initialEnd || maxDate
     }
-    this.onChange = this.onChange.bind(this);
+    this.onChange = this.onChange.bind(this)
   }
 
   onChange(seconds) {
-    const { onStartChange, onEndChange } = this.props;
-    const [startSeconds, endSeconds] = seconds;
-    const startDate = getDateBySeconds(startSeconds);
-    const endDate = getDateBySeconds(endSeconds);
+    const { onStartChange, onEndChange } = this.props
+    const [startSeconds, endSeconds] = seconds
+    const startDate = getDateBySeconds(startSeconds)
+    const endDate = getDateBySeconds(endSeconds)
 
-    onStartChange && onStartChange(startDate);
-    onEndChange && onEndChange(endDate, endDate === MAX_DATE);
+    onStartChange && onStartChange(startDate)
+    onEndChange && onEndChange(endDate, endDate === MAX_DATE)
     this.setState({
       startDate,
       endDate
-    });
+    })
   }
 
   componentWillReceiveProps(nextProps) {
-    const { initialStart, initialEnd, maxDate } = nextProps;
+    const { initialStart, initialEnd, maxDate } = nextProps
     this.setState({
       startDate: initialStart,
       endDate: initialEnd || maxDate
-    });
+    })
   }
 
   get pushInterval() {
-    const { pushInterval } = this.props;
+    const { pushInterval } = this.props
     switch (pushInterval) {
       case 'day':
-        return SECONDS_PER_DAY;
+        return SECONDS_PER_DAY
       case 'month':
-        return SECONDS_PER_DAY * 30;
+        return SECONDS_PER_DAY * 30
       case 'halfYear':
-        return SECONDS_PER_DAY * 30 * 6;
+        return SECONDS_PER_DAY * 30 * 6
       case 'year':
-        return SECONDS_PER_DAY * 30 * 12;
+        return SECONDS_PER_DAY * 30 * 12
       case '2year':
-        return SECONDS_PER_DAY * 30 * 24;
+        return SECONDS_PER_DAY * 30 * 24
       default:
-        return SECONDS_PER_DAY * 30;
+        return SECONDS_PER_DAY * 30
     }
   }
 
@@ -71,14 +71,14 @@ class DateSlider extends React.Component {
       endText,
       minDate,
       maxDate,
-      startText,
-    } = this.props;
+      startText
+    } = this.props
 
     const {
       endDate,
-      startDate,
-    } = this.state;
-    const validateEndDate = getValidatorFullDate(endDate);
+      startDate
+    } = this.state
+    const validateEndDate = getValidatorFullDate(endDate)
 
     return (
       <div className={styles.container}>
@@ -134,7 +134,7 @@ DateSlider.propTypes = {
   initialEnd: PropTypes.string,
   onStartChange: PropTypes.func,
   onEndChange: PropTypes.func
-};
+}
 
 DateSlider.defaultProps = {
   pushInterval: 'day',
@@ -146,6 +146,6 @@ DateSlider.defaultProps = {
   endText: localeTexts.endDate,
   onStartChange: Function.prototype,
   onEndChange: Function.prototype,
-};
+}
 
-export default DateSlider;
+export default DateSlider

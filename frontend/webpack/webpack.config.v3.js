@@ -2,7 +2,7 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 const PATH = require('../../config/path')
 
@@ -16,7 +16,7 @@ entryFiles
   .forEach(file => {
     const filename = file.split('.')[0];
     const filepath = path.join(PATH.ENTRY_PATH, file)
-    entries[filename] = ['babel-polyfill', filepath];
+    entries[filename] = ['babel-polyfill', filepath]
 })
 
 const postcssLoader = {

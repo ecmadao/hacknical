@@ -1,3 +1,3 @@
-import DesktopSetting from './container';
+import DesktopSetting from './container'
 
-export default DesktopSetting;
+export default DesktopSetting

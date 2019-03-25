@@ -1,7 +1,7 @@
 
 import EventEmitter from 'eventemitter3'
 import API from 'API'
-import HeartBeat from './heartbeat'
+import HeartBeat from 'UTILS/heartbeat'
 
 const emitter = new EventEmitter()
 

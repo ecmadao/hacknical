@@ -15,6 +15,7 @@ export const createRoutes = (store, props) => {
     isAdmin = false,
     isMobile = false
   } = props
+
   injectReducer(store, {
     key: 'app',
     reducer: initReducers({

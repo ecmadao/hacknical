@@ -1,71 +1,72 @@
 
-import React from 'react';
-import { Button, Input, Tipso } from 'light-ui';
-import locales from 'LOCALES';
-import message from 'UTILS/message';
-import styles from '../styles/resume.css';
+import React from 'react'
+import { Button, Input, Tipso } from 'light-ui'
+import locales from 'LOCALES'
+import message from 'UTILS/message'
+import Icon from 'COMPONENTS/Icon'
+import styles from '../styles/resume.css'
 
-const resumeTexts = locales('resume');
-const { navs, buttons, messages } = resumeTexts;
+const resumeTexts = locales('resume')
+const { navs, buttons, messages } = resumeTexts
 
 class NavSection  extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       title: '',
       showModal: false
-    };
-    this.onTipClose = this.onTipClose.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
-    this.onTitleChange = this.onTitleChange.bind(this);
+    }
+    this.onTipClose = this.onTipClose.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleEnter = this.handleEnter.bind(this)
+    this.onTitleChange = this.onTitleChange.bind(this)
   }
 
   onTipClose() {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false })
   }
 
   toggleModal() {
-    const { showModal } = this.state;
+    const { showModal } = this.state
     this.setState({
       showModal: !showModal
-    });
-    if (!showModal) setTimeout(() => $('#newModule').focus(), 200);
+    })
+    if (!showModal) setTimeout(() => $('#newModule').focus(), 200)
   }
 
   handleSubmit() {
-    const { title } = this.state;
-    const { customModules, handleSubmit } = this.props;
+    const { title } = this.state
+    const { customModules, handleSubmit } = this.props
     if (!title) {
-      message.error(messages.addModuleError.emptyName);
-      return;
+      message.error(messages.addModuleError.emptyName)
+      return
     }
     if (customModules.find(module => module.title === title)) {
-      message.error(messages.addModuleError.duplicateName);
-      return;
+      message.error(messages.addModuleError.duplicateName)
+      return
     }
 
     this.setState({
       title: '',
       showModal: false
-    });
+    })
 
-    handleSubmit && handleSubmit(title);
+    handleSubmit && handleSubmit(title)
   }
 
   handleEnter(e) {
-    if (e.keyCode !== 13) return;
-    this.handleSubmit();
+    if (e.keyCode !== 13) return
+    this.handleSubmit()
   }
 
   onTitleChange(title) {
-    this.setState({ title });
+    this.setState({ title })
   }
 
   render() {
-    const { title, showModal } = this.state;
+    const { title, showModal } = this.state
 
     return (
       <Tipso
@@ -102,13 +103,13 @@ class NavSection  extends React.Component {
       >
         <div className={styles.navSection}>
           <div className={styles.navSectionWrapper} onClick={this.toggleModal}>
-            <i className="fa fa-plus" aria-hidden="true" />
+            <Icon icon="plus" />
             {navs.addNew}
           </div>
         </div>
       </Tipso>
-    );
+    )
   }
 }
 
-export default NavSection;
+export default NavSection

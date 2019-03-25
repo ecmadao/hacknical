@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { PortalModal } from 'light-ui';
-import styles from '../styles/intro_modal.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { PortalModal } from 'light-ui'
+import styles from '../styles/intro_modal.css'
 
 class IntroModal extends React.Component {
   renderIntros() {
-    const { intros } = this.props;
+    const { intros } = this.props
     return intros.map((intro, index) => {
-      const { texts, title } = intro;
-      const lis = texts.map((text, i) => (<li key={i}>{text}</li>));
+      const { texts, title } = intro
+      const lis = texts.map((text, i) => (<li key={i}>{text}</li>))
 
       return (
         <div className={styles['container-wrapper']} key={index}>
@@ -17,12 +17,12 @@ class IntroModal extends React.Component {
             {lis}
           </ul>
         </div>
-      );
-    });
+      )
+    })
   }
 
   render() {
-    const { openModal, onClose } = this.props;
+    const { openModal, onClose } = this.props
     return (
       <PortalModal
         showModal={openModal}
@@ -32,20 +32,20 @@ class IntroModal extends React.Component {
           {this.renderIntros()}
         </div>
       </PortalModal>
-    );
+    )
   }
 }
 
 IntroModal.propTypes = {
   openModal: PropTypes.bool,
   onClose: PropTypes.func,
-  intros: PropTypes.array,
-};
+  intros: PropTypes.array
+}
 
 IntroModal.defaultProps = {
   openModal: false,
   onClose: Function.prototype,
-  intros: [],
-};
+  intros: []
+}
 
-export default IntroModal;
+export default IntroModal

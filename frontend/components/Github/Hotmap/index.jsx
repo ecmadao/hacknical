@@ -1,14 +1,15 @@
 /* eslint new-cap: "off" */
 
-import React from 'react';
-import cx from 'classnames';
-import CalHeatMap from 'cal-heatmap';
-import 'cal-heatmap/cal-heatmap.css';
-import { Loading, InfoCard, CardGroup } from 'light-ui';
-import styles from '../styles/github.css';
-import cardStyles from '../styles/info_card.css';
-import locales, { formatLocale } from 'LOCALES';
-import dateHelper from 'UTILS/date';
+import React from 'react'
+import cx from 'classnames'
+import CalHeatMap from 'cal-heatmap'
+import 'cal-heatmap/cal-heatmap.css'
+import { Loading, InfoCard, CardGroup } from 'light-ui'
+import styles from '../styles/github.css'
+import cardStyles from '../styles/info_card.css'
+import locales, { formatLocale } from 'LOCALES'
+import dateHelper from 'UTILS/date'
+import Icon from 'COMPONENTS/Icon'
 
 const githubTexts = locales('github.sections.hotmap');
 
@@ -140,16 +141,10 @@ class Hotmap extends React.Component {
         <div id="cal-heatmap" className={styles.githubHotmap} />
         <div className={styles.hotmapControllers}>
           <div className={styles.hotmapController} id="hotmap-left">
-            <i
-              aria-hidden="true"
-              className="fa fa-angle-left"
-            />
+            <Icon icon="angle-left" />
           </div>
           <div className={styles.hotmapController} id="hotmap-right">
-            <i
-              aria-hidden="true"
-              className="fa fa-angle-right"
-            />
+            <Icon icon="angle-right" />
           </div>
         </div>
         {this.renderCardGroup()}

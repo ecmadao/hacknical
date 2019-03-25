@@ -1,48 +1,48 @@
 /* eslint no-param-reassign: "off" */
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Push from 'push.js';
-import styles from '../styles/resume.css';
-import ShareModal from 'COMPONENTS/ShareModal';
-import ResumeSection from './ResumeSection';
-import ResumeModal from './ResumeModal';
-import TemplateModal from './TemplateModal';
-import IntroModal from './IntroModal';
-import resumeActions from '../redux/actions';
-import Hotkeys from 'UTILS/hotkeys';
-import locales from 'LOCALES';
-import API from 'API';
-import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter';
-import message from 'UTILS/message';
-import Navigation from 'COMPONENTS/Navigation';
-import HeartBeat from 'UTILS/heartbeat';
-import NavSection from './NavSection';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import Push from 'push.js'
+import styles from '../styles/resume.css'
+import ShareModal from 'COMPONENTS/ShareModal'
+import ResumeSection from './ResumeSection'
+import ResumeModal from './ResumeModal'
+import TemplateModal from './TemplateModal'
+import IntroModal from './IntroModal'
+import resumeActions from '../redux/actions'
+import Hotkeys from 'UTILS/hotkeys'
+import locales from 'LOCALES'
+import API from 'API'
+import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter'
+import message from 'UTILS/message'
+import Navigation from 'COMPONENTS/Navigation'
+import HeartBeat from 'UTILS/heartbeat'
+import NavSection from './NavSection'
 import ResumeOperations from './Operations'
 
-const resumeTexts = locales('resume');
-const { editedConfirm, messages } = resumeTexts;
+const resumeTexts = locales('resume')
+const { editedConfirm, messages } = resumeTexts
 
 class Resume extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       openModal: false,
       openIntroModal: false,
       openShareModal: false,
-      openTemplateModal: false,
-    };
+      openTemplateModal: false
+    }
 
-    this.onBeforeUnload = this.onBeforeUnload.bind(this);
-    this.downloadResume = this.downloadResume.bind(this);
-    this.handlePreview = this.handlePreview.bind(this);
-    this.handleModalStatus = this.handleModalStatus.bind(this);
-    this.handleShareModalStatus = this.handleShareModalStatus.bind(this);
-    this.handleTemplateModalStatus = this.handleTemplateModalStatus.bind(this);
-    this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this);
-    this.handleSectionChange = this.handleSectionChange.bind(this);
-    this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this);
+    this.onBeforeUnload = this.onBeforeUnload.bind(this)
+    this.downloadResume = this.downloadResume.bind(this)
+    this.handlePreview = this.handlePreview.bind(this)
+    this.handleModalStatus = this.handleModalStatus.bind(this)
+    this.handleShareModalStatus = this.handleShareModalStatus.bind(this)
+    this.handleTemplateModalStatus = this.handleTemplateModalStatus.bind(this)
+    this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this)
+    this.handleSectionChange = this.handleSectionChange.bind(this)
+    this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this)
   }
 
   componentDidMount() {

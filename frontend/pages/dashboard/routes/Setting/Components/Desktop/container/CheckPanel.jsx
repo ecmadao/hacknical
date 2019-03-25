@@ -1,7 +1,8 @@
 
-import React from 'react';
-import cx from 'classnames';
-import styles from '../styles/setting.css';
+import React from 'react'
+import cx from 'classnames'
+import styles from '../styles/setting.css'
+import Icon from 'COMPONENTS/Icon'
 
 const CheckPanel = (props) => {
   const {
@@ -24,10 +25,7 @@ const CheckPanel = (props) => {
         {text}
       </div>
       <div className={styles.check_container}>
-        <i
-          aria-hidden="true"
-          className={`fa fa-${checked ? 'check-square' : 'square-o'}`}
-        />
+        <Icon icon={checked ? 'check-square' : 'square-o'} />
       </div>
     </div>
   );

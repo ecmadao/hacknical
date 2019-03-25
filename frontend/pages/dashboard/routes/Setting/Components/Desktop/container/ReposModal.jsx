@@ -1,12 +1,13 @@
 /* eslint no-param-reassign: "off" */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { PortalModal, Button, Loading, Input } from 'light-ui';
-import API from 'API';
-import ReposCard from './ReposCard';
-import styles from '../styles/modal.css';
-import locales from 'LOCALES';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { PortalModal, Button, Loading, Input } from 'light-ui'
+import API from 'API'
+import ReposCard from './ReposCard'
+import styles from '../styles/modal.css'
+import locales from 'LOCALES'
+import Icon from 'COMPONENTS/Icon'
 
 const settingTexts = locales('dashboard').setting.github;
 
@@ -156,10 +157,7 @@ class ReposModal extends React.Component {
                 onClick={this.onCheckAll}
                 className={styles.button_check}
               >
-                <i
-                  aria-hidden="true"
-                  className={`fa fa-${checkAll ? 'check-square' : 'square-o'}`}
-                />
+                <Icon icon={checkAll ? 'check-square' : 'square-o'} />
                 &nbsp;{settingTexts.customize.checkAll}
               </div>
               <Button

@@ -1,6 +1,7 @@
 import React from 'react';
-import cx from 'classnames';
-import styles from '../styles/modal.css';
+import cx from 'classnames'
+import Icon from 'COMPONENTS/Icon'
+import styles from '../styles/modal.css'
 
 const ReposCard = (props) => {
   const { repository, pinned, onRemove, onPinned } = props;
@@ -27,7 +28,7 @@ const ReposCard = (props) => {
             parseInt(stargazers_count, 10) > 5 && styles.section_active
           )}
         >
-          <i className="fa fa-star" aria-hidden="true" />
+          <Icon icon="star" />
           &nbsp;
           {stargazers_count}
         </div>

@@ -121,7 +121,7 @@ class ResumeWrapper extends React.Component {
           {children}
         </ResumeFormatter>
       </div>
-    );
+    )
   }
 }
 

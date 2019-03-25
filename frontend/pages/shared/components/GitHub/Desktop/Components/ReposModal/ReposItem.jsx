@@ -1,5 +1,7 @@
-import React from 'react';
-import { Label } from 'light-ui';
+
+import React from 'react'
+import { Label } from 'light-ui'
+import Icon from 'COMPONENTS/Icon'
 
 class ReposItem extends React.Component {
   render() {
@@ -17,10 +19,7 @@ class ReposItem extends React.Component {
           </a>&nbsp;&nbsp;
           {repository.stargazers_count > 0 ? (
             <span>
-              <i
-                className="fa fa-star"
-                aria-hidden="true"
-              />
+              <Icon icon="star" />
               &nbsp;{repository.stargazers_count}&nbsp;&nbsp;
             </span>
           ) : null}

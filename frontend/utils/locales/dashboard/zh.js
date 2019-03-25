@@ -31,6 +31,11 @@ const datas = {
     feedback: '意见反馈',
     logout: '退出登录'
   },
+  archive: {
+    resume: {
+      previewModal: '按 ESC 即可退出预览'
+    }
+  },
   records: {
     resume: {
       title: '简历',

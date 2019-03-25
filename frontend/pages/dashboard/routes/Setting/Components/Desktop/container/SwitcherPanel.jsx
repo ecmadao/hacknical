@@ -1,7 +1,8 @@
 import React from 'react';
-import cx from 'classnames';
-import { Switcher, Tipso } from 'light-ui';
-import styles from '../styles/setting.css';
+import cx from 'classnames'
+import { Switcher, Tipso } from 'light-ui'
+import styles from '../styles/setting.css'
+import Icon from 'COMPONENTS/Icon'
 
 const SwitcherPanel = (props) => {
   const {
@@ -12,7 +13,7 @@ const SwitcherPanel = (props) => {
     className,
     tipso = null,
     disabled = false,
-  } = props;
+  } = props
   return (
     <div
       className={cx(
@@ -32,7 +33,7 @@ const SwitcherPanel = (props) => {
             tipsoContent={<span>{tipso}</span>}
           >
             <span className={styles.tipsoIntro}>
-              <i className="fa fa-question-circle" aria-hidden="true" />
+              <Icon icon="question-circle" />
             </span>
           </Tipso>
         ) : null}
@@ -44,7 +45,7 @@ const SwitcherPanel = (props) => {
         disabled={disabled}
       />
     </div>
-  );
-};
+  )
+}
 
-export default SwitcherPanel;
+export default SwitcherPanel

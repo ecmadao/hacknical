@@ -1,14 +1,15 @@
 /* eslint global-require: "off" */
 
-import React from 'react';
-import cx from 'classnames';
-import { Tipso, Input, InputGroupV2 } from 'light-ui';
-import { isUrl } from 'UTILS/helper';
-import styles from '../../../styles/resume.css';
-import TipsoInputs from './TipsoInputs';
-import locales from 'LOCALES';
+import React from 'react'
+import cx from 'classnames'
+import { Tipso, Input, InputGroupV2 } from 'light-ui'
+import { isUrl } from 'UTILS/helper'
+import styles from '../../../styles/resume.css'
+import TipsoInputs from './TipsoInputs'
+import locales from 'LOCALES'
+import Icon from 'COMPONENTS/Icon'
 
-const resumeTexts = locales('resume').sections.others;
+const resumeTexts = locales('resume').sections.others
 
 const renderTipsoInputs = (links) => {
   const prefixIcons = [];
@@ -126,11 +127,7 @@ class SocialLink extends React.Component {
           <img src={require(`SRC/images/${icon}`)} alt={name} />
           {deleteable ? (
             <div ref={ref => (this.container = ref)} className={styles.linkDelButton}>
-              <i
-                className="fa fa-close"
-                aria-hidden="true"
-                onClick={onDelete}
-              />
+              <Icon icon="close" onClick={onDelete} />
             </div>
           ) : null}
         </div>

@@ -1,17 +1,18 @@
-import React from 'react';
-import { Tipso } from 'light-ui';
-import locales, { getLocale } from 'LOCALES';
-import styles from '../../../styles/desktop.css';
-import MenuWrapper from '../../shared/MenuWrapper';
-import { URLS } from 'UTILS/constant';
+import React from 'react'
+import { Tipso } from 'light-ui'
+import locales, { getLocale } from 'LOCALES'
+import styles from '../../../styles/desktop.css'
+import MenuWrapper from '../../shared/MenuWrapper'
+import { URLS } from 'UTILS/constant'
+import Icon from 'COMPONENTS/Icon'
 
-const headers = locales('dashboard').headers;
-const locale = getLocale();
+const { headers } = locales('dashboard')
+const locale = getLocale()
 
 class Header extends MenuWrapper {
   renderLanguageOptions() {
-    const { languages } = this.state;
-    if (!languages.length) return null;
+    const { languages } = this.state
+    if (!languages.length) return null
     const optionDOMs = languages.map((option, index) => (
       <a
         key={index}
@@ -20,16 +21,16 @@ class Header extends MenuWrapper {
       >
         {option.text}
       </a>
-    ));
+    ))
     return (
       <div className={styles.dropdown_wrapper}>
         {optionDOMs}
       </div>
-    );
+    )
   }
 
   render() {
-    const { zen } = this.state;
+    const { zen } = this.state
 
     return (
       <div className={styles.app_header}>
@@ -62,7 +63,7 @@ class Header extends MenuWrapper {
                   rel="noopener noreferrer"
                   className={styles.header_menu_icon_right}
                 >
-                  <i className="fa fa-question-circle" aria-hidden="true" />
+                  <Icon icon="question-circle" />
                 </a>
               </div>
             </Tipso>
@@ -79,7 +80,7 @@ class Header extends MenuWrapper {
                   className={styles.header_menu_icon_right}
                   href={`${URLS.ISSUE}/new`}
                 >
-                  <i className="fa fa-info-circle" aria-hidden="true" />
+                  <Icon icon="info-circle" />
                 </a>
               </div>
             </Tipso>
@@ -94,15 +95,15 @@ class Header extends MenuWrapper {
                   href="/api/user/logout"
                   className={styles.header_menu_icon_right}
                 >
-                  <i className="fa fa-sign-out" aria-hidden="true" />
+                  <Icon icon="sign-out" />
                 </a>
               </div>
             </Tipso>
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Header;
+export default Header

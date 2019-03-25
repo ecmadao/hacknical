@@ -278,25 +278,25 @@ class CodeCourse extends React.Component {
             </div>
           </div>
         </Tipso>
-      );
-    });
+      )
+    })
   }
 
   render() {
-    const { repositories, loaded, className } = this.props;
-    let component;
+    const { repositories, loaded, className } = this.props
+    let component
     if (!loaded) {
-      component = (<Loading loading />);
+      component = (<Loading loading />)
     } else {
       component = (!repositories || !repositories.length)
         ? (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>)
-        : (<div>{this.renderChosedRepos()}</div>);
+        : (<div>{this.renderChosedRepos()}</div>)
     }
     return (
       <div className={className}>
         {component}
       </div>
-    );
+    )
   }
 }
 
@@ -304,7 +304,7 @@ CodeCourse.defaultProps = {
   loaded: false,
   className: '',
   commitDatas: [],
-  repositories: [],
-};
+  repositories: []
+}
 
-export default CodeCourse;
+export default CodeCourse

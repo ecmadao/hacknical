@@ -27,7 +27,10 @@ router.get(
   user.checkNotLogin(),
   Home.renderLandingPage
 )
-router.get('/404', Home.render404Page)
+router.get(
+  '/404',
+  Home.render404Page
+)
 router.get(
   '/initial',
   user.checkIfLogin(),

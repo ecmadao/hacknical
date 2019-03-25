@@ -1,27 +1,27 @@
 /* eslint no-alert: "off" */
-import React from 'react';
-import { connect } from 'react-redux';
-import { TABS } from 'UTILS/constant';
-import Tab from './Tab';
-import locales from 'LOCALES';
-import Topbar from '../../shared/Topbar';
+import React from 'react'
+import { connect } from 'react-redux'
+import { TABS } from 'UTILS/constant'
+import Tab from './Tab'
+import locales from 'LOCALES'
+import Topbar from '../../shared/Topbar'
 
-const resumeTexts = locales('resume');
+const resumeTexts = locales('resume')
 
 class TabBar extends React.Component {
   constructor(props) {
-    super(props);
-    this.changeActiveTab = this.changeActiveTab.bind(this);
+    super(props)
+    this.changeActiveTab = this.changeActiveTab.bind(this)
   }
 
   changeActiveTab(e, id, enable) {
-    const { changeActiveTab, edited } = this.props;
+    const { changeActiveTab, edited } = this.props
     if ((edited && !window.confirm(resumeTexts.editedConfirm)) || !enable) {
-      e.stopPropagation();
-      e.preventDefault();
-      return false;
+      e.stopPropagation()
+      e.preventDefault()
+      return false
     }
-    changeActiveTab && changeActiveTab(id);
+    changeActiveTab && changeActiveTab(id)
   }
 
   renderTab() {
@@ -35,7 +35,7 @@ class TabBar extends React.Component {
         active={activeTab === tab.id}
         onChange={this.changeActiveTab}
       />
-    ));
+    ))
   }
 
   render() {
@@ -43,15 +43,15 @@ class TabBar extends React.Component {
       <Topbar headroomClasses={{ top: 'headroom--top-desktop' }}>
         {this.renderTab()}
       </Topbar>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
-  const { resume } = state;
+  const { resume } = state
   return {
     edited: resume && resume.edited
-  };
+  }
 }
 
-export default connect(mapStateToProps)(TabBar);
+export default connect(mapStateToProps)(TabBar)

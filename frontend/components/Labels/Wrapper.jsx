@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Label, InputGroup } from 'light-ui';
-import styles from './labels.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Label, InputGroup } from 'light-ui'
+import styles from './labels.css'
 
 class Wrapper extends React.Component {
   constructor(props) {
-    super(props);
-    this.onDelete = this.onDelete.bind(this);
+    super(props)
+    this.onDelete = this.onDelete.bind(this)
   }
 
   onDelete(index) {
-    const { onDelete } = this.props;
+    const { onDelete } = this.props
     return () => {
-      onDelete && onDelete(index);
-    };
+      onDelete && onDelete(index)
+    }
   }
 
   renderLabels() {
-    const { labels, disabled } = this.props;
+    const { labels, disabled } = this.props
     return labels.map((label, index) => (
       <Label
         key={index}
@@ -29,7 +29,7 @@ class Wrapper extends React.Component {
         className={styles.label}
         onDelete={this.onDelete(index)}
       />
-    ));
+    ))
   }
 
   render() {
@@ -42,7 +42,8 @@ class Wrapper extends React.Component {
       onKeyDown,
       onChange,
       placeholder,
-    } = this.props;
+    } = this.props
+
     return (
       <div className={styles.labelsWrapper}>
         {this.renderLabels()}
@@ -73,7 +74,7 @@ class Wrapper extends React.Component {
           </div>
         ) : null}
       </div>
-    );
+    )
   }
 }
 
@@ -83,7 +84,7 @@ Wrapper.propTypes = {
   labels: PropTypes.array,
   onDelete: PropTypes.func,
   max: PropTypes.number
-};
+}
 
 Wrapper.defaultProps = {
   labels: [],
@@ -91,6 +92,6 @@ Wrapper.defaultProps = {
   introText: '',
   placeholder: '',
   onDelete: Function.prototype,
-};
+}
 
-export default Wrapper;
+export default Wrapper

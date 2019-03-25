@@ -1,6 +1,6 @@
 import locales from 'LOCALES'
 
-const recordsTexts = locales('dashboard').records
+const recordsTexts = locales('dashboard.records')
 
 export const VIEW_TYPES = {
   HOURLY: {

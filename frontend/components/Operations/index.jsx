@@ -1,63 +1,66 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import OperationItem from './OperationItem';
-import cx from 'classnames';
-import { OutsideClickHandler } from 'light-ui';
-import styles from './operations.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import OperationItem from './OperationItem'
+import cx from 'classnames'
+import { OutsideClickHandler } from 'light-ui'
+import styles from './operations.css'
+import Icon from 'COMPONENTS/Icon'
 
 class Operations extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showOperations: props.showOperations || false
-    };
-    this.showOperationMenu = this.showOperationMenu.bind(this);
-    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    }
+
+    this.showOperationMenu = this.showOperationMenu.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
   }
 
   showOperationMenu() {
-    this.changeOperationStatus(true);
+    this.changeOperationStatus(true)
   }
 
   changeOperationStatus(status) {
-    if (status === this.state.showOperations) return;
+    if (status === this.state.showOperations) return
+
     this.setState({
       showOperations: status
-    });
-    const { onFocusChange } = this.props;
-    onFocusChange && onFocusChange(status);
+    })
+    const { onFocusChange } = this.props
+    onFocusChange && onFocusChange(status)
   }
 
   handleOutsideClick() {
-    this.changeOperationStatus(false);
+    this.changeOperationStatus(false)
   }
 
   renderMenus() {
-    const { items } = this.props;
+    const { items } = this.props
     return items.map((item, index) => (
       <OperationItem
         key={index}
         item={item}
       />
-    ));
+    ))
   }
 
   render() {
-    const { showOperations } = this.state;
-    const { className } = this.props;
+    const { showOperations } = this.state
+    const { className } = this.props
 
     const containerClass = cx(
       styles.container,
       className
-    );
+    )
     const moreIconClass = cx(
       styles.more,
       showOperations && styles.active
-    );
+    )
     const menuClass = cx(
       styles.menu,
       showOperations && styles.menuActive
-    );
+    )
     return (
       <OutsideClickHandler
         onOutsideClick={this.handleOutsideClick}>
@@ -65,10 +68,7 @@ class Operations extends React.Component {
           <div
             className={moreIconClass}
             onClick={this.showOperationMenu}>
-            <i
-              className="fa fa-ellipsis-h"
-              aria-hidden="true"
-            />
+            <Icon icon="ellipsis-h" />
           </div>
           <div
             className={menuClass}
@@ -77,7 +77,7 @@ class Operations extends React.Component {
           </div>
         </div>
       </OutsideClickHandler>
-    );
+    )
   }
 }
 
@@ -85,12 +85,12 @@ Operations.propTypes = {
   items: PropTypes.array,
   className: PropTypes.string,
   onFocusChange: PropTypes.func
-};
+}
 
 Operations.defaultProps = {
   items: [],
   className: '',
   onFocusChange: Function.prototype
-};
+}
 
-export default Operations;
+export default Operations

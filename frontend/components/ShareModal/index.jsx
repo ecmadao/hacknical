@@ -1,55 +1,56 @@
 /* eslint no-new: "off" */
 import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import Clipboard from 'clipboard';
-import { IconButton, Input, PortalModal } from 'light-ui';
-import locales from 'LOCALES';
-import { GREEN_COLORS, MD_COLORS } from 'UTILS/constant';
-import styles from './modal.css';
-import message from 'UTILS/message';
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import Clipboard from 'clipboard'
+import { IconButton, Input, PortalModal } from 'light-ui'
+import locales from 'LOCALES'
+import { GREEN_COLORS, MD_COLORS } from 'UTILS/constant'
+import styles from './modal.css'
+import message from 'UTILS/message'
 
-const modalTexts = locales('shareModal');
-const DARK_COLORS = MD_COLORS.slice(-2);
+const modalTexts = locales('shareModal')
+const DARK_COLORS = MD_COLORS.slice(-2)
 
 class ShareModal extends React.Component {
   componentDidMount() {
-    this.renderQrcode();
-    this.renderClipboard();
+    this.renderQrcode()
+    this.renderClipboard()
   }
 
   componentDidUpdate(preProps) {
-    const { options } = this.props;
-    const preOptions = preProps.options;
+    const { options } = this.props
+    const preOptions = preProps.options
     if (
       (options.openShare !== preOptions.openShare)
       || (options.link !== preOptions.link)
     ) {
-      this.renderQrcode();
+      this.renderQrcode()
     }
   }
 
   componentWillUnmount() {
-    this.clipboard && this.clipboard.destroy();
+    this.clipboard && this.clipboard.destroy()
   }
 
   renderClipboard() {
     this.clipboard = new Clipboard('#copyButton', {
       text: () => $('#shareUrl').val()
-    });
+    })
     this.clipboard.on('success', () => {
-      message.notice(modalTexts.notice.copy, 1800);
-    });
+      message.notice(modalTexts.notice.copy, 1800)
+    })
     this.clipboard.on('error', () => {
-      message.error(modalTexts.error.copy, 1800);
-    });
+      message.error(modalTexts.error.copy, 1800)
+    })
   }
 
   renderQrcode() {
-    if (!this.qrcode) return;
-    const { options } = this.props;
-    const colorDark = options.openShare ? GREEN_COLORS[1] : DARK_COLORS[1];
-    this.qrcode.innerHTML = '';
+    if (!this.qrcode) return
+
+    const { options } = this.props
+    const colorDark = options.openShare ? GREEN_COLORS[1] : DARK_COLORS[1]
+    this.qrcode.innerHTML = ''
 
     this.qrcode && window.QRCode && new QRCode(this.qrcode, {
       colorDark,
@@ -58,21 +59,21 @@ class ShareModal extends React.Component {
       text: options.link,
       colorLight: '#ffffff',
       correctLevel: QRCode.CorrectLevel.H
-    });
+    })
   }
 
   render() {
-    const { openModal, onClose, options } = this.props;
-    const { link, openShare, text } = options;
+    const { openModal, onClose, options } = this.props
+    const { link, openShare, text } = options
     const modalClass = cx(
       styles.modalContainer,
       !openShare && styles.disabled
-    );
-    const statusText = openShare ? modalTexts.openTitle : modalTexts.closeTitle;
+    )
+    const statusText = openShare ? modalTexts.openTitle : modalTexts.closeTitle
     const statusClass = cx(
       styles.status,
       !openShare && styles.notopen
-    );
+    )
 
     return (
       <PortalModal
@@ -112,7 +113,7 @@ ShareModal.propTypes = {
   openModal: PropTypes.bool,
   options: PropTypes.object,
   onClose: PropTypes.func,
-};
+}
 
 ShareModal.defaultProps = {
   openModal: false,
@@ -121,7 +122,7 @@ ShareModal.defaultProps = {
     link: '',
     text: ''
   },
-  onClose: Function.prototype,
+  onClose: Function.prototype
 }
 
-export default ShareModal;
+export default ShareModal

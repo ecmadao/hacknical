@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Input } from 'light-ui';
-import styles from './writable.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Input } from 'light-ui'
+import styles from './writable.css'
+import Icon from 'COMPONENTS/Icon'
 
 const ListItem = (props) => {
   const { item, onChange, onDelete, placeholder } = props;
@@ -14,11 +15,7 @@ const ListItem = (props) => {
         theme="borderless"
         subTheme="underline"
       />&nbsp;&nbsp;&nbsp;
-      <i
-        className="fa fa-close"
-        aria-hidden="true"
-        onClick={onDelete}
-      />
+      <Icon icon="close" onClick={onDelete} />
     </li>
   );
 };

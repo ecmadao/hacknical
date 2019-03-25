@@ -1,42 +1,42 @@
 
-import React from 'react';
-import API from 'API';
-import NotifyContent from './NotifyContent';
+import React from 'react'
+import API from 'API'
+import NotifyContent from './NotifyContent'
 
 class Notify extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       messages: []
-    };
-    this.onClose = this.onClose.bind(this);
+    }
+    this.onClose = this.onClose.bind(this)
   }
 
   componentDidMount() {
     setTimeout(() => {
       API.user.getUnreadNotifies().then((messages) => {
-        this.setState({ messages });
-      });
-    }, 2500);
+        this.setState({ messages })
+      })
+    }, 2500)
   }
 
   onClose() {
-    const { messages } = this.state;
-    this.setState({ messages: [] });
-    const ids = messages.map(message => message.id);
-    API.user.markNotifies(ids);
+    const { messages } = this.state
+    this.setState({ messages: [] })
+    const ids = messages.map(message => message.id)
+    API.user.markNotifies(ids)
   }
 
   render() {
-    const { messages } = this.state;
-    if (!messages || !messages.length) return null;
+    const { messages } = this.state
+    if (!messages || !messages.length) return null
     return (
       <NotifyContent
         messages={messages}
         onClose={this.onClose}
       />
-    );
+    )
   }
-};
+}
 
-export default Notify;
+export default Notify

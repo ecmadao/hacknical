@@ -1,16 +1,16 @@
-import locales from 'LOCALES';
+import locales from 'LOCALES'
 
-const { days, months } = locales('datas');
-const tabs = locales('dashboard.tabs');
-const githubTexts = locales('github.sections.commits');
+const { days, months } = locales('datas')
+const tabs = locales('dashboard.tabs')
+const githubTexts = locales('github.sections.commits')
 
-const BASE_URL = 'https://github.com';
+const BASE_URL = 'https://github.com'
 
 export const URLS = {
   GITHUB: BASE_URL,
   REPOSITORY: `${BASE_URL}/ecmadao/hacknical`,
   ISSUE: `${BASE_URL}/ecmadao/hacknical/issues`
-};
+}
 
 export const CHART_CONTROLLERS = {
   MONTH: {
@@ -28,11 +28,11 @@ export const CHART_CONTROLLERS = {
     FORMAT: 'YYYY-MM-DD',
     TEXT: githubTexts.dailyView
   }
-};
+}
 
-export const DEFAULT_REPOSITORIES = 5;
+export const DEFAULT_REPOSITORIES = 5
 
-export const SECONDS_PER_DAY = 24 * 60 * 60;
+export const SECONDS_PER_DAY = 24 * 60 * 60
 
 export const DAYS = [
   days.sunday,
@@ -42,7 +42,7 @@ export const DAYS = [
   days.thursday,
   days.friday,
   days.saturday
-];
+]
 
 export const MONTHS = {
   1: months['1'],
@@ -57,12 +57,12 @@ export const MONTHS = {
   10: months['10'],
   11: months['11'],
   12: months['12']
-};
+}
 
 export const OPACITY = {
   max: 1,
   min: 0.3
-};
+}
 
 export const USER = {
   login: '',
@@ -85,44 +85,44 @@ export const USER = {
   following: '',
   created_at: '',
   updated_at: ''
-};
+}
 
 export const WECHAT = {
   timeline: '朋友圈',
   groupmessage: '微信群',
   singlemessage: '好友分享'
-};
+}
 
 export const TABS = [
   {
     id: 'records',
     name: tabs.records.text,
-    icon: 'fa-pie-chart',
+    icon: 'pie-chart',
     enable: true,
     tipso: tabs.records.tipso
   },
   {
     id: 'archive',
     name: tabs.resume.text,
-    icon: 'fa-file-code-o',
+    icon: 'file-code-o',
     enable: true,
     tipso: tabs.resume.tipso
   },
   {
     id: 'visualize',
     name: tabs.github.text,
-    icon: 'fa-github',
+    icon: 'github',
     enable: true,
     tipso: tabs.github.tipso
   },
   {
     id: 'setting',
     name: tabs.setting.text,
-    icon: 'fa-cog',
+    icon: 'cog',
     enable: true,
     tipso: tabs.setting.tipso
   }
-];
+]
 
 export const MD_COLORS = [
   '#3498db',
@@ -143,7 +143,7 @@ export const MD_COLORS = [
   '#c0392b',
   '#95a5a6',
   '#7f8c8d'
-];
+]
 
 export const GREEN_COLORS = [
   'rgba(55, 178, 77, 1)',
@@ -153,15 +153,15 @@ export const GREEN_COLORS = [
   'rgba(55, 178, 77, 0.4)',
   'rgba(55, 178, 77, 0.2)',
   'rgba(55, 178, 77, 0.1)',
-];
+]
 
 export const RESUME_TEMPLATES = [
   'v1',
   'v2',
   'v3'
-];
+]
 
-export const BASE_URL_REG = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+export const BASE_URL_REG = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g
 
 export const EMOJI = {
   rocket: '🚀',
@@ -171,5 +171,5 @@ export const EMOJI = {
   heart: '\u2764\uFE0F',
   fireworks: '🎉',
   rock: '🤘',
-  smile: '😌',
-};
+  smile: '😌'
+}

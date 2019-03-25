@@ -30,7 +30,6 @@ const handler = {
     }
 
     const Deliver = DELIVER[Symbol.for(key)]
-
     return options => send(Deliver, options)
   }
 }

@@ -1,5 +1,5 @@
 
-import Chart from 'chart.js';
+import Chart from 'chart.js'
 import { GREEN_COLORS } from './index';
 
 Chart.defaults.global.defaultFontFamily = '"PingFangSC-Light", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", monospace, sans-serif';

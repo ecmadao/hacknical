@@ -1,15 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import { Loading, InfoCard, CardGroup } from 'light-ui';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import { Loading, InfoCard, CardGroup } from 'light-ui'
 
-import API from 'API';
-import locales from 'LOCALES';
-import dateHelper from 'UTILS/date';
-import { splitArray } from 'UTILS/helper';
-import OrganizationRepos from './OrganizationRepos';
-import cardStyles from '../styles/info_card.css';
-import styles from '../styles/github.css';
+import API from 'API'
+import locales from 'LOCALES'
+import dateHelper from 'UTILS/date'
+import { splitArray } from 'UTILS/helper'
+import OrganizationRepos from './OrganizationRepos'
+import cardStyles from '../styles/info_card.css'
+import styles from '../styles/github.css'
+import Icon from 'COMPONENTS/Icon'
 
 const fullDate = dateHelper.validator.fullDate;
 const githubTexts = locales('github.sections.orgs');
@@ -136,13 +137,13 @@ class OrganizationsInfo extends React.Component {
     return (
       <div className={styles.org_detail}>
         <div className={styles.org_info}>
-          <i className="fa fa-rocket" aria-hidden="true" />
+          <Icon icon="rocket" />
           &nbsp;
           {githubTexts.createdAt}{fullDate(created_at)}
         </div>
         {blog ? (
           <div className={styles.org_info}>
-            <i className="fa fa-link" aria-hidden="true" />
+            <Icon icon="link" />
             &nbsp;&nbsp;
             <a
               href={blog}
@@ -155,7 +156,7 @@ class OrganizationsInfo extends React.Component {
         ) : null}
         {description ? (
           <div className={styles.org_info}>
-            <i className="fa fa-quote-left" aria-hidden="true" />
+            <Icon icon="quote-left" />
             &nbsp;&nbsp;
             {description}
           </div>

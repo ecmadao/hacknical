@@ -1,8 +1,8 @@
-import React from 'react';
-import Header from './Header';
-import TabBar from './TabBar';
-import Notify from 'COMPONENTS/Notify';
-import styles from '../../styles/desktop.css';
+import React from 'react'
+import Header from './Header'
+import TabBar from './TabBar'
+import Notify from 'COMPONENTS/Notify'
+import styles from '../../styles/desktop.css'
 
 const Desktop = (props) => {
   const {
@@ -10,8 +10,8 @@ const Desktop = (props) => {
     login,
     activeTab,
     tabBarActive,
-    changeActiveTab,
-  } = props;
+    changeActiveTab
+  } = props
 
   return (
     <div className={styles.app}>
@@ -31,7 +31,7 @@ const Desktop = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Desktop;
+export default Desktop

@@ -1,8 +1,8 @@
 
-import React from 'react';
-import cx from 'classnames';
-import { AnimationComponent } from 'light-ui';
-import styles from '../styles/panel.css';
+import React from 'react'
+import cx from 'classnames'
+import { AnimationComponent } from 'light-ui'
+import styles from '../styles/panel.css'
 
 const BasePanel = props => (
   <div
@@ -15,12 +15,12 @@ const BasePanel = props => (
   >
     {props.children}
   </div>
-);
+)
 
 const Panel = props => (
   <AnimationComponent>
     <BasePanel {...props} />
   </AnimationComponent>
-);
+)
 
-export default Panel;
+export default Panel

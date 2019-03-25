@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
 import getCacheKey from './helper/cacheKey';
-import Downloads from '../services/downloads';
+import * as download from '../services/downloads';
 import dateHelper from '../utils/date';
 import logger from '../utils/logger';
 import NewError from '../utils/error';
@@ -167,7 +167,7 @@ const downloadResume = async (ctx) => {
 
   let resultUrl = '';
   try {
-    resultUrl = await Downloads.resume(resumeUrl, {
+    resultUrl = await download.downloadResume(resumeUrl, {
       folder: githubLogin,
       title: `${template}-${locale}-${seconds}-resume.pdf`
     });

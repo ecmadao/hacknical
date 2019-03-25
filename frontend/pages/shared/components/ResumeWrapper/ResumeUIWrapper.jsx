@@ -5,6 +5,7 @@ import cx from 'classnames'
 import locales from 'LOCALES'
 import styles from '../Resume/Desktop/shared/common.css'
 import AsyncGithub from '../shared/AsyncGithub'
+import Icon from 'COMPONENTS/Icon'
 
 const resumeLocales = locales('resume')
 
@@ -113,7 +114,7 @@ class ResumeUIWrapper extends React.Component {
               styles.githubBack
             )}
           >
-            <i className="fa fa-arrow-left" aria-hidden="true" />
+            <Icon icon="arrow-left" />
             {resumeLocales.options.back}
           </a>
           <AsyncGithub

@@ -6,7 +6,7 @@ import klawSync from 'klaw-sync'
 import config from 'config'
 import logger from '../utils/logger'
 
-const sourcePath = config.get('downloads')
+const SOURCE_PATH = config.get('downloads')
 
 const waitUntil = asyncFunc => new Promise((resolve, reject) => {
   const wait = () => {
@@ -45,30 +45,31 @@ const renderScreenshot = async (input, output) => {
   await instance.exit()
 }
 
-const downloadResume = async (url, options = {}) => {
+const ensureFolder = async (folder) => {
+  const resultFloder = path.resolve(__dirname, SOURCE_PATH, folder)
+
+  // makesure folder exist
+  await fs.ensureDirSync(SOURCE_PATH)
+  await fs.ensureDir(resultFloder)
+
+  return resultFloder
+}
+
+export const downloadResume = async (url, options = {}) => {
   const {
     title,
     folder
   } = options
-  const resultFloder = path.resolve(__dirname, sourcePath, folder)
 
-  // makesure folder exist
-  await fs.ensureDirSync(sourcePath)
-  await fs.ensureDir(resultFloder)
-
+  const resultFloder = await ensureFolder(folder)
   const filePath = path.resolve(resultFloder, title)
   const resultPath = `/downloads/${folder}/${title}`
+
   logger.info(`[RESUME:DOWNLOAD:RENDER-PATH] ${filePath}`)
 
-  if (fs.existsSync(filePath)) {
-    return resultPath
-  }
+  if (fs.existsSync(filePath)) return resultPath
 
   clearFolder(resultFloder)
   await renderScreenshot(url, filePath)
   return resultPath
-}
-
-export default {
-  resume: downloadResume
 }

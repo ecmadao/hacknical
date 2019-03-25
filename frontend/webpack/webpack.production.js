@@ -1,11 +1,11 @@
-const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
-const BrotliPlugin = require('brotli-webpack-plugin');
-const PATH = require('../../config/path');
-const config = require('./webpack.config.v3');
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
+const BrotliPlugin = require('brotli-webpack-plugin')
+const PATH = require('../../config/path')
+const config = require('./webpack.config.v3')
 
-config.output.filename = '[name].bundle.[hash].js';
+config.output.filename = '[name].bundle.[hash].js'
 
 config.plugins.push(
   new ExtractTextPlugin({
@@ -45,6 +45,6 @@ config.plugins.push(
       context: PATH.ROOT_PATH,
     }
   })
-);
+)
 
-module.exports = config;
+module.exports = config

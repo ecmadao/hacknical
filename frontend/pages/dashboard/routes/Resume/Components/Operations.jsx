@@ -4,6 +4,7 @@ import { Button, IconButton, Tipso, AnimationComponent } from 'light-ui'
 import cx from 'classnames'
 import locales from 'LOCALES'
 import styles from '../styles/resume.css'
+import Icon from 'COMPONENTS/Icon'
 
 const resumeTexts = locales('resume')
 
@@ -76,7 +77,7 @@ class Wrapper extends React.Component {
             onClick={handlePreview}
             className={styles.operation}
             leftIcon={(
-              <i className="fa fa-file-text-o" aria-hidden="true" />
+              <Icon icon="file-text-o" />
             )}
           />
           <Button
@@ -87,7 +88,7 @@ class Wrapper extends React.Component {
             className={styles.operation}
             onClick={() => saveResume('message=1')}
             leftIcon={(
-              <i className="fa fa-save" aria-hidden="true" />
+              <Icon icon="save" />
             )}
           />
         </div>

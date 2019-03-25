@@ -5,6 +5,7 @@ import cx from 'classnames'
 import SectionTip from './SectionTip'
 import locales from 'LOCALES'
 import styles from '../../../styles/resume.css'
+import Icon from 'COMPONENTS/Icon'
 
 const resumeTexts = locales('resume')
 
@@ -124,7 +125,7 @@ class Wrapper extends React.Component {
                 value={this.props.button}
                 disabled={this.props.disabled}
                 leftIcon={(
-                  <i className="fa fa-plus-circle" aria-hidden="true" />
+                  <Icon icon="plus-circle" />
                 )}
                 onClick={this.props.onClick}
               />
@@ -140,7 +141,7 @@ class Wrapper extends React.Component {
                 className={styles.operation}
                 onClick={() => onStepChange(currentIndex - 1)}
                 leftIcon={(
-                  <i className="fa fa-angle-left" aria-hidden="true" />
+                  <Icon icon="angle-left" />
                 )}
               />
             )}
@@ -150,7 +151,7 @@ class Wrapper extends React.Component {
                 className={styles.operation}
                 onClick={() => onStepChange(currentIndex + 1)}
                 rightIcon={(
-                  <i className="fa fa-angle-right" aria-hidden="true" />
+                  <Icon icon="angle-right" />
                 )}
               />
             )}

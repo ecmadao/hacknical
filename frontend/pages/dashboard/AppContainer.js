@@ -15,15 +15,6 @@ class AppContainer extends React.Component {
       name,
       isMobile
     })
-  }
-
-  componentDidCatch(error, errorInfo) {
-    Sentry.withScope((scope) => {
-      Object.keys(errorInfo).forEach((key) => {
-        scope.setExtra(key, errorInfo[key])
-      })
-      Sentry.captureException(error)
-    })
 
     if (window.LogRocket) {
       Sentry.configureScope((scope) => {
@@ -33,6 +24,15 @@ class AppContainer extends React.Component {
         })
       })
     }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
+        scope.setExtra(key, errorInfo[key])
+      })
+      Sentry.captureException(error)
+    })
   }
 
   render() {

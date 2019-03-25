@@ -1,13 +1,13 @@
-import CommitInfo from './CommitInfo';
-import LanguageInfo from './LanguageInfo';
-import RepositoryInfo from './RepositoryInfo';
-import OrganizationsInfo from './OrganizationsInfo';
-import UserInfo from './UserInfo';
-import Hotmap from './Hotmap';
-import CodeCourse from './CodeCourse';
-import ContributedInfo from './ContributedInfo';
-import Predictions from './Predictions';
-import Statistic from './Statistic';
+import CommitInfo from './CommitInfo'
+import LanguageInfo from './LanguageInfo'
+import RepositoryInfo from './RepositoryInfo'
+import OrganizationsInfo from './OrganizationsInfo'
+import UserInfo from './UserInfo'
+import Hotmap from './Hotmap'
+import CodeCourse from './CodeCourse'
+import ContributedInfo from './ContributedInfo'
+import Predictions from './Predictions'
+import Statistic from './Statistic'
 
 export default {
   hotmap: Hotmap,
@@ -20,4 +20,4 @@ export default {
   contributed: ContributedInfo,
   predictions: Predictions,
   statistic: Statistic
-};
+}

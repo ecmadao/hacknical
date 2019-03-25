@@ -1,9 +1,7 @@
 /* eslint arrow-body-style: "off", react/no-array-index-key: "off" */
 
-import React from 'react'
 import validator from 'validator'
-import dateHelper from './date'
-import { formatUrl, formatTextWithUrl } from './formatter'
+import dateHelper from 'UTILS/date'
 
 const getSeconds = dateHelper.seconds.getByDate
 
@@ -82,9 +80,9 @@ export const getFirstMatchIndex = (array, target) =>
   getFirstMatchTarget(array, target)[1]
 
 
-export const sortBySeconds = key =>
+export const sortBySeconds = (key, ranking = 1) =>
   (thisObj, nextObj) =>
-    getSeconds(thisObj[key]) - getSeconds(nextObj[key])
+    (getSeconds(thisObj[key]) - getSeconds(nextObj[key])) * ranking
 
 
 /*
@@ -119,25 +117,6 @@ export const removeDOM = (dom, options = {}) => {
   } else {
     $(dom) && $(dom).remove()
   }
-}
-
-export const renderTextWithUrl = (text) => {
-  return formatTextWithUrl(text).map((section, index) => {
-    const { type, value } = section
-    if (type === 'a' && isUrl(value)) {
-      return (
-        <a
-          key={index}
-          target="_blank"
-          rel="noopener noreferrer"
-          href={formatUrl(value)}
-        >
-          {value}
-        </a>
-      )
-    }
-    return (<span key={index}>{value}</span>)
-  })
 }
 
 export const toPromise = f => (...args) =>

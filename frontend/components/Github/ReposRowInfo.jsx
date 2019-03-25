@@ -1,18 +1,19 @@
-import React from 'react';
-import cx from 'classnames';
-import { Label } from 'light-ui';
-import githubStyles from './styles/github.css';
+import React from 'react'
+import cx from 'classnames'
+import { Label } from 'light-ui'
+import githubStyles from './styles/github.css'
+import Icon from 'COMPONENTS/Icon'
 
 const ReposRowInfo = (props) => {
   const {
     repository,
     className = '',
-  } = props;
-  const stargazersCount = repository.stargazers_count;
+  } = props
+  const stargazersCount = repository.stargazers_count
   const starClass = cx(
     githubStyles.repos_star,
     stargazersCount > 0 && githubStyles.active
-  );
+  )
   return (
     <div
       className={cx(
@@ -46,14 +47,12 @@ const ReposRowInfo = (props) => {
         </span>
       </div>
       <div className={starClass}>
-        <i
-          className={`fa ${stargazersCount > 0 ? 'fa-star' : 'fa-star-o'}`} aria-hidden="true"
-        />
+        <Icon icon={stargazersCount > 0 ? 'star' : 'star-o'} />
         &nbsp;
         {stargazersCount}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ReposRowInfo;
+export default ReposRowInfo

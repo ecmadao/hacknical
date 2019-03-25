@@ -1,16 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import { Tipso } from 'light-ui';
 
-import config from './config';
-import Operations from 'COMPONENTS/Operations';
-import cardStyles from './styles/info_card.css';
-import locales from 'LOCALES';
-import BaseSection from './BaseSection';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import { Tipso } from 'light-ui'
 
-const operationTexts = locales('github.operations');
-const EmptyDOM = () => (<div />);
+import config from './config'
+import Icon from 'COMPONENTS/Icon'
+import Operations from 'COMPONENTS/Operations'
+import cardStyles from './styles/info_card.css'
+import locales from 'LOCALES'
+import BaseSection from './BaseSection'
+
+const operationTexts = locales('github.operations')
+const EmptyDOM = () => (<div />)
 
 class GitHubSection extends React.Component {
   constructor(props) {
@@ -81,7 +83,7 @@ class GitHubSection extends React.Component {
         onTransitionEnd={onTransitionEnd}
       >
         <div className={cardStyles.cardHeader}>
-          <i aria-hidden="true" className={`fa fa-${title.icon}`} />
+          <Icon icon={title.icon} />
           &nbsp;&nbsp;{title.text}&nbsp;&nbsp;
           {intro && !isShare ? (
             <Tipso
@@ -90,7 +92,7 @@ class GitHubSection extends React.Component {
               tipsoContent={(<span>{intro.text}</span>)}
             >
               <span className={cardStyles.card_intro}>
-                <i className={`fa fa-${intro.icon}`} aria-hidden="true" />
+                <Icon icon={intro.icon} />
               </span>
             </Tipso>
           ) : null}

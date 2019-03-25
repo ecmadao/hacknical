@@ -1,54 +1,52 @@
-import React from 'react';
-import cx from 'classnames';
-import { Label } from 'light-ui';
-import dateHelper from 'UTILS/date';
-import { isUrl, renderTextWithUrl } from 'UTILS/helper';
-import { formatUrl } from 'UTILS/formatter';
-import { objectassign } from 'UTILS/resume';
-import styles from './v1.css';
-import statusLabels from '../shared/StatusLabels';
-import locales from 'LOCALES';
-import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
 
-const resumeLocales = locales('resume');
-const { minutesBefore } = dateHelper.relative;
+import React from 'react'
+import cx from 'classnames'
+import { Label } from 'light-ui'
+import dateHelper from 'UTILS/date'
+import { renderTextWithUrl } from '../../shared/common'
+import { objectassign } from 'UTILS/resume'
+import styles from './v1.css'
+import statusLabels from '../../shared/StatusLabels'
+import locales from 'LOCALES'
+import Icon from 'COMPONENTS/Icon'
+import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
+
+const resumeLocales = locales('resume')
+const { minutesBefore } = dateHelper.relative
 
 const info = (options) => {
-  const { text, icon, type, style = '' } = options;
-  const component = options.component || null;
+  const { text, icon, type, style = '' } = options
+  const component = options.component || null
 
   return (
     <div className={cx(styles[`${type}_info`], style)}>
-      <i
-        className={cx(`fa fa-${icon}`, styles[`${type}_icon`])} aria-hidden="true"
-      />
+      <Icon icon={icon} className={styles[`${type}_icon`]} />
       &nbsp;&nbsp;
       {component || text}
     </div>
-  );
-};
+  )
+}
 
-const linkInfo = (options) => {
-  const { url, title, style = '' } = options;
-  const isurl = isUrl(url);
+const textInfo = (options) => {
+  const { url, title, style = '' } = options
   const headerClass = cx(
     styles.info_header,
-    isurl && styles.link,
+    url && styles.link,
     style
-  );
+  )
 
-  return isurl ? (
+  return url ? (
     <a
       target="_blank"
       rel="noopener noreferrer"
-      href={formatUrl(url)}
+      href={url}
       className={headerClass}
     >
-      <i className="fa fa-link" aria-hidden="true" />&nbsp;
+      <Icon icon="link" />&nbsp;
       {title}
     </a>
-  ) : <div className={headerClass}>{title}</div>;
-};
+  ) : <div className={headerClass}>{title}</div>
+}
 
 const baseInfo = (text, icon, options = {}) => info(objectassign({}, {
   text,
@@ -126,13 +124,13 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           startTime,
           endTime,
           position,
-          projects,
-        } = experience;
+          projects
+        } = experience
 
         const workProjects = this.renderProjects(projects);
         return (
           <div key={index} className={styles.section_wrapper}>
-            {linkInfo({ url, title: company, style: styles.info_header_large })}
+            {textInfo({ url, title: company, style: styles.info_header_large })}
             {position ? `, ${position}` : ''}
             <div className={styles.info_text}>
               {startTime}  ~  {endTime}
@@ -164,7 +162,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
       ));
       return (
         <div key={index} className={styles.project_section}>
-          {linkInfo({ url, title: name, style: styles.info_header_mid })}
+          {textInfo({ url, title: name, style: styles.info_header_mid })}
           <ul className={styles.info_intro}>
             {projectDetails}
           </ul>
@@ -191,7 +189,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
         ));
         return (
           <div key={index} className={styles.sec_section}>
-            {linkInfo({ url, title, style: styles.info_header_large })}
+            {textInfo({ url, title, style: styles.info_header_large })}
             <div className={styles.info_text}>
               {desc}
             </div>
@@ -272,7 +270,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.list_link}
-              href={social.validateUrl}
+              href={url}
             >
               {url}
             </a>
@@ -390,8 +388,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default ResumeComponentV1;
+export default ResumeComponentV1

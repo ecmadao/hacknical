@@ -1,3 +1,3 @@
-import MobileSetting from './container';
+import MobileSetting from './container'
 
-export default MobileSetting;
+export default MobileSetting

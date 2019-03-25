@@ -1,10 +1,11 @@
-import React from 'react';
-import { InfoCard } from 'light-ui';
-import styles from '../styles/predictions.css';
-import CardMenu from './CardMenu';
-import locales from 'LOCALES';
+import React from 'react'
+import { InfoCard } from 'light-ui'
+import styles from '../styles/predictions.css'
+import CardMenu from './CardMenu'
+import locales from 'LOCALES'
+import Icon from 'COMPONENTS/Icon'
 
-const githubTexts = locales('github.sections');
+const githubTexts = locales('github.sections')
 
 const formatCount = (count) => {
   if (count < 1000) return count;
@@ -21,7 +22,7 @@ const iconLink = (options) => {
   } = options;
   const iconDOM = (
     <span className={iconClass}>
-      <i aria-hidden="true" className={`fa fa-${icon}`} />
+      <Icon icon={icon} />
       {text}
     </span>
   );

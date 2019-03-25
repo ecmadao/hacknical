@@ -1,29 +1,31 @@
-import React from 'react';
-import cx from 'classnames';
-import { Label } from 'light-ui';
-import dateHelper from 'UTILS/date';
-import styles from './v2.css';
-import statusLabels from '../shared/StatusLabels';
-import locales from 'LOCALES';
-import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
-import { renderBaseInfo, section } from '../shared/common';
-import { renderTextWithUrl } from 'UTILS/helper';
 
-const resumeTexts = locales('resume');
-const { minutesBefore } = dateHelper.relative;
+import React from 'react'
+import cx from 'classnames'
+import { Label } from 'light-ui'
+import dateHelper from 'UTILS/date'
+import styles from './v2.css'
+import statusLabels from '../../shared/StatusLabels'
+import locales from 'LOCALES'
+import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
+import { renderBaseInfo, section, renderTextWithUrl } from '../../shared/common'
+import Icon from 'COMPONENTS/Icon'
+
+const resumeTexts = locales('resume')
+const { minutesBefore } = dateHelper.relative
 
 const renderWorkProjects = (projects = []) =>
   projects.map((project, index) => {
-    const { name, url, details } = project;
+    const { name, url, details } = project
     const projectDetails = details.map((detail, i) => (
       <li key={i}>
         {renderTextWithUrl(detail)}
       </li>
-    ));
+    ))
     return (
       <div key={index} className={styles.projectSection}>
         {renderBaseInfo({
           url,
+          type: 'link',
           value: name,
           className: styles.subTextDark
         })}
@@ -31,9 +33,8 @@ const renderWorkProjects = (projects = []) =>
           {projectDetails}
         </ul>
       </div>
-    );
-  });
-
+    )
+  })
 
 const renderPersonalProjectsRow = (options = {}) => {
   const { url, desc, techs, title, index } = options;
@@ -59,6 +60,7 @@ const renderPersonalProjectsRow = (options = {}) => {
       <div className={cx(styles.rowLeft, styles.textRight)}>
         {renderBaseInfo({
           url,
+          type: 'link',
           value: title,
           className: styles.mainText
         })}
@@ -98,6 +100,7 @@ const renderWorkExperienceRow = (options = {}) => {
       <div className={cx(styles.rowLeft, styles.textRight)}>
         {renderBaseInfo({
           url,
+          type: 'link',
           value: company,
           className: styles.mainText
         })}
@@ -209,6 +212,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
             <div className={cx(styles.rowLeft, styles.textRight)}>
               {renderBaseInfo({
                 url,
+                type: 'link',
                 value: title,
                 className: styles.mainText
               })}
@@ -286,7 +290,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.list_link}
-              href={social.validateUrl}
+              href={url}
             >
               {url}
             </a>
@@ -387,6 +391,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
               {
                 useGithub && (
                   githubUrl ? renderBaseInfo({
+                    type: 'link',
                     url: githubUrl,
                     icon: 'github',
                     value: viewGitHub
@@ -398,7 +403,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
                         styles.baseInfo
                       )}
                     >
-                      <i className="fa fa-github" aria-hidden="true" />
+                      <Icon icon="github" />
                       {viewGitHub}
                     </a>
                   )

@@ -1,14 +1,12 @@
-import React from 'react';
+
+import React from 'react'
+import Icon from 'COMPONENTS/Icon'
 
 const SelectedRepos = (props) => {
   const { name, language, onRemove } = props;
   return (
     <div className="selected_repos">
-      <i
-        aria-hidden="true"
-        onClick={() => onRemove(name)}
-        className="fa fa-times-circle"
-      />
+      <Icon icon="times-circle" onClick={() => onRemove(name)} />
       {name}
       <br />
       <span>{language}</span>

@@ -1,65 +1,65 @@
 /* eslint-disable import/no-dynamic-require, global-require */
 
 const getQurtyLocale = () => {
-  const { search } = window.location;
-  const match = RegExp('locale=([^&]*)').exec(search);
-  return match && match[1] ? match[1] : '';
-};
+  const { search } = window.location
+  const match = RegExp('locale=([^&]*)').exec(search)
+  return match && match[1] ? match[1] : ''
+}
 
 export const getLocale = () => {
-  const locale = window.locale || getQurtyLocale() || 'en';
+  const locale = window.locale || getQurtyLocale() || 'en'
   if (/^en/.test(locale)) {
-    return 'en';
+    return 'en'
   }
   if (/^fr/.test(locale)) {
-    return 'fr';
+    return 'fr'
   }
   if (/^zh/.test(locale)) {
-    return 'zh';
+    return 'zh'
   }
-  return 'zh';
-};
+  return 'zh'
+}
 
 export const formatLocale = () => {
   const locale = getLocale();
   if (/^en/.test(locale)) {
-    return locale;
+    return locale
   }
   if (/^fr/.test(locale)) {
-    return 'fr-FR';
+    return 'fr-FR'
   }
   if (/^zh/.test(locale)) {
-    return 'zh-CN';
+    return 'zh-CN'
   }
-  return 'zh-CN';
-};
+  return 'zh-CN'
+}
 
 const getData = (dict, keys) => {
-  let tmp = dict;
+  let tmp = dict
   for (const key of keys) {
-    tmp = tmp[key];
-    if (!tmp) throw new Error(`Can not find ${keys.join('.')}`);
+    tmp = tmp[key]
+    if (!tmp) throw new Error(`Can not find ${keys.join('.')}`)
   }
-  return tmp;
-};
+  return tmp
+}
 
 const getLocaleData = () => {
-  const tmp = new Map();
-  const locale = getLocale();
+  const tmp = new Map()
+  const locale = getLocale()
 
   return (dataPath) => {
-    const [file, ...dataKeys] = dataPath.split('.');
-    if (tmp.has(file)) return getData(tmp.get(file), dataKeys);
+    const [file, ...dataKeys] = dataPath.split('.')
+    if (tmp.has(file)) return getData(tmp.get(file), dataKeys)
 
-    let datas = {};
+    let datas = {}
     try {
-      datas = require(`./${file}/${locale}.js`).default;
+      datas = require(`./${file}/${locale}.js`).default
     } catch (e) {
-      datas = require(`./${file}/en.js`).default;
+      datas = require(`./${file}/en.js`).default
     }
-    tmp.set(file, datas);
-    return getData(tmp.get(file), dataKeys);
-  };
-};
+    tmp.set(file, datas)
+    return getData(tmp.get(file), dataKeys)
+  }
+}
 
-export default getLocaleData();
+export default getLocaleData()

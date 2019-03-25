@@ -31,6 +31,11 @@ const datas = {
     feedback: 'Feedback',
     logout: 'Logout'
   },
+  archive: {
+    resume: {
+      previewModal: 'Press ESC to exit preview'
+    }
+  },
   records: {
     resume: {
       title: 'Resume',

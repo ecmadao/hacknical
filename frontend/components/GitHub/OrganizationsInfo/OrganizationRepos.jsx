@@ -1,15 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import { Label, Tipso } from 'light-ui';
-import styles from '../styles/github.css';
-import dateHelper from 'UTILS/date';
-import locales from 'LOCALES';
-import ContributionChart from './ContributionChart';
-import { contributionLevel } from './helper';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import { Label, Tipso } from 'light-ui'
+import styles from '../styles/github.css'
+import dateHelper from 'UTILS/date'
+import locales from 'LOCALES'
+import ContributionChart from './ContributionChart'
+import { contributionLevel } from './helper'
+import Icon from 'COMPONENTS/Icon'
 
-const githubTexts = locales('github.sections.orgs');
-const fullDate = dateHelper.validator.fullDate;
+const githubTexts = locales('github.sections.orgs')
+const fullDate = dateHelper.validator.fullDate
 
 class OrganizationRepos extends React.Component {
   constructor(props) {
@@ -72,16 +73,10 @@ class OrganizationRepos extends React.Component {
         <span>{fullDate(created_at)} ~ {fullDate(pushed_at)}</span>
         <div className={styles.tipso_line} />
         <span>
-          <i
-            className="fa fa-star"
-            aria-hidden="true"
-          />
+          <Icon icon="star" />
           &nbsp;{stargazers_count}
           &nbsp;&nbsp;&nbsp;
-          <i
-            className="fa fa-code-fork"
-            aria-hidden="true"
-          />
+          <Icon icon="code-fork" />
           &nbsp;{forks_count}
           &nbsp;&nbsp;
           <span

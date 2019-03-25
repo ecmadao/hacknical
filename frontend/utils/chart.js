@@ -1,6 +1,6 @@
 
 import objectAssign from 'UTILS/object-assign'
-import github from './github'
+import github from 'UTILS/github'
 import { GREEN_COLORS } from 'UTILS/constant'
 import { LINE_CONFIG } from 'UTILS/constant/chart'
 

@@ -1,9 +1,10 @@
-import React from 'react';
-import cx from 'classnames';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick.min';
-import styles from './slick.css';
-import MinInfoCard from 'COMPONENTS/MinInfoCard';
+
+import React from 'react'
+import cx from 'classnames'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick.min'
+import styles from './slick.css'
+import MinInfoCard from 'COMPONENTS/MinInfoCard'
 
 const initialSlick = (dom) => {
   $(dom).slick({
@@ -15,26 +16,26 @@ const initialSlick = (dom) => {
     infinite: false,
     slidesToScroll: 1,
     variableWidth: true
-  });
-};
+  })
+}
 
 class Slick extends React.Component {
   componentDidMount() {
-    const { sliders } = this.props;
+    const { sliders } = this.props
     if (sliders.length) {
-      this.initialSlick();
+      this.initialSlick()
     }
   }
 
   componentDidUpdate(preProps) {
-    const { sliders } = this.props;
+    const { sliders } = this.props
     if (sliders !== preProps.sliders) {
-      this.initialSlick();
+      this.initialSlick()
     }
   }
 
   initialSlick() {
-    initialSlick(`#${this.props.slickId}`);
+    initialSlick(`#${this.props.slickId}`)
   }
 
   renderSliders() {
@@ -50,11 +51,11 @@ class Slick extends React.Component {
           className={styles.infoCard}
         />
       </div>
-    ));
+    ))
   }
 
   render() {
-    const { className, wrapperId, slickId } = this.props;
+    const { className, wrapperId, slickId } = this.props
     return (
       <div
         id={wrapperId}
@@ -70,7 +71,7 @@ class Slick extends React.Component {
           {this.renderSliders()}
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -79,6 +80,6 @@ Slick.defaultProps = {
   sliders: [],
   wrapperId: '',
   slickId: 'slick'
-};
+}
 
-export default Slick;
+export default Slick

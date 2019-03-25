@@ -18,6 +18,7 @@ export default (store, options) => {
         .then(component => component.default)
     )
   }
+
   const ResumeComponent = resumeComponent[device]
   return {
     path: `/${login}/archive`,

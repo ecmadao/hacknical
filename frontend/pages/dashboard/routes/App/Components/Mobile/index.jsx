@@ -1,7 +1,7 @@
-import React from 'react';
-import cx from 'classnames';
-import styles from '../../styles/mobile.css';
-import Menus from './Menus';
+import React from 'react'
+import cx from 'classnames'
+import styles from '../../styles/mobile.css'
+import Menus from './Menus'
 
 const Mobile = (props) => {
   const {
@@ -10,7 +10,8 @@ const Mobile = (props) => {
     isAdmin,
     location,
     changeActiveTab
-  } = props;
+  } = props
+
   return (
     <div className={styles.app}>
       <Menus
@@ -22,7 +23,7 @@ const Mobile = (props) => {
         {routes}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Mobile;
+export default Mobile

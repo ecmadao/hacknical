@@ -1,10 +1,11 @@
 
-import React from 'react';
-import { Tipso } from 'light-ui';
-import locales from 'LOCALES';
-import styles from '../../../styles/resume.css';
+import React from 'react'
+import { Tipso } from 'light-ui'
+import locales from 'LOCALES'
+import styles from '../../../styles/resume.css'
+import Icon from 'COMPONENTS/Icon'
 
-const localeText = locales('resume.tips');
+const localeText = locales('resume.tips')
 
 const getTips = (section, freshGraduate) => {
   const key = freshGraduate ? 'graduate' : 'normal';
@@ -34,7 +35,7 @@ const SectionTip = (props) => {
       tipsoContent={(<span>{tip}</span>)}
     >
       <span className={styles.section_intro}>
-        <i className={`fa fa-${icon}`} aria-hidden="true" />
+        <Icon icon={icon} />
       </span>
     </Tipso>
   );

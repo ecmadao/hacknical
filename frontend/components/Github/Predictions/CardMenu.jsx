@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import { OutsideClickHandler } from 'light-ui';
-import styles from '../styles/predictions.css';
+
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import { OutsideClickHandler } from 'light-ui'
+import styles from '../styles/predictions.css'
+import Icon from 'COMPONENTS/Icon'
 
 class CardMenu extends React.PureComponent {
   constructor(props) {
@@ -59,10 +61,7 @@ class CardMenu extends React.PureComponent {
           onClick={this.handleMenuClick(onClick)}
         >
           {icon ? (
-            <i
-              className={`fa fa-${icon}`}
-              aria-hidden="true"
-            />
+            <Icon icon={icon} />
           ) : null}
           {text}
         </div>
@@ -82,11 +81,7 @@ class CardMenu extends React.PureComponent {
       <OutsideClickHandler
         onOutsideClick={this.handleOutsideClick}>
         <div className={styles.cardMenu}>
-          <i
-            className="fa fa-ellipsis-h"
-            aria-hidden="true"
-            onClick={this.toggleMenu}
-          />
+          <Icon icon="ellipsis-h" onClick={this.toggleMenu} />
           <div
             className={menuClass}
             ref={ref => (this.menu = ref)}

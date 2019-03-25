@@ -1,12 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   PortalModal,
   ShortMessage,
-} from 'light-ui';
-import FAB from 'COMPONENTS/FloatingActionButton';
-import ResumeComponent from 'SHARED/components/Resume/Desktop';
-import styles from '../../styles/modal.css';
+} from 'light-ui'
+import FAB from 'COMPONENTS/FloatingActionButton'
+import locales from 'LOCALES'
+import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter'
+import ResumeComponent from 'SHARED/components/Resume/Desktop'
+import styles from '../../styles/modal.css'
+
+const resumeLocales = locales('dashboard.archive.resume')
 
 const ResumeModal = (props) => {
   const {
@@ -17,7 +22,7 @@ const ResumeModal = (props) => {
     onDownload,
     openModal,
     shareInfo
-  } = props;
+  } = props
 
   return (
     <PortalModal
@@ -25,12 +30,14 @@ const ResumeModal = (props) => {
       onClose={onClose}
     >
       <div className={styles.modalContainer}>
-        <ResumeComponent
+        <ResumeFormatter
           login={login}
           resume={resume}
           shareInfo={shareInfo}
-        />
-        {openModal ? <ShortMessage text="按 ESC 即可退出预览" /> : null}
+        >
+          <ResumeComponent />
+        </ResumeFormatter>
+        {openModal ? <ShortMessage text={resumeLocales.previewModal} /> : null}
       </div>
       <FAB
         icon="share-alt"
@@ -55,8 +62,8 @@ const ResumeModal = (props) => {
         onClick={onDownload}
       />
     </PortalModal>
-  );
-};
+  )
+}
 
 ResumeModal.propTypes = {
   openModal: PropTypes.bool,
@@ -64,8 +71,8 @@ ResumeModal.propTypes = {
   onShare: PropTypes.func,
   onDownload: PropTypes.func,
   resume: PropTypes.object,
-  shareInfo: PropTypes.object,
-};
+  shareInfo: PropTypes.object
+}
 
 ResumeModal.defaultProps = {
   openModal: false,
@@ -73,7 +80,7 @@ ResumeModal.defaultProps = {
   onShare: Function.prototype,
   onDownload: Function.prototype,
   resume: {},
-  shareInfo: {},
-};
+  shareInfo: {}
+}
 
-export default ResumeModal;
+export default ResumeModal

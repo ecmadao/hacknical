@@ -29,14 +29,20 @@ router.get(
   cache.del()
 )
 
-router.get('/info', User.getUserInfo)
+router.get(
+  '/info',
+  User.getUserInfo
+)
 router.patch(
   '/info',
   check.body('info'),
   User.setUserInfo
 )
 
-router.get('/login/github', User.loginByGitHub)
+router.get(
+  '/login/github',
+  User.loginByGitHub
+)
 
 router.get(
   '/notifies/all',

@@ -1,5 +1,5 @@
 
-import { toPromise } from './helper'
+import { toPromise } from 'UTILS/helper'
 
 class HeartBeat {
   constructor(options = {}) {

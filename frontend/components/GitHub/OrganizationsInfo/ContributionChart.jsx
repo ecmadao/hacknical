@@ -1,19 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Chart from 'chart.js';
-import cx from 'classnames';
-import objectAssign from 'UTILS/object-assign';
-import { Tipso, Label } from 'light-ui';
 
-import styles from '../styles/github.css';
-import cardStyles from '../styles/info_card.css';
-import dateHelper from 'UTILS/date';
-import { LINE_CONFIG } from 'UTILS/constant/chart';
-import locales from 'LOCALES';
-import { contributionLevel } from './helper';
-import ReposBaseInfo from '../ReposBaseInfo';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Chart from 'chart.js'
+import cx from 'classnames'
+import objectAssign from 'UTILS/object-assign'
+import { Tipso, Label } from 'light-ui'
 
-const githubTexts = locales('github.sections.orgs');
+import Icon from 'COMPONENTS/Icon'
+import styles from '../styles/github.css'
+import cardStyles from '../styles/info_card.css'
+import dateHelper from 'UTILS/date'
+import { LINE_CONFIG } from 'UTILS/constant/chart'
+import locales from 'LOCALES'
+import { contributionLevel } from './helper'
+import ReposBaseInfo from '../ReposBaseInfo'
+
+const githubTexts = locales('github.sections.orgs')
 
 class ContributionChart extends React.Component {
   constructor(props) {
@@ -106,16 +108,16 @@ class ContributionChart extends React.Component {
           }],
         }
       }
-    });
+    })
   }
 
   renderContributionDates() {
-    const { contribution, repository, percentage } = this.props;
-    if (!contribution.weeks.length) return null;
+    const { contribution, repository, percentage } = this.props
+    if (!contribution.weeks.length) return null
     // commit dates
-    const { weeks } = contribution;
-    const startDate = dateHelper.date.bySeconds(weeks[0].week);
-    const endDate = dateHelper.date.bySeconds(weeks.slice(-1)[0].week);
+    const { weeks } = contribution
+    const startDate = dateHelper.date.bySeconds(weeks[0].week)
+    const endDate = dateHelper.date.bySeconds(weeks.slice(-1)[0].week)
     // repos info
     const {
       name,
@@ -125,8 +127,8 @@ class ContributionChart extends React.Component {
       forks_count,
       description,
       watchers_count,
-      stargazers_count,
-    } = repository;
+      stargazers_count
+    } = repository
 
     return (
       <div className={styles.repos_details}>
@@ -153,7 +155,7 @@ class ContributionChart extends React.Component {
                 color="darkLight"
                 clickable={false}
               />
-            ) : ''}
+            ) : null}
           </div>
           <div className={styles.org_repos_info}>
             <ReposBaseInfo
@@ -161,13 +163,8 @@ class ContributionChart extends React.Component {
               forks={forks_count}
               watchers={watchers_count}
             />
-            {/* <i className="fa fa-star" aria-hidden="true"></i>&nbsp;{stargazers_count}
-              &nbsp;&nbsp;&nbsp;
-              <i className="fa fa-code-fork" aria-hidden="true"></i>&nbsp;{forks_count}
-              &nbsp;&nbsp;&nbsp;
-            <i className="fa fa-eye" aria-hidden="true"></i>&nbsp;{watchers_count} */}
             &nbsp;&nbsp;&nbsp;
-            <i className="fa fa-code" aria-hidden="true" />
+            <Icon icon="code" />
             &nbsp;{language || 'NULL'}
             &nbsp;&nbsp;&nbsp;
             {percentage > 30 ? (
@@ -182,20 +179,17 @@ class ContributionChart extends React.Component {
                     styles[`strong-${contributionLevel(percentage)}`]
                   )}
                 >
-                  <i
-                    className="fa fa-trophy"
-                    aria-hidden="true"
-                  />
+                  <Icon icon="trophy" />
                   &nbsp;{githubTexts.coreDeveloper}
                 </span>
               </Tipso>
-            ) : ''}
+            ) : null}
           </div>
           {description ? (
             <div className={styles.org_repos_desc_info}>
               <blockquote>{description}</blockquote>
             </div>
-          ) : ''}
+          ) : null}
         </div>
       </div>
     );

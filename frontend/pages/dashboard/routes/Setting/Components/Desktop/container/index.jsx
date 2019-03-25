@@ -12,6 +12,7 @@ import { REMINDER_PREFIX, REMINDER_INTERVALS } from 'UTILS/constant/resume';
 import SwitcherPanel from './SwitcherPanel';
 import Panel from './Panel';
 import CheckPanel from './CheckPanel';
+import Icon from 'COMPONENTS/Icon'
 
 const settingTexts = locales('dashboard.setting');
 
@@ -240,7 +241,7 @@ class DesktopSetting extends React.Component {
       <div className={styles.container}>
         <div className={styles.card_container}>
           <p>
-            <i aria-hidden="true" className="fa fa-github" />
+            <Icon icon="github" />
             &nbsp;&nbsp;{settingTexts.github.title}
           </p>
           <div className={styles.card}>
@@ -275,10 +276,7 @@ class DesktopSetting extends React.Component {
         </div>
         <div className={styles.card_container}>
           <p>
-            <i
-              aria-hidden="true"
-              className="fa fa-file-code-o"
-            />
+            <Icon icon="file-code-o" />
             &nbsp;&nbsp;{settingTexts.resume.title}
           </p>
           <div className={styles.card}>

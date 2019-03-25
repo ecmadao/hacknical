@@ -1,7 +1,7 @@
 
-const path = require('path');
-const PATH = require('../../config/path');
-const styleVariables = require(path.resolve(PATH.SOURCE_PATH, 'src/styles/variables'));
+const path = require('path')
+const PATH = require('../../config/path')
+const styleVariables = require(path.resolve(PATH.SOURCE_PATH, 'src/styles/variables'))
 
 module.exports = {
   plugins: {
@@ -19,4 +19,4 @@ module.exports = {
     'postcss-reporter': {},
     'css-mqpacker': {},
   }
-};
+}

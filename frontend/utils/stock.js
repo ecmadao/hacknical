@@ -1,6 +1,6 @@
 
-import dateHelper from './date';
-import objectAssign from './object-assign';
+import dateHelper from 'UTILS/date'
+import objectAssign from 'UTILS/object-assign'
 
 const byDateSeconds = dateHelper.date.bySeconds;
 

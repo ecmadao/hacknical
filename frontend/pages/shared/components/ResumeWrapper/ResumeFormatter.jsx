@@ -8,7 +8,7 @@ import { formatUrl } from 'UTILS/formatter'
 import { LINK_NAMES } from 'UTILS/constant/resume'
 
 const validateDate = dateHelper.validator.date
-const sortByDate = sortBySeconds('startTime')
+const sortByDate = sortBySeconds('startTime', -1)
 const getLinkText = social =>
   social.text
   || LINK_NAMES[social.name]
@@ -26,10 +26,10 @@ const formatResume = (resume) => {
   const { socialLinks } = others
 
   const formatWorkExperiences = workExperiences
-    .filter(experience => experience.company)
     .sort(sortByDate)
-    .reverse()
-    .map((experience) => {
+    .reduce((list, experience) => {
+      if (!experience.company) return list
+
       const {
         url,
         company,
@@ -43,23 +43,31 @@ const formatResume = (resume) => {
       const validateEnd = untilNow
         ? '至今'
         : validateDate(endTime)
-
-      return {
-        url,
+      list.push({
         company,
         position,
         untilNow,
+        url: formatUrl(url),
         endTime: validateEnd,
         startTime: validateDate(startTime),
-        projects: projects.filter(project => project.name)
-      }
-    })
+        projects: projects
+          .reduce((pList, project) => {
+            if (!project.name) return pList
+            pList.push(
+              Object.assign(project, {
+                url: formatUrl(project.url)
+              })
+            )
+            return pList
+          }, [])
+      })
+      return list
+    }, [])
 
   const formatEducations = educations
-    .filter(edu => edu.school)
     .sort(sortByDate)
-    .reverse()
-    .map((edu) => {
+    .reduce((list, edu) => {
+      if (!edu.school) return list
       const {
         major,
         school,
@@ -69,36 +77,54 @@ const formatResume = (resume) => {
         experiences = []
       } = edu
 
-      return {
+      list.push({
         school,
         major,
         education,
         experiences,
         endTime: validateDate(endTime),
         startTime: validateDate(startTime)
-      }
-    })
+      })
+      return list
+    }, [])
 
   const formatPersonalProjects = personalProjects
-    .filter(project => project.title)
+    .reduce((list, project) => {
+      if (!project.title) return list
+      list.push(
+        Object.assign(project, {
+          url: formatUrl(project.url)
+        })
+      )
+      return list
+    }, [])
 
   const formatSocials = validateSocialLinks(socialLinks)
-    .filter(social => isUrl(social.url))
-    .map((social) => {
+    .reduce((list, social) => {
       const { url } = social
-      return {
-        url,
+      if (!isUrl(url)) return list
+
+      list.push({
+        url: formatUrl(url),
         text: getLinkText(social),
         validateUrl: formatUrl(url)
-      }
-    })
+      })
+      return list
+    }, [])
 
   const formattedModules = customModules
-    .filter((module) => {
-      if (!module.text) return false
+    .reduce((list, module) => {
+      if (!module.text) return list
       const { sections = [] } = module
-      return sections.filter(section => section.title).length > 0
-    })
+      if (!sections.some(section => section.title)) return list
+
+      list.push(
+        Object.assign(module, {
+          url: formatUrl(module.url)
+        })
+      )
+      return list
+    }, [])
 
   return objectAssign({}, resume, {
     educations: formatEducations,

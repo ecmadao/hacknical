@@ -1,28 +1,29 @@
 
-import React from 'react';
-import cx from 'classnames';
-import { AnimationComponent } from 'light-ui';
-import locales from 'LOCALES';
-import API from 'API';
-import styles from './notify.css';
-import dateHelper from 'UTILS/date';
-import { URLS, EMOJI } from 'UTILS/constant';
-import { random, throttle } from 'UTILS/helper';
+import React from 'react'
+import cx from 'classnames'
+import { AnimationComponent } from 'light-ui'
+import locales from 'LOCALES'
+import API from 'API'
+import styles from './notify.css'
+import dateHelper from 'UTILS/date'
+import { URLS, EMOJI } from 'UTILS/constant'
+import { random, throttle } from 'UTILS/helper'
+import Icon from 'COMPONENTS/Icon'
 
 const getEmoji = () => {
-  const keys = Object.keys(EMOJI);
-  const key = random(keys);
-  return EMOJI[key];
-};
+  const keys = Object.keys(EMOJI)
+  const key = random(keys)
+  return EMOJI[key]
+}
 
-const emoji = getEmoji();
-const notifyLocales = locales('datas.notify');
-const getFullDate = dateHelper.validator.fullDate;
-const upvote = throttle(API.user.upvote)();
-const downvote = throttle(API.user.downvote)();
+const emoji = getEmoji()
+const notifyLocales = locales('datas.notify')
+const getFullDate = dateHelper.validator.fullDate
+const upvote = throttle(API.user.upvote)()
+const downvote = throttle(API.user.downvote)()
 
 const getHeadline = date =>
-  notifyLocales.headline.replace('%s', getFullDate(date));
+  notifyLocales.headline.replace('%s', getFullDate(date))
 
 const renderSections = text =>
   text.split(/(?:\r\n|\r|\n)/g).map((section, index) => (
@@ -30,7 +31,7 @@ const renderSections = text =>
       {section}
       <br/>
     </span>
-  ));
+  ))
 
 const _NotifyContent = (props) => {
   const {
@@ -38,9 +39,9 @@ const _NotifyContent = (props) => {
     onClose,
     messages,
     onTransitionEnd
-  } = props;
+  } = props
 
-  const message = messages[0];
+  const message = messages[0]
   return (
     <div
       className={cx(
@@ -50,10 +51,7 @@ const _NotifyContent = (props) => {
       onTransitionEnd={onTransitionEnd}
     >
       <div className={styles.close} onClick={onClose}>
-        <i
-          className="fa fa-close"
-          aria-hidden="true"
-        />
+        <Icon icon="close" />
       </div>
       <div className={styles.header}>
         {emoji}&nbsp;{message.headline || getHeadline(message.date)}
@@ -63,15 +61,9 @@ const _NotifyContent = (props) => {
       </div>
       <div className={styles.bottom}>
         <div className={styles.operations}>
-          <i
-            className="fa fa-thumbs-o-up"
-            onClick={() => upvote(message.id)}
-          />
+          <Icon icon="thumbs-o-up" onClick={() => upvote(message.id)} />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <i
-            className="fa fa-thumbs-o-down"
-            onClick={() => downvote(message.id)}
-          />
+          <Icon icon="thumbs-o-down" onClick={() => downvote(message.id)} />
         </div>
         <div className={styles.bottomLink}>
           <a
@@ -85,13 +77,13 @@ const _NotifyContent = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const NotifyContent = props => (
   <AnimationComponent>
     <_NotifyContent {...props} />
   </AnimationComponent>
-);
+)
 
-export default NotifyContent;
+export default NotifyContent

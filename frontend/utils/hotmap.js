@@ -1,5 +1,6 @@
-import objectAssign from 'UTILS/object-assign';
-import dateHelper from 'UTILS/date';
+
+import objectAssign from 'UTILS/object-assign'
+import dateHelper from 'UTILS/date'
 
 const formatHotmap = (hotmap) => {
   const now = dateHelper.validator.fullDate();

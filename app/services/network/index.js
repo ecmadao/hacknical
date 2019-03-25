@@ -16,9 +16,11 @@ const fetchApi = (baseUrl, source, timeouts) => (options = {}) => {
     headers = {},
     method = 'get'
   } = options
+
   headers['X-App-Name'] = APP_NAME
   let { url = '' } = options
   url = `api/${url}`.split('/').filter(s => s).join('/')
+
   return fetch[method]({
     qs,
     body,

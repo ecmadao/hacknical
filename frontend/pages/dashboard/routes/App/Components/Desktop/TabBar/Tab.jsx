@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import cx from 'classnames';
-import { Tipso } from 'light-ui';
-import styles from '../../../styles/desktop.css';
+import { Link } from 'react-router-dom'
+import cx from 'classnames'
+import { Tipso } from 'light-ui'
+import styles from '../../../styles/desktop.css'
+import Icon from 'COMPONENTS/Icon'
 
 const Tab = (props) => {
   const {
@@ -36,7 +37,7 @@ const Tab = (props) => {
         className={styles.app_tab}
         onClick={e => onChange(e, id, enable)}
       >
-        <i aria-hidden="true" className={`fa ${icon}`} />
+        <Icon icon={icon} />
         &nbsp;
         {name}
       </Link>

@@ -1,14 +1,15 @@
-const path = require('path');
-const webpack = require('webpack');
-const CleanPlugin = require('clean-webpack-plugin');
-const AssetsPlugin = require('assets-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
-const BrotliPlugin = require('brotli-webpack-plugin');
-const PATH = require('../../config/path');
 
-const env = process.env.NODE_ENV || 'localdev';
-const isProduction = env === 'production';
-const libraryName = isProduction ? '[name]_[chunkhash]_library' : '[name]_library';
+const path = require('path')
+const webpack = require('webpack')
+const CleanPlugin = require('clean-webpack-plugin')
+const AssetsPlugin = require('assets-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
+const BrotliPlugin = require('brotli-webpack-plugin')
+const PATH = require('../../config/path')
+
+const env = process.env.NODE_ENV || 'localdev'
+const isProduction = env === 'production'
+const libraryName = isProduction ? '[name]_[chunkhash]_library' : '[name]_library'
 
 const plugins = [
   new webpack.DllPlugin({
@@ -25,7 +26,7 @@ const plugins = [
     filename: 'webpack-assets.json',
     prettyPrint: true
   })
-];
+]
 
 if (isProduction) {
   plugins.push(
@@ -39,8 +40,8 @@ if (isProduction) {
     }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
       test: /\.js$/,
       minRatio: 0.9
     }),
@@ -83,4 +84,4 @@ module.exports = {
     library: libraryName
   },
   plugins
-};
+}

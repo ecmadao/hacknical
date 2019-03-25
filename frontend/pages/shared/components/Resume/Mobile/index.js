@@ -1,3 +1,4 @@
-import ResumeMobileComponent from './container';
 
-export default ResumeMobileComponent;
+import ResumeMobileComponent from './container'
+
+export default ResumeMobileComponent

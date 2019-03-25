@@ -55,12 +55,20 @@ const fetchApi = (url, method, data) => {
     })
 }
 
-const getCsrf = () => document.getElementsByTagName('meta')['csrf-token'].content
+const getCsrf = () => {
+  try {
+    return document.getElementsByTagName('meta')['csrf-token'].content
+  } catch (e) {
+    console.error(e)
+    return ''
+  }
+}
 
 const _fetch = m => (url, data = {}) => {
-  const csrf = getCsrf()
   const method = m.toUpperCase()
-  if (!rnoContent.test(method)) data._csrf = csrf
+  if (!rnoContent.test(method)) {
+    data._csrf = getCsrf()
+  }
   return fetchApi(
     url,
     method,

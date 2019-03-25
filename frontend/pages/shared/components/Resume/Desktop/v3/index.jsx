@@ -1,19 +1,20 @@
-import React from 'react';
-import cx from 'classnames';
-import { Label } from 'light-ui';
-import dateHelper from 'UTILS/date';
-import styles from './v3.css';
-import statusLabels from '../shared/StatusLabels';
-import locales from 'LOCALES';
-import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper';
-import { renderBaseInfo, section } from '../shared/common';
-import { renderTextWithUrl } from 'UTILS/helper';
 
-const resumeTexts = locales('resume');
-const { minutesBefore } = dateHelper.relative;
+import React from 'react'
+import cx from 'classnames'
+import { Label } from 'light-ui'
+import dateHelper from 'UTILS/date'
+import styles from './v3.css'
+import statusLabels from '../../shared/StatusLabels'
+import locales from 'LOCALES'
+import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
+import { renderBaseInfo, section, renderTextWithUrl } from '../../shared/common'
+import Icon from 'COMPONENTS/Icon'
+
+const resumeTexts = locales('resume')
+const { minutesBefore } = dateHelper.relative
 
 const renderPersonalProjectsRow = (options) => {
-  const { url, desc, techs, title, index } = options;
+  const { url, desc, techs, title, index } = options
 
   const projectTechs = techs.map((tech, i) => (
     <Label
@@ -36,6 +37,7 @@ const renderPersonalProjectsRow = (options) => {
     >
       {renderBaseInfo({
         url,
+        type: 'link',
         value: title,
         className: styles.mainText
       })}
@@ -69,6 +71,7 @@ const renderWorkProjects = (projects = []) =>
       <div key={index} className={styles.projectSection}>
         {renderBaseInfo({
           url,
+          type: 'link',
           value: name,
           className: styles.subTextDark
         })}
@@ -97,6 +100,7 @@ const renderWorkExperienceRow = (options) => {
         <div className={styles.rowHeader}>
           {renderBaseInfo({
             url,
+            type: 'link',
             value: company,
             className: styles.mainText
           })}
@@ -168,7 +172,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.list_link}
-              href={social.validateUrl}
+              href={url}
             >
               {url}
             </a>
@@ -280,6 +284,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               <div className={styles.rowHeader}>
                 {renderBaseInfo({
                   url,
+                  type: 'link',
                   value: title,
                   className: styles.mainText
                 })}
@@ -359,6 +364,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               {
                 useGithub && (
                   githubUrl ? renderBaseInfo({
+                    type: 'link',
                     url: githubUrl,
                     icon: 'github',
                     value: viewGitHub
@@ -370,7 +376,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
                         styles.baseInfo
                       )}
                     >
-                      <i className="fa fa-github" aria-hidden="true" />
+                      <Icon icon="github" />
                       {viewGitHub}
                     </a>
                   )
@@ -391,4 +397,4 @@ class ResumeComponentV3 extends ResumeUIWrapper {
   }
 }
 
-export default ResumeComponentV3;
+export default ResumeComponentV3

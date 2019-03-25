@@ -1,16 +1,17 @@
-import React from 'react';
+import React from 'react'
+import Icon from 'COMPONENTS/Icon'
 
 const ReposBaseInfo = props => (
   <span>
-    <i className="fa fa-star" aria-hidden="true" />
+    <Icon icon="star" />
     &nbsp;{props.stargazers}
     &nbsp;&nbsp;&nbsp;
-    <i className="fa fa-code-fork" aria-hidden="true" />
+    <Icon icon="code-fork" />
     &nbsp;{props.forks}
     &nbsp;&nbsp;&nbsp;
-    <i className="fa fa-eye" aria-hidden="true" />
+    <Icon icon="eye" />
     &nbsp;{props.watchers}
   </span>
-);
+)
 
-export default ReposBaseInfo;
+export default ReposBaseInfo

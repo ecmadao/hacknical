@@ -1,10 +1,11 @@
 import React from 'react';
-import cx from 'classnames';
-import { IconButton, InputGroup, InputGroupV2, Input } from 'light-ui';
-import DateSlider from 'COMPONENTS/DateSlider';
-import WorkProject from './WorkProject';
-import styles from '../../../styles/resume.css';
-import locales from 'LOCALES';
+import cx from 'classnames'
+import { IconButton, InputGroup, InputGroupV2, Input } from 'light-ui'
+import DateSlider from 'COMPONENTS/DateSlider'
+import Icon from 'COMPONENTS/Icon'
+import WorkProject from './WorkProject'
+import styles from '../../../styles/resume.css'
+import locales from 'LOCALES'
 
 const resumeTexts = locales('resume.sections.workExperiences');
 
@@ -139,7 +140,7 @@ class WorkExperience extends React.Component {
             className={styles.resume_add}
             onClick={addProject}
           >
-            <i className="fa fa-plus-circle" aria-hidden="true" />
+            <Icon icon="plus-circle" />
             &nbsp;&nbsp;&nbsp;
             {resumeTexts.sideButton}
           </div>

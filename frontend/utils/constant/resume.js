@@ -1,10 +1,10 @@
-import locales from 'LOCALES';
+import locales from 'LOCALES'
 
-const resumeTexts = locales('resume');
-const navTexts = resumeTexts.navs;
-const genderTexts = resumeTexts.options.genders;
-const reminderTexts = resumeTexts.options.reminders;
-const eduTexts = resumeTexts.options.edus;
+const resumeTexts = locales('resume')
+const navTexts = resumeTexts.navs
+const genderTexts = resumeTexts.options.genders
+const reminderTexts = resumeTexts.options.reminders
+const eduTexts = resumeTexts.options.edus
 
 const RESUME_SECTION_IDS = {
   INFO: 'info',

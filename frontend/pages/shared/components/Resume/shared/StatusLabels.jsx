@@ -1,8 +1,8 @@
-import React from 'react';
-import { Label } from 'light-ui';
-import styles from './status_labels.css';
-import dateHelper from 'UTILS/date';
-import locales from 'LOCALES';
+import React from 'react'
+import { Label } from 'light-ui'
+import styles from './status_labels.css'
+import dateHelper from 'UTILS/date'
+import locales from 'LOCALES'
 
 const resumeLocales = locales('resume');
 const resumeLabels = resumeLocales.labels;

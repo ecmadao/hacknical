@@ -1,38 +1,39 @@
 import React from 'react';
-import cx from 'classnames';
-import { NavLink } from 'react-router-dom';
-import { PortalModal } from 'light-ui';
-import styles from '../../../styles/mobile.css';
-import Topbar from '../../shared/Topbar';
-import { TABS } from 'UTILS/constant';
-import locales, { getLocale } from 'LOCALES';
-import MenuWrapper from '../../shared/MenuWrapper';
+import cx from 'classnames'
+import { NavLink } from 'react-router-dom'
+import { PortalModal } from 'light-ui'
+import styles from '../../../styles/mobile.css'
+import Topbar from '../../shared/Topbar'
+import { TABS } from 'UTILS/constant'
+import locales, { getLocale } from 'LOCALES'
+import MenuWrapper from '../../shared/MenuWrapper'
+import Icon from 'COMPONENTS/Icon'
 
-const tabs = locales('dashboard.tabs');
-const locale = getLocale();
+const tabs = locales('dashboard.tabs')
+const locale = getLocale()
 
 class Menus extends MenuWrapper {
   constructor(props) {
-    super(props);
-    this.state.menuActive = false;
-    this.toggleMenu = this.toggleMenu.bind(this);
+    super(props)
+    this.state.menuActive = false
+    this.toggleMenu = this.toggleMenu.bind(this)
   }
 
   componentDidUpdate(preProps) {
-    const { pathname } = this.props.location;
+    const { pathname } = this.props.location
     if (pathname !== preProps.location.pathname) {
-      this.toggleMenu(false);
+      this.toggleMenu(false)
     }
   }
 
   toggleMenu(e) {
     this.setState({
       menuActive: !e ? false : !this.state.menuActive
-    });
+    })
   }
 
   renderMenus() {
-    const { login, changeActiveTab } = this.props;
+    const { login, changeActiveTab } = this.props
     return TABS.map((tab, index) => (
       <NavLink
         key={index}
@@ -41,16 +42,16 @@ class Menus extends MenuWrapper {
         activeClassName={styles.menuActive}
         onClick={() => changeActiveTab(tab.id)}
       >
-        <i aria-hidden="true" className={`fa ${tab.icon}`} />
+        <Icon icon={tab.icon} />
         &nbsp;&nbsp;
         {tab.name}
       </NavLink>
-    ));
+    ))
   }
 
   renderLanguageOptions() {
-    const { languages } = this.state;
-    if (!languages || !languages.length) return null;
+    const { languages } = this.state
+    if (!languages || !languages.length) return null
     const languageDOMs = languages.map((language, index) => (
       <a
         key={index}
@@ -59,19 +60,20 @@ class Menus extends MenuWrapper {
       >
         {language.text}
       </a>
-    ));
+    ))
     return (
       <div className={cx(styles.menu, styles.languagesWrapper)}>
-        <i className="fa fa-language" aria-hidden="true" />
+        <Icon icon="language" />
         &nbsp;&nbsp;&nbsp;
         {languageDOMs}
       </div>
-    );
+    )
   }
 
   render() {
-    const { zen, menuActive } = this.state;
-    const aboutUrl = `https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`;
+    const { zen, menuActive } = this.state
+    const aboutUrl = `https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`
+
     return (
       <Topbar
         offsetTop={0}
@@ -87,7 +89,7 @@ class Menus extends MenuWrapper {
             <div
               onClick={this.toggleMenu}
               className={styles.menuIcon}>
-              <i className="fa fa-navicon" aria-hidden="true" />
+              <Icon icon="navicon" />
             </div>
             <div className={styles.menuLogoBar}>
               hacknical
@@ -102,21 +104,21 @@ class Menus extends MenuWrapper {
                 <div
                   onClick={this.toggleMenu}
                   className={styles.menuClose}>
-                  <i className="fa fa-close" aria-hidden="true" />
+                  <Icon icon="close" />
                 </div>
               </div>
               <div className={styles.menuZen}>{zen}</div>
               <div className={styles.menuWrapper}>
                 {this.renderMenus()}
                 <a href={aboutUrl} className={styles.menu}>
-                  <i className="fa fa-info-circle" aria-hidden="true" />
+                  <Icon icon="info-circle" />
                   &nbsp;&nbsp;
                   {tabs.about.text}
                 </a>
                 <div className={styles.menuBottom}>
                   {this.renderLanguageOptions()}
                   <a href="/api/user/logout" className={styles.menu}>
-                    <i className="fa fa-sign-out" aria-hidden="true" />
+                    <Icon icon="sign-out" />
                     &nbsp;&nbsp;
                     {tabs.logout.text}
                   </a>
@@ -126,8 +128,8 @@ class Menus extends MenuWrapper {
           </PortalModal>
         </div>
       </Topbar>
-    );
+    )
   }
 }
 
-export default Menus;
+export default Menus

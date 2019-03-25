@@ -1,37 +1,39 @@
-import moment from 'moment';
-import { formatLocale } from 'LOCALES';
 
-const locale = formatLocale();
-moment.locale(locale);
+import moment from 'moment'
+import { formatLocale } from 'LOCALES'
+
+const locale = formatLocale()
+moment.locale(locale)
 
 const validateDate = (rawDate) => {
-  const date = `${rawDate}`;
-  let separator = '-';
-  let dates = date.split(separator);
+  const date = `${rawDate}`
+  let separator = '-'
+  let dates = date.split(separator)
   if (!dates.length) {
     separator = '/'
-    dates = date.split(separator);
+    dates = date.split(separator)
   }
-  if (!dates.length) return rawDate;
-  const result = [dates[0]];
-  for (let i = 1; i <= 2; i += 1) {
-    let num = dates[i];
-    if (!num) num = '01';
-    if (num.length < 2) num = `0${num}`;
-    result.push(num);
-  }
-  result.push(...dates.slice(3));
-  return result.join(separator);
-};
+  if (!dates.length) return rawDate
 
-const formatDate = format => date => moment(date).format(format);
-const getSeconds = date => parseInt(formatDate('X')(validateDate(date)), 10);
+  const result = [dates[0]]
+  for (let i = 1; i <= 2; i += 1) {
+    let num = dates[i]
+    if (!num) num = '01'
+    if (num.length < 2) num = `0${num}`
+    result.push(num)
+  }
+  result.push(...dates.slice(3))
+  return result.join(separator)
+}
+
+const formatDate = format => date => moment(date).format(format)
+const getSeconds = date => parseInt(formatDate('X')(validateDate(date)), 10)
 
 const getDateRelativeX = (unit, pn = 1) => format => (before, date) =>
   moment(date).add(pn * parseInt(before, 10), unit).format(format)
-const getDateBeforeYears = getDateRelativeX('years', -1);
-const getDateAfterYears = getDateRelativeX('years');
-const getDateBeforeMonths = getDateRelativeX('months', -1);
+const getDateBeforeYears = getDateRelativeX('years', -1)
+const getDateAfterYears = getDateRelativeX('years')
+const getDateBeforeMonths = getDateRelativeX('months', -1)
 
 export default {
   validator: {
@@ -73,4 +75,4 @@ export default {
     minutesBefore: date => moment(date).startOf('minute').fromNow(),
     secondsBefore: date => moment(date).startOf('second').fromNow(),
   }
-};
+}
