@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import locales from 'LOCALES'
-import styles from '../Resume/Desktop/shared/common.css'
+import styles from '../Resume/shared/common.css'
 import AsyncGithub from '../shared/AsyncGithub'
 import Icon from 'COMPONENTS/Icon'
 
