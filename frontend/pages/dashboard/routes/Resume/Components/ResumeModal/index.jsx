@@ -7,7 +7,6 @@ import {
 } from 'light-ui'
 import FAB from 'COMPONENTS/FloatingActionButton'
 import locales from 'LOCALES'
-import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter'
 import ResumeComponent from 'SHARED/components/Resume/Desktop'
 import styles from '../../styles/modal.css'
 
@@ -30,13 +29,11 @@ const ResumeModal = (props) => {
       onClose={onClose}
     >
       <div className={styles.modalContainer}>
-        <ResumeFormatter
+        <ResumeComponent
           login={login}
           resume={resume}
           shareInfo={shareInfo}
-        >
-          <ResumeComponent />
-        </ResumeFormatter>
+        />
         {openModal ? <ShortMessage text={resumeLocales.previewModal} /> : null}
       </div>
       <FAB

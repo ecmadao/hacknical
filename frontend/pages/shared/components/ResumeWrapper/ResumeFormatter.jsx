@@ -55,7 +55,7 @@ const formatResume = (resume) => {
           .reduce((pList, project) => {
             if (!project.name) return pList
             pList.push(
-              Object.assign(project, {
+              objectAssign({}, deepcopy(project), {
                 url: formatUrl(project.url)
               })
             )
@@ -93,7 +93,7 @@ const formatResume = (resume) => {
     .reduce((list, project) => {
       if (!project.title) return list
       list.push(
-        Object.assign(project, {
+        objectAssign({}, deepcopy(project), {
           url: formatUrl(project.url)
         })
       )
@@ -105,8 +105,7 @@ const formatResume = (resume) => {
       const { url } = social
       if (!isUrl(url)) return list
 
-      list.push(Object.assign({}, social, {
-        url: formatUrl(url),
+      list.push(objectAssign({}, deepcopy(social), {
         text: getLinkText(social),
         validateUrl: formatUrl(url)
       }))
@@ -120,18 +119,18 @@ const formatResume = (resume) => {
       if (!sections.some(section => section.title)) return list
 
       list.push(
-        Object.assign(module, {
+        objectAssign({}, deepcopy(module), {
           url: formatUrl(module.url)
         })
       )
       return list
     }, [])
 
-  return objectAssign({}, deepcopy(resume), {
+  return objectAssign({}, resume, {
     educations: formatEducations,
     workExperiences: formatWorkExperiences,
     personalProjects: formatPersonalProjects,
-    others: objectAssign({}, others, {
+    others: objectAssign({}, deepcopy(others), {
       socialLinks: formatSocials
     }),
     customModules: formattedModules

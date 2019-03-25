@@ -4,6 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Push from 'push.js'
+import deepcopy from 'deepcopy'
 import styles from '../styles/resume.css'
 import ShareModal from 'COMPONENTS/ShareModal'
 import ResumeSection from './ResumeSection'
@@ -252,7 +253,7 @@ class Resume extends React.Component {
           onSectionChange={this.handleSectionIndexChange}
         />
         <ResumeFormatter
-          resume={resume}
+          resume={deepcopy(resume)}
           shareInfo={shareInfo}
           openModal={openModal}
           onShare={() => this.handleShareModalStatus(true)}
@@ -285,21 +286,21 @@ class Resume extends React.Component {
           />
         ) : null}
       </div>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
   return {
     resume: state.resume,
-    login: state.app.login,
-  };
+    login: state.app.login
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(resumeActions, dispatch)
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Resume);
+export default connect(mapStateToProps, mapDispatchToProps)(Resume)

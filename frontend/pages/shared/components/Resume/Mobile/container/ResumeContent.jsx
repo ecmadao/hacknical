@@ -375,7 +375,7 @@ class ResumeContent extends ResumeUIWrapper {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.listLink}
-            href={url}
+            href={socialLink.validateUrl}
           >
             {url}
           </a>

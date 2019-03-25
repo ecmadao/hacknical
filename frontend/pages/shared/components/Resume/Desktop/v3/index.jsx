@@ -172,7 +172,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.list_link}
-              href={url}
+              href={social.validateUrl}
             >
               {url}
             </a>

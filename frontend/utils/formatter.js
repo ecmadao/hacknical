@@ -5,7 +5,9 @@ import { isUrl } from 'UTILS/helper'
 
 export const formatUrl = (url) => {
   if (!isUrl(url)) return url
-  return /^http/.test(url) ? url : `//${url}`
+  if (/^https?/.test(url)) return url
+  if (/^\/\//.test(url)) return url
+  return `//${url}`
 }
 
 /* ================================================================= */

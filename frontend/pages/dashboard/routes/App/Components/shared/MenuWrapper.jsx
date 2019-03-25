@@ -17,9 +17,6 @@ class MenuWrapper extends React.PureComponent {
   }
 
   async getZen() {
-    // const tmp = await API.github
-    // console.log(' ====================== tmp ====================== ')
-    // console.log(tmp)
     const zen = await API.github.zen()
     this.setState({ zen })
   }

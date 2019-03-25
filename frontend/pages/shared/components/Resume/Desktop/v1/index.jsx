@@ -260,7 +260,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     if (!socialLinks.length) return null;
 
     const socials = socialLinks.map((social, index) => {
-      const { url, text } = social;
+      const { url, text } = social
       return (
         <li key={index}>
           <div className={styles.link_wrapper}>
@@ -270,7 +270,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.list_link}
-              href={url}
+              href={social.validateUrl}
             >
               {url}
             </a>
