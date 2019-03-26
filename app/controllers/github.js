@@ -243,7 +243,10 @@ const getUpdateStatus = async (ctx) => {
 
   const statusCode = parseInt(status, 10);
   if (statusCode === 1) {
-    await network.user.updateUser(userId, { initialed: true });
+    await Promise.all([
+      network.user.updateUser(userId, { initialed: true }),
+      network.github.updateUser(githubLogin, { status: 0 })
+    ])
   }
   const messageKey = UPDATE_STATUS_TEXT[statusCode];
 

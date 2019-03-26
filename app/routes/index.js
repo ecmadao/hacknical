@@ -32,6 +32,10 @@ router.get(
   Home.render404Page
 )
 router.get(
+  '/500',
+  Home.render500Page
+)
+router.get(
   '/initial',
   user.checkIfLogin(),
   Home.renderInitialPage
