@@ -18,6 +18,7 @@ import mqMiddleware from '../middlewares/mq';
 import errorMiddleware from '../middlewares/error';
 import localeMiddleware from '../middlewares/locale';
 import assetsMiddleware from '../middlewares/assets';
+import loggerMiddleware from '../middlewares/logger';
 import { redisMiddleware } from '../middlewares/cache';
 import platformMiddleware from '../middlewares/platform';
 
@@ -32,9 +33,19 @@ app.keys = [appKey];
 // koa logger
 app.use(koaLogger());
 
+app.use(cors());
+
+// bodyparser
+app.use(bodyParser({
+  onerror: (err, ctx) => {
+    ctx.throw('body parse error', 422)
+  }
+}))
+
 // user-agent
 app.use(userAgent);
 app.use(platformMiddleware());
+app.use(loggerMiddleware())
 
 const options = {
   defaultLocale: 'zh-CN',
@@ -47,14 +58,6 @@ const options = {
 };
 locales(app, options);
 
-app.use(cors());
-
-// bodyparser
-app.use(bodyParser({
-  onerror: (err, ctx) => {
-    ctx.throw('body parse error', 422);
-  }
-}));
 
 // session
 const CONFIG = {

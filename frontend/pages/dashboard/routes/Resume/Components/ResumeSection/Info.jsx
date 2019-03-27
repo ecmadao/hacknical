@@ -28,13 +28,17 @@ class Info extends React.Component {
   }
 
   handleAvailableChange() {
-    const { actions, hireAvailable } = this.props;
-    actions.toggleHireAvailable(!hireAvailable);
+    const { actions, hireAvailable } = this.props
+    actions.handleInfoChange({
+      hireAvailable: !hireAvailable
+    })
   }
 
   handleResumeTypeChange() {
-    const { actions, freshGraduate } = this.props;
-    actions.toggleResumeType(!freshGraduate);
+    const { actions, freshGraduate } = this.props
+    actions.handleInfoChange({
+      freshGraduate: !freshGraduate
+    })
   }
 
   render() {

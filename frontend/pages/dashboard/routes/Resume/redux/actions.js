@@ -54,30 +54,16 @@ const saveResume = params => (dispatch, getState) => {
   delete postResume.shareInfo;
 
   API.resume.setResume(postResume, params).then((result) => {
-    result && dispatch(initialPubResumeStatus(result));
-    dispatch(togglePosting(false));
-    dispatch(toggleEdited(false));
-  });
-};
+    result && dispatch(initialPubResumeStatus(result))
+    dispatch(togglePosting(false))
+    dispatch(toggleEdited(false))
+  })
+}
 
 /**
  * info
  */
 const handleInfoChange = createAction('HANDLE_INFO_CHANGE');
-
-const toggleHireAvailable = hireAvailable => (dispatch) => {
-  API.resume.setResume({ info: { hireAvailable } }).then(() => {
-    dispatch(handleInfoChange({ hireAvailable }));
-    dispatch(toggleEdited(false));
-  });
-};
-
-const toggleResumeType = freshGraduate => (dispatch) => {
-  API.resume.setResume({ info: { freshGraduate } }).then(() => {
-    dispatch(handleInfoChange({ freshGraduate }));
-    dispatch(toggleEdited(false));
-  });
-};
 
 /**
  * Education
@@ -230,8 +216,6 @@ const handleResumeChange = action => wrapper({
 const resumeEditActions = {
   // info
   handleInfoChange,
-  toggleHireAvailable,
-  toggleResumeType,
   // edu
   deleteEducation,
   changeEducation,
@@ -272,8 +256,6 @@ export default objectAssign(
     // loading
     toggleLoading,
     toggleEdited,
-    toggleHireAvailable,
-    toggleResumeType,
     // resume share
     setPubResumeStatus,
     initialPubResumeStatus,
