@@ -5,7 +5,7 @@ import path from 'path'
 import fetch from '../../utils/fetch'
 import cache from '../../utils/cache'
 import NewError from '../../utils/error'
-import { shadowImport } from '../../utils/loader'
+import { shadowImport } from '../../utils/files'
 
 const APP_NAME = config.get('appName')
 

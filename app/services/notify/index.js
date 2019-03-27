@@ -2,7 +2,7 @@
 import path from 'path'
 import logger from '../../utils/logger'
 import NewError from '../../utils/error'
-import { shadowImport } from '../../utils/loader'
+import { shadowImport } from '../../utils/files'
 
 const PREFIX = __dirname.split('/').slice(-1)[0]
 const DELIVER = shadowImport(path.join(__dirname, 'lib'), {

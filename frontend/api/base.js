@@ -1,7 +1,6 @@
 /* eslint no-param-reassign: "off" */
 
 import { polyfill } from 'es6-promise'
-import param from 'jquery-param'
 import 'isomorphic-fetch'
 import NProgress from 'nprogress'
 import message from 'UTILS/message'
@@ -10,6 +9,21 @@ require('nprogress/nprogress.css')
 
 polyfill()
 const rnoContent = /^(?:GET|HEAD)$/
+
+const param = (data, prefix = '') => {
+  if (!data) return ''
+  if (typeof data === 'string' || typeof data === 'number') return `${prefix}=${data}`
+
+  if (Array.isArray(data)) {
+    return `${prefix}=${data.filter(item => item).join(',')}`
+  }
+
+  return Object.keys(data)
+    .reduce((list, key) => [
+      ...list,
+      param(data[key], key)
+    ], []).join('&')
+}
 
 const fetchApi = (url, method, data) => {
   url = `/api${url}`
@@ -25,7 +39,7 @@ const fetchApi = (url, method, data) => {
   if (rnoContent.test(method)) {
     const query = param(data)
     if (query) {
-      url = url + (/\?$/.test(url) ? '&' : '?') + query
+      url = url + (/\?$/.test(url) ? '' : '?') + query
     }
   } else if (data) {
     options.body = JSON.stringify(data)

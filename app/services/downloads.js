@@ -1,10 +1,10 @@
 
 import phantom from 'phantom'
 import path from 'path'
-import fs from 'fs-extra'
-import klawSync from 'klaw-sync'
+import fs from 'fs'
 import config from 'config'
 import logger from '../utils/logger'
+import { ensureFolder } from '../utils/files'
 
 const SOURCE_PATH = config.get('downloads')
 
@@ -21,12 +21,13 @@ const waitUntil = asyncFunc => new Promise((resolve, reject) => {
   wait()
 })
 
-const clearFolder = (folder) => {
-  const files = klawSync(folder, { nodir: true })
-  for (const file of files) {
-    fs.removeSync(file.path)
-  }
-}
+const clearFolder = folder =>
+  fs.readdirSync(folder)
+    .filter((item) => {
+      const itempath = path.join(folder, item)
+      return fs.statSync(itempath).isFile()
+    })
+    .forEach(file => fs.unlinkSync(path.join(folder, file)))
 
 const renderScreenshot = async (input, output) => {
   const instance = await phantom.create()
@@ -45,14 +46,10 @@ const renderScreenshot = async (input, output) => {
   await instance.exit()
 }
 
-const ensureFolder = async (folder) => {
-  const resultFloder = path.resolve(__dirname, SOURCE_PATH, folder)
-
-  // makesure folder exist
-  await fs.ensureDirSync(SOURCE_PATH)
-  await fs.ensureDir(resultFloder)
-
-  return resultFloder
+const ensureDownloadFolder = (folder) => {
+  const resultFolder = path.resolve(__dirname, SOURCE_PATH, folder)
+  ensureFolder(resultFolder)
+  return resultFolder
 }
 
 export const downloadResume = async (url, options = {}) => {
@@ -61,15 +58,15 @@ export const downloadResume = async (url, options = {}) => {
     folder
   } = options
 
-  const resultFloder = await ensureFolder(folder)
-  const filePath = path.resolve(resultFloder, title)
+  const resultFolder = ensureDownloadFolder(folder)
+  const filePath = path.resolve(resultFolder, title)
   const resultPath = `/downloads/${folder}/${title}`
 
   logger.info(`[RESUME:DOWNLOAD:RENDER-PATH] ${filePath}`)
 
   if (fs.existsSync(filePath)) return resultPath
 
-  clearFolder(resultFloder)
+  clearFolder(resultFolder)
   await renderScreenshot(url, filePath)
   return resultPath
 }

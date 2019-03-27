@@ -61,3 +61,11 @@ export const shadowImport = (folder, options) => {
       }
     }, {})
 }
+
+export const ensureFolder = fullpath =>
+  fullpath.split('/').filter(item => item).reduce((list, part) => {
+    list.push(part)
+    const tmpPath = list.join('/')
+    if (!fs.existsSync(tmpPath)) fs.mkdirSync(tmpPath)
+    return list
+  }, ['/'])
