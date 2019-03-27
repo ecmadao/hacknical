@@ -1,9 +1,9 @@
-import { createActions } from 'redux-actions';
-import Push from 'push.js';
-import objectAssign from 'UTILS/object-assign';
-import API from 'API';
-import locales from 'LOCALES';
-import refresher from 'UTILS/refresher';
+import { createActions } from 'redux-actions'
+import Push from 'push.js'
+import objectAssign from 'UTILS/object-assign'
+import API from 'API'
+import locales from 'LOCALES'
+import refresher from 'UTILS/refresher'
 
 const updateMsg = locales('github.message.update');
 
@@ -19,28 +19,28 @@ const {
   'SET_UPDATE_STATUS',
   'INITIAL_RESUME_SHARE_INFO',
   'INITIAL_GITHUB_SHARE_INFO',
-);
+)
 
 // github data update
 const fetchGithubUpdateStatus = () => (dispatch) => {
   API.github.getUpdateStatus().then((result) => {
-    dispatch(setUpdateStatus(result));
-  });
-};
+    dispatch(setUpdateStatus(result))
+  })
+}
 
 const refreshGithubDatas = () => (dispatch) => {
-  dispatch(toggleSettingLoading(true));
+  dispatch(toggleSettingLoading(true))
   API.github.update().then(() => {
     refresher.fire(5000, (result) => {
-      dispatch(setUpdateStatus(result));
+      dispatch(setUpdateStatus(result))
       Push.create(updateMsg.header, {
         body: updateMsg.body,
         icon: '/vendor/images/hacknical-logo-nofity.png',
-        timeout: 3000,
-      });
-    });
-  });
-};
+        timeout: 3000
+      })
+    })
+  })
+}
 
 // github share
 const fetchGithubShareInfo = () => (dispatch) => {
@@ -92,9 +92,9 @@ const postResumeShareStatus = () => (dispatch, getState) => {
 const toggleResumeReminder = enable => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;
 
-  const reminder = objectAssign({}, resumeInfo.reminder, { enable });
+  const reminder = objectAssign({}, resumeInfo.reminder, { enable })
 
-  API.resume.patchResumeReminder(reminder).then(() => {
+  API.resume.patchResumeInfo({ reminder }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       reminder
     })));
@@ -108,7 +108,7 @@ const postResumeReminderChange = (key, value) => (dispatch, getState) => {
 
   const reminder = objectAssign({}, resumeInfo.reminder, { [key]: value });
 
-  API.resume.patchResumeReminder({ [key]: value }).then(() => {
+  API.resume.patchResumeInfo({ reminder }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       reminder
     })));

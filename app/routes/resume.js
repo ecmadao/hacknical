@@ -51,12 +51,6 @@ router.patch(
   check.body('info'),
   Resume.setResumeInfo
 )
-router.patch(
-  '/reminder',
-  check.session(session.requiredSessions),
-  check.body('reminder'),
-  Resume.setResumeReminder
-)
 
 router.get(
   '/shared/public',

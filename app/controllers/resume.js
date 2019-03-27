@@ -1,13 +1,13 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
-import getCacheKey from './helper/cacheKey';
-import * as download from '../services/downloads';
-import dateHelper from '../utils/date';
-import logger from '../utils/logger';
-import NewError from '../utils/error';
-import notify from '../services/notify';
-import network from '../services/network';
-import { formatObject } from '../utils/helper';
+import getCacheKey from './helper/cacheKey'
+import * as download from '../services/downloads'
+import dateHelper from '../utils/date'
+import logger from '../utils/logger'
+import NewError from '../utils/error'
+import notify from '../services/notify'
+import network from '../services/network'
+import { formatObject } from '../utils/helper'
 import Home from './home'
 
 /* ===================== private ===================== */
@@ -21,8 +21,8 @@ const getResumeShareStatus = (resumeInfo, locale) => {
     useGithub,
     resumeHash,
     openShare,
-    simplifyUrl,
-  } = resumeInfo;
+    simplifyUrl
+  } = resumeInfo
 
   return {
     login,
@@ -38,45 +38,45 @@ const getResumeShareStatus = (resumeInfo, locale) => {
     url: simplifyUrl && login
       ? `${login}/resume?locale=${locale}`
       : `resume/${resumeHash}?locale=${locale}`
-  };
-};
+  }
+}
 
 /* ===================== router handler ===================== */
 
 const getResume = async (ctx) => {
-  const { userId } = ctx.session;
-  const data = await network.user.getResume({ userId });
+  const { userId } = ctx.session
+  const data = await network.user.getResume({ userId })
 
   ctx.body = {
     success: true,
-    result: data ? data.resume : null,
-  };
-};
+    result: data ? data.resume : null
+  }
+}
 
 const setResume = async (ctx, next) => {
-  const { resume } = ctx.request.body;
-  const { message } = ctx.query;
-  const { userId, githubLogin } = ctx.session;
+  const { resume } = ctx.request.body
+  const { message } = ctx.query
+  const { userId, githubLogin } = ctx.session
 
-  const targetResume = formatObject(resume);
+  const targetResume = formatObject(resume)
   const result = await network.user.updateResume({
     userId,
     login: githubLogin,
     resume: targetResume
-  });
+  })
 
   if (result.newResume) {
     network.stat.putStat({
       type: 'resume',
       action: 'count'
-    });
+    })
   }
 
   const cacheKey = getCacheKey(ctx);
   ctx.query.deleteKeys = [
     cacheKey(`resume.${result.hash}`)
-  ];
-  logger.info(`[RESUME:UPDATE][${githubLogin}]`);
+  ]
+  logger.info(`[RESUME:UPDATE][${githubLogin}]`)
 
   notify.slack({
     mq: ctx.mq,
@@ -84,52 +84,42 @@ const setResume = async (ctx, next) => {
       type: 'resume',
       data: `Resume create or update by <https://github.com/${githubLogin}|${githubLogin}>`
     }
-  });
+  })
 
   ctx.body = {
     result,
     success: true,
     message: message ? ctx.__('messages.success.save') : null,
-  };
+  }
 
-  await next();
-};
+  await next()
+}
 
 const patchResume = async (ctx, next) => {
-  const { userId, githubLogin } = ctx.session;
-  const getResult = await network.user.getResume({ userId });
-  const resume = Object.assign({}, getResult ? getResult.resume : {});
-  const { data } = ctx.request.body;
-
-  for (const key in data) {
-    const d = data[key];
-    for (const k in d) {
-      if (!resume[key]) resume[key] = {};
-      resume[key][k] = d[k];
-    }
-  }
+  const { userId, githubLogin } = ctx.session
+  const { data } = ctx.request.body
 
   const result = await network.user.updateResume({
     userId,
-    resume,
+    resume: data,
     login: githubLogin,
-  });
+  })
 
-  const cacheKey = getCacheKey(ctx);
+  const cacheKey = getCacheKey(ctx)
   ctx.query.deleteKeys = [
     cacheKey(`resume.${result.hash}`)
-  ];
+  ]
 
   ctx.body = {
     result,
     success: true,
-  };
+  }
 
-  await next();
-};
+  await next()
+}
 
 const downloadResume = async (ctx) => {
-  const { userId, githubLogin, locale } = ctx.session;
+  const { userId, githubLogin, locale } = ctx.session
 
   const [
     result,
@@ -137,18 +127,18 @@ const downloadResume = async (ctx) => {
   ] = await Promise.all([
     network.user.getResumeInfo({ userId }),
     network.user.getResume({ userId })
-  ]);
-  const { template, resumeHash } = result;
+  ])
+  const { template, resumeHash } = result
 
   if (!findResult) {
     throw new NewError.NotfoundError(ctx.__('messages.error.emptyResume'))
   }
 
-  const updateTime = findResult.update_at || findResult.updated_at;
-  const seconds = dateHelper.getSeconds(updateTime);
+  const updateTime = findResult.update_at || findResult.updated_at
+  const seconds = dateHelper.getSeconds(updateTime)
 
   const resumeUrl =
-    `${ctx.request.origin}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true&fromDownload=true`;
+    `${ctx.request.origin}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true&fromDownload=true`
 
   notify.slack({
     mq: ctx.mq,
@@ -156,42 +146,42 @@ const downloadResume = async (ctx) => {
       type: 'download',
       data: `【${githubLogin}:${resumeHash}】`
     }
-  });
+  })
 
-  logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`);
+  logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`)
 
   network.stat.putStat({
     type: 'resume',
     action: 'download'
-  });
+  })
 
-  let resultUrl = '';
+  let resultUrl = ''
   try {
     resultUrl = await download.downloadResume(resumeUrl, {
       folder: githubLogin,
       title: `${template}-${locale}-${seconds}-resume.pdf`
-    });
-    logger.info(`[RESUME:RENDERED][${resultUrl}]`);
+    })
+    logger.info(`[RESUME:RENDERED][${resultUrl}]`)
   } catch (e) {
-    logger.error(`[RESUME:DOWNLOAD:ERROR]${e}`);
+    logger.error(`[RESUME:DOWNLOAD:ERROR]${e}`)
   }
 
   ctx.body = {
     result: resultUrl,
     success: true
-  };
-};
+  }
+}
 
 const renderResumePage = async (ctx) => {
-  const { resumeInfo } = ctx;
-  const { login } = resumeInfo;
-  const { fromDownload } = ctx.query;
-  const user = await network.user.getUser({ login });
+  const { resumeInfo } = ctx
+  const { login } = resumeInfo
+  const { fromDownload } = ctx.query
+  const user = await network.user.getUser({ login })
 
-  const { device } = ctx.state;
-  const { githubLogin } = ctx.session;
-  const isAdmin = login === githubLogin;
-  const { userName, userId } = user;
+  const { device } = ctx.state
+  const { githubLogin } = ctx.session
+  const isAdmin = login === githubLogin
+  const { userName, userId } = user
 
   Home.cacheControl(ctx)
   await ctx.render(`resume/${device}`, {
@@ -226,32 +216,32 @@ const getResumeByHash = async (ctx, next) => {
 }
 
 const getResumeInfo = async (ctx) => {
-  const { hash, userId } = ctx.query;
-  const { locale } = ctx.session;
-  const qs = {};
+  const { hash, userId } = ctx.query
+  const { locale } = ctx.session
+  const qs = {}
   if (hash) {
-    qs.hash = hash;
+    qs.hash = hash
   } else if (userId) {
-    qs.userId = userId;
+    qs.userId = userId
   } else {
-    qs.userId = ctx.session.userId;
+    qs.userId = ctx.session.userId
   }
-  const resumeInfo = await network.user.getResumeInfo(qs);
+  const resumeInfo = await network.user.getResumeInfo(qs)
 
-  let result = null;
+  let result = null
   if (resumeInfo) {
-    result = getResumeShareStatus(resumeInfo, locale);
+    result = getResumeShareStatus(resumeInfo, locale)
   }
   ctx.body = {
     result,
     success: true,
-  };
-};
+  }
+}
 
 const getShareRecords = async (ctx) => {
-  const { userId, githubLogin } = ctx.session;
+  const { userId, githubLogin } = ctx.session
 
-  const resumeInfo = await network.user.getResumeInfo({ userId });
+  const resumeInfo = await network.user.getResumeInfo({ userId })
   if (!resumeInfo) {
     return ctx.body = {
       success: true,
@@ -262,22 +252,22 @@ const getShareRecords = async (ctx) => {
         pageViews: [],
         openShare: false
       }
-    };
+    }
   }
 
   const records = await network.stat.getRecords({
     login: githubLogin,
     type: 'resume'
-  });
+  })
 
-  const viewDevices = [];
-  const viewSources = [];
-  const pageViews = [];
+  const viewDevices = []
+  const viewSources = []
+  const pageViews = []
 
   for (const record of records) {
-    viewDevices.push(...record.viewDevices);
-    viewSources.push(...record.viewSources);
-    pageViews.push(...record.pageViews);
+    viewDevices.push(...record.viewDevices)
+    viewSources.push(...record.viewSources)
+    pageViews.push(...record.pageViews)
   }
   ctx.body = {
     success: true,
@@ -288,40 +278,24 @@ const getShareRecords = async (ctx) => {
       openShare: resumeInfo.openShare,
       url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
     }
-  };
-};
+  }
+}
 
 const setResumeInfo = async (ctx) => {
-  const { info } = ctx.request.body;
-  const { userId, githubLogin } = ctx.session;
+  const { info } = ctx.request.body
+  const { userId, githubLogin } = ctx.session
 
   const result = await network.user.setResumeInfo({
     info,
     userId,
     login: githubLogin
-  });
+  })
 
   ctx.body = {
     result,
     success: true,
-  };
-};
-
-const setResumeReminder = async (ctx) => {
-  const { reminder } = ctx.request.body;
-  const { userId, githubLogin } = ctx.session;
-
-  const result = await network.user.patchResumeReminder({
-    reminder,
-    userId,
-    login: githubLogin
-  });
-
-  ctx.body = {
-    result,
-    success: true,
-  };
-};
+  }
+}
 
 export default {
   // ============
@@ -336,6 +310,5 @@ export default {
   getShareRecords,
   // ============
   getResumeInfo,
-  setResumeInfo,
-  setResumeReminder
-};
+  setResumeInfo
+}

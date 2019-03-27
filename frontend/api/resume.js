@@ -18,7 +18,6 @@ const getResumeInfo = (options = {}) => {
 }
 
 const patchResumeInfo = info => API.patch('/resume/info', { info })
-const patchResumeReminder = reminder => API.patch('/resume/reminder', { reminder })
 
 const getShareRecords = () => API.get('/resume/records')
 
@@ -30,7 +29,6 @@ export default {
   download,
   getPubResume,
   patchResumeInfo,
-  patchResumeReminder,
   getResumeInfo,
   getShareRecords
 }

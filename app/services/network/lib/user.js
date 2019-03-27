@@ -58,16 +58,6 @@ export const setResumeInfo = ({ userId, login, info }) => ({
   url: '/resume/information'
 })
 
-export const patchResumeReminder = ({ userId, login, reminder }) => ({
-  body: {
-    login,
-    userId,
-    reminder
-  },
-  method: 'patch',
-  url: '/resume/reminder'
-})
-
 export const getResumeCount = () => ({
   useCache: true,
   url: '/resume/count'
