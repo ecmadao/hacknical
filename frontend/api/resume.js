@@ -3,7 +3,6 @@ import API from './base'
 
 const getResume = () => API.get('/resume/data')
 const setResume = (resume, ...params) => API.put(`/resume/data?${params.join('&')}`, { resume })
-const patchResume = data => API.patch('/resume/data', { data })
 
 const download = () => API.get('/resume/download')
 
@@ -24,7 +23,6 @@ const getShareRecords = () => API.get('/resume/records')
 export default {
   getResume,
   setResume,
-  patchResume,
   // =================================
   download,
   getPubResume,

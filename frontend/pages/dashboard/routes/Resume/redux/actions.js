@@ -66,14 +66,14 @@ const saveResume = params => (dispatch, getState) => {
 const handleInfoChange = createAction('HANDLE_INFO_CHANGE');
 
 const toggleHireAvailable = hireAvailable => (dispatch) => {
-  API.resume.patchResume({ info: { hireAvailable } }).then(() => {
+  API.resume.setResume({ info: { hireAvailable } }).then(() => {
     dispatch(handleInfoChange({ hireAvailable }));
     dispatch(toggleEdited(false));
   });
 };
 
 const toggleResumeType = freshGraduate => (dispatch) => {
-  API.resume.patchResume({ info: { freshGraduate } }).then(() => {
+  API.resume.setResume({ info: { freshGraduate } }).then(() => {
     dispatch(handleInfoChange({ freshGraduate }));
     dispatch(toggleEdited(false));
   });

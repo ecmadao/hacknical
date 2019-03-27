@@ -21,13 +21,6 @@ router.put(
   Resume.setResume,
   cache.del()
 )
-router.patch(
-  '/data',
-  check.session(session.requiredSessions),
-  check.body('data'),
-  Resume.patchResume,
-  cache.del()
-)
 
 router.get(
   '/download',

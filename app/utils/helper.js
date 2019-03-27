@@ -1,8 +1,4 @@
 
-import pangu from 'pangu'
-
-const { spacing } = pangu
-
 const checkType = (val, result) =>
   Object.prototype.toString.call(val) === result
 
@@ -25,40 +21,6 @@ const sortByX = (key, func = null) =>
 export const sortBy = {
   x: sortByX,
   star: sortByX('stargazers_count', parseInt)
-}
-
-const reValueObject = (object, key) => (value) => { object[key] = value }
-
-const loopObject = (object) => {
-  if (is.object(object)) {
-    for (const key of Object.keys(object)) {
-      const value = object[key]
-      formatString(value, reValueObject(object, key))
-    }
-  }
-
-  if (is.array(object)) {
-    object.forEach((item, index) => {
-      formatString(item, reValueObject(object, index))
-    })
-  }
-}
-
-const formatString = (value, callback = null) => {
-  if (is.string(value)) {
-    const result = spacing(value)
-    if (is.func(callback)) {
-      callback(result)
-    }
-  } else {
-    loopObject(value)
-  }
-}
-
-export const formatObject = (object = {}) => {
-  const result = Object.assign({}, object)
-  formatString(result)
-  return result
 }
 
 /*

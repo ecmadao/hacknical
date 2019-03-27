@@ -7,7 +7,6 @@ import logger from '../utils/logger'
 import NewError from '../utils/error'
 import notify from '../services/notify'
 import network from '../services/network'
-import { formatObject } from '../utils/helper'
 import Home from './home'
 
 /* ===================== private ===================== */
@@ -58,11 +57,10 @@ const setResume = async (ctx, next) => {
   const { message } = ctx.query
   const { userId, githubLogin } = ctx.session
 
-  const targetResume = formatObject(resume)
   const result = await network.user.updateResume({
     userId,
-    login: githubLogin,
-    resume: targetResume
+    resume,
+    login: githubLogin
   })
 
   if (result.newResume) {
@@ -90,29 +88,6 @@ const setResume = async (ctx, next) => {
     result,
     success: true,
     message: message ? ctx.__('messages.success.save') : null,
-  }
-
-  await next()
-}
-
-const patchResume = async (ctx, next) => {
-  const { userId, githubLogin } = ctx.session
-  const { data } = ctx.request.body
-
-  const result = await network.user.updateResume({
-    userId,
-    resume: data,
-    login: githubLogin,
-  })
-
-  const cacheKey = getCacheKey(ctx)
-  ctx.query.deleteKeys = [
-    cacheKey(`resume.${result.hash}`)
-  ]
-
-  ctx.body = {
-    result,
-    success: true,
   }
 
   await next()
@@ -301,7 +276,6 @@ export default {
   // ============
   getResume,
   setResume,
-  patchResume,
   // ============
   renderResumePage,
   getResumeByHash,
