@@ -324,4 +324,4 @@ export default {
   /* ========== */
   getZen,
   getOctocat,
-};
+}

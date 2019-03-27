@@ -74,10 +74,6 @@ Authorization callback URL: http://localhost:4000/user/login/github
   "port": "5002",
   "appKey": "hacknical-github-local",
   "appName": "hacknical-github-local",
-  "redis": "redis://localhost:6379/3",
-  "database": {
-    "url": "mongodb://localhost:27017/hacknical-github"
-  },
   "app": {
     "hacknical-local": {
       "clientId": "将你的 Client ID 填充至此",

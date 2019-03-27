@@ -204,26 +204,26 @@ const renderResumePage = async (ctx) => {
     },
     hideFooter: true,
     title: ctx.__('resumePage.title', userName),
-  });
-};
+  })
+}
 
 const getResumeByHash = async (ctx, next) => {
-  const { hash } = ctx.query;
-  const findResult = await network.user.getResume({ hash });
+  const { hash } = ctx.query
+  const findResult = await network.user.getResume({ hash })
 
-  let result = null;
+  let result = null
   if (findResult) {
-    result = findResult.resume;
-    result.updateAt = findResult.updated_at;
+    result = findResult.resume
+    result.updateAt = findResult.updated_at
   }
 
   ctx.body = {
     result,
     success: true,
-  };
+  }
 
-  await next();
-};
+  await next()
+}
 
 const getResumeInfo = async (ctx) => {
   const { hash, userId } = ctx.query;

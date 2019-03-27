@@ -2,9 +2,6 @@
   "port": "",
   "appKey": "",
   "appName": "hacknical",
-  "database": {
-    "redis": ""
-  },
   "links": {
     "github": "https://github.com/ecmadao/hacknical",
     "issue": "https://github.com/ecmadao/hacknical/issues",

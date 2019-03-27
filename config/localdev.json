@@ -2,13 +2,15 @@
   "port": "4000",
   "appKey": "hacknical-key",
   "appName": "hacknical-local",
-  "database": {
-    "redis": "redis://localhost:6379/3"
-  },
   "qiniu": {
     "BucketName": "hacknical"
   },
   "services": {
+    "redis": {
+      "host": "127.0.0.1",
+      "port": 6379,
+      "db": 1
+    },
     "github": {
       "url": "http://127.0.0.1:5002",
       "timeouts": [4000, 4000, 4000],

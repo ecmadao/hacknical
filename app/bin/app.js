@@ -24,7 +24,6 @@ import platformMiddleware from '../middlewares/platform';
 const port = config.get('port');
 const appKey = config.get('appKey');
 const appName = config.get('appName');
-const redis = config.get('database.redis');
 
 const app = new Koa();
 app.proxy = true;
@@ -69,9 +68,7 @@ const CONFIG = {
 app.use(session(CONFIG, app));
 
 // cache
-app.use(redisMiddleware({
-  url: redis
-}));
+app.use(redisMiddleware());
 // mq
 app.use(mqMiddleware());
 // locale
