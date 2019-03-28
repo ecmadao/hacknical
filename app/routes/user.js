@@ -52,18 +52,14 @@ router.get(
 router.patch(
   '/notifies',
   user.checkIfLogin(),
-  check.body('ids'),
+  check.body('messageIds'),
   User.markNotifies
 )
 router.patch(
-  '/notifies/upvote/:messageId',
+  '/notifies/:messageId',
   user.checkIfLogin(),
-  User.notifyUpvote
-)
-router.patch(
-  '/notifies/downvote/:messageId',
-  user.checkIfLogin(),
-  User.notifyDownvote
+  check.body('vote'),
+  User.voteNotify
 )
 
 module.exports = router

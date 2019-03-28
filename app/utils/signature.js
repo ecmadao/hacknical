@@ -9,6 +9,7 @@ const getSignature = (options) => {
     body = '',
     contentType = ''
   } = options
+
   return crypto.createHmac('sha1', secretKey)
     .update(
       Buffer.from(

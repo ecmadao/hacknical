@@ -8,11 +8,9 @@ const patchUserInfo = info => API.patch('/user/info', { info })
 
 const initialed = () => API.patch('/user/initialed')
 
-const markNotifies = ids => API.patch('/user/notifies', { ids })
+const markNotifies = messageIds => API.patch('/user/notifies', { messageIds })
 const getNotifies = () => API.get('/user/notifies')
-
-const upvote = messageId => API.patch(`/user/notifies/upvote/${messageId}`)
-const downvote = messageId => API.patch(`/user/notifies/downvote/${messageId}`)
+const voteNotify = (messageId, data) => API.patch(`/user/notifies/${messageId}`, data)
 
 export default {
   logout,
@@ -22,6 +20,5 @@ export default {
   // notify
   markNotifies,
   getNotifies,
-  upvote,
-  downvote
+  voteNotify
 }

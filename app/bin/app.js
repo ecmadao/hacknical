@@ -1,39 +1,40 @@
-import Koa from 'koa';
-import path from 'path';
-import koaLogger from 'koa-logger';
-import bodyParser from 'koa-bodyparser';
-import Csrf from 'koa-csrf';
-import cors from '@koa/cors';
-import locales from 'koa-locales';
-import session from 'koa-session';
-import config from 'config';
-import nunjucks from 'nunjucks';
-import views from 'koa-views';
-import userAgent from 'koa-useragent';
-import staticServer from 'koa-static';
 
-import router from '../routes';
-import logger from '../utils/logger';
-import mqMiddleware from '../middlewares/mq';
-import errorMiddleware from '../middlewares/error';
-import localeMiddleware from '../middlewares/locale';
-import assetsMiddleware from '../middlewares/assets';
-import loggerMiddleware from '../middlewares/logger';
-import { redisMiddleware } from '../middlewares/cache';
-import platformMiddleware from '../middlewares/platform';
+import Koa from 'koa'
+import path from 'path'
+import koaLogger from 'koa-logger'
+import bodyParser from 'koa-bodyparser'
+import Csrf from 'koa-csrf'
+import cors from '@koa/cors'
+import locales from 'koa-locales'
+import session from 'koa-session'
+import config from 'config'
+import nunjucks from 'nunjucks'
+import views from 'koa-views'
+import userAgent from 'koa-useragent'
+import staticServer from 'koa-static'
 
-const port = config.get('port');
-const appKey = config.get('appKey');
-const appName = config.get('appName');
+import router from '../routes'
+import logger from '../utils/logger'
+import mqMiddleware from '../middlewares/mq'
+import errorMiddleware from '../middlewares/error'
+import localeMiddleware from '../middlewares/locale'
+import assetsMiddleware from '../middlewares/assets'
+import loggerMiddleware from '../middlewares/logger'
+import { redisMiddleware } from '../middlewares/cache'
+import platformMiddleware from '../middlewares/platform'
 
-const app = new Koa();
-app.proxy = true;
-app.keys = [appKey];
+const port = config.get('port')
+const appKey = config.get('appKey')
+const appName = config.get('appName')
+
+const app = new Koa()
+app.proxy = true
+app.keys = [appKey]
 
 // koa logger
-app.use(koaLogger());
+app.use(koaLogger())
 
-app.use(cors());
+app.use(cors())
 
 // bodyparser
 app.use(bodyParser({
@@ -43,8 +44,8 @@ app.use(bodyParser({
 }))
 
 // user-agent
-app.use(userAgent);
-app.use(platformMiddleware());
+app.use(userAgent)
+app.use(platformMiddleware())
 app.use(loggerMiddleware())
 
 const options = {
@@ -55,8 +56,8 @@ const options = {
     fr: 'fr-FR',
     zh: 'zh-CN'
   }
-};
-locales(app, options);
+}
+locales(app, options)
 
 
 // session
@@ -67,19 +68,19 @@ const CONFIG = {
   httpOnly: true, /** (boolean) httpOnly or not (default true) */
   signed: true, /** (boolean) signed or not (default true) */
   renew: true, /** (boolean) renew session when session is nearly expired */
-};
-app.use(session(CONFIG, app));
+}
+app.use(session(CONFIG, app))
 
 // cache
-app.use(redisMiddleware());
+app.use(redisMiddleware())
 // mq
-app.use(mqMiddleware());
+app.use(mqMiddleware())
 // locale
-app.use(localeMiddleware());
+app.use(localeMiddleware())
 // catch error
-app.use(errorMiddleware());
+app.use(errorMiddleware())
 // csrf
-app.use(new Csrf());
+app.use(new Csrf())
 // helper func
 app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
@@ -90,13 +91,13 @@ app.use(async (ctx, next) => {
       about: ctx.__('dashboard.about'),
       feedback: ctx.__('dashboard.feedback'),
       code: ctx.__('dashboard.code'),
-    },
-  });
-  await next();
-});
+    }
+  })
+  await next()
+})
 
 // 配置nunjucks模板文件所在的路径，否则模板继承时无法使用相对路径
-nunjucks.configure(path.join(__dirname, '../templates'), { autoescape: true });
+nunjucks.configure(path.join(__dirname, '../templates'), { autoescape: true })
 // frontend static file
 app.use(staticServer(
   path.join(__dirname, '../../public'),
@@ -104,15 +105,15 @@ app.use(staticServer(
     gzip: true,
     maxage: 1 * 60 * 1000 // 1s
   }
-));
+))
 // views with nunjucks
 app.use(views(path.join(__dirname, '../templates'), {
   map: {
     html: 'nunjucks'
   }
-}));
+}))
 // router
-app.use(router.routes(), router.allowedMethods());
+app.use(router.routes(), router.allowedMethods())
 
 const init = async () => {
   try {

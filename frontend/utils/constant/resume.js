@@ -1,3 +1,4 @@
+
 import locales from 'LOCALES'
 
 const resumeTexts = locales('resume')
@@ -13,16 +14,16 @@ const RESUME_SECTION_IDS = {
   WORK_EXPERIENCE: 'workExperiences',
   PERSONAL_PROJECTS: 'personalProjects',
   ADD_NEW: 'addNew'
-};
+}
 
 const REMINDER_CRON_TYPES = {
   DAYS3: 'days3',
   WEEKLY: 'weekly',
   MONTHLY: 'monthly',
   QUARTERLY: 'quarterly',
-};
+}
 
-export const REMINDER_PREFIX = reminderTexts.prefix;
+export const REMINDER_PREFIX = reminderTexts.prefix
 
 export const REMINDER_INTERVALS = [
   {
@@ -41,7 +42,7 @@ export const REMINDER_INTERVALS = [
     id: REMINDER_CRON_TYPES.DAYS3,
     value: reminderTexts.days3
   },
-];
+]
 
 export const RESUME_SECTIONS = {
   normal: [
@@ -88,7 +89,7 @@ export const RESUME_SECTIONS = {
       text: navTexts.others
     }
   ]
-};
+}
 
 export const GENDERS = [
   {
@@ -99,7 +100,7 @@ export const GENDERS = [
     id: 'female',
     value: genderTexts.female
   }
-];
+]
 
 export const EDUCATIONS = [
   {
@@ -130,7 +131,7 @@ export const EDUCATIONS = [
     id: '其他',
     value: eduTexts.others
   }
-];
+]
 
 export const SOCIAL_LINKS = [
   {
@@ -175,7 +176,8 @@ export const SOCIAL_LINKS = [
     icon: 'codewars.png',
     url: ''
   }
-];
+]
+
 export const LINK_NAMES = {
   github: 'GitHub',
   segmentfault: 'Segmentfault',
@@ -184,7 +186,7 @@ export const LINK_NAMES = {
   xitu: '稀土掘金',
   leetcode: 'LeetCode',
   codewars: 'Codewars',
-};
+}
 
 export const INFO = {
   name: '',
@@ -196,7 +198,7 @@ export const INFO = {
   intention: '',
   hireAvailable: false,
   freshGraduate: false,
-};
+}
 
 export const EDU = {
   school: '',
@@ -205,7 +207,7 @@ export const EDU = {
   startTime: '',
   endTime: '',
   experiences: [],
-};
+}
 
 export const WORK_EXPERIENCE = {
   company: '',
@@ -214,26 +216,26 @@ export const WORK_EXPERIENCE = {
   endTime: '',
   position: '',
   projects: []
-};
+}
 
 export const WORK_PROJECT = {
   name: '',
   url: '',
   details: []
-};
+}
 
 export const PERSONAL_PROJECT = {
   url: '',
   desc: '',
   title: '',
   techs: []
-};
+}
 
 export const CUSTOM_SECTION = {
   title: '',
   url: '',
   details: [],
-};
+}
 
 export const OTHERS = {
   expectLocation: '',
@@ -242,4 +244,4 @@ export const OTHERS = {
   dream: '',
   supplements: [],
   socialLinks: [...SOCIAL_LINKS]
-};
+}

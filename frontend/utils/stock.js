@@ -2,7 +2,7 @@
 import dateHelper from 'UTILS/date'
 import objectAssign from 'UTILS/object-assign'
 
-const byDateSeconds = dateHelper.date.bySeconds;
+const byDateSeconds = dateHelper.date.bySeconds
 
 const BASE_STOCK_CONFIG = {
   credits: { enabled: false },
@@ -33,7 +33,7 @@ const BASE_STOCK_CONFIG = {
     xAxis: {
       labels: {
         formatter() {
-          return byDateSeconds(this.value);
+          return byDateSeconds(this.value)
         }
       }
     },
@@ -66,7 +66,7 @@ const BASE_STOCK_CONFIG = {
     labels: {
       autoRotation: true,
       formatter() {
-        return byDateSeconds(this.value);
+        return byDateSeconds(this.value)
       }
     },
     lineWidth: 0,
@@ -76,7 +76,7 @@ const BASE_STOCK_CONFIG = {
   }],
   yAxis: [],
   series: []
-};
+}
 
 const PV_STOCK_CONFIG = {
   plotOptions: {
@@ -117,7 +117,7 @@ const PV_STOCK_CONFIG = {
       borderRadiusTopRight: 4,
     },
   ]
-};
+}
 
 const COMMITS_STOCK_CONFIG = {
   plotOptions: {
@@ -156,77 +156,77 @@ const COMMITS_STOCK_CONFIG = {
       showInNavigator: true,
       borderRadiusTopLeft: 4,
       borderRadiusTopRight: 4,
-    },
+    }
   ]
-};
+}
 
 const getTooltipFormatter = (dateFormat, name) => function formatter() {
-  const date = byDateSeconds(this.x, dateFormat);
-  const val = this.points[0].y;
+  const date = byDateSeconds(this.x, dateFormat)
+  const val = this.points[0].y
   return `
     <div style="color: white;">
       ${date}<br/>
       <div style="color: white;">${name}: ${val}</div>
     </div>
-  `;
-};
+  `
+}
 
 const getLabelFormatter = (dateFormat = 'YYYY/MM/DD') => function formatter() {
-  return byDateSeconds(this.value, dateFormat);
-};
+  return byDateSeconds(this.value, dateFormat)
+}
 
 export const getPVStockConfig = (options) => {
   const {
     pageViews,
     dateFormat
-  } = options;
+  } = options
 
   const seriesData = pageViews.map((pageView) => {
-    const { count, seconds } = pageView;
-    return [seconds, count];
-  });
+    const { count, seconds } = pageView
+    return [seconds, count]
+  })
 
   const config = objectAssign(
     {},
     BASE_STOCK_CONFIG,
     PV_STOCK_CONFIG
-  );
-  config.series[0].data = seriesData;
-  config.xAxis[0].labels.formatter = getLabelFormatter();
+  )
+  config.series[0].data = seriesData
+  config.xAxis[0].labels.formatter = getLabelFormatter()
   if (pageViews.length) {
-    const timestampTo = pageViews[pageViews.length - 1].seconds;
-    config.xAxis[0].max = timestampTo;
-    config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60);
+    const timestampTo = pageViews[pageViews.length - 1].seconds
+    config.xAxis[0].max = timestampTo
+    config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60)
   }
-  config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Page view');
-  return config;
-};
+  config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Page view')
+  return config
+}
 
 export const getCommitsStockConfig = (options) => {
   const {
     dateFormat,
-    commitsDates,
-  } = options;
+    commitsDates
+  } = options
 
-  commitsDates.sort((pre, next) => pre.seconds - next.seconds);
+  commitsDates.sort((pre, next) => pre.seconds - next.seconds)
   const seriesData = commitsDates.map((item) => {
-    const { commits, seconds } = item;
-    return [seconds, commits];
-  });
+    const { commits, seconds } = item
+    return [seconds, commits]
+  })
 
   const config = objectAssign(
     {},
     BASE_STOCK_CONFIG,
     COMMITS_STOCK_CONFIG
-  );
-  config.series[0].data = seriesData;
-  config.xAxis[0].labels.formatter = getLabelFormatter();
+  )
+  config.series[0].data = seriesData
+  config.xAxis[0].labels.formatter = getLabelFormatter()
 
   if (commitsDates.length) {
-    const timestampTo = commitsDates[commitsDates.length - 1].seconds;
-    config.xAxis[0].max = timestampTo;
-    config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60);
+    const timestampTo = commitsDates[commitsDates.length - 1].seconds
+    config.xAxis[0].max = timestampTo
+    config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60)
   }
-  config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Commits');
-  return config;
-};
+  config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Commits')
+  return config
+}

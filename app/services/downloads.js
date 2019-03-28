@@ -1,8 +1,8 @@
 
-import phantom from 'phantom'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 import config from 'config'
+import phantom from 'phantom'
 import logger from '../utils/logger'
 import { ensureFolder } from '../utils/files'
 

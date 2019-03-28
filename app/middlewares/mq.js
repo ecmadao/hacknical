@@ -1,15 +1,15 @@
 
-import config from 'config';
-import MessageQueue from '../utils/mq';
+import config from 'config'
+import MessageQueue from '../utils/mq'
 
-const qname = config.get('mq.qname');
+const qname = config.get('mq.qname')
 
 const mqMiddleware = () => {
-  const mq = new MessageQueue(qname);
+  const mq = new MessageQueue(qname)
   return async (ctx, next) => {
-    ctx.mq = mq;
-    await next();
-  };
-};
+    ctx.mq = mq
+    await next()
+  }
+}
 
-export default mqMiddleware;
+export default mqMiddleware

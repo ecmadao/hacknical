@@ -41,20 +41,14 @@ export const getUnreadNotifies = (userId, locale) => ({
   url: `/notify/${userId}`
 })
 
-export const markNotifies = (userId, ids) => ({
+export const markNotifies = (userId, messageIds) => ({
   method: 'put',
-  body: { ids },
+  body: { messageIds },
   url: `/notify/${userId}`
 })
 
-export const notifyUpvote = (userId, messageId) => ({
+export const voteNotify = (userId, body) => ({
+  body,
   method: 'patch',
-  body: { messageId },
-  url: `/notify/upvote/${userId}`
-})
-
-export const notifyDownvote = (userId, messageId) => ({
-  method: 'patch',
-  body: { messageId },
-  url: `/notify/downvote/${userId}`
+  url: `/notify/${userId}`
 })

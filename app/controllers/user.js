@@ -128,35 +128,36 @@ const getUnreadNotifies = async (ctx) => {
 
 const markNotifies = async (ctx) => {
   const { userId } = ctx.session
-  const { ids } = ctx.request.body
+  const { messageIds } = ctx.request.body
 
-  await network.stat.markNotifies(userId, ids)
+  await network.stat.markNotifies(userId, messageIds)
   ctx.body = {
     success: true
   }
 }
 
-const vote = async (ctx, func, type) => {
+const voteNotify = async (ctx) => {
   const { userId, githubLogin } = ctx.session
   const { messageId } = ctx.params
+
+  const { vote } = ctx.request.body
+  let mark = parseInt(vote, 10)
+  if (Number.isNaN(mark)) mark = 0
+
+  const type = mark ? 'Upvote' : 'Downvote'
+
   notify.slack({
     mq: ctx.mq,
     data: {
       data: `${type.toUpperCase()} ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`
     }
-  });
-  await func(userId, messageId)
-}
+  })
 
-const notifyUpvote = async (ctx) => {
-  await vote(ctx, network.stat.notifyUpvote, 'Upvote')
-  ctx.body = {
-    success: true
-  }
-}
+  await network.stat.voteNotify(userId, {
+    messageId,
+    vote: mark
+  })
 
-const notifyDownvote = async (ctx) => {
-  await vote(ctx, network.stat.notifyDownvote, 'Downvote')
   ctx.body = {
     success: true
   }
@@ -172,7 +173,6 @@ export default {
   initialFinished,
   // notify
   markNotifies,
-  notifyUpvote,
-  notifyDownvote,
+  voteNotify,
   getUnreadNotifies,
 };

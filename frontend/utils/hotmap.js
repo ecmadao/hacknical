@@ -3,9 +3,9 @@ import objectAssign from 'UTILS/object-assign'
 import dateHelper from 'UTILS/date'
 
 const formatHotmap = (hotmap) => {
-  const now = dateHelper.validator.fullDate();
-  const { datas } = hotmap;
-  const result = {};
+  const now = dateHelper.validator.fullDate()
+  const { datas } = hotmap
+  const result = {}
   const streak = {
     longest: {
       count: 0,
@@ -26,7 +26,7 @@ const formatHotmap = (hotmap) => {
       start: null,
       end: null,
     },
-  };
+  }
   const levelRange = {
     0: {
       sum: 0,
@@ -36,75 +36,75 @@ const formatHotmap = (hotmap) => {
     2: null,
     3: null,
     4: null,
-  };
-  let total = 0;
-  let start = null;
-  let end = null;
+  }
+  let total = 0
+  let start = null
+  let end = null
   let weekTmp = {
     count: 0,
     start: null,
     end: null,
-  };
-  const tmp = new Set();
+  }
+  const tmp = new Set()
 
   for (let i = 0; i < datas.length; i += 1) {
-    const item = datas[i];
-    const { data, date, level } = item;
-    if (tmp.has(date)) continue;
-    tmp.add(date);
-    result[new Date(date).getTime() / 1000] = data;
+    const item = datas[i]
+    const { data, date, level } = item
+    if (tmp.has(date)) continue
+    tmp.add(date)
+    result[new Date(date).getTime() / 1000] = data
 
     if (!streak.daily.date || data > streak.daily.count) {
       streak.daily = {
         date,
-        count: data,
-      };
+        count: data
+      }
     }
 
-    const dayOfWeek = dateHelper.date.dayOfWeek(date);
+    const dayOfWeek = dateHelper.date.dayOfWeek(date)
     if (dayOfWeek === '0') {
       if (weekTmp.count > streak.weekly.count) {
-        streak.weekly = objectAssign({}, weekTmp);
+        streak.weekly = objectAssign({}, weekTmp)
       }
       weekTmp = {
         count: 0,
         start: null,
-        end: null,
-      };
+        end: null
+      }
     }
-    weekTmp.count += data;
-    if (!weekTmp.start) weekTmp.start = date;
-    weekTmp.end = date;
+    weekTmp.count += data
+    if (!weekTmp.start) weekTmp.start = date
+    weekTmp.end = date
 
     if (level !== 0) {
       if (levelRange[level] === null) {
         levelRange[level] = {
           sum: 0,
           count: 0,
-        };
+        }
       }
-      levelRange[level].sum += data;
-      levelRange[level].count += 1;
+      levelRange[level].sum += data
+      levelRange[level].count += 1
     }
 
     if (date <= now) {
       if (data === 0) {
         if (streak.longest.count < streak.current.count) {
-          streak.longest = objectAssign({}, streak.current);
+          streak.longest = objectAssign({}, streak.current)
         }
-        streak.current.count = 0;
+        streak.current.count = 0
       } else {
-        streak.current.count += 1;
+        streak.current.count += 1
       }
-      if (!streak.current.start) streak.current.start = date;
-      streak.current.end = date;
+      if (!streak.current.start) streak.current.start = date
+      streak.current.end = date
     }
-    if (i === 0) start = date;
-    end = date;
-    total += data;
+    if (i === 0) start = date
+    end = date
+    total += data
   }
   if (streak.longest.count < streak.current.count) {
-    streak.longest = objectAssign({}, streak.current);
+    streak.longest = objectAssign({}, streak.current)
   }
   return {
     end,
@@ -115,7 +115,7 @@ const formatHotmap = (hotmap) => {
     levelRanges: Object.keys(levelRange)
       .filter(l => levelRange[l] !== null)
       .map(l => Math.ceil(levelRange[l].sum / levelRange[l].count)),
-  };
-};
+  }
+}
 
-export default formatHotmap;
+export default formatHotmap

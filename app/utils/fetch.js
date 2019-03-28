@@ -75,7 +75,7 @@ const fetch = async (options, timeouts = [2000]) => {
 }
 
 const handler = {
-  get: (target, method) => {
+  get: (_, method) => {
     return (...args) => {
       const [options, timeouts] = args
       options.method = method.toUpperCase()

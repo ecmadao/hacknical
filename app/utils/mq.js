@@ -21,17 +21,6 @@ class MessageQueue {
     this.qname = qname
   }
 
-  async createMQBatch() {
-    logger.info(`[MQ:CREATE][${this.qname}]`)
-    try {
-      await MNS.createP(this.qname)
-    } catch (e) {
-      logger.debug(e)
-    } finally {
-      this.mqBatch = new AliMNS.MQBatch(this.qname, ACCOUNT, REGION)
-    }
-  }
-
   async createMQ() {
     logger.info(`[MQ:CREATE][${this.qname}]`)
     try {

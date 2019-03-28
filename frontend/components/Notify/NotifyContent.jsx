@@ -19,8 +19,8 @@ const getEmoji = () => {
 const emoji = getEmoji()
 const notifyLocales = locales('datas.notify')
 const getFullDate = dateHelper.validator.fullDate
-const upvote = throttle(API.user.upvote)()
-const downvote = throttle(API.user.downvote)()
+const upvote = throttle(id => API.user.voteNotify(id, { vote: 1 }))()
+const downvote = throttle(id => API.user.voteNotify(id, { vote: 0 }))()
 
 const getHeadline = date =>
   notifyLocales.headline.replace('%s', getFullDate(date))
