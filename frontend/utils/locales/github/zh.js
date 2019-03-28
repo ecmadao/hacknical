@@ -136,10 +136,10 @@ const datas = {
   operations: {
     share: {
       show: '在分享中展示',
-      hide: '不在分享中展示',
+      hide: '在分享中隐藏',
       enable: '戳我即可在分享中展示'
     }
   }
-};
+}
 
-export default datas;
+export default datas

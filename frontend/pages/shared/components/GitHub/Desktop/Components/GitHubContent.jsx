@@ -21,8 +21,9 @@ class GitHubContent extends React.Component {
     this.state = {
       sections: {},
       openShareModal: false
-    };
-    this.toggleShareModal = this.toggleShareModal.bind(this);
+    }
+    this.toggleShareModal = this.toggleShareModal.bind(this)
+    this.changeGithubSection = this.changeGithubSection.bind(this)
   }
 
   componentDidUpdate(preProps) {
@@ -43,9 +44,9 @@ class GitHubContent extends React.Component {
   }
 
   async changeGithubSection(sections) {
-    const githubSections = objectAssign({}, this.state.sections, sections);
-    await API.user.setUserInfo({ githubSections });
-    this.setState({ sections: githubSections });
+    const githubSections = objectAssign({}, this.state.sections, sections)
+    await API.user.patchUserInfo({ githubSections })
+    this.setState({ sections: githubSections })
   }
 
   disabledSection(section) {

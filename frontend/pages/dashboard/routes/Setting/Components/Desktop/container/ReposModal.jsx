@@ -57,7 +57,7 @@ class ReposModal extends React.Component {
   onSubmit() {
     const { pinned } = this.state;
     const { onClose } = this.props;
-    API.user.setUserInfo({ pinnedRepos: pinned });
+    API.user.patchUserInfo({ pinnedRepos: pinned });
     this.changeState({
       rawPinned: [...pinned]
     });

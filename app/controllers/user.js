@@ -106,85 +106,71 @@ const getUserInfo = async (ctx) => {
   };
 };
 
-const setUserInfo = async (ctx) => {
+const patchUserInfo = async (ctx) => {
   const { userId } = ctx.session;
   const { info } = ctx.request.body;
 
   await network.user.updateUser(userId, info);
   ctx.body = {
     success: true
-  };
-};
+  }
+}
 
 const getUnreadNotifies = async (ctx) => {
-  const { userId, locale } = ctx.session;
+  const { userId, locale } = ctx.session
 
-  const datas = await network.stat.getUnreadNotifies(userId, locale);
+  const datas = await network.stat.getUnreadNotifies(userId, locale)
   ctx.body = {
     result: datas,
     success: true
-  };
-};
-
-const getNotifies = async (ctx) => {
-  const { locale } = ctx.session;
-  const datas = await network.stat.getNotifies(locale);
-  ctx.body = {
-    result: datas,
-    success: true
-  };
-};
+  }
+}
 
 const markNotifies = async (ctx) => {
-  const { userId } = ctx.session;
-  const { ids } = ctx.request.body;
+  const { userId } = ctx.session
+  const { ids } = ctx.request.body
 
-  await network.stat.markNotifies(userId, ids);
+  await network.stat.markNotifies(userId, ids)
   ctx.body = {
     success: true
-  };
-};
+  }
+}
+
+const vote = async (ctx, func, type) => {
+  const { userId, githubLogin } = ctx.session
+  const { messageId } = ctx.params
+  notify.slack({
+    mq: ctx.mq,
+    data: {
+      data: `${type.toUpperCase()} ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`
+    }
+  });
+  await func(userId, messageId)
+}
 
 const notifyUpvote = async (ctx) => {
-  const { userId, githubLogin } = ctx.session;
-  const { messageId } = ctx.params;
-  notify.slack({
-    mq: ctx.mq,
-    data: {
-      data: `Upvote ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`
-    }
-  });
-  await network.stat.notifyUpvote(userId, messageId);
+  await vote(ctx, network.stat.notifyUpvote, 'Upvote')
   ctx.body = {
     success: true
-  };
-};
+  }
+}
 
 const notifyDownvote = async (ctx) => {
-  const { userId, githubLogin } = ctx.session;
-  const { messageId } = ctx.params;
-  notify.slack({
-    mq: ctx.mq,
-    data: {
-      data: `Downvote ${messageId} by <https://github.com/${githubLogin}|${githubLogin}>`
-    }
-  });
-  await network.stat.notifyDownvote(userId, messageId);
+  await vote(ctx, network.stat.notifyDownvote, 'Downvote')
   ctx.body = {
     success: true
-  };
-};
+  }
+}
 
 export default {
   // user
   logout,
   clearCache,
   getUserInfo,
-  setUserInfo,
+  patchUserInfo,
   loginByGitHub,
   initialFinished,
   // notify
-  getNotifies,
   markNotifies,
   notifyUpvote,
   notifyDownvote,

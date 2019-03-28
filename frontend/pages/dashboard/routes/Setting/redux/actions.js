@@ -50,20 +50,20 @@ const fetchGithubShareInfo = () => (dispatch) => {
 };
 
 const postGithubShareStatus = () => (dispatch, getState) => {
-  const { openShare } = getState().setting.githubInfo;
-  API.github.toggleShare(!openShare).then(() => {
+  const { openShare } = getState().setting.githubInfo
+  API.user.patchUserInfo({ githubShare: !openShare }).then(() => {
     dispatch(initialGithubShareInfo({
       openShare: !openShare
-    }));
-  });
-};
+    }))
+  })
+}
 
 // resume
 const fetchResumeShareInfo = () => (dispatch) => {
   API.resume.getResumeInfo().then((result) => {
     dispatch(initialResumeShareInfo(result));
-  });
-};
+  })
+}
 
 const postResumeGithubStatus = () => (dispatch, getState) => {
   const { resumeInfo } = getState().setting;

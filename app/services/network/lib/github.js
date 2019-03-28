@@ -65,7 +65,7 @@ export const getUserOrganizations = (login, token) => ({
 })
 
 export const getUpdateStatus = login => ({
-  url: `/github/${login}/update/status`
+  url: `/github/${login}/update`
 })
 
 export const updateUserData = (login, token) => ({

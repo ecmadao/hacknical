@@ -218,10 +218,11 @@ class GitHubWrapper extends React.Component {
     }
   }
 
+
   async changeShareStatus() {
     const { user } = this.state
     const { openShare } = user
-    await API.github.toggleShare(!openShare)
+    await API.user.patchUserInfo({ githubShare: !openShare })
     this.toggleShare(!openShare)
   }
 

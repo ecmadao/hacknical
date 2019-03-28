@@ -12,14 +12,11 @@ const getOrganizations = login => API.get(`/github/${login}/organizations`)
 const getUser = login => API.get(`/github/${login}/info`)
 const getUserHotmap = login => API.get(`/github/${login}/hotmap`)
 
-/* toggle user github share */
-const toggleShare = enable => API.patch('/github/share/status', { enable })
-
 /* get github share records */
-const getShareRecords = () => API.get('/github/share/records')
+const getShareRecords = () => API.get('/github/records')
 
 const update = () => API.put('/github/update')
-const getUpdateStatus = () => API.get('/github/update/status')
+const getUpdateStatus = () => API.get('/github/update')
 
 const zen = () => API.get('/github/zen')
 const octocat = () => API.get('/github/octocat')
@@ -40,6 +37,5 @@ export default {
   update,
   getUpdateStatus,
   // share status
-  toggleShare,
   getShareRecords
 }

@@ -36,7 +36,7 @@ router.get(
 router.patch(
   '/info',
   check.body('info'),
-  User.setUserInfo
+  User.patchUserInfo
 )
 
 router.get(
@@ -45,20 +45,15 @@ router.get(
 )
 
 router.get(
-  '/notifies/all',
+  '/notifies',
   user.checkIfLogin(),
-  User.getNotifies
+  User.getUnreadNotifies
 )
-router.put(
-  '/notifies/read',
+router.patch(
+  '/notifies',
   user.checkIfLogin(),
   check.body('ids'),
   User.markNotifies
-)
-router.get(
-  '/notifies/unread',
-  user.checkIfLogin(),
-  User.getUnreadNotifies
 )
 router.patch(
   '/notifies/upvote/:messageId',

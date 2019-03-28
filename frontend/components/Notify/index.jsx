@@ -14,7 +14,7 @@ class Notify extends React.Component {
 
   componentDidMount() {
     setTimeout(() => {
-      API.user.getUnreadNotifies().then((messages) => {
+      API.user.getNotifies().then((messages) => {
         this.setState({ messages })
       })
     }, 2500)

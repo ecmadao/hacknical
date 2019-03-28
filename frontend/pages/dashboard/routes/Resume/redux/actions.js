@@ -188,8 +188,8 @@ const postShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().resume.shareInfo;
   API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
     dispatch(setPubResumeStatus(!openShare));
-  });
-};
+  })
+}
 
 // resume template
 const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');

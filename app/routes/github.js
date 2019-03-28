@@ -3,7 +3,6 @@ import koaRouter from 'koa-router'
 import GitHub from '../controllers/github'
 import user from '../controllers/helper/user'
 import cache from '../controllers/helper/cache'
-import check from '../controllers/helper/check'
 import share from '../controllers/helper/share'
 
 const router = koaRouter({
@@ -20,19 +19,8 @@ router.get(
   GitHub.getOctocat
 )
 
-// repos
 router.get(
-  '/repositories/all',
-  user.checkIfLogin(),
-  cache.get('allRepositories', {
-    keys: ['session.githubLogin']
-  }),
-  GitHub.getAllRepositories,
-  cache.set()
-)
-
-router.get(
-  '/share/records',
+  '/records',
   user.checkIfLogin(),
   GitHub.getShareRecords
 )
@@ -44,16 +32,20 @@ router.put(
   GitHub.updateUserData
 )
 router.get(
-  '/update/status',
+  '/update',
   user.checkIfLogin(),
   GitHub.getUpdateStatus
 )
 
-router.patch(
-  '/share/status',
+// repos
+router.get(
+  '/repositories/all',
   user.checkIfLogin(),
-  check.body('enable'),
-  GitHub.toggleShare
+  cache.get('allRepositories', {
+    keys: ['session.githubLogin']
+  }),
+  GitHub.getAllRepositories,
+  cache.set()
 )
 
 // share page's datas
