@@ -65,7 +65,9 @@ const fetchApi = (url, method, data) => {
       return json.result || null
     }).catch((e) => {
       NProgress.done()
-      throw new Error(`[Request Parsing Error] ${url} - ${JSON.stringify(options)}`, e.stack || e)
+      console.error(
+        `[Request Parsing Error] ${url} - ${JSON.stringify(options)} - ${e.message} - ${e.stack}`
+      )
     })
 }
 

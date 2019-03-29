@@ -1,8 +1,9 @@
-import { createAction, createActions } from 'redux-actions';
-import objectAssign from 'UTILS/object-assign';
-import API from 'API';
-import { wrapper } from './wrapper';
-// import { throttle } from 'UTILS/helper';
+
+import { createAction, createActions } from 'redux-actions'
+import objectAssign from 'UTILS/object-assign'
+import API from 'API'
+import { wrapper } from './wrapper'
+import { throttle } from 'UTILS/helper'
 
 /**
  * initial
@@ -40,18 +41,18 @@ const saveResume = params => (dispatch, getState) => {
   const { posting, others } = resume;
   const { socialLinks } = others;
 
-  if (posting) return;
-  dispatch(togglePosting(true));
+  if (posting) return
+  dispatch(togglePosting(true))
 
   const postResume = objectAssign({}, resume, {
     others: objectAssign({}, others, {
       socialLinks: socialLinks.filter(item => item.url && (item.text || item.name))
     })
-  });
-  delete postResume.loading;
-  delete postResume.posting;
-  delete postResume.edited;
-  delete postResume.shareInfo;
+  })
+  delete postResume.loading
+  delete postResume.posting
+  delete postResume.edited
+  delete postResume.shareInfo
 
   API.resume.setResume(postResume, params).then((result) => {
     result && dispatch(initialPubResumeStatus(result))
@@ -63,7 +64,7 @@ const saveResume = params => (dispatch, getState) => {
 /**
  * info
  */
-const handleInfoChange = createAction('HANDLE_INFO_CHANGE');
+const handleInfoChange = createAction('HANDLE_INFO_CHANGE')
 
 /**
  * Education
@@ -201,7 +202,7 @@ const postShareTemplate = template => (dispatch, getState) => {
   }
 };
 
-// const saveResumeObserver = throttle(saveResume);
+const saveResumeObserver = throttle(saveResume, { delay: 13000 })
 
 const handleResumeChange = action => wrapper({
   action,
@@ -209,7 +210,7 @@ const handleResumeChange = action => wrapper({
     dispatch => dispatch(toggleEdited(true))
   ],
   after: [
-    // dispatch => saveResumeObserver(dispatch)(),
+    dispatch => saveResumeObserver(dispatch)(),
   ]
 })
 
@@ -276,7 +277,7 @@ export default objectAssign(
     addModuleSection,
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
-    dict[name] = handleResumeChange(resumeEditActions[name]);
-    return dict;
+    dict[name] = handleResumeChange(resumeEditActions[name])
+    return dict
   }, {})
 )
