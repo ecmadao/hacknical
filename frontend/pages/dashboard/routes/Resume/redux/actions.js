@@ -2,7 +2,7 @@ import { createAction, createActions } from 'redux-actions';
 import objectAssign from 'UTILS/object-assign';
 import API from 'API';
 import { wrapper } from './wrapper';
-import { throttle } from 'UTILS/helper';
+// import { throttle } from 'UTILS/helper';
 
 /**
  * initial
@@ -28,12 +28,12 @@ const {
 const fetchResume = () => (dispatch) => {
   API.resume.getResume().then((result) => {
     if (result) {
-      dispatch(initialResume(result));
+      dispatch(initialResume(result))
     } else {
-      dispatch(toggleLoading(false));
+      dispatch(toggleLoading(false))
     }
-  });
-};
+  })
+}
 
 const saveResume = params => (dispatch, getState) => {
   const { resume } = getState();
@@ -201,7 +201,7 @@ const postShareTemplate = template => (dispatch, getState) => {
   }
 };
 
-const saveResumeObserver = throttle(saveResume);
+// const saveResumeObserver = throttle(saveResume);
 
 const handleResumeChange = action => wrapper({
   action,
@@ -209,9 +209,9 @@ const handleResumeChange = action => wrapper({
     dispatch => dispatch(toggleEdited(true))
   ],
   after: [
-    dispatch => saveResumeObserver(dispatch)(),
+    // dispatch => saveResumeObserver(dispatch)(),
   ]
-});
+})
 
 const resumeEditActions = {
   // info
@@ -242,8 +242,7 @@ const resumeEditActions = {
   changeModuleSection,
   deleteModuleSection,
   removeCustomModule,
-};
-
+}
 
 export default objectAssign(
   {
@@ -280,4 +279,4 @@ export default objectAssign(
     dict[name] = handleResumeChange(resumeEditActions[name]);
     return dict;
   }, {})
-);
+)

@@ -16,6 +16,7 @@ class Wrapper extends React.Component {
       saveResume,
       handlePreview,
       downloadResume,
+      saveDisabled,
       downloadDisabled,
       onTransitionEnd,
       handleShareModalStatus,
@@ -81,7 +82,7 @@ class Wrapper extends React.Component {
             )}
           />
           <Button
-            disabled={posting}
+            disabled={saveDisabled}
             value={posting
               ? resumeTexts.buttons.saving
               : resumeTexts.buttons.save}

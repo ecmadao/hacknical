@@ -212,6 +212,7 @@ class Resume extends React.Component {
       actions,
     } = this.props;
     const {
+      edited,
       posting,
       loading,
       shareInfo,
@@ -240,6 +241,7 @@ class Resume extends React.Component {
         <ResumeOperations
           posting={posting}
           saveResume={actions.saveResume}
+          saveDisabled={!edited}
           downloadDisabled={downloadDisabled}
           handlePreview={this.handlePreview}
           downloadResume={this.downloadResume}
