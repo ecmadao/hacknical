@@ -1,9 +1,9 @@
 @import 'open-color/open-color.css';
 
 :root {
-  --triangleWidth: 8px;
-  --triangleHeight: 8px;
-  --triangleOffset: 6px;
+  --modalTriangleWidth: 8px;
+  --modalTriangleHeight: 8px;
+  --modalTriangleOffset: 6px;
   --tipso-triangle-back: rgba(212, 212, 212, 0.3);
 
   --speed: .2s;
@@ -235,20 +235,20 @@
     display: block;
     position: absolute;
     transform: translateY(-50%);
-    border-top: var(--triangleWidth) solid transparent;
-    border-bottom: var(--triangleWidth) solid transparent;
+    border-top: var(--modalTriangleWidth) solid transparent;
+    border-bottom: var(--modalTriangleWidth) solid transparent;
   }
 
   &::after {
     z-index: var(--zIndex1);
-    left: -var(--triangleHeight);
-    border-right: var(--triangleHeight) solid var(--oc-white);
+    left: calc(0 - var(--modalTriangleHeight));
+    border-right: var(--modalTriangleHeight) solid var(--oc-white);
   }
 
   &::before {
     z-index: var(--zIndexHidden);
-    left: -var(--triangleOffset);
-    border-right: var(--triangleHeight) solid var(--tipso-triangle-back);
+    left: calc(0 - var(--modalTriangleOffset));
+    border-right: var(--modalTriangleHeight) solid var(--tipso-triangle-back);
   }
 }
 
@@ -262,20 +262,20 @@
     left: 50%;
     transform: translateX(-50%);
     border-top: none;
-    border-left: var(--triangleWidth) solid transparent;
-    border-right: var(--triangleWidth) solid transparent;
+    border-left: var(--modalTriangleWidth) solid transparent;
+    border-right: var(--modalTriangleWidth) solid transparent;
   }
 
   &::after {
     z-index: var(--zIndex1);
-    top: -var(--triangleHeight);
-    border-bottom: var(--triangleHeight) solid var(--oc-white);
+    top: -var(--modalTriangleHeight);
+    border-bottom: var(--modalTriangleHeight) solid var(--oc-white);
   }
 
   &::before {
     z-index: var(--zIndexHidden);
-    top: -var(--triangleOffset);
-    border-bottom: var(--triangleHeight) solid var(--tipso-triangle-back);
+    top: -var(--modalTriangleOffset);
+    border-bottom: var(--modalTriangleHeight) solid var(--tipso-triangle-back);
   }
 }
 

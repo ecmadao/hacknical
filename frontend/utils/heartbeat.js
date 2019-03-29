@@ -16,6 +16,10 @@ class HeartBeat {
   }
 
   takeoff(...args) {
+    this.callback(...args)()
+  }
+
+  start(...args) {
     this.timeout = setTimeout(this.callback(...args), this.state.interval)
   }
 
@@ -28,7 +32,7 @@ class HeartBeat {
     const { callback } = this.state
     return () => toPromise(callback)(...args).then(() => {
       this.clearTimeout()
-      this.enable && this.takeoff(...args)
+      this.enable && this.start(...args)
     })
   }
 

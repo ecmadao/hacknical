@@ -15,7 +15,7 @@
     "stop": "bnr pro:app:stop",
     "precommit": "npm run lint",
     "lint": "./node_modules/.bin/eslint frontend/* && ./node_modules/.bin/eslint app/*",
-    "deploy": "git checkout master && git pull origin master && npm i && npm i --only=dev && bash ./scripts/deploy/deploy.sh"
+    "deploy": "git checkout master && git pull origin master && npm i && npm i --only=dev && bash ./scripts/deploy.sh"
   },
   "betterScripts": {
     "pro:build:src": {
@@ -100,7 +100,6 @@
     "expose-loader": "^0.7.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
-    "git-rev-sync": "^1.9.1",
     "headroom.js": "^0.9.3",
     "highcharts": "^6.0.1",
     "history": "^4.7.2",
@@ -119,7 +118,6 @@
     "postcss-reporter": "^5.0.0",
     "prop-types": "^15.6.0",
     "push.js": "^1.0.4",
-    "qiniu": "^6.1.13",
     "react": "^16.2.0",
     "react-async-component": "^1.0.2",
     "react-dom": "^16.2.0",
@@ -143,6 +141,7 @@
     "@koa/cors": "^2.2.1",
     "@sentry/browser": "^4.5.2",
     "ali-mns": "^2.6.8",
+    "ali-oss": "^6.1.0",
     "assets-webpack-plugin": "^3.5.1",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
@@ -150,6 +149,7 @@
     "config": "^1.21.0",
     "eventemitter3": "^3.1.0",
     "font-awesome": "^4.7.0",
+    "git-rev-sync": "^1.12.0",
     "ioredis": "^4.9.0",
     "keyboardjs": "^2.4.1",
     "koa": "^2.4.1",

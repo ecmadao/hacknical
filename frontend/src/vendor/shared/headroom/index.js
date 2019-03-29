@@ -1,12 +1,13 @@
-import Headroom from 'headroom.js';
-import './banner.css';
+
+import Headroom from 'headroom.js'
+import './banner.css'
 
 const initialHeadroom = (id, options = {}) => {
-  const $dom = $(`${id}`)[0];
+  const $dom = $(`${id}`)[0]
   if ($dom) {
-    const headroom = new Headroom($dom, options);
-    headroom.init();
+    const headroom = new Headroom($dom, options)
+    headroom.init()
   }
-};
+}
 
-export default initialHeadroom;
+export default initialHeadroom

@@ -36,14 +36,14 @@
         <div></div>
       </div>
       <div class="statistic-modal {% if isMobile %}{{ "statistic-modal-bottom" }}{% endif %}">
-        <strong class="statistic-users"></strong>
-        {{ statistic.developers }}<br />
-        <strong class="statistic-pv"></strong>
-        {{ statistic.githubPageview }}<br />
-        <strong class="statistic-pv"></strong>
-        {{ statistic.resumePageview }}<br />
-        <strong class="statistic-resume"></strong>
-        {{ statistic.resumes }}<br />
+        <strong class="statistic-users"></strong>{{ statistic.developers }}
+        <br />
+        <strong class="statistic-github-pv"></strong>{{ statistic.githubPageview }}
+        <br />
+        <strong class="statistic-resume-pv"></strong>{{ statistic.resumePageview }}
+        <br />
+        <strong class="statistic-resume"></strong>{{ statistic.resumes }}
+        <br />
       </div>
     </div>
   </div>

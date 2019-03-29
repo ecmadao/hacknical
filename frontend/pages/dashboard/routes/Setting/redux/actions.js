@@ -1,11 +1,12 @@
-import { createActions } from 'redux-actions'
+/* eslint global-require: "off" */
 import Push from 'push.js'
+import { createActions } from 'redux-actions'
 import objectAssign from 'UTILS/object-assign'
 import API from 'API'
 import locales from 'LOCALES'
 import refresher from 'UTILS/refresher'
 
-const updateMsg = locales('github.message.update');
+const updateMsg = locales('github.message.update')
 
 const {
   toggleGithubModal,
@@ -36,6 +37,7 @@ const refreshGithubDatas = () => (dispatch) => {
       Push.create(updateMsg.header, {
         body: updateMsg.body,
         icon: '/vendor/images/hacknical-logo-nofity.png',
+        // icon: require('SRC/images/hacknical-logo-nofity.png'),
         timeout: 3000
       })
     })
@@ -45,9 +47,9 @@ const refreshGithubDatas = () => (dispatch) => {
 // github share
 const fetchGithubShareInfo = () => (dispatch) => {
   API.github.getShareRecords().then((result) => {
-    dispatch(initialGithubShareInfo(result));
-  });
-};
+    dispatch(initialGithubShareInfo(result))
+  })
+}
 
 const postGithubShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().setting.githubInfo
@@ -61,83 +63,82 @@ const postGithubShareStatus = () => (dispatch, getState) => {
 // resume
 const fetchResumeShareInfo = () => (dispatch) => {
   API.resume.getResumeInfo().then((result) => {
-    dispatch(initialResumeShareInfo(result));
+    dispatch(initialResumeShareInfo(result))
   })
 }
 
 const postResumeGithubStatus = () => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting;
-  const { useGithub, loading } = resumeInfo;
-  if (loading) return;
+  const { resumeInfo } = getState().setting
+  const { useGithub, loading } = resumeInfo
+  if (loading) return
 
   API.resume.patchResumeInfo({ useGithub: !useGithub }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       useGithub: !useGithub
-    })));
-  });
-};
+    })))
+  })
+}
 
 const postResumeShareStatus = () => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting;
-  const { openShare, loading } = resumeInfo;
-  if (loading) return;
+  const { resumeInfo } = getState().setting
+  const { openShare, loading } = resumeInfo
+  if (loading) return
 
   API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       openShare: !openShare
-    })));
-  });
-};
+    })))
+  })
+}
 
 const toggleResumeReminder = enable => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting;
+  const { resumeInfo } = getState().setting
 
   const reminder = objectAssign({}, resumeInfo.reminder, { enable })
 
   API.resume.patchResumeInfo({ reminder }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       reminder
-    })));
-  });
-};
+    })))
+  })
+}
 
 const postResumeReminderChange = (key, value) => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting;
-  const preVal = resumeInfo.reminder[key];
-  if (preVal === value) return;
+  const { resumeInfo } = getState().setting
+  const preVal = resumeInfo.reminder[key]
+  if (preVal === value) return
 
-  const reminder = objectAssign({}, resumeInfo.reminder, { [key]: value });
+  const reminder = objectAssign({}, resumeInfo.reminder, { [key]: value })
 
   API.resume.patchResumeInfo({ reminder }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       reminder
-    })));
-  });
-};
+    })))
+  })
+}
 
 const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting;
-  const { simplifyUrl, loading } = resumeInfo;
-  if (loading) return;
+  const { resumeInfo } = getState().setting
+  const { simplifyUrl, loading } = resumeInfo
+  if (loading) return
 
   API.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       simplifyUrl: !simplifyUrl
-    })));
-  });
-};
+    })))
+  })
+}
 
 const postResumeShareSection = (section, checked) => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting;
-  const github = objectAssign({}, resumeInfo.github, { [section]: checked });
+  const { resumeInfo } = getState().setting
+  const github = objectAssign({}, resumeInfo.github, { [section]: checked })
 
   API.resume.patchResumeInfo({ github }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       github
-    })));
-  });
-};
-
+    })))
+  })
+}
 
 export default {
   // github
@@ -158,5 +159,5 @@ export default {
   toggleResumeReminder,
   postResumeReminderChange,
   toggleResumeSimplifyUrl,
-  postResumeShareSection,
-};
+  postResumeShareSection
+}

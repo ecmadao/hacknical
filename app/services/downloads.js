@@ -3,10 +3,10 @@ import fs from 'fs'
 import path from 'path'
 import config from 'config'
 import phantom from 'phantom'
+import PATH from '../../config/path'
 import logger from '../utils/logger'
 import { ensureFolder } from '../utils/files'
-
-const SOURCE_PATH = config.get('downloads')
+import { uploadFile } from '../utils/uploader'
 
 const waitUntil = asyncFunc => new Promise((resolve, reject) => {
   const wait = () => {
@@ -20,14 +20,6 @@ const waitUntil = asyncFunc => new Promise((resolve, reject) => {
   }
   wait()
 })
-
-const clearFolder = folder =>
-  fs.readdirSync(folder)
-    .filter((item) => {
-      const itempath = path.join(folder, item)
-      return fs.statSync(itempath).isFile()
-    })
-    .forEach(file => fs.unlinkSync(path.join(folder, file)))
 
 const renderScreenshot = async (input, output) => {
   const instance = await phantom.create()
@@ -47,7 +39,7 @@ const renderScreenshot = async (input, output) => {
 }
 
 const ensureDownloadFolder = (folder) => {
-  const resultFolder = path.resolve(__dirname, SOURCE_PATH, folder)
+  const resultFolder = path.resolve(__dirname, `${PATH.ASSETS_PATH}/downloads`, folder)
   ensureFolder(resultFolder)
   return resultFolder
 }
@@ -55,18 +47,22 @@ const ensureDownloadFolder = (folder) => {
 export const downloadResume = async (url, options = {}) => {
   const {
     title,
-    folder
+    folderName
   } = options
 
-  const resultFolder = ensureDownloadFolder(folder)
+  const resultFolder = ensureDownloadFolder(folderName)
   const filePath = path.resolve(resultFolder, title)
-  const resultPath = `/downloads/${folder}/${title}`
+  const resultPath = `/downloads/${folderName}/${title}`
 
   logger.info(`[RESUME:DOWNLOAD:RENDER-PATH] ${filePath}`)
 
   if (fs.existsSync(filePath)) return resultPath
 
-  clearFolder(resultFolder)
   await renderScreenshot(url, filePath)
+  await uploadFile({
+    filePath,
+    prefix: `${config.get('services.oss.prefix')}/${folderName}`
+  })
+
   return resultPath
 }

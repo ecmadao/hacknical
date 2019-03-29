@@ -7,11 +7,6 @@
     "issue": "https://github.com/ecmadao/hacknical/issues",
     "homePage": "https://github.com/ecmadao/hacknical"
   },
-  "qiniu": {
-    "BucketName": "",
-    "AccessKey": "",
-    "SecretKey": ""
-  },
   "services": {},
   "cdn": "",
   "url": "",

@@ -1,4 +1,4 @@
-/* eslint no-param-reassign: "off" */
+/* eslint no-param-reassign: "off", global-require: "off" */
 
 import React from 'react'
 import { connect } from 'react-redux'
@@ -60,78 +60,80 @@ class Resume extends React.Component {
     this.heartBeat = new HeartBeat({
       interval: 600000, // 10 min
       callback: () => {
-        const { resume, actions } = this.props;
-        if (resume.edited) actions.saveResume();
+        const { resume, actions } = this.props
+        if (resume.edited) actions.saveResume()
       }
-    });
-    this.heartBeat.takeoff();
+    })
+    this.heartBeat.takeoff()
   }
 
   componentWillUnmount() {
-    const { actions } = this.props;
-    actions.toggleEdited(false);
+    const { actions } = this.props
+    actions.toggleEdited(false)
     if (window.removeEventListener) {
-      window.removeEventListener('beforeunload', this.onBeforeUnload, true);
+      window.removeEventListener('beforeunload', this.onBeforeUnload, true)
     } else {
-      window.detachEvent('onbeforeunload', this.onBeforeUnload);
+      window.detachEvent('onbeforeunload', this.onBeforeUnload)
     }
-    this.heartBeat && this.heartBeat.stop();
+    this.heartBeat && this.heartBeat.stop()
   }
 
   onBeforeUnload(e) {
-    const { resume } = this.props;
-    if (!resume.edited) return;
-    e = e || window.event;
+    const { resume } = this.props
+    if (!resume.edited) return
+    e = e || window.event
     if (e) {
-      e.returnValue = editedConfirm;
+      e.returnValue = editedConfirm
     }
-    return editedConfirm;
+    return editedConfirm
   }
 
   downloadResume() {
-    message.notice(messages.download, 1800);
-    const { actions, resume } = this.props;
-    actions.toggleDownloadButton(true);
+    message.notice(messages.download, 1800)
+    const { actions, resume } = this.props
+    actions.toggleDownloadButton(true)
     API.resume.download().then((result) => {
       if (result) {
-        const { name } = resume.info;
+        const { name } = resume.info
         Push.create(messages.downloadSuccess, {
           icon: '/vendor/images/hacknical-logo-nofity.png',
-          timeout: 3000,
-        });
-        const a = document.createElement('a');
-        a.href = result;
-        a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`;
-        a.click();
+          // icon: require('SRC/images/hacknical-logo-nofity.png'),
+          timeout: 3000
+        })
+        const a = document.createElement('a')
+        a.href = result
+        a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`
+        a.click()
       } else {
         Push.create(messages.downloadError, {
           icon: '/vendor/images/hacknical-logo-nofity.png',
-          timeout: 3000,
-        });
+          // icon: require('SRC/images/hacknical-logo-nofity.png'),
+          timeout: 3000
+        })
       }
-      actions.toggleDownloadButton(false);
-    });
+      actions.toggleDownloadButton(false)
+    })
   }
 
   bindHotkeys() {
-    const hotkeys = new Hotkeys();
+    const hotkeys = new Hotkeys()
     hotkeys
       .save(
         () => this.props.actions.saveResume('message=1')
       )
       .preview(() => this.handleModalStatus(true))
       .next(() => {
-        const currentIndex = this.sectionActiveIndex;
-        this.handleSectionIndexChange(currentIndex + 1);
+        const currentIndex = this.sectionActiveIndex
+        this.handleSectionIndexChange(currentIndex + 1)
       })
       .previous(() => {
-        const currentIndex = this.sectionActiveIndex;
-        this.handleSectionIndexChange(currentIndex - 1);
-      });
+        const currentIndex = this.sectionActiveIndex
+        this.handleSectionIndexChange(currentIndex - 1)
+      })
   }
 
   handleModalStatus(openModal) {
-    this.setState({ openModal });
+    this.setState({ openModal })
   }
 
   handlePreview() {

@@ -133,7 +133,7 @@ const downloadResume = async (ctx) => {
   let resultUrl = ''
   try {
     resultUrl = await download.downloadResume(resumeUrl, {
-      folder: githubLogin,
+      folderName: githubLogin,
       title: `${template}-${locale}-${seconds}-resume.pdf`
     })
     logger.info(`[RESUME:RENDERED][${resultUrl}]`)

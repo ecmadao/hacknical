@@ -2,9 +2,6 @@
   "port": "4000",
   "appKey": "hacknical-key",
   "appName": "hacknical-local",
-  "qiniu": {
-    "BucketName": "hacknical"
-  },
   "services": {
     "redis": {
       "host": "127.0.0.1",
@@ -45,10 +42,14 @@
         "channel": "hacknical_app",
         "template": "hacknical_welcome"
       }
+    },
+    "oss": {
+      "bucket": "hacknical-private",
+      "region": "oss-cn-beijing",
+      "prefix": "/resumes"
     }
   },
   "mq": {
     "qname": "messenger-local"
-  },
-  "downloads": "../../public/downloads"
+  }
 }

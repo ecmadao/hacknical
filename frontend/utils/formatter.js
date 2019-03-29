@@ -60,3 +60,25 @@ export const formatTextWithUrl = (text) => {
   }
   return results
 }
+
+export const formatNumber = (number) => {
+  const numberString = `${number}`
+
+  if (numberString.length <= 3) return numberString
+
+  const loop = parseInt(numberString.length / 3, 10)
+  const offset = numberString.length % 3
+  const results = []
+
+  for (let i = loop - 1; i >= 0; i -= 1) {
+    const start = offset + (3 * i)
+    const end = start + 3
+    const section = numberString.slice(start, end)
+    results.unshift(`,${section}`)
+  }
+
+  if (!offset) return results.join('').slice(1)
+
+  results.unshift(numberString.slice(0, offset))
+  return results.join('')
+}
