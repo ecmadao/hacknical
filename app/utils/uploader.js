@@ -18,8 +18,15 @@ const store = oss({
 export const uploadFile = async ({ filePath, prefix = '' }) => {
   if (!fs.statSync(filePath).isFile()) return
 
-  logger.info(`[OSS:UPLOAD] ${filePath} -> ${prefix}`)
-  await store.put(prefix, filePath)
+  const filename = filePath.split('/').slice(-1)[0]
+  const storePrefix = /\/$/.test(prefix)
+    ? `${prefix}${filename}` : `${prefix}/${filename}`
+
+  logger.info(`[OSS:UPLOAD] ${filePath} -> ${storePrefix}`)
+  await store.put(
+    storePrefix,
+    filePath
+  )
 }
 
 export const upload = async ({ folderPath, prefix = '' }) => {
