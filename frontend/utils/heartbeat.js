@@ -16,6 +16,7 @@ class HeartBeat {
   }
 
   takeoff(...args) {
+    this.enable = true
     this.callback(...args)()
   }
 

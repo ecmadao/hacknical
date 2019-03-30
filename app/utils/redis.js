@@ -17,5 +17,4 @@ const redisConnect = async (prefix = appName.toUpperCase()) => {
   return instance
 }
 
-
 export default redisConnect

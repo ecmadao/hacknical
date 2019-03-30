@@ -70,7 +70,7 @@ const setResume = async (ctx, next) => {
     })
   }
 
-  const cacheKey = getCacheKey(ctx);
+  const cacheKey = getCacheKey(ctx)
   ctx.query.deleteKeys = [
     cacheKey(`resume.${result.hash}`)
   ]

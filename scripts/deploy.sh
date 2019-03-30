@@ -2,11 +2,10 @@
 REV=`git rev-parse --short HEAD | awk '{print $0}'`
 CDN="https://resources.hacknical.com"
 FILE="webpack-assets.json"
-HOME="/home/ecmadao"
 
-WEB_ROOT="$HOME/www/hacknical"
+WEB_ROOT=`echo $HACKNICAL_ROOT`
 BUCKET="hacknical/$REV"
-OSSUTIL="$HOME/ossutil64"
+OSSUTIL=`echo $OSSUTIL`
 
 cd $WEB_ROOT
 
