@@ -66,7 +66,8 @@
 			"resume": "没有找到简历",
 			"emptyResume": "请先创建简历",
 			"invalidateEmail": "请填写正确的邮箱",
-			"logout": "session 缺失，请登录"
+			"logout": "session 缺失，请登录",
+			"download": "简历下载失败，请稍后重试"
     },
 		"success": {
       "save": "储存成功",

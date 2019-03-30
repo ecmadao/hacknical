@@ -15,7 +15,16 @@ const store = oss({
   internal: false
 })
 
-export const uploadFile = async ({ filePath, prefix = '' }) => {
+const nextTick = (func, ...params) =>
+  process.nextTick(async () => {
+    try {
+      await func(...params)
+    } catch (e) {
+      logger.error(e)
+    }
+  })
+
+export const uploadFile = ({ filePath, prefix = '' }) => {
   if (!fs.statSync(filePath).isFile()) return
 
   const filename = filePath.split('/').slice(-1)[0]
@@ -23,32 +32,20 @@ export const uploadFile = async ({ filePath, prefix = '' }) => {
     ? `${prefix}${filename}` : `${prefix}/${filename}`
 
   logger.info(`[OSS:UPLOAD] ${filePath} -> ${storePrefix}`)
-  await store.put(
-    storePrefix,
-    filePath
-  )
+  nextTick(store.put.bind(store), storePrefix, filePath)
 }
 
-export const upload = async ({ folderPath, prefix = '' }) => {
+export const uploadFolder = ({ folderPath, prefix = '' }) => {
   if (!fs.statSync(folderPath).isDirectory()) {
-    return await uploadFile({ filePath: folderPath, prefix })
+    return uploadFile({ filePath: folderPath, prefix })
   }
 
   const pathes = fs.readdirSync(folderPath)
   for (const targetPath of pathes) {
     const target = path.resolve(folderPath, targetPath)
-    await upload({
+    uploadFolder({
       folderPath: target,
       prefix: `${prefix}/${targetPath}`
     })
   }
-}
-
-export const uploadFolder = async ({ folderPath, prefix = '' }) => {
-  process.nextTick(async () => {
-    await upload({
-      prefix,
-      folderPath
-    })
-  })
 }

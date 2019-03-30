@@ -23,19 +23,24 @@ const waitUntil = asyncFunc => new Promise((resolve, reject) => {
 
 const renderScreenshot = async (input, output) => {
   const instance = await phantom.create()
-  const page = await instance.createPage()
 
-  await page.property('paperSize', {
-    width: 1024,
-    height: 1448,
-    format: 'A4',
-    orientation: 'portrait'
-  })
-  await page.open(input)
+  try {
+    const page = await instance.createPage()
 
-  await waitUntil(() => page.evaluate(() => window.done))
-  await page.render(output)
-  await instance.exit()
+    await page.property('paperSize', {
+      width: 1024,
+      height: 1448,
+      format: 'A4',
+      orientation: 'portrait'
+    })
+    await page.open(input)
+    await waitUntil(() => page.evaluate(() => window.done))
+    await page.render(output)
+  } catch (e) {
+    logger.error(e)
+  } finally {
+    await instance.exit()
+  }
 }
 
 const ensureDownloadFolder = (folder) => {
@@ -59,10 +64,9 @@ export const downloadResume = async (url, options = {}) => {
   if (fs.existsSync(filePath)) return resultPath
 
   await renderScreenshot(url, filePath)
-  await uploadFile({
+  uploadFile({
     filePath,
     prefix: `${config.get('services.oss.prefix')}/${folderName}`
   })
-
   return resultPath
 }

@@ -142,8 +142,9 @@ const downloadResume = async (ctx) => {
   }
 
   ctx.body = {
+    success: true,
     result: resultUrl,
-    success: true
+    message: resultUrl ? '' : ctx.__('messages.error.download')
   }
 }
 
