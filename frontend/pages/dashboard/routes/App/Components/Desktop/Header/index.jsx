@@ -5,6 +5,7 @@ import styles from '../../../styles/desktop.css'
 import MenuWrapper from '../../shared/MenuWrapper'
 import { URLS } from 'UTILS/constant'
 import Icon from 'COMPONENTS/Icon'
+import LogoText from 'COMPONENTS/LogoText'
 
 const { headers } = locales('dashboard')
 const locale = getLocale()
@@ -35,8 +36,8 @@ class Header extends MenuWrapper {
     return (
       <div className={styles.app_header}>
         <div className={styles.app_header_container}>
-          <div className={styles.header_logoText}>
-            hacknical
+          <div className={styles.header_logo}>
+            <LogoText theme="dark" />
           </div>
           <div className={styles.header_zen}>
             <Tipso

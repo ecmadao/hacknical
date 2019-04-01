@@ -67,7 +67,6 @@
   }
 }
 
-
 .loginPannel {
   color: var(--oc-white);
   position: absolute;
@@ -87,11 +86,8 @@
   }
 }
 
-.logoText {
+.logo {
   font-size: 4em;
-  color: var(--oc-white);
-  text-shadow: 5px 5px rgba(255, 255, 255, 0.4);
-  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
 .loginButton {
@@ -170,7 +166,9 @@
 
 
 .statistic {
-  font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+
+  /* font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif; */
   color: var(--oc-gray-1);
   opacity: 0.5;
   pointer-events: auto;
@@ -178,7 +176,7 @@
   transition: opacity 0.2s;
 
   & span {
-    font-size: 2.5em;
+    font-size: 3.5em;
   }
 }
 

@@ -8,9 +8,9 @@ class ClassicButton extends React.PureComponent {
     const {
       theme, // light or dark
       content,
-      onClick,
       className,
-      buttonContainerClassName
+      buttonContainerClassName,
+      onClick = Function.prototype
     } = this.props
     return (
       <div

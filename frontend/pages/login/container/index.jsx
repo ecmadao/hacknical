@@ -8,6 +8,7 @@ import styles from '../styles/login.css'
 import locales, { getLocale } from 'LOCALES'
 import { formatNumber } from 'UTILS/formatter'
 import CountByStep from 'COMPONENTS/Count/CountByStep'
+import LogoText from 'COMPONENTS/LogoText'
 import ClassicButton from 'COMPONENTS/ClassicButton'
 
 const {
@@ -207,7 +208,7 @@ class LoginPanel extends React.PureComponent {
           </a>
         </div>
         <div className={styles.loginPannel}>
-          <div className={styles.logoText}>hacknical</div>
+          <LogoText theme="light" className={styles.logo} />
           <ClassicButton
             theme="light"
             content={(
@@ -224,7 +225,6 @@ class LoginPanel extends React.PureComponent {
           <span>
             {loginText.loginText}
           </span>
-          <br />
           <div className={styles.statisticContainer}>
             {this.renderLoading()}
             {this.renderStatistic()}

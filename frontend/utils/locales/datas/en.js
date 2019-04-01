@@ -30,6 +30,12 @@ const datas = {
   notify: {
     headline: 'New version published at %s',
     feedback: 'feedback'
+  },
+  footer: {
+    about: 'ABOUT',
+    feedback: 'FEEDBACK',
+    code: 'SOURCE CODE',
+    gov: 'ICP-17008129-1'
   }
 };
 

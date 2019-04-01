@@ -10,10 +10,6 @@
   }
 
   &:active {
-    & .buttonWrapper::before {
-      background-color: transparent;
-    }
-
     & .buttonContent {
       transform: translate(4px, 4px);
     }

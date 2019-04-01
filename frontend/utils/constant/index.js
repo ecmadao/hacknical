@@ -8,7 +8,8 @@ const BASE_URL = 'https://github.com'
 
 export const REMOTE_ASSETS = {
   PARTICLES_JS: `${process.env.URI}/vendor/particlesjs-config.json`,
-  NOTIFY_ICON: `${process.env.URI}/vendor/images/hacknical-logo-nofity.png`
+  NOTIFY_ICON: `${process.env.URI}/vendor/images/hacknical-logo-nofity.png`,
+  LOGO_ICON: `${process.env.URI}/vendor/images/hacknical-logo.png`
 }
 
 export const URLS = {

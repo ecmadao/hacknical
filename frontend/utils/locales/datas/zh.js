@@ -30,6 +30,12 @@ const datas = {
   notify: {
     headline: '%s 发布新版本',
     feedback: '意见反馈'
+  },
+  footer: {
+    about: '关于',
+    feedback: '反馈',
+    code: '源码',
+    gov: '京ICP备17008129号-1'
   }
 };
 

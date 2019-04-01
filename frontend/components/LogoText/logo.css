@@ -1,0 +1,67 @@
+
+@import 'open-color/open-color.css';
+
+:root {
+  --logoWhite: var(--oc-white);
+  --logoDark: var(--oc-gray-7);
+  --logoGreen: var(--oc-green-7);
+}
+
+.logoContainer {
+  position: relative;
+  user-select: none;
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+
+  &:hover {
+    & .logoFront {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  &:active {
+    & .logoFront {
+      transform: translate(2px, 2px);
+    }
+  }
+}
+
+.logoFront {
+  transition: transform 0.15s, color 0.15s;
+  transform: translate(-2px, -2px);
+}
+
+.logoBack {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  opacity: 0.4;
+  position: absolute;
+  transform: translate(3px, 3px);
+  transition: color 0.15s;
+}
+
+
+.logoContainer.logo_light {
+  color: var(--logoWhite);
+
+  &:hover {
+    color: var(--logoDark);
+  }
+}
+
+.logoContainer.logo_green {
+  color: var(--logoGreen);
+
+  &:hover {
+    color: var(--logoDark);
+  }
+}
+
+.logoContainer.logo_dark {
+  color: var(--logoDark);
+
+  &:hover {
+    color: var(--logoGreen);
+  }
+}

@@ -3,11 +3,9 @@
 :root {
   --baseHeight: 30px;
   --fontSize: 14px;
-  --rgbGray7: 73, 80, 87;
-  --rgbGreen7: 55, 178, 77;
 }
 
-.hacknical-footer {
+.footer {
   width: 100%;
   height: 100px;
   background-color: var(--oc-white);
@@ -15,16 +13,16 @@
   border-top: 1px solid var(--oc-gray-3);
 }
 
-.hacknical-footer-en {
+.footer-en {
   font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
-.hacknical-footer-zh {
+.footer-zh {
   /* font-weight: 300; */
   font-family: 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
-.footer-wrapper {
+.footerWrapper {
   width: 80%;
   height: 100%;
   max-width: 750px;
@@ -36,31 +34,28 @@
   align-items: center;
 }
 
-.footer-section {
+.footerSection {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.footer-left {
+.footerLeft {
+  composes: footerSection;
   justify-content: flex-start;
   cursor: default;
   user-select: none;
 
   &:hover {
-    & .footer-image {
+    & .footerImage {
       filter: grayscale(0%);
-    }
-
-    & .footer-logoText {
-      color: rgb(var(--rgbGreen7));
-      text-shadow: 5px 5px rgba(var(--rgbGreen7), 0.4);
     }
   }
 }
 
-.footer-right {
+.footerRight {
+  composes: footerSection;
   flex: 1;
   font-size: var(--fontSize);
   justify-content: flex-end;
@@ -75,20 +70,19 @@
   }
 }
 
-.footer-logoText {
-  color: rgb(var(--rgbGray7));
-  transition: color 0.2s, text-shadow 0.2s;
+.footerLogo {
   font-size: 2em;
-  text-shadow: 5px 5px rgba(var(--rgbGray7), 0.4);
+}
+
+.footerIntro {
+  font-size: var(--fontSize);
+  color: var(--oc-gray-5);
+  margin-right: 10px;
+  font-size: 1.3rem;
   font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
-.footer-intro {
-  font-size: var(--fontSize);
-  color: var(--oc-gray-5);
-}
-
-.footer-image {
+.footerImage {
   width: var(--baseHeight);
   height: var(--baseHeight);
   border-radius: 50%;
@@ -96,24 +90,32 @@
   transition: filter 0.3s;
 }
 
+.footerLink:not(:last-child) {
+  margin-right: 5px;
+}
+
+.footerLink:last-child {
+  margin-left: 5px;
+}
+
 @media (max-width: 700px) {
-  .hacknical-footer {
+  .footer {
     height: 60px;
   }
 
-  .footer-wrapper {
+  .footerWrapper {
     max-width: initial;
     min-width: initial;
     justify-content: flex-start;
     width: 90%;
   }
 
-  .footer-image {
+  .footerImage {
     width: 25px;
     height: 25px;
   }
 
-  .footer-logoText {
+  .footerLogo {
     font-size: 1.5em;
   }
 }
