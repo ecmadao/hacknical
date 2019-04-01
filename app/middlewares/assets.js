@@ -25,7 +25,7 @@ const assetsMiddleware = (assetsName) => {
 
   let result = ''
   if (!publicAsset || !publicAsset[type]) {
-    result = `${PATH.CDN_URL}${assetsName}`
+    result = `${PATH.CDN_URL}/${assetsName}`
   } else {
     result = publicAsset[type]
   }

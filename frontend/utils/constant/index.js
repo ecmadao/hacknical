@@ -6,6 +6,11 @@ const githubTexts = locales('github.sections.commits')
 
 const BASE_URL = 'https://github.com'
 
+export const REMOTE_ASSETS = {
+  PARTICLES_JS: `${process.env.URI}/vendor/particlesjs-config.json`,
+  NOTIFY_ICON: `${process.env.URI}/vendor/images/hacknical-logo-nofity.png`
+}
+
 export const URLS = {
   GITHUB: BASE_URL,
   REPOSITORY: `${BASE_URL}/ecmadao/hacknical`,

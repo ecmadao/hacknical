@@ -11,28 +11,13 @@ const cacheControl = (ctx) => {
 }
 
 const renderLandingPage = async (ctx) => {
-  const { locale } = ctx.state
-  const languages = getLanguages(locale)
   const clientId = await network.github.getVerify()
 
   cacheControl(ctx)
 
   await ctx.render('user/login', {
-    clientId,
-    languages,
-    languageId: locale,
     title: ctx.__('loginPage.title'),
-    login: ctx.__('loginPage.login'),
-    about: ctx.__('loginPage.about'),
-    languageText: ctx.__('language.text'),
-    loginText: ctx.__('loginPage.loginText'),
-    loginButtonText: ctx.__('loginPage.loginButtonText'),
-    statistic: {
-      resumes: ctx.__('loginPage.statistic.resumes'),
-      developers: ctx.__('loginPage.statistic.developers'),
-      githubPageview: ctx.__('loginPage.statistic.githubPageview'),
-      resumePageview: ctx.__('loginPage.statistic.resumePageview')
-    }
+    loginLink: `https://github.com/login/oauth/authorize?scope=user:email&client_id=${clientId}`
   })
 }
 

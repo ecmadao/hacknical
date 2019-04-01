@@ -5,6 +5,7 @@ import objectAssign from 'UTILS/object-assign'
 import API from 'API'
 import locales from 'LOCALES'
 import refresher from 'UTILS/refresher'
+import { REMOTE_ASSETS } from 'UTILS/constant'
 
 const updateMsg = locales('github.message.update')
 
@@ -36,8 +37,7 @@ const refreshGithubDatas = () => (dispatch) => {
       dispatch(setUpdateStatus(result))
       Push.create(updateMsg.header, {
         body: updateMsg.body,
-        icon: '/vendor/images/hacknical-logo-nofity.png',
-        // icon: require('SRC/images/hacknical-logo-nofity.png'),
+        icon: REMOTE_ASSETS.NOTIFY_ICON,
         timeout: 3000
       })
     })

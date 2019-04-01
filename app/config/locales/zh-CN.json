@@ -6,17 +6,7 @@
 	"description": "hacknical - 查看自己的 GitHub 总结，并协助你完善自我简历",
 	"keywords": "GitHub，数据可视化，简历，在线简历",
 	"loginPage": {
-		"title": "hacknical | 更加高效的在线简历",
-		"login": "登录",
-		"about": "关于",
-		"loginText": "用 GitHub 数据辅助你进行简历投递",
-		"loginButtonText": "通过 GitHub 登录",
-		"statistic": {
-			"developers": " 位开发者在此",
-			"resumes": " 个简历被创建、下载",
-			"githubPageview": " 次 GitHub 总结页面被分享",
-			"resumePageview": " 次简历被分享"
-		}
+		"title": "hacknical | 更加高效的在线简历"
 	},
 	"404Page": {
 		"title": "hacknical | 没有找到页面",

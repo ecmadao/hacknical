@@ -21,6 +21,7 @@ import Navigation from 'COMPONENTS/Navigation'
 import HeartBeat from 'UTILS/heartbeat'
 import NavSection from './NavSection'
 import ResumeOperations from './Operations'
+import { REMOTE_ASSETS } from 'UTILS/constant'
 
 const resumeTexts = locales('resume')
 const { editedConfirm, messages } = resumeTexts
@@ -96,8 +97,7 @@ class Resume extends React.Component {
       if (result) {
         const { name } = resume.info
         Push.create(messages.downloadSuccess, {
-          icon: '/vendor/images/hacknical-logo-nofity.png',
-          // icon: require('SRC/images/hacknical-logo-nofity.png'),
+          icon: REMOTE_ASSETS.NOTIFY_ICON,
           timeout: 3000
         })
         const a = document.createElement('a')
@@ -106,8 +106,7 @@ class Resume extends React.Component {
         a.click()
       } else {
         Push.create(messages.downloadError, {
-          icon: '/vendor/images/hacknical-logo-nofity.png',
-          // icon: require('SRC/images/hacknical-logo-nofity.png'),
+          icon: REMOTE_ASSETS.NOTIFY_ICON,
           timeout: 3000
         })
       }

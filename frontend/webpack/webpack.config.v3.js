@@ -163,7 +163,8 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.SENTRY': JSON.stringify(process.env.HACKNICAL_SENTRY)
+      'process.env.SENTRY': JSON.stringify(process.env.HACKNICAL_SENTRY),
+      'process.env.URI': JSON.stringify(PATH.CDN_URL)
     }),
     new webpack.BannerPlugin({
       entryOnly: true,

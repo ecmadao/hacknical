@@ -1,33 +1,43 @@
 
-import React from 'react'
 import PropTypes from 'prop-types'
 import HeartBeat from 'UTILS/heartbeat'
+import BaseCount from './BaseCount'
 
-class CountByStep extends React.Component {
+class CountByStep extends BaseCount {
   constructor(props) {
     super(props)
 
-    this.state = {
-      current: props.start
-    }
-    this.start = this.start.bind(this)
     this.heartBeat = null
   }
 
-  componentDidMount() {
-    this.start()
+  getNext(startTime) {
+    const { timing, duration, start, end } = this.props
+    const time = new Date().getTime() - startTime
+
+    let result = this.state.current
+    switch (timing) {
+      case 'logarithm':
+        const base = Math.pow(duration, 1 / end)
+        result = Math.log(time) / Math.log(base)
+        break
+      case 'linear':
+      default:
+        result = (time / duration) * (end - start)
+        break
+    }
+    return Math.min(end, Math.floor(result))
   }
 
   start() {
-    const { onFinish } = this.props
+    const { end, interval, onFinish } = this.props
 
     if (!this.heartBeat) {
       this.heartBeat = new HeartBeat({
-        interval: this.props.interval,
-        callback: () => {
-          if (this.state.current < this.props.end) {
+        interval,
+        callback: (startTime) => {
+          if (this.state.current < end) {
             this.setState({
-              current: this.state.current + this.props.step
+              current: this.getNext(startTime)
             })
           } else {
             onFinish()
@@ -36,47 +46,26 @@ class CountByStep extends React.Component {
         }
       })
     }
-    this.heartBeat.takeoff()
+    this.heartBeat.takeoff(new Date().getTime())
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { start } = nextProps
-    if (start !== this.props.start) {
-      this.setState({ current: start })
-    }
-  }
-
-  componentDidUpdate(preProps) {
-    const { end } = preProps
-    if (this.props.end !== end) {
-      this.start()
-    }
-  }
-
-  render() {
-    const { render, current } = this.state
-    return (
-      render(current)
-    )
+  stop() {
+    this.heartBeat && this.heartBeat.stop()
   }
 }
 
 CountByStep.propTypes = {
+  duration: PropTypes.number,
   interval: PropTypes.number,
-  start: PropTypes.number,
-  end: PropTypes.number,
-  step: PropTypes.number,
-  render: PropTypes.func,
-  onFinish: PropTypes.func
+  onFinish: PropTypes.func,
+  timing: PropTypes.string
 }
 
 CountByStep.defaultProps = {
+  duration: 2000,
   interval: 1,
-  start: 0,
-  end: 100,
-  step: 1,
-  render: Function.prototype,
-  onFinish: Function.prototype
+  onFinish: Function.prototype,
+  timing: 'linear'
 }
 
 export default CountByStep

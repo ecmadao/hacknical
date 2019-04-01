@@ -2,54 +2,31 @@
 
 {% block css %}
   <link href="{{ assetsPath("assets/login.bundle.css") }}" rel="stylesheet" type="text/css">
+  <style>
+    #login {
+      background-color: #252525;
+    }
+    #login canvas {
+      user-select: none;
+    }
+    .login-main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+  </style>
 {% endblock %}
 
 {% block body %}
-<div id="login" class="login-main">
-  <div class="topbar">
-    <div class="topbar-selector">
-      {% for language in languages %}
-        <a href="/?locale={{ language.id }}">
-          {{ language.text }}
-        </a>
-      {% endfor %}
-    </div>
-    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}">
-      {{ login }}
-    </a>
-    <a rel="noopener" href="https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-{{ locale }}.md" target="_blank">
-      {{ about }}
-    </a>
-  </div>
-  <div class="login-pannel">
-    <div class="title">hacknical</div>
-    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ clientId }}" class="github_login_link">
-      <i class="fa fa-github" aria-hidden="true"></i>&nbsp;{{ loginButtonText }}
-    </a>
-    <span>
-      {{ loginText }}
-    </span>
-    <div class="statistic-container">
-      <div class="statistic-loading">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="statistic-modal {% if isMobile %}{{ "statistic-modal-bottom" }}{% endif %}">
-        <strong class="statistic-users"></strong>{{ statistic.developers }}
-        <br />
-        <strong class="statistic-github-pv"></strong>{{ statistic.githubPageview }}
-        <br />
-        <strong class="statistic-resume-pv"></strong>{{ statistic.resumePageview }}
-        <br />
-        <strong class="statistic-resume"></strong>{{ statistic.resumes }}
-        <br />
-      </div>
-    </div>
-  </div>
-</div>
+  <div id="login" class="login-main"></div>
 {% endblock %}
 
 {% block js %}
+  <script>
+    window.loginLink = "{{ loginLink }}";
+  </script>
   <script async defer src="{{ assetsPath("assets/login.bundle.js") }}"></script>
 {% endblock %}

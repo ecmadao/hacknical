@@ -6,10 +6,7 @@
   "description": "Hacknical - Une plateforme destinée aux utilisateurs GitHub afin de promouvoir un CV plus adapté.",
   "keywords": "GitHub, GitHub-Contributions, GitHub-Analyse, Curriculum Vitae, CV",
   "loginPage": {
-    "title": "Hacknical | Un meilleur CV",
-    "login": "Se connecter",
-    "about": "À propos",
-    "loginText": "Utilisez les données de GitHub afin de proposer un meilleur CV"
+    "title": "Hacknical | Un meilleur CV"
   },
   "404Page": {
     "title": "Hacknical | page introuvable",

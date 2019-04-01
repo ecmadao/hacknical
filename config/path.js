@@ -7,7 +7,7 @@ const CDN = config.get('cdn')
 const appVersion = git.short()
 const CDN_URI = appVersion
 
-const CDN_URL = CDN ? `${CDN}/${CDN_URI}/` : '/'
+const CDN_URL = CDN ? `${CDN}/${CDN_URI}` : ''
 const PUBLIC_PATH = CDN ? `${CDN}/${CDN_URI}/assets/` : '/assets/'
 
 const ROOT_PATH = path.join(__dirname, '../') // 项目根目录
