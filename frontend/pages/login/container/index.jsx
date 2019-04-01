@@ -8,6 +8,7 @@ import styles from '../styles/login.css'
 import locales, { getLocale } from 'LOCALES'
 import { formatNumber } from 'UTILS/formatter'
 import CountByStep from 'COMPONENTS/Count/CountByStep'
+import ClassicButton from 'COMPONENTS/ClassicButton'
 
 const {
   login: loginText,
@@ -177,7 +178,7 @@ class LoginPanel extends React.PureComponent {
     const { languages } = this.state
     return languages.map((language, index) => {
       return (
-        <a href={`/?locale=${language.id}`} key={index}>
+        <a href={`/?locale=${language.id}`} key={index} className={styles.topbarLink}>
           {language.text}
         </a>
       )
@@ -186,31 +187,44 @@ class LoginPanel extends React.PureComponent {
 
   render() {
     const { loginLink } = this.props
+
     return (
       <div>
         <div className={styles.topbar}>
           <div className={styles.topbarSelector}>
             {this.renderLanguages()}
           </div>
-          <a href={loginLink}>
+          <a href={loginLink} className={styles.topbarLink}>
             {loginText.topbarLogin}
           </a>
-          <a rel="noopener" href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`} target="_blank">
+          <a
+            rel="noopener"
+            target="_blank"
+            className={styles.topbarLink}
+            href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`}
+          >
             {loginText.topbarAbout}
           </a>
         </div>
         <div className={styles.loginPannel}>
-          <div className={styles.title}>hacknical</div>
-          <a
-            href={loginLink}
-            className={styles.githubLoginLink}>
-            <Icon icon="github" />
-            &nbsp;
-            {loginText.loginButton}
-          </a>
+          <div className={styles.logoText}>hacknical</div>
+          <ClassicButton
+            theme="light"
+            content={(
+              <a
+                href={loginLink}
+                className={styles.githubLoginLink}>
+                <Icon icon="github" />
+                &nbsp;
+                {loginText.loginButton}
+              </a>
+            )}
+            buttonContainerClassName={styles.loginButton}
+          />
           <span>
             {loginText.loginText}
           </span>
+          <br />
           <div className={styles.statisticContainer}>
             {this.renderLoading()}
             {this.renderStatistic()}

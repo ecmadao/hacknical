@@ -3,6 +3,8 @@
 :root {
   --baseHeight: 30px;
   --fontSize: 14px;
+  --rgbGray7: 73, 80, 87;
+  --rgbGreen7: 55, 178, 77;
 }
 
 .hacknical-footer {
@@ -51,8 +53,9 @@
       filter: grayscale(0%);
     }
 
-    & .footer-logo {
-      color: var(--oc-green-7);
+    & .footer-logoText {
+      color: rgb(var(--rgbGreen7));
+      text-shadow: 5px 5px rgba(var(--rgbGreen7), 0.4);
     }
   }
 }
@@ -72,10 +75,11 @@
   }
 }
 
-.footer-logo {
-  color: var(--oc-gray-7);
-  transition: color 0.2s;
+.footer-logoText {
+  color: rgb(var(--rgbGray7));
+  transition: color 0.2s, text-shadow 0.2s;
   font-size: 2em;
+  text-shadow: 5px 5px rgba(var(--rgbGray7), 0.4);
   font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
@@ -109,7 +113,7 @@
     height: 25px;
   }
 
-  .footer-logo {
+  .footer-logoText {
     font-size: 1.5em;
   }
 }

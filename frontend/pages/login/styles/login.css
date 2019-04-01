@@ -13,6 +13,14 @@
   --scaleActive: scale(1);
 }
 
+.baseLink {
+  display: block;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
 .topbar {
   position: fixed;
   top: 0;
@@ -30,19 +38,17 @@
   pointer-events: none;
   display: flex;
   align-items: center;
+}
 
-  & a {
-    color: var(--oc-gray-1);
-    display: block;
-    margin: 0 10px;
-    text-decoration: none;
-    transition: color 0.3s;
-    pointer-events: auto;
+.topbarLink {
+  composes: baseLink;
+  color: var(--oc-gray-1);
+  margin: 0 10px;
+  transition: color 0.3s;
 
-    &:hover {
-      color: var(--oc-white);
-      text-decoration: underline;
-    }
+  &:hover {
+    color: var(--oc-white);
+    text-decoration: underline;
   }
 }
 
@@ -75,37 +81,27 @@
   text-align: center;
   pointer-events: none;
 
-  & a {
-    user-select: none;
-    color: var(--oc-white);
-    display: block;
-    text-decoration: none;
-    border-radius: 3px;
-    margin: 15px 0;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    background-color: rgba(0,0,0,0.4);
-    pointer-events: auto;
-
-    &:hover {
-      background-color: rgba(0,0,0,0.7);
-    }
-  }
-
   & span {
     font-size: 12px;
     color: var(--oc-gray-1);
   }
 }
 
-.title {
+.logoText {
   font-size: 4em;
+  color: var(--oc-white);
+  text-shadow: 5px 5px rgba(255, 255, 255, 0.4);
   font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
+.loginButton {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
 .githubLoginLink {
-  font-size: 14px;
+  composes: baseLink;
+  color: var(--oc-gray-8);
 }
 
 .statisticContainer {
