@@ -7,7 +7,7 @@ import HeartBeat from 'UTILS/heartbeat'
 import styles from '../styles/login.css'
 import locales, { getLocale } from 'LOCALES'
 import { formatNumber } from 'UTILS/formatter'
-import CountByDuration from 'COMPONENTS/Count/CountByDuration'
+import CountByStep from 'COMPONENTS/Count/CountByStep'
 
 const {
   login: loginText,
@@ -32,7 +32,7 @@ class LoginPanel extends React.PureComponent {
   componentDidMount() {
     this.getLanguages()
     this.heartBeat = new HeartBeat({
-      interval: 1000 * 60 * 1, // 1 min
+      interval: 1000 * 60 * 2, // 2 min
       callback: () => this.getStatistic()
     })
     this.heartBeat.takeoff()
@@ -137,10 +137,10 @@ class LoginPanel extends React.PureComponent {
 
     return (
       <div className={styles.statistic}>
-        <CountByDuration
+        <CountByStep
           start={0}
           end={usersCount}
-          duration={1500}
+          duration={3500}
           render={
             num => (
               <span className={styles.statisticCount}>{formatNumber(num)}</span>
@@ -148,10 +148,10 @@ class LoginPanel extends React.PureComponent {
           }
         />
         <span>·</span>
-        <CountByDuration
+        <CountByStep
           start={0}
           end={Number(githubPageview) + Number(resumePageview)}
-          duration={1500}
+          duration={3500}
           render={
             num => (
               <span className={styles.statisticCount}>{formatNumber(num)}</span>
@@ -159,10 +159,10 @@ class LoginPanel extends React.PureComponent {
           }
         />
         <span>·</span>
-        <CountByDuration
+        <CountByStep
           start={0}
           end={resumeNum}
-          duration={1500}
+          duration={3500}
           render={
             num => (
               <span className={styles.statisticCount}>{formatNumber(num)}</span>
