@@ -25,6 +25,31 @@
   }
 }
 
+.logoContainer {
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 1;
+}
+
+.logoContainer-hidden {
+  opacity: 0;
+  transform: translateY(-15%);
+}
+
+.logoContainer-entering {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.logoContainer-entered {
+  opacity: 1;
+  transform: initial;
+}
+
+.logoContainer-exiting {
+  opacity: 0;
+  transform: translateY(-15%);
+}
+
 .logoFront {
   transition: transform 0.15s, color 0.15s;
   transform: translate(-2px, -2px);
