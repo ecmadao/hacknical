@@ -25,7 +25,6 @@
 .footerWrapper {
   width: 80%;
   height: 100%;
-  max-width: 750px;
   min-width: 675px;
   margin: 0 auto;
   display: flex;

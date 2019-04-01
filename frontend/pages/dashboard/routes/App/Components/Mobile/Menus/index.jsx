@@ -8,6 +8,7 @@ import { TABS } from 'UTILS/constant'
 import locales, { getLocale } from 'LOCALES'
 import MenuWrapper from '../../shared/MenuWrapper'
 import Icon from 'COMPONENTS/Icon'
+import LogoText from 'COMPONENTS/LogoText'
 
 const tabs = locales('dashboard.tabs')
 const locale = getLocale()
@@ -92,15 +93,13 @@ class Menus extends MenuWrapper {
               <Icon icon="navicon" />
             </div>
             <div className={styles.menuLogoBar}>
-              hacknical
+              <LogoText theme="dark" />
             </div>
           </div>
           <PortalModal showModal={menuActive}>
             <div className={styles.menuContainer}>
               <div className={styles.menuTop}>
-                <div className={styles.menuLogo}>
-                  hacknical
-                </div>
+                <LogoText theme="light" className={styles.menuLogo} />
                 <div
                   onClick={this.toggleMenu}
                   className={styles.menuClose}>

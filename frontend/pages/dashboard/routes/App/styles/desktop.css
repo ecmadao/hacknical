@@ -29,9 +29,8 @@
 .app_header_container {
   width: 80%;
   margin: 0 auto;
-  max-width: 1248px;
   display: flex;
-  max-width: 750px;
+  min-width: 675px;
   height: var(--dashboardHeaderHeight);
 }
 

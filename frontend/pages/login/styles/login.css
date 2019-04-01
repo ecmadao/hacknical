@@ -38,6 +38,10 @@
   pointer-events: none;
   display: flex;
   align-items: center;
+
+  width: 80%;
+  margin: auto;
+  justify-content: flex-start;
 }
 
 .topbarLink {
@@ -80,6 +84,10 @@
   text-align: center;
   pointer-events: none;
 
+  width: 80%;
+  justify-content: flex-start;
+  align-items: flex-start;
+
   & span {
     font-size: 12px;
     color: var(--oc-gray-1);
@@ -87,7 +95,7 @@
 }
 
 .logo {
-  font-size: 4em;
+  font-size: 10rem;
 }
 
 .loginButton {
@@ -264,6 +272,10 @@
 }
 
 @media (max-width: 500px) {
+  .logo {
+    font-size: 4rem;
+  }
+
   .statistic {
     & span {
       font-size: 1.8em;
@@ -272,6 +284,10 @@
 }
 
 @media (max-width: 300px) {
+  .logo {
+   font-size: 3rem;
+  }
+
   .statistic {
     & span {
       font-size: 1.5em;
