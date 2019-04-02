@@ -1,6 +1,6 @@
 
 import 'STYLES/fonts-hack.css'
-import renderApp from 'PAGES/Error'
+import renderApp from 'PAGES/error'
 
 $(() => {
   $(document).bind('contextmenu', () => false)
