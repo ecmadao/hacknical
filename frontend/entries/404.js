@@ -9,8 +9,8 @@ $(() => {
     wordLines: [
       '$ seems nothing could found',
       '$ start redirecting....',
-      '$ 5 4 3 2 1 0'
+      '$ 5   4   3   2   1   0'
     ],
-    // onFinish: () => window.location = '/'
+    onFinish: () => window.location = '/'
   })
 })
