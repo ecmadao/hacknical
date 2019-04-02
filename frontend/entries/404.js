@@ -7,8 +7,8 @@ $(() => {
 
   renderApp('error', {
     wordLines: [
-      '$ seems nothing could found',
-      '$ start redirecting....',
+      '$ SEEMS NOTHING COULD FOUND',
+      '$ START REDIRECTING....',
       '$ 5   4   3   2   1   0'
     ],
     onFinish: () => window.location = '/'

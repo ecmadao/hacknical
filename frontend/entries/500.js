@@ -7,8 +7,8 @@ $(() => {
 
   renderApp('error', {
     wordLines: [
-      '$ some terrible things happened',
-      '$ cd /home/bed && sleep',
+      '$ SOME TERRIBLE THINGS HAPPENED',
+      '$ CD /HOME/BED && SLEEP',
       '$ PS',
       '$ NOBODY EXISTS ON PURPOSE',
       '$ NOBODY BELONGS ANYWHERE',
