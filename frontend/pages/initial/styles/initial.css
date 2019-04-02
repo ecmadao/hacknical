@@ -1,49 +1,72 @@
+
 @import 'open-color/open-color.css';
-@import './animation.css';
 
-.contentSection {
+.container {
+  width: 100%;
+  flex: 1;
+  min-height: 100%;
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
+  flex-direction: column;
   align-items: center;
-  margin: 5px 0;
-
-  &:last-child {
-    & .contentCursor {
-      background-color: var(--oc-white);
-    }
-  }
+  background-color: var(--oc-gray-9);
+  color: var(--oc-white);
 }
 
-.emoji {
-  font-size: 16px;
+.content {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 50px 0;
+  width: 80%;
+  min-width: 675px;
 }
 
-.contentBottom {
-  margin-bottom: 20px;
+.contentHeader {
+  font-size: 3.5em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 40px;
 }
 
-.contentInfo {
-  line-height: 1.1em;
-  font-size: 2.5em;
+.contentWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif !important;
 }
 
-.contentCursor {
-  margin-left: 5px;
-  width: 8px;
-  height: 20px;
+.button {
+  padding: 20px 30px;
 }
 
-.cursor-flash {
-  animation: flash 0.7s infinite ease-in-out;
-}
-
-.cursor-loading {
-  animation: loading 0.7s infinite linear;
+.buttonContainer {
+  margin-top: 30px;
 }
 
 @media (max-width: 800px) {
-  .contentInfo {
-    font-size: 1.5em;
+  .content {
+    min-width: initial;
+  }
+
+  .contentHeader {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+
+  .contentWrapper {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .contentHeader {
+    font-size: 2.5em;
+  }
+
+  .contentWrapper {
+    font-size: 2rem;
   }
 }

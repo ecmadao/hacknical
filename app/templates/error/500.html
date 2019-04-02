@@ -1,17 +1,8 @@
 
-{% extends "layouts/base.html" %}
+{% extends "error/base.html" %}
 
-{% block css %}
+{% block errorCss %}
   <link href="{{ assetsPath("assets/500.bundle.css") }}" rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block body %}
-  <div class="app">
-    <div class="content">
-      <div class="content-wrapper">
-      </div>
-    </div>
-  </div>
 {% endblock %}
 
 {% block js %}

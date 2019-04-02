@@ -10,6 +10,7 @@ const _LogoText = (props) => {
     onTransitionEnd,
     className,
     theme = 'light',
+    text = 'hacknical',
     onClick = Function.prototype
   } = props
 
@@ -24,8 +25,8 @@ const _LogoText = (props) => {
       onClick={onClick}
       onTransitionEnd={onTransitionEnd}
     >
-      <div className={styles.logoFront}>hacknical</div>
-      <div className={styles.logoBack}>hacknical</div>
+      <div className={styles.logoFront}>{text}</div>
+      <div className={styles.logoBack}>{text}</div>
     </div>
   )
 }

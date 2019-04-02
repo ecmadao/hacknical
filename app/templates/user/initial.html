@@ -2,19 +2,23 @@
 
 {% block css %}
   <link href="{{ assetsPath("assets/initial.bundle.css") }}" rel="stylesheet" type="text/css">
+  <style>
+    #initial {
+      width: 100%;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
 {% endblock %}
 
 {% block body %}
-<div class="app">
-  <div class="content">
-    <div class="content-header">
-      INITIALIZING - {{ login }}
-    </div>
-    <div class="content-wrapper"></div>
-  </div>
-</div>
+  <div id="initial"></div>
 {% endblock %}
 
 {% block js %}
+  <script>
+    window.login = "{{ login }}";
+  </script>
   <script async defer src="{{ assetsPath("assets/initial.bundle.js") }}"></script>
 {% endblock %}

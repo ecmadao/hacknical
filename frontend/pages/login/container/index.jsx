@@ -9,6 +9,7 @@ import locales, { getLocale } from 'LOCALES'
 import { formatNumber } from 'UTILS/formatter'
 import CountByStep from 'COMPONENTS/Count/CountByStep'
 import LogoText from 'COMPONENTS/LogoText'
+import Terminal from 'COMPONENTS/Terminal'
 import ClassicButton from 'COMPONENTS/ClassicButton'
 
 const {
@@ -214,17 +215,20 @@ class LoginPanel extends React.PureComponent {
             content={(
               <a
                 href={loginLink}
-                className={styles.githubLoginLink}>
+                className={styles.githubLoginLink}
+              >
                 <Icon icon="github" />
                 &nbsp;
                 {loginText.loginButton}
               </a>
             )}
+            onClick={() => window.location = loginLink}
             buttonContainerClassName={styles.loginButton}
           />
-          <span>
-            {loginText.loginText}
-          </span>
+          <Terminal
+            className={styles.loginIntro}
+            wordLines={[`$ ${loginText.loginText}`]}
+          />
           <div className={styles.statisticContainer}>
             {this.renderLoading()}
             {this.renderStatistic()}

@@ -1,0 +1,43 @@
+
+@import 'open-color/open-color.css';
+@import './animation.css';
+
+.contentSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.emoji {
+  font-size: 16px;
+}
+
+.contentBottom {
+  margin-bottom: 20px;
+}
+
+.contentInfo {
+  line-height: 1.1em;
+}
+
+.contentCursor {
+  margin-left: 5px;
+  width: 8px;
+  height: 20px;
+  background-color: var(--oc-white);
+}
+
+.cursorFlash {
+  animation: flash 0.7s infinite ease-in-out;
+}
+
+.cursorLoading {
+  animation: loading 0.7s infinite linear;
+}
+
+@media (max-width: 800px) {
+  .contentInfo {
+  }
+}

@@ -1,13 +1,12 @@
 
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import LoginPanel from './container'
+import Error from 'PAGES/shared/components/Error'
 
 const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId)
   ReactDOM.render(
-    <LoginPanel {...props} />,
+    <Error {...props} />,
     DOM
   )
 }

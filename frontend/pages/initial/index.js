@@ -2,12 +2,12 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import LoginPanel from './container'
+import InitialPanel from './container'
 
 const renderApp = (domId, props = {}) => {
   const DOM = document.getElementById(domId)
   ReactDOM.render(
-    <LoginPanel {...props} />,
+    <InitialPanel {...props} />,
     DOM
   )
 }

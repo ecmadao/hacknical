@@ -1,11 +1,11 @@
 
-import network from '../services/network';
-import getCacheKey from './helper/cacheKey';
-import logger from '../utils/logger';
-import notify from '../services/notify';
+import network from '../services/network'
+import getCacheKey from './helper/cacheKey'
+import logger from '../utils/logger'
+import notify from '../services/notify'
 
 const clearCache = async (ctx, next) => {
-  const cacheKey = getCacheKey(ctx);
+  const cacheKey = getCacheKey(ctx)
   ctx.query.deleteKeys = [
     cacheKey('user-repositories', {
       query: ['login']
@@ -29,56 +29,56 @@ const clearCache = async (ctx, next) => {
     cacheKey('user-commits', {
       query: ['login'],
     })
-  ];
+  ]
   ctx.body = {
     success: true
-  };
-  await next();
-};
+  }
+  await next()
+}
 
 const logout = async (ctx) => {
-  ctx.session.userId = null;
-  ctx.session.githubToken = null;
-  ctx.session.githubLogin = null;
-  ctx.redirect('/');
-};
+  ctx.session.userId = null
+  ctx.session.githubToken = null
+  ctx.session.githubLogin = null
+  ctx.redirect('/')
+}
 
 const loginByGitHub = async (ctx) => {
-  const { code } = ctx.request.query;
+  const { code } = ctx.request.query
   try {
-    const githubToken = await network.github.getToken(code);
-    const userInfo = await network.github.getLogin(githubToken);
-    logger.debug(userInfo);
+    const githubToken = await network.github.getToken(code)
+    const userInfo = await network.github.getLogin(githubToken)
+    logger.debug(userInfo)
 
     if (userInfo.login) {
-      ctx.session.githubToken = githubToken;
-      ctx.session.githubLogin = userInfo.login;
+      ctx.session.githubToken = githubToken
+      ctx.session.githubLogin = userInfo.login
 
-      const user = await network.user.createUser(userInfo);
+      const user = await network.user.createUser(userInfo)
       notify.slack({
         mq: ctx.mq,
         data: {
           type: 'login',
           data: `<https://github.com/${userInfo.login}|${userInfo.login}> logined!`
         }
-      });
+      })
 
-      logger.info(`[USER:LOGIN] ${JSON.stringify(user)}`);
-      ctx.session.userId = user.userId;
+      logger.info(`[USER:LOGIN] ${JSON.stringify(user)}`)
+      ctx.session.userId = user.userId
       if (user && user.initialed) {
-        network.github.updateUserData(ctx.session.githubLogin, githubToken);
+        network.github.updateUserData(ctx.session.githubLogin, githubToken)
       }
-      return ctx.redirect(`/${ctx.session.githubLogin}`);
+      return ctx.redirect(`/${ctx.session.githubLogin}`)
     }
-    return ctx.redirect('/api/user/logout');
+    return ctx.redirect('/api/user/logout')
   } catch (err) {
-    logger.error(err);
-    return ctx.redirect('/api/user/logout');
+    logger.error(err)
+    return ctx.redirect('/api/user/logout')
   }
-};
+}
 
 const initialFinished = async (ctx) => {
-  const { userId } = ctx.session;
+  const { userId } = ctx.session
 
   await Promise.all([
     network.user.updateUser(userId, { initialed: true }),
@@ -86,25 +86,25 @@ const initialFinished = async (ctx) => {
       type: 'github',
       action: 'count'
     })
-  ]);
+  ])
 
   ctx.body = {
     success: true,
     result: ''
-  };
-};
+  }
+}
 
 const getUserInfo = async (ctx) => {
-  const { login } = ctx.query;
+  const { login } = ctx.query
   const user = await network.user.getUser({
     login: login || ctx.session.githubLogin
-  });
+  })
 
   ctx.body = {
     result: user,
-    success: true,
-  };
-};
+    success: true
+  }
+}
 
 const patchUserInfo = async (ctx) => {
   const { userId } = ctx.session;
@@ -174,5 +174,5 @@ export default {
   // notify
   markNotifies,
   voteNotify,
-  getUnreadNotifies,
-};
+  getUnreadNotifies
+}

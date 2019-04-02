@@ -87,11 +87,11 @@
   width: 80%;
   justify-content: flex-start;
   align-items: flex-start;
+}
 
-  & span {
-    font-size: 12px;
-    color: var(--oc-gray-1);
-  }
+.loginIntro {
+  font-size: 1rem;
+  color: var(--oc-gray-1);
 }
 
 .logo {
@@ -280,6 +280,10 @@
     & span {
       font-size: 1.8em;
     }
+  }
+
+  .loginIntro {
+    font-size: 0.8rem;
   }
 }
 

@@ -123,12 +123,12 @@ export const toPromise = f => (...args) =>
   new Promise((resolve, reject) => {
     const result = f(...args)
     try {
-      return result.then(resolve, reject) // promise.
+      return result.then(resolve, reject)
     } catch (e) {
       if (e instanceof TypeError) {
-        resolve(result) // resolve naked value.
+        resolve(result)
       } else {
-        reject(e) // pass unhandled exception to caller.
+        reject(e)
       }
     }
   })

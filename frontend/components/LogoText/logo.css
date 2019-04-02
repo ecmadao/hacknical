@@ -10,7 +10,7 @@
 .logoContainer {
   position: relative;
   user-select: none;
-  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
+  font-family: 'Geo', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif !important;
 
   &:hover {
     & .logoFront {

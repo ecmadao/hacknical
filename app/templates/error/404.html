@@ -1,17 +1,9 @@
-{% extends "layouts/base.html" %}
 
-{% block css %}
+{% extends "error/base.html" %}
+
+{% block errorCss %}
   <!-- <meta http-equiv="refresh" content="4; url=/"> -->
   <link href="{{ assetsPath("assets/404.bundle.css") }}" rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block body %}
-  <div class="app">
-    <div class="content">
-      <div class="content-wrapper">
-      </div>
-    </div>
-  </div>
 {% endblock %}
 
 {% block js %}
