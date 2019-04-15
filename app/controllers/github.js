@@ -256,7 +256,7 @@ const updateUserData = async (ctx) => {
 
   ctx.body = {
     success: true,
-    message: ctx.__('messages.update.pending'),
+    message: ctx.__('messages.update.pending')
   }
 }
 

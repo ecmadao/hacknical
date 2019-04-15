@@ -1,49 +1,46 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import cx from 'classnames';
-import { bindActionCreators } from 'redux';
-import { Loading, Button, Input } from 'light-ui';
-import TimePicker from 'rc-times';
-import 'rc-times/css/timepicker.css';
-import settingActions from '../../../redux/actions';
-import styles from '../styles/setting.css';
-import locales from 'LOCALES';
-import { REMINDER_PREFIX, REMINDER_INTERVALS } from 'UTILS/constant/resume';
-import SwitcherPanel from './SwitcherPanel';
-import Panel from './Panel';
-import CheckPanel from './CheckPanel';
+
+import React from 'react'
+import { connect } from 'react-redux'
+import cx from 'classnames'
+import { bindActionCreators } from 'redux'
+import { Loading, Button, Input } from 'light-ui'
+import TimePicker from 'rc-times'
+import 'rc-times/css/timepicker.css'
+import settingActions from '../../../redux/actions'
+import styles from '../styles/setting.css'
+import locales from 'LOCALES'
+import { REMINDER_PREFIX, REMINDER_INTERVALS } from 'UTILS/constant/resume'
+import SwitcherPanel from './SwitcherPanel'
+import Panel from './Panel'
+import CheckPanel from './CheckPanel'
 import Icon from 'COMPONENTS/Icon'
 
-const settingTexts = locales('dashboard.setting');
+const settingTexts = locales('dashboard.setting')
 
 const getReminderIndex = (value) => {
-  let index = REMINDER_INTERVALS.findIndex(obj => obj.id === value);
-  if (index === -1) index = 0;
-  return index;
-};
+  let index = REMINDER_INTERVALS.findIndex(obj => obj.id === value)
+  if (index === -1) index = 0
+  return index
+}
 
 class DesktopSetting extends React.Component {
   constructor(props) {
-    super(props);
-    this.onReminderChange = this.onReminderChange.bind(this);
-    this.postResumeReminderChange = this.postResumeReminderChange.bind(this);
+    super(props)
+    this.onReminderChange = this.onReminderChange.bind(this)
+    this.postResumeReminderChange = this.postResumeReminderChange.bind(this)
   }
 
   componentDidMount() {
-    const { actions } = this.props;
-    actions.fetchGithubUpdateStatus();
-    actions.fetchResumeShareInfo();
-    actions.fetchGithubShareInfo();
-    // const { actions, loading, resumeInfo, githubInfo } = this.props;
-    // loading && actions.fetchGithubUpdateStatus();
-    // resumeInfo && resumeInfo.loading && actions.fetchResumeShareInfo();
-    // githubInfo && githubInfo.loading && actions.fetchGithubShareInfo();
+    const { actions } = this.props
+    actions.fetchGithubUpdateStatus()
+    actions.fetchResumeShareInfo()
+    actions.fetchGithubShareInfo()
   }
 
   renderGithubShareSectionsSetting() {
-    const { resumeInfo, actions } = this.props;
+    const { resumeInfo, actions } = this.props
     const shareSection = section => checked =>
-      actions.postResumeShareSection(section, checked);
+      actions.postResumeShareSection(section, checked)
 
     if (resumeInfo.useGithub && resumeInfo.github) {
       return (
@@ -91,14 +88,14 @@ class DesktopSetting extends React.Component {
             onChange={shareSection('contributed')}
           />
         </Panel>
-      );
+      )
     }
-    return null;
+    return null
   }
 
   renderResumeGithubSetting() {
-    const { resumeInfo, actions } = this.props;
-    const panels = [];
+    const { resumeInfo, actions } = this.props
+    const panels = []
 
     if (resumeInfo) {
       panels.push((
@@ -111,35 +108,35 @@ class DesktopSetting extends React.Component {
             disabled={resumeInfo.loading}
           />
         </Panel>
-      ));
+      ))
     }
     if (!resumeInfo.loading && resumeInfo.useGithub) {
       panels.push(
         this.renderGithubShareSectionsSetting()
-      );
+      )
     }
-    return panels;
+    return panels
   }
 
   onReminderChange({ indexs }) {
-    const index = indexs[0];
-    const id = REMINDER_INTERVALS[index].id;
-    this.postResumeReminderChange('type')(id);
+    const index = indexs[0]
+    const id = REMINDER_INTERVALS[index].id
+    this.postResumeReminderChange('type')(id)
   }
 
   postResumeReminderChange(key) {
-    const { actions } = this.props;
-    return val => actions.postResumeReminderChange(key, val);
+    const { actions } = this.props
+    return val => actions.postResumeReminderChange(key, val)
   }
 
   renderResumeReminderSetting() {
     const {
       actions,
-      resumeInfo,
-    } = this.props;
+      resumeInfo
+    } = this.props
 
-    const resumeInfoLoading = resumeInfo && resumeInfo.loading;
-    const panels = [];
+    const resumeInfoLoading = resumeInfo && resumeInfo.loading
+    const panels = []
 
     panels.push((
       <Panel key="resumeReminderSetting-1">
@@ -150,7 +147,7 @@ class DesktopSetting extends React.Component {
           checked={(resumeInfo && resumeInfo.reminder.enable) || false}
         />
       </Panel>
-    ));
+    ))
 
     if (resumeInfo && resumeInfo.reminder.enable) {
       panels.push((
@@ -182,18 +179,18 @@ class DesktopSetting extends React.Component {
             />
           </div>
         </Panel>
-      ));
+      ))
     }
-    return panels;
+    return panels
   }
 
   renderResumeShareSetting() {
     const {
       actions,
       resumeInfo,
-    } = this.props;
+    } = this.props
 
-    const panels = [];
+    const panels = []
 
     panels.push((
       <Panel key="resumeShareSetting-1">
@@ -204,12 +201,12 @@ class DesktopSetting extends React.Component {
           checked={(resumeInfo && resumeInfo.openShare) || false}
         />
       </Panel>
-    ));
+    ))
 
     if (resumeInfo && resumeInfo.openShare) {
-      let tip = settingTexts.resume.simplifyUrlTip;
-      tip = tip.replace(':login', resumeInfo.login);
-      tip = tip.replace(':hash', resumeInfo.resumeHash);
+      let tip = settingTexts.resume.simplifyUrlTip
+      tip = tip.replace(':login', resumeInfo.login)
+      tip = tip.replace(':hash', resumeInfo.resumeHash)
 
       panels.push((
         <Panel key="resumeShareSetting-2">
@@ -222,9 +219,9 @@ class DesktopSetting extends React.Component {
             checked={resumeInfo && resumeInfo.simplifyUrl}
           />
         </Panel>
-      ));
+      ))
     }
-    return panels;
+    return panels
   }
 
   render() {
@@ -235,7 +232,7 @@ class DesktopSetting extends React.Component {
       githubInfo,
       updateTime,
       refreshEnable
-    } = this.props;
+    } = this.props
 
     return (
       <div className={styles.container}>
@@ -289,18 +286,18 @@ class DesktopSetting extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
-  return { ...state.setting };
+  return { ...state.setting }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(settingActions, dispatch)
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DesktopSetting);
+export default connect(mapStateToProps, mapDispatchToProps)(DesktopSetting)

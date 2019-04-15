@@ -12,7 +12,7 @@ $(() => {
       '$ PS',
       '$ NOBODY EXISTS ON PURPOSE',
       '$ NOBODY BELONGS ANYWHERE',
-      '$ EVERYBODY\'s GONNA DIE',
+      '$ EVERYBODY\'S GONNA DIE',
       '$ SO, WHAT WOULD U DO IF U WEREN\'T AFRAID?'
     ]
   })

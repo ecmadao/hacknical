@@ -113,10 +113,12 @@ const sortByLanguage = obj =>
   (firstLanguage, secLanguage) =>
     obj[secLanguage] - obj[firstLanguage];
 
-const getReposByX = x => (repos, items) =>
-  repos.filter(
+const getReposByX = x => (repos, items) => {
+  if (!items) return repos
+  return repos.filter(
     repository => items.some(item => item === repository[x])
-  );
+  )
+}
 
 const getReposInfo = (commits, repos) => commits.map((commit) => {
   const { name } = commit;
