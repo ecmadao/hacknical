@@ -49,6 +49,10 @@
       "prefix": "/resumes"
     }
   },
+  "stackimpact": {
+    "key": "",
+    "name": ""
+  },
   "mq": {
     "qname": ""
   }

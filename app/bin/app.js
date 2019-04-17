@@ -12,6 +12,8 @@ import nunjucks from 'nunjucks'
 import views from 'koa-views'
 import userAgent from 'koa-useragent'
 import staticServer from 'koa-static'
+import stackimpact from 'stackimpact'
+import git from 'git-rev-sync'
 
 import router from '../routes'
 import logger from '../utils/logger'
@@ -26,6 +28,15 @@ import platformMiddleware from '../middlewares/platform'
 const port = config.get('port')
 const appKey = config.get('appKey')
 const appName = config.get('appName')
+
+if (config.get('stackimpact.key')) {
+  stackimpact.start({
+    agentKey: config.get('stackimpact.key'),
+    appName: config.get('stackimpact.name'),
+    appVersion: git.short(),
+    debug: process.env.NODE_ENV !== 'production'
+  })
+}
 
 const app = new Koa()
 app.proxy = true
