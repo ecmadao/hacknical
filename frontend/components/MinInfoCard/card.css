@@ -17,3 +17,7 @@
     color: var(--oc-gray-5);
   }
 }
+
+.cardBg {
+  background-color: var(--oc-white);
+}
