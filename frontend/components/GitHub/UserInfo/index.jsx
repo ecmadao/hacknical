@@ -1,16 +1,17 @@
-import React from 'react';
-import cx from 'classnames';
-import github from 'UTILS/github';
-import dateHelper from 'UTILS/date';
-import SocialInfo from 'COMPONENTS/GitHub/SocialInfo';
-import styles from '../styles/info_card.css';
-import locales from 'LOCALES';
+import React from 'react'
+import cx from 'classnames'
+import github from 'UTILS/github'
+import dateHelper from 'UTILS/date'
+import SocialInfo from 'COMPONENTS/GitHub/SocialInfo'
+import styles from '../styles/info_card.css'
+import locales from 'LOCALES'
 
-const githubTexts = locales('github.sections.baseInfo');
+const githubTexts = locales('github.sections.baseInfo')
 
 const UserInfo = (props) => {
-  const { user, className } = props;
-  if (!user) return <div />;
+  const { user, className } = props
+  if (!user) return <div />
+
   return (
     <div className={cx(styles.info_card, className)}>
       <div className={styles.info_header}>
@@ -33,11 +34,11 @@ const UserInfo = (props) => {
       </div>
       <SocialInfo user={user} />
     </div>
-  );
-};
+  )
+}
 
 UserInfo.defaultProps = {
   className: ''
-};
+}
 
-export default UserInfo;
+export default UserInfo

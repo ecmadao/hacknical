@@ -2,32 +2,26 @@
 import React from 'react'
 import cx from 'classnames'
 import styles from './logo.css'
-import { AnimationComponent } from 'light-ui'
+import { AnimationComponent, ClassicText } from 'light-ui'
 
 const _LogoText = (props) => {
   const {
     status,
-    onTransitionEnd,
-    className,
-    theme = 'light',
-    text = 'hacknical',
-    onClick = Function.prototype
+    className
   } = props
 
+  const textClassName = cx(
+    className,
+    styles.logoContainer,
+    styles[`logoContainer-${status}`]
+  )
+
   return (
-    <div
-      className={cx(
-        styles.logoContainer,
-        className,
-        styles[`logo_${theme}`],
-        styles[`logoContainer-${status}`]
-      )}
-      onClick={onClick}
-      onTransitionEnd={onTransitionEnd}
-    >
-      <div className={styles.logoFront}>{text}</div>
-      <div className={styles.logoBack}>{text}</div>
-    </div>
+    <ClassicText
+      {...props}
+      className={textClassName}
+      text={props.text || 'hacknical'}
+    />
   )
 }
 

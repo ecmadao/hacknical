@@ -14,6 +14,7 @@
     border-radius: 3px;
     margin: 15px 7.5px;
 
+
     &:first-child {
       margin-left: 15px;
     }
@@ -25,25 +26,18 @@
     &:hover {
       color: var(--oc-white);
       box-shadow: var(--shadowCard);
-
-      & span {
-        color: var(--oc-white);
-
-        &:first-child {
-          color: var(--oc-white);
-        }
-      }
-    }
-
-    & span {
-      transition: color 0.2s;
-      color: rgba(255, 255, 255, 0.5);
-
-      &:first-child {
-        line-height: 90px;
-        font-size: 2.5em;
-        color: rgba(255, 255, 255, 0.7);
-      }
     }
   }
+}
+
+.infoText {
+  line-height: 90px;
+  font-size: 2.5em;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.infoTextSub {
+  opacity: 0.5;
+  color: var(--oc-white);
 }

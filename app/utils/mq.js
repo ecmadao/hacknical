@@ -33,21 +33,14 @@ class MessageQueue {
   }
 
   async sendMessage(msg) {
+    if (!this.qname) {
+      logger.debug(`[msg] ${JSON.stringify(msg)}`)
+      return
+    }
     if (!this.mq) {
       await this.createMQ()
     }
     return await this.mq.sendP(msg)
-  }
-
-  async sendMessages(msgs) {
-    if (!this.mqBatch) {
-      await this.createQueue()
-    }
-    const datas = []
-    for (const msg of msgs) {
-      datas.push(new AliMNS.Msg(msg, 16))
-    }
-    return await this.mqBatch.sendP(datas)
   }
 }
 

@@ -16,42 +16,42 @@ const EmptyDOM = () => (<div />)
 
 class GitHubSection extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showOperations: false
-    };
-    this.onMenuClick = this.onMenuClick.bind(this);
-    this.handleMenuClick = this.handleMenuClick.bind(this);
-    this.onOperationFocusChange = this.onOperationFocusChange.bind(this);
+    }
+    this.onMenuClick = this.onMenuClick.bind(this)
+    this.handleMenuClick = this.handleMenuClick.bind(this)
+    this.onOperationFocusChange = this.onOperationFocusChange.bind(this)
   }
 
   onOperationFocusChange(value) {
     this.setState({
       showOperations: value
-    });
+    })
   }
 
   handleMenuClick() {
-    const { section, sectionStatus } = this.props;
+    const { section, sectionStatus } = this.props
     this.onMenuClick({
       [section]: !sectionStatus
-    });
+    })
   }
 
   onMenuClick(value) {
-    const { callback } = this.props;
-    callback && callback(value);
-    this.onOperationFocusChange(false);
+    const { callback } = this.props
+    callback && callback(value)
+    this.onOperationFocusChange(false)
   }
 
   get operationItems() {
-    const { sectionStatus = true } = this.props;
+    const { sectionStatus = true } = this.props
     return [
       {
         text: sectionStatus ? operationTexts.share.hide : operationTexts.share.show,
         onClick: this.handleMenuClick
       }
-    ];
+    ]
   }
 
   render() {
@@ -67,10 +67,10 @@ class GitHubSection extends React.Component {
       canOperate,
       cardClass,
       onTransitionEnd
-    } = this.props;
-    const { showOperations } = this.state;
-    if (hide) return <EmptyDOM />;
-    const Section = config[section] || EmptyDOM;
+    } = this.props
+    const { showOperations } = this.state
+    if (hide) return <EmptyDOM />
+    const Section = config[section] || EmptyDOM
 
     return (
       <div
@@ -113,7 +113,7 @@ class GitHubSection extends React.Component {
           />
         ) : null}
       </div>
-    );
+    )
   }
 }
 
@@ -129,8 +129,8 @@ GitHubSection.propTypes = {
   callback: PropTypes.func,
   intro: PropTypes.object,
   cardClass: PropTypes.string,
-  status: PropTypes.string,
-};
+  status: PropTypes.string
+}
 
 GitHubSection.defaultProps = {
   section: Object.keys(config)[0],
@@ -148,6 +148,6 @@ GitHubSection.defaultProps = {
   intro: null,
   cardClass: '',
   status: 'hidden'
-};
+}
 
-export default GitHubSection;
+export default GitHubSection

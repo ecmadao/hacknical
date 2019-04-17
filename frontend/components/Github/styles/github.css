@@ -588,6 +588,7 @@
 /* hotmap */
 .githubCalendar {
   composes: card from 'STYLES/common.css';
+  box-shadow: none;
   border-color: transparent;
   background-color: var(--oc-white);
   text-align: center;

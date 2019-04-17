@@ -94,6 +94,7 @@ const datas = {
       maxUsageLanguageTip: '使用频率达到 $%',
       maxStarLanguage: '拥有最多的 star',
       frequency: '语言使用频次',
+      frequencyPercentage: '使用频次占比',
       usageChart: {
         title: '语言使用频次',
         label: '占比：'

@@ -35,12 +35,12 @@
     },
     "messenger": {
       "slack": {
-        "channel": "hacknical"
+        "channel": ""
       },
       "email": {
         "type": "sendcloud",
-        "channel": "hacknical_app",
-        "template": "hacknical_welcome"
+        "channel": "",
+        "template": ""
       }
     },
     "oss": {
@@ -50,6 +50,6 @@
     }
   },
   "mq": {
-    "qname": "messenger-local"
+    "qname": ""
   }
 }

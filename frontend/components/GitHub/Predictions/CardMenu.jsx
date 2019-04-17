@@ -39,11 +39,11 @@ class CardMenu extends React.PureComponent {
     return () => {
       callback && callback();
       this.changeMenuStatus(false);
-    };
+    }
   }
 
   renderMenus() {
-    const { items } = this.props;
+    const { items } = this.props
     return items.map((item, index) => {
       const {
         icon,

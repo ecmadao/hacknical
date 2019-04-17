@@ -12,7 +12,7 @@
     &:last-child {
       & .infoCard {
         width: 150px;
-        padding-right: 15px;
+        padding-right: 50px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -21,11 +21,6 @@
   }
 
   & .infoCard {
-    border-radius: 2px;
-    box-shadow: var(--shadow2);
-    padding: 10px 25px 7px;
-    background-color: var(--oc-green-7);
-
     & i {
       margin-right: 10px;
     }

@@ -1,35 +1,35 @@
-import React from 'react';
+import React from 'react'
 import {
   Label,
   Loading,
   InfoCard,
-  CardGroup,
-} from 'light-ui';
-import locales from 'LOCALES';
-import github from 'UTILS/github';
-import { randomColor } from 'UTILS/colors';
-import { getMaxIndex } from 'UTILS/helper';
-import githubStyles from '../styles/github.css';
-import cardStyles from '../styles/info_card.css';
-import ReposRowInfo from '../ReposRowInfo';
-import LanguageLines from 'COMPONENTS/GitHub/LanguageLines';
+  CardGroup
+} from 'light-ui'
+import locales from 'LOCALES'
+import github from 'UTILS/github'
+import { randomColor } from 'UTILS/colors'
+import { getMaxIndex } from 'UTILS/helper'
+import githubStyles from '../styles/github.css'
+import cardStyles from '../styles/info_card.css'
+import ReposRowInfo from '../ReposRowInfo'
+import LanguageLines from 'COMPONENTS/GitHub/LanguageLines'
 
-const githubTexts = locales('github.sections.languages');
-const getRamdomColor = randomColor('LanguageLines');
+const githubTexts = locales('github.sections.languages')
+const getRamdomColor = randomColor('LanguageLines')
 
 class LanguageInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showLanguage: null
-    };
-    this.languages = [];
-    this.setShowLanguage = this.setShowLanguage.bind(this);
+    }
+    this.languages = []
+    this.setShowLanguage = this.setShowLanguage.bind(this)
   }
 
   renderShowRepos() {
-    const { repositories } = this.props;
-    const { showLanguage } = this.state;
+    const { repositories } = this.props
+    const { showLanguage } = this.state
     const targetRepositories = github
       .getReposByLanguage(repositories, showLanguage)
       .map((repository, index) => (
@@ -37,7 +37,7 @@ class LanguageInfo extends React.Component {
           key={index}
           repository={repository}
         />
-      ));
+      ))
     return (
       <div className={githubStyles.repos_show_container}>
         <p className={githubStyles.repos_show_title}>
@@ -46,20 +46,20 @@ class LanguageInfo extends React.Component {
         </p>
         {targetRepositories}
       </div>
-    );
+    )
   }
 
   renderBaseInfo() {
-    const { languageDistributions, languageSkills, languageUsed } = this.props;
+    const { languageDistributions, languageSkills, languageUsed } = this.props
 
-    const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key]);
-    const starCount = Object.keys(languageSkills).map(key => languageSkills[key]);
-    const maxReposCountIndex = getMaxIndex(reposCount);
-    const maxStarCountIndex = getMaxIndex(starCount);
-    const maxUsedLanguage = this.sortedLanguages[0];
+    const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key])
+    const starCount = Object.keys(languageSkills).map(key => languageSkills[key])
+    const maxReposCountIndex = getMaxIndex(reposCount)
+    const maxStarCountIndex = getMaxIndex(starCount)
+    const maxUsedLanguage = this.sortedLanguages[0]
     const total = Object.keys(languageUsed)
       .map(key => languageUsed[key])
-      .reduce((p, c) => p + c, 0);
+      .reduce((p, c) => p + c, 0)
 
     return (
       <CardGroup className={cardStyles.card_group}>
@@ -87,29 +87,29 @@ class LanguageInfo extends React.Component {
           subText={githubTexts.maxStarLanguage}
         />
       </CardGroup>
-    );
+    )
   }
 
   setShowLanguage(language) {
-    const { showLanguage } = this.state;
-    const value = showLanguage === language ? null : language;
-    this.setState({ showLanguage: value });
+    const { showLanguage } = this.state
+    const value = showLanguage === language ? null : language
+    this.setState({ showLanguage: value })
   }
 
   get sortedLanguages() {
-    if (this.languages.length) this.languages;
-    const { languageUsed, languages } = this.props;
+    if (this.languages.length) this.languages
+    const { languageUsed, languages } = this.props
 
-    let datas = languages;
-    if (!datas || Object.keys(datas).length === 0) datas = languageUsed;
+    let datas = languages
+    if (!datas || Object.keys(datas).length === 0) datas = languageUsed
     this.languages = Object.keys(datas)
       .sort(github.sortByLanguage(datas))
-      .slice(0, 6);
-    return this.languages;
+      .slice(0, 6)
+    return this.languages
   }
 
   renderLanguagesLabel() {
-    const { showLanguage } = this.state;
+    const { showLanguage } = this.state
     const languages = this.sortedLanguages.map((language, index) => (
       <Label
         key={index}
@@ -122,17 +122,17 @@ class LanguageInfo extends React.Component {
         onClick={() => this.setShowLanguage(language)}
         active={language === showLanguage}
       />
-    ));
+    ))
     return (
       <div className={githubStyles.languageLabelWrapper}>
         {languages}
       </div>
-    );
+    )
   }
 
   renderLanguageReview() {
-    const { showLanguage } = this.state;
-    const { loaded, languages, languageUsed } = this.props;
+    const { showLanguage } = this.state
+    const { loaded, languages, languageUsed } = this.props
     return (
       <div>
         {this.renderBaseInfo()}
@@ -146,16 +146,16 @@ class LanguageInfo extends React.Component {
         {this.renderLanguagesLabel()}
         {showLanguage ? this.renderShowRepos() : null}
       </div>
-    );
+    )
   }
 
   render() {
-    const { loaded, className } = this.props;
+    const { loaded, className } = this.props
     return (
       <div className={className}>
         {!loaded ? <Loading loading /> : this.renderLanguageReview()}
       </div>
-    );
+    )
   }
 }
 
@@ -166,6 +166,6 @@ LanguageInfo.defaultProps = {
   languageSkills: {},
   languageUsed: {},
   languageDistributions: {}
-};
+}
 
-export default LanguageInfo;
+export default LanguageInfo

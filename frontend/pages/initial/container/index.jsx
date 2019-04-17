@@ -5,8 +5,8 @@ import { EMOJI } from 'UTILS/constant'
 import LogoText from 'COMPONENTS/LogoText'
 import Terminal from 'COMPONENTS/Terminal'
 import refresher from 'UTILS/refresher'
-import ClassicButton from 'COMPONENTS/ClassicButton'
 import styles from '../styles/initial.css'
+import { ClassicButton } from 'light-ui'
 
 class InitialPanel extends React.Component {
   constructor(props) {

@@ -1,50 +1,50 @@
 /* eslint new-cap: "off" */
 
-import React from 'react';
-import Chart from 'chart.js';
-import cx from 'classnames';
-import Headroom from 'headroom.js';
-import objectAssign from 'UTILS/object-assign';
-import ScrollReveal from 'scrollreveal';
-import { InfoCard, CardGroup } from 'light-ui';
-import FAB from 'COMPONENTS/FloatingActionButton';
+import React from 'react'
+import Chart from 'chart.js'
+import cx from 'classnames'
+import Headroom from 'headroom.js'
+import objectAssign from 'UTILS/object-assign'
+import ScrollReveal from 'scrollreveal'
+import { InfoCard, CardGroup, ClassicText } from 'light-ui'
+import FAB from 'COMPONENTS/FloatingActionButton'
 
-import github from 'UTILS/github';
-import chart from 'UTILS/chart';
+import github from 'UTILS/github'
+import chart from 'UTILS/chart'
 import {
   getMaxIndex,
-  getFirstMatchTarget,
-} from 'UTILS/helper';
-import dateHelper from 'UTILS/date';
-import { DAYS } from 'UTILS/constant';
-import { LINE_CONFIG } from 'UTILS/constant/chart';
-import styles from '../styles/github.css';
-import sharedStyles from 'SHARED/styles/mobile.css';
-import Slick from 'COMPONENTS/Slick';
-import locales from 'LOCALES';
-import Hotmap from 'COMPONENTS/GitHub/Hotmap';
-import LanguageLines from 'COMPONENTS/GitHub/LanguageLines';
-import 'SRC/vendor/mobile/github.css';
+  getFirstMatchTarget
+} from 'UTILS/helper'
+import dateHelper from 'UTILS/date'
+import { DAYS } from 'UTILS/constant'
+import { LINE_CONFIG } from 'UTILS/constant/chart'
+import styles from '../styles/github.css'
+import sharedStyles from 'SHARED/styles/mobile.css'
+import Slick from 'COMPONENTS/Slick'
+import locales from 'LOCALES'
+import Hotmap from 'COMPONENTS/GitHub/Hotmap'
+import LanguageLines from 'COMPONENTS/GitHub/LanguageLines'
+import 'SRC/vendor/mobile/github.css'
 
-const sortByLanguageStar = github.sortByX({ key: 'star' });
-const githubLocales = locales('github');
-const githubTexts = githubLocales.sections;
-const getDateBySeconds = dateHelper.date.bySeconds;
+const sortByLanguageStar = github.sortByX({ key: 'star' })
+const githubLocales = locales('github')
+const githubTexts = githubLocales.sections
+const getDateBySeconds = dateHelper.date.bySeconds
 
 class GitHubMobileContent extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.reposChart = null;
-    this.languageSkillChart = null;
-    this.commitsYearlyReviewChart = null;
+    this.reposChart = null
+    this.languageSkillChart = null
+    this.commitsYearlyReviewChart = null
   }
 
   componentDidUpdate(preProps) {
-    this.renderCharts();
-    const { commitLoaded } = this.props;
-    this.initialScrollReveal();
-    commitLoaded && !preProps.commitLoaded && this.reposChartDOM && this.renderRepositoriesChart();
+    this.renderCharts()
+    const { commitLoaded } = this.props
+    this.initialScrollReveal()
+    commitLoaded && !preProps.commitLoaded && this.reposChartDOM && this.renderRepositoriesChart()
 
     if (this.props.isAdmin && !this.headroom && this.refreshButton) {
       this.headroom = new Headroom(this.refreshButton, {
@@ -53,78 +53,78 @@ class GitHubMobileContent extends React.Component {
           pinned: 'fab-pinned',
           unpinned: 'fab-unpinned'
         }
-      });
-      this.headroom.init();
+      })
+      this.headroom.init()
     }
   }
 
   initialScrollReveal() {
-    const { repositoriesLoaded, commitLoaded, hotmapLoaded } = this.props;
-    if (!repositoriesLoaded || !commitLoaded || !hotmapLoaded) return;
-    if (this.scrollRevealLoaded) return;
+    const { repositoriesLoaded, commitLoaded, hotmapLoaded } = this.props
+    if (!repositoriesLoaded || !commitLoaded || !hotmapLoaded) return
+    if (this.scrollRevealLoaded) return
 
-    this.scrollRevealLoaded = true;
-    const sr = ScrollReveal({ reset: true });
+    this.scrollRevealLoaded = true
+    const sr = ScrollReveal({ reset: true })
     try {
-      sr.reveal('#reposChartDOM', { duration: 150 });
-      sr.reveal('#skillChartDOM', { duration: 150 });
-      sr.reveal('#commitsChartDOM', { duration: 150 });
-      // sr.reveal('#commitsWrapperDOM', { duration: 150 });
-      sr.reveal('#reposWrapperDOM', { duration: 150 });
-      // sr.reveal('#languageWrapperDOM', { duration: 150 });
+      sr.reveal('#reposChartDOM', { duration: 150 })
+      sr.reveal('#skillChartDOM', { duration: 150 })
+      sr.reveal('#commitsChartDOM', { duration: 150 })
+      // sr.reveal('#commitsWrapperDOM', { duration: 150 })
+      sr.reveal('#reposWrapperDOM', { duration: 150 })
+      // sr.reveal('#languageWrapperDOM', { duration: 150 })
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
   }
 
   renderCharts() {
-    const { repositories, commitInfos } = this.props;
-    const { commits } = commitInfos;
+    const { repositories, commitInfos } = this.props
+    const { commits } = commitInfos
     if (repositories.length) {
-      !this.reposChart && this.reposChartDOM && this.renderRepositoriesChart();
-      !this.languageSkillChart && this.languageSkillDOM && this.renderLanguagesChart();
+      !this.reposChart && this.reposChartDOM && this.renderRepositoriesChart()
+      !this.languageSkillChart && this.languageSkillDOM && this.renderLanguagesChart()
     }
     if (commits.length) {
-      !this.commitsYearlyReviewChart && this.commitsYearlyChartDOM && this.renderYearlyChart(commits);
+      !this.commitsYearlyReviewChart && this.commitsYearlyChartDOM && this.renderYearlyChart(commits)
     }
   }
 
   renderYearlyChart(commits) {
-    const commitDates = [];
-    const dateLabels = [];
+    const commitDates = []
+    const dateLabels = []
 
-    const monthlyCommits = {};
+    const monthlyCommits = {}
 
     for (const commit of commits) {
-      const endDate = getDateBySeconds(commit.week);
-      const [year, month, day] = endDate.split('-');
-      const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0;
+      const endDate = getDateBySeconds(commit.week)
+      const [year, month, day] = endDate.split('-')
+      const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0
 
-      const thisMonthKey = `${year}-${parseInt(month, 10)}`;
+      const thisMonthKey = `${year}-${parseInt(month, 10)}`
       const totalCommits = commit.days.slice(sliceIndex).reduce(
         (pre, next) => pre + next, 0
-      );
-      const targetCommits = monthlyCommits[thisMonthKey];
+      )
+      const targetCommits = monthlyCommits[thisMonthKey]
       monthlyCommits[thisMonthKey] = Number.isNaN(targetCommits)
         ? totalCommits
-        : totalCommits + targetCommits;
+        : totalCommits + targetCommits
 
       if (sliceIndex > 0) {
         const preMonthKey = parseInt(month, 10) - 1 <= 0
           ? `${parseInt(year, 10) - 1}-12`
-          : `${year}-${parseInt(month, 10) - 1}`;
+          : `${year}-${parseInt(month, 10) - 1}`
         const preTotalCommits = commit.days.slice(0, sliceIndex)
-          .reduce((pre, next) => pre + next, 0);
-        const preTargetCommits = monthlyCommits[preMonthKey];
+          .reduce((pre, next) => pre + next, 0)
+        const preTargetCommits = monthlyCommits[preMonthKey]
         monthlyCommits[preMonthKey] = Number.isNaN(preTargetCommits)
           ? preTotalCommits
-          : preTotalCommits + preTargetCommits;
+          : preTotalCommits + preTargetCommits
       }
     }
 
     for (const key of Object.keys(monthlyCommits)) {
-      commitDates.push(monthlyCommits[key]);
-      dateLabels.push(key);
+      commitDates.push(monthlyCommits[key])
+      dateLabels.push(key)
     }
     this.commitsYearlyReviewChart = new Chart(this.commitsYearlyChartDOM, {
       type: 'line',
@@ -160,10 +160,10 @@ class GitHubMobileContent extends React.Component {
               display: false
             },
             ticks: { beginAtZero: true, }
-          }],
-        },
+          }]
+        }
       }
-    });
+    })
   }
 
   renderLanguagesChart() {
@@ -244,23 +244,23 @@ class GitHubMobileContent extends React.Component {
   }
 
   renderCommitsInfo() {
-    const { commitInfos, commitDatas } = this.props;
-    const { total, dailyCommits } = commitInfos;
+    const { commitInfos, commitDatas } = this.props
+    const { total, dailyCommits } = commitInfos
     // commits
-    const totalCommits = commitDatas[0] ? commitDatas[0].totalCommits : 0;
+    const totalCommits = commitDatas[0] ? commitDatas[0].totalCommits : 0
     // day info
-    const maxIndex = getMaxIndex(dailyCommits);
-    const dayName = DAYS[maxIndex];
+    const maxIndex = getMaxIndex(dailyCommits)
+    const dayName = DAYS[maxIndex]
     // first commit
     const firstCommitWeek = getFirstMatchTarget(
       commitInfos.commits, item => item.total
-    )[0];
+    )[0]
     const dayIndex = getFirstMatchTarget(
       firstCommitWeek.days, day => day > 0
-    )[1];
+    )[1]
     const firstCommitDate = getDateBySeconds(
       firstCommitWeek.week + (dayIndex * 24 * 60 * 60)
-    );
+    )
 
     return (
       <CardGroup
@@ -336,7 +336,7 @@ class GitHubMobileContent extends React.Component {
         mainText: maxStaredPerRepos,
         subText: githubTexts.repos.maxStarPerRepos
       }
-    ];
+    ]
 
     return (
       <Slick
@@ -359,18 +359,18 @@ class GitHubMobileContent extends React.Component {
       languageSkills,
       repositoriesLoaded,
       languageDistributions
-    } = this.props;
+    } = this.props
 
-    const { isAdmin, login, isShare } = this.props;
+    const { isAdmin, login, isShare } = this.props
 
-    if (!repositoriesLoaded) return null;
+    if (!repositoriesLoaded) return null
 
     const reposCount = Object.keys(languageDistributions)
-      .map(key => languageDistributions[key]);
+      .map(key => languageDistributions[key])
     const starCount = Object.keys(languageSkills)
-      .map(key => languageSkills[key]);
-    const maxReposCountIndex = getMaxIndex(reposCount);
-    const maxStarCountIndex = getMaxIndex(starCount);
+      .map(key => languageSkills[key])
+    const maxReposCountIndex = getMaxIndex(reposCount)
+    const maxStarCountIndex = getMaxIndex(starCount)
 
     return (
       <div className={styles.notAdmin}>
@@ -382,15 +382,27 @@ class GitHubMobileContent extends React.Component {
           {user.bio ? (<blockquote>{user.bio}</blockquote>) : null}
           <div className={styles.social}>
             <div className={styles.socialInfo}>
-              <span>{user['public_repos']}</span><br/>
+              <ClassicText
+                theme="green"
+                text={user['public_repos']}
+                className={styles.socialInfoText}
+              />
               <span>Repositories</span>
             </div>
             <div className={styles.socialInfo}>
-              <span>{user.followers}</span><br/>
+              <ClassicText
+                theme="green"
+                text={user.followers}
+                className={styles.socialInfoText}
+              />
               <span>Followers</span>
             </div>
             <div className={styles.socialInfo}>
-              <span>{user.following}</span><br/>
+              <ClassicText
+                theme="green"
+                text={user.following}
+                className={styles.socialInfoText}
+              />
               <span>Following</span>
             </div>
           </div>
@@ -502,14 +514,14 @@ class GitHubMobileContent extends React.Component {
           </div>
         ) : null}
       </div>
-    );
+    )
   }
 }
 
 GitHubMobileContent.defaultProps = {
   isShare: false,
   login: window.login,
-  isAdmin: window.isAdmin === 'true',
-};
+  isAdmin: window.isAdmin === 'true'
+}
 
-export default GitHubMobileContent;
+export default GitHubMobileContent

@@ -34,18 +34,17 @@
   padding: 7px 15px;
 
   & span {
-    &:first-child {
-      font-size: 1.6em;
-      font-weight: bold;
-      color: var(--oc-green-8);
-    }
-
     &:last-child {
       color: var(--oc-gray-5);
     }
   }
 }
 
+.socialInfoText {
+  font-size: 1.6em;
+  font-weight: bold;
+  color: var(--oc-green-8);
+}
 
 
 .notAdmin {

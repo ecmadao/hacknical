@@ -10,7 +10,7 @@ import { formatNumber } from 'UTILS/formatter'
 import CountByStep from 'COMPONENTS/Count/CountByStep'
 import LogoText from 'COMPONENTS/LogoText'
 import Terminal from 'COMPONENTS/Terminal'
-import ClassicButton from 'COMPONENTS/ClassicButton'
+import { ClassicButton } from 'light-ui'
 
 const {
   login: loginText,
@@ -47,7 +47,7 @@ class LoginPanel extends React.PureComponent {
 
   async getLanguages() {
     const languages = await API.home.languages()
-    this.setState({ languages })
+    this.setState({ languages: languages || [] })
   }
 
   async getStatistic() {

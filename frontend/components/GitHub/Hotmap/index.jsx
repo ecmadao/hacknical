@@ -11,32 +11,33 @@ import locales, { formatLocale } from 'LOCALES'
 import dateHelper from 'UTILS/date'
 import Icon from 'COMPONENTS/Icon'
 
-const githubTexts = locales('github.sections.hotmap');
+const githubTexts = locales('github.sections.hotmap')
 
 class Hotmap extends React.Component {
   constructor(props) {
-    super(props);
-    this.githubCalendar = false;
+    super(props)
+    this.githubCalendar = false
   }
 
   componentDidUpdate() {
     if (!this.githubCalendar && $('#cal-heatmap')[0]) {
-      this.renderHotmap();
+      this.renderHotmap()
     }
   }
 
   renderHotmap() {
-    const { loaded, hotmap } = this.props;
-    if (!loaded) return;
+    const { loaded, hotmap } = this.props
+    if (!loaded) return
 
-    this.githubCalendar = true;
-    const local = formatLocale();
-    const cal = new CalHeatMap();
+    this.githubCalendar = true
+    const local = formatLocale()
+    const cal = new CalHeatMap()
     const {
       start,
       datas,
-      levelRanges,
-    } = hotmap;
+      levelRanges
+    } = hotmap
+
     cal.init({
       domain: 'month',
       start: new Date(dateHelper.date.beforeYears(1)),
@@ -53,19 +54,19 @@ class Hotmap extends React.Component {
         min: '#dae289',
         max: '#3b6427',
         empty: '#ededed'
-      },
-    });
+      }
+    })
   }
 
   renderCardGroup() {
-    const { renderCards, hotmap } = this.props;
-    if (!hotmap.datas || !renderCards) return null;
+    const { renderCards, hotmap } = this.props
+    if (!hotmap.datas || !renderCards) return null
     const {
       end,
       start,
       total,
       streak,
-    } = hotmap;
+    } = hotmap
 
     return (
       <CardGroup
@@ -125,11 +126,12 @@ class Hotmap extends React.Component {
           />
         </CardGroup>
       </CardGroup>
-    );
+    )
   }
 
   render() {
-    const { className, loaded } = this.props;
+    const { className, loaded } = this.props
+
     return (
       <div
         className={cx(
@@ -149,14 +151,14 @@ class Hotmap extends React.Component {
         </div>
         {this.renderCardGroup()}
       </div>
-    );
+    )
   }
 }
 
 Hotmap.defaultProps = {
   login: '',
   className: '',
-  renderCards: true,
-};
+  renderCards: true
+}
 
-export default Hotmap;
+export default Hotmap

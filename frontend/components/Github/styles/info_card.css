@@ -14,8 +14,19 @@
   padding: 15px 0;
 }
 
+.infoCard {
+  width: 100%;
+  margin: 0 !important;
+}
+
+.infoCardContent {
+  position: relative;
+  color: var(--oc-gray-7);
+}
+
 .info_card {
   composes: card from 'STYLES/common.css';
+  box-shadow: none;
 }
 
 .info_card_container {

@@ -2,19 +2,18 @@
 
 .subText.subText {
   font-size: 12px;
-  opacity: 0.5;
   text-align: left;
-  color: var(--oc-gray-1);
+  color: var(--oc-gray-5);
   margin-bottom: 3px;
 }
 
 .mainText.mainText {
   font-size: 1.7em;
-  color: var(--oc-white);
+  color: var(--oc-gray-7);
   text-align: left;
 
   & i {
-    opacity: 0.5;
     font-size: 0.9em;
+    color: var(--oc-gray-5);
   }
 }

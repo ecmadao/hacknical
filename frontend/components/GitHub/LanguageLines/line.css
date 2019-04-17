@@ -5,6 +5,40 @@
   display: flex;
   flex-direction: column;
 
+  & .reposXAxes {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    max-height: 2px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    background-color: var(--oc-gray-4);
+
+    & .xAxesText {
+      position: absolute;
+      font-size: 12px;
+      color: var(--oc-gray-4);
+      left: 50%;
+      margin-top: 3px;
+      transform: translateX(-50%);
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 10px solid var(--oc-gray-4);
+      top: 50%;
+      right: -2px;
+      transform: translateY(-50%);
+    }
+  }
+
   & .reposContentsWrapper {
     display: flex;
     flex-direction: row;
