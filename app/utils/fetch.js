@@ -70,7 +70,7 @@ const fetch = async (options, timeouts = [2000]) => {
     }
   }
   if (err) {
-    throw new NewError.ServerError(`${options} - ${err.message} - ${err.stack}`)
+    throw new NewError.ServerError(`${JSON.stringify(options)} - ${err.message} - ${err.stack}`)
   }
 }
 

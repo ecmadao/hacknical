@@ -15,9 +15,12 @@ const renderLandingPage = async (ctx) => {
 
   cacheControl(ctx)
 
+  const loginLink = `https://github.com/login/oauth/authorize?scope=user:email&client_id=${clientId}`
+  logger.info(`[LoginLink] ${loginLink}`)
+
   await ctx.render('user/login', {
-    title: ctx.__('loginPage.title'),
-    loginLink: `https://github.com/login/oauth/authorize?scope=user:email&client_id=${clientId}`
+    loginLink,
+    title: ctx.__('loginPage.title')
   })
 }
 
