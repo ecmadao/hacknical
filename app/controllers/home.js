@@ -14,7 +14,6 @@ const renderLandingPage = async (ctx) => {
   const clientId = await network.github.getVerify()
 
   cacheControl(ctx)
-
   const loginLink = `https://github.com/login/oauth/authorize?scope=user:email&client_id=${clientId}`
   logger.info(`[LoginLink] ${loginLink}`)
 
