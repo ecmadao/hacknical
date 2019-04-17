@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { bindActionCreators } from 'redux'
-import { Loading, Button, Input } from 'light-ui'
+import { Loading, Button, Input, ClassicCard } from 'light-ui'
 import TimePicker from 'rc-times'
 import 'rc-times/css/timepicker.css'
 import settingActions from '../../../redux/actions'
@@ -241,8 +241,7 @@ class DesktopSetting extends React.Component {
             <Icon icon="github" />
             &nbsp;&nbsp;{settingTexts.github.title}
           </p>
-          <div className={styles.card}>
-
+          <ClassicCard className={styles.card} bgClassName={styles.cardBg}>
             <Panel>
               <SwitcherPanel
                 text={settingTexts.github.openShare}
@@ -268,22 +267,21 @@ class DesktopSetting extends React.Component {
                 />
               </div>
             </Panel>
-
-          </div>
+          </ClassicCard>
         </div>
         <div className={styles.card_container}>
           <p>
             <Icon icon="file-code-o" />
             &nbsp;&nbsp;{settingTexts.resume.title}
           </p>
-          <div className={styles.card}>
+          <ClassicCard className={styles.card} bgClassName={styles.cardBg}>
             {!resumeInfo ? (
               <Loading className={styles.info_loading} loading />
             ) : null}
             {this.renderResumeReminderSetting()}
             {this.renderResumeShareSetting()}
             {this.renderResumeGithubSetting()}
-          </div>
+          </ClassicCard>
         </div>
       </div>
     )

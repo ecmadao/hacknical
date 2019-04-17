@@ -12,15 +12,15 @@ const githubTexts = locales('github.sections');
 
 class Statistic extends React.Component {
   constructor(props) {
-    super(props);
-    this.starredLanguagesChart = null;
-    this.starredKeywordsChart = null;
+    super(props)
+    this.starredLanguagesChart = null
+    this.starredKeywordsChart = null
   }
 
   componentDidUpdate() {
-    const { statistic } = this.props;
+    const { statistic } = this.props
     if (statistic) {
-      const { starred } = statistic;
+      const { starred } = statistic
       !this.starredLanguagesChart && this.renderRadarChart({
         data: starred.languages,
         ref: this.starredLanguages,
@@ -32,7 +32,7 @@ class Statistic extends React.Component {
         ref: this.starredKeywords,
         pointTo: 'starredKeywordsChart',
         title: githubTexts.statistic.keywordsChartTitle
-      });
+      })
     }
   }
 
@@ -41,31 +41,31 @@ class Statistic extends React.Component {
       ref,
       data,
       title,
-      pointTo,
-    } = options;
+      pointTo
+    } = options
 
-    const labels = Object.keys(data);
-    const sum = labels.reduce((pre, next) => pre + data[next], 0);
-    const datas = labels.map(label => (data[label] / sum).toFixed(2));
+    const labels = Object.keys(data)
+    const sum = labels.reduce((pre, next) => pre + data[next], 0)
+    const datas = labels.map(label => (data[label] / sum).toFixed(2))
 
-    const radarConfig = deepcopy(RADAR_CONFIG);
-    radarConfig.data.labels = labels;
-    radarConfig.data.datasets[0].data = datas;
-    radarConfig.options.title.text = title;
+    const radarConfig = deepcopy(RADAR_CONFIG)
+    radarConfig.data.labels = labels
+    radarConfig.data.datasets[0].data = datas
+    radarConfig.options.title.text = title
 
-    this[pointTo] = new Chart(ref, radarConfig);
+    this[pointTo] = new Chart(ref, radarConfig)
   }
 
   render() {
-    const { loaded, statistic } = this.props;
-    let component = null;
+    const { loaded, statistic } = this.props
+    let component = null
 
     if (loaded && !statistic) {
       component = (
         <div className={cardStyles.empty_card}>
           {githubTexts.statistic.emptyText}
         </div>
-      );
+      )
     } else {
       component = (
         <div className={styles.container}>
@@ -84,14 +84,14 @@ class Statistic extends React.Component {
             />
           </div>
         </div>
-      );
+      )
     }
     return (
       <div className={styles.wrapper}>
         {component}
       </div>
-    );
+    )
   }
 }
 
-export default Statistic;
+export default Statistic

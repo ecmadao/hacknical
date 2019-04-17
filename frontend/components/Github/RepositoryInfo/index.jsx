@@ -239,21 +239,21 @@ class RepositoryInfo extends React.Component {
       className,
       ownedRepositories,
       forkedRepositories,
-    } = this.props;
-    let component;
+    } = this.props
+    let component
     if (!loaded) {
-      component = (<Loading loading />);
+      component = (<Loading loading />)
     } else if (!ownedRepositories.length && !forkedRepositories.length) {
-      component = (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>);
+      component = (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>)
     } else {
-      component = this.renderReposReview();
+      component = this.renderReposReview()
     }
 
     return (
       <div className={className}>
         {component}
       </div>
-    );
+    )
   }
 }
 
@@ -262,6 +262,6 @@ RepositoryInfo.defaultProps = {
   forkedRepositories: [],
   ownedRepositories: [],
   loaded: false
-};
+}
 
-export default RepositoryInfo;
+export default RepositoryInfo

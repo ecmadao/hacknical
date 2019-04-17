@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from './card.css'
 import Icon from 'COMPONENTS/Icon'
-import { InfoCard } from 'light-ui'
+import { ClassicCard } from 'light-ui'
 
 const MinInfoCard = (props) => {
   const { mainText, subText, className, icon } = props
 
   return (
-    <InfoCard theme="classic">
+    <ClassicCard>
       <div className={className}>
         <div className={styles.subText}>
           {subText}
@@ -17,7 +17,7 @@ const MinInfoCard = (props) => {
           {mainText}
         </div>
       </div>
-    </InfoCard>
+    </ClassicCard>
   )
 }
 

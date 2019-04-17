@@ -9,11 +9,14 @@
 }
 
 .card {
-  composes: card from 'STYLES/common.css';
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.cardBg {
+  width: 100%;
 }
 
 .info_container_wrapper {

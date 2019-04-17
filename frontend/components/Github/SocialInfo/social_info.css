@@ -7,13 +7,9 @@
   & .info_social {
     flex: 1;
     min-height: 90px;
-    transition: color 0.2s, box-shadow 0.2s;
     display: block;
     text-decoration: none;
     text-align: center;
-    border-radius: 3px;
-    margin: 15px 7.5px;
-
 
     &:first-child {
       margin-left: 15px;
@@ -21,11 +17,6 @@
 
     &:last-child {
       margin-right: 15px;
-    }
-
-    &:hover {
-      color: var(--oc-white);
-      box-shadow: var(--shadowCard);
     }
   }
 }
@@ -35,9 +26,15 @@
   font-size: 2.5em;
   display: inline-block;
   margin-right: 10px;
+  font-weight: bolder;
 }
 
 .infoTextSub {
-  opacity: 0.5;
-  color: var(--oc-white);
+  font-size: 1.5em;
+  color: var(--oc-gray-5);
+}
+
+.socialCard {
+  padding: 0;
+  margin: 0;
 }

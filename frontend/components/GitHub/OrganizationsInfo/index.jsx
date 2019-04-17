@@ -170,27 +170,27 @@ class OrganizationsInfo extends React.Component {
   }
 
   render() {
-    const { organizations, loaded } = this.state;
-    const { className } = this.props;
-    let component;
+    const { organizations, loaded } = this.state
+    const { className } = this.props
+    let component
     if (!loaded) {
-      component = (<Loading loading />);
+      component = (<Loading loading />)
     } else {
       component = !organizations.length
         ? (<div className={cardStyles.empty_card}>
             {githubTexts.emptyText}
           </div>)
-        : this.renderOrgsReview();
+        : this.renderOrgsReview()
     }
     const cards = loaded && organizations.length
       ? this.renderOrgsCard()
-      : null;
+      : null
     return (
       <div className={className}>
         {cards}
         {component}
       </div>
-    );
+    )
   }
 }
 
@@ -198,12 +198,12 @@ OrganizationsInfo.propTypes = {
   className: PropTypes.string,
   userLogin: PropTypes.string,
   login: PropTypes.string,
-};
+}
 
 OrganizationsInfo.defaultProps = {
   login: '',
   userLogin: '',
   className: ''
-};
+}
 
 export default OrganizationsInfo;
