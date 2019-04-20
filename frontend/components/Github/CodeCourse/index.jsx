@@ -1,46 +1,47 @@
-import React from 'react';
-import cx from 'classnames';
-import { Label, Tipso, Loading } from 'light-ui';
+
+import React from 'react'
+import cx from 'classnames'
+import { Label, Tipso, Loading } from 'light-ui'
 import {
   hex2Rgba,
-  randomColor,
-} from 'UTILS/colors';
-import { OPACITY, SECONDS_PER_DAY } from 'UTILS/constant';
-import dateHelper from 'UTILS/date';
-import githubHelper from 'UTILS/github';
-import locales from 'LOCALES';
-import ReposBaseInfo from '../ReposBaseInfo';
-import cardStyles from '../styles/info_card.css';
-import githubStyles from '../styles/github.css';
+  randomColor
+} from 'UTILS/colors'
+import { OPACITY, SECONDS_PER_DAY } from 'UTILS/constant'
+import dateHelper from 'UTILS/date'
+import githubHelper from 'UTILS/github'
+import locales from 'LOCALES'
+import ReposBaseInfo from '../ReposBaseInfo'
+import cardStyles from '../styles/info_card.css'
+import githubStyles from '../styles/github.css'
 
-const getRamdomColor = randomColor('CodeCourse');
-const githubTexts = locales('github').sections.course;
-const getSecondsByDate = dateHelper.seconds.getByDate;
-const getValidateDate = dateHelper.validator.fullDate;
+const getRamdomColor = randomColor('CodeCourse')
+const githubTexts = locales('github').sections.course
+const getSecondsByDate = dateHelper.seconds.getByDate
+const getValidateDate = dateHelper.validator.fullDate
 const getDateBySeconds = seconds =>
-  dateHelper.validator.fullDateBySeconds(seconds).split('T')[0];
-const formatCommitsTimeline = githubHelper.formatCommitsTimeline();
+  dateHelper.validator.fullDateBySeconds(seconds).split('T')[0]
+const formatCommitsTimeline = githubHelper.formatCommitsTimeline()
 
-const yearAgo = dateHelper.date.beforeYears(1);
-const maxDateSeconds = getSecondsByDate(getValidateDate());
-const minDateSeconds = getSecondsByDate(dateHelper.date.beforeMonths(1, yearAgo));
+const yearAgo = dateHelper.date.beforeYears(1)
+const maxDateSeconds = getSecondsByDate(getValidateDate())
+const minDateSeconds = getSecondsByDate(dateHelper.date.beforeMonths(1, yearAgo))
 
 class CodeCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showedCount: 10,
-    };
+    }
   }
 
   get repositoriesDict() {
-    if (this._repositoriesDict) return this._repositoriesDict;
-    const { repositories = [] } = this.props;
-    if (!repositories.length) return {};
+    if (this._repositoriesDict) return this._repositoriesDict
+    const { repositories = [] } = this.props
+    if (!repositories.length) return {}
 
-    const repositoriesDict = {};
+    const repositoriesDict = {}
     for (let i = 0; i < repositories.length; i += 1) {
-      const repository = repositories[i];
+      const repository = repositories[i]
       const {
         name,
         fork,
@@ -51,9 +52,9 @@ class CodeCourse extends React.Component {
         forks_count,
         description,
         watchers_count,
-        stargazers_count,
-      } = repository;
-      const color = getRamdomColor(name);
+        stargazers_count
+      } = repository
+      const color = getRamdomColor(name)
 
       repositoriesDict[name] = {
         fork,
@@ -65,27 +66,27 @@ class CodeCourse extends React.Component {
         description,
         forks_count,
         watchers_count,
-        stargazers_count,
-      };
+        stargazers_count
+      }
     }
-    this._repositoriesDict = repositoriesDict;
-    return repositoriesDict;
+    this._repositoriesDict = repositoriesDict
+    return repositoriesDict
   }
 
-  formatRepositories() {
-    const { commitDatas } = this.props;
-    const repositoriesDict = this.repositoriesDict;
-    const showedCount = Math.min(this.state.showedCount, commitDatas.length);
+  get formatedRepositories() {
+    const { commitDatas } = this.props
+    const repositoriesDict = this.repositoriesDict
+    const showedCount = Math.min(this.state.showedCount, commitDatas.length)
 
     return formatCommitsTimeline(
       commitDatas.slice(0, showedCount),
       repositoriesDict,
       minDateSeconds
-    );
+    )
   }
 
   renderChosedRepos() {
-    const formatRepositories = this.formatRepositories();
+    const formatRepositories = this.formatedRepositories
 
     return (
       <div className={githubStyles.reposTimelineContainer}>
@@ -104,18 +105,18 @@ class CodeCourse extends React.Component {
           {this.renderReposIntros(formatRepositories)}
         </div>
       </div>
-    );
+    )
   }
 
   renderTimeLines(repos) {
-    const totalSeconds = maxDateSeconds - minDateSeconds;
+    const totalSeconds = maxDateSeconds - minDateSeconds
 
     return repos.map((repository, index) => {
       const {
         name,
         color,
-        timeline,
-      } = repository;
+        timeline
+      } = repository
 
       return (
         <div
@@ -131,8 +132,8 @@ class CodeCourse extends React.Component {
             })}
           </div>
         </div>
-      );
-    });
+      )
+    })
   }
 
   renderTimeline(options) {
@@ -140,21 +141,22 @@ class CodeCourse extends React.Component {
       name,
       color,
       timeline,
-      totalSeconds,
-    } = options;
-    const timelineDOMs = [<div key={'placeholder'} />];
-    let preToSecond = minDateSeconds;
-    let preCommit = null;
+      totalSeconds
+    } = options
+    const timelineDOMs = [<div key={'placeholder'} />]
+    let preToSecond = minDateSeconds
+    let preCommit = null
 
     for (let i = 0; i < timeline.length; i += 1) {
-      const item = timeline[i];
+      const item = timeline[i]
       const {
         to,
         from,
         commits
-      } = item;
-      const width = ((to + SECONDS_PER_DAY - from) * 100) / totalSeconds;
-      const marginLeft = ((from - preToSecond) * 100) / totalSeconds;
+      } = item
+      const width = ((to + SECONDS_PER_DAY - from) * 100) / totalSeconds
+      const marginLeft = ((from - preToSecond) * 100) / totalSeconds
+
       timelineDOMs.push(
         <Tipso
           key={i}
@@ -162,7 +164,7 @@ class CodeCourse extends React.Component {
           wrapperClass={githubStyles.timelineTipso}
           wrapperStyle={{
             width: `${width}%`,
-            marginLeft: `${marginLeft}%`,
+            marginLeft: `${marginLeft}%`
           }}
           tipsoContent={
             <div className={githubStyles.timelineContent}>
@@ -186,11 +188,11 @@ class CodeCourse extends React.Component {
             }}
           />
         </Tipso>
-      );
-      preToSecond = to;
-      preCommit = commits;
+      )
+      preToSecond = to
+      preCommit = commits
     }
-    return timelineDOMs;
+    return timelineDOMs
   }
 
   renderReposIntros(repos) {
@@ -205,11 +207,11 @@ class CodeCourse extends React.Component {
         description,
         forks_count,
         watchers_count,
-        stargazers_count,
-      } = repository;
+        stargazers_count
+      } = repository
 
-      const color = repository.color || getRamdomColor(name);
-      const rgb = hex2Rgba(color);
+      const color = repository.color || getRamdomColor(name)
+      const rgb = hex2Rgba(color)
 
       return (
         <Tipso

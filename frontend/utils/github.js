@@ -217,13 +217,16 @@ const formatCommitsTimeline = () => {
       if (!totalCommits) continue
       const timeline = []
       let preCommit = null
+      const weekSet = new Set()
 
       for (const commit of commits) {
         const { days, week } = commit
+        if (weekSet.has(week)) continue
+        weekSet.add(week)
 
-        for (let d = 0; d < days.length; d += 1) {
-          const dailyCommit = days[d]
-          const daySeconds = week + (d * SECONDS_PER_DAY)
+        for (let i = 0; i < days.length; i += 1) {
+          const dailyCommit = days[i]
+          const daySeconds = week + (i * SECONDS_PER_DAY)
           if (daySeconds < minDateSeconds) continue
 
           if (!dailyCommit) {
