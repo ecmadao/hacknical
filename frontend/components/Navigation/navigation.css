@@ -56,6 +56,8 @@
 .navigation {
   position: absolute;
   composes: card from 'STYLES/common.css';
+  background-color: transparent;
+  box-shadow: none;
   left: -120px;
   top: 63px;
   color: var(--oc-gray-7);
@@ -63,11 +65,19 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  padding: 20px 15px;
   user-select: none;
   transition: transform 0.3s, opacity 0.3s;
   opacity: 1;
   z-index: 1;
+}
+
+.navigationCard {
+  min-width: initial;
+}
+
+.navigationCardBg {
+  padding: 20px 10px;
+  background-color: var(--oc-white);
 }
 
 .navigation-hidden {

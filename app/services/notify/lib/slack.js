@@ -12,7 +12,7 @@ class SlackMsg {
   async send(msg) {
     const message = this.format(msg)
 
-    CHANNEL && await this.mq.sendMessage(JSON.stringify({
+    CHANNEL && await this.mq.send(JSON.stringify({
       data: message,
       type: 'slack',
       channel: CHANNEL

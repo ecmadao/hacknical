@@ -1,13 +1,14 @@
 
 import config from 'config'
-import MessageQueue from '../utils/mq'
+import mq from 'mq-utils'
 
-const qname = config.get('mq.qname')
+const mqConfig = config.get('mq')
+const MQ = mq[mqConfig.source](mqConfig.config)
 
 const mqMiddleware = () => {
-  const mq = new MessageQueue(qname)
+  const queue = new MQ(mqConfig.channels.messenger, mqConfig.options)
   return async (ctx, next) => {
-    ctx.mq = mq
+    ctx.mq = queue
     await next()
   }
 }

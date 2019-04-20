@@ -71,6 +71,11 @@
   }
 }
 
+.operationButtonWrapper {
+  padding: 0 !important;
+  /* background-color: transparent !important; */
+}
+
 .resume_sections {
   composes: card from 'STYLES/common.css';
   margin-left: 15px;
@@ -566,6 +571,10 @@
   &:hover {
     color: var(--oc-gray-7);
   }
+}
+
+.navIcon {
+  margin-right: 0px !important;
 }
 
 .navTipsoContent {

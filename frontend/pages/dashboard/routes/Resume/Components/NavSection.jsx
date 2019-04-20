@@ -103,7 +103,7 @@ class NavSection  extends React.Component {
       >
         <div className={styles.navSection}>
           <div className={styles.navSectionWrapper} onClick={this.toggleModal}>
-            <Icon icon="plus" />
+            <Icon icon="plus" className={styles.navIcon}/>
             {navs.addNew}
           </div>
         </div>

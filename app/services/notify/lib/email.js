@@ -16,7 +16,7 @@ class EmailMsg {
       template = email.template
     } = options
 
-    CHANNEL && await this.mq.sendMessage(JSON.stringify({
+    CHANNEL && await this.mq.send(JSON.stringify({
       data: {
         to,
         msg,

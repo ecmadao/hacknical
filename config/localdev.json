@@ -35,12 +35,12 @@
     },
     "messenger": {
       "slack": {
-        "channel": ""
+        "channel": "hacknical"
       },
       "email": {
         "type": "sendcloud",
-        "channel": "",
-        "template": ""
+        "channel": "hacknical_app",
+        "template": "hacknical_welcome"
       }
     },
     "oss": {
@@ -54,6 +54,14 @@
     "name": ""
   },
   "mq": {
-    "qname": ""
+    "source": "redis",
+    "config": {
+      "host": "127.0.0.1",
+      "port": 6379
+    },
+    "options": {},
+    "channels": {
+      "messenger": "messenger-local"
+    }
   }
 }

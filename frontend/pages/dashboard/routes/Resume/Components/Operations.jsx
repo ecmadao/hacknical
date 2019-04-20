@@ -1,6 +1,12 @@
 
 import React from 'react'
-import { Button, IconButton, Tipso, AnimationComponent } from 'light-ui'
+import {
+  Tipso,
+  Button,
+  IconButton,
+  ClassicButton,
+  AnimationComponent
+} from 'light-ui'
 import cx from 'classnames'
 import locales from 'LOCALES'
 import styles from '../styles/resume.css'
@@ -72,26 +78,39 @@ class Wrapper extends React.Component {
             className={styles.icon_button}
             onClick={() => handleShareModalStatus(true)}
           />
-          <Button
-            value={resumeTexts.buttons.preview}
-            color="dark"
-            onClick={handlePreview}
-            className={styles.operation}
-            leftIcon={(
-              <Icon icon="file-text-o" />
-            )}
-          />
-          <Button
-            disabled={saveDisabled}
-            value={posting
-              ? resumeTexts.buttons.saving
-              : resumeTexts.buttons.save}
-            className={styles.operation}
-            onClick={() => saveResume('message=1')}
-            leftIcon={(
-              <Icon icon="save" />
-            )}
-          />
+          &nbsp;&nbsp;
+          <ClassicButton
+            theme="dark"
+            className={styles.operationButtonWrapper}
+          >
+            <Button
+              value={resumeTexts.buttons.preview}
+              color="dark"
+              onClick={handlePreview}
+              className={styles.operation}
+              leftIcon={(
+                <Icon icon="file-text-o" />
+              )}
+            />
+          </ClassicButton>
+          &nbsp;&nbsp;&nbsp;
+          <ClassicButton
+            theme="green"
+            className={styles.operationButtonWrapper}
+          >
+            <Button
+              disabled={saveDisabled}
+              theme="none"
+              value={posting
+                ? resumeTexts.buttons.saving
+                : resumeTexts.buttons.save}
+              className={styles.operation}
+              onClick={() => saveResume('message=1')}
+              leftIcon={(
+                <Icon icon="save" />
+              )}
+            />
+          </ClassicButton>
         </div>
       </div>
     )

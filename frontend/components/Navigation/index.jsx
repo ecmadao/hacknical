@@ -1,7 +1,7 @@
 
 import React from 'react'
 import cx from 'classnames'
-import { AnimationComponent } from 'light-ui'
+import { AnimationComponent, ClassicCard } from 'light-ui'
 import styles from './navigation.css'
 
 class Nav extends React.PureComponent {
@@ -80,10 +80,12 @@ class Nav extends React.PureComponent {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        <div className={styles.navWrapper}>
-          {navs}
-        </div>
-        {tail}
+        <ClassicCard className={styles.navigationCard} bgClassName={styles.navigationCardBg}>
+          <div className={styles.navWrapper}>
+            {navs}
+          </div>
+          {tail}
+        </ClassicCard>
       </div>
     )
   }
