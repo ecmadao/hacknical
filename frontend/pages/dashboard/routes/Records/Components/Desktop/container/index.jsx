@@ -1,19 +1,20 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import recordsActions from '../../../redux/actions';
-import styles from '../styles/records.css';
-import locales from 'LOCALES';
-import ShareRecords from './ShareRecords';
-import { RECORDS_SECTIONS } from 'UTILS/constant/records';
-import Navigation from 'COMPONENTS/Navigation';
-import { AnimationComponent } from 'light-ui';
 
-const recordsTexts = locales('dashboard').records;
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { AnimationComponent } from 'light-ui'
+import recordsActions from '../../../redux/actions'
+import styles from '../styles/records.css'
+import locales from 'LOCALES'
+import ShareRecords from './ShareRecords'
+import { RECORDS_SECTIONS } from 'UTILS/constant/records'
+import Navigation from 'COMPONENTS/Navigation'
+
+const recordsTexts = locales('dashboard').records
 const sections = Object.keys(RECORDS_SECTIONS).map(key => ({
   id: RECORDS_SECTIONS[key].ID,
-  text: RECORDS_SECTIONS[key].TEXT,
-}));
+  text: RECORDS_SECTIONS[key].TEXT
+}))
 
 class DesktopRecords extends React.Component {
   get actions() {
@@ -24,20 +25,20 @@ class DesktopRecords extends React.Component {
       },
       [RECORDS_SECTIONS.GITHUB.ID]: {
         fetchShareData: actions.fetchGithubShareData,
-      },
-    };
+      }
+    }
     return {
       ...sectionActions[activeTab],
-      onViewTypeChange: actions.onPageViewTypeChange,
-    };
+      onViewTypeChange: actions.onPageViewTypeChange
+    }
   }
 
   get analysisProps() {
-    const { activeTab } = this.props;
+    const { activeTab } = this.props
     return {
       ...this.props[activeTab],
-      text: recordsTexts[activeTab.toLowerCase()].shareText,
-    };
+      text: recordsTexts[activeTab.toLowerCase()].shareText
+    }
   }
 
   render() {
@@ -58,18 +59,18 @@ class DesktopRecords extends React.Component {
           />
         </AnimationComponent>
       </div>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
-  return { ...state.records };
+  return { ...state.records }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(recordsActions, dispatch)
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DesktopRecords);
+export default connect(mapStateToProps, mapDispatchToProps)(DesktopRecords)

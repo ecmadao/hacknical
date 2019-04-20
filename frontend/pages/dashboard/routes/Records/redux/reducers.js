@@ -1,7 +1,7 @@
-import { handleActions } from 'redux-actions';
-import objectAssign from 'UTILS/object-assign';
-import { getValidateViewSources } from 'UTILS/records';
-import { VIEW_TYPES, RECORDS_SECTIONS } from 'UTILS/constant/records';
+import { handleActions } from 'redux-actions'
+import objectAssign from 'UTILS/object-assign'
+import { getValidateViewSources } from 'UTILS/records'
+import { VIEW_TYPES, RECORDS_SECTIONS } from 'UTILS/constant/records'
 
 const initialState = {
   login: window.login,
@@ -30,8 +30,7 @@ const initialState = {
     pageViews: [],
     viewType: VIEW_TYPES.HOURLY.ID
   }
-};
-
+}
 
 const reducers = handleActions({
   ON_ANALYSIS_DATA_TAB_CHANGE(state, action) {
@@ -51,15 +50,16 @@ const reducers = handleActions({
   },
 
   INITIAL_ANALYSIS_DATA(state, action) {
-    const { activeTab } = state;
-    const obj = state[activeTab];
+    const { activeTab } = state
+    const obj = state[activeTab]
     const {
       url,
       openShare,
       viewDevices,
       viewSources,
       pageViews
-    } = action.payload;
+    } = action.payload
+
     return ({
       ...state,
       [activeTab]: objectAssign({}, obj, {
@@ -70,7 +70,7 @@ const reducers = handleActions({
         viewSources: getValidateViewSources(viewSources),
         pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
       })
-    });
+    })
   },
 
   // github

@@ -1,5 +1,6 @@
-import { createActions } from 'redux-actions';
-import API from 'API';
+
+import { createActions } from 'redux-actions'
+import API from 'API'
 
 const {
   onAnalysisDataTabChange,
@@ -11,23 +12,23 @@ const {
   'TOGGLE_ANALYSIS_DATA_LOADING',
   'INITIAL_ANALYSIS_DATA',
   'ON_PAGE_VIEW_TYPE_CHANGE',
-);
+)
 
 // github
 const fetchGithubShareData = () => (dispatch) => {
   dispatch(toggleAnalysisDataLoading(true));
   API.github.getShareRecords().then((result) => {
     dispatch(initialAnalysisData(result));
-  });
-};
+  })
+}
 
 // resume
 const fetchResumeShareData = () => (dispatch) => {
-  dispatch(toggleAnalysisDataLoading(true));
+  dispatch(toggleAnalysisDataLoading(true))
   API.resume.getShareRecords().then((result) => {
-    dispatch(initialAnalysisData(result));
-  });
-};
+    dispatch(initialAnalysisData(result))
+  })
+}
 
 export default {
   onAnalysisDataTabChange,
@@ -38,4 +39,4 @@ export default {
   fetchGithubShareData,
   // resume
   fetchResumeShareData,
-};
+}

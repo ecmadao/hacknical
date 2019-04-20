@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import Chart from 'chart.js';
-import Clipboard from 'clipboard';
-import deepcopy from 'deepcopy';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import Chart from 'chart.js'
+import Clipboard from 'clipboard'
+import deepcopy from 'deepcopy'
 import {
   Input,
   Tipso,
@@ -11,148 +11,152 @@ import {
   InfoCard,
   CardGroup,
   IconButton,
-} from 'light-ui';
-import github from 'UTILS/github';
-import { GREEN_COLORS } from 'UTILS/constant';
-import { RADAR_CONFIG } from 'UTILS/constant/chart';
-import { VIEW_TYPES } from 'UTILS/constant/records';
-import dateHelper from 'UTILS/date';
-import styles from '../styles/records.css';
-import locales from 'LOCALES';
-import StockChart from 'COMPONENTS/HighStock';
-import { getPVStockConfig } from 'UTILS/stock';
+  ClassicCard,
+  ClassicText
+} from 'light-ui'
+import github from 'UTILS/github'
+import { GREEN_COLORS } from 'UTILS/constant'
+import { RADAR_CONFIG } from 'UTILS/constant/chart'
+import { VIEW_TYPES } from 'UTILS/constant/records'
+import dateHelper from 'UTILS/date'
+import styles from '../styles/records.css'
+import locales from 'LOCALES'
+import StockChart from 'COMPONENTS/HighStock'
+import { getPVStockConfig } from 'UTILS/stock'
 
-const recordsTexts = locales('dashboard').records.common;
-const sortByCount = github.sortByX({ key: 'count' });
+const recordsTexts = locales('dashboard').records.common
+const sortByCount = github.sortByX({ key: 'count' })
 
 class ShareRecords extends React.Component {
   constructor(props) {
-    super(props);
-    this.qrcode = null;
-    this.clipboard = null;
-    this.viewDevicesChart = null;
-    this.viewSourcesChart = null;
-    this.copyUrl = this.copyUrl.bind(this);
+    super(props)
+    this.qrcode = null
+    this.clipboard = null
+    this.viewDevicesChart = null
+    this.viewSourcesChart = null
+    this.copyUrl = this.copyUrl.bind(this)
   }
 
   componentDidMount() {
-    const { loading, actions, fetched } = this.props;
-    if (!loading && !fetched) actions.fetchShareData();
+    const { loading, actions, fetched } = this.props
+    if (!loading && !fetched) actions.fetchShareData()
   }
 
   componentDidUpdate() {
-    const { loading, actions, fetched } = this.props;
-    if (!loading && !fetched) actions.fetchShareData();
-    if (loading || !fetched) return;
-    !this.viewDevicesChart && this.renderDevicesChart();
-    !this.viewSourcesChart && this.renderSourcesChart();
-    !this.qrcode && this.renderQrcode();
-    !this.clipboard && this.renderClipboard();
+    const { loading, actions, fetched } = this.props
+    if (!loading && !fetched) actions.fetchShareData()
+    if (loading || !fetched) return
+    !this.viewDevicesChart && this.renderDevicesChart()
+    !this.viewSourcesChart && this.renderSourcesChart()
+    !this.qrcode && this.renderQrcode()
+    !this.clipboard && this.renderClipboard()
   }
 
   componentWillUpdate(nextProps) {
-    const { index } = this.props;
+    const { index } = this.props
     if (index !== nextProps.index) {
-      this.viewDevicesChart && this.viewDevicesChart.destroy();
-      this.viewSourcesChart && this.viewSourcesChart.destroy();
-      this.clipboard && this.clipboard.destroy();
+      this.viewDevicesChart && this.viewDevicesChart.destroy()
+      this.viewSourcesChart && this.viewSourcesChart.destroy()
+      this.clipboard && this.clipboard.destroy()
 
-      this.viewDevicesChart = null;
-      this.viewSourcesChart = null;
-      this.qrcode = null;
-      this.clipboard = null;
+      this.viewDevicesChart = null
+      this.viewSourcesChart = null
+      this.qrcode = null
+      this.clipboard = null
     }
   }
 
   renderClipboard() {
-    const { index } = this.props;
+    const { index } = this.props
     this.clipboard = new Clipboard(`#copyLinkButton-${index}`, {
       text: () => $(`#shareGithubUrl-${index}`).val()
-    });
+    })
   }
 
   copyUrl() {
-    const { index } = this.props;
-    document.querySelector(`#shareGithubUrl-${index}`).select();
+    const { index } = this.props
+    document.querySelector(`#shareGithubUrl-${index}`).select()
   }
 
   renderShareController() {
-    const { info, index, text } = this.props;
-    const { url } = info;
+    const { info, index, text } = this.props
+    const { url } = info
 
     return (
-      <div className={styles.share_controller}>
-        <Tipso
-          position="bottom"
-          wrapperClass={styles.share_container_wrapper}
-          tipsoContent={(
-            <div className={styles.qrcode_container}>
-              <div id={`qrcode-${index}`} />
-              <span>{text}</span>
+      <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg}>
+        <div className={styles.share_controller}>
+          <Tipso
+            position="bottom"
+            wrapperClass={styles.share_container_wrapper}
+            tipsoContent={(
+              <div className={styles.qrcode_container}>
+                <div id={`qrcode-${index}`} />
+                <span>{text}</span>
+              </div>
+            )}
+          >
+            <div className={styles.share_container}>
+              <Input
+                theme="flat"
+                id={`shareGithubUrl-${index}`}
+                value={`${window.location.origin}/${url}`}
+              />
+              <IconButton
+                color="gray"
+                icon="clipboard"
+                id={`copyLinkButton-${index}`}
+                onClick={this.copyUrl}
+              />
             </div>
-          )}
-        >
-          <div className={styles.share_container}>
-            <Input
-              theme="flat"
-              id={`shareGithubUrl-${index}`}
-              value={`${window.location.origin}/${url}`}
-            />
-            <IconButton
-              color="gray"
-              icon="clipboard"
-              id={`copyLinkButton-${index}`}
-              onClick={this.copyUrl}
-            />
-          </div>
-        </Tipso>
-      </div>
+          </Tipso>
+        </div>
+      </ClassicCard>
     )
   }
 
   get pageViewsData() {
-    const { viewType } = this.props;
+    const { viewType } = this.props
     const views = {
       [VIEW_TYPES.HOURLY.ID]: () => this.basePageViews(VIEW_TYPES.HOURLY.FORMAT),
       [VIEW_TYPES.DAILY.ID]: () => this.basePageViews(VIEW_TYPES.DAILY.FORMAT),
       [VIEW_TYPES.MONTHLY.ID]: () => this.basePageViews(VIEW_TYPES.MONTHLY.FORMAT),
-    };
-    return views[viewType]();
+    }
+    return views[viewType]()
   }
 
   getPageViewDate(date) {
-    const { viewType } = this.props;
+    const { viewType } = this.props
     const dates = {
       [VIEW_TYPES.HOURLY.ID]: () =>
         `${dateHelper.validator.fullDate(date)} ${dateHelper.validator.hour(date)}:00`,
       [VIEW_TYPES.DAILY.ID]: () => dateHelper.validator.fullDate(date),
       [VIEW_TYPES.MONTHLY.ID]: () => dateHelper.validator.date(date),
-    };
-    return dates[viewType]();
+    }
+    return dates[viewType]()
   }
 
   basePageViews(dateFormat) {
-    const { pageViews } = this.props;
-    const validatePageViews = {};
+    const { pageViews } = this.props
+    const validatePageViews = {}
 
     for (const pageView of pageViews) {
-      const { count, date } = pageView;
-      const validateDate = this.getPageViewDate(date);
+      const { count, date } = pageView
+      const validateDate = this.getPageViewDate(date)
       if (!validatePageViews[validateDate]) {
         validatePageViews[validateDate] = {
           count: 0,
           seconds: dateHelper.seconds.getByDate(validateDate)
-        };
+        }
       }
-      validatePageViews[validateDate].count += count;
+      validatePageViews[validateDate].count += count
     }
-    const dateLabels = Object.keys(validatePageViews);
-    const viewDates = dateLabels.map(key => validatePageViews[key]);
+    const dateLabels = Object.keys(validatePageViews)
+    const viewDates = dateLabels.map(key => validatePageViews[key])
 
     return {
       dateFormat,
-      pageViews: viewDates,
-    };
+      pageViews: viewDates
+    }
   }
 
   renderQrcode() {
@@ -173,97 +177,97 @@ class ShareRecords extends React.Component {
   }
 
   renderDevicesChart() {
-    const viewDevices = this.getDatas('viewDevices');
-    const labels = viewDevices.map(viewDevice => viewDevice.platform);
-    const datas = viewDevices.map(viewDevice => viewDevice.count);
+    const viewDevices = this.getDatas('viewDevices')
+    const labels = viewDevices.map(viewDevice => viewDevice.platform)
+    const datas = viewDevices.map(viewDevice => viewDevice.count)
 
-    const radarConfig = deepcopy(RADAR_CONFIG);
-    radarConfig.data.labels = labels;
-    radarConfig.data.datasets[0].data = datas;
-    radarConfig.options.title.text = recordsTexts.platformChartTitle;
+    const radarConfig = deepcopy(RADAR_CONFIG)
+    radarConfig.data.labels = labels
+    radarConfig.data.datasets[0].data = datas
+    radarConfig.options.title.text = recordsTexts.platformChartTitle
 
-    this.viewDevicesChart = new Chart(this.viewDevices, radarConfig);
+    this.viewDevicesChart = new Chart(this.viewDevices, radarConfig)
   }
 
   renderSourcesChart() {
-    const viewSources = this.getDatas('viewSources');
-    const labels = viewSources.map(viewSource => viewSource.browser);
-    const datas = viewSources.map(viewSource => viewSource.count);
+    const viewSources = this.getDatas('viewSources')
+    const labels = viewSources.map(viewSource => viewSource.browser)
+    const datas = viewSources.map(viewSource => viewSource.count)
 
-    const radarConfig = deepcopy(RADAR_CONFIG);
-    radarConfig.data.labels = labels;
-    radarConfig.data.datasets[0].data = datas;
-    radarConfig.options.title.text = recordsTexts.browserChartTitle;
+    const radarConfig = deepcopy(RADAR_CONFIG)
+    radarConfig.data.labels = labels
+    radarConfig.data.datasets[0].data = datas
+    radarConfig.options.title.text = recordsTexts.browserChartTitle
 
-    this.viewSourcesChart = new Chart(this.viewSources, radarConfig);
+    this.viewSourcesChart = new Chart(this.viewSources, radarConfig)
   }
 
   renderChartInfo() {
-    const { pageViews, viewDevices, viewSources } = this.props;
+    const { pageViews, viewDevices, viewSources } = this.props
     const viewCount = pageViews.reduce(
       (prev, current) => current.count + prev, 0
-    );
+    )
     const maxPlatformCount = Math.max(
       ...viewDevices.map(viewDevice => viewDevice.count)
-    );
+    )
     const platforms = viewDevices
       .filter(viewDevice => viewDevice.count === maxPlatformCount)
-      .map(viewDevice => viewDevice.platform);
+      .map(viewDevice => viewDevice.platform)
 
     const maxBrowserCount = Math.max(
       ...viewSources.map(viewSource => viewSource.count)
-    );
+    )
     const browsers = viewSources
       .filter(viewSource => viewSource.count === maxBrowserCount)
-      .map(viewSource => viewSource.browser);
+      .map(viewSource => viewSource.browser)
 
     return (
       <CardGroup className={styles.card_group}>
-        <InfoCard
-          tipsoTheme="dark"
-          mainText={viewCount}
-          subText={recordsTexts.pv}
-        />
-        <InfoCard
-          tipsoTheme="dark"
-          mainText={platforms.slice(0, 2).join(',')}
-          subText={recordsTexts.platform}
-        />
-        <InfoCard
-          tipsoTheme="dark"
-          mainText={browsers.join(',')}
-          subText={recordsTexts.browser}
-        />
+        <InfoCard className={styles.infoCard}>
+          <ClassicText text={viewCount} theme="green" className={styles.infoText}/>
+          <br/>
+          <span className={styles.infoTextSub}>{recordsTexts.pv}</span>
+        </InfoCard>
+        <InfoCard className={styles.infoCard}>
+          <ClassicText text={platforms.slice(0, 2).join(',') || 'unknown'} theme="green" className={styles.infoText}/>
+          <br/>
+          <span className={styles.infoTextSub}>{recordsTexts.platform}</span>
+        </InfoCard>
+        <InfoCard className={styles.infoCard}>
+          <ClassicText text={browsers.join(',') || 'unknown'} theme="green" className={styles.infoText}/>
+          <br/>
+          <span className={styles.infoTextSub}>{recordsTexts.browser}</span>
+        </InfoCard>
       </CardGroup>
-    );
+    )
   }
 
   getDatas(type) {
     const {
       viewDevices,
       viewSources
-    } = this.props;
+    } = this.props
     const datas = {
       viewDevices: viewDevices.sort(sortByCount).slice(0, 6),
-      viewSources: viewSources.sort(sortByCount).slice(0, 6),
-    };
+      viewSources: viewSources.sort(sortByCount).slice(0, 6)
+    }
 
-    return datas[type];
+    return datas[type]
   }
 
   renderPVChartController() {
-    const { viewType, actions } = this.props;
-    const controllers = [];
-    const viewTypeKeys = Object.keys(VIEW_TYPES);
+    const { viewType, actions } = this.props
+    const controllers = []
+    const viewTypeKeys = Object.keys(VIEW_TYPES)
     viewTypeKeys.forEach((key, i) => {
       const {
         ID,
         SHORT,
-      } = VIEW_TYPES[key];
-      const isActive = ID === viewType;
+      } = VIEW_TYPES[key]
+      const isActive = ID === viewType
       const onClick = isActive
         ? Function.prototype
-        : () => actions.onViewTypeChange(ID);
+        : () => actions.onViewTypeChange(ID)
 
       controllers.push((
         <span
@@ -276,29 +280,31 @@ class ShareRecords extends React.Component {
         >
           {SHORT}
         </span>
-      ));
+      ))
       if (i !== viewTypeKeys.length - 1) {
         controllers.push((
           <span key={controllers.length}>
             &nbsp;/&nbsp;
           </span>
-        ));
+        ))
       }
     })
     return (
       <div className={styles.chart_controllers}>
         {controllers}
       </div>
-    );
+    )
   }
 
   render() {
-    const { loading, info, status, onTransitionEnd } = this.props;
+    const { loading, info, status, onTransitionEnd } = this.props
+
     const controllerClass = cx(
       styles.share_controller_card,
       !info.openShare && styles.disabled
-    );
-    const config = getPVStockConfig(this.pageViewsData);
+    )
+    const config = getPVStockConfig(this.pageViewsData)
+
     return (
       <div
         className={cx(
@@ -308,53 +314,55 @@ class ShareRecords extends React.Component {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        {loading ? null : (
+        {info && (
           <div className={controllerClass}>
             {this.renderShareController()}
           </div>
         )}
         {loading ? (<Loading loading />) : (
-          <div className={styles.card}>
-            {this.renderChartInfo()}
-            <div className={styles.chart_container}>
-              <div
-                className={cx(
-                  styles.radar_chart,
-                  styles.viewDevicesChart
-                )}
-              >
-                <canvas
-                  className={styles.radarChart}
-                  ref={ref => (this.viewDevices = ref)}
-                />
+          <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg}>
+            <div className={cx(styles.card, styles.cardLite)}>
+              {this.renderChartInfo()}
+              <div className={styles.chart_container}>
+                <div
+                  className={cx(
+                    styles.radar_chart,
+                    styles.viewDevicesChart
+                  )}
+                >
+                  <canvas
+                    className={styles.radarChart}
+                    ref={ref => (this.viewDevices = ref)}
+                  />
+                </div>
+                <div
+                  className={cx(
+                    styles.radar_chart,
+                    styles.viewSourcesChart
+                  )}
+                >
+                  <canvas
+                    className={styles.radarChart}
+                    ref={ref => (this.viewSources = ref)}
+                  />
+                </div>
               </div>
               <div
                 className={cx(
-                  styles.radar_chart,
-                  styles.viewSourcesChart
+                  styles.chart_container,
+                  styles.pageview_chart_container
                 )}
               >
-                <canvas
-                  className={styles.radarChart}
-                  ref={ref => (this.viewSources = ref)}
+                {this.renderPVChartController()}
+                <StockChart
+                  config={config}
                 />
               </div>
             </div>
-            <div
-              className={cx(
-                styles.chart_container,
-                styles.pageview_chart_container
-              )}
-            >
-              {this.renderPVChartController()}
-              <StockChart
-                config={config}
-              />
-            </div>
-          </div>
+          </ClassicCard>
         )}
       </div>
-    );
+    )
   }
 }
 
@@ -367,8 +375,8 @@ ShareRecords.propTypes = {
   pageViews: PropTypes.array,
   viewDevices: PropTypes.array,
   viewSources: PropTypes.array,
-  viewType: PropTypes.string,
-};
+  viewType: PropTypes.string
+}
 
 ShareRecords.defaultProps = {
   index: 0,
@@ -382,7 +390,7 @@ ShareRecords.defaultProps = {
   pageViews: [],
   viewDevices: [],
   viewSources: [],
-  viewType: '',
-};
+  viewType: ''
+}
 
-export default ShareRecords;
+export default ShareRecords

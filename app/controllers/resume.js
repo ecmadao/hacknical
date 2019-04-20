@@ -218,6 +218,7 @@ const getShareRecords = async (ctx) => {
   const { userId, githubLogin } = ctx.session
 
   const resumeInfo = await network.user.getResumeInfo({ userId })
+
   if (!resumeInfo) {
     return ctx.body = {
       success: true,
@@ -231,10 +232,15 @@ const getShareRecords = async (ctx) => {
     }
   }
 
-  const records = await network.stat.getRecords({
-    login: githubLogin,
-    type: 'resume'
-  })
+  let records = []
+  try {
+    records = await network.stat.getRecords({
+      login: githubLogin,
+      type: 'resume'
+    })
+  } catch (e) {
+    logger.error(e)
+  }
 
   const viewDevices = []
   const viewSources = []

@@ -1,6 +1,6 @@
 
-import React from 'react';
-import asyncComponent from 'COMPONENTS/AsyncComponent';
+import React from 'react'
+import asyncComponent from 'COMPONENTS/AsyncComponent'
 
 const sections = {
   info: asyncComponent(
@@ -26,17 +26,17 @@ const sections = {
   custom: asyncComponent(
     () => System.import('./CustomModule')
       .then(component => component.default)
-  ),
-};
+  )
+}
 
 const ResumeSection = (props) => {
-  const { section } = props;
-  const Section = sections[section.id] || sections.custom;
-  const title = section.text;
+  const { section } = props
+  const Section = sections[section.id] || sections.custom
+  const title = section.text
 
   return (
     <Section {...props} title={title} section={section.id} sectionId={section.id} />
-  );
-};
+  )
+}
 
-export default ResumeSection;
+export default ResumeSection

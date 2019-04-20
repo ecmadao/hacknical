@@ -17,7 +17,7 @@
 
   &.bottom {
     padding: 5px 50px 5px;
-    border-bottom: 1px solid var(--bgDeep);
+    /* border-bottom: 1px solid var(--bgDeep); */
   }
 
   &::after {
@@ -81,6 +81,7 @@
   margin-left: 15px;
   transition: transform 0.1s, opacity 0.1s;
   opacity: 1;
+  box-shadow: none;
 }
 
 .resume_sections-hidden {

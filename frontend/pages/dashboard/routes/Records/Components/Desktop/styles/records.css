@@ -45,14 +45,51 @@
   justify-content: center;
 }
 
+.cardLite {
+  border: none;
+  box-shadow: none;
+}
+
+.infoCard {
+  margin: 0;
+}
+
+.infoText {
+  font-size: 2.5em;
+  display: inline-block;
+  font-weight: bolder;
+}
+
+.infoTextSub {
+  font-size: 1.5em;
+  color: var(--oc-gray-5);
+}
+
 .share_controller_card {
   composes: card;
-  padding: 15px;
-  margin-bottom: 10px;
+  display: flex;
+  padding: 0;
+  flex-direction: row;
+  margin-bottom: 20px;
+  box-shadow: none;
+}
+
+.shareCard {
+  margin: 0;
+  display: flex;
+}
+
+.shareCardBg {
+  background-color: var(--oc-white);
+  padding: 10px;
 }
 
 .disabled {
   composes: card_disabled from 'STYLES/common.css';
+
+  &::before {
+    z-index: 9;
+  }
 }
 
 .info_container {

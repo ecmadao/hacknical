@@ -88,16 +88,16 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        // include: /light-ui/,
-        include: /(lib\/react|lib\/raw)/,
+        include: /light-ui/,
+        // include: /(lib\/react|lib\/raw)/,
         loader: cssModulesLoader,
       },
       {
         test: /\.css$/,
         loader: cssLoader,
         include: PATH.MODULES_PATH,
-        // exclude: /light-ui/
-        exclude: /(lib\/react|lib\/raw)/,
+        exclude: /light-ui/
+        // exclude: /(lib\/react|lib\/raw)/,
       },
       {
         test: /\.css$/,

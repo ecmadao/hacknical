@@ -1,6 +1,12 @@
 
 import React from 'react'
-import { Input, Button, IconButton, AnimationComponent } from 'light-ui'
+import {
+  Input,
+  Button,
+  IconButton,
+  ClassicButton,
+  AnimationComponent
+} from 'light-ui'
 import cx from 'classnames'
 import SectionTip from './SectionTip'
 import locales from 'LOCALES'
@@ -135,25 +141,37 @@ class Wrapper extends React.Component {
         <div className={cx(styles.resume_operations, styles.bottom)}>
           <div className={styles.operations_wrapper}>
             {currentIndex > 0 && (
-              <Button
-                value={resumeTexts.buttons.pre}
-                color="dark"
-                className={styles.operation}
-                onClick={() => onStepChange(currentIndex - 1)}
-                leftIcon={(
-                  <Icon icon="angle-left" />
-                )}
-              />
+              <ClassicButton
+                theme="dark"
+                className={styles.operationButtonWrapper}
+              >
+                <Button
+                  color="none"
+                  value={resumeTexts.buttons.pre}
+                  className={styles.operation}
+                  onClick={() => onStepChange(currentIndex - 1)}
+                  leftIcon={(
+                    <Icon icon="angle-left" />
+                  )}
+                />
+              </ClassicButton>
             )}
+            &nbsp;&nbsp;&nbsp;
             {currentIndex < maxIndex - 1 && (
-              <Button
-                value={resumeTexts.buttons.next}
-                className={styles.operation}
-                onClick={() => onStepChange(currentIndex + 1)}
-                rightIcon={(
-                  <Icon icon="angle-right" />
-                )}
-              />
+              <ClassicButton
+                theme="green"
+                className={styles.operationButtonWrapper}
+              >
+                <Button
+                  color="none"
+                  value={resumeTexts.buttons.next}
+                  className={styles.operation}
+                  onClick={() => onStepChange(currentIndex + 1)}
+                  rightIcon={(
+                    <Icon icon="angle-right" />
+                  )}
+                />
+              </ClassicButton>
             )}
           </div>
         </div>
