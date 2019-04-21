@@ -205,11 +205,11 @@ export const getPVStockConfig = (options) => {
 export const getCommitsStockConfig = (options) => {
   const {
     dateFormat,
-    commitsDates
+    commitsData
   } = options
 
-  commitsDates.sort((pre, next) => pre.seconds - next.seconds)
-  const seriesData = commitsDates.map((item) => {
+  commitsData.sort((pre, next) => pre.seconds - next.seconds)
+  const seriesData = commitsData.map((item) => {
     const { commits, seconds } = item
     return [seconds, commits]
   })
@@ -222,8 +222,8 @@ export const getCommitsStockConfig = (options) => {
   config.series[0].data = seriesData
   config.xAxis[0].labels.formatter = getLabelFormatter()
 
-  if (commitsDates.length) {
-    const timestampTo = commitsDates[commitsDates.length - 1].seconds
+  if (commitsData.length) {
+    const timestampTo = commitsData[commitsData.length - 1].seconds
     config.xAxis[0].max = timestampTo
     config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60)
   }

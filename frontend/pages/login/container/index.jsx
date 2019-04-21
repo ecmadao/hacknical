@@ -212,19 +212,18 @@ class LoginPanel extends React.PureComponent {
           <LogoText theme="light" className={styles.logo} />
           <ClassicButton
             theme="light"
-            content={(
-              <a
-                href={loginLink}
-                className={styles.githubLoginLink}
-              >
-                <Icon icon="github" />
-                &nbsp;
-                {loginText.loginButton}
-              </a>
-            )}
             onClick={() => window.location = loginLink}
             buttonContainerClassName={styles.loginButton}
-          />
+          >
+            <a
+              href={loginLink}
+              className={styles.githubLoginLink}
+            >
+              <Icon icon="github" />
+              &nbsp;
+              {loginText.loginButton}
+            </a>
+          </ClassicButton>
           <Terminal
             className={styles.loginIntro}
             wordLines={[`$ ${loginText.loginText}`]}

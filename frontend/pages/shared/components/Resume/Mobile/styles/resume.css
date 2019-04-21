@@ -7,6 +7,7 @@
   --mainBg: var(--oc-white);
   --sideBg: var(--oc-gray-1);
   --darkBg: var(--oc-gray-2);
+  --cardBorderColor: rgba(0, 0, 0, 0.1);
 }
 
 .maxText {
@@ -86,8 +87,7 @@
 
 .header-section {
   padding-bottom: 10px;
-  box-shadow: var(--shadow1);
-  background-color: var(--mainBg);
+  border-bottom: 1px solid var(--cardBorderColor);
 }
 
 .header-placeholder {
@@ -114,9 +114,11 @@
 }
 
 .resume-section {
-  background-color: var(--mainBg);
-  box-shadow: var(--shadow1);
   margin: 8px 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--cardBorderColor);
+  }
 }
 
 .section-row {

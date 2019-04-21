@@ -1,14 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import objectAssign from 'UTILS/object-assign';
-import FAB from 'COMPONENTS/FloatingActionButton';
-import API from 'API';
-import GitHub from 'COMPONENTS/GitHub';
-import ShareModal from 'COMPONENTS/ShareModal';
-import locales from 'LOCALES';
-import styles from '../styles/github.css';
-import dateHelper from 'UTILS/date';
+
+import React from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import objectAssign from 'UTILS/object-assign'
+import FAB from 'COMPONENTS/FloatingActionButton'
+import API from 'API'
+import GitHub from 'COMPONENTS/GitHub'
+import ShareModal from 'COMPONENTS/ShareModal'
+import locales from 'LOCALES'
+import styles from '../styles/github.css'
+import dateHelper from 'UTILS/date'
 
 const githubLocales = locales('github');
 const githubTexts = githubLocales.sections;

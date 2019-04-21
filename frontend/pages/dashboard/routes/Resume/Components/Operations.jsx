@@ -96,6 +96,7 @@ class Wrapper extends React.Component {
           &nbsp;&nbsp;&nbsp;
           <ClassicButton
             theme="green"
+            disabled={saveDisabled}
             className={styles.operationButtonWrapper}
           >
             <Button

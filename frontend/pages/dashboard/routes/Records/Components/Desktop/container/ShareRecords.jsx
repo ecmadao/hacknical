@@ -297,13 +297,21 @@ class ShareRecords extends React.Component {
   }
 
   render() {
-    const { loading, info, status, onTransitionEnd } = this.props
+    const {
+      info,
+      status,
+      index,
+      loading,
+      onTransitionEnd
+    } = this.props
 
     const controllerClass = cx(
       styles.share_controller_card,
       !info.openShare && styles.disabled
     )
-    const config = getPVStockConfig(this.pageViewsData)
+    const viewData = this.pageViewsData
+    const config = getPVStockConfig(viewData)
+    const { pageViews } = viewData
 
     return (
       <div
@@ -355,6 +363,8 @@ class ShareRecords extends React.Component {
               >
                 {this.renderPVChartController()}
                 <StockChart
+                  tag={index}
+                  data={pageViews}
                   config={config}
                 />
               </div>

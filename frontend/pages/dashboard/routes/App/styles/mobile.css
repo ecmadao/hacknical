@@ -150,7 +150,8 @@
   margin-bottom: 20px;
   color: var(--oc-white);
   opacity: 0.5;
-  font-size: 12px;
+  font-size: 16px;
+  font-family: 'Geo', 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
 .menuClose {

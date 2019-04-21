@@ -78,7 +78,7 @@ class CommitInfo extends React.Component {
         })
       }
       return {
-        commitsDates: this.weeklyCommits,
+        commitsData: this.weeklyCommits,
         dateFormat: CHART_CONTROLLERS.WEEK.FORMAT
       }
     }
@@ -99,7 +99,7 @@ class CommitInfo extends React.Component {
         }
       }
       return {
-        commitsDates: this.dailyCommits,
+        commitsData: this.dailyCommits,
         dateFormat: CHART_CONTROLLERS.DAY.FORMAT
       }
     }
@@ -149,7 +149,7 @@ class CommitInfo extends React.Component {
       })
     }
     return {
-      commitsDates: this.monthlyCommits,
+      commitsData: this.monthlyCommits,
       dateFormat: CHART_CONTROLLERS.MONTH.FORMAT
     }
   }
@@ -157,12 +157,13 @@ class CommitInfo extends React.Component {
   renderWeeklyChart() {
     const { commitInfos } = this.props
     const { dailyCommits } = commitInfos
+
     this.commitsWeeklyReviewChart = new Chart(this.commitsWeeklyChart, {
       type: 'line',
       data: {
         labels: DAYS,
         datasets: [objectAssign({}, LINE_CONFIG, {
-          data: dailyCommits,
+          data: dailyCommits.map(d => Math.round(d)),
           label: githubTexts.avgCommitTitle
         })]
       },
@@ -337,6 +338,8 @@ class CommitInfo extends React.Component {
   }
 
   renderCommitsReview() {
+    const { commitsData, dateFormat } = this.yearlyChartDatas
+
     return (
       <div>
         {this.renderChartInfo()}
@@ -349,11 +352,15 @@ class CommitInfo extends React.Component {
         <div className={chartStyles.canvas_container}>
           {this.renderChartControllers()}
           <StockChart
-            config={getCommitsStockConfig(this.yearlyChartDatas)}
+            data={commitsData}
+            config={getCommitsStockConfig({
+              dateFormat,
+              commitsData
+            })}
           />
         </div>
       </div>
-    );
+    )
   }
 
   render() {

@@ -98,7 +98,7 @@
   height: 100%;
 
   &:first-child {
-    margin-left: inherit;
+    margin-left: initial;
   }
 }
 

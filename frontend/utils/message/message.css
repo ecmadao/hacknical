@@ -1,0 +1,6 @@
+
+@import 'open-color/open-color.css';
+
+.message {
+  background-color: var(--oc-gray-7) !important;
+}

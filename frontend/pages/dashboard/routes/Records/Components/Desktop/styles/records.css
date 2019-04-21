@@ -72,6 +72,7 @@
   flex-direction: row;
   margin-bottom: 20px;
   box-shadow: none;
+  z-index: 9;
 }
 
 .shareCard {
@@ -219,7 +220,7 @@
 
 .recordsContainer-entered {
   opacity: 1;
-  transform: inherit;
+  transform: initial;
 }
 
 .recordsContainer-exiting {

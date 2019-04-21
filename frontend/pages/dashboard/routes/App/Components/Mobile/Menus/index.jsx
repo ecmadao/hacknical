@@ -110,7 +110,7 @@ class Menus extends MenuWrapper {
               <div className={styles.menuWrapper}>
                 {this.renderMenus()}
                 <a href={aboutUrl} className={styles.menu}>
-                  <Icon icon="info-circle" />
+                  <Icon icon="external-link" />
                   &nbsp;&nbsp;
                   {tabs.about.text}
                 </a>

@@ -92,7 +92,7 @@
 
 .navigation-entered {
   opacity: 1;
-  transform: inherit;
+  transform: initial;
 }
 
 .navigation-exiting {

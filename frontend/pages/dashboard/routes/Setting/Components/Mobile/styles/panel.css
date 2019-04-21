@@ -20,7 +20,7 @@
 
 .panel-entered {
   opacity: 1;
-  transform: inherit;
+  transform: initial;
 }
 
 .panel-exiting {

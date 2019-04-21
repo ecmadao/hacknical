@@ -15,8 +15,12 @@ class StockChart extends React.PureComponent {
     this.renderChart()
   }
 
-  componentDidUpdate() {
-    this.renderChart()
+  componentDidUpdate(preProps) {
+    const { data, tag } = this.props
+    if (
+      data.length !== preProps.data.length
+      || tag !== preProps.tag
+    ) this.renderChart()
   }
 
   renderChart() {
@@ -43,7 +47,15 @@ class StockChart extends React.PureComponent {
 roundedCorner(Highcharts)
 
 StockChart.propTypes = {
+  tag: PropTypes.string,
+  data: PropTypes.array,
   config: PropTypes.object.isRequired
+}
+
+StockChart.defaultProps = {
+  tag: '',
+  data: [],
+  config: {}
 }
 
 export default StockChart

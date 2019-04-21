@@ -37,16 +37,16 @@ const reducers = handleActions({
     return ({
       ...state,
       activeTab: action.payload
-    });
+    })
   },
   TOGGLE_ANALYSIS_DATA_LOADING(state, action) {
-    const { activeTab } = state;
+    const { activeTab } = state
     return ({
       ...state,
       [activeTab]: objectAssign({}, state[activeTab], {
         loading: action.payload
       })
-    });
+    })
   },
 
   INITIAL_ANALYSIS_DATA(state, action) {
@@ -75,14 +75,15 @@ const reducers = handleActions({
 
   // github
   INITIAL_GITHUB_SHARE_DATA(state, action) {
-    const { github } = state;
+    const { github } = state
     const {
       url,
       openShare,
       viewDevices,
       viewSources,
       pageViews
-    } = action.payload;
+    } = action.payload
+
     const newGithub = {
       loading: false,
       fetched: true,
@@ -90,23 +91,24 @@ const reducers = handleActions({
       viewDevices: [...viewDevices],
       viewSources: getValidateViewSources(viewSources),
       pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
-    };
+    }
     return ({
       ...state,
       [RECORDS_SECTIONS.GITHUB.ID]: objectAssign({}, github, newGithub)
-    });
+    })
   },
 
   // resume
   INITIAL_RESUME_SHARE_DATA(state, action) {
-    const { resume } = state;
+    const { resume } = state
     const {
       url,
       openShare,
       viewDevices,
       viewSources,
       pageViews
-    } = action.payload;
+    } = action.payload
+
     const newResume = {
       loading: false,
       fetched: true,
@@ -114,11 +116,11 @@ const reducers = handleActions({
       viewDevices: [...viewDevices],
       viewSources: getValidateViewSources(viewSources),
       pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
-    };
+    }
     return ({
       ...state,
       [RECORDS_SECTIONS.RESUME.ID]: objectAssign({}, resume, newResume)
-    });
+    })
   },
 
   ON_PAGE_VIEW_TYPE_CHANGE(state, action) {
@@ -129,8 +131,8 @@ const reducers = handleActions({
       [activeTab]: objectAssign({}, obj, {
         viewType: action.payload
       })
-    });
+    })
   },
-}, initialState);
+}, initialState)
 
-export default reducers;
+export default reducers

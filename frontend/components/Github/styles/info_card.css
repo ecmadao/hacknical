@@ -17,26 +17,6 @@
 .infoCard {
   width: 100%;
   margin: 0 !important;
-
-  &::after {
-    transform: translate(7px, 7px);
-  }
-
-  &:hover {
-    & .cardBg {
-      transform: translate(-3px, -3px);
-    }
-  }
-
-  &:active {
-    & .cardBg {
-      transform: translate(0px, 0px);
-    }
-
-    &::after {
-      transform: translate(3px, 3px);
-    }
-  }
 }
 
 .cardBg {
@@ -76,7 +56,7 @@
 
 .container-entered {
   opacity: 1;
-  transform: inherit;
+  transform: initial;
 }
 
 .container-exiting {

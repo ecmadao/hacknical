@@ -100,8 +100,9 @@
 .zen {
   line-height: 22px;
   margin: 0 10px;
-  font-size: 12px;
+  font-size: 16px;
   position: relative;
+  font-family: 'Geo', 'Open Sans', 'PingFangSC-Light', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', monospace, sans-serif;
 }
 
 .header_menus {
