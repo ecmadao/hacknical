@@ -106,6 +106,7 @@
 .githubLoginLink {
   composes: baseLink;
   color: var(--oc-gray-8);
+  padding: 10px 15px;
 }
 
 .statisticContainer {

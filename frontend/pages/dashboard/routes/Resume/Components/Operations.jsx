@@ -81,7 +81,6 @@ class Wrapper extends React.Component {
           &nbsp;&nbsp;
           <ClassicButton
             theme="dark"
-            className={styles.operationButtonWrapper}
           >
             <Button
               value={resumeTexts.buttons.preview}
@@ -97,7 +96,6 @@ class Wrapper extends React.Component {
           <ClassicButton
             theme="green"
             disabled={saveDisabled}
-            className={styles.operationButtonWrapper}
           >
             <Button
               disabled={saveDisabled}

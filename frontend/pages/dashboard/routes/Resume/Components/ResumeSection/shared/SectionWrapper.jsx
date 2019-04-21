@@ -143,7 +143,6 @@ class Wrapper extends React.Component {
             {currentIndex > 0 && (
               <ClassicButton
                 theme="dark"
-                className={styles.operationButtonWrapper}
               >
                 <Button
                   color="none"
@@ -160,7 +159,6 @@ class Wrapper extends React.Component {
             {currentIndex < maxIndex - 1 && (
               <ClassicButton
                 theme="green"
-                className={styles.operationButtonWrapper}
               >
                 <Button
                   color="none"

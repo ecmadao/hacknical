@@ -90,3 +90,10 @@
   box-shadow: none;
   background-color: transparent;
 }
+
+.fab {
+  position: fixed;
+  bottom: 30px;
+  right: 20%;
+  z-index: 11;
+}

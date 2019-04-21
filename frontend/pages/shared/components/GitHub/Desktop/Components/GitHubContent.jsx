@@ -284,13 +284,8 @@ class GitHubContent extends React.Component {
         {!isShare ? (
           <FAB
             icon="share-alt"
-            style={{
-              position: 'fixed',
-              bottom: '30px',
-              right: '20%',
-              zIndex: '11'
-            }}
             color="green"
+            className={styles.fab}
             onClick={() => this.toggleShareModal(true)}
           />
         ) : null}

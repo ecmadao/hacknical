@@ -1,13 +1,17 @@
 
 import React from 'react'
 import cx from 'classnames'
-import { FloatingActionButton, AnimationComponent } from 'light-ui'
+import {
+  AnimationComponent,
+  FloatingActionButton
+} from 'light-ui'
 import styles from './fab.css'
 
 const _FAB = (props) => {
   const {
     status,
-    onTransitionEnd
+    onTransitionEnd,
+    ...otherProps
   } = props
 
   return (
@@ -18,7 +22,7 @@ const _FAB = (props) => {
       )}
       onTransitionEnd={onTransitionEnd}
     >
-      <FloatingActionButton {...props} />
+      <FloatingActionButton {...otherProps} />
     </div>
   )
 }
