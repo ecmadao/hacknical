@@ -116,7 +116,7 @@ class GitHubWrapper extends React.Component {
   async fetchHotmap(login) {
     const result = await API.github.getUserHotmap(login)
     const hotmap = formatHotmap(result)
-    this.setState({ hotmap, hotmapLoaded: true })
+    if (hotmap) this.setState({ hotmap, hotmapLoaded: true })
   }
 
   async fetchUpdateStatus() {
@@ -127,7 +127,7 @@ class GitHubWrapper extends React.Component {
   }
 
   setRefreshStatus(data) {
-    const { refreshing, refreshEnable } = data
+    const { refreshing = true, refreshEnable = false } = (data || {})
     this.setState({
       refreshing,
       refreshEnable
@@ -162,6 +162,8 @@ class GitHubWrapper extends React.Component {
   }
 
   setGithubCommits(result) {
+    if (!result) return
+
     const {
       commits = [],
       formatCommits = {}

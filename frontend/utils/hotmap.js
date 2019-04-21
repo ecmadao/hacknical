@@ -3,6 +3,8 @@ import objectAssign from 'UTILS/object-assign'
 import dateHelper from 'UTILS/date'
 
 const formatHotmap = (hotmap) => {
+  if (!hotmap || !hotmap.datas) return null
+
   const now = dateHelper.validator.fullDate()
   const { datas } = hotmap
   const result = {}

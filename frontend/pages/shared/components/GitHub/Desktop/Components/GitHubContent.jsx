@@ -39,8 +39,8 @@ class GitHubContent extends React.Component {
   }
 
   async fetchGithubSections(login = '') {
-    const userInfo = await API.user.getUserInfo(login);
-    this.setState({ sections: userInfo.githubSections });
+    const userInfo = await API.user.getUserInfo(login)
+    userInfo && this.setState({ sections: userInfo.githubSections })
   }
 
   async changeGithubSection(sections) {
