@@ -1,51 +1,52 @@
-import React from 'react';
-import Chart from 'chart.js';
-import cx from 'classnames';
-import { Loading, InfoCard, CardGroup } from 'light-ui';
 
-import github from 'UTILS/github';
-import chart from 'UTILS/chart';
-import dateHelper from 'UTILS/date';
-import locales from 'LOCALES';
+import React from 'react'
+import Chart from 'chart.js'
+import cx from 'classnames'
+import { Loading, InfoCard, CardGroup } from 'light-ui'
 
-import chartStyles from '../styles/chart.css';
-import cardStyles from '../styles/info_card.css';
-import githubStyles from '../styles/github.css';
-import { DOUGHNUT_CONFIG } from 'UTILS/constant/chart';
+import github from 'UTILS/github'
+import chart from 'UTILS/chart'
+import dateHelper from 'UTILS/date'
+import locales from 'LOCALES'
 
-const githubTexts = locales('github.sections.repos');
-const getValidateDate = dateHelper.validator.fullDate;
+import chartStyles from '../styles/chart.css'
+import cardStyles from '../styles/info_card.css'
+import githubStyles from '../styles/github.css'
+import { DOUGHNUT_CONFIG } from 'UTILS/constant/chart'
+
+const githubTexts = locales('github.sections.repos')
+const getValidateDate = dateHelper.validator.fullDate
 
 class RepositoryInfo extends React.Component {
   constructor(props) {
-    super(props);
-    this.reposReviewChart = null;
-    this.reposForksChart = null;
-    this.reposStarsChart = null;
+    super(props)
+    this.reposReviewChart = null
+    this.reposForksChart = null
+    this.reposStarsChart = null
   }
 
   componentDidUpdate(preProps) {
-    const { commitDatas } = this.props;
-    const preCommits = preProps.commitDatas;
+    const { commitDatas } = this.props
+    const preCommits = preProps.commitDatas
 
     if (!preCommits.length && commitDatas.length) {
-      this.reposReviewChart && this.reposReviewChart.destroy();
-      this.reposReviewChart = null;
+      this.reposReviewChart && this.reposReviewChart.destroy()
+      this.reposReviewChart = null
     }
-    this.renderCharts();
+    this.renderCharts()
   }
 
   renderCharts() {
-    const { ownedRepositories, forkedRepositories } = this.props;
+    const { ownedRepositories, forkedRepositories } = this.props
     if (ownedRepositories.length || forkedRepositories.length) {
-      !this.reposForksChart && this.renderReposForksChart();
-      ownedRepositories.length && !this.reposStarsChart && this.renderReposStarsChart();
-      ownedRepositories.length && !this.reposReviewChart && this.renderReposReviewChart(ownedRepositories.slice(0, 10));
+      !this.reposForksChart && this.renderReposForksChart()
+      ownedRepositories.length && !this.reposStarsChart && this.renderReposStarsChart()
+      ownedRepositories.length && !this.reposReviewChart && this.renderReposReviewChart(ownedRepositories.slice(0, 10))
     }
   }
 
   renderReposForksChart() {
-    const { ownedRepositories, forkedRepositories } = this.props;
+    const { ownedRepositories, forkedRepositories } = this.props
     this.reposForksChart = new Chart(this.reposForks, {
       type: 'doughnut',
       data: {
@@ -59,23 +60,23 @@ class RepositoryInfo extends React.Component {
         ]
       },
       options: DOUGHNUT_CONFIG
-    });
+    })
   }
 
   renderReposStarsChart() {
-    const { ownedRepositories } = this.props;
-    const datas = [];
-    const labels = [];
-    const colors = [];
-    const standardStarCount = ownedRepositories[0].stargazers_count;
+    const { ownedRepositories } = this.props
+    const datas = []
+    const labels = []
+    const colors = []
+    const standardStarCount = ownedRepositories[0].stargazers_count
 
     for (const userRepo of ownedRepositories) {
-      const { stargazers_count, name } = userRepo;
-      datas.push(stargazers_count);
-      labels.push(name);
-      let opacity = stargazers_count / standardStarCount;
-      opacity = opacity === 1 ? opacity : opacity * 0.8;
-      colors.push(`rgba(55, 178, 77, ${opacity < 0.1 ? 0.1 : opacity})`);
+      const { stargazers_count, name } = userRepo
+      datas.push(stargazers_count)
+      labels.push(name)
+      let opacity = stargazers_count / standardStarCount
+      opacity = opacity === 1 ? opacity : opacity * 0.8
+      colors.push(`rgba(55, 178, 77, ${opacity < 0.1 ? 0.1 : opacity})`)
     }
     this.reposStarsChart = new Chart(this.reposStars, {
       type: 'doughnut',
@@ -84,19 +85,19 @@ class RepositoryInfo extends React.Component {
         labels
       },
       options: DOUGHNUT_CONFIG
-    });
+    })
   }
 
   renderReposReviewChart(ownedRepositories) {
-    const { commitDatas } = this.props;
+    const { commitDatas } = this.props
     const datasets = [
       chart.repos.starsDatasets(ownedRepositories),
       chart.repos.forksDatasets(ownedRepositories)
-    ];
+    ]
     if (commitDatas.length) {
       datasets.push(
         chart.repos.commitsDatasets(ownedRepositories, commitDatas)
-      );
+      )
     }
     this.reposReviewChart = new Chart(this.reposReview, {
       type: 'bar',
@@ -125,19 +126,19 @@ class RepositoryInfo extends React.Component {
           }]
         },
       }
-    });
+    })
   }
 
   renderChartInfo() {
-    const { ownedRepositories } = this.props;
-    if (!ownedRepositories.length) return null;
+    const { ownedRepositories } = this.props
+    if (!ownedRepositories.length) return null
 
-    const [totalStar, totalFork] = github.getTotalCount(ownedRepositories);
-    const maxStaredRepos = ownedRepositories[0];
-    const maxTimeRepos = github.longestContributeRepos(ownedRepositories);
-    const startTime = maxTimeRepos.created_at.split('T')[0];
-    const pushTime = maxTimeRepos.pushed_at.split('T')[0];
-    const createdRepos = github.getCreatedRepos(ownedRepositories);
+    const [totalStar, totalFork] = github.getTotalCount(ownedRepositories)
+    const maxStaredRepos = ownedRepositories[0]
+    const maxTimeRepos = github.longestContributeRepos(ownedRepositories)
+    const startTime = maxTimeRepos.created_at.split('T')[0]
+    const pushTime = maxTimeRepos.pushed_at.split('T')[0]
+    const createdRepos = github.getCreatedRepos(ownedRepositories)
 
     return (
       <CardGroup className={cardStyles.card_group}>
@@ -181,17 +182,17 @@ class RepositoryInfo extends React.Component {
           />
         </CardGroup>
       </CardGroup>
-    );
+    )
   }
 
   renderReposReview() {
-    const { ownedRepositories, forkedRepositories, loaded } = this.props;
+    const { ownedRepositories, forkedRepositories, loaded } = this.props
     const chartContainer = cx(
       githubStyles.repos_chart_container,
       githubStyles.with_chart,
       githubStyles.small_margin
-    );
-    const totalReposCount = ownedRepositories.length + forkedRepositories.length;
+    )
+    const totalReposCount = ownedRepositories.length + forkedRepositories.length
     return (
       <div>
         {this.renderChartInfo()}
@@ -230,7 +231,7 @@ class RepositoryInfo extends React.Component {
           </div>
         ) : null}
       </div>
-    );
+    )
   }
 
   render() {

@@ -91,13 +91,13 @@ class DateSlider extends React.Component {
             getSecondsByDate(endDate)
           ]}
           tipFormatter={(seconds) => {
-            const date = getDateBySeconds(seconds);
-            const fullDate = getValidatorFullDate(date);
+            const date = getDateBySeconds(seconds)
+            const fullDate = getValidatorFullDate(date)
             return (
               <div className={styles.tipso}>
                 {MAX_DATE === fullDate ? localeTexts.untilNow : getValidatorDate(date)}
               </div>
-            );
+            )
           }}
           onChange={this.onChange}
           minRange={SECONDS_PER_DAY}

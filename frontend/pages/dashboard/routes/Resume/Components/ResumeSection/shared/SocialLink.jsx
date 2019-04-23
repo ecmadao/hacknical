@@ -12,21 +12,21 @@ import Icon from 'COMPONENTS/Icon'
 const resumeTexts = locales('resume').sections.others
 
 const renderTipsoInputs = (links) => {
-  const prefixIcons = [];
+  const prefixIcons = []
   const inputs = links.map((link, i) => {
-    const { Component, prefix } = link;
-    prefixIcons.push(prefix);
+    const { Component, prefix } = link
+    prefixIcons.push(prefix)
 
-    delete link.Component;
-    delete link.prefix;
+    delete link.Component
+    delete link.prefix
 
     return (
       <Component
         key={i}
         {...link}
       />
-    );
-  });
+    )
+  })
 
   return (
     <TipsoInputs
@@ -35,13 +35,13 @@ const renderTipsoInputs = (links) => {
       {inputs}
     </TipsoInputs>
   )
-};
+}
 
 class SocialLink extends React.Component {
   componentDidMount() {
-    const { total, index, social } = this.props;
+    const { total, index, social } = this.props
     if (index === total - 1 && !social.name && !social.url) {
-      this.container.click();
+      this.container.click()
     }
   }
 
@@ -52,22 +52,22 @@ class SocialLink extends React.Component {
       onDelete,
       disabled,
       className = ''
-    } = this.props;
+    } = this.props
     const {
       url,
       text,
       icon,
       name,
       deleteable,
-    } = social;
+    } = social
 
     const itemClass = cx(
       styles.resume_link,
       isUrl(url) && styles.active,
       className
-    );
+    )
 
-    const onInputChange = type => value => onChange({ [type]: value });
+    const onInputChange = type => value => onChange({ [type]: value })
 
     const links = [
       {
@@ -113,7 +113,7 @@ class SocialLink extends React.Component {
         theme: 'underline',
         className: styles.tipsoInputGroup
       }
-    ];
+    ]
 
     return (
       <Tipso
@@ -132,8 +132,8 @@ class SocialLink extends React.Component {
           ) : null}
         </div>
       </Tipso>
-    );
+    )
   }
 }
 
-export default SocialLink;
+export default SocialLink

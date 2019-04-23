@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Tipso } from 'light-ui'
@@ -11,14 +11,14 @@ const Tab = (props) => {
     login,
     active,
     onChange
-  } = props;
-  const { id, name, icon, enable, tipso } = tab;
+  } = props
+  const { id, name, icon, enable, tipso } = tab
 
   const containerClass = cx(
     styles.tab_container,
     enable && styles.enable,
     active && styles.active
-  );
+  )
 
   return (
     <Tipso
@@ -43,6 +43,6 @@ const Tab = (props) => {
       </Link>
     </Tipso>
   )
-};
+}
 
-export default Tab;
+export default Tab

@@ -48,12 +48,12 @@ export default {
   },
   seconds: {
     beforeYears: (before) => {
-      const date = getDateBeforeYears()(before);
-      return getSeconds(date);
+      const date = getDateBeforeYears()(before)
+      return getSeconds(date)
     },
     afterYears: (after) => {
-      const date = getDateAfterYears()(after);
-      return getSeconds(date);
+      const date = getDateAfterYears()(after)
+      return getSeconds(date)
     },
     getByDate: date => getSeconds(date),
     getCurrent: () => getSeconds()

@@ -1,6 +1,6 @@
-import React from 'react';
-import GitHubWrapper from 'SHARED/components/GitHubWrapper';
-import GitHubMobileContent from './GitHubMobileContent';
+import React from 'react'
+import GitHubWrapper from 'SHARED/components/GitHubWrapper'
+import GitHubMobileContent from './GitHubMobileContent'
 
 const GitHubMobileComponent = props => (
   <GitHubWrapper
@@ -9,12 +9,12 @@ const GitHubMobileComponent = props => (
   >
     <GitHubMobileContent {...props} />
   </GitHubWrapper>
-);
+)
 
 GitHubMobileComponent.defaultProps = {
   isShare: false,
   login: window.login,
   isAdmin: window.isAdmin === 'true',
-};
+}
 
-export default GitHubMobileComponent;
+export default GitHubMobileComponent

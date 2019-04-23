@@ -28,7 +28,7 @@ const minDateSeconds = getSecondsByDate(dateHelper.date.beforeMonths(1, yearAgo)
 
 class CodeCourse extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showedCount: 10,
     }

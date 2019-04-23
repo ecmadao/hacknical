@@ -1,26 +1,26 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { IconButton } from 'light-ui';
-import styles from '../styles/setting.css';
-import locales from 'LOCALES';
-import SwitcherPanel from './SwitcherPanel';
-import SettingPanel from './SettingPanel';
-import InputPanel from './InputPanel';
-import settingActions from '../../../redux/actions';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { IconButton } from 'light-ui'
+import styles from '../styles/setting.css'
+import locales from 'LOCALES'
+import SwitcherPanel from './SwitcherPanel'
+import SettingPanel from './SettingPanel'
+import InputPanel from './InputPanel'
+import settingActions from '../../../redux/actions'
 
-const settingTexts = locales('dashboard').setting;
+const settingTexts = locales('dashboard').setting
 
 class MobileSetting extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
-    const { actions } = this.props;
-    actions.fetchGithubUpdateStatus();
-    actions.fetchResumeShareInfo();
-    actions.fetchGithubShareInfo();
+    const { actions } = this.props
+    actions.fetchGithubUpdateStatus()
+    actions.fetchResumeShareInfo()
+    actions.fetchGithubShareInfo()
   }
 
   render() {
@@ -32,7 +32,7 @@ class MobileSetting extends React.Component {
       githubInfo,
       resumeInfo,
       refreshEnable
-    } = this.props;
+    } = this.props
 
     return (
       <div className={styles.setting}>
@@ -92,20 +92,20 @@ class MobileSetting extends React.Component {
           />
         </SettingPanel>
       </div>
-    );
+    )
   }
 }
 
 
 function mapStateToProps(state) {
-  return { ...state.setting };
+  return { ...state.setting }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(settingActions, dispatch)
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileSetting);
+export default connect(mapStateToProps, mapDispatchToProps)(MobileSetting)
 

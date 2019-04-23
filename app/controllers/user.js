@@ -107,10 +107,10 @@ const getUserInfo = async (ctx) => {
 }
 
 const patchUserInfo = async (ctx) => {
-  const { userId } = ctx.session;
-  const { info } = ctx.request.body;
+  const { userId } = ctx.session
+  const { info } = ctx.request.body
 
-  await network.user.updateUser(userId, info);
+  await network.user.updateUser(userId, info)
   ctx.body = {
     success: true
   }

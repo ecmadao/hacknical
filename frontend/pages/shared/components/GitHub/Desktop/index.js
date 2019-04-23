@@ -1,4 +1,4 @@
 
-import GitHubComponent from './Components';
+import GitHubComponent from './Components'
 
-export default GitHubComponent;
+export default GitHubComponent

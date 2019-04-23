@@ -14,7 +14,7 @@ entryFiles
     file.split('.')[0] && file.split('.').slice(-1)[0] === 'js'
   )
   .forEach(file => {
-    const filename = file.split('.')[0];
+    const filename = file.split('.')[0]
     const filepath = path.join(PATH.ENTRY_PATH, file)
     entries[filename] = ['babel-polyfill', filepath]
 })

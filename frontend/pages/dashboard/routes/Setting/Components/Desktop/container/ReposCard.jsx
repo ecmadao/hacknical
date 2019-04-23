@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 import cx from 'classnames'
 import Icon from 'COMPONENTS/Icon'
 import styles from '../styles/modal.css'
 
 const ReposCard = (props) => {
-  const { repository, pinned, onRemove, onPinned } = props;
-  const { name, stargazers_count, language } = repository;
-  const onClick = pinned ? () => onRemove(name) : () => onPinned(name);
+  const { repository, pinned, onRemove, onPinned } = props
+  const { name, stargazers_count, language } = repository
+  const onClick = pinned ? () => onRemove(name) : () => onPinned(name)
   const reposClass = cx(
     styles.repository,
     pinned && styles.active
-  );
+  )
 
   return (
     <div
@@ -35,6 +35,6 @@ const ReposCard = (props) => {
       </div>
     </div>
   )
-};
+}
 
-export default ReposCard;
+export default ReposCard

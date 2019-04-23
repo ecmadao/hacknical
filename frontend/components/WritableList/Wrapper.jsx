@@ -1,33 +1,34 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { InputGroup } from 'light-ui';
 
-import styles from './writable.css';
-import ListItem from './ListItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { InputGroup } from 'light-ui'
+
+import styles from './writable.css'
+import ListItem from './ListItem'
 
 class Wrapper extends React.Component {
   constructor(props) {
-    super(props);
-    this.onLabelChange = this.onLabelChange.bind(this);
-    this.onDelete = this.onDelete.bind(this);
+    super(props)
+    this.onLabelChange = this.onLabelChange.bind(this)
+    this.onDelete = this.onDelete.bind(this)
   }
 
   onLabelChange(index) {
-    const { onLabelChange } = this.props;
+    const { onLabelChange } = this.props
     return (value) => {
       onLabelChange && onLabelChange(value, index)
     }
   }
 
   onDelete(index) {
-    const { onDelete } = this.props;
+    const { onDelete } = this.props
     return () => {
-      onDelete && onDelete(index);
+      onDelete && onDelete(index)
     }
   }
 
   renderListItems() {
-    const { items, placeholder } = this.props;
+    const { items, placeholder } = this.props
     return items.map((item, index) => (
       <ListItem
         key={index}
@@ -36,7 +37,7 @@ class Wrapper extends React.Component {
         onDelete={this.onDelete(index)}
         onChange={this.onLabelChange(index)}
       />
-    ));
+    ))
   }
 
   render() {
@@ -48,7 +49,7 @@ class Wrapper extends React.Component {
       introList,
       placeholder,
       defaultIntro,
-    } = this.props;
+    } = this.props
     return (
       <ul className={styles.items}>
         {this.renderListItems()}
@@ -70,7 +71,7 @@ class Wrapper extends React.Component {
           </InputGroup>
         </li>
       </ul>
-    );
+    )
   }
 }
 
@@ -81,7 +82,7 @@ Wrapper.propTypes = {
   introList: PropTypes.array,
   onDelete: PropTypes.func,
   onChange: PropTypes.func
-};
+}
 
 Wrapper.defaultProps = {
   items: [],
@@ -90,6 +91,6 @@ Wrapper.defaultProps = {
   introList: [],
   onDelete: Function.prototype,
   onChange: Function.prototype
-};
+}
 
-export default Wrapper;
+export default Wrapper

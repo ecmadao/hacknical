@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import cx from 'classnames'
 import { IconButton, InputGroup, InputGroupV2, Input } from 'light-ui'
 import DateSlider from 'COMPONENTS/DateSlider'
@@ -7,36 +7,36 @@ import WorkProject from './WorkProject'
 import styles from '../../../styles/resume.css'
 import locales from 'LOCALES'
 
-const resumeTexts = locales('resume.sections.workExperiences');
+const resumeTexts = locales('resume.sections.workExperiences')
 
 class WorkExperience extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       startOpen: false,
       endOpen: false
-    };
-    this.handleStartFocus = this.handleStartFocus.bind(this);
-    this.handleEndFocus = this.handleEndFocus.bind(this);
-    this.handleEndTimeChange = this.handleEndTimeChange.bind(this);
+    }
+    this.handleStartFocus = this.handleStartFocus.bind(this)
+    this.handleEndFocus = this.handleEndFocus.bind(this)
+    this.handleEndTimeChange = this.handleEndTimeChange.bind(this)
   }
 
   handleStartFocus({ focused: startOpen }) {
-    this.setState({ startOpen });
+    this.setState({ startOpen })
   }
 
   handleEndFocus({ focused: endOpen }) {
-    this.setState({ endOpen });
+    this.setState({ endOpen })
   }
 
   handleEndTimeChange(endTime, untilNow = false) {
-    const { handleExperienceChange } = this.props;
-    handleExperienceChange('endTime')(endTime);
-    handleExperienceChange('untilNow')(untilNow);
+    const { handleExperienceChange } = this.props
+    handleExperienceChange('endTime')(endTime)
+    handleExperienceChange('untilNow')(untilNow)
   }
 
   renderWorkProjects(projects) {
-    const { handleProjectChange, deleteProject, disabled } = this.props;
+    const { handleProjectChange, deleteProject, disabled } = this.props
     return projects.map((project, index) => (
       <WorkProject
         key={index}
@@ -45,7 +45,7 @@ class WorkExperience extends React.Component {
         onDelete={deleteProject(index)}
         onChange={handleProjectChange(index)}
       />
-    ));
+    ))
   }
 
   render() {
@@ -55,7 +55,7 @@ class WorkExperience extends React.Component {
       workExperience,
       deleteExperience,
       handleExperienceChange,
-    } = this.props;
+    } = this.props
     const {
       url,
       endTime,
@@ -64,7 +64,7 @@ class WorkExperience extends React.Component {
       company,
       position,
       startTime,
-    } = workExperience;
+    } = workExperience
 
     return (
       <div className={styles.resume_piece_container}>
@@ -146,8 +146,8 @@ class WorkExperience extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default WorkExperience;
+export default WorkExperience

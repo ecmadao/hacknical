@@ -5,7 +5,7 @@ import Icon from 'COMPONENTS/Icon'
 
 class ReposItem extends React.Component {
   render() {
-    const { repository } = this.props;
+    const { repository } = this.props
     return (
       <div className="repos_show">
         <div className="repos_info">
@@ -35,8 +35,8 @@ class ReposItem extends React.Component {
           <span>{repository.description}</span>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default ReposItem;
+export default ReposItem

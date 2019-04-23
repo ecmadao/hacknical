@@ -11,14 +11,14 @@ import locales from 'LOCALES'
 import styles from '../styles/github.css'
 import dateHelper from 'UTILS/date'
 
-const githubLocales = locales('github');
-const githubTexts = githubLocales.sections;
-const shareText = githubLocales.modal.shareText;
-const { secondsBefore } = dateHelper.relative;
+const githubLocales = locales('github')
+const githubTexts = githubLocales.sections
+const shareText = githubLocales.modal.shareText
+const { secondsBefore } = dateHelper.relative
 
 class GitHubContent extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       sections: {},
       openShareModal: false
@@ -28,15 +28,15 @@ class GitHubContent extends React.Component {
   }
 
   componentDidUpdate(preProps) {
-    const { user } = this.props;
+    const { user } = this.props
 
     if (!preProps.user.login && user.login) {
-      this.fetchGithubSections(user.login);
+      this.fetchGithubSections(user.login)
     }
   }
 
   toggleShareModal(openShareModal) {
-    this.setState({ openShareModal });
+    this.setState({ openShareModal })
   }
 
   async fetchGithubSections(login = '') {
@@ -51,23 +51,24 @@ class GitHubContent extends React.Component {
   }
 
   disabledSection(section) {
-    const { sections } = this.state;
-    const { isShare, githubSection } = this.props;
-    return !isShare && (sections[section] === false || githubSection[section] === false);
+    const { sections } = this.state
+    const { isShare, githubSection } = this.props
+    return !isShare && (sections[section] === false || githubSection[section] === false)
   }
 
   hideSection(section) {
-    const { sections } = this.state;
-    const { isShare, githubSection } = this.props;
+    const { sections } = this.state
+    const { isShare, githubSection } = this.props
     const shareSections = Object.keys(githubSection).length
       ? githubSection
-      : sections;
-    return isShare && shareSections[section] === false;
+      : sections
+    return isShare && shareSections[section] === false
   }
 
   render() {
     const {
       user,
+      origin,
       hotmap,
       languages,
       commitDatas,
@@ -78,23 +79,21 @@ class GitHubContent extends React.Component {
       hotmapLoaded,
       languageSkills,
       repositoriesLoaded,
-      languageDistributions,
-    } = this.props;
+      languageDistributions
+    } = this.props
 
-    const { sections, openShareModal } = this.state;
-    const { isShare, containerClass, cardClass } = this.props;
+    const { sections, openShareModal } = this.state
+    const { isShare, containerClass, cardClass } = this.props
+    const { login, lastUpdateTime, openShare, shareUrl } = user
 
-    const origin = window.location.origin;
-    const { login, lastUpdateTime, openShare, shareUrl } = user;
+    const forkedRepositories = []
+    const ownedRepositories = []
 
-    const forkedRepositories = [];
-    const ownedRepositories = [];
-    for (let i = 0; i < repositories.length; i += 1) {
-      const repository = repositories[i];
+    for (const repository of repositories) {
       if (repository.fork) {
-        forkedRepositories.push(repository);
+        forkedRepositories.push(repository)
       } else {
-        ownedRepositories.push(repository);
+        ownedRepositories.push(repository)
       }
     }
 
@@ -290,7 +289,7 @@ class GitHubContent extends React.Component {
           />
         ) : null}
       </div>
-    );
+    )
   }
 }
 
@@ -300,14 +299,16 @@ GitHubContent.propTypes = {
   githubSection: PropTypes.object,
   containerClass: PropTypes.string,
   cardClass: PropTypes.string,
-};
+  origin: PropTypes.string
+}
 
 GitHubContent.defaultProps = {
-  login: window.login,
+  login: '',
   isShare: false,
   githubSection: {},
   containerClass: '',
   cardClass: '',
-};
+  origin: ''
+}
 
-export default GitHubContent;
+export default GitHubContent

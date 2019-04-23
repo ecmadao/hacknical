@@ -48,14 +48,14 @@ class Resume extends React.Component {
   }
 
   componentDidMount() {
-    this.props.actions.fetchResume();
-    this.props.actions.fetchPubResumeStatus();
-    this.bindHotkeys();
+    this.props.actions.fetchResume()
+    this.props.actions.fetchPubResumeStatus()
+    this.bindHotkeys()
 
     if (window.addEventListener) {
-      window.addEventListener('beforeunload', this.onBeforeUnload, true);
+      window.addEventListener('beforeunload', this.onBeforeUnload, true)
     } else {
-      window.attachEvent('onbeforeunload', this.onBeforeUnload);
+      window.attachEvent('onbeforeunload', this.onBeforeUnload)
     }
 
     this.heartBeat = new HeartBeat({
@@ -136,66 +136,66 @@ class Resume extends React.Component {
   }
 
   handlePreview() {
-    const { actions, resume, posting, loading } = this.props;
+    const { actions, resume, posting, loading } = this.props
     if (resume.edited && !posting && !loading) {
-      actions.saveResume();
+      actions.saveResume()
     }
-    this.handleModalStatus(true);
+    this.handleModalStatus(true)
   }
 
   handleShareModalStatus(openShareModal) {
-    this.setState({ openShareModal });
+    this.setState({ openShareModal })
   }
 
   handleTemplateModalStatus(openTemplateModal) {
-    this.setState({ openTemplateModal });
+    this.setState({ openTemplateModal })
   }
 
   handleIntroModalStatus(openIntroModal) {
-    this.setState({ openIntroModal });
+    this.setState({ openIntroModal })
   }
 
   handleSectionChange(id) {
-    this.props.actions.handleActiveSectionChange(id);
+    this.props.actions.handleActiveSectionChange(id)
   }
 
   get sectionActiveIndex() {
-    const { activeSection, sections, customModules } = this.props.resume;
-    const currentIndex = [...sections, ...customModules].findIndex(section => section.id === activeSection);
-    return currentIndex;
+    const { activeSection, sections, customModules } = this.props.resume
+    const currentIndex = [...sections, ...customModules].findIndex(section => section.id === activeSection)
+    return currentIndex
   }
 
   get sectionMaxLength() {
-    const { customModules, sections } = this.props.resume;
-    return customModules.length + sections.length;
+    const { customModules, sections } = this.props.resume
+    return customModules.length + sections.length
   }
 
   get sections() {
-    const { customModules, sections } = this.props.resume;
-    return [...sections, ...customModules];
+    const { customModules, sections } = this.props.resume
+    return [...sections, ...customModules]
   }
 
   get currentSection() {
-    const { activeSection } = this.props.resume;
-    return this.sections.find(section => section.id === activeSection);
+    const { activeSection } = this.props.resume
+    return this.sections.find(section => section.id === activeSection)
   }
 
   handleSectionIndexChange(index) {
-    const { resume } = this.props;
-    const { sections, customModules } = resume;
-    const section = [...sections, ...customModules][index];
-    section && this.handleSectionChange(section.id);
+    const { resume } = this.props
+    const { sections, customModules } = resume
+    const section = [...sections, ...customModules][index]
+    section && this.handleSectionChange(section.id)
   }
 
   renderSectionCreator() {
-    const { resume, actions } = this.props;
-    const { customModules } = resume;
+    const { resume, actions } = this.props
+    const { customModules } = resume
     return (
       <NavSection
         customModules={customModules}
         handleSubmit={actions.addCustomModule}
       />
-    );
+    )
   }
 
   render() {
@@ -204,12 +204,12 @@ class Resume extends React.Component {
       openIntroModal,
       openShareModal,
       openTemplateModal,
-    } = this.state;
+    } = this.state
     const {
       login,
       resume,
       actions,
-    } = this.props;
+    } = this.props
     const {
       edited,
       posting,
@@ -219,12 +219,12 @@ class Resume extends React.Component {
       downloadDisabled
     } = resume
 
-    const { url, openShare, template } = shareInfo;
-    delete shareInfo.githubUrl;
+    const { url, openShare, template } = shareInfo
+    delete shareInfo.githubUrl
 
-    const origin = window.location.origin;
-    const currentIndex = this.sectionActiveIndex;
-    const max = this.sectionMaxLength;
+    const origin = window.location.origin
+    const currentIndex = this.sectionActiveIndex
+    const max = this.sectionMaxLength
 
     return (
       <div className={styles.resume_container}>

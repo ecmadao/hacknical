@@ -124,8 +124,8 @@ const reducers = handleActions({
   },
 
   ON_PAGE_VIEW_TYPE_CHANGE(state, action) {
-    const { activeTab } = state;
-    const obj = state[activeTab];
+    const { activeTab } = state
+    const obj = state[activeTab]
     return ({
       ...state,
       [activeTab]: objectAssign({}, obj, {

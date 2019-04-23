@@ -1,53 +1,53 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { SelectorV2, PortalModal } from 'light-ui';
-import ReposItem from './ReposItem';
-import SelectedRepos from './SelectedRepos';
-import '../../styles/repos_modal.css';
-import github from 'UTILS/github';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { SelectorV2, PortalModal } from 'light-ui'
+import ReposItem from './ReposItem'
+import SelectedRepos from './SelectedRepos'
+import '../../styles/repos_modal.css'
+import github from 'UTILS/github'
 
-const getReposByName = github.getReposByX('name');
+const getReposByName = github.getReposByX('name')
 
 class ReposModal extends React.Component {
   constructor(props) {
-    super(props);
-    const { selectedItems, languages } = this.props;
+    super(props)
+    const { selectedItems, languages } = this.props
     this.state = {
       selectedItems,
       selectedLanguage: languages[0]
-    };
-    this.removeItem = this.removeItem.bind(this);
-    this.changeSelectedLanguage = this.changeSelectedLanguage.bind(this);
+    }
+    this.removeItem = this.removeItem.bind(this)
+    this.changeSelectedLanguage = this.changeSelectedLanguage.bind(this)
   }
 
   changeSelectedLanguage(selectedLanguage) {
-    this.setState({ selectedLanguage });
+    this.setState({ selectedLanguage })
   }
 
   renderRepos() {
-    const { selectedLanguage, selectedItems } = this.state;
-    const { repos } = this.props;
+    const { selectedLanguage, selectedItems } = this.state
+    const { repos } = this.props
     return repos
       .filter(repository => repository.language === selectedLanguage)
       .map((item, index) => {
-        const active = selectedItems.some(selected => selected === item.name);
+        const active = selectedItems.some(selected => selected === item.name)
         return (
           <ReposItem
             key={index}
             active={active}
             repository={item}
           />
-        );
-      });
+        )
+      })
   }
 
   renderSelector() {
-    const { languages } = this.props;
-    const { selectedLanguage } = this.state;
+    const { languages } = this.props
+    const { selectedLanguage } = this.state
     const selectorOptions = languages.map(language => ({
       id: language,
       value: language || 'null'
-    }));
+    }))
     return (
       <SelectorV2
         value={selectedLanguage}
@@ -59,19 +59,19 @@ class ReposModal extends React.Component {
   }
 
   get selectedRepos() {
-    const { repos } = this.props;
-    const { selectedItems } = this.state;
-    return getReposByName(repos, selectedItems);
+    const { repos } = this.props
+    const { selectedItems } = this.state
+    return getReposByName(repos, selectedItems)
   }
 
   removeItem(id) {
-    const { selectedItems } = this.state;
+    const { selectedItems } = this.state
     const filterResult = selectedItems.filter(
       item => parseInt(id, 10) !== parseInt(item, 10)
-    );
+    )
     this.setState({
       selectedItems: [...filterResult]
-    });
+    })
   }
 
   renderSelectedRepos() {
@@ -82,11 +82,11 @@ class ReposModal extends React.Component {
         language={repos.language}
         onRemove={this.removeItem}
       />
-    ));
+    ))
   }
 
   render() {
-    const { openModal, onClose } = this.props;
+    const { openModal, onClose } = this.props
     return (
       <PortalModal
         showModal={openModal}
@@ -119,7 +119,7 @@ ReposModal.propTypes = {
   selectedItems: PropTypes.array,
   repos: PropTypes.array,
   languages: PropTypes.array
-};
+}
 
 ReposModal.defaultProps = {
   openModal: false,
@@ -127,6 +127,6 @@ ReposModal.defaultProps = {
   selectedItems: [],
   repos: [],
   languages: []
-};
+}
 
-export default ReposModal;
+export default ReposModal

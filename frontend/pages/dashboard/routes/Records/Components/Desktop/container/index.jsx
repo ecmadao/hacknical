@@ -18,7 +18,7 @@ const sections = Object.keys(RECORDS_SECTIONS).map(key => ({
 
 class DesktopRecords extends React.Component {
   get actions() {
-    const { actions, activeTab } = this.props;
+    const { actions, activeTab } = this.props
     const sectionActions = {
       [RECORDS_SECTIONS.RESUME.ID]: {
         fetchShareData: actions.fetchResumeShareData,
@@ -42,7 +42,7 @@ class DesktopRecords extends React.Component {
   }
 
   render() {
-    const { activeTab, actions } = this.props;
+    const { activeTab, actions } = this.props
 
     return (
       <div className={styles.container}>

@@ -1,51 +1,51 @@
 
-import React from 'react';
-import cx from 'classnames';
-import { InputGroup, IconButton, InputGroupV2 } from 'light-ui';
-import WritableList from 'COMPONENTS/WritableList';
-import locales from 'LOCALES';
-import styles from '../../../styles/resume.css';
+import React from 'react'
+import cx from 'classnames'
+import { InputGroup, IconButton, InputGroupV2 } from 'light-ui'
+import WritableList from 'COMPONENTS/WritableList'
+import locales from 'LOCALES'
+import styles from '../../../styles/resume.css'
 
-const resumeTexts = locales('resume.sections.custom');
+const resumeTexts = locales('resume.sections.custom')
 
 class Section extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.handleDetailAdded = this.handleDetailAdded.bind(this);
-    this.handleDetailRemove = this.handleDetailRemove.bind(this);
-    this.handleDetailChange = this.handleDetailChange.bind(this);
+    this.handleDetailAdded = this.handleDetailAdded.bind(this)
+    this.handleDetailRemove = this.handleDetailRemove.bind(this)
+    this.handleDetailChange = this.handleDetailChange.bind(this)
   }
 
   handleDetailAdded(detail) {
-    const { section, handleChange } = this.props;
-    const { details = [] } = section;
-    handleChange('details')([...details, detail]);
+    const { section, handleChange } = this.props
+    const { details = [] } = section
+    handleChange('details')([...details, detail])
   }
 
   handleDetailRemove(index) {
-    const { section, handleChange } = this.props;
-    const { details } = section;
+    const { section, handleChange } = this.props
+    const { details } = section
     handleChange('details')(
       [...details.slice(0, index), ...details.slice(index + 1)]
-    );
+    )
   }
 
   handleDetailChange(detail, index) {
-    const { section, handleChange } = this.props;
-    const { details } = section;
+    const { section, handleChange } = this.props
+    const { details } = section
     handleChange('details')(
       [
         ...details.slice(0, index),
         detail,
         ...details.slice(index + 1)
       ]
-    );
+    )
   }
 
   render() {
-    const { section, disabled, handleDelete, handleChange } = this.props;
-    const { details, title, url } = section;
+    const { section, disabled, handleDelete, handleChange } = this.props
+    const { details, title, url } = section
     return (
       <div className={styles.resume_piece_container}>
         <div className={cx(styles.resume_wrapper, styles.with_margin)}>
@@ -105,8 +105,8 @@ class Section extends React.Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Section;
+export default Section

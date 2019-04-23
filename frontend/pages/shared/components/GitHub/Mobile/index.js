@@ -1,3 +1,3 @@
-import GitHubMobileComponent from './container';
+import GitHubMobileComponent from './container'
 
-export default GitHubMobileComponent;
+export default GitHubMobileComponent

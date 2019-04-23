@@ -37,6 +37,6 @@ const datas = {
     code: 'SOURCE CODE',
     gov: 'ICP-17008129-1'
   }
-};
+}
 
-export default datas;
+export default datas

@@ -21,7 +21,7 @@ const datas = {
     },
     baseInfo: {
       title: 'Basic Info',
-      joinedAt: 'Joined at: '
+      joinedAt: 'Joined GitHub at %time'
     },
     predictions: {
       title: 'Guess your like',
@@ -141,6 +141,6 @@ const datas = {
       enable: 'Click to show this section on share page'
     }
   }
-};
+}
 
-export default datas;
+export default datas

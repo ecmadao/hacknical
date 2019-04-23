@@ -19,48 +19,48 @@ const githubTexts = locales('github.sections.orgs')
 
 class ContributionChart extends React.Component {
   constructor(props) {
-    super(props);
-    this.contributionReviewChart = null;
+    super(props)
+    this.contributionReviewChart = null
   }
 
   componentDidMount() {
-    this.renderCharts();
+    this.renderCharts()
   }
 
   componentDidUpdate() {
-    this.renderCharts();
+    this.renderCharts()
   }
 
   renderCharts() {
-    const { contribution } = this.props;
+    const { contribution } = this.props
     if (contribution) {
       if (!this.contributionReviewChart) {
-        return this.renderContributionChart(contribution.weeks);
+        return this.renderContributionChart(contribution.weeks)
       }
-      return this.updateCharts(contribution.weeks);
+      return this.updateCharts(contribution.weeks)
     }
   }
 
   updateCharts(contributions) {
-    const data = [];
-    const labels = [];
+    const data = []
+    const labels = []
 
     for (const contribution of contributions) {
-      data.push(contribution.data);
-      labels.push(dateHelper.date.bySeconds(contribution.week));
+      data.push(contribution.data)
+      labels.push(dateHelper.date.bySeconds(contribution.week))
     }
-    this.contributionReviewChart.data.labels = labels;
-    this.contributionReviewChart.data.datasets[0].data = data;
-    this.contributionReviewChart.update();
+    this.contributionReviewChart.data.labels = labels
+    this.contributionReviewChart.data.datasets[0].data = data
+    this.contributionReviewChart.update()
   }
 
   renderContributionChart(contributions) {
-    const data = [];
-    const labels = [];
+    const data = []
+    const labels = []
 
     for (const contribution of contributions) {
-      data.push(contribution.data);
-      labels.push(dateHelper.date.bySeconds(contribution.week));
+      data.push(contribution.data)
+      labels.push(dateHelper.date.bySeconds(contribution.week))
     }
     this.contributionReviewChart = new Chart(this.contributionChart, {
       type: 'line',
@@ -192,7 +192,7 @@ class ContributionChart extends React.Component {
           ) : null}
         </div>
       </div>
-    );
+    )
   }
 
   render() {
@@ -203,20 +203,20 @@ class ContributionChart extends React.Component {
         </div>
         {this.renderContributionDates()}
       </div>
-    );
+    )
   }
 }
 
 ContributionChart.propTypes = {
   contribution: PropTypes.object,
   repository: PropTypes.object,
-};
+}
 
 ContributionChart.defaultProps = {
   contribution: {
     weeks: []
   },
   repository: {}
-};
+}
 
-export default ContributionChart;
+export default ContributionChart

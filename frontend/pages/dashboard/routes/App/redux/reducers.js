@@ -1,5 +1,5 @@
-import { handleActions } from 'redux-actions';
-import objectAssign from 'UTILS/object-assign';
+import { handleActions } from 'redux-actions'
+import objectAssign from 'UTILS/object-assign'
 
 const initialState = {
   loading: true,
@@ -8,7 +8,7 @@ const initialState = {
   activeTab: 'visualize',
   isMobile: false,
   isAdmin: false,
-};
+}
 
 const initReducers = (options = {}) => {
   const reducers = handleActions({
@@ -16,28 +16,28 @@ const initReducers = (options = {}) => {
       return ({
         ...state,
         login: action.payload
-      });
+      })
     },
 
     LOGOUT(state) {
       return ({
         ...state,
         login: null
-      });
+      })
     },
 
     TOGGLE_LOADING(state, action) {
       return ({
         ...state,
         loading: action.payload
-      });
+      })
     },
 
     TOGGLE_TABBAR(state, action) {
       return ({
         ...state,
         tabBarActive: action.payload
-      });
+      })
     },
 
     CHANGE_ACTIVE_TAB(state, action) {
@@ -46,8 +46,8 @@ const initReducers = (options = {}) => {
         activeTab: action.payload
       })
     }
-  }, objectAssign({}, initialState, options));
-  return reducers;
-};
+  }, objectAssign({}, initialState, options))
+  return reducers
+}
 
-export default initReducers;
+export default initReducers

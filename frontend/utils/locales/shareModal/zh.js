@@ -9,6 +9,6 @@ const datas = {
   error: {
     copy: '自动复制失败'
   }
-};
+}
 
-export default datas;
+export default datas

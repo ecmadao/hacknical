@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import cx from 'classnames'
 import { Switcher, Tipso } from 'light-ui'
 import styles from '../styles/setting.css'

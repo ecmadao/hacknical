@@ -1,9 +1,9 @@
 
-import React from 'react';
-import cx from 'classnames';
-import { Input } from 'light-ui';
-import TipsoInputs from './TipsoInputs';
-import styles from '../../../styles/resume.css';
+import React from 'react'
+import cx from 'classnames'
+import { Input } from 'light-ui'
+import TipsoInputs from './TipsoInputs'
+import styles from '../../../styles/resume.css'
 
 const TipsoInput = (props) => {
   const {
@@ -15,7 +15,7 @@ const TipsoInput = (props) => {
     placeholder,
     disabled = false,
     prefixIcons = ['link'],
-  } = props;
+  } = props
   return (
     <TipsoInputs prefixIcons={prefixIcons}>
       {[
@@ -36,8 +36,8 @@ const TipsoInput = (props) => {
         />
       ]}
     </TipsoInputs>
-  );
-};
+  )
+}
 
 TipsoInput.defaultProps = {
   value: '',
@@ -47,6 +47,6 @@ TipsoInput.defaultProps = {
   className: '',
   onChange: Function.prototype,
   disabled: false,
-};
+}
 
-export default TipsoInput;
+export default TipsoInput

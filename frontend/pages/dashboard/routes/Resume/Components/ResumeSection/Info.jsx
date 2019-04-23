@@ -1,29 +1,29 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Input, InputGroupV2, SelectorV2, Switcher } from 'light-ui';
-import resumeActions from '../../redux/actions';
-import { GENDERS } from 'UTILS/constant/resume';
-import styles from '../../styles/resume.css';
-import locales from 'LOCALES';
-import SectionWrapper from './shared/SectionWrapper';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Input, InputGroupV2, SelectorV2, Switcher } from 'light-ui'
+import resumeActions from '../../redux/actions'
+import { GENDERS } from 'UTILS/constant/resume'
+import styles from '../../styles/resume.css'
+import locales from 'LOCALES'
+import SectionWrapper from './shared/SectionWrapper'
 
-const resumeTexts = locales('resume').sections.info;
+const resumeTexts = locales('resume').sections.info
 
 class Info extends React.Component {
   constructor(props) {
-    super(props);
-    this.handleInfoChange = this.handleInfoChange.bind(this);
-    this.handleAvailableChange = this.handleAvailableChange.bind(this);
-    this.handleResumeTypeChange = this.handleResumeTypeChange.bind(this);
+    super(props)
+    this.handleInfoChange = this.handleInfoChange.bind(this)
+    this.handleAvailableChange = this.handleAvailableChange.bind(this)
+    this.handleResumeTypeChange = this.handleResumeTypeChange.bind(this)
   }
 
   handleInfoChange(type) {
-    const { actions } = this.props;
+    const { actions } = this.props
     return (value) => {
       actions.handleInfoChange({
         [type]: value
-      });
+      })
     }
   }
 
@@ -52,9 +52,9 @@ class Info extends React.Component {
       hireAvailable,
       freshGraduate,
       gender = 'male',
-    } = this.props;
+    } = this.props
 
-    const [prefix, suffix] = email.split('@');
+    const [prefix, suffix] = email.split('@')
 
     return (
       <SectionWrapper {...this.props}>
@@ -162,19 +162,19 @@ class Info extends React.Component {
         </div>
         <div />
       </SectionWrapper>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
-  const { info } = state.resume;
-  return { ...info };
+  const { info } = state.resume
+  return { ...info }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(resumeActions, dispatch)
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Info);
+export default connect(mapStateToProps, mapDispatchToProps)(Info)

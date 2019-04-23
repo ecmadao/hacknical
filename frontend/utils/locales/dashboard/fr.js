@@ -53,6 +53,6 @@ const data = {
       showCommits: 'Afficher les commits'
     }
   }
-};
+}
 
-export default data;
+export default data

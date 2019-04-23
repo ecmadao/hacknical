@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import cx from 'classnames'
 import { NavLink } from 'react-router-dom'
 import { PortalModal } from 'light-ui'

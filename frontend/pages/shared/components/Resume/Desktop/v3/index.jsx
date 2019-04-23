@@ -25,7 +25,7 @@ const renderPersonalProjectsRow = (options) => {
       color="darkLight"
       className={styles.label}
     />
-  ));
+  ))
   return (
     <div
       className={cx(
@@ -56,17 +56,17 @@ const renderPersonalProjectsRow = (options) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const renderWorkProjects = (projects = []) =>
   projects.map((project, index) => {
-    const { name, url, details } = project;
+    const { name, url, details } = project
     const projectDetails = details.map((detail, i) => (
       <li key={i}>
         {renderTextWithUrl(detail)}
       </li>
-    ));
+    ))
     return (
       <div key={index} className={styles.projectSection}>
         {renderBaseInfo({
@@ -79,8 +79,8 @@ const renderWorkProjects = (projects = []) =>
           {projectDetails}
         </ul>
       </div>
-    );
-  });
+    )
+  })
 
 const renderWorkExperienceRow = (options) => {
   const {
@@ -90,10 +90,10 @@ const renderWorkExperienceRow = (options) => {
     startTime,
     endTime,
     position,
-    projects,
-  } = options;
+    projects
+  } = options
 
-  const workProjects = renderWorkProjects(projects);
+  const workProjects = renderWorkProjects(projects)
   return (
     <div className={cx(styles.column, styles.sectionColumn)} key={index}>
       <div className={styles.row}>
@@ -112,8 +112,8 @@ const renderWorkExperienceRow = (options) => {
       <span className={styles.subText}>{position}</span>
       {workProjects}
     </div>
-  );
-};
+  )
+}
 
 const renderEduRow = (options) => {
   const {
@@ -125,13 +125,13 @@ const renderEduRow = (options) => {
     startTime,
     experiences,
     freshGraduate,
-  } = options;
+  } = options
 
   const experiencesDetails = experiences.map((experience, i) => (
     <li key={i}>
       {renderTextWithUrl(experience)}
     </li>
-  ));
+  ))
   return (
     <div className={cx(styles.column, styles.sectionColumn)} key={index}>
       <div className={styles.row}>
@@ -152,17 +152,17 @@ const renderEduRow = (options) => {
         </ul>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
 class ResumeComponentV3 extends ResumeUIWrapper {
   renderSocialLinks(key) {
-    const { others } = this.props.resume;
-    const { socialLinks } = others;
-    if (!socialLinks.length) return null;
+    const { others } = this.props.resume
+    const { socialLinks } = others
+    if (!socialLinks.length) return null
 
     const socials = socialLinks.map((social, index) => {
-      const { url, text } = social;
+      const { url, text } = social
       return (
         <li key={index}>
           <div className={styles.link_wrapper}>
@@ -178,8 +178,8 @@ class ResumeComponentV3 extends ResumeUIWrapper {
             </a>
           </div>
         </li>
-      );
-    });
+      )
+    })
 
     return section({
       key,
@@ -189,18 +189,18 @@ class ResumeComponentV3 extends ResumeUIWrapper {
         </ul>
       )],
       title: resumeTexts.sections.others.links.title,
-    });
+    })
   }
 
   renderSupplements(key) {
-    const { others } = this.props.resume;
-    const { supplements } = others;
+    const { others } = this.props.resume
+    const { supplements } = others
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li key={index}>
         {renderTextWithUrl(supplement)}
       </li>
-    ));
+    ))
 
     return section({
       key,
@@ -210,74 +210,74 @@ class ResumeComponentV3 extends ResumeUIWrapper {
         </ul>
       )],
       title: resumeTexts.sections.others.selfAssessment,
-    });
+    })
   }
 
   renderPersonalProjects(key) {
-    const { personalProjects } = this.props.resume;
+    const { personalProjects } = this.props.resume
 
     const projects = personalProjects
       .map((project, index) => renderPersonalProjectsRow({
         ...project,
         index
-      }));
+      }))
 
     return section({
       key,
       rows: projects,
       title: super.getSectionTitle('personalProjects'),
-    });
+    })
   }
 
   renderEducations(key) {
-    const { resume } = this.props;
-    const { info, educations } = resume;
-    const { freshGraduate } = info;
+    const { resume } = this.props
+    const { info, educations } = resume
+    const { freshGraduate } = info
     const edus = educations
       .map((edu, index) => renderEduRow({
         ...edu,
         index,
         freshGraduate,
-      }));
+      }))
 
     return section({
       key,
       rows: edus,
       title: super.getSectionTitle('educations')
-    });
+    })
   }
 
   renderWorkExperiences(key) {
-    const { resume } = this.props;
-    const { workExperiences } = resume;
+    const { resume } = this.props
+    const { workExperiences } = resume
     const exps = workExperiences
       .map((experience, index) => renderWorkExperienceRow({
         ...experience,
         index
-      }));
+      }))
 
     return section({
       key,
       rows: exps,
       title: super.getSectionTitle('workExperiences')
-    });
+    })
   }
 
   renderCustomModule(module, key) {
-    const { sections } = module;
+    const { sections } = module
     const exps = sections
       .map((section, index) => {
         const {
           url,
           title,
           details,
-        } = section;
+        } = section
 
         const projectDetails = details.map((detail, i) => (
           <li key={i}>
             {renderTextWithUrl(detail)}
           </li>
-        ));
+        ))
         return (
           <div className={cx(styles.column, styles.sectionColumn)} key={index}>
             <div className={styles.row}>
@@ -294,36 +294,36 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               {projectDetails}
             </ul>
           </div>
-        );
-      });
+        )
+      })
 
     return section({
       key,
       rows: exps,
       title: module.text
-    });
+    })
   }
 
   renderUpdateTime() {
-    const check = super.renderUpdateTime();
-    if (!check) return null;
-    const { updateText, updateAt } = check;
+    const check = super.renderUpdateTime()
+    if (!check) return null
+    const { updateText, updateAt } = check
     return (
       <div className={styles.footerRight}>
         {updateText}{minutesBefore(updateAt)}
       </div>
-    );
+    )
   }
 
   render() {
-    const { resume, shareInfo } = this.props;
-    const { info, others, educations, workExperiences } = resume;
-    const { useGithub, githubUrl } = shareInfo;
+    const { resume, shareInfo } = this.props
+    const { info, others, educations, workExperiences } = resume
+    const { useGithub, githubUrl } = shareInfo
 
-    const its = resumeTexts.options.person[info.gender] || resumeTexts.options.person.male;
-    const viewGitHub = resumeTexts.options.view.replace(/%s/, its);
-    const githubSection = this.renderGitHub();
-    if (githubSection) return githubSection;
+    const its = resumeTexts.options.person[info.gender] || resumeTexts.options.person.male
+    const viewGitHub = resumeTexts.options.view.replace(/%s/, its)
+    const githubSection = this.renderGitHub()
+    if (githubSection) return githubSection
 
     return (
       <div className={styles.container}>
@@ -393,7 +393,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
           {this.renderUpdateTime()}
         </div>
       </div>
-    );
+    )
   }
 }
 

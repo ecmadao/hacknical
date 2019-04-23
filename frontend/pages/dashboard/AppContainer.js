@@ -43,7 +43,7 @@ class AppContainer extends React.Component {
           {renderRoutes(routes)}
         </ConnectedRouter>
       </Provider>
-    );
+    )
   }
 }
 

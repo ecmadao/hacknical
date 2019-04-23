@@ -1,11 +1,11 @@
 
 
-import React from 'react';
-import cx from 'classnames';
-import styles from '../styles/setting.css';
-import { AnimationComponent } from 'light-ui';
-import sharedStyles from 'SHARED/styles/mobile.css';
-import panelStyles from '../styles/panel.css';
+import React from 'react'
+import cx from 'classnames'
+import styles from '../styles/setting.css'
+import { AnimationComponent } from 'light-ui'
+import sharedStyles from 'SHARED/styles/mobile.css'
+import panelStyles from '../styles/panel.css'
 
 
 const SettingPane = (props) => {
@@ -15,7 +15,7 @@ const SettingPane = (props) => {
     children,
     onTransitionEnd,
     sectionClassName = '',
-  } = props;
+  } = props
   return (
     <div className={styles.paneContainer}>
       <div className={styles.paneHeader}>
@@ -34,14 +34,13 @@ const SettingPane = (props) => {
         {children}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const SettingPanel = props => (
   <AnimationComponent>
     <SettingPane {...props} />
   </AnimationComponent>
-);
+)
 
-
-export default SettingPanel;
+export default SettingPanel

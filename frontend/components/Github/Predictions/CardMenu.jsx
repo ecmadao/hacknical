@@ -8,37 +8,37 @@ import Icon from 'COMPONENTS/Icon'
 
 class CardMenu extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showMenu: props.showMenu || false
-    };
-    this.toggleMenu = this.toggleMenu.bind(this);
-    this.changeMenuStatus = this.changeMenuStatus.bind(this);
-    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    }
+    this.toggleMenu = this.toggleMenu.bind(this)
+    this.changeMenuStatus = this.changeMenuStatus.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
   }
 
   toggleMenu() {
-    const { showMenu } = this.state;
-    this.changeMenuStatus(!showMenu);
+    const { showMenu } = this.state
+    this.changeMenuStatus(!showMenu)
   }
 
   handleOutsideClick() {
-    this.changeMenuStatus(false);
+    this.changeMenuStatus(false)
   }
 
   changeMenuStatus(status) {
-    if (status === this.state.showMenu) return;
+    if (status === this.state.showMenu) return
     this.setState({
       showMenu: status
-    });
-    const { onFocusChange } = this.props;
-    onFocusChange && onFocusChange(status);
+    })
+    const { onFocusChange } = this.props
+    onFocusChange && onFocusChange(status)
   }
 
   handleMenuClick(callback) {
     return () => {
-      callback && callback();
-      this.changeMenuStatus(false);
+      callback && callback()
+      this.changeMenuStatus(false)
     }
   }
 
@@ -50,7 +50,7 @@ class CardMenu extends React.PureComponent {
         text,
         onClick,
         className = '',
-      } = item;
+      } = item
       return (
         <div
           className={cx(
@@ -65,17 +65,17 @@ class CardMenu extends React.PureComponent {
           ) : null}
           {text}
         </div>
-      );
-    });
+      )
+    })
   }
 
   render() {
-    const { showMenu } = this.state;
+    const { showMenu } = this.state
 
     const menuClass = cx(
       styles.menuWrapper,
       showMenu && styles.menuActive
-    );
+    )
 
     return (
       <OutsideClickHandler
@@ -90,18 +90,18 @@ class CardMenu extends React.PureComponent {
           </div>
         </div>
       </OutsideClickHandler>
-    );
+    )
   }
 }
 
 CardMenu.propTypes = {
   items: PropTypes.array,
   onFocusChange: PropTypes.func
-};
+}
 
 CardMenu.defaultProps = {
   items: [],
   onFocusChange: Function.prototype
-};
+}
 
-export default CardMenu;
+export default CardMenu

@@ -60,12 +60,12 @@ const titleInfo = (text, icon, options = {}) => info(objectassign({}, {
   icon,
   type: 'title',
   ...options
-}));
+}))
 
 class ResumeComponentV1 extends ResumeUIWrapper {
   renderEducations(key) {
-    const { resume } = this.props;
-    const { info, educations } = resume;
+    const { resume } = this.props
+    const { info, educations } = resume
 
     const edus = educations
       .map((edu, index) => {
@@ -76,13 +76,13 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           education,
           startTime,
           experiences,
-        } = edu;
+        } = edu
 
         const experienceDetails = experiences.map((experience, i) => (
           <li key={i}>
             {renderTextWithUrl(experience)}
           </li>
-        ));
+        ))
         return (
           <div key={index} className={styles.section_wrapper}>
             <div className={cx(styles.info_header, styles.info_header_large)}>
@@ -98,10 +98,10 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               </ul>
             ) : null}
           </div>
-        );
-      });
+        )
+      })
 
-    if (!edus.length) return null;
+    if (!edus.length) return null
     return (
       <div className={styles.section} key={key}>
         {titleInfo(super.getSectionTitle('educations'), 'university')}
@@ -109,12 +109,12 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           {edus}
         </div>
       </div>
-    );
+    )
   }
 
   renderWorkExperiences(key) {
-    const { resume } = this.props;
-    const { workExperiences } = resume;
+    const { resume } = this.props
+    const { workExperiences } = resume
 
     const exps = workExperiences
       .map((experience, index) => {
@@ -127,7 +127,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           projects
         } = experience
 
-        const workProjects = this.renderProjects(projects);
+        const workProjects = this.renderProjects(projects)
         return (
           <div key={index} className={styles.section_wrapper}>
             {textInfo({ url, title: company, style: styles.info_header_large })}
@@ -138,10 +138,10 @@ class ResumeComponentV1 extends ResumeUIWrapper {
             <div>{workProjects}</div>
             <div className={styles.section_dot} />
           </div>
-        );
-      });
+        )
+      })
 
-    if (!exps.length) return null;
+    if (!exps.length) return null
     return (
       <div className={styles.section} key={key}>
         {titleInfo(super.getSectionTitle('workExperiences'), 'file-text-o')}
@@ -149,17 +149,17 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           {exps}
         </div>
       </div>
-    );
+    )
   }
 
   renderProjects(projects) {
     return projects.map((project, index) => {
-      const { name, url, details } = project;
+      const { name, url, details } = project
       const projectDetails = details.map((detail, i) => (
         <li key={i}>
           {renderTextWithUrl(detail)}
         </li>
-      ));
+      ))
       return (
         <div key={index} className={styles.project_section}>
           {textInfo({ url, title: name, style: styles.info_header_mid })}
@@ -167,16 +167,16 @@ class ResumeComponentV1 extends ResumeUIWrapper {
             {projectDetails}
           </ul>
         </div>
-      );
-    });
+      )
+    })
   }
 
   renderPersonalProjects(key) {
-    const { personalProjects } = this.props.resume;
+    const { personalProjects } = this.props.resume
 
     const projects = personalProjects
       .map((project, index) => {
-        const { url, desc, techs, title } = project;
+        const { url, desc, techs, title } = project
         const projectTechs = techs.map((tech, i) => (
           <Label
             min
@@ -186,7 +186,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
             color="darkLight"
             className={styles.info_label}
           />
-        ));
+        ))
         return (
           <div key={index} className={styles.sec_section}>
             {textInfo({ url, title, style: styles.info_header_large })}
@@ -197,10 +197,10 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               {projectTechs}
             </div>
           </div>
-        );
-      });
+        )
+      })
 
-    if (!projects.length) return null;
+    if (!projects.length) return null
     return (
       <div className={styles.section} key={key}>
         {titleInfo(super.getSectionTitle('personalProjects'), 'code')}
@@ -208,19 +208,19 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           {projects}
         </div>
       </div>
-    );
+    )
   }
 
   renderCustomModule(module, key) {
-    const { sections } = module;
+    const { sections } = module
 
     const doms = this.renderProjects(sections.map(section => ({
       url: section.url,
       name: section.title,
       details: section.details
-    })));
+    })))
 
-    if (!doms.length) return null;
+    if (!doms.length) return null
     return (
       <div className={styles.section} key={key}>
         {titleInfo(module.text, 'file-text-o')}
@@ -228,19 +228,19 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           {doms}
         </div>
       </div>
-    );
+    )
   }
 
   renderSupplements(key) {
-    const { others } = this.props.resume;
-    const { supplements } = others;
-    if (!supplements.length) return null;
+    const { others } = this.props.resume
+    const { supplements } = others
+    if (!supplements.length) return null
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li key={index}>
         {renderTextWithUrl(supplement)}
       </li>
-    ));
+    ))
 
     return (
       <div className={styles.section} key={key}>
@@ -251,13 +251,13 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           </ul>
         </div>
       </div>
-    );
+    )
   }
 
   renderSocialLinks(key) {
-    const { others } = this.props.resume;
-    const { socialLinks } = others;
-    if (!socialLinks.length) return null;
+    const { others } = this.props.resume
+    const { socialLinks } = others
+    if (!socialLinks.length) return null
 
     const socials = socialLinks.map((social, index) => {
       const { url, text } = social
@@ -276,8 +276,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
             </a>
           </div>
         </li>
-      );
-    });
+      )
+    })
 
     return (
       <div className={styles.section} key={key}>
@@ -288,35 +288,35 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           </ul>
         </div>
       </div>
-    );
+    )
   }
 
   renderUpdateTime() {
-    const check = super.renderUpdateTime();
-    if (!check) return null;
-    const { updateText, updateAt } = check;
+    const check = super.renderUpdateTime()
+    if (!check) return null
+    const { updateText, updateAt } = check
     return baseInfo(
       `${updateText}${minutesBefore(updateAt)}`,
       'exclamation-circle',
       { style: styles.right_info_tip }
-    );
+    )
   }
 
   render() {
-    const { resume, shareInfo } = this.props;
+    const { resume, shareInfo } = this.props
     const {
       info,
       others,
       educations,
       workExperiences
-    } = resume;
-    const resumeInfo = info || {};
-    const { useGithub, githubUrl } = shareInfo;
+    } = resume
+    const resumeInfo = info || {}
+    const { useGithub, githubUrl } = shareInfo
 
-    const its = resumeLocales.options.person[resumeInfo.gender] || resumeLocales.options.person.male;
-    const viewGitHub = resumeLocales.options.view.replace(/%s/, its);
-    const githubSection = this.renderGitHub();
-    if (githubSection) return githubSection;
+    const its = resumeLocales.options.person[resumeInfo.gender] || resumeLocales.options.person.male
+    const viewGitHub = resumeLocales.options.view.replace(/%s/, its)
+    const githubSection = this.renderGitHub()
+    if (githubSection) return githubSection
 
     return (
       <div className={styles.container}>

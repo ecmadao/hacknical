@@ -19,6 +19,6 @@ config.plugins.push(
   new webpack.SourceMapDevToolPlugin()
 )
 config.devtool = '#source-map'
-// config.devtool = "cheap-module-eval-source-map";
+// config.devtool = "cheap-module-eval-source-map"
 
 module.exports = config

@@ -8,9 +8,9 @@ import Icon from 'COMPONENTS/Icon'
 const githubTexts = locales('github.sections')
 
 const formatCount = (count) => {
-  if (count < 1000) return count;
-  return `${(count / 1000).toFixed(1)}K`;
-};
+  if (count < 1000) return count
+  return `${(count / 1000).toFixed(1)}K`
+}
 
 const iconLink = (options) => {
   const {
@@ -19,14 +19,14 @@ const iconLink = (options) => {
     text,
     linkClass = '',
     iconClass = '',
-  } = options;
+  } = options
   const iconDOM = (
     <span className={iconClass}>
       <Icon icon={icon} />
       {text}
     </span>
-  );
-  if (!link) return iconDOM;
+  )
+  if (!link) return iconDOM
   return (
     <a
       href={link}
@@ -36,8 +36,8 @@ const iconLink = (options) => {
     >
       {iconDOM}
     </a>
-  );
-};
+  )
+}
 
 const cardSubInfo = (options) => {
   const {
@@ -46,7 +46,7 @@ const cardSubInfo = (options) => {
     description,
     forks_count,
     stargazers_count
-  } = options;
+  } = options
   return (
     <div className={styles.subInfo}>
       <div className={styles.subContent}>{description}</div>
@@ -68,32 +68,32 @@ const cardSubInfo = (options) => {
         })}
       </div>
     </div>
-  );
-};
+  )
+}
 
 class Predictions extends React.PureComponent {
   handleItemClick(index, liked, newLike) {
     const {
       onFeedback
-    } = this.props;
-    if (liked === newLike) return Function.prototype;
+    } = this.props
+    if (liked === newLike) return Function.prototype
     return () => {
       onFeedback && onFeedback(index, newLike)
-    };
+    }
   }
 
   renderCardRows(ROW_LENGTH = 3) {
-    const { predictions } = this.props;
-    const loopTimes = Math.ceil(predictions.length / ROW_LENGTH);
-    const results = [];
+    const { predictions } = this.props
+    const loopTimes = Math.ceil(predictions.length / ROW_LENGTH)
+    const results = []
     for (let i = 1; i <= loopTimes; i += 1) {
       results.push((
         <div className={styles.row} key={i}>
           {this.renderCards(predictions.slice((i - 1) * ROW_LENGTH, i * ROW_LENGTH), i - 1)}
         </div>
-      ));
+      ))
     }
-    return results;
+    return results
   }
 
   renderCards(predictions, lineIndex, ROW_LENGTH = 3) {
@@ -107,13 +107,13 @@ class Predictions extends React.PureComponent {
         likedCount,
         description,
         forks_count,
-        stargazers_count,
-      } = prediction;
+        stargazers_count
+      } = prediction
 
-      const itemIndex = index + (lineIndex * ROW_LENGTH);
+      const itemIndex = index + (lineIndex * ROW_LENGTH)
       const likedText = likedCount > 10
         ? `${githubTexts.predictions.like} ${formatCount(likedCount)}`
-        : githubTexts.predictions.like;
+        : githubTexts.predictions.like
 
       const menuItems = [
         {
@@ -133,7 +133,7 @@ class Predictions extends React.PureComponent {
           icon: 'eye-slash',
           onClick: this.handleItemClick(itemIndex, liked, -2),
         }
-      ];
+      ]
 
       return (
         <InfoCard
@@ -158,8 +158,8 @@ class Predictions extends React.PureComponent {
           className={styles.predictionCard}
           tipso={<CardMenu items={menuItems} />}
         />
-      );
-    });
+      )
+    })
   }
 
   render() {
@@ -167,8 +167,8 @@ class Predictions extends React.PureComponent {
       <div>
         {this.renderCardRows()}
       </div>
-    );
+    )
   }
 }
 
-export default Predictions;
+export default Predictions

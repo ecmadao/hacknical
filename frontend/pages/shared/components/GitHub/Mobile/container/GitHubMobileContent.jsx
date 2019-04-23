@@ -1,6 +1,7 @@
 /* eslint new-cap: "off" */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import Chart from 'chart.js'
 import cx from 'classnames'
 import Headroom from 'headroom.js'
@@ -167,19 +168,19 @@ class GitHubMobileContent extends React.Component {
   }
 
   renderLanguagesChart() {
-    const { languageSkills } = this.props;
+    const { languageSkills } = this.props
 
-    const languages = [];
-    const skills = [];
+    const languages = []
+    const skills = []
     const languageArray = Object.keys(languageSkills)
       .filter(language => languageSkills[language] && language !== 'null')
       .slice(0, 6)
       .map(language => ({ star: languageSkills[language], language }))
-      .sort(sortByLanguageStar);
+      .sort(sortByLanguageStar)
 
     for (const obj of languageArray) {
-      languages.push(obj.language);
-      skills.push(obj.star);
+      languages.push(obj.language)
+      skills.push(obj.star)
     }
 
     this.languageSkillChart = new Chart(this.languageSkillDOM, {
@@ -196,20 +197,20 @@ class GitHubMobileContent extends React.Component {
         legend: { display: false, },
         tooltips: { enabled: false, }
       }
-    });
+    })
   }
 
   renderRepositoriesChart() {
-    const { commitDatas, repositories } = this.props;
-    const renderedRepos = repositories.slice(0, 10);
+    const { commitDatas, repositories } = this.props
+    const renderedRepos = repositories.slice(0, 10)
     const datasets = [
       chart.repos.starsDatasets(renderedRepos),
       chart.repos.forksDatasets(renderedRepos)
-    ];
+    ]
     if (commitDatas.length) {
       datasets.push(
         chart.repos.commitsDatasets(renderedRepos, commitDatas)
-      );
+      )
     }
     this.reposChart = new Chart(this.reposChartDOM, {
       type: 'bar',
@@ -238,9 +239,9 @@ class GitHubMobileContent extends React.Component {
               beginAtZero: true
             }
           }]
-        },
+        }
       }
-    });
+    })
   }
 
   renderCommitsInfo() {
@@ -299,16 +300,16 @@ class GitHubMobileContent extends React.Component {
           />
         </CardGroup>
       </CardGroup>
-    );
+    )
   }
 
   renderRepositoriesInfo() {
-    const { repositories } = this.props;
-    const [totalStar, totalFork] = github.getTotalCount(repositories);
+    const { repositories } = this.props
+    const [totalStar, totalFork] = github.getTotalCount(repositories)
 
-    const maxStaredRepos = repositories[0] ? repositories[0].name : '';
-    const maxStaredPerRepos = repositories[0] ? repositories[0].stargazers_count : 0;
-    const yearlyRepos = github.getYearlyRepos(repositories);
+    const maxStaredRepos = repositories[0] ? repositories[0].name : ''
+    const maxStaredPerRepos = repositories[0] ? repositories[0].stargazers_count : 0
+    const yearlyRepos = github.getYearlyRepos(repositories)
 
     const sliders = [
       {
@@ -340,10 +341,10 @@ class GitHubMobileContent extends React.Component {
 
     return (
       <Slick
-        wrapperId="reposWrapperDOM"
         sliders={sliders}
+        wrapperId="reposWrapperDOM"
       />
-    );
+    )
   }
 
   render() {
@@ -372,14 +373,20 @@ class GitHubMobileContent extends React.Component {
     const maxReposCountIndex = getMaxIndex(reposCount)
     const maxStarCountIndex = getMaxIndex(starCount)
 
+    const { joinedAt } = githubTexts.baseInfo
+
     return (
       <div className={styles.notAdmin}>
         <div className={styles.shareHeader}>
           <img src={user['avatar_url']} /><br/>
           <span>
-            {user.name}, {githubTexts.baseInfo.joinedAt}{user['created_at'].split('T')[0]}
+            {user.name}
           </span>
-          {user.bio ? (<blockquote>{user.bio}</blockquote>) : null}
+          <br />
+          <span style={{ fontSize: '12px' }}>
+            {joinedAt.replace('%time', user['created_at'].split('T')[0])}
+          </span>
+          {user.bio ? (<blockquote style={{ fontSize: '14px' }}>{user.bio}</blockquote>) : null}
           <div className={styles.social}>
             <div className={styles.socialInfo}>
               <ClassicText
@@ -518,10 +525,10 @@ class GitHubMobileContent extends React.Component {
   }
 }
 
-GitHubMobileContent.defaultProps = {
-  isShare: false,
-  login: window.login,
-  isAdmin: window.isAdmin === 'true'
+GitHubMobileContent.propTypes = {
+  isShare: PropTypes.bool,
+  login: PropTypes.string,
+  isAdmin: PropTypes.bool
 }
 
 export default GitHubMobileContent

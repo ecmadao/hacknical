@@ -3,7 +3,7 @@ import React, { cloneElement } from 'react'
 
 class WritableGroupWrapper extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       value: ''
     }

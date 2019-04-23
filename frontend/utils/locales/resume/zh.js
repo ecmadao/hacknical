@@ -205,6 +205,6 @@ const datas = {
     personalProjects: '个人项目可以侧面展现自己的学习能力和职业发展路线',
     others: '太基础的技能就不用强调了。正确书写技术名词，切记请勿随意“精通”'
   }
-};
+}
 
-export default datas;
+export default datas

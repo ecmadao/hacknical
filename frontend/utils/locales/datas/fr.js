@@ -8,6 +8,6 @@ const data = {
     saturday: 'Samedi',
     sunday: 'Dimanche',
   },
-};
+}
 
-export default data;
+export default data

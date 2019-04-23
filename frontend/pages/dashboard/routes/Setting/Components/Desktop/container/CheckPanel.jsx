@@ -10,7 +10,7 @@ const CheckPanel = (props) => {
     checked,
     onChange,
     className
-  } = props;
+  } = props
 
   return (
     <div
@@ -28,7 +28,7 @@ const CheckPanel = (props) => {
         <Icon icon={checked ? 'check-square' : 'square-o'} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CheckPanel;
+export default CheckPanel

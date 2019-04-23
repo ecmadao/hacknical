@@ -1,3 +1,3 @@
-import MobileRecords from './container';
+import MobileRecords from './container'
 
-export default MobileRecords;
+export default MobileRecords

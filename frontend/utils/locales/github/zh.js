@@ -21,7 +21,7 @@ const datas = {
     },
     baseInfo: {
       title: '基本信息',
-      joinedAt: '加入时间：'
+      joinedAt: '%time 加入 GitHub'
     },
     social: {
       repositories: 'Repositories',

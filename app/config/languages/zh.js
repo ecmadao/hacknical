@@ -7,6 +7,6 @@ const options = [
   //   text: 'Fr',
   //   id: 'fr'
   // }
-];
+]
 
-export default options;
+export default options

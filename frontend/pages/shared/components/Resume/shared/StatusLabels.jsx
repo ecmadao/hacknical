@@ -4,21 +4,21 @@ import styles from './status_labels.css'
 import dateHelper from 'UTILS/date'
 import locales from 'LOCALES'
 
-const resumeLocales = locales('resume');
-const resumeLabels = resumeLocales.labels;
-const getSecondsByDate = dateHelper.seconds.getByDate;
-const getDateNow = dateHelper.date.now;
-const DATE_NOW = getDateNow();
-const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW);
+const resumeLocales = locales('resume')
+const resumeLabels = resumeLocales.labels
+const getSecondsByDate = dateHelper.seconds.getByDate
+const getDateNow = dateHelper.date.now
+const DATE_NOW = getDateNow()
+const DATE_NOW_SECONDS = getSecondsByDate(DATE_NOW)
 
 const StatusLabels = (options = {}) => {
   const {
     resumeInfo,
     educations,
     workExperiences,
-    labelColor = 'light',
-  } = options;
-  const labels = [];
+    labelColor = 'light'
+  } = options
+  const labels = []
   if (resumeInfo.freshGraduate) {
     labels.push(
       <Label
@@ -29,7 +29,7 @@ const StatusLabels = (options = {}) => {
         color={labelColor}
         className={styles.info_label}
       />
-    );
+    )
   }
   if (resumeInfo.hireAvailable) {
     labels.push(
@@ -41,11 +41,11 @@ const StatusLabels = (options = {}) => {
         color={labelColor}
         className={styles.info_label}
       />
-    );
+    )
   }
   if (educations.length) {
-    const lastEducation = educations[0];
-    const eduEndTime = lastEducation.endTime;
+    const lastEducation = educations[0]
+    const eduEndTime = lastEducation.endTime
     if (getSecondsByDate(eduEndTime) >= DATE_NOW_SECONDS) {
       labels.push(
         <Label
@@ -56,12 +56,12 @@ const StatusLabels = (options = {}) => {
           color={labelColor}
           className={styles.info_label}
         />
-      );
+      )
     }
   }
   if (workExperiences.length) {
-    const lastWorkExperience = workExperiences[0];
-    const untilNow = lastWorkExperience.untilNow;
+    const lastWorkExperience = workExperiences[0]
+    const untilNow = lastWorkExperience.untilNow
     if (untilNow) {
       labels.push(
         <Label
@@ -72,7 +72,7 @@ const StatusLabels = (options = {}) => {
           color={labelColor}
           className={styles.info_label}
         />
-      );
+      )
     }
   }
 
@@ -81,10 +81,10 @@ const StatusLabels = (options = {}) => {
       <div className={styles.info_labels_container}>
         {labels}
       </div>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export default StatusLabels;
+export default StatusLabels

@@ -12,59 +12,59 @@ import cardStyles from '../styles/info_card.css'
 import styles from '../styles/github.css'
 import Icon from 'COMPONENTS/Icon'
 
-const fullDate = dateHelper.validator.fullDate;
-const githubTexts = locales('github.sections.orgs');
+const fullDate = dateHelper.validator.fullDate
+const githubTexts = locales('github.sections.orgs')
 
 class OrganizationsInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loaded: false,
       activeIndex: 0,
       organizations: [],
-    };
-    this.changeAcitveOrganization = this.changeAcitveOrganization.bind(this);
+    }
+    this.changeAcitveOrganization = this.changeAcitveOrganization.bind(this)
   }
 
   componentDidUpdate(preProps) {
-    const { userLogin, login } = this.props;
+    const { userLogin, login } = this.props
     if (!preProps.login && login) {
-      this.getGithubOrganizations(userLogin);
+      this.getGithubOrganizations(userLogin)
     }
   }
 
   async getGithubOrganizations(login) {
-    const organizations = await API.github.getOrganizations(login);
+    const organizations = await API.github.getOrganizations(login)
     this.setState({
       loaded: true,
       organizations: [...organizations]
-    });
+    })
   }
 
   changeAcitveOrganization(index) {
-    const { activeIndex } = this.state;
+    const { activeIndex } = this.state
     if (activeIndex !== index) {
       this.setState({
         activeIndex: index
-      });
+      })
     }
   }
 
   renderOrgsCard() {
-    const { organizations } = this.state;
-    const { login } = this.props;
-    const filterRepos = [];
+    const { organizations } = this.state
+    const { login } = this.props
+    const filterRepos = []
 
     for (const organization of organizations) {
       const repos = organization.repos
         .filter(repository => repository.contributors.some(contributor =>
             contributor.login === login)
-        );
-      filterRepos.push(...repos);
+        )
+      filterRepos.push(...repos)
     }
     const totalStar = filterRepos.reduce(
       (prev, current) => current.stargazers_count + prev, 0
-    );
+    )
 
     return (
       <CardGroup className={cardStyles.card_group}>
@@ -87,19 +87,19 @@ class OrganizationsInfo extends React.Component {
           subText={githubTexts.starsCount}
         />
       </CardGroup>
-    );
+    )
   }
 
   renderOrgsReview() {
-    const { activeIndex, organizations } = this.state;
+    const { activeIndex, organizations } = this.state
 
     const orgDOMs = splitArray(organizations, 10).map((items, line) => {
       const orgRows = items.map((organization, index) => {
-        const { avatar_url, name, login } = organization;
+        const { avatar_url, name, login } = organization
         const itemClass = cx(
           styles.org_item,
           activeIndex === index && styles.org_item_active
-        );
+        )
         return (
           <div key={index} className={styles.org_item_container}>
             <div
@@ -110,29 +110,29 @@ class OrganizationsInfo extends React.Component {
               <span>{name || login}</span>
             </div>
           </div>
-        );
-      });
+        )
+      })
       return (
         <div key={line} className={styles.org_row}>
           {orgRows}
         </div>
-      );
-    });
+      )
+    })
 
     return (
       <div className={styles.orgs_container}>
         {orgDOMs}
         {this.renderOrgDetail()}
       </div>
-    );
+    )
   }
 
   renderOrgDetail() {
-    const { activeIndex, organizations } = this.state;
-    const { login } = this.props;
-    const activeOrg = organizations[activeIndex];
-    const { created_at, description, blog } = activeOrg;
-    const repos = [...activeOrg.repos] || [];
+    const { activeIndex, organizations } = this.state
+    const { login } = this.props
+    const activeOrg = organizations[activeIndex]
+    const { created_at, description, blog } = activeOrg
+    const repos = [...activeOrg.repos] || []
 
     return (
       <div className={styles.org_detail}>
@@ -141,7 +141,7 @@ class OrganizationsInfo extends React.Component {
           &nbsp;
           {githubTexts.createdAt}{fullDate(created_at)}
         </div>
-        {blog ? (
+        {blog && (
           <div className={styles.org_info}>
             <Icon icon="link" />
             &nbsp;&nbsp;
@@ -153,20 +153,20 @@ class OrganizationsInfo extends React.Component {
               {blog}
             </a>
           </div>
-        ) : null}
-        {description ? (
+        )}
+        {description && (
           <div className={styles.org_info}>
             <Icon icon="quote-left" />
             &nbsp;&nbsp;
             {description}
           </div>
-        ) : null}
+        )}
         <OrganizationRepos
           repos={repos}
           login={login}
         />
       </div>
-    );
+    )
   }
 
   render() {
@@ -182,12 +182,9 @@ class OrganizationsInfo extends React.Component {
           </div>)
         : this.renderOrgsReview()
     }
-    const cards = loaded && organizations.length
-      ? this.renderOrgsCard()
-      : null
     return (
       <div className={className}>
-        {cards}
+        {loaded && organizations.length && this.renderOrgsCard()}
         {component}
       </div>
     )
@@ -206,4 +203,4 @@ OrganizationsInfo.defaultProps = {
   className: ''
 }
 
-export default OrganizationsInfo;
+export default OrganizationsInfo

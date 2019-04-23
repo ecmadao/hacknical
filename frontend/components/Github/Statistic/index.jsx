@@ -1,14 +1,14 @@
-import React from 'react';
-import deepcopy from 'deepcopy';
-import Chart from 'chart.js';
-import styles from '../styles/statistic.css';
-import githubStyles from '../styles/github.css';
-import cardStyles from '../styles/info_card.css';
-import locales from 'LOCALES';
-import { Loading } from 'light-ui';
-import { RADAR_CONFIG } from 'UTILS/constant/chart';
+import React from 'react'
+import deepcopy from 'deepcopy'
+import Chart from 'chart.js'
+import styles from '../styles/statistic.css'
+import githubStyles from '../styles/github.css'
+import cardStyles from '../styles/info_card.css'
+import locales from 'LOCALES'
+import { Loading } from 'light-ui'
+import { RADAR_CONFIG } from 'UTILS/constant/chart'
 
-const githubTexts = locales('github.sections');
+const githubTexts = locales('github.sections')
 
 class Statistic extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class Statistic extends React.Component {
         ref: this.starredLanguages,
         pointTo: 'starredLanguagesChart',
         title: githubTexts.statistic.languageChartTitle
-      });
+      })
       !this.starredKeywordsChart && this.renderRadarChart({
         data: starred.keywords,
         ref: this.starredKeywords,

@@ -8,11 +8,11 @@ import Icon from 'COMPONENTS/Icon'
 const localeText = locales('resume.tips')
 
 const getTips = (section, freshGraduate) => {
-  const key = freshGraduate ? 'graduate' : 'normal';
+  const key = freshGraduate ? 'graduate' : 'normal'
   return localeText[section] && localeText[section][key] !== undefined
     ? localeText[section][key]
-    : localeText[section];
-};
+    : localeText[section]
+}
 
 const SectionTip = (props) => {
   const {
@@ -22,11 +22,11 @@ const SectionTip = (props) => {
     hideTip = false,
     theme = 'dark',
     icon = 'question-circle',
-  } = props;
+  } = props
 
-  if (hideTip) return null;
-  const tip = text || getTips(section, freshGraduate);
-  if (!tip) return null;
+  if (hideTip) return null
+  const tip = text || getTips(section, freshGraduate)
+  if (!tip) return null
 
   return (
     <Tipso
@@ -38,7 +38,7 @@ const SectionTip = (props) => {
         <Icon icon={icon} />
       </span>
     </Tipso>
-  );
-};
+  )
+}
 
-export default SectionTip;
+export default SectionTip

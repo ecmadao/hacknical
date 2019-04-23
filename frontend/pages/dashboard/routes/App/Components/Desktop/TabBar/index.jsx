@@ -25,7 +25,7 @@ class TabBar extends React.Component {
   }
 
   renderTab() {
-    const { activeTab, login } = this.props;
+    const { activeTab, login } = this.props
 
     return TABS.map((tab, index) => (
       <Tab

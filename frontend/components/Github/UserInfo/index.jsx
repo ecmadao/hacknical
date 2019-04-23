@@ -12,6 +12,7 @@ const UserInfo = (props) => {
   const { user, className } = props
   if (!user) return <div />
 
+  const { joinedAt } = githubTexts
   return (
     <div className={cx(styles.info_card, className)}>
       <div className={styles.info_header}>
@@ -27,7 +28,7 @@ const UserInfo = (props) => {
             {user.name || user.login}
           </a>
           <span>
-            {githubTexts.joinedAt}{dateHelper.validator.fullDate(user.created_at)}
+            {joinedAt.replace('%time', dateHelper.validator.fullDate(user.created_at))}
           </span>
           {user.bio ? <blockquote>{user.bio}</blockquote> : null}
         </div>

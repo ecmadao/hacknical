@@ -36,4 +36,4 @@ module.exports = {
   zIndex99: '99',
   zIndex999: '999',
   zIndex9999: '9999'
-};
+}

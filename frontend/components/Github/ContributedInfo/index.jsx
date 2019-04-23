@@ -14,7 +14,7 @@ const githubTexts = locales('github.sections.contributed')
 
 class ContributedInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loaded: false,
       showMore: false,

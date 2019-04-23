@@ -1,3 +1,3 @@
-import DesktopRecords from './container';
+import DesktopRecords from './container'
 
-export default DesktopRecords;
+export default DesktopRecords

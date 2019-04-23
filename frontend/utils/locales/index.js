@@ -21,7 +21,7 @@ export const getLocale = () => {
 }
 
 export const formatLocale = () => {
-  const locale = getLocale();
+  const locale = getLocale()
   if (/^en/.test(locale)) {
     return locale
   }

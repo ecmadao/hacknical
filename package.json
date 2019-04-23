@@ -164,7 +164,7 @@
     "light-ui": "^1.5.6",
     "log4js": "^1.1.1",
     "moment": "^2.17.0",
-    "mq-utils": "^0.0.3",
+    "mq-utils": "^0.1.0",
     "nunjucks": "^3.0.1",
     "phantom": "^4.0.1",
     "rc-times": "0.0.6",

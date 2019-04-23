@@ -45,6 +45,6 @@ const datas = {
   modal: {
     shareText: 'Partager vos statistiques GitHub'
   }
-};
+}
 
-export default datas;
+export default datas

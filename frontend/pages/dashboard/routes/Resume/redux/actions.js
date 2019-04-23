@@ -25,7 +25,7 @@ const {
   'SET_PUB_RESUME_STATUS',
   'INITIAL_PUB_RESUME_STATUS',
   'HANDLE_ACTIVE_SECTION_CHANGE'
-);
+)
 const fetchResume = () => (dispatch) => {
   API.resume.getResume().then((result) => {
     if (result) {
@@ -37,9 +37,9 @@ const fetchResume = () => (dispatch) => {
 }
 
 const saveResume = params => (dispatch, getState) => {
-  const { resume } = getState();
-  const { posting, others } = resume;
-  const { socialLinks } = others;
+  const { resume } = getState()
+  const { posting, others } = resume
+  const { socialLinks } = others
 
   if (posting) return
   dispatch(togglePosting(true))
@@ -79,7 +79,7 @@ const {
   },
   'ADD_EDUCATION',
   'DELETE_EDUCATION'
-);
+)
 
 /**
  * WorkExperience
@@ -107,7 +107,7 @@ const {
   'ADD_WORK_EXPERIENCE',
   'DELETE_WORK_EXPERIENCE',
   'ADD_WORK_PROJECT'
-);
+)
 
 /**
  * PersonalProject
@@ -128,7 +128,7 @@ const {
   },
   'ADD_PERSONAL_PROJECT',
   'DELETE_PERSONAL_PROJECT'
-);
+)
 
 /**
  * others
@@ -153,7 +153,7 @@ const {
   'ADD_SUPPLEMENT',
   'DELETE_SUPPLEMENT',
   'TOGGLE_DOWNLOAD_BUTTON',
-);
+)
 
 /**
  * custom module
@@ -176,31 +176,31 @@ const {
   'REMOVE_CUSTOM_MODULE',
   'ADD_CUSTOM_MODULE',
   'ADD_MODULE_SECTION',
-);
+)
 
 // resume share
 const fetchPubResumeStatus = () => (dispatch) => {
   API.resume.getResumeInfo().then((result) => {
-    result && dispatch(initialPubResumeStatus(result));
-  });
-};
+    result && dispatch(initialPubResumeStatus(result))
+  })
+}
 
 const postShareStatus = () => (dispatch, getState) => {
-  const { openShare } = getState().resume.shareInfo;
+  const { openShare } = getState().resume.shareInfo
   API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
-    dispatch(setPubResumeStatus(!openShare));
+    dispatch(setPubResumeStatus(!openShare))
   })
 }
 
 // resume template
-const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE');
+const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE')
 const postShareTemplate = template => (dispatch, getState) => {
   if (template !== getState().resume.shareInfo) {
     API.resume.patchResumeInfo({ template }).then(() => {
-      dispatch(setPubResumeTemplate(template));
-    });
+      dispatch(setPubResumeTemplate(template))
+    })
   }
-};
+}
 
 const saveResumeObserver = throttle(saveResume, { delay: 13000 })
 

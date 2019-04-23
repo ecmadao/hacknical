@@ -33,7 +33,7 @@ export const sortBy = {
   *    c: 2
   *  }
   * }
-  * KEY = 'b.c';
+  * KEY = 'b.c'
   *
   * RETURN: 2
  */

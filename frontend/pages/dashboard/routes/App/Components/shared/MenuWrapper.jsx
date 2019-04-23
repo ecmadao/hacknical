@@ -4,7 +4,7 @@ import API from 'API'
 
 class MenuWrapper extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       zen: '',
       languages: []

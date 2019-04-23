@@ -3,6 +3,6 @@ const data = {
   openTitle: 'Partage activé',
   closeTitle: 'Partage désactivé',
   baseText: 'partager'
-};
+}
 
-export default data;
+export default data

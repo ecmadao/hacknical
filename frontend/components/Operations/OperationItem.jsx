@@ -4,8 +4,8 @@ import styles from './operations.css'
 import Icon from 'COMPONENTS/Icon'
 
 const OperationItem = (props) => {
-  const { item } = props;
-  const { text, icon, onClick } = item;
+  const { item } = props
+  const { text, icon, onClick } = item
 
   return (
     <div
@@ -15,15 +15,15 @@ const OperationItem = (props) => {
       <Icon icon={icon} />
       {text}
     </div>
-  );
-};
+  )
+}
 
 OperationItem.propTypes = {
   item: PropTypes.object
-};
+}
 
 OperationItem.defaultProps = {
   item: {}
-};
+}
 
-export default OperationItem;
+export default OperationItem

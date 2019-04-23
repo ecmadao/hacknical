@@ -9,9 +9,9 @@ const TipsoInputs = (props) => {
     prefixIcons
   } = props
 
-  const inputs = [];
+  const inputs = []
   children.forEach((child, i) => {
-    let prefix = null;
+    let prefix = null
     if (prefixIcons[i]) {
       prefix = (
         <Icon icon={prefixIcons[i]} />

@@ -14,19 +14,19 @@ const fullDate = dateHelper.validator.fullDate
 
 class OrganizationRepos extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       activeReposIndex: 0
-    };
-    this.changeAcitveRepos = this.changeAcitveRepos.bind(this);
+    }
+    this.changeAcitveRepos = this.changeAcitveRepos.bind(this)
   }
 
   changeAcitveRepos(index) {
-    const { activeReposIndex } = this.state;
+    const { activeReposIndex } = this.state
     if (activeReposIndex !== index) {
       this.setState({
         activeReposIndex: index
-      });
+      })
     }
   }
 
@@ -40,7 +40,7 @@ class OrganizationRepos extends React.Component {
       created_at,
       forks_count,
       stargazers_count
-    } = repository;
+    } = repository
 
     return (
       <div className={styles.tipso_container}>
@@ -89,36 +89,36 @@ class OrganizationRepos extends React.Component {
           </span>
         </span>
       </div>
-    );
+    )
   }
 
   renderRepos() {
-    const { activeReposIndex } = this.state;
-    const { repos, login } = this.props;
+    const { activeReposIndex } = this.state
+    const { repos, login } = this.props
 
-    const activeIndex = activeReposIndex >= repos.length ? 0 : activeReposIndex;
+    const activeIndex = activeReposIndex >= repos.length ? 0 : activeReposIndex
 
     return repos.map((repository, index) => {
-      const { contributors } = repository;
+      const { contributors } = repository
       const filterContributions = contributors
-        .filter(contributor => contributor.login === login);
+        .filter(contributor => contributor.login === login)
       const totalContributions = contributors.reduce(
         (prev, current) => current.total + prev, 0
-      );
+      )
 
       const userContributions = filterContributions.length
         ? filterContributions[0].total
-        : 0;
+        : 0
       const percentage = totalContributions
         ? (userContributions / totalContributions) * 100
-        : 0;
+        : 0
       const clickFunc = percentage
         ? () => this.changeAcitveRepos(index)
-        : Function.prototype;
+        : Function.prototype
       const contributionClass = cx(
         styles.repos_contributions,
         !percentage && styles.repos_contributions_disabled
-      );
+      )
 
       return (
         <div className={styles.repos_item} key={index}>
@@ -149,12 +149,12 @@ class OrganizationRepos extends React.Component {
             />
           ) : null}
         </div>
-      );
-    });
+      )
+    })
   }
 
   render() {
-    const { repos } = this.props;
+    const { repos } = this.props
 
     return (
       <div>
@@ -183,18 +183,18 @@ class OrganizationRepos extends React.Component {
           <div className={styles.orgs_coordinate}>{githubTexts.empty}</div>
         )}
       </div>
-    );
+    )
   }
 }
 
 OrganizationRepos.propTypes = {
   repos: PropTypes.array,
   login: PropTypes.string,
-};
+}
 
 OrganizationRepos.defaultProps = {
   repos: [],
   login: ''
-};
+}
 
-export default OrganizationRepos;
+export default OrganizationRepos

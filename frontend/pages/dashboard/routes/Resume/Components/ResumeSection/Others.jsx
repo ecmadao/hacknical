@@ -1,60 +1,60 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Input } from 'light-ui';
-import resumeActions from '../../redux/actions';
-import WritableList from 'COMPONENTS/WritableList';
-import SocialLink from './shared/SocialLink';
-import styles from '../../styles/resume.css';
-import locales from 'LOCALES';
-import SectionWrapper from './shared/SectionWrapper';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Input } from 'light-ui'
+import resumeActions from '../../redux/actions'
+import WritableList from 'COMPONENTS/WritableList'
+import SocialLink from './shared/SocialLink'
+import styles from '../../styles/resume.css'
+import locales from 'LOCALES'
+import SectionWrapper from './shared/SectionWrapper'
 
-const resumeTexts = locales('resume').sections.others;
+const resumeTexts = locales('resume').sections.others
 
 class Others extends React.Component {
   constructor(props) {
-    super(props);
-    this.addSupplement = this.addSupplement.bind(this);
-    this.deleteSupplement = this.deleteSupplement.bind(this);
-    this.changeSupplement = this.changeSupplement.bind(this);
-    this.handleOthersChange = this.handleOthersChange.bind(this);
-    this.changeSocialLink = this.changeSocialLink.bind(this);
-    this.deleteSocialLink = this.deleteSocialLink.bind(this);
+    super(props)
+    this.addSupplement = this.addSupplement.bind(this)
+    this.deleteSupplement = this.deleteSupplement.bind(this)
+    this.changeSupplement = this.changeSupplement.bind(this)
+    this.handleOthersChange = this.handleOthersChange.bind(this)
+    this.changeSocialLink = this.changeSocialLink.bind(this)
+    this.deleteSocialLink = this.deleteSocialLink.bind(this)
   }
 
   handleOthersChange(key) {
-    const { actions } = this.props;
+    const { actions } = this.props
     return (value) => {
-      actions.handleOthersInfoChange({ [key]: value });
-    };
+      actions.handleOthersInfoChange({ [key]: value })
+    }
   }
 
   addSupplement(value) {
-    this.props.actions.addSupplement(value);
+    this.props.actions.addSupplement(value)
   }
 
   deleteSupplement(index) {
-    this.props.actions.deleteSupplement(index);
+    this.props.actions.deleteSupplement(index)
   }
 
   changeSupplement(value, index) {
-    this.props.actions.changeSupplement(value, index);
+    this.props.actions.changeSupplement(value, index)
   }
 
   changeSocialLink(index) {
     return (option) => {
-      this.props.actions.changeSocialLink(option, index);
-    };
+      this.props.actions.changeSocialLink(option, index)
+    }
   }
 
   deleteSocialLink(index) {
     return () => {
-      this.props.actions.deleteSocialLink(index);
-    };
+      this.props.actions.deleteSocialLink(index)
+    }
   }
 
   renderSocialLinks() {
-    const { actions, disabled, socialLinks } = this.props;
+    const { actions, disabled, socialLinks } = this.props
     const links = socialLinks.map((social, index) => (
       <SocialLink
         key={index}
@@ -65,7 +65,7 @@ class Others extends React.Component {
         onChange={this.changeSocialLink(index)}
         onDelete={this.deleteSocialLink(index)}
       />
-    ));
+    ))
     links.push((
       <div
         key={links.length}
@@ -74,8 +74,8 @@ class Others extends React.Component {
       >
         <img src={require('SRC/images/add.png')} alt="newLink" />
       </div>
-    ));
-    return links;
+    ))
+    return links
   }
 
   render() {
@@ -85,7 +85,7 @@ class Others extends React.Component {
       supplements,
       expectSalary,
       expectLocation,
-    } = this.props;
+    } = this.props
 
     return (
       <SectionWrapper {...this.props}>
@@ -138,22 +138,22 @@ class Others extends React.Component {
           </div>
         </div>
       </SectionWrapper>
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
-  const { others, info } = state.resume;
+  const { others, info } = state.resume
   return {
     ...others,
     freshGraduate: info.freshGraduate,
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(resumeActions, dispatch)
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Others);
+export default connect(mapStateToProps, mapDispatchToProps)(Others)

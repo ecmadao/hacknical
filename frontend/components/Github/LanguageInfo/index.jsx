@@ -104,13 +104,12 @@ class LanguageInfo extends React.Component {
     if (!datas || Object.keys(datas).length === 0) datas = languageUsed
     this.languages = Object.keys(datas)
       .sort(github.sortByLanguage(datas))
-      .slice(0, 6)
     return this.languages
   }
 
-  renderLanguagesLabel() {
+  renderLanguagesLabel(showCount) {
     const { showLanguage } = this.state
-    const languages = this.sortedLanguages.map((language, index) => (
+    const languages = this.sortedLanguages.slice(0, showCount).map((language, index) => (
       <Label
         key={index}
         style={{
@@ -138,12 +137,13 @@ class LanguageInfo extends React.Component {
         {this.renderBaseInfo()}
         <div>
           <LanguageLines
+            showCount={9}
             loaded={loaded}
             languages={languages}
             languageUsed={languageUsed}
           />
         </div>
-        {this.renderLanguagesLabel()}
+        {this.renderLanguagesLabel(showCount)}
         {showLanguage ? this.renderShowRepos() : null}
       </div>
     )

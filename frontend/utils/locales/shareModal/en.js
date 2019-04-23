@@ -9,6 +9,6 @@ const datas = {
   error: {
     copy: 'Url copy failed'
   }
-};
+}
 
-export default datas;
+export default datas

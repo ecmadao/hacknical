@@ -16,9 +16,9 @@ const {
 
 // github
 const fetchGithubShareData = () => (dispatch) => {
-  dispatch(toggleAnalysisDataLoading(true));
+  dispatch(toggleAnalysisDataLoading(true))
   API.github.getShareRecords().then((result) => {
-    dispatch(initialAnalysisData(result));
+    dispatch(initialAnalysisData(result))
   })
 }
 

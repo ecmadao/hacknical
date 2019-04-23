@@ -81,7 +81,7 @@ const getReposByLanguage = (repos, targetLanguage) => {
 const getMinDate = (repos) => {
   const createDates = repos.map(
     repository => getSecondsByDate(repository.created_at)
-  );
+  )
   return getFullDateBySecond(Math.min(...createDates))
 }
 

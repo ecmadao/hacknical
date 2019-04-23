@@ -88,7 +88,7 @@ class CommitInfo extends React.Component {
       if (!this.dailyCommits.length) {
         for (const commit of commits) {
           commit.days.forEach((day, dayIndex) => {
-            const seconds = commit.week - ((7 - dayIndex) * 24 * 60 * 60);
+            const seconds = commit.week - ((7 - dayIndex) * 24 * 60 * 60)
             const validateDate = getDateBySeconds(seconds)
             this.dailyCommits.push({
               seconds,
@@ -216,9 +216,9 @@ class CommitInfo extends React.Component {
     const maxCommitRepos = commitDatas[0]
 
     // max commits day
-    const maxDailyCommitsIndex = getMaxTarget(commits, item => item.days)[1];
-    const maxCommitsWeek = commits[maxDailyCommitsIndex];
-    const dailyIndex = getMaxIndex(maxCommitsWeek.days);
+    const maxDailyCommitsIndex = getMaxTarget(commits, item => item.days)[1]
+    const maxCommitsWeek = commits[maxDailyCommitsIndex]
+    const dailyIndex = getMaxIndex(maxCommitsWeek.days)
     const maxCommitDate = getDateBySeconds(
       maxCommitsWeek.week - ((7 - dailyIndex) * (24 * 60 * 60))
     )

@@ -41,8 +41,8 @@
 }
 
 .socialInfoText {
-  font-size: 1.6em;
-  font-weight: bold;
+  font-size: 2em;
+  font-weight: bolder;
   color: var(--oc-green-8);
 }
 

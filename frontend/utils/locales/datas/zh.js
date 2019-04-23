@@ -37,6 +37,6 @@ const datas = {
     code: '源码',
     gov: '京ICP备17008129号-1'
   }
-};
+}
 
-export default datas;
+export default datas

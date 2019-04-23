@@ -1,68 +1,68 @@
 
-import React from 'react';
-import cx from 'classnames';
-import Clipboard from 'clipboard';
-import { Input, IconButton, AnimationComponent } from 'light-ui';
-import message from 'UTILS/message';
-import styles from '../styles/setting.css';
-import panelStyles from '../styles/panel.css';
-import locales from 'LOCALES';
+import React from 'react'
+import cx from 'classnames'
+import Clipboard from 'clipboard'
+import { Input, IconButton, AnimationComponent } from 'light-ui'
+import message from 'UTILS/message'
+import styles from '../styles/setting.css'
+import panelStyles from '../styles/panel.css'
+import locales from 'LOCALES'
 
 const modalTexts = locales('shareModal')
 
 class InputPane extends React.Component {
   constructor(props) {
-    super(props);
-    this.clipboard = null;
+    super(props)
+    this.clipboard = null
   }
 
   componentDidMount() {
     const {
       inputId,
       buttonId
-    } = this.props;
+    } = this.props
 
     this.renderClipboard({
       inputId,
       buttonId,
-    });
+    })
   }
 
   componentDidUpdate() {
     const {
       inputId,
       buttonId
-    } = this.props;
+    } = this.props
 
-    this.removeClipboard();
+    this.removeClipboard()
     this.renderClipboard({
       inputId,
       buttonId,
-    });
+    })
   }
 
   componentWillUnmount() {
-    this.removeClipboard();
+    this.removeClipboard()
   }
 
   removeClipboard() {
-    this.clipboard && this.clipboard.destroy();
+    this.clipboard && this.clipboard.destroy()
   }
 
   renderClipboard(options) {
     const {
       inputId,
       buttonId,
-    } = options;
+    } = options
     this.clipboard = new Clipboard(`#${buttonId}`, {
       text: () => $(`#${inputId}`).val()
-    });
+    })
     this.clipboard.on('success', () => {
-      message.notice(modalTexts.notice.copy, 1800);
-    });
+      message.notice(modalTexts.notice.copy, 1800)
+    })
     this.clipboard.on('error', () => {
-      message.error(modalTexts.error.copy, 1800);
-    });
+      message.error(modalTexts.error.copy, 1800)
+    })
   }
 
   render() {
@@ -74,7 +74,7 @@ class InputPane extends React.Component {
       disabled,
       className,
       onTransitionEnd,
-    } = this.props;
+    } = this.props
 
     return (
       <div
@@ -100,7 +100,7 @@ class InputPane extends React.Component {
           disabled={disabled}
         />
       </div>
-    );
+    )
   }
 }
 
@@ -108,6 +108,6 @@ const InputPanel = props => (
   <AnimationComponent>
     <InputPane {...props} />
   </AnimationComponent>
-);
+)
 
-export default InputPanel;
+export default InputPanel
