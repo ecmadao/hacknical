@@ -5,6 +5,7 @@ import {
   InfoCard,
   CardGroup
 } from 'light-ui'
+import cx from 'classnames'
 import locales from 'LOCALES'
 import github from 'UTILS/github'
 import { randomColor } from 'UTILS/colors'
@@ -25,6 +26,16 @@ class LanguageInfo extends React.Component {
     }
     this.languages = []
     this.setShowLanguage = this.setShowLanguage.bind(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { loaded } = this.props
+    if (!loaded && nextProps.loaded) {
+      this.setState({
+        showLanguage: Object.keys(this.props.languages || {})
+          .sort(github.sortByLanguage(this.props.languages || {}))[0]
+      })
+    }
   }
 
   renderShowRepos() {
@@ -117,7 +128,10 @@ class LanguageInfo extends React.Component {
           borderColor: getRamdomColor(language)
         }}
         text={language}
-        className={githubStyles.languageLabel}
+        className={cx(
+          githubStyles.languageLabel,
+          language === showLanguage && githubStyles.active
+        )}
         onClick={() => this.setShowLanguage(language)}
         active={language === showLanguage}
       />
@@ -132,12 +146,13 @@ class LanguageInfo extends React.Component {
   renderLanguageReview() {
     const { showLanguage } = this.state
     const { loaded, languages, languageUsed } = this.props
+    const showCount = 9
     return (
       <div>
         {this.renderBaseInfo()}
         <div>
           <LanguageLines
-            showCount={9}
+            showCount={showCount}
             loaded={loaded}
             languages={languages}
             languageUsed={languageUsed}

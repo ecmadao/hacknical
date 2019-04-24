@@ -128,7 +128,7 @@ const datas = {
       monthlyView: '月视图',
       weeklyView: '周视图',
       dailyView: '日视图',
-      tipso: '记录过去一年内的 commit'
+      tipso: '过去一年内的提交记录'
     }
   },
   modal: {

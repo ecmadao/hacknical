@@ -291,8 +291,8 @@ class CodeCourse extends React.Component {
       component = (<Loading loading />)
     } else {
       component = (!repositories || !repositories.length)
-        ? (<div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>)
-        : (<div>{this.renderChosedRepos()}</div>)
+        ? <div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>
+        : <div>{this.renderChosedRepos()}</div>
     }
     return (
       <div className={className}>

@@ -158,10 +158,6 @@ class GitHubContent extends React.Component {
           sectionStatus={sections.repos}
           hide={this.hideSection('repos')}
           disabled={this.disabledSection('repos')}
-          intro={{
-            icon: 'question-circle',
-            text: githubTexts.repos.tipso
-          }}
           isShare={isShare}
           cardClass={cardClass}
           callback={this.changeGithubSection}
