@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
+import { Label } from 'light-ui'
 import locales from 'LOCALES'
 import styles from '../Resume/shared/common.css'
 import AsyncGithub from '../shared/AsyncGithub'
@@ -126,6 +127,32 @@ class ResumeUIWrapper extends React.Component {
         </div>
       </div>
     ) : null
+  }
+
+  renderLanguages(labelProps = {}) {
+    const { resume } = this.props
+    const { info } = resume
+    const resumeInfo = info || {}
+    const { languages = [] } = resumeInfo
+
+    const labels = languages.map((language, i) => (
+      <Label
+        min
+        key={i}
+        theme="flat"
+        color="light"
+        text={language}
+        clickable={false}
+        className={styles.label}
+        {...labelProps}
+      />
+    ))
+
+    return (
+      <div className={styles.labelContainer}>
+        {labels}
+      </div>
+    )
   }
 }
 

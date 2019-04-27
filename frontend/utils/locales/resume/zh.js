@@ -37,7 +37,9 @@ const datas = {
       position: '所在城市',
       hireAvailable: '正在求职',
       freshGraduate: '我是应届生',
-      gender: '性别'
+      gender: '性别',
+      introText: '按下回车即可添加',
+      languages: '擅长的语言或方向'
     },
     educations: {
       title: '教育经历',

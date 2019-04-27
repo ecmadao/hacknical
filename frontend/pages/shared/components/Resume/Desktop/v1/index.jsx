@@ -357,6 +357,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               ? baseInfo(`${resumeInfo.location}   ${resumeInfo.intention}`, 'map-marker', { style: styles.right_info })
               : null
             }
+            {this.renderLanguages()}
             {others.dream ? (
               <div className={styles.user_dream}>
                 {baseInfo(others.dream, 'quote-left', { style: styles.right_info })}

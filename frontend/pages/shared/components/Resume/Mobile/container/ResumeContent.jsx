@@ -80,6 +80,9 @@ class ResumeContent extends ResumeUIWrapper {
           icon: 'envelope-o',
           className: styles.contact
         }) : null}
+        <div>
+          {this.renderLanguages({ color: 'darkLight' })}
+        </div>
       </div>
     )
   }

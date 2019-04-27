@@ -136,7 +136,7 @@
   display: initial;
 }
 
-.resumeRow {
+.rowRight {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

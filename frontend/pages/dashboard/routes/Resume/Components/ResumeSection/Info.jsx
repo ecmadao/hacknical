@@ -1,21 +1,32 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Input, InputGroupV2, SelectorV2, Switcher } from 'light-ui'
+import {
+  Input,
+  Switcher,
+  SelectorV2,
+  InputGroupV2
+} from 'light-ui'
+import cx from 'classnames'
+import Labels from 'COMPONENTS/Labels'
 import resumeActions from '../../redux/actions'
 import { GENDERS } from 'UTILS/constant/resume'
 import styles from '../../styles/resume.css'
 import locales from 'LOCALES'
 import SectionWrapper from './shared/SectionWrapper'
 
-const resumeTexts = locales('resume').sections.info
+const resumeTexts = locales('resume.sections.info')
 
 class Info extends React.Component {
   constructor(props) {
     super(props)
+
     this.handleInfoChange = this.handleInfoChange.bind(this)
     this.handleAvailableChange = this.handleAvailableChange.bind(this)
     this.handleResumeTypeChange = this.handleResumeTypeChange.bind(this)
+
+    this.handleLanguageAdded = this.handleLanguageAdded.bind(this)
+    this.handleLanguageRemoved = this.handleLanguageRemoved.bind(this)
   }
 
   handleInfoChange(type) {
@@ -41,17 +52,35 @@ class Info extends React.Component {
     })
   }
 
+  handleLanguageAdded(language) {
+    const { actions, languages } = this.props
+    actions.handleInfoChange({
+      languages: [...languages, language]
+    })
+  }
+
+  handleLanguageRemoved(index) {
+    const { actions, languages } = this.props
+    actions.handleInfoChange({
+      languages: [
+        ...languages.slice(0, index),
+        ...languages.slice(index + 1)
+      ]
+    })
+  }
+
   render() {
     const {
       name,
       email,
       phone,
+      gender,
       disabled,
       location,
       intention,
+      languages,
       hireAvailable,
-      freshGraduate,
-      gender = 'male',
+      freshGraduate
     } = this.props
 
     const [prefix, suffix] = email.split('@')
@@ -134,7 +163,18 @@ class Info extends React.Component {
               onChange={this.handleInfoChange('location')}
             />
           </div>
-          <div className={styles.resumeRow}>
+          <div className={styles.resume_wrapper}>
+            <Labels
+              max={7}
+              labels={languages}
+              disabled={disabled}
+              onAdd={this.handleLanguageAdded}
+              introText={resumeTexts.introText}
+              onDelete={this.handleLanguageRemoved}
+              placeholder={`+ ${resumeTexts.languages}`}
+            />
+          </div>
+          <div className={cx(styles.resume_wrapper, styles.rowRight)}>
             <div className={styles.resumeSwitcherWrapper}>
               {resumeTexts.freshGraduate}
               &nbsp;&nbsp;

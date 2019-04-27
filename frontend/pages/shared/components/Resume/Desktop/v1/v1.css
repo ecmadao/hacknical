@@ -55,6 +55,23 @@
   text-align: left;
   line-height: 30px;
   composes: baseText from 'STYLES/common.css';
+  word-wrap: break-word;
+}
+
+.labelContainer {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.label {
+  float: left;
+  margin-bottom: 5px;
 }
 
 .base_info_header {

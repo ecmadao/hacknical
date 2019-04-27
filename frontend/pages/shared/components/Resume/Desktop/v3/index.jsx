@@ -338,22 +338,6 @@ class ResumeComponentV3 extends ResumeUIWrapper {
             })}
             <div className={styles.headerInfoContainer}>
               {renderBaseInfo({
-                url: info.phone,
-                value: info.phone,
-                icon: 'mobile',
-                type: 'mobile',
-                className: styles.headerInfo,
-              })}
-              {renderBaseInfo({
-                url: info.email,
-                value: info.email,
-                icon: 'envelope-o',
-                type: 'email',
-                className: styles.headerInfo,
-              })}
-            </div>
-            <div className={styles.headerInfoContainer}>
-              {renderBaseInfo({
                 value: info.location,
                 className: styles.headerInfo,
               })}
@@ -382,6 +366,25 @@ class ResumeComponentV3 extends ResumeUIWrapper {
                   )
                 )
               }
+            </div>
+            <div className={styles.headerInfoContainer}>
+              {renderBaseInfo({
+                url: info.phone,
+                value: info.phone,
+                icon: 'mobile',
+                type: 'mobile',
+                className: styles.headerInfo,
+              })}
+              {renderBaseInfo({
+                url: info.email,
+                value: info.email,
+                icon: 'envelope-o',
+                type: 'email',
+                className: styles.headerInfo,
+              })}
+            </div>
+            <div className={styles.headerInfoContainer}>
+              {this.renderLanguages({ color: 'darkLight' })}
             </div>
           </div>
           {super.renderResumeSections.apply(this)}

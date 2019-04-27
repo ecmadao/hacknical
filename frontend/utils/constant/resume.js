@@ -198,6 +198,7 @@ export const INFO = {
   intention: '',
   hireAvailable: false,
   freshGraduate: false,
+  languages: []
 }
 
 export const EDU = {

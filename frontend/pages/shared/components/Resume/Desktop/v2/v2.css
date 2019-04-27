@@ -76,7 +76,8 @@
 }
 
 .headerContainer {
-  height: 200px;
+  min-height: 200px;
+  padding-top: 30px;
   display: flex;
   width: 100%;
   justify-content: center;

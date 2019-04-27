@@ -43,8 +43,18 @@ const getResumeShareStatus = (resumeInfo, locale) => {
 /* ===================== router handler ===================== */
 
 const getResume = async (ctx) => {
-  const { userId } = ctx.session
+  const { userId, githubToken, githubLogin } = ctx.session
   const data = await network.user.getResume({ userId })
+  if (
+    data.resume
+    && data.resume.info
+    && (!data.resume.info.languages || !data.resume.info.languages.length)
+  ) {
+    const languages = await network.github.getUserLanguages(githubLogin, githubToken)
+    data.resume.info.languages = Object.keys(languages)
+      .slice(0, 5)
+      .sort((k1, k2) => languages[k2] - languages[k1])
+  }
 
   ctx.body = {
     success: true,

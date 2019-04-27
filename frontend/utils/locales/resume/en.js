@@ -37,7 +37,9 @@ const datas = {
       position: 'City',
       hireAvailable: 'Available for hire',
       freshGraduate: 'I\'m fresh graduate',
-      gender: 'Gender'
+      gender: 'Gender',
+      introText: 'Press enter to add',
+      languages: ''
     },
     educations: {
       title: 'Education Experience',
