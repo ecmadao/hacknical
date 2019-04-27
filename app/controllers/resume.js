@@ -97,13 +97,13 @@ const downloadResume = async (ctx) => {
   const { userId, githubLogin, locale } = ctx.session
 
   const [
-    result,
+    resumeInfo,
     findResult
   ] = await Promise.all([
     network.user.getResumeInfo({ userId }),
     network.user.getResume({ userId })
   ])
-  const { template, resumeHash } = result
+  const { template, resumeHash } = resumeInfo
 
   if (!findResult) {
     throw new NewError.NotfoundError(ctx.__('messages.error.emptyResume'))
@@ -113,7 +113,7 @@ const downloadResume = async (ctx) => {
   const seconds = dateHelper.getSeconds(updateTime)
 
   const resumeUrl =
-    `${ctx.request.origin}/resume/${resumeHash}?locale=${locale}&userId=${userId}&notrace=true&fromDownload=true`
+    `${ctx.request.origin}/${getResumeShareStatus(resumeInfo, locale).url}&userId=${userId}&notrace=true&fromDownload=true`
 
   notify.slack({
     mq: ctx.mq,
@@ -216,6 +216,7 @@ const getResumeInfo = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { userId, githubLogin } = ctx.session
+  const { locale } = ctx.session
 
   const resumeInfo = await network.user.getResumeInfo({ userId })
 
@@ -258,7 +259,7 @@ const getShareRecords = async (ctx) => {
       viewDevices,
       viewSources,
       openShare: resumeInfo.openShare,
-      url: `${githubLogin}/resume?locale=${ctx.session.locale}`,
+      url: getResumeShareStatus(resumeInfo, locale).url
     }
   }
 }
@@ -275,7 +276,7 @@ const setResumeInfo = async (ctx) => {
 
   ctx.body = {
     result,
-    success: true,
+    success: true
   }
 }
 

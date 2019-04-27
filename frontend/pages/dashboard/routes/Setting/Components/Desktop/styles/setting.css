@@ -32,9 +32,19 @@
   background-color: var(--oc-gray-1) !important;
 }
 
-.sectionInput {
-  max-width: 250px;
+.inputContainer {
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sectionInput {
+  min-width: initial;
+  max-width: 250px;
+  padding: 0;
+  flex: initial;
 }
 
 .subSection-clickable {
@@ -111,4 +121,10 @@
   min-width: 150px;
   font-size: 12px;
   line-height: 1.5em;
+}
+
+@media (max-width: 600px) {
+  .inputContainer {
+    justify-content: flex-end;
+  }
 }

@@ -1,0 +1,35 @@
+@import 'open-color/open-color.css';
+
+.itemPane {
+  display: flex;
+  flex-direction: row;
+  padding: 0 15px;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.shareDisabled {
+  background-color: var(--oc-gray-1);
+}
+
+.input {
+  flex: 0.8;
+}
+
+.iconContainer {
+  flex: 0.2;
+  min-width: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}

@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { AnimationComponent } from 'light-ui'
-import styles from '../styles/panel.css'
+import styles from './panel.css'
 
 const BasePanel = props => (
   <div

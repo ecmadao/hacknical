@@ -10,9 +10,10 @@ import settingActions from '../../../redux/actions'
 import styles from '../styles/setting.css'
 import locales from 'LOCALES'
 import { REMINDER_PREFIX, REMINDER_INTERVALS } from 'UTILS/constant/resume'
-import SwitcherPanel from './SwitcherPanel'
-import Panel from './Panel'
-import CheckPanel from './CheckPanel'
+import Panel from '../../shared/Panel'
+import InputPanel from '../../shared/InputPanel'
+import CheckPanel from '../../shared/CheckPanel'
+import SwitcherPanel from '../../shared/SwitcherPanel'
 import Icon from 'COMPONENTS/Icon'
 
 const settingTexts = locales('dashboard.setting')
@@ -94,13 +95,14 @@ class DesktopSetting extends React.Component {
   }
 
   renderResumeGithubSetting() {
-    const { resumeInfo, actions } = this.props
+    const { resumeInfo, actions, switcher } = this.props
     const panels = []
 
     if (resumeInfo) {
       panels.push((
         <Panel key="resumeGithubSetting-1">
           <SwitcherPanel
+            switcher={switcher}
             id="use-github-switch"
             text={settingTexts.resume.useGithub}
             onChange={actions.postResumeGithubStatus}
@@ -132,6 +134,7 @@ class DesktopSetting extends React.Component {
   renderResumeReminderSetting() {
     const {
       actions,
+      switcher,
       resumeInfo
     } = this.props
 
@@ -141,6 +144,7 @@ class DesktopSetting extends React.Component {
     panels.push((
       <Panel key="resumeReminderSetting-1">
         <SwitcherPanel
+          switcher={switcher}
           text={settingTexts.resume.reminder.title}
           onChange={actions.toggleResumeReminder}
           disabled={resumeInfoLoading || resumeInfo.disabled}
@@ -165,18 +169,20 @@ class DesktopSetting extends React.Component {
               padding={10}
               onTimeChange={this.onReminderChange}
             />
-            &nbsp;&nbsp;&nbsp;
+            &nbsp;
             {settingTexts.resume.reminder.sendEmailTo}
             &nbsp;
-            <Input
-              type="email"
-              theme="borderless"
-              subTheme="underline"
-              className={styles.sectionInput}
-              placeholder={settingTexts.resume.reminder.placeholder}
-              value={resumeInfo.reminder.email}
-              onChange={this.postResumeReminderChange('email')}
-            />
+            <div className={styles.inputContainer}>
+              <Input
+                type="email"
+                theme="borderless"
+                subTheme="underline"
+                className={styles.sectionInput}
+                placeholder={settingTexts.resume.reminder.placeholder}
+                value={resumeInfo.reminder.email}
+                onChange={this.postResumeReminderChange('email')}
+              />
+            </div>
           </div>
         </Panel>
       ))
@@ -186,6 +192,7 @@ class DesktopSetting extends React.Component {
 
   renderResumeShareSetting() {
     const {
+      switcher,
       actions,
       resumeInfo,
     } = this.props
@@ -195,6 +202,7 @@ class DesktopSetting extends React.Component {
     panels.push((
       <Panel key="resumeShareSetting-1">
         <SwitcherPanel
+          switcher={switcher}
           text={settingTexts.resume.openShare}
           onChange={actions.postResumeShareStatus}
           disabled={resumeInfo.loading || resumeInfo.disabled}
@@ -211,6 +219,7 @@ class DesktopSetting extends React.Component {
       panels.push((
         <Panel key="resumeShareSetting-2">
           <SwitcherPanel
+            switcher={switcher}
             className={styles.subSection}
             text={settingTexts.resume.simplifyUrl}
             tipso={tip}
@@ -218,43 +227,81 @@ class DesktopSetting extends React.Component {
             disabled={resumeInfo.loading || resumeInfo.disabled}
             checked={resumeInfo && resumeInfo.simplifyUrl}
           />
+          <InputPanel
+            className={styles.subSection}
+            inputId="resumeShareUrl"
+            buttonId="resumeCopyButton"
+            url={
+              resumeInfo.simplifyUrl
+                ? `${window.location.host}/${resumeInfo.login}/resume`
+                : `${window.location.host}/resume/${resumeInfo.resumeHash}`
+            }
+            input={{
+              theme: 'borderless',
+              subTheme: 'underline'
+            }}
+          />
         </Panel>
       ))
     }
     return panels
   }
 
+  renderSharedLink() {
+    const { githubInfo } = this.props
+    if (!githubInfo.openShare) return null
+
+    return (
+      <InputPanel
+        input={{
+          theme: 'borderless',
+          subTheme: 'underline'
+        }}
+        className={styles.subSection}
+        inputId="githubShareUrl"
+        buttonId="githubCopyButton"
+        url={`${window.location.host}/${githubInfo.url}`}
+      />
+    )
+  }
+
   render() {
     const {
+      card,
       loading,
       actions,
+      switcher,
+      className,
       resumeInfo,
       githubInfo,
       updateTime,
+      cardHeaderClass,
       refreshEnable
     } = this.props
 
     return (
-      <div className={styles.container}>
+      <div className={cx(styles.container, className)}>
         <div className={styles.card_container}>
-          <p>
+          <p className={cardHeaderClass}>
             <Icon icon="github" />
-            &nbsp;&nbsp;{settingTexts.github.title}
+            &nbsp;&nbsp;
+            {settingTexts.github.title}
           </p>
-          <ClassicCard className={styles.card} bgClassName={styles.cardBg}>
+          <ClassicCard {...card} className={styles.card} bgClassName={styles.cardBg}>
             <Panel>
               <SwitcherPanel
+                switcher={switcher}
                 text={settingTexts.github.openShare}
                 onChange={actions.postGithubShareStatus}
                 checked={githubInfo.openShare}
                 disabled={githubInfo.loading}
               />
             </Panel>
-
+            {this.renderSharedLink()}
             <Panel>
-              {loading ? (
+              {loading && (
                 <Loading className={styles.info_loading} loading />
-              ) : null}
+              )}
               <div className={styles.info_container}>
                 <div className={styles.info}>
                   {settingTexts.github.lastUpdate}: {updateTime}
@@ -270,14 +317,15 @@ class DesktopSetting extends React.Component {
           </ClassicCard>
         </div>
         <div className={styles.card_container}>
-          <p>
+          <p className={cardHeaderClass}>
             <Icon icon="file-code-o" />
-            &nbsp;&nbsp;{settingTexts.resume.title}
+            &nbsp;&nbsp;
+            {settingTexts.resume.title}
           </p>
-          <ClassicCard className={styles.card} bgClassName={styles.cardBg}>
-            {!resumeInfo ? (
+          <ClassicCard {...card} className={styles.card} bgClassName={styles.cardBg}>
+            {!resumeInfo && (
               <Loading className={styles.info_loading} loading />
-            ) : null}
+            )}
             {this.renderResumeReminderSetting()}
             {this.renderResumeShareSetting()}
             {this.renderResumeGithubSetting()}
@@ -286,6 +334,16 @@ class DesktopSetting extends React.Component {
       </div>
     )
   }
+}
+
+DesktopSetting.defaultProps = {
+  card: {},
+  switcher: {
+    size: 'normal',
+    version: 'v2'
+  },
+  className: '',
+  cardHeaderClass: ''
 }
 
 function mapStateToProps(state) {

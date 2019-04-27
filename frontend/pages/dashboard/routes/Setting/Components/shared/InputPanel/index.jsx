@@ -2,15 +2,14 @@
 import React from 'react'
 import cx from 'classnames'
 import Clipboard from 'clipboard'
-import { Input, IconButton, AnimationComponent } from 'light-ui'
+import { Input, IconButton } from 'light-ui'
 import message from 'UTILS/message'
-import styles from '../styles/setting.css'
-import panelStyles from '../styles/panel.css'
+import styles from './panel.css'
 import locales from 'LOCALES'
 
 const modalTexts = locales('shareModal')
 
-class InputPane extends React.Component {
+class InputPanel extends React.Component {
   constructor(props) {
     super(props)
     this.clipboard = null
@@ -68,46 +67,42 @@ class InputPane extends React.Component {
   render() {
     const {
       url,
-      status,
       inputId,
       buttonId,
       disabled,
       className,
-      onTransitionEnd,
+      input = {}
     } = this.props
 
     return (
       <div
         className={cx(
           styles.itemPane,
-          panelStyles.panel,
-          panelStyles[`panel-${status}`],
           className
         )}
-        onTransitionEnd={onTransitionEnd}
       >
         <Input
           id={inputId}
           theme="flat"
           disabled={disabled}
-          className={disabled ? styles.shareDisabled : ''}
+          className={cx(
+            styles.input,
+            disabled ? styles.shareDisabled : ''
+          )}
           value={url}
+          {...input}
         />
-        <IconButton
-          color="gray"
-          icon="clipboard"
-          id={buttonId}
-          disabled={disabled}
-        />
+        <div className={styles.iconContainer}>
+          <IconButton
+            color="gray"
+            icon="clipboard"
+            id={buttonId}
+            disabled={disabled}
+          />
+        </div>
       </div>
     )
   }
 }
-
-const InputPanel = props => (
-  <AnimationComponent>
-    <InputPane {...props} />
-  </AnimationComponent>
-)
 
 export default InputPanel

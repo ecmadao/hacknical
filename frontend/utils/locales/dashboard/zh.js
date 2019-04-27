@@ -93,7 +93,7 @@ const datas = {
       showContributed: '展示 对他人仓库的贡献',
       reminder: {
         title: '定期提醒我维护简历',
-        sendEmailTo: '发送邮件到',
+        sendEmailTo: '发邮件到',
         placeholder: '接收提醒的邮箱'
       },
     }

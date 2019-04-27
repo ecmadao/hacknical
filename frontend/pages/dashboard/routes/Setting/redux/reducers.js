@@ -1,3 +1,4 @@
+
 import { handleActions } from 'redux-actions'
 import objectAssign from 'UTILS/object-assign'
 import dateHelper from 'UTILS/date'
@@ -8,6 +9,7 @@ const initialState = {
   updateTime: null,
   refreshEnable: false,
   resumeInfo: {
+    url: '',
     loading: true,
     useGithub: false,
     openShare: false,
@@ -17,6 +19,7 @@ const initialState = {
     simplifyUrl: true,
   },
   githubInfo: {
+    url: '',
     loading: true,
     openShare: true,
     openModal: false,

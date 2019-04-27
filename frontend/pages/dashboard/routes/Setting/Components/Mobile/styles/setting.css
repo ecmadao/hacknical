@@ -1,77 +1,16 @@
-@import 'open-color/open-color.css';
 
-.setting {
-  display: flex;
-  justify-content: center;
-  color: var(--oc-gray-7);
-  flex-direction: column;
+.container {
+  max-width: initial !important;
+  min-width: initial !important;
+  width: 100% !important;
 }
 
-.paneContainer {
-  margin: 10px 0;
+.card {
+  margin: 0 !important;
 }
 
-.paneHeader {
-  line-height: 30px;
-  font-weight: bold;
-  padding: 0 20px;
+.cardHeader {
+  font-weight: 700;
+  padding: 0 10px;
   font-size: 1.2em;
-}
-
-.itemPane {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 15px 0;
-  position: relative;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--oc-gray-2);
-  }
-}
-
-.settingSection {
-  flex-direction: row !important;
-  justify-content: flex-end !important;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--oc-gray-2);
-  }
-}
-
-.shareDisabled {
-  background-color: var(--oc-gray-1);
-}
-
-.settingRow {
-  display: flex;
-  flex-direction: column !important;
-}
-
-.paneTextContainer {
-  flex: 1;
-
-  & span {
-    font-size: 12px;
-    color: var(--oc-gray-5);
-  }
-}
-
-.iconButton {
-  border: 1px solid var(--oc-gray-4);
-  border-radius: 2px;
-}
-
-.subRow {
-  background-color: var(--oc-gray-1) !important;
 }

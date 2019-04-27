@@ -207,8 +207,9 @@ const getShareRecords = async (ctx) => {
       pageViews,
       viewDevices,
       viewSources,
+      login: githubLogin,
       openShare: userInfo.githubShare,
-      url: `${githubLogin}/github?locale=${locale}`
+      url: `${githubLogin}/github`
     }
   }
 }

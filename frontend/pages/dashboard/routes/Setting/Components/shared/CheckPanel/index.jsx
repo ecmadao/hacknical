@@ -1,7 +1,7 @@
 
 import React from 'react'
 import cx from 'classnames'
-import styles from '../styles/setting.css'
+import styles from './panel.css'
 import Icon from 'COMPONENTS/Icon'
 
 const CheckPanel = (props) => {
@@ -16,15 +16,15 @@ const CheckPanel = (props) => {
     <div
       onClick={() => onChange(!checked)}
       className={cx(
-        styles.info_container_large,
-        styles.check_info_container,
+        styles.infoContainerLarge,
+        styles.checkInfoContainer,
         className
       )}
     >
       <div className={styles.info}>
         {text}
       </div>
-      <div className={styles.check_container}>
+      <div className={styles.checkContainer}>
         <Icon icon={checked ? 'check-square' : 'square-o'} />
       </div>
     </div>

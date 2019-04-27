@@ -93,7 +93,7 @@ const datas = {
       showContributed: 'Show contributed repos',
       reminder: {
         title: 'Remind me update my resume',
-        sendEmailTo: 'Send email to',
+        sendEmailTo: 'Send mail to',
         placeholder: 'your email address'
       },
     }

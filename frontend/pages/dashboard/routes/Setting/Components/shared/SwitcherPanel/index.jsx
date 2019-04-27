@@ -1,25 +1,26 @@
 import React from 'react'
 import cx from 'classnames'
 import { Switcher, Tipso } from 'light-ui'
-import styles from '../styles/setting.css'
+import styles from './panel.css'
 import Icon from 'COMPONENTS/Icon'
 
 const SwitcherPanel = (props) => {
   const {
     text,
-    status,
     checked,
     onChange,
     className,
     tipso = null,
     disabled = false,
+    switcher = {
+      size: 'normal',
+      version: 'v2'
+    }
   } = props
   return (
     <div
       className={cx(
-        styles.info_container,
-        styles.panel,
-        styles[`panel-${status}`],
+        styles.itemPane,
         className
       )}
     >
@@ -39,9 +40,9 @@ const SwitcherPanel = (props) => {
         ) : null}
       </div>
       <Switcher
+        {...switcher}
         onChange={onChange}
         checked={checked}
-        version="v2"
         disabled={disabled}
       />
     </div>
