@@ -62,6 +62,7 @@ class OrganizationsInfo extends React.Component {
         )
       filterRepos.push(...repos)
     }
+
     const totalStar = filterRepos.reduce(
       (prev, current) => current.stargazers_count + prev, 0
     )
@@ -184,7 +185,7 @@ class OrganizationsInfo extends React.Component {
     }
     return (
       <div className={className}>
-        {loaded && organizations.length && this.renderOrgsCard()}
+        {loaded && organizations.length > 0 ? this.renderOrgsCard() : null}
         {component}
       </div>
     )

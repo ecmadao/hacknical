@@ -7,7 +7,6 @@
 
   & .reposXAxes {
     position: relative;
-    flex: 1;
     height: 2px;
     max-height: 2px;
     margin-top: 10px;
