@@ -22,7 +22,16 @@ const loggerMiddleware = (options = {}) => async (ctx, next) => {
     platform
   } = ctx.state
 
-  logger.info(`\n[path] ${pathname}\n[method] ${ctx.request.method}\n[${browser}:${platform}:${device}]\n[query] ${JSON.stringify(ctx.query)}\n[body] ${JSON.stringify(ctx.request.body)}\n[session] ${JSON.stringify(ctx.session)}`)
+  logger.info(
+    [
+      `[path] ${pathname}`,
+      `[method] ${ctx.request.method}`,
+      `[${device}] ${browser}:${platform}`,
+      `[query] ${JSON.stringify(ctx.query)}`,
+      `[body] ${JSON.stringify(ctx.request.body)}`,
+      `[session] ${JSON.stringify(ctx.session)}`
+    ].join('\n')
+  )
   await next()
 }
 

@@ -46,10 +46,10 @@ const render500 = async (ctx, err) => {
           origin: ctx.request.header.origin || ctx.request.origin,
           querystring: ctx.request.querystring
         }),
-        '[Server status]',
-        ctx.status,
+        `[Server status] ${ctx.status}`,
         '[Server session]',
-        printer(ctx.session)
+        printer(ctx.session),
+        `[IP] ${ctx.request.ip}`
       ].join('\n')
     }
   })

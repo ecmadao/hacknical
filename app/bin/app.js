@@ -24,6 +24,7 @@ import assetsMiddleware from '../middlewares/assets'
 import loggerMiddleware from '../middlewares/logger'
 import { redisMiddleware } from '../middlewares/cache'
 import platformMiddleware from '../middlewares/platform'
+import firewallMiddleware from '../middlewares/firewall'
 
 const port = config.get('port')
 const appKey = config.get('appKey')
@@ -44,7 +45,9 @@ app.keys = [appKey]
 
 // koa logger
 app.use(koaLogger())
-
+app.use(firewallMiddleware({
+  blockList: []
+}))
 app.use(cors())
 
 // bodyparser
