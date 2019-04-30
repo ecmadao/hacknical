@@ -54,7 +54,12 @@ const render500 = async (ctx, err) => {
     }
   })
 
-  await Home.render500Page(ctx)
+  try {
+    await Home.render500Page(ctx)
+  } catch (e) {
+    logger.error(e)
+    return ctx.redirect('/500')
+  }
 }
 
 const catchError = () => async (ctx, next) => {
