@@ -80,7 +80,7 @@ class Nav extends React.PureComponent {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        <ClassicCard className={styles.navigationCard} bgClassName={styles.navigationCardBg}>
+        <ClassicCard className={styles.navigationCard} bgClassName={styles.navigationCardBg} hoverable={false}>
           <div className={styles.navWrapper}>
             {navs}
           </div>

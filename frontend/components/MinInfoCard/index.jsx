@@ -7,7 +7,7 @@ const MinInfoCard = (props) => {
   const { mainText, subText, className, icon } = props
 
   return (
-    <ClassicCard bgClassName={styles.cardBg}>
+    <ClassicCard bgClassName={styles.cardBg} hoverable={false}>
       <div className={className}>
         <div className={styles.subText}>
           {subText}

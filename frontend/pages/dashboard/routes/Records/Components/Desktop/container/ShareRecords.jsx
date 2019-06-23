@@ -83,7 +83,7 @@ class ShareRecords extends React.Component {
     const { url } = info
 
     return (
-      <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg}>
+      <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg} hoverable={false}>
         <div className={styles.share_controller}>
           <Tipso
             position="bottom"
@@ -328,7 +328,7 @@ class ShareRecords extends React.Component {
           </div>
         )}
         {loading ? (<Loading loading />) : (
-          <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg}>
+          <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg} hoverable={false}>
             <div className={cx(styles.card, styles.cardLite)}>
               {this.renderChartInfo()}
               <div className={styles.chart_container}>

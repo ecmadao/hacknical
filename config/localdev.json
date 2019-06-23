@@ -49,10 +49,6 @@
       "prefix": "/resumes"
     }
   },
-  "stackimpact": {
-    "key": "",
-    "name": ""
-  },
   "mq": {
     "source": "redis",
     "config": {

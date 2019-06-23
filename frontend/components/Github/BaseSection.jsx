@@ -16,7 +16,7 @@ const BaseSection = (props) => {
   } = props
 
   return (
-    <ClassicCard className={cardStyles.infoCard} bgClassName={cardStyles.cardBg}>
+    <ClassicCard className={cardStyles.infoCard} bgClassName={cardStyles.cardBg} hoverable={false}>
       <div className={cx(cardStyles.infoCardContent, cardClass)}>
         {disabled ? (
           <div

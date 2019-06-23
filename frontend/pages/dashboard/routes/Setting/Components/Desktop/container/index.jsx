@@ -287,7 +287,7 @@ class DesktopSetting extends React.Component {
             &nbsp;&nbsp;
             {settingTexts.github.title}
           </p>
-          <ClassicCard {...card} className={styles.card} bgClassName={styles.cardBg}>
+          <ClassicCard {...card} className={styles.card} bgClassName={styles.cardBg} hoverable={false}>
             <Panel>
               <SwitcherPanel
                 switcher={switcher}
@@ -322,7 +322,7 @@ class DesktopSetting extends React.Component {
             &nbsp;&nbsp;
             {settingTexts.resume.title}
           </p>
-          <ClassicCard {...card} className={styles.card} bgClassName={styles.cardBg}>
+          <ClassicCard {...card} className={styles.card} bgClassName={styles.cardBg} hoverable={false}>
             {!resumeInfo && (
               <Loading className={styles.info_loading} loading />
             )}

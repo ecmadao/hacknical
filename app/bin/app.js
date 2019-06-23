@@ -30,10 +30,10 @@ const port = config.get('port')
 const appKey = config.get('appKey')
 const appName = config.get('appName')
 
-if (config.get('stackimpact.key')) {
+if (process.env.HACKNICAL_STACKIMPACT_KEY) {
   stackimpact.start({
-    agentKey: config.get('stackimpact.key'),
-    appName: config.get('stackimpact.name'),
+    agentKey: process.env.HACKNICAL_STACKIMPACT_KEY,
+    appName: process.env.HACKNICAL_STACKIMPACT_NAME,
     appVersion: git.short(),
     debug: process.env.NODE_ENV !== 'production'
   })
