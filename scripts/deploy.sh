@@ -32,6 +32,6 @@ download_file() {
 }
 
 (cd $WEB_ROOT && download_file)
-(cd $WEB_ROOT && bash ./deploy-backend.sh)
+(cd $WEB_ROOT && bash ./scripts/deploy-backend.sh)
 
 echo " ==========  done ========== "
