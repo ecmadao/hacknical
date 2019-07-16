@@ -116,6 +116,7 @@
 
 .sectionColumn {
   flex: 1;
+  max-width: 50%;
 
   &:first-child {
     margin-right: 5px;
@@ -205,10 +206,13 @@
     line-height: 2em;
   }
 
-  & .link_wrapper {
+  & .linkWrapper {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   & .list_link {

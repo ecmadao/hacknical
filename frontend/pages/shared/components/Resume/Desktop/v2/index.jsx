@@ -283,7 +283,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
       const { url, text } = social
       return (
         <li key={index}>
-          <div className={styles.link_wrapper}>
+          <div className={styles.linkWrapper}>
             {text}
             &nbsp;:&nbsp;&nbsp;&nbsp;
             <a
