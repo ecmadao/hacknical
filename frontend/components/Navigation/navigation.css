@@ -103,4 +103,14 @@
 .navWrapper {
   max-height: 450px;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    background: transparent;
+    width: 0;
+  }
+
+  &:hover::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
 }
