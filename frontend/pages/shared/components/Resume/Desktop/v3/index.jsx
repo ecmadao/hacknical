@@ -255,6 +255,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
         ...experience,
         index
       }))
+    if (!exps.length) return null
 
     return section({
       key,

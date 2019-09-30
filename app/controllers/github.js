@@ -217,7 +217,12 @@ const getShareRecords = async (ctx) => {
 const updateFinished = status => status !== 2 && status !== 3
 
 const refreshEnable = (status, lastUpdate) =>
-  updateFinished(status) && new Date() - new Date(lastUpdate) > services.refreshInterval
+  updateFinished(status) &&
+    new Date().getTime() - new Date(lastUpdate).getTime() > services.refreshInterval
+
+const fetchLongtimeAgo = startUpdateAt =>
+  startUpdateAt &&
+    new Date().getTime() - new Date(startUpdateAt).getTime() > 10 * 60 * 1000
 
 const getUpdateStatus = async (ctx) => {
   const { githubLogin, userId } = ctx.session
@@ -225,11 +230,12 @@ const getUpdateStatus = async (ctx) => {
   logger.info(`${githubLogin} update status: ${JSON.stringify(statusResult)}`)
   const {
     status,
+    startUpdateAt,
     lastUpdateTime,
   } = statusResult
 
   const statusCode = parseInt(status, 10)
-  if (statusCode === 1) {
+  if (statusCode === 1 || fetchLongtimeAgo(startUpdateAt)) {
     await Promise.all([
       network.user.updateUser(userId, { initialed: true }),
       network.github.updateUser(githubLogin, { status: 0 })

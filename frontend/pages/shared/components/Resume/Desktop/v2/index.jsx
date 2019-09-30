@@ -185,6 +185,8 @@ class ResumeComponentV2 extends ResumeUIWrapper {
         index
       }))
 
+    if (!exps.length) return null
+
     return section({
       key,
       rows: exps,

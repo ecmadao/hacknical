@@ -32,7 +32,7 @@ class ContributedInfo extends React.Component {
 
   async getGithubContributed(login) {
     const repositories = await API.github.getContributed(login)
-    this.setGithubContributed(repositories)
+    this.setGithubContributed(repositories ? repositories : [])
   }
 
   showMore() {
