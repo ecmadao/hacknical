@@ -117,6 +117,29 @@
   flex: initial;
 }
 
+.phoneWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+.phoneInput {
+  margin-right: 0;
+  margin-left: 5px !important;
+}
+
+.phoneTipWarpper {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+
+.phoneVisiable {
+  height: 36px;
+  width: 36px;
+  margin: 0px;
+}
+
 .resume_wrapper {
   display: flex;
   align-items: center;

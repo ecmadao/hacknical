@@ -48,12 +48,17 @@ const getResume = async (ctx) => {
   if (
     data.resume
     && data.resume.info
-    && (!data.resume.info.languages || !data.resume.info.languages.length)
   ) {
-    const languages = await network.github.getUserLanguages(githubLogin, githubToken)
-    data.resume.info.languages = Object.keys(languages)
-      .slice(0, 5)
-      .sort((k1, k2) => languages[k2] - languages[k1])
+    if (!data.resume.info.languages || !data.resume.info.languages.length) {
+      const languages = await network.github.getUserLanguages(githubLogin, githubToken)
+      data.resume.info.languages = Object.keys(languages)
+        .slice(0, 5)
+        .sort((k1, k2) => languages[k2] - languages[k1])
+    }
+
+    if (data.resume.info.privacyProtect && data.resume.info.phone) {
+      data.resume.info.phone = `${data.resume.info.phone.slice(0, 3)}****${data.resume.info.phone.slice(7)}`
+    }
   }
 
   ctx.body = {

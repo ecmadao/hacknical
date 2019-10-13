@@ -36,6 +36,7 @@ const datas = {
       job: 'Wanted job',
       position: 'City',
       hireAvailable: 'Available for hire',
+      privacyProtect: 'Privacy protect',
       freshGraduate: 'I\'m fresh graduate',
       gender: 'Gender',
       introText: 'Press enter to add',

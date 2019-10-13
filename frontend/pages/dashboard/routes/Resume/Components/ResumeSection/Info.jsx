@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {
   Input,
+  Tipso,
   Switcher,
+  IconButton,
   SelectorV2,
   InputGroupV2
 } from 'light-ui'
@@ -22,8 +24,7 @@ class Info extends React.Component {
     super(props)
 
     this.handleInfoChange = this.handleInfoChange.bind(this)
-    this.handleAvailableChange = this.handleAvailableChange.bind(this)
-    this.handleResumeTypeChange = this.handleResumeTypeChange.bind(this)
+    this.handleSwitchChange = this.handleSwitchChange.bind(this)
 
     this.handleLanguageAdded = this.handleLanguageAdded.bind(this)
     this.handleLanguageRemoved = this.handleLanguageRemoved.bind(this)
@@ -38,18 +39,13 @@ class Info extends React.Component {
     }
   }
 
-  handleAvailableChange() {
-    const { actions, hireAvailable } = this.props
-    actions.handleInfoChange({
-      hireAvailable: !hireAvailable
-    })
-  }
-
-  handleResumeTypeChange() {
-    const { actions, freshGraduate } = this.props
-    actions.handleInfoChange({
-      freshGraduate: !freshGraduate
-    })
+  handleSwitchChange(key) {
+    return () => {
+      const { actions } = this.props
+      actions.handleInfoChange({
+        [key]: !this.props[key]
+      })
+    }
   }
 
   handleLanguageAdded(language) {
@@ -80,7 +76,8 @@ class Info extends React.Component {
       intention,
       languages,
       hireAvailable,
-      freshGraduate
+      freshGraduate,
+      privacyProtect
     } = this.props
 
     const [prefix, suffix] = email.split('@')
@@ -135,15 +132,31 @@ class Info extends React.Component {
               ]}
               theme="flat"
             />
-            <Input
-              type="phone"
-              theme="flat"
-              value={phone}
-              disabled={disabled}
-              className={styles.resumeFormItem}
-              placeholder={resumeTexts.phone}
-              onChange={this.handleInfoChange('phone')}
-            />
+            <div className={styles.phoneWrapper}>
+              <Input
+                type="phone"
+                theme="flat"
+                value={phone}
+                disabled={disabled}
+                className={cx(styles.resumeFormItem, styles.phoneInput)}
+                placeholder={resumeTexts.phone}
+                onChange={this.handleInfoChange('phone')}
+              />
+              <Tipso
+                theme="dark"
+                wrapperClass={styles.phoneTipWarpper}
+                tipsoContent={(
+                  <span>{resumeTexts.privacyProtect}</span>
+                )}
+              >
+                <IconButton
+                  color="gray"
+                  className={styles.phoneVisiable}
+                  icon={privacyProtect ? 'eye-slash' : 'eye'}
+                  onClick={this.handleSwitchChange('privacyProtect')}
+                />
+              </Tipso>
+            </div>
           </div>
           <div className={styles.resume_wrapper}>
             <Input
@@ -183,7 +196,7 @@ class Info extends React.Component {
                 disabled={disabled}
                 checked={freshGraduate}
                 className={styles.resumeFormItem}
-                onChange={this.handleResumeTypeChange}
+                onChange={this.handleSwitchChange('freshGraduate')}
               />
             </div>
             &nbsp;&nbsp;&nbsp;
@@ -195,7 +208,7 @@ class Info extends React.Component {
                 disabled={disabled}
                 checked={hireAvailable}
                 className={styles.resumeFormItem}
-                onChange={this.handleAvailableChange}
+                onChange={this.handleSwitchChange('hireAvailable')}
               />
             </div>
           </div>

@@ -197,6 +197,7 @@ export const INFO = {
   avator: '',
   intention: '',
   hireAvailable: false,
+  privacyProtect: false,
   freshGraduate: false,
   languages: []
 }

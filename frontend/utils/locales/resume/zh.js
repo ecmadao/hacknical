@@ -36,6 +36,7 @@ const datas = {
       job: '意向职位',
       position: '所在城市',
       hireAvailable: '正在求职',
+      privacyProtect: '号码保护',
       freshGraduate: '我是应届生',
       gender: '性别',
       introText: '按下回车即可添加',
