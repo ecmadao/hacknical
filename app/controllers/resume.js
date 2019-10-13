@@ -55,10 +55,6 @@ const getResume = async (ctx) => {
         .slice(0, 5)
         .sort((k1, k2) => languages[k2] - languages[k1])
     }
-
-    if (data.resume.info.privacyProtect && data.resume.info.phone) {
-      data.resume.info.phone = `${data.resume.info.phone.slice(0, 3)}****${data.resume.info.phone.slice(7)}`
-    }
   }
 
   ctx.body = {
@@ -196,6 +192,10 @@ const getResumeByHash = async (ctx, next) => {
   if (findResult) {
     result = findResult.resume
     result.updateAt = findResult.updated_at
+
+    if (result.info.privacyProtect && result.info.phone) {
+      result.info.phone = `${result.info.phone.slice(0, 3)}****${result.info.phone.slice(7)}`
+    }
   }
 
   ctx.body = {

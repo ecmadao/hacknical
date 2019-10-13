@@ -16,6 +16,13 @@ const getLinkText = social =>
   || LINK_NAMES[social.name.toLowerCase()]
   || social.name
 
+const formatResumeInfo = (info) => {
+  if (!info || !info.phone || !info.privacyProtect) return info
+  return Object.assign({}, info, {
+    phone: `${info.phone.slice(0, 3)}****${info.phone.slice(7)}`
+  })
+}
+
 const formatResume = (resume) => {
   const {
     others,
@@ -127,6 +134,7 @@ const formatResume = (resume) => {
     }, [])
 
   return objectAssign({}, resume, {
+    info: formatResumeInfo(resume.info),
     educations: formatEducations,
     workExperiences: formatWorkExperiences,
     personalProjects: formatPersonalProjects,
