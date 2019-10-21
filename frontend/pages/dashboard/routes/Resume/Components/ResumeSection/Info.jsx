@@ -146,7 +146,12 @@ class Info extends React.Component {
                 theme="dark"
                 wrapperClass={styles.phoneTipWarpper}
                 tipsoContent={(
-                  <span>{resumeTexts.privacyProtect}</span>
+                  <span>
+                    {privacyProtect
+                      ? resumeTexts.privacyProtect.enabled
+                      : resumeTexts.privacyProtect.disabled
+                    }
+                  </span>
                 )}
               >
                 <IconButton

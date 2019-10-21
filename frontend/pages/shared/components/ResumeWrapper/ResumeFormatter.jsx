@@ -6,8 +6,13 @@ import { validateSocialLinks } from 'UTILS/resume'
 import dateHelper from 'UTILS/date'
 import { sortBySeconds, isUrl } from 'UTILS/helper'
 import { formatUrl } from 'UTILS/formatter'
-import { LINK_NAMES } from 'UTILS/constant/resume'
+import { LINK_NAMES, EDUCATIONS } from 'UTILS/constant/resume'
+const localeTexts = locales('datas.dateSlider')
 
+const eduMap = EDUCATIONS.reduce((map, edu) => {
+  map.set(edu.id, edu.value)
+  return map
+}, new Map())
 const validateDate = dateHelper.validator.date
 const sortByDate = sortBySeconds('startTime', -1)
 const getLinkText = social =>
@@ -49,7 +54,7 @@ const formatResume = (resume) => {
       } = experience
 
       const validateEnd = untilNow
-        ? '至今'
+        ? localeTexts.untilNow
         : validateDate(endTime)
       list.push({
         company,
@@ -88,10 +93,10 @@ const formatResume = (resume) => {
       list.push({
         school,
         major,
-        education,
         experiences,
         endTime: validateDate(endTime),
-        startTime: validateDate(startTime)
+        startTime: validateDate(startTime),
+        education: eduMap.get(education) || education
       })
       return list
     }, [])
