@@ -6,7 +6,9 @@ import { validateSocialLinks } from 'UTILS/resume'
 import dateHelper from 'UTILS/date'
 import { sortBySeconds, isUrl } from 'UTILS/helper'
 import { formatUrl } from 'UTILS/formatter'
+import locales from 'LOCALES'
 import { LINK_NAMES, EDUCATIONS } from 'UTILS/constant/resume'
+
 const localeTexts = locales('datas.dateSlider')
 
 const eduMap = EDUCATIONS.reduce((map, edu) => {
