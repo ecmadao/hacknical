@@ -25,7 +25,10 @@ const toBase64 = file => new Promise((resolve, reject) => {
 })
 
 const toFile = url => new Promise((resolve) => {
-  const filename = url.split('/').slice(-1)[0]
+  let filename = url.split('/').slice(-1)[0]
+  if (!/\.(pn|jp|jpe)g$/.test(filename)) {
+    filename = `${filename}.png`
+  }
   const type = `image/${filename.split('.').slice(-1)[0]}`
 
   fetch(url).then(res => res.blob()).then((blob) => {

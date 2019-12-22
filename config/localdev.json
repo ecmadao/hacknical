@@ -47,7 +47,8 @@
       "bucket": "hacknical-private",
       "region": "oss-cn-beijing",
       "prefix": "/resumes",
-      "url": "files.hacknical.com"
+      "url": "//files.hacknical.com",
+      "raw": "http://hacknical-private.oss-cn-beijing.aliyuncs.com"
     }
   },
   "mq": {

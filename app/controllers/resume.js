@@ -234,10 +234,10 @@ const getImageUploadUrl = async (ctx) => {
     uploadUrl: getUploadUrl({
       filePath,
       mimeType
-    }),
+    }).replace(ossConfig.raw, ossConfig.url),
     previewUrl: getOssObjectUrl({ filePath, baseUrl: ossConfig.url })
   }
-  logger.debug(JSON.stringify(result))
+  logger.info(`upload: ${JSON.stringify(result)}`)
 
   ctx.body = {
     result,
