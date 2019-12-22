@@ -31,7 +31,7 @@ const toFile = url => new Promise((resolve) => {
   }
   const type = `image/${filename.split('.').slice(-1)[0]}`
 
-  fetch(url, { mode: 'no-cors'}).then(res => res.blob()).then((blob) => {
+  fetch(url, { mode: 'no-cors' }).then(res => res.blob()).then((blob) => {
     const file = new File([blob], filename, {
       type
     })
@@ -96,6 +96,7 @@ class AvatorModal extends React.Component {
     this.setState({
       uploading: true
     })
+    message.notice(resumeInfoText.avator.upload)
     const { onSubmit } = this.props
 
     let file = this.state.rawImage

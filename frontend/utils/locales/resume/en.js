@@ -34,6 +34,7 @@ const datas = {
         submit: 'Submit',
         error: 'File size should less than 4M',
         success: 'Upload succeed',
+        upload: 'Uploading...',
         intro: 'Click to change avator',
         tip: '4M size limit, support jpeg,jpg,png'
       },
