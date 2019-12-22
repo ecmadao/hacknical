@@ -12,12 +12,12 @@ import { getUploadUrl, getOssObjectUrl } from '../utils/uploader'
 
 /* ===================== private ===================== */
 
-const updateResumeAvator = async (resume, ctx) => {
+const updateResumeAvator = async (resume, githubLogin, githubAvator) => {
   if (!resume.info || resume.info.avator) return resume
-  let avator = ctx.session.githubAvator
+  let avator = githubAvator
   if (!avator) {
-    const user = await network.github.getUser(ctx.session.githubLogin)
-    avator = user.avatar_url
+    const user = await network.github.getUser(githubLogin)
+    avator = user ? user.avatar_url : ''
   }
   resume.info.avator = avator
   return resume
@@ -55,7 +55,12 @@ const getResumeShareStatus = (resumeInfo, locale) => {
 /* ===================== router handler ===================== */
 
 const getResume = async (ctx) => {
-  const { userId, githubToken, githubLogin } = ctx.session
+  const {
+    userId,
+    githubToken,
+    githubLogin,
+    githubAvator
+  } = ctx.session
   const data = await network.user.getResume({ userId })
 
   let resume = null
@@ -64,7 +69,7 @@ const getResume = async (ctx) => {
     && data.resume
     && data.resume.info
   ) {
-    resume = await updateResumeAvator(data.resume, ctx)
+    resume = await updateResumeAvator(data.resume, githubLogin, githubAvator)
     if (!resume.info.languages || !resume.info.languages.length) {
       const languages = await network.github.getUserLanguages(githubLogin, githubToken)
       resume.info.languages = Object.keys(languages)
@@ -249,7 +254,7 @@ const getResumeByHash = async (ctx, next) => {
         result.info.phone = `${result.info.phone.slice(0, 3)}****${result.info.phone.slice(7)}`
       }
 
-      result = await updateResumeAvator(result, ctx)
+      result = await updateResumeAvator(result, findResult.githubLogin, '')
     }
   }
 
