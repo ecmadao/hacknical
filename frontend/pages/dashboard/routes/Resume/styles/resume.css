@@ -622,10 +622,13 @@
 }
 
 .resumeAvator {
-  border-radius: 50%;
   width: 38px;
   height: 38px;
-  margin-right: 10px;
   cursor: pointer;
-  display: block;
+  border: 2px solid var(--oc-gray-4);
+}
+
+.avatorTipso {
+  font-size: 12px;
+  line-height: 1.5em;
 }

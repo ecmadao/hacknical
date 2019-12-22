@@ -11,6 +11,7 @@ import {
 } from 'light-ui'
 import cx from 'classnames'
 import Labels from 'COMPONENTS/Labels'
+import Avator from 'COMPONENTS/Avator'
 import resumeActions from '../../redux/actions'
 import { GENDERS } from 'UTILS/constant/resume'
 import styles from '../../styles/resume.css'
@@ -111,11 +112,22 @@ class Info extends React.Component {
       <SectionWrapper {...this.props}>
         <div className={styles.resume_piece_container}>
           <div className={styles.resume_wrapper}>
-            <img
-              src={avator}
-              className={styles.resumeAvator}
-              onClick={this.handleAvatorModalToggle(true)}
-            />
+            <Tipso
+              theme="dark"
+              trigger="hover"
+              className={styles.avatorTipso}
+              tipsoContent={(<span>{resumeTexts.avator.intro}</span>)}
+            >
+              <div>
+                <Avator
+                  src={avator}
+                  onError={() => {}}
+                  className={styles.resumeAvator}
+                  onClick={this.handleAvatorModalToggle(true)}
+                />
+              </div>
+            </Tipso>
+            &nbsp;&nbsp;&nbsp;
             <Input
               theme="flat"
               value={name}

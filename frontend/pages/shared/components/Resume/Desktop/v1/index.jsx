@@ -9,6 +9,7 @@ import styles from './v1.css'
 import statusLabels from '../../shared/StatusLabels'
 import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
+import Avator from 'COMPONENTS/Avator'
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 
 const resumeLocales = locales('resume')
@@ -330,9 +331,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           </div>
           <div className={styles.right}>
             <div className={styles.baseInfo}>
-              {resumeInfo.avator && (
-                <img src={resumeInfo.avator} className={styles.baseAvator}/>
-              )}
+              <Avator src={resumeInfo.avator} className={styles.baseAvator} />
               <div className={styles.baseName}>
                 {baseInfo(resumeInfo.name, resumeInfo.gender, { style: styles.user_title })}
                 {statusLabels({

@@ -9,6 +9,7 @@ import locales from 'LOCALES'
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 import { renderBaseInfo, section, renderTextWithUrl } from '../../shared/common'
 import Icon from 'COMPONENTS/Icon'
+import Avator from 'COMPONENTS/Avator'
 
 const resumeTexts = locales('resume')
 const { minutesBefore } = dateHelper.relative
@@ -359,9 +360,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
         <div className={styles.wrapper}>
           <div className={styles.headerContainer}>
             <div className={styles.name}>
-              {info.avator && (
-                <img src={info.avator} className={styles.baseAvator}/>
-              )}
+              <Avator src={info.avator} className={styles.baseAvator} />
               {info.name}
             </div>
             {statusLabels({

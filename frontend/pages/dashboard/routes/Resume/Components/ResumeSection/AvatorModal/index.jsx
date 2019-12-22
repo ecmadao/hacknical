@@ -131,7 +131,6 @@ class AvatorModal extends React.Component {
   render() {
     const {
       imageUrl,
-      rawImage,
       uploading
     } = this.state
     const { openModal, onClose } = this.props

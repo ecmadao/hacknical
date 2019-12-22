@@ -34,6 +34,7 @@ const datas = {
         submit: '上传',
         error: '文件不能超过 4M',
         success: '上传完成',
+        intro: '点击修改个人头像',
         tip: '图片大小限制 4M，仅支持 jpeg,jpg,png 格式'
       },
       email: '邮箱',
