@@ -20,6 +20,7 @@
 }
 
 .userName {
+  flex: 1;
   padding: 15px 0;
 }
 
@@ -197,4 +198,18 @@
   white-space: nowrap;
   color: var(--oc-green-7);
   display: inline-block;
+}
+
+.baseInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.baseAvator {
+  width: 70px;
+  height: 70px;
+  margin-right: 10px;
+  border-radius: 50%;
 }

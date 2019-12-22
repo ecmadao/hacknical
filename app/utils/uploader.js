@@ -28,8 +28,7 @@ export const uploadFile = ({ filePath, prefix = '' }) => {
   if (!fs.statSync(filePath).isFile()) return
 
   const filename = filePath.split('/').slice(-1)[0]
-  const storePrefix = /\/$/.test(prefix)
-    ? `${prefix}${filename}` : `${prefix}/${filename}`
+  const storePrefix = path.join(prefix, filename)
 
   logger.info(`[OSS:UPLOAD] ${filePath} -> ${storePrefix}`)
   nextTick(store.put.bind(store), storePrefix, filePath)
@@ -49,3 +48,13 @@ export const uploadFolder = ({ folderPath, prefix = '' }) => {
     })
   }
 }
+
+export const getUploadUrl = ({ filePath, expires = 60, mimeType }) =>
+  store.signatureUrl(filePath, {
+    expires,
+    method: 'PUT',
+    'Content-Type': mimeType
+  })
+
+export const getOssObjectUrl = ({ filePath, baseUrl = '' }) =>
+  store.generateObjectUrl(filePath, baseUrl)

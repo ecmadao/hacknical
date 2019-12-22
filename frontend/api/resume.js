@@ -20,6 +20,8 @@ const patchResumeInfo = info => API.patch('/resume/info', { info })
 
 const getShareRecords = () => API.get('/resume/records')
 
+const getImageUploadUrl = qs => API.get('/resume/image/upload', qs)
+
 export default {
   getResume,
   setResume,
@@ -28,5 +30,6 @@ export default {
   getPubResume,
   patchResumeInfo,
   getResumeInfo,
-  getShareRecords
+  getShareRecords,
+  getImageUploadUrl
 }

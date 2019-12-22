@@ -29,6 +29,13 @@ const datas = {
     info: {
       title: 'Basic Info',
       name: 'Name',
+      avator: {
+        change: 'Change',
+        submit: 'Submit',
+        error: 'File size should less than 4M',
+        success: 'Upload succeed',
+        tip: '4M size limit, support jpeg,jpg,png'
+      },
       email: 'Email',
       emailPrefix: 'Email prefix',
       emailSuffix: 'Email suffix',

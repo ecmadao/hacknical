@@ -620,3 +620,12 @@
 .resumeFormItemImportant {
   border-color: var(--oc-gray-4) !important;
 }
+
+.resumeAvator {
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  margin-right: 10px;
+  cursor: pointer;
+  display: block;
+}

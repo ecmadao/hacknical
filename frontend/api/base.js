@@ -92,6 +92,8 @@ const _fetch = m => (url, data = {}) => {
   )
 }
 
+export const request = (url, options) => fetch(url, options)
+
 export default {
   get: _fetch('get'),
   post: _fetch('post'),

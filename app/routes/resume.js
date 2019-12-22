@@ -21,6 +21,12 @@ router.put(
   Resume.setResume,
   cache.del()
 )
+router.get(
+  '/image/upload',
+  check.session(session.requiredSessions),
+  check.query('filename'),
+  Resume.getImageUploadUrl
+)
 
 router.get(
   '/download',

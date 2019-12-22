@@ -8,8 +8,20 @@ import NewError from '../utils/error'
 import notify from '../services/notify'
 import network from '../services/network'
 import Home from './home'
+import { getUploadUrl, getOssObjectUrl } from '../utils/uploader'
 
 /* ===================== private ===================== */
+
+const updateResumeAvator = async (resume, ctx) => {
+  if (!resume.info || resume.info.avator) return resume
+  let avator = ctx.session.githubAvator
+  if (!avator) {
+    const user = await network.github.getUser(ctx.session.githubLogin)
+    avator = user.avatar_url
+  }
+  resume.info.avator = avator
+  return resume
+}
 
 const getResumeShareStatus = (resumeInfo, locale) => {
   const {
@@ -45,13 +57,17 @@ const getResumeShareStatus = (resumeInfo, locale) => {
 const getResume = async (ctx) => {
   const { userId, githubToken, githubLogin } = ctx.session
   const data = await network.user.getResume({ userId })
+
+  let resume = null
   if (
-    data.resume
+    data
+    && data.resume
     && data.resume.info
   ) {
-    if (!data.resume.info.languages || !data.resume.info.languages.length) {
+    resume = await updateResumeAvator(data.resume, ctx)
+    if (!resume.info.languages || !resume.info.languages.length) {
       const languages = await network.github.getUserLanguages(githubLogin, githubToken)
-      data.resume.info.languages = Object.keys(languages)
+      resume.info.languages = Object.keys(languages)
         .slice(0, 5)
         .sort((k1, k2) => languages[k2] - languages[k1])
     }
@@ -59,7 +75,7 @@ const getResume = async (ctx) => {
 
   ctx.body = {
     success: true,
-    result: data ? data.resume : null
+    result: resume
   }
 }
 
@@ -144,7 +160,7 @@ const downloadResume = async (ctx) => {
   let resultUrl = ''
   try {
     resultUrl = await download.downloadResume(resumeUrl, {
-      folderName: githubLogin,
+      folderName: `${userId}/${githubLogin}`,
       title: `${template}-${locale}-${seconds}-resume.pdf`
     })
     logger.info(`[RESUME:RENDERED][${resultUrl}]`)
@@ -184,6 +200,41 @@ const renderResumePage = async (ctx) => {
   })
 }
 
+const getImageUploadUrl = async (ctx) => {
+  const { githubLogin } = ctx.session
+  const { filename } = ctx.query
+
+  const fileExt = filename.split('.').slice(-1)[0].toLowerCase()
+
+  let mimeType = null
+  switch (fileExt) {
+    case 'jpg':
+      mimeType = 'image/jpeg'
+      break;
+    case 'jpeg':
+      mimeType = 'image/jpeg'
+      break;
+    case 'png':
+      mimeType = 'image/png'
+      break;
+    default:
+      throw new Error(`unsupport filetype ${fileExt}`)
+  }
+
+  const filePath = `/uploads/${githubLogin}/avator/${new Date().getTime()}.${filename}`
+
+  ctx.body = {
+    result: {
+      uploadUrl: getUploadUrl({
+        filePath,
+        mimeType
+      }),
+      previewUrl: getOssObjectUrl({ filePath })
+    },
+    success: true
+  }
+}
+
 const getResumeByHash = async (ctx, next) => {
   const { hash } = ctx.query
   const findResult = await network.user.getResume({ hash })
@@ -193,8 +244,12 @@ const getResumeByHash = async (ctx, next) => {
     result = findResult.resume
     result.updateAt = findResult.updated_at
 
-    if (result.info.privacyProtect && result.info.phone) {
-      result.info.phone = `${result.info.phone.slice(0, 3)}****${result.info.phone.slice(7)}`
+    if (result.info) {
+      if (result.info.privacyProtect && result.info.phone) {
+        result.info.phone = `${result.info.phone.slice(0, 3)}****${result.info.phone.slice(7)}`
+      }
+
+      result = await updateResumeAvator(result, ctx)
     }
   }
 
@@ -305,6 +360,7 @@ export default {
   // ============
   downloadResume,
   getShareRecords,
+  getImageUploadUrl,
   // ============
   getResumeInfo,
   setResumeInfo

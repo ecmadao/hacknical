@@ -29,6 +29,13 @@ const datas = {
     info: {
       title: '基本信息',
       name: '姓名',
+      avator: {
+        change: '替换头像',
+        submit: '上传',
+        error: '文件不能超过 4M',
+        success: '上传完成',
+        tip: '图片大小限制 4M，仅支持 jpeg,jpg,png 格式'
+      },
       email: '邮箱',
       emailPrefix: '邮箱前缀',
       emailSuffix: '邮箱后缀',

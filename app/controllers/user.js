@@ -53,6 +53,7 @@ const loginByGitHub = async (ctx) => {
     if (userInfo.login) {
       ctx.session.githubToken = githubToken
       ctx.session.githubLogin = userInfo.login
+      ctx.session.githubAvator = userInfo.avator
 
       const user = await network.user.createUser(userInfo)
       notify.slack({

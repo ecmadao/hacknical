@@ -16,6 +16,7 @@ import { GENDERS } from 'UTILS/constant/resume'
 import styles from '../../styles/resume.css'
 import locales from 'LOCALES'
 import SectionWrapper from './shared/SectionWrapper'
+import AvatorModal from './AvatorModal'
 
 const resumeTexts = locales('resume.sections.info')
 
@@ -23,11 +24,34 @@ class Info extends React.Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      avatorModal: false
+    }
+
+    this.handleAvatorChange = this.handleAvatorChange.bind(this)
+    this.handleAvatorModalToggle = this.handleAvatorModalToggle.bind(this)
+
     this.handleInfoChange = this.handleInfoChange.bind(this)
     this.handleSwitchChange = this.handleSwitchChange.bind(this)
 
     this.handleLanguageAdded = this.handleLanguageAdded.bind(this)
     this.handleLanguageRemoved = this.handleLanguageRemoved.bind(this)
+  }
+
+  handleAvatorModalToggle(toggle) {
+    return () => {
+      this.setState({
+        avatorModal: toggle
+      })
+    }
+  }
+
+  handleAvatorChange(avator) {
+    const { actions } = this.props
+    actions.handleInfoChange({
+      avator
+    })
+    this.handleAvatorModalToggle(false)()
   }
 
   handleInfoChange(type) {
@@ -71,6 +95,7 @@ class Info extends React.Component {
       email,
       phone,
       gender,
+      avator,
       disabled,
       location,
       intention,
@@ -79,13 +104,18 @@ class Info extends React.Component {
       freshGraduate,
       privacyProtect
     } = this.props
-
+    const { avatorModal } = this.state
     const [prefix, suffix] = email.split('@')
 
     return (
       <SectionWrapper {...this.props}>
         <div className={styles.resume_piece_container}>
           <div className={styles.resume_wrapper}>
+            <img
+              src={avator}
+              className={styles.resumeAvator}
+              onClick={this.handleAvatorModalToggle(true)}
+            />
             <Input
               theme="flat"
               value={name}
@@ -219,6 +249,14 @@ class Info extends React.Component {
           </div>
         </div>
         <div />
+        {avatorModal && (
+          <AvatorModal
+            openModal={avatorModal}
+            imageUrl={avator}
+            onClose={this.handleAvatorModalToggle(false)}
+            onSubmit={this.handleAvatorChange}
+          />
+        )}
       </SectionWrapper>
     )
   }

@@ -62,9 +62,14 @@ class ResumeContent extends ResumeUIWrapper {
 
     return (
       <div className={styles['section-header']}>
-        <div className={styles.userName}>
-          <div className={styles.maxText}>{name}</div>
-          {dream ? <div className={styles.minText}>{dream}</div> : null}
+        <div className={styles.baseInfo}>
+          {info.avator && (
+            <img src={info.avator} className={styles.baseAvator}/>
+          )}
+          <div className={styles.userName}>
+            <div className={styles.maxText}>{name}</div>
+            {dream ? <div className={styles.minText}>{dream}</div> : null}
+          </div>
         </div>
         {phone ? LinkInfo({
           text: phone,

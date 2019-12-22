@@ -51,6 +51,24 @@
   background-color: #4A4A4C;
 }
 
+.baseAvator {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.baseName {
+  flex: 1;
+}
+
+.baseInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .base_info {
   text-align: left;
   line-height: 30px;

@@ -329,12 +329,19 @@ class ResumeComponentV1 extends ResumeUIWrapper {
             {super.renderResumeSections.apply(this)}
           </div>
           <div className={styles.right}>
-            {baseInfo(resumeInfo.name, resumeInfo.gender, { style: styles.user_title })}
-            {statusLabels({
-              educations,
-              resumeInfo,
-              workExperiences
-            })}
+            <div className={styles.baseInfo}>
+              {resumeInfo.avator && (
+                <img src={resumeInfo.avator} className={styles.baseAvator}/>
+              )}
+              <div className={styles.baseName}>
+                {baseInfo(resumeInfo.name, resumeInfo.gender, { style: styles.user_title })}
+                {statusLabels({
+                  educations,
+                  resumeInfo,
+                  workExperiences
+                })}
+              </div>
+            </div>
             <br />
             {resumeInfo.phone
               ? (baseInfo(resumeInfo.phone, 'mobile', { style: styles.right_info }))

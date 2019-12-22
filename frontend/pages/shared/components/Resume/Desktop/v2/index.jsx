@@ -358,7 +358,12 @@ class ResumeComponentV2 extends ResumeUIWrapper {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <div className={styles.headerContainer}>
-            <div className={styles.name}>{info.name}</div>
+            <div className={styles.name}>
+              {info.avator && (
+                <img src={info.avator} className={styles.baseAvator}/>
+              )}
+              {info.name}
+            </div>
             {statusLabels({
               educations,
               workExperiences,
