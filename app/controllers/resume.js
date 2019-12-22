@@ -1,5 +1,6 @@
 /* eslint eqeqeq: "off", guard-for-in: "off" */
 
+import config from 'config'
 import getCacheKey from './helper/cacheKey'
 import * as download from '../services/downloads'
 import dateHelper from '../utils/date'
@@ -9,6 +10,8 @@ import notify from '../services/notify'
 import network from '../services/network'
 import Home from './home'
 import { getUploadUrl, getOssObjectUrl } from '../utils/uploader'
+
+const ossConfig = config.get('services.oss')
 
 /* ===================== private ===================== */
 
@@ -227,15 +230,17 @@ const getImageUploadUrl = async (ctx) => {
   }
 
   const filePath = `/uploads/${githubLogin}/avator/${new Date().getTime()}.${filename}`
+  const result = {
+    uploadUrl: getUploadUrl({
+      filePath,
+      mimeType
+    }),
+    previewUrl: getOssObjectUrl({ filePath, baseUrl: ossConfig.url })
+  }
+  logger.debug(JSON.stringify(result))
 
   ctx.body = {
-    result: {
-      uploadUrl: getUploadUrl({
-        filePath,
-        mimeType
-      }),
-      previewUrl: getOssObjectUrl({ filePath })
-    },
+    result,
     success: true
   }
 }

@@ -46,7 +46,8 @@
     "oss": {
       "bucket": "hacknical-private",
       "region": "oss-cn-beijing",
-      "prefix": "/resumes"
+      "prefix": "/resumes",
+      "url": "files.hacknical.com"
     }
   },
   "mq": {
