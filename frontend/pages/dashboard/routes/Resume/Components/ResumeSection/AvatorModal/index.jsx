@@ -31,7 +31,7 @@ const toFile = url => new Promise((resolve) => {
   }
   const type = `image/${filename.split('.').slice(-1)[0]}`
 
-  fetch(url).then(res => res.blob()).then((blob) => {
+  fetch(url, { mode: 'no-cors'}).then(res => res.blob()).then((blob) => {
     const file = new File([blob], filename, {
       type
     })
@@ -148,7 +148,7 @@ class AvatorModal extends React.Component {
               style={{ height: 400, width: 400 }}
               preview='.image-preview'
               aspectRatio={1}
-              guides={false}
+              guides={true}
             />
             &nbsp;&nbsp;&nbsp;&nbsp;
             <div className={`image-preview ${styles.imagePreview}`}></div>
