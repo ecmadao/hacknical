@@ -132,15 +132,21 @@ class SocialLink extends React.Component {
       >
         <div className={itemClass}>
           <Img
+            alt={name}
             crossOrigin="anonymous"
             src={[
               `https://besticon-demo.herokuapp.com/icon?url=${link.replace(/^(https?:)?\/\//, '')}&size=80..120..200`,
               require(`SRC/images/${icon}`)
             ]}
             loader={
-              <Loading loading className={styles.websiteLoader} />
+              <Loading
+                loading
+                className={styles.websiteLoader}
+              />
             }
-            alt={name}
+            unloader={
+              <img src={require(`SRC/images/${icon}`)} alt={name} />
+            }
           />
           {deleteable ? (
             <div ref={ref => (this.container = ref)} className={styles.linkDelButton}>

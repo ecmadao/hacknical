@@ -1,3 +1,4 @@
+
 import React from 'react'
 import cx from 'classnames'
 import objectAssign from 'UTILS/object-assign'
@@ -9,6 +10,8 @@ import { hasUrl } from 'UTILS/helper'
 import { renderTextWithUrl } from '../../shared/common'
 import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
+import Avator from '../../shared/Avator'
+import Favicon from '../../shared/Favicon'
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 
 const resumeLocales = locales('resume')
@@ -63,9 +66,7 @@ class ResumeContent extends ResumeUIWrapper {
     return (
       <div className={styles['section-header']}>
         <div className={styles.baseInfo}>
-          {info.avator && (
-            <img src={info.avator} className={styles.baseAvator}/>
-          )}
+          <Avator src={info.avator} className={styles.baseAvator} />
           <div className={styles.userName}>
             <div className={styles.maxText}>{name}</div>
             {dream ? <div className={styles.minText}>{dream}</div> : null}
@@ -104,7 +105,7 @@ class ResumeContent extends ResumeUIWrapper {
           endTime,
           startTime,
           education,
-          experiences,
+          experiences
         } = edu
 
         const experienceDetails = experiences.map((experience, i) => (
@@ -377,8 +378,17 @@ class ResumeContent extends ResumeUIWrapper {
       } = socialLink
       linkDoms.push((
         <li key={i}>
-          {text}&nbsp;:
-          <br/>
+          <div className={styles.linkContainer}>
+            <Favicon
+              name={text}
+              src={socialLink.validateUrl}
+              className={styles.favicon}
+            />
+            &nbsp;
+            {text}
+            &nbsp;:
+          </div>
+          <br />
           <a
             target="_blank"
             rel="noopener noreferrer"
