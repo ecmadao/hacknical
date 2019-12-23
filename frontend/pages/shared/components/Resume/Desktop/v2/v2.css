@@ -85,8 +85,6 @@
   flex-direction: column;
 
   & .baseAvator {
-    width: 60px;
-    height: 60px;
     margin-right: 10px;
   }
 
@@ -217,15 +215,6 @@
     line-height: 2em;
   }
 
-  & .linkWrapper {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   & .list_link {
     max-width: 200px;
     overflow: hidden;
@@ -234,6 +223,15 @@
     color: var(--oc-green-7);
     display: inline-block;
   }
+}
+
+.linkWrapper {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dream {

@@ -30,7 +30,7 @@ const datas = {
       title: 'Basic Info',
       name: 'Name',
       avator: {
-        change: 'Change',
+        change: 'Choose',
         submit: 'Submit',
         error: 'File size should less than 4M',
         success: 'Upload succeed',

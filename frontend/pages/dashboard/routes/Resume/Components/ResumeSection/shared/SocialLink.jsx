@@ -2,7 +2,13 @@
 
 import React from 'react'
 import cx from 'classnames'
-import { Tipso, Input, InputGroupV2 } from 'light-ui'
+import Img from 'react-image'
+import {
+  Tipso,
+  Input,
+  Loading,
+  InputGroupV2
+} from 'light-ui'
 import { isUrl } from 'UTILS/helper'
 import styles from '../../../styles/resume.css'
 import TipsoInputs from './TipsoInputs'
@@ -67,6 +73,7 @@ class SocialLink extends React.Component {
       className
     )
 
+    const link = url ? url.replace(/^https?:\/\//, '') : ''
     const onInputChange = type => value => onChange({ [type]: value })
 
     const links = [
@@ -103,7 +110,7 @@ class SocialLink extends React.Component {
             prefix: 'link',
             required: true,
             style: { width: 200 },
-            value: url ? url.replace(/^https?:\/\//, '') : '',
+            value: link,
             placeholder: resumeTexts.links.addLinkUrl,
             onChange: onInputChange('url')
           }
@@ -124,7 +131,17 @@ class SocialLink extends React.Component {
         className={styles.inputGroupTipso}
       >
         <div className={itemClass}>
-          <img src={require(`SRC/images/${icon}`)} alt={name} />
+          <Img
+            crossOrigin="anonymous"
+            src={[
+              `https://besticon-demo.herokuapp.com/icon?url=${link.replace(/^(https?:)?\/\//, '')}&size=80..120..200`,
+              require(`SRC/images/${icon}`)
+            ]}
+            loader={
+              <Loading loading className={styles.websiteLoader} />
+            }
+            alt={name}
+          />
           {deleteable ? (
             <div ref={ref => (this.container = ref)} className={styles.linkDelButton}>
               <Icon icon="close" onClick={onDelete} />

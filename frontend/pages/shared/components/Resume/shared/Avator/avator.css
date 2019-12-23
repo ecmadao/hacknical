@@ -1,0 +1,13 @@
+
+.avator {
+  width: 60px;
+  height: 60px;
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  max-height: 60px;
+  min-height: 60px;
+  border-radius: 50%;
+}

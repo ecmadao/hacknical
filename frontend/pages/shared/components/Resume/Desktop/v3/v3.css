@@ -100,8 +100,6 @@
   }
 
   & .baseAvator {
-    width: 60px;
-    height: 60px;
     margin-left: 10px;
   }
 
@@ -218,6 +216,13 @@
   margin: 5px 0 10px;
   line-height: 1.5em;
   display: block;
+}
+
+.link_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center
 }
 
 .info_intro {

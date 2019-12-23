@@ -9,7 +9,8 @@ import locales from 'LOCALES'
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 import { renderBaseInfo, section, renderTextWithUrl } from '../../shared/common'
 import Icon from 'COMPONENTS/Icon'
-import Avator from 'COMPONENTS/Avator'
+import Avator from '../../shared/Avator'
+import Favicon from '../../shared/Favicon'
 
 const resumeTexts = locales('resume')
 const { minutesBefore } = dateHelper.relative
@@ -167,6 +168,8 @@ class ResumeComponentV3 extends ResumeUIWrapper {
       return (
         <li key={index}>
           <div className={styles.link_wrapper}>
+            <Favicon src={social.validateUrl} name={text} />
+            &nbsp;
             {text}
             &nbsp;:&nbsp;&nbsp;&nbsp;
             <a

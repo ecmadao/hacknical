@@ -9,7 +9,8 @@ import styles from './v1.css'
 import statusLabels from '../../shared/StatusLabels'
 import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
-import Avator from 'COMPONENTS/Avator'
+import Avator from '../../shared/Avator'
+import Favicon from '../../shared/Favicon'
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 
 const resumeLocales = locales('resume')
@@ -265,6 +266,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
       return (
         <li key={index}>
           <div className={styles.link_wrapper}>
+            <Favicon src={social.validateUrl} name={text} />
+            &nbsp;
             {text}
             &nbsp;:&nbsp;&nbsp;&nbsp;
             <a

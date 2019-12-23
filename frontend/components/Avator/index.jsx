@@ -1,26 +1,21 @@
 
 import React from 'react'
 import cx from 'classnames'
+import Img from 'react-image'
+import { Loading } from 'light-ui'
 import styles from './styles.css'
 
-class Avator extends React.Component {
-  onError() {
-    this.image && this.image.remove()
-  }
-
-  render() {
-    if (!this.props.src) return null
-
-    return (
-      <img
-        src={this.props.src}
-        ref={ref => (this.image = ref)}
-        className={cx(styles.image, this.props.className)}
-        onClick={this.props.onClick}
-        onError={this.props.onError || this.onError.bind(this)}
-      />
-    )
-  }
-}
+const Avator = props => (
+  <Img
+    crossOrigin="anonymous"
+    src={props.src}
+    className={cx(styles.image, props.className)}
+    loader={
+      props.loader
+      || <Loading loading className={cx(styles.image, styles.loader, props.className)} />
+    }
+    unloader={props.unloader}
+  />
+)
 
 export default Avator

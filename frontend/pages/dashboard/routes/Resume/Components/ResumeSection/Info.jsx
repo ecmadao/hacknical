@@ -10,6 +10,7 @@ import {
   InputGroupV2
 } from 'light-ui'
 import cx from 'classnames'
+import Icon from 'COMPONENTS/Icon'
 import Labels from 'COMPONENTS/Labels'
 import Avator from 'COMPONENTS/Avator'
 import resumeActions from '../../redux/actions'
@@ -118,16 +119,18 @@ class Info extends React.Component {
               className={styles.avatorTipso}
               tipsoContent={(<span>{resumeTexts.avator.intro}</span>)}
             >
-              <div>
+              <div onClick={this.handleAvatorModalToggle(true)}>
                 <Avator
                   src={avator}
-                  onError={() => {}}
-                  className={styles.resumeAvator}
-                  onClick={this.handleAvatorModalToggle(true)}
+                  className={styles.avator}
+                  unloader={
+                    <div className={styles.avatorPlaceholder}>
+                      <Icon icon="user-o" />
+                    </div>
+                  }
                 />
               </div>
             </Tipso>
-            &nbsp;&nbsp;&nbsp;
             <Input
               theme="flat"
               value={name}

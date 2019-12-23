@@ -30,8 +30,8 @@ const datas = {
       title: '基本信息',
       name: '姓名',
       avator: {
-        change: '替换头像',
-        submit: '上传',
+        change: '选取头像',
+        submit: '提交',
         error: '文件不能超过 4M',
         success: '上传完成',
         upload: '上传中...',
