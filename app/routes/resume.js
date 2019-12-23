@@ -27,6 +27,16 @@ router.get(
   check.query('filename'),
   Resume.getImageUploadUrl
 )
+router.get(
+  '/school',
+  check.session(session.requiredSessions),
+  check.query('school'),
+  cache.get('school', {
+    keys: ['query.school']
+  }),
+  Resume.getSchoolInfo,
+  cache.set()
+)
 
 router.get(
   '/download',

@@ -72,6 +72,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     const edus = educations
       .map((edu, index) => {
         const {
+          types = [],
           major,
           school,
           endTime,
@@ -87,8 +88,16 @@ class ResumeComponentV1 extends ResumeUIWrapper {
         ))
         return (
           <div key={index} className={styles.section_wrapper}>
-            <div className={cx(styles.info_header, styles.info_header_large)}>
+            <div className={cx(styles.info_header, styles.info_header_large, styles.edu)}>
               {school}{education ? `, ${education}` : ''}
+              &nbsp;&nbsp;
+              {
+                this.renderLabels(
+                  types,
+                  { color: 'darkLight', className: '' },
+                  styles.labelContainerClassName
+                )
+              }
             </div>
             <div className={styles.info_text}>
               {startTime}  ~  {endTime}

@@ -8,6 +8,7 @@ import dateHelper from 'UTILS/date'
 import { EDUCATIONS } from 'UTILS/constant/resume'
 import styles from '../../../styles/resume.css'
 import locales from 'LOCALES'
+import API from 'API'
 
 const resumeTexts = locales('resume.sections.educations')
 
@@ -15,10 +16,20 @@ class Education extends React.Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      types: []
+    }
+
     this.addExperience = this.addExperience.bind(this)
     this.deleteExperience = this.deleteExperience.bind(this)
     this.changeExperience = this.changeExperience.bind(this)
     this.onDateChange = this.onDateChange.bind(this)
+
+    this.handleSchoolInfoFetch = this.handleSchoolInfoFetch.bind(this)
+  }
+
+  componentDidMount() {
+    this.handleSchoolInfoFetch()
   }
 
   onDateChange(type) {
@@ -55,6 +66,16 @@ class Education extends React.Component {
     )
   }
 
+  async handleSchoolInfoFetch() {
+    const { edu } = this.props
+    const { school } = edu
+
+    const info = await API.resume.getSchoolInfo({ school })
+    info && this.setState({
+      types: info.types
+    })
+  }
+
   render() {
     const {
       edu,
@@ -71,6 +92,7 @@ class Education extends React.Component {
       startTime,
       experiences = []
     } = edu
+    const { types } = this.state
 
     return (
       <div className={styles.resume_piece_container}>
@@ -87,8 +109,16 @@ class Education extends React.Component {
             disabled={disabled}
             placeholder={resumeTexts.school}
             onChange={handleChange('school')}
+            onBlur={this.handleSchoolInfoFetch}
             className={cx(styles.single_input, styles.resumeFormItem)}
           />
+          {types.length ? (
+            <div className={styles.schoolTypes}>
+              {types.map((schoolType, i) => (
+                <div className={styles.schoolType} key={i}>{schoolType}</div>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div className={styles.resume_wrapper}>
           <Input

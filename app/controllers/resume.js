@@ -9,6 +9,7 @@ import NewError from '../utils/error'
 import notify from '../services/notify'
 import network from '../services/network'
 import Home from './home'
+import { SCHOOLS } from '../utils/constant/school'
 import { getUploadUrl, getOssObjectUrl } from '../utils/uploader'
 
 const ossConfig = config.get('services.oss')
@@ -208,6 +209,20 @@ const renderResumePage = async (ctx) => {
   })
 }
 
+const getSchoolInfo = async (ctx, next) => {
+  const { school } = ctx.query
+
+  ctx.body = {
+    success: true,
+    result: {
+      name: school,
+      types: SCHOOLS.get(school) || []
+    }
+  }
+
+  await next()
+}
+
 const getImageUploadUrl = async (ctx) => {
   const { githubLogin } = ctx.session
   const { filename } = ctx.query
@@ -373,5 +388,6 @@ export default {
   getImageUploadUrl,
   // ============
   getResumeInfo,
-  setResumeInfo
+  setResumeInfo,
+  getSchoolInfo
 }

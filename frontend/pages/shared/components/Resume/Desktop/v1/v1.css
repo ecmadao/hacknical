@@ -294,3 +294,17 @@
   font-size: 12px;
   margin-bottom: 5px;
 }
+
+.edu {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.labelContainerClassName {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}

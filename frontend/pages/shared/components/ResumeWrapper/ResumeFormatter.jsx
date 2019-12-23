@@ -84,22 +84,19 @@ const formatResume = (resume) => {
     .reduce((list, edu) => {
       if (!edu.school) return list
       const {
-        major,
-        school,
-        endTime,
         education,
+        endTime,
         startTime,
         experiences = []
       } = edu
 
-      list.push({
-        school,
-        major,
+      list.push(Object.assign({}, edu, {
         experiences,
         endTime: validateDate(endTime),
         startTime: validateDate(startTime),
         education: eduMap.get(education) || education
-      })
+      }))
+
       return list
     }, [])
 

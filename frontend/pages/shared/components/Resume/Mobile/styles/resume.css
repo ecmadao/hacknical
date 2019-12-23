@@ -225,3 +225,18 @@
   justify-content: center;
   align-items: center;
 }
+
+.edu {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.labelContainerClassName {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+}

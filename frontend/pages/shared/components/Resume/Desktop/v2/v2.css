@@ -238,3 +238,14 @@
   composes: mainText;
   color: var(--oc-gray-6);
 }
+
+.edu {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.labelContainerClassName {
+  margin-top: 0;
+}

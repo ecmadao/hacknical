@@ -72,7 +72,7 @@ class ResumeWrapper extends React.Component {
     })
   }
 
-  initialResume(resume = {}) {
+  async initialResume(resume = {}) {
     const {
       info = INFO,
       others = OTHERS,
@@ -84,6 +84,14 @@ class ResumeWrapper extends React.Component {
       updateAt = new Date()
     } = resume
 
+    const formattedEdus = []
+    await Promise.all(educations.map(async (edu) => {
+      const info = await API.resume.getSchoolInfo({ school: edu.school })
+      formattedEdus.push(
+        info ? Object.assign({}, edu, info) : edu
+      )
+    }))
+
     const state = this.state
     this.setState({
       updateAt,
@@ -92,7 +100,7 @@ class ResumeWrapper extends React.Component {
       customModules,
       others: objectAssign({}, state.others, others),
       info: objectAssign({}, state.info, info),
-      educations: [...educations],
+      educations: formattedEdus,
       workExperiences: [...workExperiences],
       personalProjects: [...personalProjects]
     })

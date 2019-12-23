@@ -134,6 +134,13 @@
   flex: 1;
 }
 
+.edu {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .dreamRow {
   margin-top: 25px;
 }
@@ -143,10 +150,6 @@
 
   &:first-child {
     margin-right: 5px;
-  }
-
-  &:last-child {
-    margin-left: 5px;
   }
 }
 

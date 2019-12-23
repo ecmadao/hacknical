@@ -129,19 +129,14 @@ class ResumeUIWrapper extends React.Component {
     ) : null
   }
 
-  renderLanguages(labelProps = {}) {
-    const { resume } = this.props
-    const { info } = resume
-    const resumeInfo = info || {}
-    const { languages = [] } = resumeInfo
-
-    const labels = languages.map((language, i) => (
+  renderLabels(labels, labelProps = {}, labelContainerClassName = '') {
+    const dom = labels.map((label, i) => (
       <Label
         min
         key={i}
         theme="flat"
         color="light"
-        text={language}
+        text={label}
         clickable={false}
         className={styles.label}
         {...labelProps}
@@ -149,10 +144,19 @@ class ResumeUIWrapper extends React.Component {
     ))
 
     return (
-      <div className={styles.labelContainer}>
-        {labels}
+      <div className={cx(styles.labelContainer, labelContainerClassName)}>
+        {dom}
       </div>
     )
+  }
+
+  renderLanguages(labelProps = {}) {
+    const { resume } = this.props
+    const { info } = resume
+    const resumeInfo = info || {}
+    const { languages = [] } = resumeInfo
+
+    return this.renderLabels(languages, labelProps)
   }
 }
 

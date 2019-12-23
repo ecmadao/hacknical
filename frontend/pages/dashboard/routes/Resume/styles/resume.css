@@ -630,6 +630,26 @@
   border-color: var(--oc-gray-4) !important;
 }
 
+.schoolTypes {
+  position: absolute;
+  top: 11px;
+  right: 1px;
+  height: 36px;
+  background-color: var(--oc-white);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.schoolType {
+  background-color: var(--oc-gray-4);
+  border-radius: 15px;
+  font-size: 12px;
+  margin: 0 4px;
+  padding: 5px 10px;
+}
+
 .avator {
   width: 34px;
   height: 34px;

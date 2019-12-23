@@ -22,6 +22,8 @@ const getShareRecords = () => API.get('/resume/records')
 
 const getImageUploadUrl = qs => API.get('/resume/image/upload', qs)
 
+const getSchoolInfo = qs => API.get('/resume/school', qs)
+
 export default {
   getResume,
   setResume,
@@ -31,5 +33,6 @@ export default {
   patchResumeInfo,
   getResumeInfo,
   getShareRecords,
-  getImageUploadUrl
+  getImageUploadUrl,
+  getSchoolInfo
 }

@@ -100,6 +100,7 @@ class ResumeContent extends ResumeUIWrapper {
     const edus = educations
       .map((edu, index) => {
         const {
+          types = [],
           major,
           school,
           endTime,
@@ -120,7 +121,17 @@ class ResumeContent extends ResumeUIWrapper {
             </div>
             <div className={cx(styles['row-right'], styles['right-container'])}>
               <div className={styles['right-header']}>
-                <div className={styles.mainText}>{school}</div>
+                <div className={cx(styles.mainText, styles.edu)}>
+                  {school}
+                  &nbsp;
+                  {
+                    this.renderLabels(
+                      types,
+                      { color: 'darkLight', className: '' },
+                      styles.labelContainerClassName
+                    )
+                  }
+                </div>
                 <div className={styles.sideText}>{education}</div>
                 {major ? <div className={styles.sideText}>{major}</div> : null}
               </div>

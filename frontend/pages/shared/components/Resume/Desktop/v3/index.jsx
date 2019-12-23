@@ -117,46 +117,6 @@ const renderWorkExperienceRow = (options) => {
   )
 }
 
-const renderEduRow = (options) => {
-  const {
-    major,
-    index,
-    school,
-    endTime,
-    education,
-    startTime,
-    experiences,
-    freshGraduate,
-  } = options
-
-  const experiencesDetails = experiences.map((experience, i) => (
-    <li key={i}>
-      {renderTextWithUrl(experience)}
-    </li>
-  ))
-  return (
-    <div className={cx(styles.column, styles.sectionColumn)} key={index}>
-      <div className={styles.row}>
-        <div className={styles.rowHeader}>
-          {renderBaseInfo({
-            value: school,
-            className: styles.mainText
-          })}
-        </div>
-        <span className={styles.subText}>
-          {startTime}  ~  {endTime}
-        </span>
-      </div>
-      <span className={styles.subText}>{education} - {major}</span>
-      {freshGraduate ? (
-        <ul className={styles.list}>
-          {experiencesDetails}
-        </ul>
-      ) : null}
-    </div>
-  )
-}
-
 class ResumeComponentV3 extends ResumeUIWrapper {
   renderSocialLinks(key) {
     const { others } = this.props.resume
@@ -233,12 +193,56 @@ class ResumeComponentV3 extends ResumeUIWrapper {
     })
   }
 
+  renderEduRow(options) {
+    const {
+      types = [],
+      major,
+      index,
+      school,
+      endTime,
+      education,
+      startTime,
+      experiences,
+      freshGraduate,
+    } = options
+
+    const experiencesDetails = experiences.map((experience, i) => (
+      <li key={i}>
+        {renderTextWithUrl(experience)}
+      </li>
+    ))
+    return (
+      <div className={cx(styles.column, styles.sectionColumn)} key={index}>
+        <div className={styles.row}>
+          <div className={cx(styles.rowHeader, styles.edu)}>
+            {renderBaseInfo({
+              value: school,
+              className: styles.mainText
+            })}
+            &nbsp;&nbsp;&nbsp;
+            {this.renderLabels(types, { color: 'darkLight', className: '' })}
+          </div>
+          <span className={styles.subText}>
+            {startTime}  ~  {endTime}
+          </span>
+        </div>
+        <span className={styles.subText}>{education} - {major}</span>
+        {freshGraduate ? (
+          <ul className={styles.list}>
+            {experiencesDetails}
+          </ul>
+        ) : null}
+      </div>
+    )
+  }
+
   renderEducations(key) {
     const { resume } = this.props
     const { info, educations } = resume
     const { freshGraduate } = info
+
     const edus = educations
-      .map((edu, index) => renderEduRow({
+      .map((edu, index) => this.renderEduRow({
         ...edu,
         index,
         freshGraduate,
