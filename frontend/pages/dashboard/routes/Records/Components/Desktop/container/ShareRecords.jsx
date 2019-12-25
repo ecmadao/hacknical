@@ -14,6 +14,7 @@ import {
   ClassicCard,
   ClassicText
 } from 'light-ui'
+import Icon from 'COMPONENTS/Icon'
 import github from 'UTILS/github'
 import { GREEN_COLORS } from 'UTILS/constant'
 import { RADAR_CONFIG } from 'UTILS/constant/chart'
@@ -21,9 +22,12 @@ import { VIEW_TYPES } from 'UTILS/constant/records'
 import dateHelper from 'UTILS/date'
 import styles from '../styles/records.css'
 import locales from 'LOCALES'
+import message from 'UTILS/message'
 import StockChart from 'COMPONENTS/HighStock'
 import { getPVStockConfig } from 'UTILS/stock'
+import { LogCard } from './LogCard'
 
+const titleTexts = locales('dashboard').records.title
 const recordsTexts = locales('dashboard').records.common
 const sortByCount = github.sortByX({ key: 'count' })
 
@@ -38,14 +42,15 @@ class ShareRecords extends React.Component {
   }
 
   componentDidMount() {
-    const { loading, actions, fetched } = this.props
-    if (!loading && !fetched) actions.fetchShareData()
+    const { actions } = this.props
+    actions.fetchShareData()
   }
 
   componentDidUpdate() {
-    const { loading, actions, fetched } = this.props
-    if (!loading && !fetched) actions.fetchShareData()
-    if (loading || !fetched) return
+    const { recordsLoading, actions, recordsFetched } = this.props
+    actions.fetchShareData()
+
+    if (recordsLoading || !recordsFetched) return
     !this.viewDevicesChart && this.renderDevicesChart()
     !this.viewSourcesChart && this.renderSourcesChart()
     !this.qrcode && this.renderQrcode()
@@ -76,6 +81,7 @@ class ShareRecords extends React.Component {
   copyUrl() {
     const { index } = this.props
     document.querySelector(`#shareGithubUrl-${index}`).select()
+    message.notice(recordsTexts.copied)
   }
 
   renderShareController() {
@@ -301,7 +307,9 @@ class ShareRecords extends React.Component {
       info,
       status,
       index,
-      loading,
+      viewLogs,
+      logsLoading,
+      recordsLoading,
       onTransitionEnd
     } = this.props
 
@@ -322,12 +330,31 @@ class ShareRecords extends React.Component {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        {info && (
+        {info && [
+          <div className={styles.viewTitle}>
+            <Icon icon="link" />
+            &nbsp;&nbsp;
+            {titleTexts.link}
+            &nbsp;&nbsp;
+          </div>,
           <div className={controllerClass}>
             {this.renderShareController()}
           </div>
-        )}
-        {loading ? (<Loading loading />) : (
+        ]}
+        <div className={styles.viewTitle}>
+          <Icon icon="chrome" />
+          &nbsp;&nbsp;
+          {titleTexts.logs}
+          &nbsp;&nbsp;
+        </div>
+        <LogCard loading={logsLoading} viewLogs={viewLogs} />
+        <div className={styles.viewTitle}>
+          <Icon icon="bar-chart" />
+          &nbsp;&nbsp;
+          {titleTexts.statistic}
+          &nbsp;&nbsp;
+        </div>
+        {recordsLoading ? (<Loading loading />) : (
           <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg} hoverable={false}>
             <div className={cx(styles.card, styles.cardLite)}>
               {this.renderChartInfo()}
@@ -378,7 +405,8 @@ class ShareRecords extends React.Component {
 
 ShareRecords.propTypes = {
   index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  loading: PropTypes.bool,
+  recordsLoading: PropTypes.bool,
+  logsLoading: PropTypes.bool,
   text: PropTypes.string,
   info: PropTypes.object,
   actions: PropTypes.object,
@@ -390,7 +418,8 @@ ShareRecords.propTypes = {
 
 ShareRecords.defaultProps = {
   index: 0,
-  loading: true,
+  recordsLoading: true,
+  logsLoading: true,
   text: '',
   info: {
     openShare: false,

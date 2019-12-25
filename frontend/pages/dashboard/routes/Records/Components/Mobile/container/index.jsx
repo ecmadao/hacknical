@@ -29,30 +29,29 @@ class MobileRecords extends React.Component {
   }
 
   componentDidMount() {
-    this.actions.fetchShareData()
+    this.fetchRecordsData()
+    this.fetchLogsData()
   }
 
   componentDidUpdate(preProps) {
     const { activeTab } = this.props
     if (activeTab !== preProps.activeTab) {
       this.reset()
-      this.actions.fetchShareData()
+      this.fetchRecordsData()
+      this.fetchLogsData()
     }
-    if (this.data.loading || !this.data.fetched) return
+    if (this.data.recordsLoading || !this.data.recordsFetched) return
     this.renderCharts()
   }
 
-  get actions() {
+  fetchRecordsData() {
     const { actions, activeTab } = this.props
-    const sectionActions = {
-      [RECORDS_SECTIONS.RESUME.ID]: {
-        fetchShareData: actions.fetchResumeShareData,
-      },
-      [RECORDS_SECTIONS.GITHUB.ID]: {
-        fetchShareData: actions.fetchGithubShareData,
-      },
-    }
-    return sectionActions[activeTab]
+    actions.fetchRecordsData(activeTab)
+  }
+
+  fetchLogsData() {
+    const { actions, activeTab } = this.props
+    actions.fetchLogsData(activeTab)
   }
 
   reset() {
@@ -250,7 +249,7 @@ class MobileRecords extends React.Component {
         <div className={styles.tabs}>
           <div className={styles.tabs_wrapper}>
             <div
-              onClick={() => actions.onAnalysisDataTabChange(RECORDS_SECTIONS.RESUME.ID)}
+              onClick={() => actions.onTabChange(RECORDS_SECTIONS.RESUME.ID)}
               className={cx(
                 styles.tab,
                 activeTab === RECORDS_SECTIONS.RESUME.ID && styles.tabActive
@@ -259,7 +258,7 @@ class MobileRecords extends React.Component {
               {analysisTexts.resume}
             </div>
             <div
-              onClick={() => actions.onAnalysisDataTabChange(RECORDS_SECTIONS.GITHUB.ID)}
+              onClick={() => actions.onTabChange(RECORDS_SECTIONS.GITHUB.ID)}
               className={cx(
                 styles.tab,
                 activeTab === RECORDS_SECTIONS.GITHUB.ID && styles.tabActive
@@ -269,7 +268,7 @@ class MobileRecords extends React.Component {
             </div>
           </div>
         </div>
-        {this.data.loading ? <Loading loading className={styles.loading} /> : this.renderCardInfo()}
+        {this.data.recordsLoading ? <Loading loading className={styles.loading} /> : this.renderCardInfo()}
         {this.renderChartCard('viewDevices')}
         {this.renderChartCard('viewSources')}
 

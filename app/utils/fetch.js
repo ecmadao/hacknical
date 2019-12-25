@@ -1,5 +1,6 @@
 import request from 'request'
 import config from 'config'
+import iconv from 'iconv-lite'
 import logger from './logger'
 import getSignature from './signature'
 import { REQUEST_JSON_METHODS } from './constant'
@@ -8,30 +9,35 @@ import NewError from './error'
 const name = config.get('appName')
 
 const verify = (options = {}, appName = name) => {
+  const { json = true } = options
+
   if (!options.headers) options.headers = {}
   const { body } = options
   const date = new Date().toString()
   options.headers.Date = date
   options.headers['X-App-Name'] = appName
-  options.json = true
+  options.json = json
 
   try {
     const auth = config.get(`services.${options.source}.auth`)
     delete options.source
-    const { secretKey, publicKey } = auth
     let contentType = ''
     if (REQUEST_JSON_METHODS.find(method => method === options.method)) {
       contentType = 'application/json'
       options.headers['Content-Type'] = contentType
     }
-    const signature = getSignature({
-      ...options,
-      date,
-      secretKey,
-      contentType,
-      body: body ? JSON.stringify(body) : ''
-    })
-    options.headers.Authorization = `Bearer ${publicKey}:${signature}`
+
+    if (auth) {
+      const { secretKey, publicKey } = auth
+      const signature = getSignature({
+        ...options,
+        date,
+        secretKey,
+        contentType,
+        body: body ? JSON.stringify(body) : ''
+      })
+      options.headers.Authorization = `Bearer ${publicKey}:${signature}`
+    }
   } catch (e) {
     logger.error(e)
   }
@@ -43,7 +49,10 @@ const fetchData = options => new Promise((resolve, reject) => {
       reject(err)
     }
     if (body) {
-      resolve(body.result)
+      if (Buffer.isBuffer(body)) {
+        resolve(iconv.decode(body, 'gbk'))
+      }
+      resolve(body.result || body)
     }
     reject(
       new NewError.ServerError(`Unknown Error when fetch: ${JSON.stringify(options)}`)

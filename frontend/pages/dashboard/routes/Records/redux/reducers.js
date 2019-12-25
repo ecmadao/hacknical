@@ -7,8 +7,10 @@ const initialState = {
   login: window.login,
   activeTab: RECORDS_SECTIONS.RESUME.ID,
   [RECORDS_SECTIONS.RESUME.ID]: {
-    loading: false,
-    fetched: false,
+    recordsLoading: false,
+    logsLoading: false,
+    recordsFetched: false,
+    logsFetched: false,
     info: {
       url: '',
       openShare: false
@@ -16,11 +18,14 @@ const initialState = {
     viewDevices: [],
     viewSources: [],
     pageViews: [],
+    viewLogs: [],
     viewType: VIEW_TYPES.HOURLY.ID
   },
   [RECORDS_SECTIONS.GITHUB.ID]: {
-    loading: false,
-    fetched: false,
+    recordsLoading: false,
+    logsLoading: false,
+    recordsFetched: false,
+    logsFetched: false,
     info: {
       url: '',
       openShare: false
@@ -28,23 +33,25 @@ const initialState = {
     viewDevices: [],
     viewSources: [],
     pageViews: [],
+    viewLogs: [],
     viewType: VIEW_TYPES.HOURLY.ID
   }
 }
 
 const reducers = handleActions({
-  ON_ANALYSIS_DATA_TAB_CHANGE(state, action) {
+  ON_TAB_CHANGE(state, action) {
     return ({
       ...state,
       activeTab: action.payload
     })
   },
-  TOGGLE_ANALYSIS_DATA_LOADING(state, action) {
+  TOGGLE_LOADING(state, action) {
     const { activeTab } = state
+    const { loading, key } = action.payload
     return ({
       ...state,
       [activeTab]: objectAssign({}, state[activeTab], {
-        loading: action.payload
+        [key]: loading
       })
     })
   },
@@ -63,8 +70,8 @@ const reducers = handleActions({
     return ({
       ...state,
       [activeTab]: objectAssign({}, obj, {
-        loading: false,
-        fetched: true,
+        recordsLoading: false,
+        recordsFetched: true,
         info: objectAssign({}, obj.info, { url, openShare }),
         viewDevices: [...viewDevices],
         viewSources: getValidateViewSources(viewSources),
@@ -73,53 +80,18 @@ const reducers = handleActions({
     })
   },
 
-  // github
-  INITIAL_GITHUB_SHARE_DATA(state, action) {
-    const { github } = state
-    const {
-      url,
-      openShare,
-      viewDevices,
-      viewSources,
-      pageViews
-    } = action.payload
+  INITIAL_LOGS_DATA(state, action) {
+    const { activeTab } = state
+    const obj = state[activeTab]
+    const viewLogs = action.payload
 
-    const newGithub = {
-      loading: false,
-      fetched: true,
-      info: objectAssign({}, github.info, { url, openShare }),
-      viewDevices: [...viewDevices],
-      viewSources: getValidateViewSources(viewSources),
-      pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
-    }
     return ({
       ...state,
-      [RECORDS_SECTIONS.GITHUB.ID]: objectAssign({}, github, newGithub)
-    })
-  },
-
-  // resume
-  INITIAL_RESUME_SHARE_DATA(state, action) {
-    const { resume } = state
-    const {
-      url,
-      openShare,
-      viewDevices,
-      viewSources,
-      pageViews
-    } = action.payload
-
-    const newResume = {
-      loading: false,
-      fetched: true,
-      info: objectAssign({}, resume.info, { url, openShare }),
-      viewDevices: [...viewDevices],
-      viewSources: getValidateViewSources(viewSources),
-      pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
-    }
-    return ({
-      ...state,
-      [RECORDS_SECTIONS.RESUME.ID]: objectAssign({}, resume, newResume)
+      [activeTab]: objectAssign({}, obj, {
+        viewLogs: [...viewLogs],
+        logsLoading: false,
+        logsFetched: true
+      })
     })
   },
 

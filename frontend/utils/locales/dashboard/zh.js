@@ -37,6 +37,11 @@ const datas = {
     }
   },
   records: {
+    title: {
+      link: '分享链接',
+      logs: '最近 10 次访问',
+      statistic: '访问来源统计'
+    },
     resume: {
       title: '简历',
       shareText: '扫码分享个人简历'
@@ -58,7 +63,9 @@ const datas = {
       hourlyViewChart: '每小时',
       dailyViewChart: '每日',
       monthlyViewChart: '每月',
-      resume: '简历'
+      resume: '简历',
+      copied: '链接已复制',
+      empty: '暂无数据'
     }
   },
   setting: {

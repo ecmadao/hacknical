@@ -18,6 +18,18 @@ export const putRecords = data => ({
   method: 'put'
 })
 
+export const getLogs = qs => ({
+  qs,
+  url: '/logs',
+  useCache: true
+})
+
+export const putLogs = data => ({
+  url: '/logs',
+  body: { data },
+  method: 'put'
+})
+
 export const getStat = qs => ({
   qs,
   url: '/stat',

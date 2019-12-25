@@ -19,8 +19,8 @@ const getUserPredictions = async (ctx) => {
   const result = login === githubLogin
     ? (await network.github.getUserPredictions(githubLogin, githubToken) || [])
     : []
-  const results = []
-  await Promise.all(result.map(async (repository) => {
+
+  const results = await Promise.all(result.map(async (repository) => {
     const { full_name } = repository
 
     const stats = await network.stat.getStat({
@@ -31,7 +31,7 @@ const getUserPredictions = async (ctx) => {
 
     const likedCount = stat.count
     repository.likedCount = likedCount || 0
-    results.push(repository)
+    return repository
   }))
   ctx.body = {
     success: true,

@@ -29,7 +29,6 @@ router.get(
 )
 router.get(
   '/school',
-  check.session(session.requiredSessions),
   check.query('school'),
   cache.get('school', {
     keys: ['query.school']
@@ -48,6 +47,12 @@ router.get(
   '/records',
   check.session(session.requiredSessions),
   Resume.getShareRecords
+)
+
+router.get(
+  '/logs',
+  check.session(session.requiredSessions),
+  Resume.getShareLogs
 )
 
 router.get(

@@ -7,26 +7,24 @@ import cache from '../../utils/cache'
 import NewError from '../../utils/error'
 import { shadowImport } from '../../utils/files'
 
-const APP_NAME = config.get('appName')
+const protocolRegex = /^https?:/
 
 const fetchApi = (baseUrl, source, timeouts) => (options = {}) => {
   const {
-    body,
-    qs = {},
-    headers = {},
-    method = 'get'
+    ttl,
+    url,
+    useCache,
+    method = 'get',
+    ...others
   } = options
 
-  headers['X-App-Name'] = APP_NAME
-  let { url = '' } = options
-  url = `api/${url}`.split('/').filter(s => s).join('/')
+  const headExec = protocolRegex.exec(baseUrl)
+  const protocol = headExec ? headExec[0] : 'http:'
 
   return fetch[method]({
-    qs,
-    body,
+    ...others,
     source,
-    headers,
-    url: `${baseUrl}/${url}`
+    url: path.join(baseUrl, url || '').replace(protocolRegex, `${protocol}/`)
   }, timeouts)
 }
 

@@ -18,4 +18,3 @@ const platformMiddleware = () => async (ctx, next) => {
 }
 
 export default platformMiddleware
-

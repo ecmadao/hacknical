@@ -45,6 +45,11 @@ const datas = {
       title: 'GitHub',
       shareText: 'Scan QR code to share GitHub analysis'
     },
+    title: {
+      link: 'Share link',
+      logs: 'Last 10 view logs',
+      statistic: 'Pageview statistic'
+    },
     common: {
       pv: 'Total PV',
       maxPvPerHour: 'Max PV per hour',
@@ -58,7 +63,9 @@ const datas = {
       hourlyViewChart: 'Hourly',
       dailyViewChart: 'Daily',
       monthlyViewChart: 'Monthly',
-      resume: 'Resume'
+      resume: 'Resume',
+      copied: 'Link copied',
+      empty: 'No data'
     }
   },
   setting: {

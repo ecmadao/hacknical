@@ -84,12 +84,9 @@ class ResumeWrapper extends React.Component {
       updateAt = new Date()
     } = resume
 
-    const formattedEdus = []
-    await Promise.all(educations.map(async (edu) => {
+    const formattedEdus = await Promise.all(educations.map(async (edu) => {
       const info = await API.resume.getSchoolInfo({ school: edu.school })
-      formattedEdus.push(
-        info ? Object.assign({}, edu, info) : edu
-      )
+      return info ? Object.assign({}, edu, info) : edu
     }))
 
     const state = this.state

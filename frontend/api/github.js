@@ -14,6 +14,7 @@ const getUserHotmap = login => API.get(`/github/${login}/hotmap`)
 
 /* get github share records */
 const getShareRecords = () => API.get('/github/records')
+const getViewLogs = () => API.get('/github/logs')
 
 const update = () => API.put('/github/update')
 const getUpdateStatus = () => API.get('/github/update')
@@ -37,5 +38,6 @@ export default {
   update,
   getUpdateStatus,
   // share status
-  getShareRecords
+  getShareRecords,
+  getViewLogs
 }

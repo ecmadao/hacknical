@@ -176,6 +176,22 @@ const renderGitHubPage = async (ctx) => {
   await ctx.render(`github/${device}`, options)
 }
 
+const getShareLogs = async (ctx) => {
+  const { githubLogin } = ctx.session
+
+  const logs = await network.stat.getLogs({
+    qs: JSON.stringify({
+      login: githubLogin,
+      type: 'github'
+    })
+  })
+
+  ctx.body = {
+    success: true,
+    result: logs
+  }
+}
+
 const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session
 
@@ -305,7 +321,6 @@ export default {
   getUser,
   getUserHotmap,
   getUserCommits,
-  getShareRecords,
   getUserLanguages,
   getUserContributed,
   getUserRepositories,
@@ -316,4 +331,7 @@ export default {
   /* ========== */
   getZen,
   getOctocat,
+  /* ========== */
+  getShareRecords,
+  getShareLogs,
 }

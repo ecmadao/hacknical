@@ -24,6 +24,11 @@ router.get(
   user.checkIfLogin(),
   GitHub.getShareRecords
 )
+router.get(
+  '/logs',
+  user.checkIfLogin(),
+  GitHub.getShareLogs
+)
 
 // refresh github datas
 router.put(

@@ -19,16 +19,17 @@ const sections = Object.keys(RECORDS_SECTIONS).map(key => ({
 class DesktopRecords extends React.Component {
   get actions() {
     const { actions, activeTab } = this.props
-    const sectionActions = {
-      [RECORDS_SECTIONS.RESUME.ID]: {
-        fetchShareData: actions.fetchResumeShareData,
-      },
-      [RECORDS_SECTIONS.GITHUB.ID]: {
-        fetchShareData: actions.fetchGithubShareData,
-      }
-    }
+    const {
+      logsLoading,
+      recordsLoading,
+      recordsFetched,
+      logsFetched
+    } = this.props[activeTab]
     return {
-      ...sectionActions[activeTab],
+      fetchShareData: () => {
+        if (!recordsLoading && !recordsFetched) actions.fetchRecordsData(activeTab)
+        if (!logsLoading && !logsFetched) actions.fetchLogsData(activeTab)
+      },
       onViewTypeChange: actions.onPageViewTypeChange
     }
   }
@@ -49,7 +50,7 @@ class DesktopRecords extends React.Component {
         <Navigation
           sections={sections}
           activeSection={activeTab}
-          handleSectionChange={actions.onAnalysisDataTabChange}
+          handleSectionChange={actions.onTabChange}
         />
         <AnimationComponent>
           <ShareRecords

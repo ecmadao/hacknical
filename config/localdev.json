@@ -9,7 +9,7 @@
       "db": 1
     },
     "github": {
-      "url": "http://127.0.0.1:5002",
+      "url": "http://127.0.0.1:5002/api",
       "timeouts": [4000, 4000, 4000],
       "refreshInterval": 6000,
       "auth": {
@@ -18,7 +18,7 @@
       }
     },
     "user": {
-      "url": "http://127.0.0.1:6001",
+      "url": "http://127.0.0.1:6001/api",
       "timeouts": [4000, 4000, 4000],
       "auth": {
         "publicKey": "12345",
@@ -26,12 +26,17 @@
       }
     },
     "stat": {
-      "url": "http://127.0.0.1:6002",
+      "url": "http://127.0.0.1:6002/api",
       "timeouts": [4000, 4000, 4000],
       "auth": {
         "publicKey": "12345",
         "secretKey": "6cf75c66dcc02caa7e0eef7170a9"
       }
+    },
+    "ip": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "auth": null
     },
     "messenger": {
       "slack": {

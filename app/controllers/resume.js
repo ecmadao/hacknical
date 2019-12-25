@@ -273,7 +273,6 @@ const getResumeByHash = async (ctx, next) => {
       if (result.info.privacyProtect && result.info.phone) {
         result.info.phone = `${result.info.phone.slice(0, 3)}****${result.info.phone.slice(7)}`
       }
-
       result = await updateResumeAvator(result, findResult.githubLogin, '')
     }
   }
@@ -306,6 +305,22 @@ const getResumeInfo = async (ctx) => {
   ctx.body = {
     result,
     success: true,
+  }
+}
+
+const getShareLogs = async (ctx) => {
+  const { githubLogin } = ctx.session
+
+  const logs = await network.stat.getLogs({
+    qs: JSON.stringify({
+      login: githubLogin,
+      type: 'resume'
+    })
+  })
+
+  ctx.body = {
+    success: true,
+    result: logs
   }
 }
 
@@ -385,6 +400,7 @@ export default {
   // ============
   downloadResume,
   getShareRecords,
+  getShareLogs,
   getImageUploadUrl,
   // ============
   getResumeInfo,

@@ -57,23 +57,27 @@ router.get(
   '/github/:login',
   share.githubEnable(),
   record.github('params.login'),
+  record.ipGitHub('params.login'),
   GitHub.renderGitHubPage
 )
 router.get('/resume/:hash',
   share.resumeEnable('params.hash'),
   record.resume('params.hash'),
+  record.ipResume('params.hash'),
   Resume.renderResumePage
 )
 router.get(
   '/:login/github',
   share.githubEnable(),
   record.github('params.login'),
+  record.ipGitHub('params.login'),
   GitHub.renderGitHubPage
 )
 router.get(
   '/:login/resume',
   share.resumeEnable('params.login'),
   record.resume('params.login'),
+  record.ipResume('params.login'),
   Resume.renderResumePage
 )
 router.get(

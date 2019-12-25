@@ -3,40 +3,40 @@ import { createActions } from 'redux-actions'
 import API from 'API'
 
 const {
-  onAnalysisDataTabChange,
-  toggleAnalysisDataLoading,
+  onTabChange,
+  toggleLoading,
   initialAnalysisData,
+  initialLogsData,
   onPageViewTypeChange,
 } = createActions(
-  'ON_ANALYSIS_DATA_TAB_CHANGE',
-  'TOGGLE_ANALYSIS_DATA_LOADING',
+  'ON_TAB_CHANGE',
+  'TOGGLE_LOADING',
   'INITIAL_ANALYSIS_DATA',
+  'INITIAL_LOGS_DATA',
   'ON_PAGE_VIEW_TYPE_CHANGE',
 )
 
-// github
-const fetchGithubShareData = () => (dispatch) => {
-  dispatch(toggleAnalysisDataLoading(true))
-  API.github.getShareRecords().then((result) => {
+const fetchRecordsData = tab => (dispatch) => {
+  dispatch(toggleLoading({ loading: true, key: 'recordsLoading' }))
+  API[tab.toLowerCase()].getShareRecords().then((result) => {
     dispatch(initialAnalysisData(result))
   })
 }
 
-// resume
-const fetchResumeShareData = () => (dispatch) => {
-  dispatch(toggleAnalysisDataLoading(true))
-  API.resume.getShareRecords().then((result) => {
-    dispatch(initialAnalysisData(result))
+const fetchLogsData = tab => (dispatch) => {
+  dispatch(toggleLoading({ loading: true, key: 'logsLoading' }))
+  API[tab.toLowerCase()].getViewLogs().then((result) => {
+    dispatch(initialLogsData(result))
   })
 }
 
 export default {
-  onAnalysisDataTabChange,
-  toggleAnalysisDataLoading,
+  onTabChange,
+  toggleLoading,
   initialAnalysisData,
   onPageViewTypeChange,
-  // github
-  fetchGithubShareData,
-  // resume
-  fetchResumeShareData,
+  // records
+  fetchRecordsData,
+  // view logs
+  fetchLogsData,
 }

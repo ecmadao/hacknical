@@ -70,14 +70,15 @@
   display: flex;
   padding: 0;
   flex-direction: row;
-  margin-bottom: 20px;
   box-shadow: none;
   z-index: 9;
+  background-color: transparent;
 }
 
 .shareCard {
   margin: 0;
   display: flex;
+  margin-bottom: 30px;
 }
 
 .shareCardBg {
@@ -226,4 +227,41 @@
 .recordsContainer-exiting {
   opacity: 0;
   transform: translateY(-15%);
+}
+
+.viewLog {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0;
+  width: 95%;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--oc-gray-2);
+  }
+}
+
+.viewLogTop {
+  width: 100%;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--oc-gray-7);
+}
+
+.viewLogBottom {
+  display: flex;
+  width: 100%;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--oc-gray-5);
+  flex-direction: row;
+}
+
+.viewLogAddr {
+  flex: 1;
+}
+
+.viewTitle {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 0 17px 0;
 }
