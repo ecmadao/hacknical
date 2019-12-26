@@ -87,8 +87,7 @@
 }
 
 .logsCardBg {
-  max-height: 380px;
-  overflow-y: scroll;
+  z-index: 9 !important;
 }
 
 .disabled {
@@ -250,6 +249,8 @@
   font-size: 16px;
   line-height: 24px;
   color: var(--oc-gray-7);
+  display: flex;
+  flex-direction: row;
 }
 
 .viewLogBottom {
@@ -259,9 +260,10 @@
   line-height: 18px;
   color: var(--oc-gray-5);
   flex-direction: row;
+  margin-top: 5px;
 }
 
-.viewLogAddr {
+.viewRow {
   flex: 1;
 }
 
@@ -269,4 +271,29 @@
   width: 100%;
   font-size: 14px;
   padding: 10px 0 17px 0;
+}
+
+.logTipsoContainer {
+  width: 180px;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.logTipso {
+  padding: 5px 0;
+}
+
+.logTipsoMain {
+  font-size: 14px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 20px;
+}
+
+.logTipsoSub {
+  opacity: 0.5;
+  font-size: 12px;
+  margin-top: 2px;
 }
