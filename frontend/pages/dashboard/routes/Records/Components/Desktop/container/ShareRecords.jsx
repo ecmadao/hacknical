@@ -329,13 +329,13 @@ class ShareRecords extends React.Component {
         onTransitionEnd={onTransitionEnd}
       >
         {info && [
-          <div className={styles.viewTitle}>
+          <div className={styles.viewTitle} key="viewTitle">
             <Icon icon="link" />
             &nbsp;&nbsp;
             {titleTexts.link}
             &nbsp;&nbsp;
           </div>,
-          <div className={controllerClass}>
+          <div className={controllerClass} key="shareController">
             {this.renderShareController()}
           </div>
         ]}

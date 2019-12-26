@@ -244,13 +244,24 @@
   display: block;
 
   & p.repos_show_title {
-    padding-left: 10px;
-    margin-left: 2px;
+    padding-left: 20px;
     margin-bottom: 15px;
-    border-left: 3px solid var(--oc-gray-5);
     line-height: 40px !important;
     font-size: 2em;
     font-weight: bold;
+    display: block;
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 4px;
+      top: 9px;
+      height: 27px;
+      left: 0;
+      background-color: var(--oc-gray-5);
+    }
 
     & span {
       font-size: 16px;

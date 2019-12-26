@@ -32,10 +32,11 @@ export const getRecords = async (limit, query) => {
     viewDevices,
     viewSources,
     pageViews: pageViews
+      .filter(pv => !Number.isNaN(pv.count))
       .sort(
-        (pv1, pv2) => new Date(pv2.date).getTime() - new Date(pv1.date).getTime()
+        (pv1, pv2) => new Date(pv1.date).getTime() - new Date(pv2.date).getTime()
       )
-      .slice(0, limit).filter(pv => !Number.isNaN(pv.count)),
+      .slice(pageViews.length - limit)
   }
 }
 
