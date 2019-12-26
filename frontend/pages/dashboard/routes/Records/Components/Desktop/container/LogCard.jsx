@@ -17,7 +17,14 @@ export const LogCard = (props) => {
   if (loading) return <Loading loading />
 
   return (
-    <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg} hoverable={false}>
+    <ClassicCard
+      hoverable={false}
+      className={styles.shareCard}
+      bgClassName={cx(
+        styles.shareCardBg,
+        styles.logsCardBg
+      )}
+    >
       <div className={cx(styles.card, styles.cardLite)}>
         {!viewLogs.length && (
           <div className={styles.viewLog}>

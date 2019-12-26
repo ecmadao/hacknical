@@ -18,7 +18,7 @@ import Icon from 'COMPONENTS/Icon'
 import github from 'UTILS/github'
 import { GREEN_COLORS } from 'UTILS/constant'
 import { RADAR_CONFIG } from 'UTILS/constant/chart'
-import { VIEW_TYPES } from 'UTILS/constant/records'
+import { VIEW_TYPES, LOGS_COUNT } from 'UTILS/constant/records'
 import dateHelper from 'UTILS/date'
 import styles from '../styles/records.css'
 import locales from 'LOCALES'
@@ -344,7 +344,7 @@ class ShareRecords extends React.Component {
         <div className={styles.viewTitle}>
           <Icon icon="chrome" />
           &nbsp;&nbsp;
-          {titleTexts.logs}
+          {titleTexts.logs.replace('{LOGS_COUNT}', LOGS_COUNT)}
           &nbsp;&nbsp;
         </div>
         <LogCard loading={logsLoading} viewLogs={viewLogs} />

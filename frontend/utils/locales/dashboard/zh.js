@@ -39,7 +39,7 @@ const datas = {
   records: {
     title: {
       link: '分享链接',
-      logs: '最近 10 次访问',
+      logs: '最近 {LOGS_COUNT} 次访问',
       statistic: '访问来源统计'
     },
     resume: {

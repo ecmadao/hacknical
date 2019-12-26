@@ -1,6 +1,7 @@
 
 import { createActions } from 'redux-actions'
 import API from 'API'
+import { LOGS_COUNT } from 'UTILS/constant/records'
 
 const {
   onTabChange,
@@ -25,7 +26,7 @@ const fetchRecordsData = tab => (dispatch) => {
 
 const fetchLogsData = tab => (dispatch) => {
   dispatch(toggleLoading({ loading: true, key: 'logsLoading' }))
-  API[tab.toLowerCase()].getViewLogs().then((result) => {
+  API[tab.toLowerCase()].getViewLogs({ limit: LOGS_COUNT }).then((result) => {
     dispatch(initialLogsData(result))
   })
 }

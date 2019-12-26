@@ -47,7 +47,7 @@ const datas = {
     },
     title: {
       link: 'Share link',
-      logs: 'Last 10 view logs',
+      logs: 'View logs of last {LOGS_COUNT} times',
       statistic: 'Pageview statistic'
     },
     common: {

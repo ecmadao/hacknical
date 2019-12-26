@@ -19,7 +19,7 @@ const getResumeInfo = (options = {}) => {
 const patchResumeInfo = info => API.patch('/resume/info', { info })
 
 const getShareRecords = () => API.get('/resume/records')
-const getViewLogs = () => API.get('/resume/logs')
+const getViewLogs = qs => API.get('/resume/logs', qs)
 
 const getImageUploadUrl = qs => API.get('/resume/image/upload', qs)
 

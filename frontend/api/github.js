@@ -14,7 +14,7 @@ const getUserHotmap = login => API.get(`/github/${login}/hotmap`)
 
 /* get github share records */
 const getShareRecords = () => API.get('/github/records')
-const getViewLogs = () => API.get('/github/logs')
+const getViewLogs = qs => API.get('/github/logs', qs)
 
 const update = () => API.put('/github/update')
 const getUpdateStatus = () => API.get('/github/update')

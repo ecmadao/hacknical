@@ -86,6 +86,11 @@
   padding: 10px;
 }
 
+.logsCardBg {
+  max-height: 380px;
+  overflow-y: scroll;
+}
+
 .disabled {
   composes: card_disabled from 'STYLES/common.css';
 

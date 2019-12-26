@@ -177,9 +177,11 @@ const renderGitHubPage = async (ctx) => {
 }
 
 const getShareLogs = async (ctx) => {
+  const { limit } = ctx.query
   const { githubLogin } = ctx.session
 
   const logs = await network.stat.getLogs({
+    limit,
     qs: JSON.stringify({
       login: githubLogin,
       type: 'github'

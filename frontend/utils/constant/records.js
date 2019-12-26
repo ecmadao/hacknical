@@ -2,6 +2,8 @@ import locales from 'LOCALES'
 
 const recordsTexts = locales('dashboard.records')
 
+export const LOGS_COUNT = 30
+
 export const VIEW_TYPES = {
   HOURLY: {
     ID: 'hourly',
