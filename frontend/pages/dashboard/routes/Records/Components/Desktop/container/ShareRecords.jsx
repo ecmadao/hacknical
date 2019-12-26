@@ -86,38 +86,52 @@ class ShareRecords extends React.Component {
 
   renderShareController() {
     const { info, index, text } = this.props
+    if (!info) return null
+
+    const controllerClass = cx(
+      styles.share_controller_card,
+      !info.openShare && styles.disabled
+    )
     const { url } = info
 
-    return (
-      <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg} hoverable={false}>
-        <div className={styles.share_controller}>
-          <Tipso
-            position="bottom"
-            wrapperClass={styles.share_container_wrapper}
-            tipsoContent={(
-              <div className={styles.qrcode_container}>
-                <div id={`qrcode-${index}`} />
-                <span>{text}</span>
+    return [
+      <div className={styles.viewTitle} key="viewTitle">
+        <Icon icon="link" />
+        &nbsp;&nbsp;
+        {titleTexts.link}
+        &nbsp;&nbsp;
+      </div>,
+      <div className={controllerClass} key="shareController">
+        <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg} hoverable={false}>
+          <div className={styles.share_controller}>
+            <Tipso
+              position="top"
+              wrapperClass={styles.share_container_wrapper}
+              tipsoContent={(
+                <div className={styles.qrcode_container}>
+                  <div id={`qrcode-${index}`} />
+                  <span>{text}</span>
+                </div>
+              )}
+            >
+              <div className={styles.share_container}>
+                <Input
+                  theme="flat"
+                  id={`shareGithubUrl-${index}`}
+                  value={`${window.location.origin}/${url}`}
+                />
+                <IconButton
+                  color="gray"
+                  icon="clipboard"
+                  id={`copyLinkButton-${index}`}
+                  onClick={this.copyUrl}
+                />
               </div>
-            )}
-          >
-            <div className={styles.share_container}>
-              <Input
-                theme="flat"
-                id={`shareGithubUrl-${index}`}
-                value={`${window.location.origin}/${url}`}
-              />
-              <IconButton
-                color="gray"
-                icon="clipboard"
-                id={`copyLinkButton-${index}`}
-                onClick={this.copyUrl}
-              />
-            </div>
-          </Tipso>
-        </div>
-      </ClassicCard>
-    )
+            </Tipso>
+          </div>
+        </ClassicCard>
+      </div>
+    ]
   }
 
   get pageViewsData() {
@@ -328,17 +342,7 @@ class ShareRecords extends React.Component {
         )}
         onTransitionEnd={onTransitionEnd}
       >
-        {info && [
-          <div className={styles.viewTitle} key="viewTitle">
-            <Icon icon="link" />
-            &nbsp;&nbsp;
-            {titleTexts.link}
-            &nbsp;&nbsp;
-          </div>,
-          <div className={controllerClass} key="shareController">
-            {this.renderShareController()}
-          </div>
-        ]}
+        {this.renderShareController()}
         <div className={styles.viewTitle}>
           <Icon icon="chrome" />
           &nbsp;&nbsp;
