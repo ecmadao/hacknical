@@ -209,10 +209,8 @@ class ShareRecords extends React.Component {
   }
 
   renderChartInfo() {
-    const { pageViews, viewDevices, viewSources } = this.props
-    const viewCount = pageViews.reduce(
-      (prev, current) => current.count + prev, 0
-    )
+    const { totalPV, viewDevices, viewSources } = this.props
+
     const maxPlatformCount = Math.max(
       ...viewDevices.map(viewDevice => viewDevice.count)
     )
@@ -230,7 +228,7 @@ class ShareRecords extends React.Component {
     return (
       <CardGroup className={styles.card_group}>
         <InfoCard className={styles.infoCard}>
-          <ClassicText text={viewCount} theme="green" className={styles.infoText}/>
+          <ClassicText text={totalPV} theme="green" className={styles.infoText}/>
           <br/>
           <span className={styles.infoTextSub}>{recordsTexts.pv}</span>
         </InfoCard>

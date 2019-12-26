@@ -11,6 +11,7 @@ import network from '../services/network'
 import Home from './home'
 import { SCHOOLS } from '../utils/constant/school'
 import { getUploadUrl, getOssObjectUrl } from '../utils/uploader'
+import { getRecords, getLogs } from './helper/stat'
 
 const ossConfig = config.get('services.oss')
 
@@ -312,40 +313,14 @@ const getShareLogs = async (ctx) => {
   const { limit } = ctx.query
   const { githubLogin } = ctx.session
 
-  const logs = await network.stat.getLogs({
-    limit,
-    qs: JSON.stringify({
-      login: githubLogin,
-      type: 'resume'
-    })
+  const logs = await getLogs(limit, {
+    login: githubLogin,
+    type: 'resume'
   })
 
   ctx.body = {
     success: true,
-    result: Object.values(
-      logs.reduce((dict, log) => {
-        const {
-          _id,
-          login,
-          type,
-          updatedAt,
-          createdAt,
-          ...others
-        } = log
-        if (!dict[others.ipInfo.ip]) {
-          dict[others.ipInfo.ip] = {
-            ip: others.ipInfo.ip,
-            addr: others.ipInfo.addr,
-            datetime: others.datetime,
-            browser: others.browser,
-            platform: others.platform,
-            data: []
-          }
-        }
-        dict[others.ipInfo.ip].data.push(others)
-        return dict
-      }, {})
-    ).sort((log1, log2) => new Date(log2.datetime).getTime() - new Date(log1.datetime).getTime())
+    result: logs
   }
 }
 
@@ -368,31 +343,14 @@ const getShareRecords = async (ctx) => {
     }
   }
 
-  let records = []
-  try {
-    records = await network.stat.getRecords({
-      login: githubLogin,
-      type: 'resume'
-    })
-  } catch (e) {
-    logger.error(e)
-  }
-
-  const viewDevices = []
-  const viewSources = []
-  const pageViews = []
-
-  for (const record of records) {
-    viewDevices.push(...record.viewDevices)
-    viewSources.push(...record.viewSources)
-    pageViews.push(...record.pageViews)
-  }
+  const record = await getRecords(100, {
+    login: githubLogin,
+    type: 'resume'
+  })
   ctx.body = {
     success: true,
     result: {
-      pageViews,
-      viewDevices,
-      viewSources,
+      ...record,
       openShare: resumeInfo.openShare,
       url: getResumeShareStatus(resumeInfo, locale).url
     }

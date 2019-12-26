@@ -6,6 +6,7 @@ import { UPDATE_STATUS_TEXT } from '../utils/constant'
 import { is, sortBy } from '../utils/helper'
 import logger from '../utils/logger'
 import Home from './home'
+import { getRecords, getLogs } from './helper/stat'
 
 const services = config.get('services.github')
 
@@ -180,77 +181,34 @@ const getShareLogs = async (ctx) => {
   const { limit } = ctx.query
   const { githubLogin } = ctx.session
 
-  const logs = await network.stat.getLogs({
-    limit,
-    qs: JSON.stringify({
-      login: githubLogin,
-      type: 'github'
-    })
+  const logs = await getLogs(limit, {
+    login: githubLogin,
+    type: 'github'
   })
 
   ctx.body = {
     success: true,
-    result: Object.values(
-      logs.reduce((dict, log) => {
-        const {
-          _id,
-          login,
-          type,
-          updatedAt,
-          createdAt,
-          ...others
-        } = log
-        if (!dict[others.ipInfo.ip]) {
-          dict[others.ipInfo.ip] = {
-            ip: others.ipInfo.ip,
-            addr: others.ipInfo.addr,
-            datetime: others.datetime,
-            browser: others.browser,
-            platform: others.platform,
-            data: []
-          }
-        }
-        dict[others.ipInfo.ip].data.push(others)
-        return dict
-      }, {})
-    ).sort((log1, log2) => new Date(log2.datetime).getTime() - new Date(log1.datetime).getTime())
+    result: logs
   }
 }
 
 const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session
 
-  let records = []
-  try {
-    records = await network.stat.getRecords({
-      login: githubLogin,
-      type: 'github'
-    })
-  } catch (e) {
-    logger.error(e)
-  }
-
   const userInfo = await network.user.getUser({ login: githubLogin })
+  const record = await getRecords(100, {
+    login: githubLogin,
+    type: 'github'
+  })
 
-  const viewDevices = []
-  const viewSources = []
-  const pageViews = []
-
-  for (const record of records) {
-    viewDevices.push(...record.viewDevices)
-    viewSources.push(...record.viewSources)
-    pageViews.push(...record.pageViews)
-  }
   ctx.body = {
     success: true,
     result: {
       locale,
-      pageViews,
-      viewDevices,
-      viewSources,
       login: githubLogin,
       openShare: userInfo.githubShare,
-      url: `${githubLogin}/github`
+      url: `${githubLogin}/github`,
+      ...record
     }
   }
 }

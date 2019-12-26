@@ -182,12 +182,8 @@ class MobileRecords extends React.Component {
   }
 
   renderCardInfo() {
-    const { pageViews, viewDevices, viewSources } = this.data
+    const { totalPV, pageViews, viewDevices, viewSources } = this.data
     const pageViewCounts = pageViews.map(item => item.count)
-
-    const viewCount = pageViewCounts.reduce(
-      (prev, current) => current + prev, 0
-    )
     const maxViewPerHour = Math.max(...pageViewCounts)
 
     const maxPlatformCount = Math.max(...viewDevices.map(viewDevice => viewDevice.count))
@@ -202,7 +198,7 @@ class MobileRecords extends React.Component {
 
     const sliders = [
       {
-        mainText: viewCount,
+        mainText: totalPV,
         subText: analysisTexts.pv
       },
       {

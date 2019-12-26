@@ -15,6 +15,7 @@ const initialState = {
       url: '',
       openShare: false
     },
+    totalPV: 0,
     viewDevices: [],
     viewSources: [],
     pageViews: [],
@@ -30,6 +31,7 @@ const initialState = {
       url: '',
       openShare: false
     },
+    totalPV: 0,
     viewDevices: [],
     viewSources: [],
     pageViews: [],
@@ -62,9 +64,8 @@ const reducers = handleActions({
     const {
       url,
       openShare,
-      viewDevices,
       viewSources,
-      pageViews
+      ...others,
     } = action.payload
 
     return ({
@@ -73,9 +74,8 @@ const reducers = handleActions({
         recordsLoading: false,
         recordsFetched: true,
         info: objectAssign({}, obj.info, { url, openShare }),
-        viewDevices: [...viewDevices],
         viewSources: getValidateViewSources(viewSources),
-        pageViews: pageViews.filter(pageView => !Number.isNaN(pageView.count))
+        ...others
       })
     })
   },
