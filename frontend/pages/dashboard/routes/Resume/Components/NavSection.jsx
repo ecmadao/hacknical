@@ -4,6 +4,7 @@ import { Button, Input, Tipso } from 'light-ui'
 import locales from 'LOCALES'
 import message from 'UTILS/message'
 import Icon from 'COMPONENTS/Icon'
+import Hotkeys from 'UTILS/hotkeys'
 import styles from '../styles/resume.css'
 
 const resumeTexts = locales('resume')
@@ -57,7 +58,7 @@ class NavSection  extends React.Component {
   }
 
   handleEnter(e) {
-    if (e.keyCode !== 13) return
+    if (!Hotkeys.isEnter(e)) return
     this.handleSubmit()
   }
 

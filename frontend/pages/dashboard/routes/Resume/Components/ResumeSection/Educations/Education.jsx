@@ -79,6 +79,7 @@ class Education extends React.Component {
   render() {
     const {
       edu,
+      index,
       disabled,
       handleDelete,
       freshGraduate,
@@ -154,6 +155,7 @@ class Education extends React.Component {
           <div className={styles.resume_wrapper}>
             <WritableList
               items={experiences}
+              name={`Education-${index}`}
               onAdd={this.addExperience}
               onDelete={this.deleteExperience}
               onChange={this.changeExperience}

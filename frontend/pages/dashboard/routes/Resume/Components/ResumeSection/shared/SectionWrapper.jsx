@@ -10,6 +10,7 @@ import {
 import cx from 'classnames'
 import SectionTip from './SectionTip'
 import locales from 'LOCALES'
+import Hotkeys from 'UTILS/hotkeys'
 import styles from '../../../styles/resume.css'
 import Icon from 'COMPONENTS/Icon'
 
@@ -40,7 +41,7 @@ class Wrapper extends React.Component {
   }
 
   onKeyDown(e) {
-    if (e.keyCode !== 13) return
+    if (!Hotkeys.isEnter(e)) return
     this.onBlur()
   }
 

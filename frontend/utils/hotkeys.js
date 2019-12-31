@@ -17,6 +17,14 @@ class Hotkeys {
     return this
   }
 
+  static isEnter(e) {
+    return e && e.keyCode && e.keyCode === 13
+  }
+
+  static isDelete(e) {
+    return e && e.keyCode && (e.keyCode === 8 || e.keyCode === 46)
+  }
+
   submit(callback) {
     return this._baseBind('command+enter', callback)
   }

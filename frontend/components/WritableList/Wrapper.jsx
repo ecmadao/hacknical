@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { InputGroup } from 'light-ui'
+import Hotkeys from 'UTILS/hotkeys'
 
 import styles from './writable.css'
 import ListItem from './ListItem'
@@ -27,13 +28,36 @@ class Wrapper extends React.Component {
     }
   }
 
+  onKeyDown(index) {
+    return (e) => {
+      const { items } = this.props
+      const value = items[index]
+      if (Hotkeys.isEnter(e)) {
+        this.onFocus(index + 1)
+      } else if (Hotkeys.isDelete(e) && !value) {
+        this.onDelete(index)()
+        this.onFocus(index)
+      }
+    }
+  }
+
+  onFocus(index) {
+    const { name, items } = this.props
+    let inputIndex = index
+
+    if (items.length - 1 < index || index < 0) inputIndex = 'new'
+    setTimeout(() => $(`#WritableList-${name}-${inputIndex}`).focus(), 200)
+  }
+
   renderListItems() {
-    const { items, placeholder } = this.props
+    const { items, placeholder, name } = this.props
     return items.map((item, index) => (
       <ListItem
         key={index}
         item={item}
+        id={`WritableList-${name}-${index}`}
         placeholder={placeholder}
+        onKeyDown={this.onKeyDown(index)}
         onDelete={this.onDelete(index)}
         onChange={this.onLabelChange(index)}
       />
@@ -42,6 +66,7 @@ class Wrapper extends React.Component {
 
   render() {
     const {
+      name,
       items,
       value,
       onChange,
@@ -50,11 +75,13 @@ class Wrapper extends React.Component {
       placeholder,
       defaultIntro,
     } = this.props
+
     return (
       <ul className={styles.items}>
         {this.renderListItems()}
         <li>-&nbsp;&nbsp;
           <InputGroup
+            id={`WritableList-${name}-new`}
             value={value}
             required={false}
             theme="borderless"
@@ -81,11 +108,13 @@ Wrapper.propTypes = {
   defaultIntro: PropTypes.string,
   introList: PropTypes.array,
   onDelete: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  name: PropTypes.string,
 }
 
 Wrapper.defaultProps = {
   items: [],
+  name: '',
   placeholder: '',
   defaultIntro: '',
   introList: [],

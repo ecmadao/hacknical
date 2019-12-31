@@ -1,5 +1,6 @@
 
 import React, { cloneElement } from 'react'
+import Hotkeys from 'UTILS/hotkeys'
 
 class WritableGroupWrapper extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class WritableGroupWrapper extends React.Component {
 
   onKeyDown(e) {
     const { value } = this.state
-    if (e.keyCode === 13 && value) {
+    if (Hotkeys.isEnter(e) && value) {
       const { onAdd } = this.props
       onAdd && onAdd(value)
       this.clearInput()

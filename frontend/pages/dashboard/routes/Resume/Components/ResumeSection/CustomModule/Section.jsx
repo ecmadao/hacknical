@@ -44,7 +44,7 @@ class Section extends React.Component {
   }
 
   render() {
-    const { section, disabled, handleDelete, handleChange } = this.props
+    const { index, section, disabled, handleDelete, handleChange } = this.props
     const { details, title, url } = section
     return (
       <div className={styles.resume_piece_container}>
@@ -98,6 +98,7 @@ class Section extends React.Component {
         <div className={styles.resume_wrapper}>
           <WritableList
             items={details}
+            name={`CustomModule-${index}`}
             onAdd={this.handleDetailAdded}
             onDelete={this.handleDetailRemove}
             onChange={this.handleDetailChange}

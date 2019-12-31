@@ -40,6 +40,7 @@ class WorkExperience extends React.Component {
     return projects.map((project, index) => (
       <WorkProject
         key={index}
+        index={index}
         project={project}
         disabled={disabled}
         onDelete={deleteProject(index)}

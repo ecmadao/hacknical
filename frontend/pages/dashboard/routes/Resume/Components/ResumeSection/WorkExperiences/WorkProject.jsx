@@ -47,7 +47,7 @@ class WorkProject extends React.Component {
   }
 
   render() {
-    const { project, onDelete, disabled } = this.props
+    const { index, project, onDelete, disabled } = this.props
     return (
       <div className={styles.project_container}>
         <div className={styles.project_name_wrapper}>
@@ -98,6 +98,7 @@ class WorkProject extends React.Component {
           />
         </div>
         <WritableList
+          name={`WorkProject-${index}`}
           placeholder={resumeTexts.addProjectDesc}
           defaultIntro={resumeTexts.introText}
           introList={resumeTexts.introList}

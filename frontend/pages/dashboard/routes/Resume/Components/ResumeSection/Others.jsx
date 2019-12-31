@@ -121,6 +121,7 @@ class Others extends React.Component {
           </div>
           <WritableList
             items={supplements}
+            name="Others"
             onAdd={this.addSupplement}
             onDelete={this.deleteSupplement}
             onChange={this.changeSupplement}

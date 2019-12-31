@@ -150,7 +150,7 @@ const datas = {
       juniorHigh: 'Junior high',
       seniorHigh: 'Senior high',
       juniorCollege: 'Junior college',
-      undergraduate: 'Undergraduate',
+      undergraduate: 'Bachelor',
       master: 'Master',
       doctor: 'Doctor',
       others: 'Others'

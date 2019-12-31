@@ -656,7 +656,7 @@
   max-height: 34px;
   min-height: 34px;
   cursor: pointer;
-  border: 2px solid var(--oc-gray-4);
+  border: 2px solid var(--oc-gray-5);
 }
 
 .avatorPlaceholder {

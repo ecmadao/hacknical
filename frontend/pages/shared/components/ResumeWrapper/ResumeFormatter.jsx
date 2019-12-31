@@ -70,7 +70,8 @@ const formatResume = (resume) => {
             if (!project.name) return pList
             pList.push(
               objectAssign({}, deepcopy(project), {
-                url: formatUrl(project.url)
+                url: formatUrl(project.url),
+                details: (project.details || []).filter(d => d)
               })
             )
             return pList
@@ -91,10 +92,10 @@ const formatResume = (resume) => {
       } = edu
 
       list.push(Object.assign({}, edu, {
-        experiences,
+        experiences: experiences.filter(d => d),
         endTime: validateDate(endTime),
         startTime: validateDate(startTime),
-        education: eduMap.get(education) || education
+        education: eduMap.get(education) || education,
       }))
 
       return list
@@ -126,11 +127,21 @@ const formatResume = (resume) => {
   const formattedModules = customModules
     .reduce((list, module) => {
       if (!module.text) return list
-      const { sections = [] } = module
-      if (!sections.some(section => section.title)) return list
+
+      const sections = (module.sections || []).reduce((list, section) => {
+        if (!section.title) return list
+        list.push(
+          objectAssign({}, section, {
+            url: formatUrl(section.url),
+            details: (section.details || []).filter(d => d)
+          })
+        )
+        return list
+      }, [])
 
       list.push(
         objectAssign({}, deepcopy(module), {
+          sections,
           url: formatUrl(module.url)
         })
       )
