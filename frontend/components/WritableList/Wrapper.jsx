@@ -46,7 +46,7 @@ class Wrapper extends React.Component {
     let inputIndex = index
 
     if (items.length - 1 < index || index < 0) inputIndex = 'new'
-    setTimeout(() => $(`#WritableList-${name}-${inputIndex}`).focus(), 200)
+    setTimeout(() => $(`#WritableList-${name}-${inputIndex}`).focus(), 100)
   }
 
   renderListItems() {

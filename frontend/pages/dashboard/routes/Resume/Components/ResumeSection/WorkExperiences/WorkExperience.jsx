@@ -36,15 +36,15 @@ class WorkExperience extends React.Component {
   }
 
   renderWorkProjects(projects) {
-    const { handleProjectChange, deleteProject, disabled } = this.props
-    return projects.map((project, index) => (
+    const { handleProjectChange, deleteProject, disabled, index } = this.props
+    return projects.map((project, i) => (
       <WorkProject
-        key={index}
-        index={index}
+        key={i}
+        index={`${index}-${i}`}
         project={project}
         disabled={disabled}
-        onDelete={deleteProject(index)}
-        onChange={handleProjectChange(index)}
+        onDelete={deleteProject(i)}
+        onChange={handleProjectChange(i)}
       />
     ))
   }
