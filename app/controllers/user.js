@@ -120,10 +120,16 @@ const patchUserInfo = async (ctx) => {
 const getUnreadNotifies = async (ctx) => {
   const { userId, locale } = ctx.session
 
-  const datas = await network.stat.getUnreadNotifies(userId, locale)
-  ctx.body = {
-    result: datas,
-    success: true
+  let datas = []
+  try {
+    datas = await network.stat.getUnreadNotifies(userId, locale)
+  } catch (e) {
+    logger.error(e)
+  } finally {
+    ctx.body = {
+      result: datas,
+      success: true
+    }
   }
 }
 
