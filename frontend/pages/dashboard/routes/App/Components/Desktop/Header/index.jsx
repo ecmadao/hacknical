@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tipso } from 'light-ui'
-import locales, { getLocale } from 'LOCALES'
+import locales, { getLocale, switchLanguage } from 'LOCALES'
 import styles from '../../../styles/desktop.css'
 import MenuWrapper from '../../shared/MenuWrapper'
 import { URLS } from 'UTILS/constant'
@@ -14,10 +14,11 @@ class Header extends MenuWrapper {
   renderLanguageOptions() {
     const { languages } = this.state
     if (!languages.length) return null
+
     const optionDOMs = languages.map((option, index) => (
       <a
         key={index}
-        href={`/?locale=${option.id}`}
+        onClick={() => switchLanguage(option.id)}
         className={styles.dropdown_item}
       >
         {option.text}

@@ -70,7 +70,7 @@ router.get(
   '/shared/public',
   check.query('hash'),
   cache.get('resume', {
-    keys: ['query.hash']
+    keys: ['query.hash', 'query.locale']
   }),
   Resume.getResumeByHash,
   cache.set()

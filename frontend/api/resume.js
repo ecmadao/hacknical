@@ -1,16 +1,19 @@
 
 import API from './base'
+import { getLocale } from 'LOCALES'
 
-const getResume = () => API.get('/resume/data')
-const setResume = (resume, ...params) => API.put(`/resume/data?${params.join('&')}`, { resume })
+const locale = getLocale()
+
+const getResume = () => API.get('/resume/data', { locale })
+const setResume = (resume, ...params) => API.put(`/resume/data?${params.join('&')}`, { resume, locale })
 
 const download = () => API.get('/resume/download')
 
-const getPubResume = hash => API.get('/resume/shared/public', { hash })
+const getPubResume = hash => API.get('/resume/shared/public', { hash, locale })
 
 const getResumeInfo = (options = {}) => {
   const { hash, userId } = options
-  const qs = {}
+  const qs = { locale }
   if (hash) qs.hash = hash
   if (userId) qs.userId = userId
   return API.get('/resume/info', qs)

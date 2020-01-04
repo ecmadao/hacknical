@@ -13,6 +13,7 @@ const datas = {
     download: 'Resume is rendering, please wait later.',
     downloadTip: 'Please save your changes before download resume',
     templateTip: 'Change resume template',
+    languageTip: 'Change language. Will generate a new resume',
     downloadSuccess: 'Successfully created, downloading now',
     downloadError: 'Resume create failed',
     addModuleError: {
@@ -52,7 +53,7 @@ const datas = {
       freshGraduate: 'I\'m fresh graduate',
       gender: 'Gender',
       introText: 'Press enter to add',
-      languages: ''
+      languages: 'Your skill'
     },
     educations: {
       title: 'Education Experience',

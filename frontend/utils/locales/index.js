@@ -6,13 +6,19 @@ const getQurtyLocale = () => {
   return match && match[1] ? match[1] : ''
 }
 
+export const switchLanguage = (locale) => {
+  let lang = locale
+  if (!lang) {
+    lang = getLocale() === 'en' ? 'zh' : 'en'
+  }
+
+  window.location.href = `${window.location.href}/?locale=${lang}`
+}
+
 export const getLocale = () => {
   const locale = window.locale || getQurtyLocale() || 'en'
   if (/^en/.test(locale)) {
     return 'en'
-  }
-  if (/^fr/.test(locale)) {
-    return 'fr'
   }
   if (/^zh/.test(locale)) {
     return 'zh'
@@ -24,9 +30,6 @@ export const formatLocale = () => {
   const locale = getLocale()
   if (/^en/.test(locale)) {
     return locale
-  }
-  if (/^fr/.test(locale)) {
-    return 'fr-FR'
   }
   if (/^zh/.test(locale)) {
     return 'zh-CN'

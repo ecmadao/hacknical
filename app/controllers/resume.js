@@ -66,7 +66,8 @@ const getResume = async (ctx) => {
     githubLogin,
     githubAvator
   } = ctx.session
-  const data = await network.user.getResume({ userId })
+  const { locale } = ctx.query
+  const data = await network.user.getResume({ userId, locale })
 
   let resume = null
   if (
@@ -90,13 +91,14 @@ const getResume = async (ctx) => {
 }
 
 const setResume = async (ctx, next) => {
-  const { resume } = ctx.request.body
+  const { resume, locale } = ctx.request.body
   const { message } = ctx.query
   const { userId, githubLogin } = ctx.session
 
   const result = await network.user.updateResume({
     userId,
     resume,
+    locale,
     login: githubLogin
   })
 
@@ -109,7 +111,8 @@ const setResume = async (ctx, next) => {
 
   const cacheKey = getCacheKey(ctx)
   ctx.query.deleteKeys = [
-    cacheKey(`resume.${result.hash}`)
+    cacheKey(`resume.${result.hash}`),
+    cacheKey(`resume.${locale}`)
   ]
   logger.info(`[RESUME:UPDATE][${githubLogin}]`)
 
@@ -262,8 +265,8 @@ const getImageUploadUrl = async (ctx) => {
 }
 
 const getResumeByHash = async (ctx, next) => {
-  const { hash } = ctx.query
-  const findResult = await network.user.getResume({ hash })
+  const { hash, locale } = ctx.query
+  const findResult = await network.user.getResume({ hash, locale })
 
   let result = null
   if (findResult) {

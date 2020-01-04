@@ -187,6 +187,18 @@
 .section_title {
   composes: resume_title;
   margin: 10px 50px 15px;
+  border-left: none;
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 4px;
+    height: 27px;
+    left: 0;
+    background-color: var(--oc-gray-5);
+  }
 }
 
 .sectionTitleInput {
@@ -668,7 +680,7 @@
   align-items: center;
   cursor: pointer;
   border-radius: 50%;
-  border: 2px solid var(--oc-gray-4);
+  border: 2px solid var(--oc-gray-5);
 }
 
 .avatorTipso {

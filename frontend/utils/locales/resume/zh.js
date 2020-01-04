@@ -13,6 +13,7 @@ const datas = {
     download: '简历生成中，请稍后（初次生成所需的时间稍长）',
     downloadTip: '如简历有更新，请先保存再下载',
     templateTip: '改变简历模板',
+    languageTip: '切换语言。已有简历不变，将会生成该语言下的简历',
     downloadSuccess: '简历生成完毕，正在下载',
     downloadError: '简历生成失败',
     addModuleError: {

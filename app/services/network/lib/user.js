@@ -33,11 +33,17 @@ export const getResume = qs => ({
   url: '/resume'
 })
 
-export const updateResume = ({ userId, login, resume }) => ({
+export const updateResume = ({
+  userId,
+  login,
+  resume,
+  locale
+}) => ({
   body: {
     login,
     resume,
-    userId
+    userId,
+    locale
   },
   method: 'put',
   url: '/resume'
