@@ -5,7 +5,7 @@ import { PortalModal } from 'light-ui'
 import styles from '../../../styles/mobile.css'
 import Topbar from '../../shared/Topbar'
 import { TABS } from 'UTILS/constant'
-import locales, { getLocale } from 'LOCALES'
+import locales, { getLocale, switchLanguage } from 'LOCALES'
 import MenuWrapper from '../../shared/MenuWrapper'
 import Icon from 'COMPONENTS/Icon'
 import LogoText from 'COMPONENTS/LogoText'
@@ -56,7 +56,7 @@ class Menus extends MenuWrapper {
     const languageDOMs = languages.map((language, index) => (
       <a
         key={index}
-        href={`/?locale=${language.id}`}
+        onClick={() => switchLanguage(language.id)}
         className={styles.languageOption}
       >
         {language.text}

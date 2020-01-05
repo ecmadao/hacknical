@@ -233,7 +233,10 @@ class Resume extends React.Component {
           id="resume_navigation"
           currentIndex={currentIndex}
           activeSection={activeSection}
-          sections={this.sections}
+          sections={this.sections.map(section => ({
+            id: section.id,
+            text: section.text.nav || section.text
+          }))}
           handleSectionChange={this.handleSectionChange}
           tail={this.renderSectionCreator()}
         />
@@ -252,7 +255,11 @@ class Resume extends React.Component {
           maxIndex={max}
           disabled={loading}
           currentIndex={currentIndex}
-          section={this.currentSection}
+          section={{
+            id: this.currentSection.id,
+            text: this.currentSection.text.headline
+              || this.currentSection.text
+          }}
           onSectionChange={this.handleSectionIndexChange}
         />
         <ResumeFormatter

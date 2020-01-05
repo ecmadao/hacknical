@@ -128,15 +128,40 @@ const datas = {
     }
   },
   navs: {
-    info: 'Info',
-    edu: 'Edu',
-    inSchool: 'Edu',
-    work: 'Jobs',
-    internship: 'Internship',
-    projects: 'Projects',
-    others: 'Other',
-    addNew: 'Add new',
-    moduleName: 'Module name'
+    info: {
+      nav: 'Basic',
+      headline: 'Basic Information'
+    },
+    edu: {
+      nav: 'Edu',
+      headline: 'Education'
+    },
+    inSchool: {
+      nav: 'Edu',
+      headline: 'Education'
+    },
+    work: {
+      nav: 'Jobs',
+      headline: 'Work Experience'
+    },
+    internship: {
+      nav: 'Internship',
+      headline: 'Internship'
+    },
+    projects: {
+      nav: 'Projects',
+      headline: 'Personal Projects'
+    },
+    others: {
+      nav: 'Others',
+      headline: 'Others Information',
+    },
+    addNew: {
+      nav: 'addNew',
+    },
+    moduleName: {
+      nav: 'moduleName'
+    }
   },
   options: {
     genders: {

@@ -176,7 +176,8 @@
   color: var(--oc-gray-7);
   padding-left: 10px;
   border-left: 3px solid var(--oc-gray-7);
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: bold;
   margin-top: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -195,8 +196,8 @@
     display: block;
     position: absolute;
     width: 4px;
-    height: 27px;
-    left: 0;
+    height: 22px;
+    left: -2px;
     background-color: var(--oc-gray-5);
   }
 }
@@ -207,6 +208,8 @@
   flex: initial;
   max-width: 300px;
   overflow: hidden;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .sectionOperationButton {

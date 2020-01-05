@@ -86,7 +86,7 @@ class NavSection  extends React.Component {
               subTheme="underline"
               className={styles.input}
               onChange={this.onTitleChange}
-              placeholder={navs.moduleName}
+              placeholder={navs.moduleName.nav}
               onKeyDown={this.handleEnter}
             />
             <Button
@@ -105,7 +105,7 @@ class NavSection  extends React.Component {
         <div className={styles.navSection}>
           <div className={styles.navSectionWrapper} onClick={this.toggleModal}>
             <Icon icon="plus" className={styles.navIcon}/>
-            {navs.addNew}
+            {navs.addNew.nav}
           </div>
         </div>
       </Tipso>

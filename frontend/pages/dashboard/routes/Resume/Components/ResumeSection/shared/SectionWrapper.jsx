@@ -9,12 +9,16 @@ import {
 } from 'light-ui'
 import cx from 'classnames'
 import SectionTip from './SectionTip'
-import locales from 'LOCALES'
+import locales, { getLocale } from 'LOCALES'
 import Hotkeys from 'UTILS/hotkeys'
 import styles from '../../../styles/resume.css'
 import Icon from 'COMPONENTS/Icon'
 
+const locale = getLocale()
 const resumeTexts = locales('resume')
+
+const getTextWidth = (text, fontSize) =>
+  text.length / (locale === 'en' ? 2 : 1) * (fontSize + 0.5)
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -99,7 +103,8 @@ class Wrapper extends React.Component {
               className={styles.sectionTitleInput}
               theme={titleEditing ? 'flat' : 'ghost'}
               disabled={!editable || !titleEditing}
-              style={{ width: `${title.length * 12 + 10}px`}}
+              style={{ width: `${getTextWidth(title, 18)}px` }}
+              // style={{ width: `${title.length / 2 * 18 + 10}px`}}
             />
             &nbsp;
             <SectionTip {...this.props} />
