@@ -111,8 +111,7 @@ const setResume = async (ctx, next) => {
 
   const cacheKey = getCacheKey(ctx)
   ctx.query.deleteKeys = [
-    cacheKey(`resume.${result.hash}`),
-    cacheKey(`resume.${locale}`)
+    cacheKey(`resume.${result.hash}.${locale}`)
   ]
   logger.info(`[RESUME:UPDATE][${githubLogin}]`)
 
