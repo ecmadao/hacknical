@@ -178,7 +178,7 @@ class ResumeUIWrapper extends React.Component {
           {language.text}
         </span>
       )
-      if (languages[index + 1]) list.push(' / ')
+      if (languages[index + 1]) list.push('  /  ')
       return list
     }, [])
 

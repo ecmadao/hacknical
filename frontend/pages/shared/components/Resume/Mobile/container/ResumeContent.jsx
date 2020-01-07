@@ -441,7 +441,7 @@ class ResumeContent extends ResumeUIWrapper {
     return (
       <div className={styles.resumeContainer}>
         {this.props.loading ? <Loading loading className={styles.resumeLoading} /> : null}
-
+        {this.renderResumeLanguages(styles.resumeLanguages)}
         {initialized ? ([
           (<div className={styles['header-section']} key="header">
             {this.renderHeader()}
