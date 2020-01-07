@@ -308,3 +308,7 @@
   justify-content: flex-start;
   align-items: center;
 }
+
+.resumeLanguages {
+  margin-bottom: 20px;
+}

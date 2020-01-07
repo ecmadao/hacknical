@@ -333,6 +333,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
 
     return (
       <div className={styles.container}>
+        {this.renderResumeLanguages(styles.resumeLanguages)}
         <div
           className={cx(
             styles.wrapper

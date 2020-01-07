@@ -89,3 +89,23 @@
   float: left;
   margin-bottom: 5px;
 }
+
+.resumeLanguages {
+  font-size: 14px;
+  color: var(--oc-gray-5);
+}
+
+.resumeLanguage {
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--oc-green-5);
+  }
+}
+
+.resumeLanguageActived {
+  cursor: default;
+  color: var(--oc-green-5);
+}

@@ -30,6 +30,7 @@ class ResumeWrapper extends React.Component {
         githubUrl: null,
         template: 'v0'
       },
+      languages: [],
       customModules: []
     }
   }
@@ -74,6 +75,7 @@ class ResumeWrapper extends React.Component {
 
   async initialResume(resume = {}) {
     const {
+      languages = [],
       info = INFO,
       others = OTHERS,
       educations = [],
@@ -92,6 +94,7 @@ class ResumeWrapper extends React.Component {
     const state = this.state
     this.setState({
       updateAt,
+      languages,
       initialized,
       loading: false,
       customModules,

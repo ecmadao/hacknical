@@ -73,7 +73,9 @@ router.get(
     keys: ['query.hash', 'query.locale']
   }),
   Resume.getResumeByHash,
-  cache.set()
+  cache.set({
+    expire: 1800 // 0.5h
+  })
 )
 
 module.exports = router

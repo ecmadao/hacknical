@@ -3,11 +3,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { Label } from 'light-ui'
-import locales from 'LOCALES'
+import locales, { switchLanguage, getLocale } from 'LOCALES'
 import styles from '../Resume/shared/common.css'
 import AsyncGithub from '../shared/AsyncGithub'
 import Icon from 'COMPONENTS/Icon'
 
+const locale = getLocale()
 const resumeLocales = locales('resume')
 
 class ResumeUIWrapper extends React.Component {
@@ -157,6 +158,35 @@ class ResumeUIWrapper extends React.Component {
     const { languages = [] } = resumeInfo
 
     return this.renderLabels(languages, labelProps)
+  }
+
+  renderResumeLanguages(className = '') {
+    const { resume } = this.props
+    const { languages = [] } = resume
+    if (languages.length < 2) return null
+
+    const languageDoms = languages.reduce((list, language, index) => {
+      list.push(
+        <span
+          key={`language-${index}`}
+          className={cx(
+            styles.resumeLanguage,
+            language.id === locale && styles.resumeLanguageActived
+          )}
+          onClick={() => switchLanguage(language.id)}
+        >
+          {language.text}
+        </span>
+      )
+      if (languages[index + 1]) list.push(' / ')
+      return list
+    }, [])
+
+    return (
+      <div className={cx(styles.resumeLanguages, className)}>
+        {languageDoms}
+      </div>
+    )
   }
 }
 

@@ -338,6 +338,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <div className={styles.headerContainer}>
+            {this.renderResumeLanguages(styles.resumeLanguages)}
             <div className={styles.name}>
               {info.name}
               <Avator src={info.avator} className={styles.baseAvator} />

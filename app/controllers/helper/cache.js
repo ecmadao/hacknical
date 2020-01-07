@@ -8,11 +8,11 @@ const getCache = (key, options = {}) => async (ctx, next) => {
   logger.info(`[REQUEST-CACHE:GET][${cacheKey}]`)
   if (result) {
     try {
-      ctx.body = {
-        success: true,
-        result: JSON.parse(result),
-      }
-      return
+      // ctx.body = {
+      //   success: true,
+      //   result: JSON.parse(result),
+      // }
+      // return
     } catch (e) {
       logger.debug(e)
     }

@@ -268,16 +268,21 @@ const getResumeByHash = async (ctx, next) => {
   const { hash, locale } = ctx.query
   const findResult = await network.user.getResume({ hash, locale })
 
+  logger.debug(`[getResumeByHash] ${JSON.stringify(findResult)}`)
+
   let result = null
   if (findResult) {
-    result = findResult.resume
-    result.updateAt = findResult.updated_at
+    const { languages, updated_at, githubLogin } = findResult
+    result = Object.assign({}, findResult.resume, {
+      languages
+    })
+    result.updateAt = updated_at
 
     if (result.info) {
       if (result.info.privacyProtect && result.info.phone) {
         result.info.phone = `${result.info.phone.slice(0, 3)}****${result.info.phone.slice(7)}`
       }
-      result = await updateResumeAvator(result, findResult.githubLogin, '')
+      result = await updateResumeAvator(result, githubLogin, '')
     }
   }
 

@@ -258,3 +258,9 @@
   composes: mainText;
   color: var(--oc-gray-6);
 }
+
+.resumeLanguages {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+}

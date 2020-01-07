@@ -12,7 +12,7 @@ export const switchLanguage = (locale) => {
     lang = getLocale() === 'en' ? 'zh' : 'en'
   }
 
-  window.location.href = `${window.location.href}/?locale=${lang}`
+  window.location.href = `${window.location.origin}${window.location.pathname}?locale=${lang}`
 }
 
 export const getLocale = () => {

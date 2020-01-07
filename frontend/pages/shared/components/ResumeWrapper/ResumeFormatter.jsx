@@ -36,7 +36,8 @@ const formatResume = (resume) => {
     educations,
     workExperiences,
     personalProjects,
-    customModules = []
+    customModules = [],
+    languages = []
   } = resume
   const { socialLinks } = others
 
@@ -149,6 +150,7 @@ const formatResume = (resume) => {
     }, [])
 
   return objectAssign({}, resume, {
+    languages,
     info: formatResumeInfo(resume.info),
     educations: formatEducations,
     workExperiences: formatWorkExperiences,
