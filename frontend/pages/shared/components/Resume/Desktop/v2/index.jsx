@@ -270,7 +270,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
 
   get supplements() {
     const { others } = this.props.resume
-    const { supplements } = others
+    const { supplements, socialLinks } = others
     if (!supplements.length) return null
 
     const personalSupplements = supplements.map((supplement, index) => (
@@ -281,9 +281,11 @@ class ResumeComponentV2 extends ResumeUIWrapper {
 
     return (
       <div className={styles.sectionColumn}>
-        <span className={styles.subTextDark}>
-          {resumeTexts.sections.others.selfAssessment}
-        </span>
+        {socialLinks.length > 0 && (
+          <span className={styles.subTextDark}>
+            {resumeTexts.sections.others.selfAssessment}
+          </span>
+        )}
         <ul className={styles.list}>
           {personalSupplements}
         </ul>
@@ -293,7 +295,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
 
   get links() {
     const { others } = this.props.resume
-    const { socialLinks } = others
+    const { supplements, socialLinks } = others
     if (!socialLinks.length) return null
 
     const socials = socialLinks.map((social, index) => {
@@ -320,9 +322,11 @@ class ResumeComponentV2 extends ResumeUIWrapper {
 
     return (
       <div className={styles.sectionColumn}>
-        <span className={styles.subTextDark}>
-          {resumeTexts.sections.others.links.title}
-        </span>
+        {supplements.length > 0 && (
+          <span className={styles.subTextDark}>
+            {resumeTexts.sections.others.links.title}
+          </span>
+        )}
         <ul className={styles.list}>
           {socials}
         </ul>
