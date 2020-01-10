@@ -62,7 +62,7 @@ class Resume extends React.Component {
       interval: 600000, // 10 min
       callback: () => {
         const { actions, resume } = this.props
-        if (!resume.posting && !resume.loading) actions.saveResume()
+        if (resume.edited && !resume.posting && !resume.loading) actions.saveResume()
       }
     })
     this.heartBeat.takeoff()
