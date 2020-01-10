@@ -61,8 +61,8 @@ class Resume extends React.Component {
     this.heartBeat = new HeartBeat({
       interval: 600000, // 10 min
       callback: () => {
-        const { actions } = this.props
-        actions.saveResume()
+        const { actions, resume } = this.props
+        if (!resume.posting && !resume.loading) actions.saveResume()
       }
     })
     this.heartBeat.takeoff()
