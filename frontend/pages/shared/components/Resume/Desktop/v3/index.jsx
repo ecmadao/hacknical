@@ -159,6 +159,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
   renderSupplements(key) {
     const { others } = this.props.resume
     const { supplements } = others
+    if (!supplements.length) return null
 
     const personalSupplements = supplements.map((supplement, index) => (
       <li key={index}>
@@ -185,6 +186,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
         ...project,
         index
       }))
+    if (!projects.length) return null
 
     return section({
       key,
@@ -247,6 +249,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
         index,
         freshGraduate,
       }))
+    if (!edus.length) return null
 
     return section({
       key,
@@ -305,6 +308,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
           </div>
         )
       })
+    if (!exps.length) return null
 
     return section({
       key,

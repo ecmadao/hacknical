@@ -61,8 +61,8 @@ class Resume extends React.Component {
     this.heartBeat = new HeartBeat({
       interval: 600000, // 10 min
       callback: () => {
-        const { resume, actions } = this.props
-        if (resume.edited) actions.saveResume()
+        const { actions } = this.props
+        actions.saveResume()
       }
     })
     this.heartBeat.takeoff()
@@ -211,7 +211,6 @@ class Resume extends React.Component {
       actions,
     } = this.props
     const {
-      edited,
       posting,
       loading,
       shareInfo,
@@ -243,7 +242,7 @@ class Resume extends React.Component {
         <ResumeOperations
           posting={posting}
           saveResume={actions.saveResume}
-          saveDisabled={!edited}
+          saveDisabled={posting || loading}
           downloadDisabled={downloadDisabled}
           handlePreview={this.handlePreview}
           downloadResume={this.downloadResume}

@@ -180,6 +180,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
         index,
         freshGraduate,
       }))
+    if (!edus.length) return null
 
     return section({
       key,
@@ -241,6 +242,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
           </div>
         )
       })
+    if (!exps.length) return null
 
     return section({
       key,
@@ -257,6 +259,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
         ...project,
         index
       }))
+    if (!projects.length) return null
 
     return section({
       key,

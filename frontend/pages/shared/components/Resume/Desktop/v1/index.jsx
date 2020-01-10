@@ -111,8 +111,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           </div>
         )
       })
-
     if (!edus.length) return null
+
     return (
       <div className={styles.section} key={key}>
         {titleInfo(super.getSectionTitle('educations'), 'university')}
@@ -151,8 +151,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           </div>
         )
       })
-
     if (!exps.length) return null
+
     return (
       <div className={styles.section} key={key}>
         {titleInfo(super.getSectionTitle('workExperiences'), 'file-text-o')}
@@ -210,8 +210,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
           </div>
         )
       })
-
     if (!projects.length) return null
+
     return (
       <div className={styles.section} key={key}>
         {titleInfo(super.getSectionTitle('personalProjects'), 'code')}
@@ -230,8 +230,8 @@ class ResumeComponentV1 extends ResumeUIWrapper {
       name: section.title,
       details: section.details
     })))
-
     if (!doms.length) return null
+
     return (
       <div className={styles.section} key={key}>
         {titleInfo(module.text, 'file-text-o')}

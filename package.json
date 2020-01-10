@@ -1,6 +1,6 @@
 {
   "name": "hacknical",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "hacker & technical",
   "main": "dist/bin/app.js",
   "scripts": {
