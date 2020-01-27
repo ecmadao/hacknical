@@ -161,7 +161,9 @@ class ResumeUIWrapper extends React.Component {
   }
 
   renderResumeLanguages(className = '') {
-    const { resume } = this.props
+    const { resume, fromDownload } = this.props
+    if (fromDownload) return null
+
     const { languages = [] } = resume
     if (languages.length < 2) return null
 
