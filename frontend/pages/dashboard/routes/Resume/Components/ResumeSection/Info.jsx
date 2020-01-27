@@ -10,11 +10,12 @@ import {
   InputGroupV2
 } from 'light-ui'
 import cx from 'classnames'
+import Img from 'react-image'
 import Icon from 'COMPONENTS/Icon'
 import Labels from 'COMPONENTS/Labels'
 import Avator from 'COMPONENTS/Avator'
 import resumeActions from '../../redux/actions'
-import { GENDERS } from 'UTILS/constant/resume'
+import { GENDERS, DEFAULT_AVATOR } from 'UTILS/constant/resume'
 import styles from '../../styles/resume.css'
 import locales from 'LOCALES'
 import SectionWrapper from './shared/SectionWrapper'
@@ -48,12 +49,12 @@ class Info extends React.Component {
     }
   }
 
-  handleAvatorChange(avator) {
+  handleAvatorChange(avator, modalOpen = false) {
     const { actions } = this.props
     actions.handleInfoChange({
       avator
     })
-    this.handleAvatorModalToggle(false)()
+    this.handleAvatorModalToggle(modalOpen)()
   }
 
   handleInfoChange(type) {
@@ -124,9 +125,7 @@ class Info extends React.Component {
                   src={avator}
                   className={styles.avator}
                   unloader={
-                    <div className={styles.avatorPlaceholder}>
-                      <Icon icon="user-o" />
-                    </div>
+                    <Img className={styles.avatorPlaceholder} src={DEFAULT_AVATOR} crossOrigin="anonymous" />
                   }
                 />
               </div>

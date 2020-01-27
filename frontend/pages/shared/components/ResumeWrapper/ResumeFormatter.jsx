@@ -72,7 +72,7 @@ const formatResume = (resume) => {
             pList.push(
               objectAssign({}, deepcopy(project), {
                 url: formatUrl(project.url),
-                details: (project.details || []).filter(d => d)
+                details: project.details || []
               })
             )
             return pList
@@ -134,7 +134,7 @@ const formatResume = (resume) => {
         list.push(
           objectAssign({}, section, {
             url: formatUrl(section.url),
-            details: (section.details || []).filter(d => d)
+            details: section.details || []
           })
         )
         return list

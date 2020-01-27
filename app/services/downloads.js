@@ -27,6 +27,7 @@ const renderScreenshot = async (input, output) => {
   try {
     const page = await instance.createPage()
 
+    // await page.property('viewportSize', { width: 1024, height: 600 })
     await page.property('paperSize', {
       width: 1024,
       height: 1448,

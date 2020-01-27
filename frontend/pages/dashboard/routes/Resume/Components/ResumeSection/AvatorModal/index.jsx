@@ -14,6 +14,7 @@ import { request } from 'API/base'
 import message from 'UTILS/message'
 import locales from 'LOCALES'
 import styles from './styles.css'
+import { DEFAULT_AVATOR } from 'UTILS/constant/resume'
 
 const resumeInfoText = locales('resume.sections.info')
 
@@ -44,13 +45,14 @@ class AvatorModal extends React.Component {
     super(props)
 
     this.state = {
-      imageUrl: props.imageUrl,
+      imageUrl: props.imageUrl || DEFAULT_AVATOR,
       rawImage: null,
       uploading: false
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onRemove = this.onRemove.bind(this)
     this.handleFileChange = this.handleFileChange.bind(this)
   }
 
@@ -132,6 +134,16 @@ class AvatorModal extends React.Component {
     this.imageUploader.click()
   }
 
+  onRemove() {
+    const { onSubmit } = this.props
+    this.setState({
+      imageUrl: DEFAULT_AVATOR,
+      rawImage: null,
+      uploading: false
+    })
+    onSubmit && onSubmit('', true)
+  }
+
   render() {
     const {
       imageUrl,
@@ -152,7 +164,16 @@ class AvatorModal extends React.Component {
               guides={true}
             />
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <div className={`image-preview ${styles.imagePreview}`}></div>
+            <div className={styles.imagePreviewContainer}>
+              <div className={`image-preview ${styles.imagePreview}`}></div>
+              {imageUrl !== DEFAULT_AVATOR && (
+                <Icon
+                  icon="close"
+                  onClick={this.onRemove}
+                  className={styles.avatorRemove}
+                />
+              )}
+            </div>
           </div>
           <div className={styles.operations}>
             <input

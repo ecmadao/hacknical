@@ -23,6 +23,8 @@ const REMINDER_CRON_TYPES = {
   QUARTERLY: 'quarterly',
 }
 
+export const DEFAULT_AVATOR = '//files.hacknical.com/defaults/avator/v1.png'
+
 export const REMINDER_PREFIX = reminderTexts.prefix
 
 export const REMINDER_INTERVALS = [

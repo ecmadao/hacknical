@@ -17,17 +17,6 @@ const ossConfig = config.get('services.oss')
 
 /* ===================== private ===================== */
 
-const updateResumeAvator = async (resume, githubLogin, githubAvator) => {
-  if (!resume.info || resume.info.avator) return resume
-  let avator = githubAvator
-  if (!avator) {
-    const user = await network.github.getUser(githubLogin)
-    avator = user ? user.avatar_url : ''
-  }
-  resume.info.avator = avator
-  return resume
-}
-
 const getResumeShareStatus = (resumeInfo, locale) => {
   const {
     login,
@@ -63,19 +52,15 @@ const getResume = async (ctx) => {
   const {
     userId,
     githubToken,
-    githubLogin,
-    githubAvator
+    githubLogin
   } = ctx.session
   const { locale } = ctx.query
   const data = await network.user.getResume({ userId, locale })
 
-  let resume = null
+  const { resume = null } = (data || {})
   if (
-    data
-    && data.resume
-    && data.resume.info
+    resume && resume.info
   ) {
-    resume = await updateResumeAvator(data.resume, githubLogin, githubAvator)
     if (!resume.info.languages || !resume.info.languages.length) {
       const languages = await network.github.getUserLanguages(githubLogin, githubToken)
       resume.info.languages = Object.keys(languages)
@@ -271,7 +256,7 @@ const getResumeByHash = async (ctx, next) => {
 
   let result = null
   if (findResult) {
-    const { languages, updated_at, githubLogin } = findResult
+    const { languages, updated_at } = findResult
     result = Object.assign({}, findResult.resume, {
       languages
     })
@@ -281,7 +266,6 @@ const getResumeByHash = async (ctx, next) => {
       if (result.info.privacyProtect && result.info.phone) {
         result.info.phone = `${result.info.phone.slice(0, 3)}****${result.info.phone.slice(7)}`
       }
-      result = await updateResumeAvator(result, githubLogin, '')
     }
   }
 

@@ -22,10 +22,24 @@
   align-items: flex-start;
 }
 
+.imagePreviewContainer {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
 .imagePreview {
   width: 80px;
   height: 80px;
   overflow: hidden;
+}
+
+.avatorRemove {
+  position: absolute;
+  cursor: pointer;
+  color: var(--oc-red-7);
+  top: -7px;
+  right: -4px;
 }
 
 .imageInput {
