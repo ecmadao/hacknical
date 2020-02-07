@@ -98,7 +98,7 @@ const setResume = async (ctx, next) => {
   ctx.query.deleteKeys = [
     cacheKey(`resume.${result.hash}.${locale}`)
   ]
-  logger.info(`[RESUME:UPDATE][${githubLogin}]`)
+  logger.info(`[RESUME:UPDATE][${githubLogin}] - [cache:remove] ${ctx.query.deleteKeys}`)
 
   notify.slack({
     mq: ctx.mq,

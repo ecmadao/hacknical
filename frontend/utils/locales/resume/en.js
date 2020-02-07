@@ -106,7 +106,7 @@ const datas = {
       introList: [],
       introText: 'Wirte your personal intro then press enter to create it',
       selfAssessment: 'Self Assessment',
-      and: 'and',
+      and: ' and ',
       links: {
         title: 'Other Links',
         github: 'Your GitHub link',
