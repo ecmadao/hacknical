@@ -9,38 +9,13 @@
 }
 
 .container {
-  position: absolute;
-  left: -10px;
-  top: 5px;
-  transform: translateX(-100%);
-  z-index: var(--zIndex9);
-}
-
-.more {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
   position: relative;
-  transition: all var(--speed) var(--easing);
-
-  & i {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  &.active,
-  &:hover {
-    box-shadow: var(--shadow1);
-    background-color: var(--oc-white);
-  }
+  z-index: var(--zIndex9);
 }
 
 .menu {
   position: absolute;
-  box-shadow: var(--shadow2);
+  box-shadow: var(--shadow4);
   border-radius: 2px;
   background-color: var(--oc-white);
   top: 100%;

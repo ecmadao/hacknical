@@ -17,9 +17,12 @@ import {
   validateSocialLinks
 } from 'UTILS/resume'
 import dateHelper from 'UTILS/date'
+import { sortBySeconds } from 'UTILS/helper'
 
+const sortByDate = sortBySeconds('startTime', -1)
 const getDateBeforeYears = dateHelper.date.beforeYears
 const getCurrentDate = dateHelper.validator.fullDate
+
 const initialState = {
   loading: true,
   posting: false,
@@ -64,8 +67,8 @@ const reducers = handleActions({
       sections: [...sections],
       activeSection: sections[0].id,
       info: objectassign(state.info, info),
-      educations: [...educations],
-      workExperiences: [...workExperiences],
+      educations: [...educations].sort(sortByDate),
+      workExperiences: [...workExperiences].sort(sortByDate),
       personalProjects: [...personalProjects],
       others: objectassign(state.others, objectassign(others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]

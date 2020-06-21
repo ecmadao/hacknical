@@ -21,19 +21,23 @@ const waitUntil = asyncFunc => new Promise((resolve, reject) => {
   wait()
 })
 
-const renderScreenshot = async (input, output) => {
+const renderScreenshot = async ({ input, output, pageConfig = {} }) => {
   const instance = await phantom.create()
 
   try {
     const page = await instance.createPage()
 
-    // await page.property('viewportSize', { width: 1024, height: 600 })
-    await page.property('paperSize', {
-      width: 1024,
-      height: 1448,
-      format: 'A4',
-      orientation: 'portrait'
-    })
+    if (pageConfig.pageStyle === 'onePage') {
+      await page.property('viewportSize', { width: 1024, height: 600 })
+    } else {
+      await page.property('paperSize', {
+        width: 1024,
+        height: 1448,
+        format: 'A4',
+        orientation: 'portrait'
+      })
+    }
+
     await page.open(input)
     await waitUntil(() => page.evaluate(() => window.done))
     await page.render(output)
@@ -53,7 +57,8 @@ const ensureDownloadFolder = (folder) => {
 export const downloadResume = async (url, options = {}) => {
   const {
     title,
-    folderName
+    folderName,
+    pageStyle
   } = options
 
   const resultFolder = ensureDownloadFolder(folderName)
@@ -62,9 +67,18 @@ export const downloadResume = async (url, options = {}) => {
 
   logger.info(`[RESUME:DOWNLOAD:RENDER-PATH] ${filePath}`)
 
-  if (fs.existsSync(filePath)) return resultPath
+  if (fs.existsSync(filePath)) {
+    logger.info(`[RESUME:DOWNLOAD:RENDER-PATH:EXIST] ${filePath} -> ${resultPath}`)
+    return resultPath
+  }
 
-  await renderScreenshot(url, filePath)
+  await renderScreenshot({
+    input: url,
+    output: filePath,
+    pageConfig: {
+      pageStyle
+    }
+  })
   uploadFile({
     filePath,
     prefix: `${config.get('services.oss.prefix')}/${folderName}`

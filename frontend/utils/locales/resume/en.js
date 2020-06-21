@@ -12,6 +12,10 @@ const datas = {
   messages: {
     download: 'Resume is rendering, please wait later.',
     downloadTip: 'Please save your changes before download resume',
+    downloadOptions: {
+      onePage: 'One page',
+      clippedPages: 'Clipped pages',
+    },
     templateTip: 'Change resume template',
     languageTip: 'Change language. Will generate a new resume',
     downloadSuccess: 'Successfully created, downloading now',

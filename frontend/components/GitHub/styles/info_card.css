@@ -128,6 +128,35 @@
 
 .card_operation {
   top: 50px !important;
+  position: absolute !important;
+  left: -10px;
+  top: 5px;
+  transform: translateX(-100%);
+}
+
+.card_operation_container {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  transition: all var(--speed) var(--easing);
+
+  & .card_operation_icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover {
+    box-shadow: var(--shadow1);
+    background-color: var(--oc-white);
+  }
+}
+
+.card_operation_item {
+  min-width: 95px !important;
 }
 
 .card_group {

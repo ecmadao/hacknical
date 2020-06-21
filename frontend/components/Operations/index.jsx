@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import OperationItem from './OperationItem'
 import cx from 'classnames'
 import { OutsideClickHandler } from 'light-ui'
 import styles from './operations.css'
-import Icon from 'COMPONENTS/Icon'
 
 class Operations extends React.Component {
   constructor(props) {
@@ -45,31 +44,52 @@ class Operations extends React.Component {
     ))
   }
 
+  get triggerFunc() {
+    switch (this.props.trigger) {
+      case 'hover':
+        return {
+          onMouseOver: this.showOperationMenu.bind(this),
+          onMouseEnter: this.showOperationMenu.bind(this),
+          onMouseOut: this.showOperationMenu.bind(this),
+          onMouseLeave: this.showOperationMenu.bind(this)
+        }
+      case 'click':
+      default:
+        return {
+          onClick: this.showOperationMenu.bind(this),
+        }
+    }
+  }
+
   render() {
     const { showOperations } = this.state
-    const { className } = this.props
+    const { children, className, disabled } = this.props
 
     const containerClass = cx(
       styles.container,
       className
     )
     const moreIconClass = cx(
-      styles.more,
-      showOperations && styles.active
+      disabled && styles.disabled
     )
     const menuClass = cx(
       styles.menu,
       showOperations && styles.menuActive
     )
+
+    const Operation = createElement(
+      'div',
+      Object.assign({
+        className: moreIconClass
+      }, this.triggerFunc),
+      children
+    )
+
     return (
       <OutsideClickHandler
         onOutsideClick={this.handleOutsideClick}>
         <div className={containerClass}>
-          <div
-            className={moreIconClass}
-            onClick={this.showOperationMenu}>
-            <Icon icon="ellipsis-h" />
-          </div>
+          {Operation}
           <div
             className={menuClass}
             ref={ref => (this.operationMenu = ref)}>
@@ -83,13 +103,24 @@ class Operations extends React.Component {
 
 Operations.propTypes = {
   items: PropTypes.array,
+  disabled: PropTypes.bool,
+  trigger: PropTypes.string,
   className: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.node,
+    PropTypes.array,
+    PropTypes.string
+  ]),
   onFocusChange: PropTypes.func
 }
 
 Operations.defaultProps = {
   items: [],
+  disabled: false,
+  trigger: 'click',
   className: '',
+  children: <div />,
   onFocusChange: Function.prototype
 }
 

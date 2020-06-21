@@ -155,10 +155,20 @@ const downloadResume = async (ctx) => {
   })
 
   let resultUrl = ''
+  let pageStyle = ''
+  switch (ctx.query.pageStyle) {
+    case 'onePage':
+      pageStyle = 'onePage'
+      break
+    default:
+      pageStyle = 'clippedPages'
+  }
+
   try {
     resultUrl = await download.downloadResume(resumeUrl, {
+      pageStyle,
       folderName: `${userId}/${githubLogin}`,
-      title: `${template}-${locale}-${seconds}-resume.pdf`
+      title: `${template}-${locale}-${seconds}-resume-${pageStyle}.pdf`
     })
     logger.info(`[RESUME:RENDERED][${resultUrl}]`)
   } catch (e) {

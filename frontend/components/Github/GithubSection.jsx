@@ -48,6 +48,8 @@ class GitHubSection extends React.Component {
     const { sectionStatus = true } = this.props
     return [
       {
+        icon: sectionStatus ? 'eye-slash' : 'eye',
+        className: cardStyles.card_operation_item,
         text: sectionStatus ? operationTexts.share.hide : operationTexts.share.show,
         onClick: this.handleMenuClick
       }
@@ -110,7 +112,11 @@ class GitHubSection extends React.Component {
             items={this.operationItems}
             showOperations={showOperations}
             onFocusChange={this.onOperationFocusChange}
-          />
+          >
+            <div className={cardStyles.card_operation_container}>
+              <Icon icon="ellipsis-h" className={cardStyles.card_operation_icon} />
+            </div>
+          </Operations>
         ) : null}
       </div>
     )

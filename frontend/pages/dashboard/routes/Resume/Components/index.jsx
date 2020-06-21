@@ -89,11 +89,12 @@ class Resume extends React.Component {
     return editedConfirm
   }
 
-  downloadResume() {
+  downloadResume(pageStyle) {
     message.notice(messages.download, 1800)
     const { actions, resume } = this.props
     actions.toggleDownloadButton(true)
-    API.resume.download().then((result) => {
+
+    API.resume.download(pageStyle).then((result) => {
       if (result) {
         const { name } = resume.info
         Push.create(messages.downloadSuccess, {

@@ -8,9 +8,11 @@ import {
   AnimationComponent
 } from 'light-ui'
 import cx from 'classnames'
+
 import locales, { switchLanguage } from 'LOCALES'
 import styles from '../styles/resume.css'
 import Icon from 'COMPONENTS/Icon'
+import Operations from 'COMPONENTS/Operations'
 
 const resumeTexts = locales('resume')
 
@@ -28,6 +30,17 @@ const Wrapper = (props) => {
     handleIntroModalStatus,
     handleTemplateModalStatus
   } = props
+
+  const downloadOptions = [
+    {
+      text: resumeTexts.messages.downloadOptions.onePage,
+      onClick: () => downloadResume('onePage')
+    },
+    {
+      text: resumeTexts.messages.downloadOptions.clippedPages,
+      onClick: () => downloadResume('clippedPages')
+    }
+  ]
 
   return (
     <div
@@ -70,20 +83,25 @@ const Wrapper = (props) => {
             onClick={() => handleTemplateModalStatus(true)}
           />
         </Tipso>
-        <Tipso
-          trigger="hover"
-          theme="dark"
-          className={styles.icon_button_tipso}
-          tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}
+        <Operations
+          trigger="click"
+          disabled={downloadDisabled}
+          items={downloadOptions}
         >
-          <IconButton
-            color="gray"
-            icon="download"
-            className={styles.icon_button}
-            onClick={downloadResume}
-            disabled={downloadDisabled}
-          />
-        </Tipso>
+          <Tipso
+            trigger="hover"
+            theme="dark"
+            className={styles.icon_button_tipso}
+            tipsoContent={(<span>{resumeTexts.messages.downloadTip}</span>)}
+          >
+            <IconButton
+              color="gray"
+              icon="download"
+              className={styles.icon_button}
+              disabled={downloadDisabled}
+            />
+          </Tipso>
+        </Operations>
         <IconButton
           color="gray"
           icon="share-alt"
