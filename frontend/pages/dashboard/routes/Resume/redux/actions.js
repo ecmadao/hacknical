@@ -102,7 +102,7 @@ const {
       ({ workIndex, projectIndex, detailIndex }),
     HANDLE_WORK_PROJECT_CHANGE: (workProject, workIndex, projectIndex) =>
       ({ workProject, workIndex, projectIndex }),
-    HANDLE_WORK_EXPERIENCE_CHANGE: (workExperience, index) => ({ workExperience, index })
+    HANDLE_WORK_EXPERIENCE_CHANGE: (workExperience, index) => ({ workExperience, index }),
   },
   'ADD_WORK_EXPERIENCE',
   'DELETE_WORK_EXPERIENCE',

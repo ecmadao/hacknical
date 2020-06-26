@@ -30,32 +30,34 @@ class WorkExperience extends React.Component {
   }
 
   handleEndTimeChange(endTime, untilNow = false) {
-    const { handleExperienceChange } = this.props
-    handleExperienceChange('endTime')(endTime)
-    handleExperienceChange('untilNow')(untilNow)
+    const { handleExperienceChanged } = this.props
+    handleExperienceChanged('endTime')(endTime)
+    handleExperienceChanged('untilNow')(untilNow)
   }
 
   renderWorkProjects(projects) {
-    const { handleProjectChange, deleteProject, disabled, index } = this.props
+    const { handleProjectChanged, handleProjectRemoved, disabled, index } = this.props
     return projects.map((project, i) => (
       <WorkProject
         key={i}
         index={`${index}-${i}`}
         project={project}
         disabled={disabled}
-        onDelete={deleteProject(i)}
-        onChange={handleProjectChange(i)}
+        onDelete={handleProjectRemoved(i)}
+        onChange={handleProjectChanged(i)}
       />
     ))
   }
 
   render() {
     const {
+      isLast,
       disabled,
-      addProject,
       workExperience,
-      deleteExperience,
-      handleExperienceChange,
+      handleProjectAdded,
+      handleExperienceAdded,
+      handleExperienceRemoved,
+      handleExperienceChanged,
     } = this.props
     const {
       url,
@@ -80,7 +82,7 @@ class WorkExperience extends React.Component {
             inputClassName={cx(styles.inputGroup, styles.resumeFormItem)}
             wrapperClassName={styles.inputTipsoWrapper}
             placeholder={resumeTexts.companyName}
-            onChange={handleExperienceChange('company')}
+            onChange={handleExperienceChanged('company')}
           >
             <InputGroupV2
               sections={[
@@ -97,7 +99,7 @@ class WorkExperience extends React.Component {
                   type: 'url',
                   value: url ? url.replace(/^https?:\/\//, '') : '',
                   placeholder: resumeTexts.homepage,
-                  onChange: handleExperienceChange('url'),
+                  onChange: handleExperienceChanged('url'),
                 }
               ]}
               style={{
@@ -113,13 +115,13 @@ class WorkExperience extends React.Component {
             disabled={disabled}
             placeholder={resumeTexts.position}
             className={cx(styles.last_input, styles.resumeFormItem)}
-            onChange={handleExperienceChange('position')}
+            onChange={handleExperienceChanged('position')}
           />
           <IconButton
             color="red"
             icon="trash-o"
             className={styles.resume_delete}
-            onClick={deleteExperience}
+            onClick={handleExperienceRemoved}
           />
         </div>
         <div className={styles.resume_wrapper}>
@@ -128,7 +130,7 @@ class WorkExperience extends React.Component {
             initialEnd={untilNow ? null : endTime}
             startText={resumeTexts.entriedAt}
             endText={resumeTexts.dimissionAt}
-            onStartChange={handleExperienceChange('startTime')}
+            onStartChange={handleExperienceChanged('startTime')}
             onEndChange={this.handleEndTimeChange}
           />
         </div>
@@ -139,13 +141,18 @@ class WorkExperience extends React.Component {
           {this.renderWorkProjects(projects)}
           <div
             className={styles.resume_add}
-            onClick={addProject}
+            onClick={handleProjectAdded}
           >
             <Icon icon="plus-circle" />
             &nbsp;&nbsp;&nbsp;
             {resumeTexts.sideButton}
           </div>
         </div>
+        {!isLast && (
+          <div className={styles.resume_piece_add} onClick={handleExperienceAdded}>
+            <Icon icon="plus-circle" />
+          </div>
+        )}
       </div>
     )
   }

@@ -118,15 +118,21 @@ const reducers = handleActions({
   },
 
   // educations
-  ADD_EDUCATION(state) {
+  ADD_EDUCATION(state, action) {
     const { educations } = state
+    const index = action.payload || educations.length
+
     const newEdu = objectassign(EDU, {
       startTime: getDateBeforeYears(1),
       endTime: getCurrentDate()
     })
     return ({
       ...state,
-      educations: [...educations, newEdu]
+      educations: [
+        ...educations.slice(0, index),
+        newEdu,
+        ...educations.slice(index)
+      ]
     })
   },
 
@@ -156,17 +162,20 @@ const reducers = handleActions({
   },
 
   // workExperiences
-  ADD_WORK_EXPERIENCE(state) {
+  ADD_WORK_EXPERIENCE(state, action) {
     const { workExperiences } = state
+    const index = action.payload || workExperiences.length
+
     return ({
       ...state,
       workExperiences: [
-        ...workExperiences,
+        ...workExperiences.slice(0, index),
         objectassign(WORK_EXPERIENCE, {
           startTime: getDateBeforeYears(1),
           endTime: getCurrentDate(),
           projects: []
-        })
+        }),
+        ...workExperiences.slice(index)
       ]
     })
   },

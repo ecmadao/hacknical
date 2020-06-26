@@ -12,20 +12,26 @@ const resumeTexts = locales('resume.sections.educations')
 class Educations extends React.Component {
   constructor(props) {
     super(props)
-    this.handleDelete = this.handleDelete.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleEduRemoved = this.handleEduRemoved.bind(this)
+    this.handleEduChanged = this.handleEduChanged.bind(this)
+    this.handleEduAdded = this.handleEduAdded.bind(this)
   }
 
-  handleChange(index) {
+  handleEduChanged(index) {
     const { actions } = this.props
     return type => (value) => {
       actions.changeEducation({ [type]: value }, index)
     }
   }
 
-  handleDelete(index) {
+  handleEduRemoved(index) {
     const { actions } = this.props
     return () => actions.deleteEducation(index)
+  }
+
+  handleEduAdded(index) {
+    const { actions } = this.props
+    return () => actions.addEducation(index)
   }
 
   renderEdu() {
@@ -37,8 +43,10 @@ class Educations extends React.Component {
         index={index}
         disabled={disabled}
         freshGraduate={freshGraduate}
-        handleDelete={this.handleDelete(index)}
-        handleChange={this.handleChange(index)}
+        isLast={index === educations.length - 1}
+        handleEduRemoved={this.handleEduRemoved(index)}
+        handleEduChanged={this.handleEduChanged(index)}
+        handleEduAdded={this.handleEduAdded(index + 1)}
       />
     ))
   }

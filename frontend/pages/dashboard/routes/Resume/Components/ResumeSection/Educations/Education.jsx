@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { Input, IconButton, SelectorV2 } from 'light-ui'
 import WritableList from 'COMPONENTS/WritableList'
 import DateSlider from 'COMPONENTS/DateSlider'
+import Icon from 'COMPONENTS/Icon'
 import dateHelper from 'UTILS/date'
 import { EDUCATIONS } from 'UTILS/constant/resume'
 import styles from '../../../styles/resume.css'
@@ -33,31 +34,31 @@ class Education extends React.Component {
   }
 
   onDateChange(type) {
-    const { handleChange } = this.props
+    const { handleEduChanged } = this.props
     return (momentTime) => {
       const time = momentTime.format('L')
-      handleChange && handleChange(type)(time)
+      handleEduChanged && handleEduChanged(type)(time)
     }
   }
 
   addExperience(experience) {
-    const { edu, handleChange } = this.props
+    const { edu, handleEduChanged } = this.props
     const { experiences = [] } = edu
-    handleChange('experiences')([...experiences, experience])
+    handleEduChanged('experiences')([...experiences, experience])
   }
 
   deleteExperience(index) {
-    const { edu, handleChange } = this.props
+    const { edu, handleEduChanged } = this.props
     const { experiences } = edu
-    handleChange('experiences')(
+    handleEduChanged('experiences')(
       [...experiences.slice(0, index), ...experiences.slice(index + 1)]
     )
   }
 
   changeExperience(experience, index) {
-    const { edu, handleChange } = this.props
+    const { edu, handleEduChanged } = this.props
     const { experiences } = edu
-    handleChange('experiences')(
+    handleEduChanged('experiences')(
       [
         ...experiences.slice(0, index),
         experience,
@@ -68,22 +69,25 @@ class Education extends React.Component {
 
   async handleSchoolInfoFetch() {
     const { edu } = this.props
-    const { school } = edu
 
-    const info = await API.resume.getSchoolInfo({ school })
-    info && this.setState({
-      types: info.types
-    })
+    if (edu && edu.school) {
+      const info = await API.resume.getSchoolInfo({ school: edu.school })
+      info && this.setState({
+        types: info.types
+      })
+    }
   }
 
   render() {
     const {
       edu,
       index,
+      isLast,
       disabled,
-      handleDelete,
       freshGraduate,
-      handleChange,
+      handleEduAdded,
+      handleEduChanged,
+      handleEduRemoved,
     } = this.props
     const {
       major,
@@ -101,7 +105,7 @@ class Education extends React.Component {
           <IconButton
             color="red"
             icon="trash-o"
-            onClick={handleDelete}
+            onClick={handleEduRemoved}
             className={styles.resume_delete}
           />
           <Input
@@ -109,7 +113,7 @@ class Education extends React.Component {
             value={school}
             disabled={disabled}
             placeholder={resumeTexts.school}
-            onChange={handleChange('school')}
+            onChange={handleEduChanged('school')}
             onBlur={this.handleSchoolInfoFetch}
             className={cx(styles.single_input, styles.resumeFormItem)}
           />
@@ -127,7 +131,7 @@ class Education extends React.Component {
             value={major}
             disabled={disabled}
             placeholder={resumeTexts.major}
-            onChange={handleChange('major')}
+            onChange={handleEduChanged('major')}
             className={styles.resumeFormItem}
           />
           <SelectorV2
@@ -135,7 +139,7 @@ class Education extends React.Component {
             value={education}
             disabled={disabled}
             options={EDUCATIONS}
-            onChange={handleChange('education')}
+            onChange={handleEduChanged('education')}
             className={styles.resumeFormItem}
           />
         </div>
@@ -147,8 +151,8 @@ class Education extends React.Component {
             endText={resumeTexts.graduateAt}
             startText={resumeTexts.entranceAt}
             maxDate={dateHelper.date.afterYears(5)}
-            onStartChange={handleChange('startTime')}
-            onEndChange={handleChange('endTime')}
+            onStartChange={handleEduChanged('startTime')}
+            onEndChange={handleEduChanged('endTime')}
           />
         </div>
         {freshGraduate ? (
@@ -165,6 +169,11 @@ class Education extends React.Component {
             />
           </div>
         ) : null}
+        {!isLast && (
+          <div className={styles.resume_piece_add} onClick={handleEduAdded}>
+            <Icon icon="plus-circle" />
+          </div>
+        )}
       </div>
     )
   }

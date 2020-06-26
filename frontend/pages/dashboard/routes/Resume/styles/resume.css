@@ -308,6 +308,23 @@
   }
 }
 
+.resume_piece_add {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 30px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+  transform: translate(-50%, 50%);
+  color: var(--oc-gray-5);
+  z-index: 1;
+
+  &:hover {
+    color: var(--oc-gray-7);
+  }
+}
+
 .resume_piece_container {
   padding: 0 50px 15px;
   position: relative;
@@ -362,6 +379,10 @@
 
   &:hover {
     & .resume_delete {
+      opacity: 1;
+    }
+
+    & .resume_piece_add {
       opacity: 1;
     }
   }

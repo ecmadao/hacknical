@@ -11,45 +11,53 @@ const resumeTexts = locales('resume.sections.workExperiences')
 class WorkExperiences extends React.Component {
   constructor(props) {
     super(props)
-    this.addProject = this.addProject.bind(this)
-    this.deleteProject = this.deleteProject.bind(this)
-    this.handleProjectChange = this.handleProjectChange.bind(this)
-    this.deleteExperience = this.deleteExperience.bind(this)
-    this.handleExperienceChange = this.handleExperienceChange.bind(this)
+    this.handleProjectAdded = this.handleProjectAdded.bind(this)
+    this.handleProjectRemoved = this.handleProjectRemoved.bind(this)
+    this.handleProjectChanged = this.handleProjectChanged.bind(this)
+    this.handleExperienceRemoved = this.handleExperienceRemoved.bind(this)
+    this.handleExperienceChanged = this.handleExperienceChanged.bind(this)
+    this.handleExperienceAdded = this.handleExperienceAdded.bind(this)
   }
 
-  handleExperienceChange(index) {
+  handleExperienceChanged(index) {
     const { actions } = this.props
     return type => (value) => {
       actions.handleWorkExperienceChange({ [type]: value }, index)
     }
   }
 
-  deleteExperience(index) {
+  handleExperienceRemoved(index) {
     const { actions } = this.props
     return () => {
       actions.deleteWorkExperience(index)
     }
   }
 
-  addProject(workIndex) {
+  handleProjectAdded(workIndex) {
     const { actions } = this.props
     return () => {
       actions.addWorkProject(workIndex)
     }
   }
 
-  deleteProject(workIndex) {
+  handleProjectRemoved(workIndex) {
     const { actions } = this.props
     return projectIndex => () => {
       actions.deleteWorkProject(workIndex, projectIndex)
     }
   }
 
-  handleProjectChange(workIndex) {
+  handleProjectChanged(workIndex) {
     const { actions } = this.props
     return projectIndex => (workProject) => {
       actions.handleWorkProjectChange(workProject, workIndex, projectIndex)
+    }
+  }
+
+  handleExperienceAdded(index) {
+    const { actions } = this.props
+    return () => {
+      actions.addWorkExperience(index)
     }
   }
 
@@ -59,13 +67,15 @@ class WorkExperiences extends React.Component {
       <WorkExperience
         key={index}
         index={index}
+        isLast={index === workExperiences.length - 1}
         disabled={disabled}
         workExperience={workExperience}
-        addProject={this.addProject(index)}
-        deleteProject={this.deleteProject(index)}
-        deleteExperience={this.deleteExperience(index)}
-        handleProjectChange={this.handleProjectChange(index)}
-        handleExperienceChange={this.handleExperienceChange(index)}
+        handleProjectRemoved={this.handleProjectRemoved(index)}
+        handleProjectAdded={this.handleProjectAdded(index)}
+        handleProjectChanged={this.handleProjectChanged(index)}
+        handleExperienceChanged={this.handleExperienceChanged(index)}
+        handleExperienceAdded={this.handleExperienceAdded(index + 1)}
+        handleExperienceRemoved={this.handleExperienceRemoved(index)}
       />
     ))
   }
