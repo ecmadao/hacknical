@@ -17,9 +17,15 @@
 .imageContainer {
   width: 100%;
   display: flex;
+  position: relative;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+}
+
+.imageLoading {
+  position: absolute;
+  width: 100%;
 }
 
 .imagePreviewContainer {

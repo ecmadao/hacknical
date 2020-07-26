@@ -14,7 +14,7 @@ class WritableGroupWrapper extends React.Component {
 
   onKeyDown(e) {
     const { value } = this.state
-    if (Hotkeys.isEnter(e) && value) {
+    if (Hotkeys.isEnter(e)) {
       const { onAdd } = this.props
       onAdd && onAdd(value)
       this.clearInput()

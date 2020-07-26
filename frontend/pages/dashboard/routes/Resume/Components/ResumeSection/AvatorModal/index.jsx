@@ -5,6 +5,7 @@ import 'cropperjs/dist/cropper.css'
 import {
   Tipso,
   Button,
+  Loading,
   PortalModal,
   ClassicButton
 } from 'light-ui'
@@ -47,12 +48,14 @@ class AvatorModal extends React.Component {
     this.state = {
       imageUrl: props.imageUrl || DEFAULT_AVATOR,
       rawImage: null,
-      uploading: false
+      uploading: false,
+      initializing: true
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onRemove = this.onRemove.bind(this)
+    this.onCropperInitialized = this.onCropperInitialized.bind(this)
     this.handleFileChange = this.handleFileChange.bind(this)
   }
 
@@ -95,11 +98,17 @@ class AvatorModal extends React.Component {
   }
 
   async onSubmit() {
+    const { onSubmit } = this.props
+
+    if (this.state.imageUrl) {
+      onSubmit && onSubmit('', true)
+      return
+    }
+
     this.setState({
       uploading: true
     })
     message.notice(resumeInfoText.avator.upload)
-    const { onSubmit } = this.props
 
     let file = this.state.rawImage
     if (!file) file = await toFile(this.state.imageUrl)
@@ -130,24 +139,29 @@ class AvatorModal extends React.Component {
     }
   }
 
+  onCropperInitialized() {
+    this.setState({
+      initializing: false
+    })
+  }
+
   onChange() {
     this.imageUploader.click()
   }
 
   onRemove() {
-    const { onSubmit } = this.props
     this.setState({
       imageUrl: DEFAULT_AVATOR,
       rawImage: null,
       uploading: false
     })
-    onSubmit && onSubmit('', true)
   }
 
   render() {
     const {
       imageUrl,
-      uploading
+      uploading,
+      initializing
     } = this.state
     const { openModal, onClose } = this.props
 
@@ -155,6 +169,14 @@ class AvatorModal extends React.Component {
       <PortalModal showModal={openModal} onClose={onClose}>
         <div className={styles.modalContainer}>
           <div className={styles.imageContainer}>
+            {initializing && (
+              <div
+                className={styles.imageLoading}
+                style={{ height: 400 }}
+              >
+                <Loading loading />
+              </div>
+            )}
             <Cropper
               ref={ref => (this.cropper = ref)}
               src={imageUrl}
@@ -162,6 +184,7 @@ class AvatorModal extends React.Component {
               preview='.image-preview'
               aspectRatio={1}
               guides={true}
+              ready={this.onCropperInitialized}
             />
             &nbsp;&nbsp;&nbsp;&nbsp;
             <div className={styles.imagePreviewContainer}>
@@ -198,7 +221,7 @@ class AvatorModal extends React.Component {
                     <Icon icon="file-image-o" />
                   )}
                   onClick={this.onChange}
-                  disabled={uploading}
+                  disabled={uploading || initializing}
                 />
               </ClassicButton>
             </Tipso>
@@ -212,7 +235,7 @@ class AvatorModal extends React.Component {
                   <Icon icon="cloud-upload" />
                 )}
                 onClick={this.onSubmit}
-                disabled={!imageUrl || uploading}
+                disabled={!imageUrl || uploading || initializing}
               />
             </ClassicButton>
           </div>
