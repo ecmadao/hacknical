@@ -67,7 +67,7 @@ const fetchResumeShareInfo = () => (dispatch) => {
   })
 }
 
-const patchResumeInfo = (key) => (dispatch, getState) => {
+const patchResumeInfo = key => (dispatch, getState) => {
   const { resumeInfo } = getState().setting
   const { loading } = resumeInfo
   const value = resumeInfo[key]
