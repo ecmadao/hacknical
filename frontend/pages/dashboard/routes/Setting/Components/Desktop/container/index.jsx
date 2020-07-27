@@ -105,7 +105,7 @@ class DesktopSetting extends React.Component {
             switcher={switcher}
             id="use-github-switch"
             text={settingTexts.resume.useGithub}
-            onChange={actions.postResumeGithubStatus}
+            onChange={() => actions.patchResumeInfo('useGithub')}
             checked={(resumeInfo && resumeInfo.useGithub) || false}
             disabled={resumeInfo.loading}
           />
@@ -146,7 +146,7 @@ class DesktopSetting extends React.Component {
         <SwitcherPanel
           switcher={switcher}
           text={settingTexts.resume.reminder.title}
-          onChange={actions.toggleResumeReminder}
+          onChange={this.postResumeReminderChange('enable')}
           disabled={resumeInfoLoading || resumeInfo.disabled}
           checked={(resumeInfo && resumeInfo.reminder.enable) || false}
         />
@@ -204,7 +204,7 @@ class DesktopSetting extends React.Component {
         <SwitcherPanel
           switcher={switcher}
           text={settingTexts.resume.openShare}
-          onChange={actions.postResumeShareStatus}
+          onChange={() => actions.patchResumeInfo('openShare')}
           disabled={resumeInfo.loading || resumeInfo.disabled}
           checked={(resumeInfo && resumeInfo.openShare) || false}
         />
@@ -223,7 +223,7 @@ class DesktopSetting extends React.Component {
             className={styles.subSection}
             text={settingTexts.resume.simplifyUrl}
             tipso={tip}
-            onChange={actions.toggleResumeSimplifyUrl}
+            onChange={() => actions.patchResumeInfo('simplifyUrl')}
             disabled={resumeInfo.loading || resumeInfo.disabled}
             checked={resumeInfo && resumeInfo.simplifyUrl}
           />
@@ -327,6 +327,15 @@ class DesktopSetting extends React.Component {
               <Loading className={styles.info_loading} loading />
             )}
             {this.renderResumeReminderSetting()}
+            <Panel>
+              <SwitcherPanel
+                switcher={switcher}
+                text={settingTexts.resume.autosave}
+                onChange={() => actions.patchResumeInfo('autosave')}
+                disabled={resumeInfo && resumeInfo.loading}
+                checked={resumeInfo && !!resumeInfo.autosave}
+              />
+            </Panel>
             {this.renderResumeShareSetting()}
             {this.renderResumeGithubSetting()}
           </ClassicCard>

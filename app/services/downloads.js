@@ -34,6 +34,10 @@ const renderScreenshot = async ({ input, output, pageConfig = {} }) => {
         width: 1024,
         height: 1448,
         format: 'A4',
+        margin: {
+          top: '1cm',
+          bottom: '1cm',
+        },
         orientation: 'portrait'
       })
     }

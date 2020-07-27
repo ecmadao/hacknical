@@ -67,38 +67,16 @@ const fetchResumeShareInfo = () => (dispatch) => {
   })
 }
 
-const postResumeGithubStatus = () => (dispatch, getState) => {
+const patchResumeInfo = (key) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting
-  const { useGithub, loading } = resumeInfo
+  const { loading } = resumeInfo
+  const value = resumeInfo[key]
+
   if (loading) return
 
-  API.resume.patchResumeInfo({ useGithub: !useGithub }).then(() => {
+  API.resume.patchResumeInfo({ [key]: !value }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      useGithub: !useGithub
-    })))
-  })
-}
-
-const postResumeShareStatus = () => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting
-  const { openShare, loading } = resumeInfo
-  if (loading) return
-
-  API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
-    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      openShare: !openShare
-    })))
-  })
-}
-
-const toggleResumeReminder = enable => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting
-
-  const reminder = objectAssign({}, resumeInfo.reminder, { enable })
-
-  API.resume.patchResumeInfo({ reminder }).then(() => {
-    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      reminder
+      [key]: !value
     })))
   })
 }
@@ -113,18 +91,6 @@ const postResumeReminderChange = (key, value) => (dispatch, getState) => {
   API.resume.patchResumeInfo({ reminder }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       reminder
-    })))
-  })
-}
-
-const toggleResumeSimplifyUrl = () => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting
-  const { simplifyUrl, loading } = resumeInfo
-  if (loading) return
-
-  API.resume.patchResumeInfo({ simplifyUrl: !simplifyUrl }).then(() => {
-    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      simplifyUrl: !simplifyUrl
     })))
   })
 }
@@ -154,10 +120,7 @@ export default {
   // resume
   initialResumeShareInfo,
   fetchResumeShareInfo,
-  postResumeGithubStatus,
-  postResumeShareStatus,
-  toggleResumeReminder,
   postResumeReminderChange,
-  toggleResumeSimplifyUrl,
-  postResumeShareSection
+  postResumeShareSection,
+  patchResumeInfo
 }

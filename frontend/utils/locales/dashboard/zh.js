@@ -98,6 +98,7 @@ const datas = {
       showLanguages: '展示 语言概览',
       showCommits: '展示 commit 概览',
       showContributed: '展示 对他人仓库的贡献',
+      autosave: '编辑时自动保存',
       reminder: {
         title: '定期提醒我维护简历',
         sendEmailTo: '发邮件到',

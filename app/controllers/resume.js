@@ -18,31 +18,12 @@ const ossConfig = config.get('services.oss')
 /* ===================== private ===================== */
 
 const getResumeShareStatus = (resumeInfo, locale) => {
-  const {
-    login,
-    github,
-    reminder,
-    template,
-    useGithub,
-    resumeHash,
-    openShare,
-    simplifyUrl
-  } = resumeInfo
-
   return {
-    login,
-    github,
-    locale,
-    template,
-    reminder,
-    openShare,
-    useGithub,
-    resumeHash,
-    simplifyUrl,
-    githubUrl: `https://hacknical.com/${login}/github?locale=${locale}`,
-    url: simplifyUrl && login
-      ? `${login}/resume?locale=${locale}`
-      : `resume/${resumeHash}?locale=${locale}`
+    ...resumeInfo,
+    githubUrl: `https://hacknical.com/${resumeInfo.login}/github?locale=${locale}`,
+    url: resumeInfo.simplifyUrl && resumeInfo.login
+      ? `${resumeInfo.login}/resume?locale=${locale}`
+      : `resume/${resumeInfo.resumeHash}?locale=${locale}`
   }
 }
 

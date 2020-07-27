@@ -39,6 +39,7 @@ const initialState = {
     useGithub: false,
     resumeHash: '',
     template: 'v1',
+    autosave: false
   },
   customModules: [],
   downloadDisabled: false,

@@ -329,7 +329,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
   }
 
   render() {
-    const { resume, shareInfo } = this.props
+    const { resume, shareInfo, fromDownload } = this.props
     const { info, others, educations, workExperiences } = resume
     const { useGithub, githubUrl } = shareInfo
 
@@ -406,12 +406,14 @@ class ResumeComponentV3 extends ResumeUIWrapper {
           </div>
           {super.renderResumeSections.apply(this)}
         </div>
-        <div className={styles.footer}>
-          <div className={styles.footerLeft}>
-            {others.dream}
+        {!fromDownload && (
+          <div className={styles.footer}>
+            <div className={styles.footerLeft}>
+              {others.dream}
+            </div>
+            {this.renderUpdateTime()}
           </div>
-          {this.renderUpdateTime()}
-        </div>
+        )}
       </div>
     )
   }

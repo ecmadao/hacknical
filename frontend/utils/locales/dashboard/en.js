@@ -98,6 +98,7 @@ const datas = {
       showLanguages: 'Show languages',
       showCommits: 'Show commits',
       showContributed: 'Show contributed repos',
+      autosave: 'Auto save when editing resume',
       reminder: {
         title: 'Remind me update my resume',
         sendEmailTo: 'Send mail to',

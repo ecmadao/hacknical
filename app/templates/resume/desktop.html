@@ -2,6 +2,13 @@
 
 {% block css %}
   <link href="{{ assetsPath("assets/resume_desktop.bundle.css") }}" rel="stylesheet" type="text/css">
+  {% if fromDownload %}
+    <style>
+      html, body {
+        background-color: #fff !important;
+      }
+    </style>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
