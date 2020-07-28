@@ -17,48 +17,45 @@ class WorkExperiences extends React.Component {
     this.handleExperienceRemoved = this.handleExperienceRemoved.bind(this)
     this.handleExperienceChanged = this.handleExperienceChanged.bind(this)
     this.handleExperienceAdded = this.handleExperienceAdded.bind(this)
+    this.handleExperienceReorder = this.handleExperienceReorder.bind(this)
   }
 
   handleExperienceChanged(index) {
     const { actions } = this.props
-    return type => (value) => {
+    return type => value =>
       actions.handleWorkExperienceChange({ [type]: value }, index)
-    }
   }
 
   handleExperienceRemoved(index) {
     const { actions } = this.props
-    return () => {
-      actions.deleteWorkExperience(index)
-    }
+    return () => actions.deleteWorkExperience(index)
   }
 
   handleProjectAdded(workIndex) {
     const { actions } = this.props
-    return () => {
-      actions.addWorkProject(workIndex)
-    }
+    return () => actions.addWorkProject(workIndex)
   }
 
   handleProjectRemoved(workIndex) {
     const { actions } = this.props
-    return projectIndex => () => {
+    return projectIndex => () =>
       actions.deleteWorkProject(workIndex, projectIndex)
-    }
   }
 
   handleProjectChanged(workIndex) {
     const { actions } = this.props
-    return projectIndex => (workProject) => {
+    return projectIndex => workProject =>
       actions.handleWorkProjectChange(workProject, workIndex, projectIndex)
-    }
   }
 
-  handleExperienceAdded(index) {
+  handleExperienceAdded(workIndex) {
     const { actions } = this.props
-    return () => {
-      actions.addWorkExperience(index)
-    }
+    return () => actions.addWorkExperience(workIndex)
+  }
+
+  handleExperienceReorder(workIndex) {
+    const { actions } = this.props
+    return order => actions.reorderWorkProject(workIndex, order)
   }
 
   renderExperience() {
@@ -70,6 +67,7 @@ class WorkExperiences extends React.Component {
         isLast={index === workExperiences.length - 1}
         disabled={disabled}
         workExperience={workExperience}
+        handleExperienceReorder={this.handleExperienceReorder(index)}
         handleProjectRemoved={this.handleProjectRemoved(index)}
         handleProjectAdded={this.handleProjectAdded(index)}
         handleProjectChanged={this.handleProjectChanged(index)}

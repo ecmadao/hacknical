@@ -120,6 +120,7 @@
     "push.js": "^1.0.4",
     "react": "^16.2.0",
     "react-async-component": "^1.0.2",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router": "4.2.0",

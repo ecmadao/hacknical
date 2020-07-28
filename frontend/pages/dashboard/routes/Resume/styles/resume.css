@@ -346,31 +346,16 @@
     border-bottom: 1px solid var(--bgDeep);
   }
 
-  &:not(:first-child) {
-    padding-top: 15px;
-
-    & .resume_delete {
-
-      &.project_delete {
-        top: 50px;
-      }
-    }
-  }
-
   & .resume_delete {
     position: absolute;
     opacity: 0;
     cursor: pointer;
-    left: -40px;
+    right: -42px;
     top: 50%;
     margin-top: 0;
     margin-bottom: 0;
     transform: translateY(-50%);
     transition: opacity 0.2s;
-
-    &.project_delete {
-      top: 25px;
-    }
 
     & i {
       color: var(--oc-red-5);
@@ -393,31 +378,9 @@
   flex-direction: column;
 }
 
-.project_container {
-  &:hover {
-    & .project_delete {
-      opacity: 1;
-    }
-  }
-}
-
 .project_name_wrapper {
   display: flex;
   position: relative;
-}
-
-.project_delete {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  left: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: opacity 0.2s;
-
-  & i {
-    color: var(--oc-red-5);
-  }
 }
 
 /* others account link */

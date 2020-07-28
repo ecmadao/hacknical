@@ -69,7 +69,12 @@ const reducers = handleActions({
       activeSection: sections[0].id,
       info: objectassign(state.info, info),
       educations: [...educations].sort(sortByDate),
-      workExperiences: [...workExperiences].sort(sortByDate),
+      workExperiences: workExperiences.map((workExperience, i) => objectassign(workExperience, {
+        id: `workExperiences.${i + 1}`,
+        projects: workExperience.projects.map((project, j) => objectassign(project, {
+          id: `workExperiences.${i + 1}.projects.${j + 1}`
+        }))
+      })).sort(sortByDate),
       personalProjects: [...personalProjects],
       others: objectassign(state.others, objectassign(others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]
@@ -174,7 +179,8 @@ const reducers = handleActions({
         objectassign(WORK_EXPERIENCE, {
           startTime: getDateBeforeYears(1),
           endTime: getCurrentDate(),
-          projects: []
+          projects: [],
+          id: `workExperiences.${index + 1}`
         }),
         ...workExperiences.slice(index)
       ]
@@ -203,9 +209,36 @@ const reducers = handleActions({
       workExperiences: [
         ...workExperiences.slice(0, index),
         objectassign(workExperience, {
-          projects: [...workExperience.projects, WORK_PROJECT]
+          projects: [...workExperience.projects, objectassign(WORK_PROJECT, {
+            id: `workExperiences.${index + 1}.projects.${workExperience.projects.length + 1}`
+          })]
         }),
         ...workExperiences.slice(index + 1)
+      ]
+    })
+  },
+
+  REORDER_WORK_PROJECT(state, action) {
+    const { workExperiences } = state
+    const { workIndex, order } = action.payload
+
+    const workExperience = workExperiences[workIndex]
+    const { projects } = workExperience
+
+    const fromIndex = order.source.index;
+    const toIndex = order.destination.index;
+
+    const [project] = projects.splice(fromIndex, 1);
+    projects.splice(toIndex, 0, project);
+
+    return ({
+      ...state,
+      workExperiences: [
+        ...workExperiences.slice(0, workIndex),
+        objectassign(workExperience, {
+          projects: [...projects]
+        }),
+        ...workExperiences.slice(workIndex + 1)
       ]
     })
   },

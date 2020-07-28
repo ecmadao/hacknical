@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { IconButton, InputGroup, InputGroupV2, Input } from 'light-ui'
 import DateSlider from 'COMPONENTS/DateSlider'
+import DragAndDrop from 'COMPONENTS/DragAndDrop'
 import Icon from 'COMPONENTS/Icon'
 import WorkProject from './WorkProject'
 import styles from '../../../styles/resume.css'
@@ -36,17 +37,29 @@ class WorkExperience extends React.Component {
   }
 
   renderWorkProjects(projects) {
-    const { handleProjectChanged, handleProjectRemoved, disabled, index } = this.props
-    return projects.map((project, i) => (
-      <WorkProject
-        key={i}
-        index={`${index}-${i}`}
-        project={project}
-        disabled={disabled}
-        onDelete={handleProjectRemoved(i)}
-        onChange={handleProjectChanged(i)}
-      />
-    ))
+    const {
+      index,
+      disabled,
+      handleProjectChanged,
+      handleProjectRemoved,
+      handleExperienceReorder,
+    } = this.props
+
+    return (
+      <DragAndDrop onDragEnd={handleExperienceReorder}>
+        {projects.map((project, i) => ({
+          id: project.id,
+          Component: <WorkProject
+            key={i}
+            index={`Work-${index}-Project-${i}`}
+            project={project}
+            disabled={disabled}
+            onDelete={handleProjectRemoved(i)}
+            onChange={handleProjectChanged(i)}
+          />
+        }))}
+      </DragAndDrop>
+    )
   }
 
   render() {

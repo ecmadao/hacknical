@@ -26,6 +26,7 @@ const {
   'INITIAL_PUB_RESUME_STATUS',
   'HANDLE_ACTIVE_SECTION_CHANGE'
 )
+
 const fetchResume = () => (dispatch) => {
   API.resume.getResume().then((result) => {
     if (result) {
@@ -86,16 +87,18 @@ const {
  */
 const {
   deleteWorkProject,
+  reorderWorkProject,
   addWorkProjectDetail,
   deleteWorkProjectDetail,
   handleWorkProjectChange,
   handleWorkExperienceChange,
   addWorkExperience,
   deleteWorkExperience,
-  addWorkProject
+  addWorkProject,
 } = createActions(
   {
     DELETE_WORK_PROJECT: (workIndex, projectIndex) => ({ workIndex, projectIndex }),
+    REORDER_WORK_PROJECT: (workIndex, order) => ({ workIndex, order }),
     ADD_WORK_PROJECT_DETAIL: (detail, workIndex, projectIndex) =>
       ({ detail, workIndex, projectIndex }),
     DELETE_WORK_PROJECT_DETAIL: (workIndex, projectIndex, detailIndex) =>
@@ -106,7 +109,7 @@ const {
   },
   'ADD_WORK_EXPERIENCE',
   'DELETE_WORK_EXPERIENCE',
-  'ADD_WORK_PROJECT'
+  'ADD_WORK_PROJECT',
 )
 
 /**
@@ -223,6 +226,7 @@ const resumeEditActions = {
   // workExperience
   deleteWorkExperience,
   deleteWorkProject,
+  reorderWorkProject,
   deleteWorkProjectDetail,
   handleWorkProjectChange,
   handleWorkExperienceChange,

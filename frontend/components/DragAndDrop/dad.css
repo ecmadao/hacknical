@@ -1,0 +1,26 @@
+@import 'open-color/open-color.css';
+
+.droppable_container {
+  background-color: #fff;
+  transition: background-color 0.2s;
+
+  &.dragging,
+  &:hover {
+    background-color: var(--oc-blue-2);
+  }
+}
+
+.droppable_item {
+  background-color: #fff;
+  transition: background-color 0.2s;
+  padding: 10px;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--oc-gray-2);
+  }
+
+  &.dragging {
+    background-color: var(--oc-gray-2);
+  }
+}
