@@ -133,7 +133,6 @@ class DesktopSetting extends React.Component {
 
   renderResumeReminderSetting() {
     const {
-      actions,
       switcher,
       resumeInfo
     } = this.props

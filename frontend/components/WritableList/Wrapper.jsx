@@ -67,7 +67,6 @@ class Wrapper extends React.Component {
           key={index}
           item={item}
           id={`WritableList-${name}-${index}`}
-          placeholder={placeholder}
           onKeyDown={this.onKeyDown(index)}
           onDelete={this.onDelete(index)}
           onChange={this.onLabelChange(index)}
@@ -88,7 +87,6 @@ class Wrapper extends React.Component {
               key={index}
               item={item}
               id={`WritableList-${name}-${index}`}
-              placeholder={placeholder}
               onKeyDown={this.onKeyDown(index)}
               onDelete={this.onDelete(index)}
               onChange={this.onLabelChange(index)}
@@ -114,7 +112,8 @@ class Wrapper extends React.Component {
     return (
       <ul className={styles.items}>
         {this.renderListItems()}
-        <li>-&nbsp;&nbsp;
+        <li className={styles.dragable_item}>
+          -&nbsp;&nbsp;
           <InputGroup
             id={`WritableList-${name}-new`}
             value={value}
