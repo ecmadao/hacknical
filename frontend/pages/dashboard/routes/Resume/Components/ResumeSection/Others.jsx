@@ -128,6 +128,7 @@ class Others extends React.Component {
             introList={resumeTexts.introList}
             defaultIntro={resumeTexts.introText}
             placeholder={resumeTexts.personalIntro}
+            reorderList={this.props.actions.reorderSupplements}
           />
         </div>
         <div className={styles.resume_piece_container}>

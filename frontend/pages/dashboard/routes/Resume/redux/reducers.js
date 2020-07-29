@@ -12,10 +12,8 @@ import {
   PERSONAL_PROJECT,
   RESUME_SECTIONS,
 } from 'UTILS/constant/resume'
-import {
-  objectassign,
-  validateSocialLinks
-} from 'UTILS/resume'
+import { validateSocialLinks } from 'UTILS/resume'
+import objectAssign from 'UTILS/object-assign'
 import dateHelper from 'UTILS/date'
 import { sortBySeconds } from 'UTILS/helper'
 
@@ -27,11 +25,11 @@ const initialState = {
   loading: true,
   posting: false,
   edited: false,
-  info: objectassign({}, INFO),
+  info: objectAssign({}, INFO),
   educations: [],
   workExperiences: [],
   personalProjects: [],
-  others: objectassign({}, OTHERS),
+  others: objectAssign({}, OTHERS),
   shareInfo: {
     url: '',
     github: {},
@@ -67,16 +65,19 @@ const reducers = handleActions({
       loading: false,
       sections: [...sections],
       activeSection: sections[0].id,
-      info: objectassign(state.info, info),
+      info: objectAssign({}, state.info, info),
       educations: [...educations].sort(sortByDate),
-      workExperiences: workExperiences.map((workExperience, i) => objectassign(workExperience, {
+      workExperiences: workExperiences.map((workExperience, i) => objectAssign({}, workExperience, {
         id: `workExperiences.${i + 1}`,
-        projects: workExperience.projects.map((project, j) => objectassign(project, {
+        projects: workExperience.projects.map((project, j) => objectAssign({}, project, {
           id: `workExperiences.${i + 1}.projects.${j + 1}`
         }))
       })).sort(sortByDate),
-      personalProjects: [...personalProjects],
-      others: objectassign(state.others, objectassign(others, {
+      personalProjects: personalProjects.map(
+        (personalProject, i) => objectAssign({}, personalProject, {
+          id: `personalProjects.${i + 1}`
+        })),
+      others: objectAssign({}, state.others, objectAssign({}, others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]
       })),
       customModules: [...customModules]
@@ -119,7 +120,7 @@ const reducers = handleActions({
     return ({
       ...state,
       sections: [...sections],
-      info: objectassign(info, action.payload),
+      info: objectAssign({}, info, action.payload),
     })
   },
 
@@ -128,7 +129,7 @@ const reducers = handleActions({
     const { educations } = state
     const index = action.payload || educations.length
 
-    const newEdu = objectassign(EDU, {
+    const newEdu = objectAssign({}, EDU, {
       startTime: getDateBeforeYears(1),
       endTime: getCurrentDate()
     })
@@ -161,7 +162,7 @@ const reducers = handleActions({
       ...state,
       educations: [
         ...educations.slice(0, index),
-        objectassign(educations[index], edu),
+        objectAssign({}, educations[index], edu),
         ...educations.slice(index + 1)
       ]
     })
@@ -176,7 +177,7 @@ const reducers = handleActions({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, index),
-        objectassign(WORK_EXPERIENCE, {
+        objectAssign({}, WORK_EXPERIENCE, {
           startTime: getDateBeforeYears(1),
           endTime: getCurrentDate(),
           projects: [],
@@ -208,8 +209,8 @@ const reducers = handleActions({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, index),
-        objectassign(workExperience, {
-          projects: [...workExperience.projects, objectassign(WORK_PROJECT, {
+        objectAssign({}, workExperience, {
+          projects: [...workExperience.projects, objectAssign({}, WORK_PROJECT, {
             id: `workExperiences.${index + 1}.projects.${workExperience.projects.length + 1}`
           })]
         }),
@@ -218,24 +219,24 @@ const reducers = handleActions({
     })
   },
 
-  REORDER_WORK_PROJECT(state, action) {
+  REORDER_WORK_PROJECTS(state, action) {
     const { workExperiences } = state
     const { workIndex, order } = action.payload
 
     const workExperience = workExperiences[workIndex]
     const { projects } = workExperience
 
-    const fromIndex = order.source.index;
-    const toIndex = order.destination.index;
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
 
-    const [project] = projects.splice(fromIndex, 1);
-    projects.splice(toIndex, 0, project);
+    const [project] = projects.splice(fromIndex, 1)
+    projects.splice(toIndex, 0, project)
 
     return ({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, workIndex),
-        objectassign(workExperience, {
+        objectAssign({}, workExperience, {
           projects: [...projects]
         }),
         ...workExperiences.slice(workIndex + 1)
@@ -253,7 +254,7 @@ const reducers = handleActions({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, workIndex),
-        objectassign(workExperience, {
+        objectAssign({}, workExperience, {
           projects: [...projects.slice(0, projectIndex),
             ...projects.slice(projectIndex + 1)]
         }),
@@ -273,11 +274,42 @@ const reducers = handleActions({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, workIndex),
-        objectassign(workExperience, {
+        objectAssign({}, workExperience, {
           projects: [
             ...projects.slice(0, projectIndex),
-            objectassign(project, {
+            objectAssign({}, project, {
               details: [...project.details, detail]
+            }),
+            ...projects.slice(projectIndex + 1)
+          ]
+        }),
+        ...workExperiences.slice(workIndex + 1)
+      ]
+    })
+  },
+
+  REORDER_WORK_PROJECT_DETAILS(state, action) {
+    const { workExperiences } = state
+    const { workIndex, projectIndex, order } = action.payload
+
+    const { projects } = workExperiences[workIndex]
+    const { details } = projects[projectIndex]
+
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+
+    const [detail] = details.splice(fromIndex, 1)
+    details.splice(toIndex, 0, detail)
+
+    return ({
+      ...state,
+      workExperiences: [
+        ...workExperiences.slice(0, workIndex),
+        objectAssign({}, workExperiences[workIndex], {
+          projects: [
+            ...projects.slice(0, projectIndex),
+            objectAssign({}, projects[projectIndex], {
+              details: [...details]
             }),
             ...projects.slice(projectIndex + 1)
           ]
@@ -298,10 +330,10 @@ const reducers = handleActions({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, workIndex),
-        objectassign(workExperience, {
+        objectAssign({}, workExperience, {
           projects: [
             ...projects.slice(0, projectIndex),
-            objectassign(project, {
+            objectAssign({}, project, {
               details: [
                 ...project.details.slice(0, detailIndex),
                 ...project.details.slice(detailIndex + 1)
@@ -326,10 +358,10 @@ const reducers = handleActions({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, workIndex),
-        objectassign(workExperience, {
+        objectAssign({}, workExperience, {
           projects: [
             ...projects.slice(0, projectIndex),
-            objectassign(project, workProject),
+            objectAssign({}, project, workProject),
             ...projects.slice(projectIndex + 1)
           ]
         }),
@@ -346,7 +378,7 @@ const reducers = handleActions({
       ...state,
       workExperiences: [
         ...workExperiences.slice(0, index),
-        objectassign(workExperiences[index], workExperience),
+        objectAssign({}, workExperiences[index], workExperience),
         ...workExperiences.slice(index + 1)
       ]
     })
@@ -359,8 +391,26 @@ const reducers = handleActions({
       ...state,
       personalProjects: [
         ...personalProjects,
-        objectassign({}, PERSONAL_PROJECT)
+        objectAssign({}, PERSONAL_PROJECT, {
+          id: `personalProjects.${personalProjects.length + 1}`
+        })
       ]
+    })
+  },
+
+  REORDER_PERSONAL_PROJECTS(state, action) {
+    const { personalProjects } = state
+    const order = action.payload
+
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+
+    const [personalProject] = personalProjects.splice(fromIndex, 1)
+    personalProjects.splice(toIndex, 0, personalProject)
+
+    return ({
+      ...state,
+      personalProjects: [...personalProjects]
     })
   },
 
@@ -385,7 +435,7 @@ const reducers = handleActions({
       ...state,
       personalProjects: [
         ...personalProjects.slice(0, index),
-        objectassign(personalProjects[index], personalProject),
+        objectAssign({}, personalProjects[index], personalProject),
         ...personalProjects.slice(index + 1)
       ]
     })
@@ -400,7 +450,7 @@ const reducers = handleActions({
       ...state,
       personalProjects: [
         ...personalProjects.slice(0, index),
-        objectassign(personalProject, {
+        objectAssign({}, personalProject, {
           techs: [...personalProject.techs, tech]
         }),
         ...personalProjects.slice(index + 1)
@@ -418,7 +468,7 @@ const reducers = handleActions({
       ...state,
       personalProjects: [
         ...personalProjects.slice(0, projectIndex),
-        objectassign(personalProject, {
+        objectAssign({}, personalProject, {
           techs: [
             ...techs.slice(0, techIndex),
             ...techs.slice(techIndex + 1)
@@ -434,7 +484,7 @@ const reducers = handleActions({
     const { others } = state
     return ({
       ...state,
-      others: objectassign(others, action.payload)
+      others: objectAssign({}, others, action.payload)
     })
   },
 
@@ -443,7 +493,7 @@ const reducers = handleActions({
     const { expectLocations } = others
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         expectLocations: [...expectLocations, action.payload]
       })
     })
@@ -455,7 +505,7 @@ const reducers = handleActions({
     const index = action.payload
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         expectLocations: [
           ...expectLocations.slice(0, index),
           ...expectLocations.slice(index + 1)
@@ -471,7 +521,7 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         supplements: [
           ...supplements.slice(0, index),
           supplement,
@@ -486,8 +536,28 @@ const reducers = handleActions({
     const { supplements } = others
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         supplements: [...supplements, action.payload]
+      })
+    })
+  },
+
+  REORDER_SUPPLEMENTS(state, action) {
+    const { others } = state
+    const { supplements } = others
+
+    const order = action.payload
+
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+
+    const [supplement] = supplements.splice(fromIndex, 1)
+    supplements.splice(toIndex, 0, supplement)
+
+    return ({
+      ...state,
+      others: objectAssign({}, others, {
+        supplements: [...supplements]
       })
     })
   },
@@ -498,7 +568,7 @@ const reducers = handleActions({
     const index = action.payload
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         supplements: [
           ...supplements.slice(0, index),
           ...supplements.slice(index + 1)
@@ -513,10 +583,10 @@ const reducers = handleActions({
     const { option, index } = action.payload
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         socialLinks: [
           ...socialLinks.slice(0, index),
-          objectassign(socialLinks[index], option),
+          objectAssign({}, socialLinks[index], option),
           ...socialLinks.slice(index + 1)
         ]
       })
@@ -530,7 +600,7 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         socialLinks: [
           ...socialLinks.slice(0, index),
           ...socialLinks.slice(index + 1)
@@ -545,7 +615,7 @@ const reducers = handleActions({
 
     return ({
       ...state,
-      others: objectassign(others, {
+      others: objectAssign({}, others, {
         socialLinks: [...socialLinks, {
           url: '',
           name: '',
@@ -562,7 +632,7 @@ const reducers = handleActions({
     const { shareInfo } = state
     return ({
       ...state,
-      shareInfo: objectassign(shareInfo, newShareInfo)
+      shareInfo: objectAssign({}, shareInfo, newShareInfo)
     })
   },
 
@@ -571,7 +641,7 @@ const reducers = handleActions({
     const { shareInfo } = state
     return ({
       ...state,
-      shareInfo: objectassign(shareInfo, { openShare })
+      shareInfo: objectAssign({}, shareInfo, { openShare })
     })
   },
 
@@ -580,7 +650,7 @@ const reducers = handleActions({
     const { shareInfo } = state
     return ({
       ...state,
-      shareInfo: objectassign(shareInfo, { template })
+      shareInfo: objectAssign({}, shareInfo, { template })
     })
   },
 

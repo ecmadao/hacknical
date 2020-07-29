@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { Label } from 'light-ui'
 import dateHelper from 'UTILS/date'
 import { renderTextWithUrl } from '../../shared/common'
-import { objectassign } from 'UTILS/resume'
+import objectAssign from 'UTILS/object-assign'
 import styles from './v1.css'
 import statusLabels from '../../shared/StatusLabels'
 import locales from 'LOCALES'
@@ -50,14 +50,14 @@ const textInfo = (options) => {
   ) : <div className={headerClass}>{title}</div>
 }
 
-const baseInfo = (text, icon, options = {}) => info(objectassign({}, {
+const baseInfo = (text, icon, options = {}) => info(objectAssign({}, {
   text,
   icon,
   type: 'base',
   ...options
 }))
 
-const titleInfo = (text, icon, options = {}) => info(objectassign({}, {
+const titleInfo = (text, icon, options = {}) => info(objectAssign({}, {
   text,
   icon,
   type: 'title',

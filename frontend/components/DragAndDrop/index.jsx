@@ -1,13 +1,18 @@
 
-import React from "react";
+import React from "react"
 import cx from 'classnames'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import styles from './dad.css'
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 class DragAndDrop extends React.Component {
   render() {
-    const { children, onDragEnd } = this.props
+    const {
+      children,
+      onDragEnd,
+      itemClassName,
+      containerClassName,
+    } = this.props
 
     return (
       <DragDropContext onDragEnd={onDragEnd}>
@@ -18,7 +23,8 @@ class DragAndDrop extends React.Component {
               ref={provided.innerRef}
               className={cx(
                 styles.droppable_container,
-                snapshot.isDraggingOver && snapshot.dragging
+                snapshot.isDraggingOver && snapshot.dragging,
+                containerClassName
               )}
             >
               {children.map((child, index) => (
@@ -31,7 +37,8 @@ class DragAndDrop extends React.Component {
                       style={provided.draggableProps.style}
                       className={cx(
                         styles.droppable_item,
-                        snapshot.isDragging && snapshot.dragging
+                        snapshot.isDragging && snapshot.dragging,
+                        itemClassName
                       )}
                     >
                       {child.Component}
@@ -50,12 +57,16 @@ class DragAndDrop extends React.Component {
 
 DragAndDrop.propTypes = {
   onDrop: PropTypes.func,
-  children: PropTypes.array
+  children: PropTypes.array,
+  itemClassName: PropTypes.string,
+  containerClassName: PropTypes.string
 }
 
 DragAndDrop.defaultProps = {
   onDrop: Function.prototype,
   children: [],
+  itemClassName: '',
+  containerClassName: ''
 }
 
 export default DragAndDrop;

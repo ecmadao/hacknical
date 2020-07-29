@@ -15,6 +15,7 @@ class Section extends React.Component {
     this.handleDetailAdded = this.handleDetailAdded.bind(this)
     this.handleDetailRemove = this.handleDetailRemove.bind(this)
     this.handleDetailChange = this.handleDetailChange.bind(this)
+    this.handleDetailReorder = this.handleDetailReorder.bind(this)
   }
 
   handleDetailAdded(detail) {
@@ -29,6 +30,19 @@ class Section extends React.Component {
     handleChange('details')(
       [...details.slice(0, index), ...details.slice(index + 1)]
     )
+  }
+
+  handleDetailReorder(order) {
+    const { section, handleChange } = this.props
+    const { details } = section
+
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+
+    const [detail] = details.splice(fromIndex, 1)
+    details.splice(toIndex, 0, detail)
+
+    handleChange('details')([...details])
   }
 
   handleDetailChange(detail, index) {
@@ -103,6 +117,7 @@ class Section extends React.Component {
             onDelete={this.handleDetailRemove}
             onChange={this.handleDetailChange}
             placeholder={resumeTexts.addSectionDetail}
+            reorderList={this.handleDetailReorder}
           />
         </div>
       </div>

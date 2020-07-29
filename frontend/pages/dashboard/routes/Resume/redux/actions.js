@@ -87,7 +87,8 @@ const {
  */
 const {
   deleteWorkProject,
-  reorderWorkProject,
+  reorderWorkProjects,
+  reorderWorkProjectDetails,
   addWorkProjectDetail,
   deleteWorkProjectDetail,
   handleWorkProjectChange,
@@ -98,7 +99,9 @@ const {
 } = createActions(
   {
     DELETE_WORK_PROJECT: (workIndex, projectIndex) => ({ workIndex, projectIndex }),
-    REORDER_WORK_PROJECT: (workIndex, order) => ({ workIndex, order }),
+    REORDER_WORK_PROJECTS: (workIndex, order) => ({ workIndex, order }),
+    REORDER_WORK_PROJECT_DETAILS: (workIndex, projectIndex, order) =>
+      ({ workIndex, projectIndex, order }),
     ADD_WORK_PROJECT_DETAIL: (detail, workIndex, projectIndex) =>
       ({ detail, workIndex, projectIndex }),
     DELETE_WORK_PROJECT_DETAIL: (workIndex, projectIndex, detailIndex) =>
@@ -120,7 +123,8 @@ const {
   addProjectTech,
   deleteProjectTech,
   addPersonalProject,
-  deletePersonalProject
+  deletePersonalProject,
+  reorderPersonalProjects,
 } = createActions(
   {
     HANDLE_PERSONAL_PROJECT_CHANGE: (personalProject, index) =>
@@ -130,7 +134,8 @@ const {
       ({ projectIndex, techIndex })
   },
   'ADD_PERSONAL_PROJECT',
-  'DELETE_PERSONAL_PROJECT'
+  'DELETE_PERSONAL_PROJECT',
+  'REORDER_PERSONAL_PROJECTS'
 )
 
 /**
@@ -144,6 +149,7 @@ const {
   handleOthersInfoChange,
   addSupplement,
   deleteSupplement,
+  reorderSupplements,
   toggleDownloadButton,
 } = createActions(
   {
@@ -155,6 +161,7 @@ const {
   'HANDLE_OTHERS_INFO_CHANGE',
   'ADD_SUPPLEMENT',
   'DELETE_SUPPLEMENT',
+  'REORDER_SUPPLEMENTS',
   'TOGGLE_DOWNLOAD_BUTTON',
 )
 
@@ -226,12 +233,14 @@ const resumeEditActions = {
   // workExperience
   deleteWorkExperience,
   deleteWorkProject,
-  reorderWorkProject,
+  reorderWorkProjects,
+  reorderWorkProjectDetails,
   deleteWorkProjectDetail,
   handleWorkProjectChange,
   handleWorkExperienceChange,
   // personalProjects
   deletePersonalProject,
+  reorderPersonalProjects,
   handlePersonalProjectChange,
   addProjectTech,
   deleteProjectTech,
@@ -242,6 +251,7 @@ const resumeEditActions = {
   deleteSocialLink,
   handleOthersInfoChange,
   deleteSupplement,
+  reorderSupplements,
   // custom
   changeModuleTitle,
   changeModuleSection,

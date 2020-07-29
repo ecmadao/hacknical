@@ -373,6 +373,18 @@
   }
 }
 
+.resume_list_container {
+  background-color: transparent !important;
+}
+
+.resume_list_item {
+  background-color: transparent !important;
+
+  &:hover {
+    background-color: var(--oc-gray-3) !important;
+  }
+}
+
 .project_wrapper {
   display: flex;
   flex-direction: column;

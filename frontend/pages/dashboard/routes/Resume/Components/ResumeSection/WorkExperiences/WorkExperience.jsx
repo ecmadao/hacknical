@@ -42,6 +42,7 @@ class WorkExperience extends React.Component {
       disabled,
       handleProjectChanged,
       handleProjectRemoved,
+      handleProjectDetailReorder,
       handleExperienceReorder,
     } = this.props
 
@@ -49,14 +50,17 @@ class WorkExperience extends React.Component {
       <DragAndDrop onDragEnd={handleExperienceReorder}>
         {projects.map((project, i) => ({
           id: project.id,
-          Component: <WorkProject
-            key={i}
-            index={`Work-${index}-Project-${i}`}
-            project={project}
-            disabled={disabled}
-            onDelete={handleProjectRemoved(i)}
-            onChange={handleProjectChanged(i)}
-          />
+          Component: (
+            <WorkProject
+              key={i}
+              index={`Work-${index}-Project-${i}`}
+              project={project}
+              disabled={disabled}
+              onDelete={handleProjectRemoved(i)}
+              onChange={handleProjectChanged(i)}
+              onReorder={handleProjectDetailReorder(i)}
+            />
+          )
         }))}
       </DragAndDrop>
     )

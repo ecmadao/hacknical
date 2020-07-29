@@ -1,8 +1,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import { InputGroup } from 'light-ui'
 import Hotkeys from 'UTILS/hotkeys'
+import DragAndDrop from 'COMPONENTS/DragAndDrop'
 
 import styles from './writable.css'
 import ListItem from './ListItem'
@@ -50,18 +52,51 @@ class Wrapper extends React.Component {
   }
 
   renderListItems() {
-    const { items, placeholder, name } = this.props
-    return items.map((item, index) => (
-      <ListItem
-        key={index}
-        item={item}
-        id={`WritableList-${name}-${index}`}
-        placeholder={placeholder}
-        onKeyDown={this.onKeyDown(index)}
-        onDelete={this.onDelete(index)}
-        onChange={this.onLabelChange(index)}
-      />
-    ))
+    const {
+      name,
+      items,
+      placeholder,
+      reorderList,
+      itemClassName,
+      containerClassName,
+    } = this.props
+
+    if (reorderList === null) {
+      return items.map((item, index) => (
+        <ListItem
+          key={index}
+          item={item}
+          id={`WritableList-${name}-${index}`}
+          placeholder={placeholder}
+          onKeyDown={this.onKeyDown(index)}
+          onDelete={this.onDelete(index)}
+          onChange={this.onLabelChange(index)}
+        />
+      ))
+    }
+
+    return (
+      <DragAndDrop
+        onDragEnd={reorderList}
+        containerClassName={containerClassName}
+        itemClassName={cx(styles.dragable_item, itemClassName)}
+      >
+        {items.map((item, index) => ({
+          id: `WritableList-${name}-${index}`,
+          Component: (
+            <ListItem
+              key={index}
+              item={item}
+              id={`WritableList-${name}-${index}`}
+              placeholder={placeholder}
+              onKeyDown={this.onKeyDown(index)}
+              onDelete={this.onDelete(index)}
+              onChange={this.onLabelChange(index)}
+            />
+          )
+        }))}
+      </DragAndDrop>
+    )
   }
 
   render() {
@@ -106,10 +141,13 @@ Wrapper.propTypes = {
   items: PropTypes.array,
   placeholder: PropTypes.string,
   defaultIntro: PropTypes.string,
+  itemClassName: PropTypes.string,
+  containerClassName: PropTypes.string,
   introList: PropTypes.array,
   onDelete: PropTypes.func,
   onChange: PropTypes.func,
   name: PropTypes.string,
+  reorderList: PropTypes.func,
 }
 
 Wrapper.defaultProps = {
@@ -117,9 +155,12 @@ Wrapper.defaultProps = {
   name: '',
   placeholder: '',
   defaultIntro: '',
+  itemClassName: '',
+  containerClassName: '',
   introList: [],
   onDelete: Function.prototype,
-  onChange: Function.prototype
+  onChange: Function.prototype,
+  reorderList: null
 }
 
 export default Wrapper

@@ -106,6 +106,9 @@ class WorkProject extends React.Component {
           onAdd={this.addDetail}
           onDelete={this.deleteDetail}
           onChange={this.changeDetail}
+          itemClassName={styles.resume_list_item}
+          containerClassName={styles.resume_list_container}
+          reorderList={this.props.onReorder}
         />
       </div>
     )

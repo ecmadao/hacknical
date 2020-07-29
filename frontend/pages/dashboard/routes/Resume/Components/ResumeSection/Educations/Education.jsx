@@ -24,6 +24,7 @@ class Education extends React.Component {
     this.addExperience = this.addExperience.bind(this)
     this.deleteExperience = this.deleteExperience.bind(this)
     this.changeExperience = this.changeExperience.bind(this)
+    this.reorderExperiences = this.reorderExperiences.bind(this)
     this.onDateChange = this.onDateChange.bind(this)
 
     this.handleSchoolInfoFetch = this.handleSchoolInfoFetch.bind(this)
@@ -53,6 +54,19 @@ class Education extends React.Component {
     handleEduChanged('experiences')(
       [...experiences.slice(0, index), ...experiences.slice(index + 1)]
     )
+  }
+
+  reorderExperiences(order) {
+    const { edu, handleEduChanged } = this.props
+    const { experiences } = edu
+
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+
+    const [experience] = experiences.splice(fromIndex, 1)
+    experiences.splice(toIndex, 0, experience)
+
+    handleEduChanged('experiences')([...experiences])
   }
 
   changeExperience(experience, index) {
@@ -166,6 +180,7 @@ class Education extends React.Component {
               introList={resumeTexts.introList}
               defaultIntro={resumeTexts.introText}
               placeholder={resumeTexts.addEduExperience}
+              reorderList={this.reorderExperiences}
             />
           </div>
         ) : null}

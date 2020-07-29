@@ -2,9 +2,6 @@
 import objectAssign from 'UTILS/object-assign'
 import { SOCIAL_LINKS } from 'UTILS/constant/resume'
 
-export const objectassign = (baseObj, targetObj) =>
-  objectAssign({}, baseObj, targetObj)
-
 export const validateSocialLinks = (socialLinks) => {
   const tmp = {}
   const results = []
