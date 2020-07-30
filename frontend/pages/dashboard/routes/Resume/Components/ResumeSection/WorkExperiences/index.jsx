@@ -21,15 +21,15 @@ class WorkExperiences extends React.Component {
     this.handleProjectDetailReorder = this.handleProjectDetailReorder.bind(this)
   }
 
-  handleExperienceChanged(index) {
+  handleExperienceChanged(workIndex) {
     const { actions } = this.props
     return type => value =>
-      actions.handleWorkExperienceChange({ [type]: value }, index)
+      actions.handleWorkExperienceChange({ [type]: value }, workIndex)
   }
 
-  handleExperienceRemoved(index) {
+  handleExperienceRemoved(workIndex) {
     const { actions } = this.props
-    return () => actions.deleteWorkExperience(index)
+    return () => actions.deleteWorkExperience(workIndex)
   }
 
   handleProjectAdded(workIndex) {
@@ -67,21 +67,21 @@ class WorkExperiences extends React.Component {
 
   renderExperience() {
     const { workExperiences, disabled } = this.props
-    return workExperiences.map((workExperience, index) => (
+    return workExperiences.map((workExperience, workIndex) => (
       <WorkExperience
-        key={index}
-        index={index}
-        isLast={index === workExperiences.length - 1}
+        key={`Work.${workIndex}`}
+        id={`Work.${workIndex}`}
+        isLast={workIndex === workExperiences.length - 1}
         disabled={disabled}
         workExperience={workExperience}
-        handleExperienceReorder={this.handleExperienceReorder(index)}
-        handleProjectRemoved={this.handleProjectRemoved(index)}
-        handleProjectAdded={this.handleProjectAdded(index)}
-        handleProjectChanged={this.handleProjectChanged(index)}
-        handleExperienceChanged={this.handleExperienceChanged(index)}
-        handleExperienceAdded={this.handleExperienceAdded(index + 1)}
-        handleExperienceRemoved={this.handleExperienceRemoved(index)}
-        handleProjectDetailReorder={this.handleProjectDetailReorder(index)}
+        handleExperienceReorder={this.handleExperienceReorder(workIndex)}
+        handleProjectRemoved={this.handleProjectRemoved(workIndex)}
+        handleProjectAdded={this.handleProjectAdded(workIndex)}
+        handleProjectChanged={this.handleProjectChanged(workIndex)}
+        handleExperienceChanged={this.handleExperienceChanged(workIndex)}
+        handleExperienceAdded={this.handleExperienceAdded(workIndex + 1)}
+        handleExperienceRemoved={this.handleExperienceRemoved(workIndex)}
+        handleProjectDetailReorder={this.handleProjectDetailReorder(workIndex)}
       />
     ))
   }

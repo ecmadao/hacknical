@@ -6,17 +6,37 @@ import styles from './dad.css'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 class DragAndDrop extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onDragEnd = this.onDragEnd.bind(this)
+  }
+
+  onDragEnd(order) {
+    const { onDragEnd, onMoveEnd } = this.props
+
+    const { source, destination } = order
+
+    // dropped outside the list
+    if (!destination) return
+
+    if (source.droppableId === destination.droppableId) {
+      return onDragEnd({ source, destination })
+    } else {
+      return onMoveEnd({ source, destination })
+    }
+  }
+
   render() {
     const {
       children,
-      onDragEnd,
+      droppableId,
       itemClassName,
       containerClassName,
     } = this.props
 
     return (
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable">
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable droppableId={droppableId}>
           {(provided, snapshot) => (
             <div
               {...provided.droppableProps}
@@ -57,16 +77,20 @@ class DragAndDrop extends React.Component {
 
 DragAndDrop.propTypes = {
   onDrop: PropTypes.func,
+  onMoveEnd: PropTypes.func,
   children: PropTypes.array,
+  droppableId: PropTypes.string,
   itemClassName: PropTypes.string,
   containerClassName: PropTypes.string
 }
 
 DragAndDrop.defaultProps = {
   onDrop: Function.prototype,
+  onMoveEnd: Function.prototype,
   children: [],
   itemClassName: '',
-  containerClassName: ''
+  containerClassName: '',
+  droppableId: 'droppableId'
 }
 
 export default DragAndDrop;

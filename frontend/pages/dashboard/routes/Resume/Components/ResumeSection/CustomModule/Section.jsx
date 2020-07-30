@@ -24,11 +24,11 @@ class Section extends React.Component {
     handleChange('details')([...details, detail])
   }
 
-  handleDetailRemove(index) {
+  handleDetailRemove(detailIndex) {
     const { section, handleChange } = this.props
     const { details } = section
     handleChange('details')(
-      [...details.slice(0, index), ...details.slice(index + 1)]
+      [...details.slice(0, detailIndex), ...details.slice(detailIndex + 1)]
     )
   }
 
@@ -45,20 +45,20 @@ class Section extends React.Component {
     handleChange('details')([...details])
   }
 
-  handleDetailChange(detail, index) {
+  handleDetailChange(detail, detailIndex) {
     const { section, handleChange } = this.props
     const { details } = section
     handleChange('details')(
       [
-        ...details.slice(0, index),
+        ...details.slice(0, detailIndex),
         detail,
-        ...details.slice(index + 1)
+        ...details.slice(detailIndex + 1)
       ]
     )
   }
 
   render() {
-    const { index, section, disabled, handleDelete, handleChange } = this.props
+    const { id, section, disabled, handleDelete, handleChange } = this.props
     const { details, title, url } = section
     return (
       <div className={styles.resume_piece_container}>
@@ -111,8 +111,9 @@ class Section extends React.Component {
         </div>
         <div className={styles.resume_wrapper}>
           <WritableList
+            id={id}
             items={details}
-            name={`CustomModule-${index}`}
+            name={`WritableList-${id}`}
             onAdd={this.handleDetailAdded}
             onDelete={this.handleDetailRemove}
             onChange={this.handleDetailChange}

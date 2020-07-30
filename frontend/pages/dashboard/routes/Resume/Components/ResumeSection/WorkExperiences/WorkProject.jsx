@@ -23,19 +23,19 @@ class WorkProject extends React.Component {
     })
   }
 
-  deleteDetail(index) {
+  deleteDetail(detailsIndex) {
     const { project, onChange } = this.props
     const { details } = project
     onChange && onChange({
-      details: [...details.slice(0, index), ...details.slice(index + 1)]
+      details: [...details.slice(0, detailsIndex), ...details.slice(detailsIndex + 1)]
     })
   }
 
-  changeDetail(detail, index) {
+  changeDetail(detail, detailsIndex) {
     const { project, onChange } = this.props
     const { details } = project
     onChange && onChange({
-      details: [...details.slice(0, index), detail, ...details.slice(index + 1)]
+      details: [...details.slice(0, detailsIndex), detail, ...details.slice(detailsIndex + 1)]
     })
   }
 
@@ -47,7 +47,7 @@ class WorkProject extends React.Component {
   }
 
   render() {
-    const { index, project, onDelete, disabled } = this.props
+    const { id, project, onDelete, disabled } = this.props
     return (
       <div className={styles.project_container}>
         <div className={styles.project_name_wrapper}>
@@ -98,7 +98,8 @@ class WorkProject extends React.Component {
           />
         </div>
         <WritableList
-          name={`WorkProject-${index}`}
+          id={id}
+          name={`WritableList-${id}`}
           placeholder={resumeTexts.addProjectDesc}
           defaultIntro={resumeTexts.introText}
           introList={resumeTexts.introList}

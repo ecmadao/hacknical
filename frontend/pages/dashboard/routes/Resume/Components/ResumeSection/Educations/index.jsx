@@ -17,36 +17,35 @@ class Educations extends React.Component {
     this.handleEduAdded = this.handleEduAdded.bind(this)
   }
 
-  handleEduChanged(index) {
+  handleEduChanged(eduIndex) {
     const { actions } = this.props
-    return type => (value) => {
-      actions.changeEducation({ [type]: value }, index)
-    }
+    return type => value =>
+      actions.changeEducation({ [type]: value }, eduIndex)
   }
 
-  handleEduRemoved(index) {
+  handleEduRemoved(eduIndex) {
     const { actions } = this.props
-    return () => actions.deleteEducation(index)
+    return () => actions.deleteEducation(eduIndex)
   }
 
-  handleEduAdded(index) {
+  handleEduAdded(eduIndex) {
     const { actions } = this.props
-    return () => actions.addEducation(index)
+    return () => actions.addEducation(eduIndex)
   }
 
   renderEdu() {
     const { educations, disabled, freshGraduate } = this.props
-    return educations.map((edu, index) => (
+    return educations.map((edu, eduIndex) => (
       <Education
         edu={edu}
-        key={index}
-        index={index}
+        key={`Education.${eduIndex}`}
+        id={`Education.${eduIndex}`}
         disabled={disabled}
         freshGraduate={freshGraduate}
-        isLast={index === educations.length - 1}
-        handleEduRemoved={this.handleEduRemoved(index)}
-        handleEduChanged={this.handleEduChanged(index)}
-        handleEduAdded={this.handleEduAdded(index + 1)}
+        isLast={eduIndex === educations.length - 1}
+        handleEduRemoved={this.handleEduRemoved(eduIndex)}
+        handleEduChanged={this.handleEduChanged(eduIndex)}
+        handleEduAdded={this.handleEduAdded(eduIndex + 1)}
       />
     ))
   }

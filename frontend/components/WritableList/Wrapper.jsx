@@ -53,9 +53,9 @@ class Wrapper extends React.Component {
 
   renderListItems() {
     const {
+      id,
       name,
       items,
-      placeholder,
       reorderList,
       itemClassName,
       containerClassName,
@@ -76,6 +76,7 @@ class Wrapper extends React.Component {
 
     return (
       <DragAndDrop
+        droppableId={id}
         onDragEnd={reorderList}
         containerClassName={containerClassName}
         itemClassName={cx(styles.dragable_item, itemClassName)}

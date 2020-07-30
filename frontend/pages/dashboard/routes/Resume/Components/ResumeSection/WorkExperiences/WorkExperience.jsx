@@ -38,7 +38,7 @@ class WorkExperience extends React.Component {
 
   renderWorkProjects(projects) {
     const {
-      index,
+      id,
       disabled,
       handleProjectChanged,
       handleProjectRemoved,
@@ -52,8 +52,8 @@ class WorkExperience extends React.Component {
           id: project.id,
           Component: (
             <WorkProject
-              key={i}
-              index={`Work-${index}-Project-${i}`}
+              key={`${id}.Project.${i}`}
+              id={`${id}.Project.${i}`}
               project={project}
               disabled={disabled}
               onDelete={handleProjectRemoved(i)}

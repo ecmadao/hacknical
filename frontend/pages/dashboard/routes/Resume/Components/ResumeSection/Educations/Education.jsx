@@ -48,11 +48,11 @@ class Education extends React.Component {
     handleEduChanged('experiences')([...experiences, experience])
   }
 
-  deleteExperience(index) {
+  deleteExperience(experienceIndex) {
     const { edu, handleEduChanged } = this.props
     const { experiences } = edu
     handleEduChanged('experiences')(
-      [...experiences.slice(0, index), ...experiences.slice(index + 1)]
+      [...experiences.slice(0, experienceIndex), ...experiences.slice(experienceIndex + 1)]
     )
   }
 
@@ -69,14 +69,14 @@ class Education extends React.Component {
     handleEduChanged('experiences')([...experiences])
   }
 
-  changeExperience(experience, index) {
+  changeExperience(experience, experienceIndex) {
     const { edu, handleEduChanged } = this.props
     const { experiences } = edu
     handleEduChanged('experiences')(
       [
-        ...experiences.slice(0, index),
+        ...experiences.slice(0, experienceIndex),
         experience,
-        ...experiences.slice(index + 1)
+        ...experiences.slice(experienceIndex + 1)
       ]
     )
   }
@@ -94,8 +94,8 @@ class Education extends React.Component {
 
   render() {
     const {
+      id,
       edu,
-      index,
       isLast,
       disabled,
       freshGraduate,
@@ -172,8 +172,9 @@ class Education extends React.Component {
         {freshGraduate ? (
           <div className={styles.resume_wrapper}>
             <WritableList
+              id={id}
               items={experiences}
-              name={`Education-${index}`}
+              name={`WritableList-${id}`}
               onAdd={this.addExperience}
               onDelete={this.deleteExperience}
               onChange={this.changeExperience}

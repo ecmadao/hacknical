@@ -18,9 +18,8 @@ class CustomModule extends React.Component {
 
   handleSectionChange(sectionIndex) {
     const { actions, moduleIndex } = this.props
-    return type => (value) => {
+    return type => value =>
       actions.changeModuleSection({ [type]: value }, moduleIndex, sectionIndex)
-    }
   }
 
   deleteSection(sectionIndex) {
@@ -31,14 +30,14 @@ class CustomModule extends React.Component {
   renderModule() {
     const { module, disabled } = this.props
     const { sections } = module
-    return sections.map((section, index) => (
+    return sections.map((section, sectionIndex) => (
       <Section
-        key={index}
-        index={index}
+        key={`CustomModule.${sectionIndex}`}
+        id={`CustomModule.${sectionIndex}`}
         section={section}
         disabled={disabled}
-        handleDelete={this.deleteSection(index)}
-        handleChange={this.handleSectionChange(index)}
+        handleDelete={this.deleteSection(sectionIndex)}
+        handleChange={this.handleSectionChange(sectionIndex)}
       />
     ))
   }
