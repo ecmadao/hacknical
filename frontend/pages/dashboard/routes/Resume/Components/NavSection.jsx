@@ -10,7 +10,7 @@ import styles from '../styles/resume.css'
 const resumeTexts = locales('resume')
 const { navs, buttons, messages } = resumeTexts
 
-class NavSection  extends React.Component {
+class NavSection extends React.Component {
   constructor(props) {
     super(props)
 

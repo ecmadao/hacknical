@@ -100,7 +100,7 @@ class AvatorModal extends React.Component {
   async onSubmit() {
     const { onSubmit } = this.props
 
-    if (this.state.imageUrl) {
+    if (!this.state.imageUrl) {
       onSubmit && onSubmit('', true)
       return
     }
