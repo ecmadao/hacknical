@@ -1,14 +1,14 @@
 import React from 'react'
-import GitHubWrapper from 'SHARED/components/GitHubWrapper'
+import GitHubWrapperV1 from 'SHARED/components/GitHubWrapper/GitHubWrapperV1'
 import GitHubMobileContent from './GitHubMobileContent'
 
 const GitHubMobileComponent = props => (
-  <GitHubWrapper
+  <GitHubWrapperV1
     login={props.login}
     isShare={props.isShare}
   >
     <GitHubMobileContent {...props} />
-  </GitHubWrapper>
+  </GitHubWrapperV1>
 )
 
 GitHubMobileComponent.defaultProps = {

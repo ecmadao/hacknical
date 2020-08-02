@@ -1,15 +1,15 @@
 
 import React from 'react'
-import GitHubWrapper from 'SHARED/components/GitHubWrapper'
+import GitHubWrapperV2 from 'SHARED/components/GitHubWrapper/GitHubWrapperV2'
 import GitHubContent from './GitHubContent'
 
 const GitHubComponent = props => (
-  <GitHubWrapper
+  <GitHubWrapperV2
     login={props.login}
     isShare={props.isShare}
   >
     <GitHubContent {...props} />
-  </GitHubWrapper>
+  </GitHubWrapperV2>
 )
 
 GitHubComponent.defaultProps = {

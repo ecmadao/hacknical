@@ -123,7 +123,7 @@ const getDataFetchMethodBySection = (sectionId) => {
   }
 }
 
-class GitHubWrapper extends React.Component {
+class GitHubWrapperV2 extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -371,10 +371,10 @@ class GitHubWrapper extends React.Component {
   }
 }
 
-GitHubWrapper.defaultProps = {
+GitHubWrapperV2.defaultProps = {
   isShare: false,
   login: window.login,
   isAdmin: window.isAdmin === 'true'
 }
 
-export default GitHubWrapper
+export default GitHubWrapperV2
