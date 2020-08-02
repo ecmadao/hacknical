@@ -5,6 +5,7 @@ const logout = () => API.get('/user/logout')
 
 const getUserInfo = login => API.get('/user/info', { login })
 const patchUserInfo = info => API.patch('/user/info', { info })
+const getGitHubSections = login => API.get('/user/github', { login })
 
 const initialed = () => API.patch('/user/initialed')
 
@@ -17,6 +18,7 @@ export default {
   initialed,
   getUserInfo,
   patchUserInfo,
+  getGitHubSections,
   // notify
   markNotifies,
   getNotifies,

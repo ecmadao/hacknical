@@ -26,8 +26,8 @@ class RepositoryInfo extends React.Component {
   }
 
   componentDidUpdate(preProps) {
-    const { commitDatas } = this.props
-    const preCommits = preProps.commitDatas
+    const { commitDatas } = this.props.data
+    const preCommits = preProps.data.commitDatas
 
     if (!preCommits.length && commitDatas.length) {
       this.reposReviewChart && this.reposReviewChart.destroy()
@@ -37,7 +37,7 @@ class RepositoryInfo extends React.Component {
   }
 
   renderCharts() {
-    const { ownedRepositories, forkedRepositories } = this.props
+    const { ownedRepositories, forkedRepositories } = this.props.data
     if (ownedRepositories.length || forkedRepositories.length) {
       !this.reposForksChart && this.renderReposForksChart()
       ownedRepositories.length && !this.reposStarsChart && this.renderReposStarsChart()
@@ -46,7 +46,7 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposForksChart() {
-    const { ownedRepositories, forkedRepositories } = this.props
+    const { ownedRepositories, forkedRepositories } = this.props.data
     this.reposForksChart = new Chart(this.reposForks, {
       type: 'doughnut',
       data: {
@@ -64,7 +64,7 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposStarsChart() {
-    const { ownedRepositories } = this.props
+    const { ownedRepositories } = this.props.data
     const datas = []
     const labels = []
     const colors = []
@@ -89,7 +89,7 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposReviewChart(ownedRepositories) {
-    const { commitDatas } = this.props
+    const { commitDatas } = this.props.data
     const datasets = [
       chart.repos.starsDatasets(ownedRepositories),
       chart.repos.forksDatasets(ownedRepositories)
@@ -130,7 +130,7 @@ class RepositoryInfo extends React.Component {
   }
 
   renderChartInfo() {
-    const { ownedRepositories } = this.props
+    const { ownedRepositories } = this.props.data
     if (!ownedRepositories.length) return null
 
     const [totalStar, totalFork] = github.getTotalCount(ownedRepositories)
@@ -186,7 +186,8 @@ class RepositoryInfo extends React.Component {
   }
 
   renderReposReview() {
-    const { ownedRepositories, forkedRepositories, loaded } = this.props
+    const { ownedRepositories, forkedRepositories } = this.props.data
+    const { loaded } = this.props;
     const chartContainer = cx(
       githubStyles.repos_chart_container,
       githubStyles.with_chart,
@@ -238,9 +239,12 @@ class RepositoryInfo extends React.Component {
     const {
       loaded,
       className,
+    } = this.props
+    const {
       ownedRepositories,
       forkedRepositories,
-    } = this.props
+    } = this.props.data
+
     let component
     if (!loaded) {
       component = (<Loading loading />)
@@ -260,8 +264,11 @@ class RepositoryInfo extends React.Component {
 
 RepositoryInfo.defaultProps = {
   className: '',
-  forkedRepositories: [],
-  ownedRepositories: [],
+  data: {
+    commitDatas: [],
+    forkedRepositories: [],
+    ownedRepositories: [],
+  },
   loaded: false
 }
 

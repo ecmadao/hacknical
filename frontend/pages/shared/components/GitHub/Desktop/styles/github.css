@@ -97,3 +97,11 @@
   right: 20%;
   z-index: 11;
 }
+
+.dragable_container {
+  background-color: var(--bg);
+}
+
+.dragable_item {
+  background-color: var(--bg);
+}

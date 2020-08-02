@@ -325,6 +325,11 @@
   }
 }
 
+.resume_piece_container_dragable {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 .resume_piece_container {
   padding: 0 50px 15px;
   position: relative;

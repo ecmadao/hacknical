@@ -13,10 +13,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  &::after {
+    transform: translate(10px,10px) !important;
+  }
 }
 
 .cardBg {
   width: 100%;
+  transform: initial !important;
 }
 
 .info_container_wrapper {
@@ -30,6 +35,13 @@
 
 .subSection {
   background-color: var(--oc-gray-1) !important;
+}
+
+.subDragableWrapper {
+}
+
+.subDragableSection {
+  padding: 0 !important;
 }
 
 .inputContainer {

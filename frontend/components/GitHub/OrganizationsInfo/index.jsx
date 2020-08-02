@@ -27,9 +27,9 @@ class OrganizationsInfo extends React.Component {
   }
 
   componentDidUpdate(preProps) {
-    const { userLogin, login } = this.props
-    if (!preProps.login && login) {
-      this.getGithubOrganizations(userLogin)
+    const { data } = this.props
+    if (!preProps.data && data) {
+      this.getGithubOrganizations(data)
     }
   }
 
@@ -194,13 +194,13 @@ class OrganizationsInfo extends React.Component {
 
 OrganizationsInfo.propTypes = {
   className: PropTypes.string,
-  userLogin: PropTypes.string,
+  data: PropTypes.string,
   login: PropTypes.string,
 }
 
 OrganizationsInfo.defaultProps = {
   login: '',
-  userLogin: '',
+  data: '',
   className: ''
 }
 

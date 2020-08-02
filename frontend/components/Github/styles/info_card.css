@@ -37,6 +37,7 @@
 .info_card_container {
   position: relative;
   composes: card_container from 'STYLES/common.css';
+  margin: 10px 0 !important;
 }
 
 .container {

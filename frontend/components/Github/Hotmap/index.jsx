@@ -26,17 +26,16 @@ class Hotmap extends React.Component {
   }
 
   renderHotmap() {
-    const { loaded, hotmap } = this.props
+    const { loaded, data } = this.props
     if (!loaded) return
 
     this.githubCalendar = true
     const local = formatLocale()
     const cal = new CalHeatMap()
     const {
-      start,
       datas,
       levelRanges
-    } = hotmap
+    } = data
 
     cal.init({
       domain: 'month',
@@ -59,14 +58,14 @@ class Hotmap extends React.Component {
   }
 
   renderCardGroup() {
-    const { renderCards, hotmap } = this.props
-    if (!hotmap.datas || !renderCards) return null
+    const { renderCards, data } = this.props
+    if (!data.datas || !renderCards) return null
     const {
       end,
       start,
       total,
       streak,
-    } = hotmap
+    } = data
 
     return (
       <CardGroup
@@ -158,7 +157,15 @@ class Hotmap extends React.Component {
 Hotmap.defaultProps = {
   login: '',
   className: '',
-  renderCards: true
+  renderCards: true,
+  data: {
+    end: '',
+    start: '',
+    total: '',
+    streak: '',
+    datas: [],
+    levelRanges: []
+  }
 }
 
 export default Hotmap

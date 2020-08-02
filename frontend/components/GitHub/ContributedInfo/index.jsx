@@ -24,9 +24,9 @@ class ContributedInfo extends React.Component {
   }
 
   componentDidUpdate(preProps) {
-    const { userLogin, login } = this.props
-    if (!preProps.login && login) {
-      this.getGithubContributed(userLogin)
+    const { data } = this.props
+    if (!preProps.data && data) {
+      this.getGithubContributed(data)
     }
   }
 
@@ -109,13 +109,13 @@ class ContributedInfo extends React.Component {
 
 ContributedInfo.propTypes = {
   className: PropTypes.string,
-  userLogin: PropTypes.string,
+  data: PropTypes.string,
   login: PropTypes.string
 }
 
 ContributedInfo.defaultProps = {
   login: '',
-  userLogin: '',
+  data: '',
   className: ''
 }
 

@@ -61,7 +61,7 @@ const datas = {
     },
     course: {
       emptyText: 'No repositories info, please refresh in settings',
-      title: 'Code Course',
+      title: 'Coding timeline',
       emptyCommit: 'Let it be',
       tipso: 'Repositories commit in the last year (only show top 10 repositories by commit amount)'
     },

@@ -10,17 +10,15 @@ import { REMOTE_ASSETS } from 'UTILS/constant'
 const updateMsg = locales('github.message.update')
 
 const {
-  toggleGithubModal,
   toggleSettingLoading,
   setUpdateStatus,
   initialResumeShareInfo,
   initialGithubShareInfo
 } = createActions(
-  'TOGGLE_GITHUB_MODAL',
   'TOGGLE_SETTING_LOADING',
   'SET_UPDATE_STATUS',
   'INITIAL_RESUME_SHARE_INFO',
-  'INITIAL_GITHUB_SHARE_INFO',
+  'INITIAL_GITHUB_SHARE_INFO'
 )
 
 // github data update
@@ -95,20 +93,41 @@ const postResumeReminderChange = (key, value) => (dispatch, getState) => {
   })
 }
 
-const postResumeShareSection = (section, checked) => (dispatch, getState) => {
+const patchResumeGitHubSection = (sectionIndex, checked) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting
-  const github = objectAssign({}, resumeInfo.github, { [section]: checked })
+  const githubSections = [
+    ...resumeInfo.githubSections.slice(0, sectionIndex),
+    objectAssign({}, resumeInfo.githubSections[sectionIndex], { enabled: checked }),
+    ...resumeInfo.githubSections.slice(sectionIndex + 1),
+  ]
 
-  API.resume.patchResumeInfo({ github }).then(() => {
+  API.resume.patchResumeInfo({ githubSections }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      github
+      githubSections
+    })))
+  })
+}
+
+const reorderResumeGitHubSections = order => (dispatch, getState) => {
+  const { resumeInfo } = getState().setting
+  const { githubSections } = resumeInfo
+
+  const fromIndex = order.source.index
+  const toIndex = order.destination.index
+  if (toIndex === fromIndex) return
+
+  const [githubSection] = githubSections.splice(fromIndex, 1)
+  githubSections.splice(toIndex, 0, githubSection)
+
+  API.resume.patchResumeInfo({ githubSections }).then(() => {
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
+      githubSections
     })))
   })
 }
 
 export default {
   // github
-  toggleGithubModal,
   toggleSettingLoading,
   setUpdateStatus,
   fetchGithubUpdateStatus,
@@ -121,6 +140,7 @@ export default {
   initialResumeShareInfo,
   fetchResumeShareInfo,
   postResumeReminderChange,
-  postResumeShareSection,
-  patchResumeInfo
+  patchResumeGitHubSection,
+  patchResumeInfo,
+  reorderResumeGitHubSections
 }

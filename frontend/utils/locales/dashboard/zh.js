@@ -83,6 +83,18 @@ const datas = {
         confirm: '确认',
         checkAll: '全选',
         filter: '筛选仓库'
+      },
+      ordering: '各模块排序与展示',
+      orderingTip: '拖拽排序模块展示顺序；点击某一行，可改变其在分享页面中的可见性',
+      sections: {
+        hotmap: '提交热力图',
+        info: '基本信息',
+        repos: '仓库概览',
+        course: '编码历程',
+        languages: '编程语言概览',
+        orgs: '组织信息',
+        contributed: '对他人仓库的贡献',
+        commits: 'commit 概览',
       }
     },
     resume: {
@@ -91,13 +103,6 @@ const datas = {
       simplifyUrl: '使用简化的公开链接',
       simplifyUrlTip: '关闭之后，无法再通过 :login/resume 链接访问公开简历，而转为更加私密的 resume/:hash',
       useGithub: '在简历中附加我的 GitHub 分析报告',
-      showHotmap: '展示 提交信息热点图',
-      showRepos: '展示 仓库概览',
-      showCourse: '展示 编码历程',
-      showOrgs: '展示 组织信息',
-      showLanguages: '展示 语言概览',
-      showCommits: '展示 commit 概览',
-      showContributed: '展示 对他人仓库的贡献',
       autosave: '编辑时自动保存',
       reminder: {
         title: '定期提醒我维护简历',

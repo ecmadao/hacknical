@@ -103,7 +103,7 @@ class ResumeUIWrapper extends React.Component {
   renderGitHub() {
     const { showGithub } = this.state
     const { shareInfo, login } = this.props
-    const { useGithub, github } = shareInfo
+    const { useGithub } = shareInfo
 
     return useGithub && showGithub ? (
       <div className={styles.container}>
@@ -122,7 +122,6 @@ class ResumeUIWrapper extends React.Component {
           <AsyncGithub
             isShare
             login={login}
-            githubSection={github}
             cardClass={styles.githubCard}
           />
         </div>

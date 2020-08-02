@@ -83,6 +83,18 @@ const datas = {
         confirm: 'Confirm',
         checkAll: 'Check all',
         filter: 'Filter repositories'
+      },
+      ordering: 'Module sequence and visibility',
+      orderingTip: 'Drag and drop to reorder; Click the row to toggle the visibility in sharing page',
+      sections: {
+        hotmap: 'Commit hotmap',
+        info: 'Basic info',
+        repos: 'Repos preview',
+        course: 'Coding timeline',
+        languages: 'Coding languages',
+        orgs: 'Organizations info',
+        contributed: 'Contributions',
+        commits: 'Commit info',
       }
     },
     resume: {
@@ -91,13 +103,6 @@ const datas = {
       simplifyUrl: 'Use simplify share url',
       simplifyUrlTip: 'Can\'t visit public :login/resume page if closed, using resume/:hash instead',
       useGithub: 'Use GitHub analysis in resume',
-      showHotmap: 'Show hotmap',
-      showRepos: 'Show repos',
-      showCourse: 'Show course',
-      showOrgs: 'Show orgs',
-      showLanguages: 'Show languages',
-      showCommits: 'Show commits',
-      showContributed: 'Show contributed repos',
       autosave: 'Auto save when editing resume',
       reminder: {
         title: 'Remind me update my resume',

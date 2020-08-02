@@ -32,9 +32,10 @@ class GitHubSection extends React.Component {
   }
 
   handleMenuClick() {
-    const { section, sectionStatus } = this.props
+    const { section, enabled } = this.props
     this.onMenuClick({
-      [section]: !sectionStatus
+      id: section,
+      enabled: !enabled
     })
   }
 
@@ -45,12 +46,12 @@ class GitHubSection extends React.Component {
   }
 
   get operationItems() {
-    const { sectionStatus = true } = this.props
+    const { enabled = true } = this.props
     return [
       {
-        icon: sectionStatus ? 'eye-slash' : 'eye',
+        icon: enabled ? 'eye-slash' : 'eye',
         className: cardStyles.card_operation_item,
-        text: sectionStatus ? operationTexts.share.hide : operationTexts.share.show,
+        text: enabled ? operationTexts.share.hide : operationTexts.share.show,
         onClick: this.handleMenuClick
       }
     ]
@@ -58,20 +59,19 @@ class GitHubSection extends React.Component {
 
   render() {
     const {
-      hide,
       intro,
       title,
       status,
       section,
       isShare,
-      disabled,
+      enabled,
       className,
       canOperate,
       cardClass,
       onTransitionEnd
     } = this.props
     const { showOperations } = this.state
-    if (hide) return <EmptyDOM />
+
     const Section = config[section] || EmptyDOM
 
     return (
@@ -100,9 +100,9 @@ class GitHubSection extends React.Component {
           ) : null}
         </div>
         <BaseSection
-          disabled={disabled}
+          disabled={!enabled}
           cardClass={cardClass}
-          handleClick={this.handleMenuClick}
+          onClick={this.handleMenuClick}
         >
           <Section {...this.props} />
         </BaseSection>
@@ -125,8 +125,7 @@ class GitHubSection extends React.Component {
 
 GitHubSection.propTypes = {
   section: PropTypes.string,
-  disabled: PropTypes.bool,
-  hide: PropTypes.bool,
+  enabled: PropTypes.bool,
   isShare: PropTypes.bool,
   canOperate: PropTypes.bool,
   show: PropTypes.bool,
@@ -140,8 +139,7 @@ GitHubSection.propTypes = {
 
 GitHubSection.defaultProps = {
   section: Object.keys(config)[0],
-  disabled: false,
-  hide: false,
+  enabled: false,
   isShare: false,
   canOperate: true,
   show: true,

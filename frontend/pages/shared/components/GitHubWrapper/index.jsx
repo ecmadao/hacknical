@@ -10,64 +10,176 @@ import { removeDOM } from 'UTILS/helper'
 import formatHotmap from 'UTILS/hotmap'
 import message from 'UTILS/message'
 import refresher from 'UTILS/refresher'
+import {
+  GITHUB_SECTIONS,
+  DEFAULT_GITHUB_SECTIONS,
+  getGitHubSectionIntroById,
+  getGitHubSectionDefaultDataById
+} from 'UTILS/constant'
 
 polyfill()
 
 const githubMsg = locales('github.message')
-
 const sortByLanguageStar = github.sortByX({ key: 'stargazers_count' })
+
+const fetchHotmap = async (login) => {
+  const result = await API.github.getUserHotmap(login)
+  const hotmap = formatHotmap(result)
+  return hotmap
+}
+
+const fetchRepositories = async (login = '') => {
+  const [
+    repositories,
+    commitRes,
+  ] = await Promise.all([
+    API.github.getRepositories(login),
+    API.github.getCommits(login)
+  ])
+
+  const forkedRepositories = []
+  const ownedRepositories = []
+
+  for (const repository of repositories) {
+    if (repository.fork) {
+      forkedRepositories.push(repository)
+    } else {
+      ownedRepositories.push(repository)
+    }
+  }
+
+  return {
+    ownedRepositories,
+    forkedRepositories,
+    commitDatas: commitRes ? [...commitRes.commits] : [],
+  }
+}
+
+const fetchCourse = async (login = '') => {
+  const [
+    repositories,
+    commitRes,
+  ] = await Promise.all([
+    API.github.getRepositories(login),
+    API.github.getCommits(login)
+  ])
+
+  return {
+    repositories: repositories.filter(repo => !repo.fork),
+    commitDatas: commitRes ? [...commitRes.commits] : [],
+  }
+}
+
+const fetchGithubRepositories = async (login = '') => {
+  const [
+    repositories,
+    languages
+  ] = await Promise.all([
+    API.github.getRepositories(login),
+    API.github.getLanguages(login)
+  ])
+
+  return {
+    languages,
+    languageUsed: github.getLanguageUsed(repositories),
+    languageSkills: github.getLanguageSkill(repositories),
+    repositories: [...repositories.sort(sortByLanguageStar)],
+    languageDistributions: github.getLanguageDistribution(repositories)
+  }
+}
+
+const fetchGithubCommits = async (login = '') => {
+  const result = await API.github.getCommits(login)
+
+  const {
+    commits = [],
+    formatCommits = {}
+  } = (result || {})
+  return {
+    commitDatas: [...commits],
+    commitInfos: formatCommits
+  }
+}
+
+const getDataFetchMethodBySection = (sectionId) => {
+  switch (sectionId) {
+    case GITHUB_SECTIONS.HOTMAP:
+      return fetchHotmap
+    case GITHUB_SECTIONS.INFO:
+      return API.github.getUser
+    case GITHUB_SECTIONS.REPOS:
+      return fetchRepositories
+    case GITHUB_SECTIONS.TIMELINE:
+      return fetchCourse
+    case GITHUB_SECTIONS.LANGUAGES:
+      return fetchGithubRepositories
+    case GITHUB_SECTIONS.ORGS:
+    case GITHUB_SECTIONS.CONTRIBUTIONS:
+      return login => login
+    case GITHUB_SECTIONS.COMMITS:
+      return fetchGithubCommits
+    default:
+      throw new Error(`unknown section id: ${sectionId}`)
+  }
+}
 
 class GitHubWrapper extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       loading: true,
-      languages: {},
-      chosedRepos: [],
-      commitDatas: [],
-      commitInfos: {
-        dailyCommits: [],
-        total: 0,
-        commits: []
-      },
-      repositories: [],
-      openModal: false,
-      commitLoaded: false,
-      repositoriesLoaded: false,
-      statisticLoaded: false,
       user: objectAssign({}, USER),
+      chosedRepos: [],
+      openModal: false,
       scientific: {
         statistic: null,
         predictions: []
       },
-      languageUsed: {},
-      languageSkills: {},
-      languageDistributions: {},
-      hotmapLoaded: false,
-      hotmap: {
-        start: null,
-        end: null,
-        datas: null,
-        total: null,
-        streak: null
-      }
+      githubSections: [],
     }
 
     this.onRefresh = this.onRefresh.bind(this)
     this.setRefreshStatus = this.setRefreshStatus.bind(this)
     this.changeShareStatus = this.changeShareStatus.bind(this)
+    this.toggleGitHubSection = this.toggleGitHubSection.bind(this)
+    this.reorderGitHubSections = this.reorderGitHubSections.bind(this)
   }
 
   componentDidMount() {
     const { login } = this.props
     this.fetchGithubUser(login)
-    this.fetchGithubUser(login)
-    this.fetchLanguages(login)
-    this.fetchGithubCommits(login)
-    this.fetchGithubRepositories(login)
+    this.fetchGitHubSections(login)
     this.fetchUpdateStatus()
-    this.fetchHotmap(login)
     removeDOM('#loading', { async: true })
+  }
+
+  async fetchGitHubSections(login = '') {
+    const { isShare } = this.props
+    const sectionData = await API.user.getGitHubSections(login)
+
+    const githubSections = (sectionData || [...DEFAULT_GITHUB_SECTIONS]).reduce((sections, section) => {
+      if (!section.enabled && isShare) return sections
+      sections.push(
+        objectAssign({}, section, {
+          loading: true,
+          data: getGitHubSectionDefaultDataById(section.id)
+        }, getGitHubSectionIntroById(section.id))
+      )
+      return sections
+    }, [])
+
+    this.setState({
+      githubSections: [...githubSections]
+    })
+
+    const res = []
+    await Promise.all(githubSections.map(async (section, index) => {
+      const fetchMethod = getDataFetchMethodBySection(section.id)
+      const data = await fetchMethod(login)
+      res[index] = objectAssign({}, section, { data, loading: false })
+    }))
+
+    this.setState({ githubSections: res })
   }
 
   async fetchGithubStatistic(login = '') {
@@ -92,38 +204,59 @@ class GitHubWrapper extends React.Component {
     this.setState({ user, loading: false })
   }
 
-  async fetchGithubRepositories(login = '') {
-    const repositories = await API.github.getRepositories(login)
-    this.setState({
-      repositoriesLoaded: true,
-      languageUsed: github.getLanguageUsed(repositories),
-      languageSkills: github.getLanguageSkill(repositories),
-      repositories: [...repositories.sort(sortByLanguageStar)],
-      languageDistributions: github.getLanguageDistribution(repositories)
-    })
-  }
-
-  async fetchGithubCommits(login = '') {
-    const result = await API.github.getCommits(login)
-    this.setGithubCommits(result)
-  }
-
-  async fetchLanguages(login = '') {
-    const result = await API.github.getLanguages(login)
-    this.setState({ languages: result })
-  }
-
-  async fetchHotmap(login) {
-    const result = await API.github.getUserHotmap(login)
-    const hotmap = formatHotmap(result)
-    if (hotmap) this.setState({ hotmap, hotmapLoaded: true })
-  }
-
   async fetchUpdateStatus() {
     const { isAdmin } = this.props
     if (!isAdmin) return
     const result = await API.github.getUpdateStatus()
     this.setRefreshStatus(result)
+  }
+
+  reorderGitHubSections(order) {
+    const { isShare, isAdmin } = this.props
+    if (isShare || !isAdmin) return
+
+    const { githubSections } = this.state
+
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+    if (toIndex === fromIndex) return
+
+    const [githubSection] = githubSections.splice(fromIndex, 1)
+    githubSections.splice(toIndex, 0, githubSection)
+
+    API.resume.patchResumeInfo({
+      githubSections: githubSections.map(section => ({
+        id: section.id,
+        enabled: section.enabled
+      }))
+    }).then(() => {
+      this.setState({
+        githubSections: [...githubSections]
+      })
+    })
+  }
+
+  toggleGitHubSection(index, section) {
+    const { isShare, isAdmin } = this.props
+    if (isShare || !isAdmin) return
+
+    const { githubSections } = this.state
+    const sections = [
+      ...githubSections.slice(0, index),
+      objectAssign({}, githubSections[index], section),
+      ...githubSections.slice(index + 1)
+    ]
+
+    API.resume.patchResumeInfo({
+      githubSections: sections.map(section => ({
+        id: section.id,
+        enabled: section.enabled
+      }))
+    }).then(() => {
+      this.setState({
+        githubSections: sections
+      })
+    })
   }
 
   setRefreshStatus(data) {
@@ -159,20 +292,6 @@ class GitHubWrapper extends React.Component {
       refreshEnable: false
     })
     API.github.update().then(() => this.createHeartBeat())
-  }
-
-  setGithubCommits(result) {
-    if (!result) return
-
-    const {
-      commits = [],
-      formatCommits = {}
-    } = result
-    this.setState({
-      commitLoaded: true,
-      commitDatas: [...commits],
-      commitInfos: formatCommits
-    })
   }
 
   onPredictionUpdate(index, liked) {
@@ -238,11 +357,15 @@ class GitHubWrapper extends React.Component {
   }
 
   render() {
-    const { children } = this.props
+    const { children, login, isShare } = this.props
 
     const component = cloneElement(children, {
       ...this.state,
-      onRefresh: this.onRefresh
+      login,
+      isShare,
+      onRefresh: this.onRefresh,
+      toggleGitHubSection: this.toggleGitHubSection,
+      reorderGitHubSections: this.reorderGitHubSections,
     })
     return component
   }

@@ -52,7 +52,7 @@ class CommitInfo extends React.Component {
   }
 
   renderCharts() {
-    const { commitInfos } = this.props
+    const { commitInfos } = this.props.data
     const { dailyCommits } = commitInfos
     if (dailyCommits.length) {
       !this.commitsWeeklyReviewChart && this.renderWeeklyChart()
@@ -61,7 +61,7 @@ class CommitInfo extends React.Component {
 
   get yearlyChartDatas() {
     const { chartType } = this.state
-    const { commitInfos } = this.props
+    const { commitInfos } = this.props.data
     const { commits } = commitInfos
 
     /* weekly commits chart view */
@@ -155,7 +155,7 @@ class CommitInfo extends React.Component {
   }
 
   renderWeeklyChart() {
-    const { commitInfos } = this.props
+    const { commitInfos } = this.props.data
     const { dailyCommits } = commitInfos
 
     this.commitsWeeklyReviewChart = new Chart(this.commitsWeeklyChart, {
@@ -193,7 +193,7 @@ class CommitInfo extends React.Component {
   }
 
   renderChartInfo() {
-    const { commitDatas, commitInfos } = this.props
+    const { commitDatas, commitInfos } = this.props.data
     const {
       total,
       commits,
@@ -364,12 +364,13 @@ class CommitInfo extends React.Component {
   }
 
   render() {
-    const { loaded, className, hasCommits } = this.props
-    let component
+    const { loaded, className } = this.props
+    const { commitDatas } = this.props.data
 
+    let component
     if (!loaded) {
       component = (<Loading loading />)
-    } else if (!hasCommits) {
+    } else if (commitDatas.length === 0) {
       component = (
         <div className={cardStyles.empty_card}>{githubTexts.emptyText}</div>
       )
@@ -387,10 +388,11 @@ class CommitInfo extends React.Component {
 
 CommitInfo.defaultProps = {
   loaded: false,
-  hasCommits: false,
   className: '',
-  commitInfos: {},
-  commitDatas: []
+  data: {
+    commitInfos: {},
+    commitDatas: [],
+  }
 }
 
 export default CommitInfo

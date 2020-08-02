@@ -14,7 +14,9 @@ import Panel from '../../shared/Panel'
 import InputPanel from '../../shared/InputPanel'
 import CheckPanel from '../../shared/CheckPanel'
 import SwitcherPanel from '../../shared/SwitcherPanel'
+import TextPanel from '../../shared/TextPanel'
 import Icon from 'COMPONENTS/Icon'
+import DragAndDrop from 'COMPONENTS/DragAndDrop'
 
 const settingTexts = locales('dashboard.setting')
 
@@ -38,86 +40,58 @@ class DesktopSetting extends React.Component {
     actions.fetchGithubShareInfo()
   }
 
-  renderGithubShareSectionsSetting() {
+  renderGithubSectionsOrdering() {
     const { resumeInfo, actions } = this.props
-    const shareSection = section => checked =>
-      actions.postResumeShareSection(section, checked)
+    const shareSection = sectionIndex => checked =>
+      actions.patchResumeGitHubSection(sectionIndex, checked)
 
-    if (resumeInfo.useGithub && resumeInfo.github) {
-      return (
-        <Panel key="resumeGithubSetting-2">
-          <CheckPanel
-            className={styles['subSection-clickable']}
-            text={settingTexts.resume.showHotmap}
-            checked={resumeInfo.github.hotmap}
-            onChange={shareSection('hotmap')}
-          />
-          <CheckPanel
-            className={styles['subSection-clickable']}
-            text={settingTexts.resume.showRepos}
-            checked={resumeInfo.github.repos}
-            onChange={shareSection('repos')}
-          />
-          <CheckPanel
-            className={styles['subSection-clickable']}
-            text={settingTexts.resume.showCourse}
-            checked={resumeInfo.github.course}
-            onChange={shareSection('course')}
-          />
-          <CheckPanel
-            className={styles['subSection-clickable']}
-            text={settingTexts.resume.showOrgs}
-            checked={resumeInfo.github.orgs}
-            onChange={shareSection('orgs')}
-          />
-          <CheckPanel
-            className={styles['subSection-clickable']}
-            text={settingTexts.resume.showLanguages}
-            checked={resumeInfo.github.languages}
-            onChange={shareSection('languages')}
-          />
-          <CheckPanel
-            className={styles['subSection-clickable']}
-            text={settingTexts.resume.showCommits}
-            checked={resumeInfo.github.commits}
-            onChange={shareSection('commits')}
-          />
-          <CheckPanel
-            className={styles['subSection-clickable']}
-            text={settingTexts.resume.showContributed}
-            checked={resumeInfo.github.contributed}
-            onChange={shareSection('contributed')}
-          />
-        </Panel>
-      )
-    }
-    return null
+    return [
+      <Panel key="GithubSectionSetting-1">
+        <TextPanel
+          id="github-ordering-panel"
+          tipso={settingTexts.github.orderingTip}
+          text={settingTexts.github.ordering}
+        />
+      </Panel>,
+      <Panel key="GithubSectionSetting-2">
+        <DragAndDrop
+          droppableId="GithubSection-DAD"
+          itemClassName={styles.subDragableSection}
+          containerClassName={styles.subDragableWrapper}
+          onDragEnd={order => actions.reorderResumeGitHubSections(order)}
+        >
+          {resumeInfo.githubSections.map((section, sectionIndex) => ({
+            id: section.id,
+            Component: (
+              <CheckPanel
+                key={section.id}
+                className={styles['subSection-clickable']}
+                text={settingTexts.github.sections[section.id]}
+                checked={section.enabled}
+                onChange={shareSection(sectionIndex)}
+              />
+            )
+          }))}
+        </DragAndDrop>
+      </Panel>
+    ]
   }
 
   renderResumeGithubSetting() {
     const { resumeInfo, actions, switcher } = this.props
-    const panels = []
 
-    if (resumeInfo) {
-      panels.push((
-        <Panel key="resumeGithubSetting-1">
-          <SwitcherPanel
-            switcher={switcher}
-            id="use-github-switch"
-            text={settingTexts.resume.useGithub}
-            onChange={() => actions.patchResumeInfo('useGithub')}
-            checked={(resumeInfo && resumeInfo.useGithub) || false}
-            disabled={resumeInfo.loading}
-          />
-        </Panel>
-      ))
-    }
-    if (!resumeInfo.loading && resumeInfo.useGithub) {
-      panels.push(
-        this.renderGithubShareSectionsSetting()
-      )
-    }
-    return panels
+    return (
+      <Panel key="resumeGithubSetting-1">
+        <SwitcherPanel
+          switcher={switcher}
+          id="use-github-switch"
+          text={settingTexts.resume.useGithub}
+          onChange={() => actions.patchResumeInfo('useGithub')}
+          checked={(resumeInfo && resumeInfo.useGithub) || false}
+          disabled={resumeInfo.loading}
+        />
+      </Panel>
+    )
   }
 
   onReminderChange({ indexs }) {
@@ -297,6 +271,7 @@ class DesktopSetting extends React.Component {
               />
             </Panel>
             {this.renderSharedLink()}
+            {this.renderGithubSectionsOrdering()}
             <Panel>
               {loading && (
                 <Loading className={styles.info_loading} loading />
@@ -349,6 +324,9 @@ DesktopSetting.defaultProps = {
   switcher: {
     size: 'normal',
     version: 'v2'
+  },
+  resumeInfo: {
+    github: {}
   },
   className: '',
   cardHeaderClass: ''

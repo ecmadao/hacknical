@@ -2,6 +2,7 @@
 import { handleActions } from 'redux-actions'
 import objectAssign from 'UTILS/object-assign'
 import dateHelper from 'UTILS/date'
+import { DEFAULT_GITHUB_SECTIONS } from 'UTILS/constant'
 
 const initialState = {
   loading: true,
@@ -13,32 +14,21 @@ const initialState = {
     loading: true,
     useGithub: false,
     openShare: false,
-    github: {},
     reminder: {},
     disabled: true,
     simplifyUrl: true,
+    githubSections: []
   },
   githubInfo: {
     url: '',
     loading: true,
     openShare: true,
-    openModal: false,
-    disabled: true,
+    disabled: true
   }
 }
 
 const reducers = handleActions({
   // github
-  TOGGLE_GITHUB_MODAL(state, action) {
-    const { githubInfo } = state
-    return ({
-      ...state,
-      githubInfo: objectAssign({}, githubInfo, {
-        openModal: action.payload
-      })
-    })
-  },
-
   TOGGLE_SETTING_LOADING(state, action) {
     return ({
       ...state,
@@ -75,13 +65,16 @@ const reducers = handleActions({
 
   // resume
   INITIAL_RESUME_SHARE_INFO(state, action) {
-    const { resumeInfo } = state
+    const { resumeInfo = {} } = state
+    const payload = action.payload || {}
+
     return ({
       ...state,
-      resumeInfo: objectAssign({}, resumeInfo || {}, action.payload || {}, {
+      resumeInfo: objectAssign({}, resumeInfo, payload, {
         loading: false,
-        disabled: false
-      })
+        disabled: false,
+        githubSections: payload.githubSections || [...DEFAULT_GITHUB_SECTIONS]
+      }),
     })
   }
 }, initialState)

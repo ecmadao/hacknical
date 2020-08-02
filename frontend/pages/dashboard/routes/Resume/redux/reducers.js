@@ -228,6 +228,7 @@ const reducers = handleActions({
 
     const fromIndex = order.source.index
     const toIndex = order.destination.index
+    if (toIndex === fromIndex) return state
 
     const [project] = projects.splice(fromIndex, 1)
     projects.splice(toIndex, 0, project)
@@ -297,6 +298,7 @@ const reducers = handleActions({
 
     const fromIndex = order.source.index
     const toIndex = order.destination.index
+    if (toIndex === fromIndex) return state
 
     const [detail] = details.splice(fromIndex, 1)
     details.splice(toIndex, 0, detail)
@@ -404,6 +406,7 @@ const reducers = handleActions({
 
     const fromIndex = order.source.index
     const toIndex = order.destination.index
+    if (toIndex === fromIndex) return state
 
     const [personalProject] = personalProjects.splice(fromIndex, 1)
     personalProjects.splice(toIndex, 0, personalProject)
@@ -550,6 +553,7 @@ const reducers = handleActions({
 
     const fromIndex = order.source.index
     const toIndex = order.destination.index
+    if (toIndex === fromIndex) return state
 
     const [supplement] = supplements.splice(fromIndex, 1)
     supplements.splice(toIndex, 0, supplement)

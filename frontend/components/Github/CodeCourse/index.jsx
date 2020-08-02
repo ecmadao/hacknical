@@ -36,7 +36,7 @@ class CodeCourse extends React.Component {
 
   get repositoriesDict() {
     if (this._repositoriesDict) return this._repositoriesDict
-    const { repositories = [] } = this.props
+    const { repositories = [] } = this.props.data
     if (!repositories.length) return {}
 
     const repositoriesDict = {}
@@ -74,7 +74,7 @@ class CodeCourse extends React.Component {
   }
 
   get formatedRepositories() {
-    const { commitDatas } = this.props
+    const { commitDatas } = this.props.data
     const repositoriesDict = this.repositoriesDict
     const showedCount = Math.min(this.state.showedCount, commitDatas.length)
 
@@ -285,7 +285,9 @@ class CodeCourse extends React.Component {
   }
 
   render() {
-    const { repositories, loaded, className } = this.props
+    const { loaded, className } = this.props
+    const { repositories } = this.props.data
+
     let component
     if (!loaded) {
       component = (<Loading loading />)
@@ -305,8 +307,10 @@ class CodeCourse extends React.Component {
 CodeCourse.defaultProps = {
   loaded: false,
   className: '',
-  commitDatas: [],
-  repositories: []
+  data: {
+    commitDatas: [],
+    repositories: []
+  }
 }
 
 export default CodeCourse

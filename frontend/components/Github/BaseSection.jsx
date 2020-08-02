@@ -11,7 +11,7 @@ const BaseSection = (props) => {
   const {
     disabled,
     children,
-    handleClick,
+    onClick,
     cardClass = ''
   } = props
 
@@ -20,7 +20,7 @@ const BaseSection = (props) => {
       <div className={cx(cardStyles.infoCardContent, cardClass)}>
         {disabled ? (
           <div
-            onClick={handleClick}
+            onClick={onClick}
             className={cardStyles.cardDisabled}
           >
             {operationTexts.share.enable}

@@ -38,6 +38,7 @@ class Section extends React.Component {
 
     const fromIndex = order.source.index
     const toIndex = order.destination.index
+    if (toIndex === fromIndex) return
 
     const [detail] = details.splice(fromIndex, 1)
     details.splice(toIndex, 0, detail)

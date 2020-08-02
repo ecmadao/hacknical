@@ -33,6 +33,10 @@ router.get(
   '/info',
   User.getUserInfo
 )
+router.get(
+  '/github',
+  User.getGitHubSections
+)
 router.patch(
   '/info',
   check.body('info'),

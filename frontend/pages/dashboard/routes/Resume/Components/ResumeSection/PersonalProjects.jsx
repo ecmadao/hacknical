@@ -30,7 +30,13 @@ class PersonalProjects extends React.Component {
     const { url, desc, techs, title } = personalProject
 
     return (
-      <div className={styles.resume_piece_container} key={personalProject.id}>
+      <div
+        key={personalProject.id}
+        className={cx(
+          styles.resume_piece_container,
+          styles.resume_piece_container_dragable
+        )}
+      >
         <div className={cx(styles.resume_wrapper, styles.with_margin)}>
           <IconButton
             color="red"
@@ -107,7 +113,7 @@ class PersonalProjects extends React.Component {
 
   renderProjects() {
     const { disabled, personalProjects, actions } = this.props
-    console.log(personalProjects)
+
     return (
       <DragAndDrop onDragEnd={actions.reorderPersonalProjects}>
         {personalProjects.map((personalProject, index) => ({

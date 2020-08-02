@@ -9,37 +9,44 @@ import locales from 'LOCALES'
 const githubTexts = locales('github.sections.baseInfo')
 
 const UserInfo = (props) => {
-  const { user, className } = props
-  if (!user) return <div />
+  const { data, className } = props
+  if (!data) return <div />
 
   const { joinedAt } = githubTexts
   return (
     <div className={cx(styles.info_card, className)}>
       <div className={styles.info_header}>
         <div className={styles.info_avator}>
-          <img src={user.avatar_url} role="presentation" />
+          <img src={data.avatar_url} role="presentation" />
         </div>
         <div className={styles.info_user}>
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href={`${github.baseUrl}/${user.login}`}
+            href={`${github.baseUrl}/${data.login}`}
           >
-            {user.name || user.login}
+            {data.name || data.login}
           </a>
           <span>
-            {joinedAt.replace('%time', dateHelper.validator.fullDate(user.created_at))}
+            {joinedAt.replace('%time', dateHelper.validator.fullDate(data.created_at))}
           </span>
-          {user.bio ? <blockquote>{user.bio}</blockquote> : null}
+          {data.bio ? <blockquote>{data.bio}</blockquote> : null}
         </div>
       </div>
-      <SocialInfo user={user} />
+      <SocialInfo user={data} />
     </div>
   )
 }
 
 UserInfo.defaultProps = {
-  className: ''
+  className: '',
+  data: {
+    bio: '',
+    login: '',
+    name: '',
+    avatar_url: '',
+    created_at: ''
+  }
 }
 
 export default UserInfo

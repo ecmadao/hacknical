@@ -18,7 +18,7 @@ class DragAndDrop extends React.Component {
 
     // dropped outside the list
     if (!destination) return
-
+    // debugger;
     if (source.droppableId === destination.droppableId) {
       return onDragEnd({ source, destination })
     } else {

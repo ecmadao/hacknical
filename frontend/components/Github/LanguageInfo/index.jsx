@@ -32,14 +32,14 @@ class LanguageInfo extends React.Component {
     const { loaded } = this.props
     if (!loaded && nextProps.loaded) {
       this.setState({
-        showLanguage: Object.keys(this.props.languages || {})
-          .sort(github.sortByLanguage(this.props.languages || {}))[0]
+        showLanguage: Object.keys(this.props.data.languages || {})
+          .sort(github.sortByLanguage(this.props.data.languages || {}))[0]
       })
     }
   }
 
   renderShowRepos() {
-    const { repositories } = this.props
+    const { repositories } = this.props.data
     const { showLanguage } = this.state
     const targetRepositories = github
       .getReposByLanguage(repositories, showLanguage)
@@ -61,7 +61,7 @@ class LanguageInfo extends React.Component {
   }
 
   renderBaseInfo() {
-    const { languageDistributions, languageSkills, languageUsed } = this.props
+    const { languageDistributions, languageSkills, languageUsed } = this.props.data
 
     const reposCount = Object.keys(languageDistributions).map(key => languageDistributions[key])
     const starCount = Object.keys(languageSkills).map(key => languageSkills[key])
@@ -109,7 +109,7 @@ class LanguageInfo extends React.Component {
 
   get sortedLanguages() {
     if (this.languages.length) this.languages
-    const { languageUsed, languages } = this.props
+    const { languageUsed, languages } = this.props.data
 
     let datas = languages
     if (!datas || Object.keys(datas).length === 0) datas = languageUsed
@@ -145,7 +145,8 @@ class LanguageInfo extends React.Component {
 
   renderLanguageReview() {
     const { showLanguage } = this.state
-    const { loaded, languages, languageUsed } = this.props
+    const { loaded } = this.props
+    const { languages, languageUsed } = this.props.data
     const showCount = 9
     return (
       <div>
@@ -166,6 +167,7 @@ class LanguageInfo extends React.Component {
 
   render() {
     const { loaded, className } = this.props
+
     return (
       <div className={className}>
         {!loaded ? <Loading loading /> : this.renderLanguageReview()}
@@ -175,12 +177,14 @@ class LanguageInfo extends React.Component {
 }
 
 LanguageInfo.defaultProps = {
-  repositories: [],
   className: '',
   loaded: false,
-  languageSkills: {},
-  languageUsed: {},
-  languageDistributions: {}
+  data: {
+    repositories: [],
+    languageSkills: {},
+    languageUsed: {},
+    languageDistributions: {}
+  }
 }
 
 export default LanguageInfo
