@@ -1,5 +1,10 @@
 @import 'open-color/open-color.css';
 
+:root {
+  --speed: .2s;
+  --easing: cubic-bezier(.55,0,.1,1);
+}
+
 .card {
   border-radius: 3px;
   transition: box-shadow 0.2s;

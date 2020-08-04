@@ -19,6 +19,10 @@ const datas = {
       weekly: 'The busiest week',
       daily: 'The crazy day',
     },
+    info: {
+      title: 'Basic Info',
+      joinedAt: 'Joined GitHub at %time'
+    },
     baseInfo: {
       title: 'Basic Info',
       joinedAt: 'Joined GitHub at %time'

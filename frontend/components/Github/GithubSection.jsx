@@ -59,6 +59,7 @@ class GitHubSection extends React.Component {
 
   render() {
     const {
+      id,
       intro,
       title,
       status,
@@ -76,6 +77,7 @@ class GitHubSection extends React.Component {
 
     return (
       <div
+        id={id}
         className={cx(
           cardStyles.info_card_container,
           cardStyles.container,
@@ -124,6 +126,7 @@ class GitHubSection extends React.Component {
 }
 
 GitHubSection.propTypes = {
+  id: PropTypes.string,
   section: PropTypes.string,
   enabled: PropTypes.bool,
   isShare: PropTypes.bool,
@@ -138,6 +141,7 @@ GitHubSection.propTypes = {
 }
 
 GitHubSection.defaultProps = {
+  id: '',
   section: Object.keys(config)[0],
   enabled: false,
   isShare: false,

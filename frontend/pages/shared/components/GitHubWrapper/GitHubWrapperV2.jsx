@@ -142,7 +142,6 @@ class GitHubWrapperV2 extends React.Component {
     this.setRefreshStatus = this.setRefreshStatus.bind(this)
     this.changeShareStatus = this.changeShareStatus.bind(this)
     this.toggleGitHubSection = this.toggleGitHubSection.bind(this)
-    this.reorderGitHubSections = this.reorderGitHubSections.bind(this)
   }
 
   componentDidMount() {
@@ -151,6 +150,26 @@ class GitHubWrapperV2 extends React.Component {
     this.fetchGitHubSections(login)
     this.fetchUpdateStatus()
     removeDOM('#loading', { async: true })
+  }
+
+  componentDidUpdate(preProps) {
+    const { sections } = this.props
+
+    const identify1 = (sections || []).map(section => section.id).join('.')
+    const identify2 = (preProps.sections || []).map(section => section.id).join('.')
+    if (identify1 !== identify2) {
+      const { githubSections } = this.state
+      const newSections = sections.reduce((list, section) => {
+        const item = githubSections.find(sec => sec.id === section.id)
+        if (!item) return list
+        list.push(item)
+        return list
+      }, [])
+
+      this.setState({
+        githubSections: newSections
+      })
+    }
   }
 
   async fetchGitHubSections(login = '') {
@@ -209,31 +228,6 @@ class GitHubWrapperV2 extends React.Component {
     if (!isAdmin) return
     const result = await API.github.getUpdateStatus()
     this.setRefreshStatus(result)
-  }
-
-  reorderGitHubSections(order) {
-    const { isShare, isAdmin } = this.props
-    if (isShare || !isAdmin) return
-
-    const { githubSections } = this.state
-
-    const fromIndex = order.source.index
-    const toIndex = order.destination.index
-    if (toIndex === fromIndex) return
-
-    const [githubSection] = githubSections.splice(fromIndex, 1)
-    githubSections.splice(toIndex, 0, githubSection)
-
-    API.resume.patchResumeInfo({
-      githubSections: githubSections.map(section => ({
-        id: section.id,
-        enabled: section.enabled
-      }))
-    }).then(() => {
-      this.setState({
-        githubSections: [...githubSections]
-      })
-    })
   }
 
   toggleGitHubSection(index, section) {
@@ -339,7 +333,6 @@ class GitHubWrapperV2 extends React.Component {
     }
   }
 
-
   async changeShareStatus() {
     const { user } = this.state
     const { openShare } = user
@@ -365,7 +358,6 @@ class GitHubWrapperV2 extends React.Component {
       isShare,
       onRefresh: this.onRefresh,
       toggleGitHubSection: this.toggleGitHubSection,
-      reorderGitHubSections: this.reorderGitHubSections,
     })
     return component
   }
@@ -374,6 +366,7 @@ class GitHubWrapperV2 extends React.Component {
 GitHubWrapperV2.defaultProps = {
   isShare: false,
   login: window.login,
+  sections: [],
   isAdmin: window.isAdmin === 'true'
 }
 

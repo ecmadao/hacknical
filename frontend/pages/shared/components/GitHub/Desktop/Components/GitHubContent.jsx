@@ -6,7 +6,6 @@ import FAB from 'COMPONENTS/FloatingActionButton'
 import API from 'API'
 import GitHub from 'COMPONENTS/GitHub'
 import ShareModal from 'COMPONENTS/ShareModal'
-import DragAndDrop from 'COMPONENTS/DragAndDrop'
 import locales from 'LOCALES'
 import styles from '../styles/github.css'
 import dateHelper from 'UTILS/date'
@@ -38,32 +37,22 @@ class GitHubContent extends React.Component {
       reorderGitHubSections
     } = this.props
 
-    return (
-      <DragAndDrop
-        onDragEnd={reorderGitHubSections}
-        itemClassName={styles.dragable_item}
-        containerClassName={styles.dragable_container}
-      >
-        {githubSections.map((section, index) => ({
-          id: section.id,
-          Component: (
-            <GitHub
-              key={`section.${section.id}`}
-              login={login}
-              data={section.data}
-              loaded={!section.loading}
-              title={section.title}
-              section={section.id}
-              enabled={section.enabled}
-              isShare={isShare}
-              cardClass={cardClass}
-              callback={section => toggleGitHubSection(index, section)}
-              intro={section.intro}
-            />
-          )
-        }))}
-      </DragAndDrop>
-    )
+    return githubSections.map((section, index) => (
+      <GitHub
+        id={section.id}
+        key={`section.${section.id}`}
+        login={login}
+        data={section.data}
+        loaded={!section.loading}
+        title={section.title}
+        section={section.id}
+        enabled={section.enabled}
+        isShare={isShare}
+        cardClass={cardClass}
+        callback={section => toggleGitHubSection(index, section)}
+        intro={section.intro}
+      />
+    ))
   }
 
   render() {

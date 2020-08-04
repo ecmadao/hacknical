@@ -18,7 +18,7 @@ class DragAndDrop extends React.Component {
 
     // dropped outside the list
     if (!destination) return
-    // debugger;
+
     if (source.droppableId === destination.droppableId) {
       return onDragEnd({ source, destination })
     } else {
@@ -48,7 +48,11 @@ class DragAndDrop extends React.Component {
               )}
             >
               {children.map((child, index) => (
-                <Draggable key={child.id} draggableId={child.id} index={index}>
+                <Draggable
+                  key={child.id}
+                  draggableId={child.id}
+                  index={index}
+                >
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -58,7 +62,8 @@ class DragAndDrop extends React.Component {
                       className={cx(
                         styles.droppable_item,
                         snapshot.isDragging && snapshot.dragging,
-                        itemClassName
+                        itemClassName,
+                        child.itemClassName
                       )}
                     >
                       {child.Component}
@@ -78,6 +83,7 @@ class DragAndDrop extends React.Component {
 DragAndDrop.propTypes = {
   onDrop: PropTypes.func,
   onMoveEnd: PropTypes.func,
+  onDragEnd: PropTypes.func,
   children: PropTypes.array,
   droppableId: PropTypes.string,
   itemClassName: PropTypes.string,
@@ -86,6 +92,7 @@ DragAndDrop.propTypes = {
 
 DragAndDrop.defaultProps = {
   onDrop: Function.prototype,
+  onDragEnd: Function.prototype,
   onMoveEnd: Function.prototype,
   children: [],
   itemClassName: '',

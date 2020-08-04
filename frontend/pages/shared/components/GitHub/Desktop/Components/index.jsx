@@ -7,6 +7,7 @@ const GitHubComponent = props => (
   <GitHubWrapperV2
     login={props.login}
     isShare={props.isShare}
+    sections={props.sections}
   >
     <GitHubContent {...props} />
   </GitHubWrapperV2>
@@ -15,6 +16,7 @@ const GitHubComponent = props => (
 GitHubComponent.defaultProps = {
   login: window.login,
   isShare: false,
+  sections: [],
   origin: window.location.origin
 }
 

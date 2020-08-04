@@ -19,6 +19,10 @@ const datas = {
       weekly: '提交数目最多的一周',
       daily: '提交数目最多的一天',
     },
+    info: {
+      title: '基本信息',
+      joinedAt: '%time 加入 GitHub'
+    },
     baseInfo: {
       title: '基本信息',
       joinedAt: '%time 加入 GitHub'

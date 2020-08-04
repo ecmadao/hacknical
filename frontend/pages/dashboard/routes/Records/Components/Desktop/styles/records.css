@@ -2,7 +2,6 @@
 
 .container {
   composes: dashboard_content from 'STYLES/common.css';
-  max-width: 650px;
   position: relative;
   margin-top: 100px;
 }
