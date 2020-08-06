@@ -62,11 +62,11 @@ const reducers = handleActions({
     const { activeTab } = state
     const obj = state[activeTab]
     const {
-      url,
-      openShare,
-      viewSources,
+      url = '',
+      openShare = false,
+      viewSources = [],
       ...others,
-    } = action.payload
+    } = (action.payload || {})
 
     return ({
       ...state,
@@ -83,7 +83,7 @@ const reducers = handleActions({
   INITIAL_LOGS_DATA(state, action) {
     const { activeTab } = state
     const obj = state[activeTab]
-    const viewLogs = action.payload
+    const viewLogs = action.payload || []
 
     return ({
       ...state,

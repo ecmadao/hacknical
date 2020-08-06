@@ -316,7 +316,6 @@ class ShareRecords extends React.Component {
 
   render() {
     const {
-      info,
       status,
       index,
       viewLogs,
@@ -325,10 +324,6 @@ class ShareRecords extends React.Component {
       onTransitionEnd
     } = this.props
 
-    const controllerClass = cx(
-      styles.share_controller_card,
-      !info.openShare && styles.disabled
-    )
     const viewData = this.pageViewsData
     const config = getPVStockConfig(viewData)
     const { pageViews } = viewData

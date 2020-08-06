@@ -1,6 +1,7 @@
 
 import dateHelper from 'UTILS/date'
-import { URLS, SECONDS_PER_DAY } from 'UTILS/constant'
+import { URLS } from 'UTILS/constant/github'
+import { SECONDS_PER_DAY } from 'UTILS/constant'
 
 const getFullDateBySecond = dateHelper.validator.fullDateBySeconds
 const getSecondsByDate = dateHelper.seconds.getByDate

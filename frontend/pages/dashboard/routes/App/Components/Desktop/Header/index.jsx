@@ -3,7 +3,7 @@ import { Tipso } from 'light-ui'
 import locales, { getLocale, switchLanguage } from 'LOCALES'
 import styles from '../../../styles/desktop.css'
 import MenuWrapper from '../../shared/MenuWrapper'
-import { URLS } from 'UTILS/constant'
+import { URLS } from 'UTILS/constant/github'
 import Icon from 'COMPONENTS/Icon'
 import LogoText from 'COMPONENTS/LogoText'
 

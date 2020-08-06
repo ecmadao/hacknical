@@ -2,7 +2,6 @@
 import React, { cloneElement } from 'react'
 import { polyfill } from 'es6-promise'
 import objectAssign from 'UTILS/object-assign'
-import { USER } from 'UTILS/constant'
 import API from 'API'
 import locales from 'LOCALES'
 import github from 'UTILS/github'
@@ -11,11 +10,12 @@ import formatHotmap from 'UTILS/hotmap'
 import message from 'UTILS/message'
 import refresher from 'UTILS/refresher'
 import {
+  USER,
   GITHUB_SECTIONS,
   DEFAULT_GITHUB_SECTIONS,
   getGitHubSectionIntroById,
   getGitHubSectionDefaultDataById
-} from 'UTILS/constant'
+} from 'UTILS/constant/github'
 
 polyfill()
 

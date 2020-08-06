@@ -2,7 +2,7 @@
 import { handleActions } from 'redux-actions'
 import objectAssign from 'UTILS/object-assign'
 import dateHelper from 'UTILS/date'
-import { DEFAULT_GITHUB_SECTIONS } from 'UTILS/constant'
+import { DEFAULT_GITHUB_SECTIONS } from 'UTILS/constant/github'
 
 const initialState = {
   loading: true,

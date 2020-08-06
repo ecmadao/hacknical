@@ -80,7 +80,7 @@ const BASE_STOCK_CONFIG = {
 
 const PV_STOCK_CONFIG = {
   plotOptions: {
-    area: {
+    areaspline: {
       color: 'rgba(158, 170, 179, 0.7)',
       fillOpacity: 0.3,
     }
@@ -97,7 +97,7 @@ const PV_STOCK_CONFIG = {
   series: [
     {
       yAxis: 'pv',
-      type: 'area',
+      type: 'areaspline',
       name: 'page view',
       animation: true,
       data: [],
@@ -121,7 +121,7 @@ const PV_STOCK_CONFIG = {
 
 const COMMITS_STOCK_CONFIG = {
   plotOptions: {
-    area: {
+    areaspline: {
       color: 'rgba(55, 178, 77, 0.7)',
       fillOpacity: 0.3,
     }
@@ -138,7 +138,7 @@ const COMMITS_STOCK_CONFIG = {
   series: [
     {
       yAxis: 'commits',
-      type: 'area',
+      type: 'areaspline',
       name: 'commits',
       animation: true,
       data: [],
@@ -193,11 +193,13 @@ export const getPVStockConfig = (options) => {
   )
   config.series[0].data = seriesData
   config.xAxis[0].labels.formatter = getLabelFormatter()
+
   if (pageViews.length) {
     const timestampTo = pageViews[pageViews.length - 1].seconds
     config.xAxis[0].max = timestampTo
     config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60)
   }
+
   config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Page view')
   return config
 }

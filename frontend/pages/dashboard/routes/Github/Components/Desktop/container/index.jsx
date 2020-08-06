@@ -9,7 +9,7 @@ import DragAndDrop from 'COMPONENTS/DragAndDrop'
 import GitHub from 'SHARED/components/GitHub/Desktop'
 import {
   DEFAULT_GITHUB_SECTIONS,
-} from 'UTILS/constant'
+} from 'UTILS/constant/github'
 
 const githubText = locales('github.sections')
 

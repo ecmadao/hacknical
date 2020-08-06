@@ -5,7 +5,8 @@ import { PortalModal } from 'light-ui'
 import locales from 'LOCALES'
 import styles from '../../styles/template_modal.css'
 import modalStyles from '../../styles/modal.css'
-import { URLS, RESUME_TEMPLATES } from 'UTILS/constant'
+import { URLS } from 'UTILS/constant/github'
+import { RESUME_TEMPLATES } from 'UTILS/constant'
 import Icon from 'COMPONENTS/Icon'
 
 const resumeTexts = locales('resume')

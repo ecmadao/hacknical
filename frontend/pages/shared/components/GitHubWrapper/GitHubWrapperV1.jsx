@@ -2,7 +2,7 @@
 import React, { cloneElement } from 'react'
 import { polyfill } from 'es6-promise'
 import objectAssign from 'UTILS/object-assign'
-import { USER } from 'UTILS/constant'
+import { USER } from 'UTILS/constant/github'
 import API from 'API'
 import locales from 'LOCALES'
 import github from 'UTILS/github'

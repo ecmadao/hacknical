@@ -8,7 +8,7 @@ import styles from '../styles/github.css'
 import locales from 'LOCALES'
 import ReposRowInfo from '../ReposRowInfo'
 import objectAssign from 'UTILS/object-assign'
-import { DEFAULT_REPOSITORIES } from 'UTILS/constant'
+import { DEFAULT_REPOSITORIES } from 'UTILS/constant/github'
 
 const githubTexts = locales('github.sections.contributed')
 
