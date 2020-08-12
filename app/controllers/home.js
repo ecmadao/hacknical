@@ -130,7 +130,49 @@ const languages = async (ctx) => {
   }
 }
 
+const getIcon = async (ctx, next) => {
+  const { url, size } = ctx.query
+  if (!url) {
+    return ctx.body = {
+      success: true,
+      result: ''
+    }
+  }
+
+  let iconUrl = ''
+  const area = size ** 2
+
+  try {
+    const res = await network.besticon.getIcon(url)
+    let icon = null
+
+    for (const item of res.icons) {
+      if (icon === null) icon = item
+
+      const diff = Math.abs(area - (item.width ** 2))
+      if (diff < Math.abs(area - (icon.width ** 2))) {
+        icon = item
+      }
+
+      if (diff === 0) break
+    }
+
+    if (icon) iconUrl = icon.url
+  } catch (e) {
+    logger.error(e)
+    iconUrl = ''
+  } finally {
+    ctx.body = {
+      success: true,
+      result: iconUrl
+    }
+  }
+
+  await next()
+}
+
 export default {
+  getIcon,
   statistic,
   languages,
   cacheControl,

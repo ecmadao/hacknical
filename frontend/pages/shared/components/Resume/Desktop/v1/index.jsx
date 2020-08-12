@@ -10,7 +10,7 @@ import statusLabels from '../../shared/StatusLabels'
 import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
 import Avator from '../../shared/Avator'
-import Favicon from '../../shared/Favicon'
+import Favicon from 'COMPONENTS/Favicon'
 import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 
 const resumeLocales = locales('resume')

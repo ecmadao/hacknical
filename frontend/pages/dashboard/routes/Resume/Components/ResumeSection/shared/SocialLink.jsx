@@ -2,7 +2,6 @@
 
 import React from 'react'
 import cx from 'classnames'
-import Img from 'react-image'
 import {
   Tipso,
   Input,
@@ -14,6 +13,7 @@ import styles from '../../../styles/resume.css'
 import TipsoInputs from './TipsoInputs'
 import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
+import Favicon from 'COMPONENTS/Favicon'
 
 const resumeTexts = locales('resume').sections.others
 
@@ -131,13 +131,11 @@ class SocialLink extends React.Component {
         className={styles.inputGroupTipso}
       >
         <div className={itemClass}>
-          <Img
-            alt={name}
-            crossOrigin="anonymous"
-            src={[
-              `https://besticon-demo.herokuapp.com/icon?url=${link.replace(/^(https?:)?\/\//, '')}&size=80..120..200`,
-              require(`SRC/images/${icon}`)
-            ]}
+          <Favicon
+            src={link}
+            name={name}
+            size="80"
+            className={styles.websiteIcon}
             loader={
               <Loading
                 loading
@@ -147,6 +145,7 @@ class SocialLink extends React.Component {
             unloader={
               <img src={require(`SRC/images/${icon}`)} alt={name} />
             }
+            fallback={require(`SRC/images/${icon}`)}
           />
           {deleteable ? (
             <div ref={ref => (this.container = ref)} className={styles.linkDelButton}>

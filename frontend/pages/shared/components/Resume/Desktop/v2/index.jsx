@@ -10,7 +10,7 @@ import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 import { renderBaseInfo, section, renderTextWithUrl } from '../../shared/common'
 import Icon from 'COMPONENTS/Icon'
 import Avator from '../../shared/Avator'
-import Favicon from '../../shared/Favicon'
+import Favicon from 'COMPONENTS/Favicon'
 
 const resumeTexts = locales('resume')
 const { minutesBefore } = dateHelper.relative

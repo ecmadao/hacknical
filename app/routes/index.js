@@ -9,6 +9,8 @@ import Resume from '../controllers/resume'
 import user from '../controllers/helper/user'
 import record from '../controllers/helper/record'
 import share from '../controllers/helper/share'
+import check from '../controllers/helper/check'
+import cache from '../controllers/helper/cache'
 
 const router = koaRouter()
 const basename = path.basename(module.filename)
@@ -45,6 +47,7 @@ router.get(
   user.checkValidateUser(),
   Home.renderDashboard
 )
+
 router.get(
   '/api/statistic',
   Home.statistic
@@ -53,6 +56,16 @@ router.get(
   '/api/languages',
   Home.languages
 )
+router.get(
+  '/api/icon',
+  check.query('url', 'size'),
+  cache.get('icon', {
+    keys: ['query.url', 'query.size']
+  }),
+  Home.getIcon,
+  cache.set()
+)
+
 router.get(
   '/github/:login',
   share.githubEnable(),
