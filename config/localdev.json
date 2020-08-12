@@ -10,7 +10,8 @@
     },
     "besticon": {
       "url": "http://127.0.0.1:8080",
-      "timeouts": [10000, 10000, 10000]
+      "timeouts": [10000, 10000, 10000],
+      "auth": null
     },
     "github": {
       "url": "http://127.0.0.1:5002/api",

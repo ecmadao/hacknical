@@ -59,7 +59,7 @@ router.get(
 router.get(
   '/api/icon',
   check.query('url', 'size'),
-  cache.get('icon', {
+  cache.get('icon.v1', {
     keys: ['query.url', 'query.size']
   }),
   Home.getIcon,

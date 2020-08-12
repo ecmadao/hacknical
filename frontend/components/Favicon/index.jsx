@@ -4,15 +4,16 @@ import Img from 'react-image'
 import cx from 'classnames'
 import { Loading } from 'light-ui'
 import styles from './favicon.css'
-import API from 'API'
 
 const defaultIcon = require('SRC/images/browser.png')
 
 const getIconUrls = (props) => {
   const res = [props.fallback]
-  if (props.src && props.size && props.src.replace(/^(https?:)?\/\//, '')) {
+
+  const website = props.src.replace(/^(https?:)?\/\//, '')
+  if (props.src && props.size && website) {
     res.unshift(
-      API.home.icon({ url: props.src.replace(/^(https?:)?\/\//, ''), size: props.size})
+      `/api/icon?url=${website}&size=${props.size}`
     )
   }
 

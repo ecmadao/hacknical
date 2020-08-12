@@ -6,5 +6,5 @@ export const ttl = 60000
 export const getIcon = url => ({
   qs: { url },
   url: '/allicons.json',
-  useCache: true
+  useCache: false
 })

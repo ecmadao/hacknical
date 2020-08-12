@@ -3,6 +3,7 @@ import network from '../services/network'
 import getLanguages from '../config/languages'
 import logger from '../utils/logger'
 import notify from '../services/notify'
+import request from 'request'
 
 const cacheControl = (ctx) => {
   ctx.set('Cache-Control', 'no-store, no-cache, must-revalidate')
@@ -144,6 +145,7 @@ const getIcon = async (ctx, next) => {
 
   try {
     const res = await network.besticon.getIcon(url)
+    logger.debug(`[ICON] ${url} - ${JSON.stringify(res)}`)
     let icon = null
 
     for (const item of res.icons) {
@@ -157,15 +159,13 @@ const getIcon = async (ctx, next) => {
       if (diff === 0) break
     }
 
-    if (icon) iconUrl = icon.url
+    if (icon) iconUrl = request(icon.url)
   } catch (e) {
     logger.error(e)
     iconUrl = ''
   } finally {
-    ctx.body = {
-      success: true,
-      result: iconUrl
-    }
+    ctx.set('Content-Type', 'image/png')
+    ctx.body = iconUrl
   }
 
   await next()

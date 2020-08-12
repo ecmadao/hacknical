@@ -124,11 +124,12 @@ class ResumeComponentV3 extends ResumeUIWrapper {
     if (!socialLinks.length) return null
 
     const socials = socialLinks.map((social, index) => {
-      const { url, text } = social
+      const { url, text, validateUrl } = social
+
       return (
         <li key={index}>
           <div className={styles.link_wrapper}>
-            <Favicon src={social.validateUrl} name={text} />
+            <Favicon src={validateUrl} name={text} />
             &nbsp;
             {text}
             &nbsp;:&nbsp;&nbsp;&nbsp;
@@ -136,7 +137,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               target="_blank"
               rel="noopener noreferrer"
               className={styles.list_link}
-              href={social.validateUrl}
+              href={validateUrl}
             >
               {url}
             </a>
