@@ -6,7 +6,7 @@
 }
 
 .inputWrapper {
-  display: line-block;
+  display: inline-flex;
 }
 
 .label {

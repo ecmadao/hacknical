@@ -11,6 +11,29 @@ import Icon from 'COMPONENTS/Icon'
 const locale = getLocale()
 const resumeLocales = locales('resume')
 
+export const renderLabels = (labels, labelProps = {}, labelContainerClassName = '') => {
+  if (!Array.isArray(labels) || labels.length === 0) return null
+
+  const dom = labels.map((label, i) => (
+    <Label
+      min
+      key={i}
+      theme="flat"
+      color="light"
+      text={label}
+      clickable={false}
+      className={styles.label}
+      {...labelProps}
+    />
+  ))
+
+  return (
+    <div className={cx(styles.labelContainer, labelContainerClassName)}>
+      {dom}
+    </div>
+  )
+}
+
 class ResumeUIWrapper extends React.Component {
   constructor(props) {
     super(props)

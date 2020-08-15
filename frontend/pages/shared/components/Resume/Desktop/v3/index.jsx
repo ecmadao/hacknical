@@ -6,7 +6,7 @@ import dateHelper from 'UTILS/date'
 import styles from './v3.css'
 import statusLabels from '../../shared/StatusLabels'
 import locales from 'LOCALES'
-import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
+import ResumeUIWrapper, { renderLabels } from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 import { renderBaseInfo, section, renderTextWithUrl } from '../../shared/common'
 import Icon from 'COMPONENTS/Icon'
 import Avator from '../../shared/Avator'
@@ -87,12 +87,13 @@ const renderWorkProjects = (projects = []) =>
 const renderWorkExperienceRow = (options) => {
   const {
     url,
+    techs,
     index,
     company,
     startTime,
     endTime,
     position,
-    projects
+    projects,
   } = options
 
   const workProjects = renderWorkProjects(projects)
@@ -112,6 +113,7 @@ const renderWorkExperienceRow = (options) => {
         </span>
       </div>
       <span className={styles.subText}>{position}</span>
+      {renderLabels(techs, { color: 'darkLight' })}
       {workProjects}
     </div>
   )
@@ -402,7 +404,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               })}
             </div>
             <div className={styles.headerInfoContainer}>
-              {this.renderLanguages({ color: 'darkLight' })}
+              {this.renderLanguages({ color: 'dark', theme: 'material' })}
             </div>
           </div>
           {super.renderResumeSections.apply(this)}

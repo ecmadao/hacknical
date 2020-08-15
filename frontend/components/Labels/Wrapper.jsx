@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import { Label, InputGroup } from 'light-ui'
 import styles from './labels.css'
 
@@ -42,10 +43,11 @@ class Wrapper extends React.Component {
       onKeyDown,
       onChange,
       placeholder,
+      className
     } = this.props
 
     return (
-      <div className={styles.labelsWrapper}>
+      <div className={cx(styles.labelsWrapper, className)}>
         {this.renderLabels()}
         { labels.length < max ? (
           <div className={styles.inputWrapper}>
@@ -81,6 +83,7 @@ class Wrapper extends React.Component {
 Wrapper.propTypes = {
   introText: PropTypes.string,
   placeholder: PropTypes.string,
+  className: PropTypes.string,
   labels: PropTypes.array,
   onDelete: PropTypes.func,
   max: PropTypes.number
@@ -91,6 +94,7 @@ Wrapper.defaultProps = {
   max: 10,
   introText: '',
   placeholder: '',
+  className: '',
   onDelete: Function.prototype,
 }
 

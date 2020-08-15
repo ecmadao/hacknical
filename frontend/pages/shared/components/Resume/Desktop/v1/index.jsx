@@ -11,7 +11,7 @@ import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
 import Avator from '../../shared/Avator'
 import Favicon from 'COMPONENTS/Favicon'
-import ResumeUIWrapper from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
+import ResumeUIWrapper, { renderLabels } from 'SHARED/components/ResumeWrapper/ResumeUIWrapper'
 
 const resumeLocales = locales('resume')
 const { minutesBefore } = dateHelper.relative
@@ -131,6 +131,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
       .map((experience, index) => {
         const {
           url,
+          techs,
           company,
           startTime,
           endTime,
@@ -146,6 +147,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
             <div className={styles.info_text}>
               {startTime}  ~  {endTime}
             </div>
+            {renderLabels(techs, { color: 'darkLight' })}
             <div>{workProjects}</div>
             <div className={styles.section_dot} />
           </div>
@@ -376,7 +378,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               ? baseInfo(`${resumeInfo.location}   ${resumeInfo.intention}`, 'map-marker', { style: styles.right_info })
               : null
             }
-            {this.renderLanguages()}
+            {this.renderLanguages({ color: 'light', theme: 'material' })}
             {others.dream ? (
               <div className={styles.user_dream}>
                 {baseInfo(others.dream, 'quote-left', { style: styles.right_info })}

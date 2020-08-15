@@ -14,11 +14,12 @@ class WorkExperiences extends React.Component {
     this.handleProjectAdded = this.handleProjectAdded.bind(this)
     this.handleProjectRemoved = this.handleProjectRemoved.bind(this)
     this.handleProjectChanged = this.handleProjectChanged.bind(this)
+    this.handleProjectDetailReorder = this.handleProjectDetailReorder.bind(this)
+
     this.handleExperienceRemoved = this.handleExperienceRemoved.bind(this)
     this.handleExperienceChanged = this.handleExperienceChanged.bind(this)
     this.handleExperienceAdded = this.handleExperienceAdded.bind(this)
     this.handleExperienceReorder = this.handleExperienceReorder.bind(this)
-    this.handleProjectDetailReorder = this.handleProjectDetailReorder.bind(this)
   }
 
   handleExperienceChanged(workIndex) {
@@ -75,12 +76,12 @@ class WorkExperiences extends React.Component {
         disabled={disabled}
         workExperience={workExperience}
         handleExperienceReorder={this.handleExperienceReorder(workIndex)}
-        handleProjectRemoved={this.handleProjectRemoved(workIndex)}
-        handleProjectAdded={this.handleProjectAdded(workIndex)}
-        handleProjectChanged={this.handleProjectChanged(workIndex)}
         handleExperienceChanged={this.handleExperienceChanged(workIndex)}
         handleExperienceAdded={this.handleExperienceAdded(workIndex + 1)}
         handleExperienceRemoved={this.handleExperienceRemoved(workIndex)}
+        handleProjectRemoved={this.handleProjectRemoved(workIndex)}
+        handleProjectAdded={this.handleProjectAdded(workIndex)}
+        handleProjectChanged={this.handleProjectChanged(workIndex)}
         handleProjectDetailReorder={this.handleProjectDetailReorder(workIndex)}
       />
     ))

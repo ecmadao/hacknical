@@ -53,13 +53,15 @@ const formatResume = (resume) => {
         endTime,
         position,
         projects,
-        untilNow
+        untilNow,
+        techs = [],
       } = experience
 
       const validateEnd = untilNow
         ? localeTexts.untilNow
         : validateDate(endTime)
       list.push({
+        techs,
         company,
         position,
         untilNow,

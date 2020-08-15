@@ -35,6 +35,10 @@
   flex: 1;
 }
 
+.labelsContainer {
+  float: right;
+}
+
 .github_wrapper {
   z-index: -1;
   composes: wrapper;

@@ -74,6 +74,7 @@ const datas = {
     workExperiences: {
       title: 'Work Experience',
       subTitle: 'Internship Experience',
+      technologies: 'Coding languages or tools',
       mainButton: 'Add work experience',
       sideButton: 'Add project you joined',
       companyInfo: 'Company Info',
@@ -88,7 +89,8 @@ const datas = {
       projectHomepage: 'Project homepage',
       addProjectDesc: 'Add project desc',
       introList: [],
-      introText: 'Wirte the project desc then press enter to create it'
+      introText: 'Wirte the project desc then press enter to create it',
+      techIntroText: 'Press Enter to add',
     },
     personalProjects: {
       title: 'Personal Projects',

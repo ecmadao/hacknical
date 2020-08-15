@@ -689,3 +689,7 @@
   font-size: 12px;
   line-height: 1.5em;
 }
+
+.resume_work_techs {
+  margin: 0 0 10px 0 !important;
+}

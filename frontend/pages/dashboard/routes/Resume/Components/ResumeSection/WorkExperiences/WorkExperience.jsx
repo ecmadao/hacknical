@@ -4,6 +4,7 @@ import { IconButton, InputGroup, InputGroupV2, Input } from 'light-ui'
 import DateSlider from 'COMPONENTS/DateSlider'
 import DragAndDrop from 'COMPONENTS/DragAndDrop'
 import Icon from 'COMPONENTS/Icon'
+import Labels from 'COMPONENTS/Labels'
 import WorkProject from './WorkProject'
 import styles from '../../../styles/resume.css'
 import locales from 'LOCALES'
@@ -20,6 +21,23 @@ class WorkExperience extends React.Component {
     this.handleStartFocus = this.handleStartFocus.bind(this)
     this.handleEndFocus = this.handleEndFocus.bind(this)
     this.handleEndTimeChange = this.handleEndTimeChange.bind(this)
+    this.handleTechAdded = this.handleTechAdded.bind(this)
+    this.handleTechRemoved = this.handleTechRemoved.bind(this)
+  }
+
+  handleTechAdded(tech) {
+    const { handleExperienceChanged, workExperience } = this.props
+    const { techs = [] } = workExperience
+    handleExperienceChanged('techs')([...techs, tech])
+  }
+
+  handleTechRemoved(techIndex) {
+    const { handleExperienceChanged, workExperience } = this.props
+    const { techs = [] } = workExperience
+    handleExperienceChanged('techs')([
+      ...techs.splice(0, techIndex),
+      ...techs.splice(techIndex + 1)
+    ])
   }
 
   handleStartFocus({ focused: startOpen }) {
@@ -84,6 +102,7 @@ class WorkExperience extends React.Component {
       company,
       position,
       startTime,
+      techs = []
     } = workExperience
 
     return (
@@ -149,6 +168,18 @@ class WorkExperience extends React.Component {
             endText={resumeTexts.dimissionAt}
             onStartChange={handleExperienceChanged('startTime')}
             onEndChange={this.handleEndTimeChange}
+          />
+        </div>
+        <div className={styles.resume_wrapper}>
+          <Labels
+            max={7}
+            labels={techs}
+            disabled={disabled}
+            introText={resumeTexts.techIntroText}
+            className={styles.resume_work_techs}
+            onAdd={this.handleTechAdded}
+            onDelete={this.handleTechRemoved}
+            placeholder={`+ ${resumeTexts.technologies}`}
           />
         </div>
         <div className={styles.project_wrapper}>

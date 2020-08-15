@@ -33,7 +33,7 @@
 
 .left {
   flex: 1;
-  padding: 50px 30px;
+  padding: 50px 20px;
   border-radius: 4px 0 0 4px;
   background-color: var(--oc-white);
 }
@@ -45,7 +45,7 @@
 
 .right {
   width: 250px;
-  padding: 50px 30px;
+  padding: 50px 20px;
   border-radius: 0 4px 4px 0;
   text-align: center;
   background-color: #4A4A4C;

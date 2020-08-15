@@ -78,6 +78,7 @@ const datas = {
     workExperiences: {
       title: '工作经历',
       subTitle: '实习经历',
+      technologies: '技术栈',
       mainButton: '添加工作经历',
       sideButton: '添加参与的项目',
       companyInfo: '公司信息',
@@ -91,7 +92,8 @@ const datas = {
       projectName: '项目名称',
       projectHomepage: '项目线上地址（选填）',
       addProjectDesc: '输入项目描述，并按下回车来创建',
-      introText: '不要填写项目中使用的软件/硬件环境、硬件环境、开发工具之类',
+      introText: '结合自身经历，尽量避免泛泛而谈',
+      techIntroText: '按下回车即可添加',
       introList: [
         '首先应该大致介绍项目背景，这个项目是干什么的？',
         '描述自己在项目中扮演的角色、自己的职责',
