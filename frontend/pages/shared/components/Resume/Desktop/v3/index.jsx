@@ -18,16 +18,6 @@ const { minutesBefore } = dateHelper.relative
 const renderPersonalProjectsRow = (options) => {
   const { url, desc, techs, title, index } = options
 
-  const projectTechs = techs.map((tech, i) => (
-    <Label
-      min
-      key={i}
-      text={tech}
-      clickable={false}
-      color="darkLight"
-      className={styles.label}
-    />
-  ))
   return (
     <div
       className={cx(
@@ -53,9 +43,7 @@ const renderPersonalProjectsRow = (options) => {
         >
           {desc}
         </span>
-        <div>
-          {projectTechs}
-        </div>
+        {renderLabels(techs, { color: 'darkLight' })}
       </div>
     </div>
   )
@@ -225,7 +213,7 @@ class ResumeComponentV3 extends ResumeUIWrapper {
               className: styles.mainText
             })}
             &nbsp;&nbsp;&nbsp;
-            {this.renderLabels(types, { color: 'darkLight', className: '' })}
+            {renderLabels(types, { color: 'darkLight', className: '' })}
           </div>
           <span className={styles.subText}>
             {startTime}  ~  {endTime}

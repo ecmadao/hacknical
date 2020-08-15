@@ -41,16 +41,6 @@ const renderWorkProjects = (projects = []) =>
 const renderPersonalProjectsRow = (options = {}) => {
   const { url, desc, techs, title, index } = options
 
-  const projectTechs = techs.map((tech, i) => (
-    <Label
-      min
-      key={i}
-      text={tech}
-      clickable={false}
-      color="darkLight"
-      className={styles.label}
-    />
-  ))
   return (
     <div
       className={cx(
@@ -77,9 +67,7 @@ const renderPersonalProjectsRow = (options = {}) => {
         >
           {desc}
         </span>
-        <div>
-          {projectTechs}
-        </div>
+        {renderLabels(techs, { color: 'darkLight' })}
       </div>
     </div>
   )
@@ -151,7 +139,7 @@ class ResumeComponentV2 extends ResumeUIWrapper {
             <span className={styles.mainText}>{school}</span>
           </div>
           {
-            this.renderLabels(
+            renderLabels(
               types,
               { color: 'darkLight', className: '' },
               styles.labelContainerClassName

@@ -92,7 +92,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               {school}{education ? `, ${education}` : ''}
               &nbsp;&nbsp;
               {
-                this.renderLabels(
+                renderLabels(
                   types,
                   { color: 'darkLight', className: '' },
                   styles.labelContainerClassName
@@ -190,16 +190,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
     const projects = personalProjects
       .map((project, index) => {
         const { url, desc, techs, title } = project
-        const projectTechs = techs.map((tech, i) => (
-          <Label
-            min
-            key={i}
-            text={tech}
-            clickable={false}
-            color="darkLight"
-            className={styles.info_label}
-          />
-        ))
+
         return (
           <div key={index} className={styles.sec_section}>
             {textInfo({ url, title, style: styles.info_header_large })}
@@ -207,7 +198,7 @@ class ResumeComponentV1 extends ResumeUIWrapper {
               {desc}
             </div>
             <div className={styles.project_labels}>
-              {projectTechs}
+              {renderLabels(techs, { color: 'darkLight' })}
             </div>
           </div>
         )

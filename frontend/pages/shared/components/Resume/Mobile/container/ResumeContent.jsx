@@ -125,7 +125,7 @@ class ResumeContent extends ResumeUIWrapper {
                   {school}
                   &nbsp;
                   {
-                    this.renderLabels(
+                    renderLabels(
                       types,
                       { color: 'darkLight', className: '' },
                       styles.labelContainerClassName
