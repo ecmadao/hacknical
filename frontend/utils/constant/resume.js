@@ -2,18 +2,20 @@
 import locales from 'LOCALES'
 
 const resumeTexts = locales('resume')
+const sectionTexts = resumeTexts.sections
 const navTexts = resumeTexts.navs
 const genderTexts = resumeTexts.options.genders
 const reminderTexts = resumeTexts.options.reminders
 const eduTexts = resumeTexts.options.edus
 
-const RESUME_SECTION_IDS = {
+export const RESUME_SECTION_IDS = {
   INFO: 'info',
   OTHERS: 'others',
   EDUCATIONS: 'educations',
   WORK_EXPERIENCE: 'workExperiences',
   PERSONAL_PROJECTS: 'personalProjects',
-  ADD_NEW: 'addNew'
+  ADD_NEW: 'addNew',
+  CUSTOM: 'custom'
 }
 
 const REMINDER_CRON_TYPES = {
@@ -45,6 +47,104 @@ export const REMINDER_INTERVALS = [
     value: reminderTexts.days3
   },
 ]
+
+export const DEFAULT_RESUME_SECTIONS = [
+  {
+    id: RESUME_SECTION_IDS.INFO,
+    enabled: true,
+    canbeDisabled: false,
+    canbeReorder: false
+  },
+  {
+    id: RESUME_SECTION_IDS.WORK_EXPERIENCE,
+    enabled: true,
+    canbeDisabled: true,
+    canbeReorder: true
+  },
+  {
+    id: RESUME_SECTION_IDS.PERSONAL_PROJECTS,
+    enabled: true,
+    canbeDisabled: true,
+    canbeReorder: true
+  },
+  {
+    id: RESUME_SECTION_IDS.EDUCATIONS,
+    enabled: true,
+    canbeDisabled: true,
+    canbeReorder: true
+  },
+  {
+    id: RESUME_SECTION_IDS.OTHERS,
+    enabled: true,
+    canbeDisabled: true,
+    canbeReorder: true
+  }
+]
+
+export const validateResumeSection = (section, customModules) => {
+  switch (section.id) {
+    case RESUME_SECTION_IDS.INFO:
+    case RESUME_SECTION_IDS.WORK_EXPERIENCE:
+    case RESUME_SECTION_IDS.PERSONAL_PROJECTS:
+    case RESUME_SECTION_IDS.EDUCATIONS:
+    case RESUME_SECTION_IDS.OTHERS:
+      return section
+    default:
+      if (section.tag !== RESUME_SECTION_IDS.CUSTOM) return null
+      if (!customModules.find(module => module.id === section.id)) return null
+      return section
+  }
+}
+
+export const getResumeSectionIntroBySection = (section) => {
+  switch (section.id) {
+    case RESUME_SECTION_IDS.INFO:
+      return {
+        title: {
+          text: sectionTexts.info.title,
+          icon: 'code'
+        }
+      }
+    case RESUME_SECTION_IDS.WORK_EXPERIENCE:
+      return {
+        title: {
+          text: sectionTexts.workExperiences.title,
+          icon: 'code'
+        }
+      }
+    case RESUME_SECTION_IDS.PERSONAL_PROJECTS:
+      return {
+        title: {
+          text: sectionTexts.personalProjects.title,
+          icon: 'code'
+        }
+      }
+    case RESUME_SECTION_IDS.EDUCATIONS:
+      return {
+        title: {
+          text: sectionTexts.educations.title,
+          icon: 'code'
+        }
+      }
+    case RESUME_SECTION_IDS.OTHERS:
+      return {
+        title: {
+          text: sectionTexts.others.title,
+          icon: 'code'
+        }
+      }
+    default:
+      // TODO: Edward - Can section.title be empty?
+      if (!section.title) throw new Error(`unknown section: ${JSON.stringify(section)}`)
+      return {
+        title: {
+          text: `${sectionTexts.custom.title} - ${section.title}`,
+          icon: 'code'
+        }
+      }
+  }
+}
+
 
 export const RESUME_SECTIONS = {
   normal: [

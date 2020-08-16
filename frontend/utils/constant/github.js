@@ -131,8 +131,8 @@ export const getGitHubSectionDefaultDataById = (sectionId) => {
   }
 }
 
-export const getGitHubSectionIntroById = (sectionId) => {
-  switch (sectionId) {
+export const getGitHubSectionIntroBySection = (section) => {
+  switch (section.id) {
     case GITHUB_SECTIONS.HOTMAP:
       return {
         title: {
@@ -210,6 +210,6 @@ export const getGitHubSectionIntroById = (sectionId) => {
         }
       }
     default:
-      throw new Error(`unknown section id: ${sectionId}`)
+      if (!section.title) throw new Error(`unknown section: ${JSON.stringify(section)}`)
   }
 }

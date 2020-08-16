@@ -14,7 +14,6 @@ const {
   toggleLoading,
   togglePosting,
   initialResume,
-  setPubResumeStatus,
   initialPubResumeStatus,
   handleActiveSectionChange
 } = createActions(
@@ -22,7 +21,6 @@ const {
   'TOGGLE_LOADING',
   'TOGGLE_POSTING',
   'INITIAL_RESUME',
-  'SET_PUB_RESUME_STATUS',
   'INITIAL_PUB_RESUME_STATUS',
   'HANDLE_ACTIVE_SECTION_CHANGE'
 )
@@ -39,10 +37,10 @@ const fetchResume = () => (dispatch) => {
 
 const saveResume = params => (dispatch, getState) => {
   const { resume } = getState()
-  const { posting, others } = resume
+  const { others } = resume
   const { socialLinks } = others
 
-  if (posting) return
+  if (resume.posting) return
   dispatch(togglePosting(true))
 
   const postResume = objectAssign({}, resume, {
@@ -50,16 +48,29 @@ const saveResume = params => (dispatch, getState) => {
       socialLinks: socialLinks.filter(item => item.url && (item.text || item.name))
     })
   })
-  delete postResume.loading
-  delete postResume.posting
-  delete postResume.edited
-  delete postResume.shareInfo
 
-  API.resume.setResume(postResume, params).then((result) => {
-    result && dispatch(initialPubResumeStatus(result))
-    dispatch(togglePosting(false))
-    dispatch(toggleEdited(false))
-  })
+  const {
+    loading,
+    posting,
+    edited,
+    shareInfo,
+    sections,
+    activeSection,
+    downloadDisabled,
+    ...postData
+  } = postResume
+
+  const { resumeSections } = shareInfo
+
+  return API.resume
+    .patchResumeInfo({ resumeSections })
+    .then(() => {
+      API.resume.setResume(postData, params).then((result) => {
+        result && dispatch(initialPubResumeStatus(result))
+        dispatch(togglePosting(false))
+        dispatch(toggleEdited(false))
+      })
+    })
 }
 
 /**
@@ -190,7 +201,7 @@ const {
 
 // resume share
 const fetchPubResumeStatus = () => (dispatch) => {
-  API.resume.getResumeInfo().then((result) => {
+  return API.resume.getResumeInfo().then((result) => {
     result && dispatch(initialPubResumeStatus(result))
   })
 }
@@ -198,16 +209,15 @@ const fetchPubResumeStatus = () => (dispatch) => {
 const postShareStatus = () => (dispatch, getState) => {
   const { openShare } = getState().resume.shareInfo
   API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
-    dispatch(setPubResumeStatus(!openShare))
+    dispatch(initialPubResumeStatus({ openShare: !openShare }))
   })
 }
 
 // resume template
-const setPubResumeTemplate = createAction('SET_PUB_RESUME_TEMPLATE')
 const postShareTemplate = template => (dispatch, getState) => {
   if (template !== getState().resume.shareInfo) {
     API.resume.patchResumeInfo({ template }).then(() => {
-      dispatch(setPubResumeTemplate(template))
+      dispatch(initialPubResumeStatus({ template }))
     })
   }
 }
@@ -257,6 +267,7 @@ const resumeEditActions = {
   changeModuleSection,
   deleteModuleSection,
   removeCustomModule,
+  addCustomModule
 }
 
 export default objectAssign(
@@ -271,11 +282,9 @@ export default objectAssign(
     toggleLoading,
     toggleEdited,
     // resume share
-    setPubResumeStatus,
     initialPubResumeStatus,
     fetchPubResumeStatus,
     postShareStatus,
-    setPubResumeTemplate,
     postShareTemplate,
     // resume download
     toggleDownloadButton,
@@ -287,7 +296,6 @@ export default objectAssign(
     addPersonalProject,
     addSocialLink,
     // custom
-    addCustomModule,
     addModuleSection,
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {

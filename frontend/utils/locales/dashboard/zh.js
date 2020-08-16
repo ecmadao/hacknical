@@ -84,18 +84,12 @@ const datas = {
         checkAll: '全选',
         filter: '筛选仓库'
       },
+    },
+    order: {
       ordering: '各模块排序与展示',
+      orderingError: '该模块不可排序',
+      orderingFixedError: '固定模块不可改变相对顺序',
       orderingTip: '拖拽排序模块展示顺序；点击某一行，可改变其在分享页面中的可见性',
-      sections: {
-        hotmap: '提交热力图',
-        info: '基本信息',
-        repos: '仓库概览',
-        course: '编码历程',
-        languages: '编程语言概览',
-        orgs: '组织信息',
-        contributed: '对他人仓库的贡献',
-        commits: 'commit 概览',
-      }
     },
     resume: {
       title: '简历相关设置',

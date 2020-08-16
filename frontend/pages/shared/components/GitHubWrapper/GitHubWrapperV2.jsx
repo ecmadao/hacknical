@@ -13,7 +13,7 @@ import {
   USER,
   GITHUB_SECTIONS,
   DEFAULT_GITHUB_SECTIONS,
-  getGitHubSectionIntroById,
+  getGitHubSectionIntroBySection,
   getGitHubSectionDefaultDataById
 } from 'UTILS/constant/github'
 
@@ -182,7 +182,7 @@ class GitHubWrapperV2 extends React.Component {
         objectAssign({}, section, {
           loading: true,
           data: getGitHubSectionDefaultDataById(section.id)
-        }, getGitHubSectionIntroById(section.id))
+        }, getGitHubSectionIntroBySection(section))
       )
       return sections
     }, [])

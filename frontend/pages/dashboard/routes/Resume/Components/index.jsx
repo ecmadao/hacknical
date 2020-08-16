@@ -22,6 +22,7 @@ import HeartBeat from 'UTILS/heartbeat'
 import NavSection from './NavSection'
 import ResumeOperations from './Operations'
 import { REMOTE_ASSETS } from 'UTILS/constant'
+import { getResumeSectionIntroBySection } from 'UTILS/constant/resume'
 
 const resumeTexts = locales('resume')
 const { editedConfirm, messages } = resumeTexts
@@ -48,8 +49,7 @@ class Resume extends React.Component {
   }
 
   componentDidMount() {
-    this.props.actions.fetchResume()
-    this.props.actions.fetchPubResumeStatus()
+    this.fetchResume()
     this.bindHotkeys()
 
     if (window.addEventListener) {
@@ -66,6 +66,11 @@ class Resume extends React.Component {
       }
     })
     this.heartBeat.takeoff()
+  }
+
+  fetchResume() {
+    const { actions } = this.props
+    actions.fetchPubResumeStatus().then(() => actions.fetchResume())
   }
 
   componentWillUnmount() {
@@ -161,30 +166,34 @@ class Resume extends React.Component {
   }
 
   get sectionActiveIndex() {
-    const { activeSection, sections, customModules } = this.props.resume
-    const currentIndex = [...sections, ...customModules].findIndex(section => section.id === activeSection)
+    const { activeSection } = this.props.resume
+
+    const currentIndex = this.sections.findIndex(
+      section => section.id === activeSection
+    )
     return currentIndex
   }
 
   get sectionMaxLength() {
-    const { customModules, sections } = this.props.resume
-    return customModules.length + sections.length
+    return this.sections.length
   }
 
   get sections() {
-    const { customModules, sections } = this.props.resume
-    return [...sections, ...customModules]
+    const { shareInfo } = this.props.resume
+    return shareInfo.resumeSections.map(section => ({
+      id: section.id,
+      text: section.title || getResumeSectionIntroBySection(section).title.text
+    }))
   }
 
   get currentSection() {
     const { activeSection } = this.props.resume
+
     return this.sections.find(section => section.id === activeSection)
   }
 
   handleSectionIndexChange(index) {
-    const { resume } = this.props
-    const { sections, customModules } = resume
-    const section = [...sections, ...customModules][index]
+    const section = this.sections[index]
     section && this.handleSectionChange(section.id)
   }
 
@@ -233,10 +242,7 @@ class Resume extends React.Component {
           id="resume_navigation"
           currentIndex={currentIndex}
           activeSection={activeSection}
-          sections={this.sections.map(section => ({
-            id: section.id,
-            text: section.text.nav || section.text
-          }))}
+          sections={this.sections}
           handleSectionChange={this.handleSectionChange}
           tail={this.renderSectionCreator()}
         />

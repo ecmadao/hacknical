@@ -9,7 +9,8 @@ import 'rc-times/css/timepicker.css'
 import settingActions from '../../../redux/actions'
 import styles from '../styles/setting.css'
 import locales from 'LOCALES'
-import { REMINDER_PREFIX, REMINDER_INTERVALS } from 'UTILS/constant/resume'
+import { getGitHubSectionIntroBySection } from 'UTILS/constant/github'
+import { REMINDER_PREFIX, REMINDER_INTERVALS, getResumeSectionIntroBySection } from 'UTILS/constant/resume'
 import Panel from '../../shared/Panel'
 import InputPanel from '../../shared/InputPanel'
 import CheckPanel from '../../shared/CheckPanel'
@@ -17,8 +18,45 @@ import SwitcherPanel from '../../shared/SwitcherPanel'
 import TextPanel from '../../shared/TextPanel'
 import Icon from 'COMPONENTS/Icon'
 import DragAndDrop from 'COMPONENTS/DragAndDrop'
+import message from 'UTILS/message'
 
 const settingTexts = locales('dashboard.setting')
+
+const RenderSectionsOrdering = (props = {}) => {
+  const { getSectionIntroBySection } = props
+
+  return [
+    <Panel key={`${props.id}-1`}>
+      <TextPanel
+        id={props.id}
+        tipso={settingTexts.order.orderingTip}
+        text={settingTexts.order.ordering}
+      />
+    </Panel>,
+    <Panel key={`${props.id}-2`}>
+      <DragAndDrop
+        droppableId={props.droppableId}
+        itemClassName={styles.subDragableSection}
+        containerClassName={styles.subDragableWrapper}
+        onDragEnd={order => props.onSectionReorder(order)}
+      >
+        {props.sections.map((section, sectionIndex) => ({
+          id: section.id,
+          Component: (
+            <CheckPanel
+              key={section.id}
+              className={styles['subSection-clickable']}
+              text={getSectionIntroBySection(section).title.text}
+              checked={section.enabled}
+              disabled={section.editable === false}
+              onChange={props.onSectionChange(sectionIndex)}
+            />
+          )
+        }))}
+      </DragAndDrop>
+    </Panel>
+  ]
+}
 
 const getReminderIndex = (value) => {
   let index = REMINDER_INTERVALS.findIndex(obj => obj.id === value)
@@ -40,41 +78,53 @@ class DesktopSetting extends React.Component {
     actions.fetchGithubShareInfo()
   }
 
-  renderGithubSectionsOrdering() {
+  reorderSections(sectionKey) {
     const { resumeInfo, actions } = this.props
-    const shareSection = sectionIndex => checked =>
-      actions.patchResumeGitHubSection(sectionIndex, checked)
 
-    return [
-      <Panel key="GithubSectionSetting-1">
-        <TextPanel
-          id="github-ordering-panel"
-          tipso={settingTexts.github.orderingTip}
-          text={settingTexts.github.ordering}
-        />
-      </Panel>,
-      <Panel key="GithubSectionSetting-2">
-        <DragAndDrop
-          droppableId="GithubSection-DAD"
-          itemClassName={styles.subDragableSection}
-          containerClassName={styles.subDragableWrapper}
-          onDragEnd={order => actions.reorderResumeGitHubSections(order)}
-        >
-          {resumeInfo.githubSections.map((section, sectionIndex) => ({
-            id: section.id,
-            Component: (
-              <CheckPanel
-                key={section.id}
-                className={styles['subSection-clickable']}
-                text={settingTexts.github.sections[section.id]}
-                checked={section.enabled}
-                onChange={shareSection(sectionIndex)}
-              />
-            )
-          }))}
-        </DragAndDrop>
-      </Panel>
-    ]
+    return (order) => {
+      const sections = [...resumeInfo[sectionKey]]
+
+      const fromIndex = order.source.index
+      const toIndex = order.destination.index
+      if (toIndex === fromIndex) return
+
+      if (sections[fromIndex].editable === false) {
+        message.error(settingTexts.order.orderingError)
+        return
+      }
+
+      for (let i = fromIndex - 1; i >= toIndex; i -= 1) {
+        if (sections[i].editable === false) {
+          message.error(settingTexts.order.orderingFixedError)
+          return
+        }
+      }
+
+      const [section] = sections.splice(fromIndex, 1)
+
+      sections.splice(toIndex, 0, section)
+      actions.patchResumeChange({ [sectionKey]: sections })
+    }
+  }
+
+  renderSectionsOrdering(sectionKey, getSectionIntroBySection) {
+    const { resumeInfo, actions } = this.props
+    const sections = resumeInfo[sectionKey]
+    if (!Array.isArray(sections)) throw new Error(`Invalidate section key ${sectionKey}`)
+
+    const onSectionChange = sectionIndex => checked =>
+      actions.patchResumeSections(sectionKey, sectionIndex, checked)
+
+    return (
+      <RenderSectionsOrdering
+        sections={sections}
+        id={`${sectionKey}-ordering-panel`}
+        droppableId={`${sectionKey}-DAD`}
+        onSectionChange={onSectionChange}
+        onSectionReorder={this.reorderSections(sectionKey)}
+        getSectionIntroBySection={getSectionIntroBySection}
+      />
+    )
   }
 
   renderResumeGithubSetting() {
@@ -86,7 +136,7 @@ class DesktopSetting extends React.Component {
           switcher={switcher}
           id="use-github-switch"
           text={settingTexts.resume.useGithub}
-          onChange={() => actions.patchResumeInfo('useGithub')}
+          onChange={() => actions.toggleResumeInfo('useGithub')}
           checked={(resumeInfo && resumeInfo.useGithub) || false}
           disabled={resumeInfo.loading}
         />
@@ -177,7 +227,7 @@ class DesktopSetting extends React.Component {
         <SwitcherPanel
           switcher={switcher}
           text={settingTexts.resume.openShare}
-          onChange={() => actions.patchResumeInfo('openShare')}
+          onChange={() => actions.toggleResumeInfo('openShare')}
           disabled={resumeInfo.loading || resumeInfo.disabled}
           checked={(resumeInfo && resumeInfo.openShare) || false}
         />
@@ -196,7 +246,7 @@ class DesktopSetting extends React.Component {
             className={styles.subSection}
             text={settingTexts.resume.simplifyUrl}
             tipso={tip}
-            onChange={() => actions.patchResumeInfo('simplifyUrl')}
+            onChange={() => actions.toggleResumeInfo('simplifyUrl')}
             disabled={resumeInfo.loading || resumeInfo.disabled}
             checked={resumeInfo && resumeInfo.simplifyUrl}
           />
@@ -271,7 +321,7 @@ class DesktopSetting extends React.Component {
               />
             </Panel>
             {this.renderSharedLink()}
-            {this.renderGithubSectionsOrdering()}
+            {this.renderSectionsOrdering('githubSections', getGitHubSectionIntroBySection)}
             <Panel>
               {loading && (
                 <Loading className={styles.info_loading} loading />
@@ -305,12 +355,13 @@ class DesktopSetting extends React.Component {
               <SwitcherPanel
                 switcher={switcher}
                 text={settingTexts.resume.autosave}
-                onChange={() => actions.patchResumeInfo('autosave')}
+                onChange={() => actions.toggleResumeInfo('autosave')}
                 disabled={resumeInfo && resumeInfo.loading}
                 checked={resumeInfo && !!resumeInfo.autosave}
               />
             </Panel>
             {this.renderResumeShareSetting()}
+            {this.renderSectionsOrdering('resumeSections', getResumeSectionIntroBySection)}
             {this.renderResumeGithubSetting()}
           </ClassicCard>
         </div>

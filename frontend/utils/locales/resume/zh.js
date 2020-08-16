@@ -139,6 +139,7 @@ const datas = {
       }
     },
     custom: {
+      title: '自定义模块',
       homepage: '相关链接',
       mainButton: '添加一段内容',
       sideButton: '添加描述',

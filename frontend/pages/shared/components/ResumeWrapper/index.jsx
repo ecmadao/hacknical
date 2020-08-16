@@ -4,7 +4,8 @@ import objectAssign from 'UTILS/object-assign'
 import API from 'API'
 import {
   INFO,
-  OTHERS
+  OTHERS,
+  DEFAULT_RESUME_SECTIONS
 } from 'UTILS/constant/resume'
 import locales from 'LOCALES'
 import ResumeFormatter from './ResumeFormatter'
@@ -28,7 +29,8 @@ class ResumeWrapper extends React.Component {
         github: {},
         useGithub: true,
         githubUrl: null,
-        template: 'v0'
+        template: 'v0',
+        resumeSections: [...DEFAULT_RESUME_SECTIONS]
       },
       languages: [],
       customModules: []
@@ -50,6 +52,7 @@ class ResumeWrapper extends React.Component {
   async fetchResumeData() {
     const { userId } = this.props
     const resumeInfo = await API.resume.getResumeInfo({ userId })
+
     const { resumeHash } = resumeInfo
 
     this.initialShareInfo(resumeInfo)

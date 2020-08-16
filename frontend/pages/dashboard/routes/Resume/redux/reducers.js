@@ -10,7 +10,9 @@ import {
   CUSTOM_SECTION,
   WORK_EXPERIENCE,
   PERSONAL_PROJECT,
-  RESUME_SECTIONS,
+  RESUME_SECTION_IDS,
+  DEFAULT_RESUME_SECTIONS,
+  validateResumeSection
 } from 'UTILS/constant/resume'
 import { validateSocialLinks } from 'UTILS/resume'
 import objectAssign from 'UTILS/object-assign'
@@ -37,12 +39,12 @@ const initialState = {
     useGithub: false,
     resumeHash: '',
     template: 'v1',
-    autosave: false
+    autosave: false,
+    resumeSections: [...DEFAULT_RESUME_SECTIONS]
   },
   customModules: [],
   downloadDisabled: false,
-  sections: RESUME_SECTIONS.normal,
-  activeSection: RESUME_SECTIONS.normal[0].id,
+  activeSection: DEFAULT_RESUME_SECTIONS[0].id,
 }
 
 const reducers = handleActions({
@@ -56,15 +58,14 @@ const reducers = handleActions({
       personalProjects,
       customModules = [],
     } = action.payload
-    const sections = info.freshGraduate
-      ? RESUME_SECTIONS.freshGraduate
-      : RESUME_SECTIONS.normal
+
+    const { shareInfo } = state
+    const { resumeSections } = shareInfo
 
     return ({
       ...state,
       loading: false,
-      sections: [...sections],
-      activeSection: sections[0].id,
+      activeSection: resumeSections[0].id,
       info: objectAssign({}, state.info, info),
       educations: [...educations].sort(sortByDate),
       workExperiences: workExperiences.map((workExperience, i) => objectAssign({}, workExperience, {
@@ -80,7 +81,14 @@ const reducers = handleActions({
       others: objectAssign({}, state.others, objectAssign({}, others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]
       })),
-      customModules: [...customModules]
+      customModules: [...customModules],
+      shareInfo: objectAssign({}, shareInfo, {
+        resumeSections: resumeSections.reduce((list, section) => {
+          const item = validateResumeSection(section, customModules)
+          item && list.push(item)
+          return list
+        }, [])
+      })
     })
   },
   // loading
@@ -111,15 +119,9 @@ const reducers = handleActions({
   // info
   HANDLE_INFO_CHANGE(state, action) {
     const { info } = state
-    const {
-      freshGraduate = info.freshGraduate
-    } = action.payload
-    const sections = freshGraduate
-      ? RESUME_SECTIONS.freshGraduate
-      : RESUME_SECTIONS.normal
+
     return ({
       ...state,
-      sections: [...sections],
       info: objectAssign({}, info, action.payload),
     })
   },
@@ -634,27 +636,10 @@ const reducers = handleActions({
   INITIAL_PUB_RESUME_STATUS(state, action) {
     const newShareInfo = action.payload
     const { shareInfo } = state
+
     return ({
       ...state,
       shareInfo: objectAssign({}, shareInfo, newShareInfo)
-    })
-  },
-
-  SET_PUB_RESUME_STATUS(state, action) {
-    const openShare = action.payload
-    const { shareInfo } = state
-    return ({
-      ...state,
-      shareInfo: objectAssign({}, shareInfo, { openShare })
-    })
-  },
-
-  SET_PUB_RESUME_TEMPLATE(state, action) {
-    const template = action.payload
-    const { shareInfo } = state
-    return ({
-      ...state,
-      shareInfo: objectAssign({}, shareInfo, { template })
     })
   },
 
@@ -668,41 +653,63 @@ const reducers = handleActions({
 
   // custom module
   ADD_CUSTOM_MODULE(state, action) {
-    const { customModules } = state
+    const { customModules, shareInfo } = state
+    const { resumeSections } = shareInfo
     const id = shortid.generate()
+
     return ({
       ...state,
       customModules: [
         ...customModules,
         { id, text: action.payload, sections: [] }
       ],
-      activeSection: id
+      activeSection: id,
+      shareInfo: objectAssign({}, shareInfo, {
+        resumeSections: [
+          ...resumeSections,
+          {
+            id,
+            title: action.payload,
+            enabled: true,
+            editable: true,
+            tag: RESUME_SECTION_IDS.CUSTOM,
+          }
+        ]
+      })
     })
   },
 
   REMOVE_CUSTOM_MODULE(state, action) {
     const moduleId = action.payload
-    const { sections, customModules, activeSection } = state
+    const { shareInfo, customModules, activeSection } = state
+    const { resumeSections } = shareInfo
 
-    const allSections = [...sections, ...customModules]
-    const activeIndex = allSections.findIndex(module => module.id === activeSection)
-    const moduleIndex = activeIndex - sections.length
-    let nextIndex = activeIndex
-
-    if (activeSection === moduleId) {
-      if (activeIndex === allSections.length - 1) {
-        nextIndex = allSections.length - 2
-      }
-    }
+    const sectionIndex = resumeSections.findIndex(section => section.id === moduleId)
+    const moduleIndex = customModules.findIndex(module => module.id === moduleId)
 
     const newModules = [
       ...customModules.slice(0, moduleIndex),
       ...customModules.slice(moduleIndex + 1)
     ]
+
+    let activeSectionId = activeSection
+    if (moduleId === activeSection) {
+      const activeIndex = sectionIndex === resumeSections.length - 1
+        ? sectionIndex - 1
+        : sectionIndex + 1
+      activeSectionId = resumeSections[activeIndex].id
+    }
+
     return ({
       ...state,
       customModules: newModules,
-      activeSection: [...sections, ...newModules][nextIndex].id
+      activeSection: activeSectionId,
+      shareInfo: objectAssign({}, shareInfo, {
+        resumeSections: [
+          ...resumeSections.slice(0, sectionIndex),
+          ...resumeSections.slice(sectionIndex + 1)
+        ]
+      })
     })
   },
 

@@ -312,28 +312,30 @@ class ResumeContent extends ResumeUIWrapper {
     )
   }
 
-  renderCustomModule(module, key) {
-    const { sections } = module
+  renderCustomModule(module) {
+    return (key) => {
+      const { sections } = module
 
-    const projects = this.renderWorkProjects(sections.map(section => ({
-      url: section.url,
-      name: section.title,
-      details: section.details
-    })))
-    if (!projects.length) return null
+      const projects = this.renderWorkProjects(sections.map(section => ({
+        url: section.url,
+        name: section.title,
+        details: section.details
+      })))
+      if (!projects.length) return null
 
-    return (
-      <div className={styles['resume-section']} key={key}>
-        <div className={styles['section-row']}>
-          <div className={styles['row-left']}>
-            {module.text}
-          </div>
-          <div className={cx(styles['row-right'], styles['right-container'])}>
-            {projects}
+      return (
+        <div className={styles['resume-section']} key={key}>
+          <div className={styles['section-row']}>
+            <div className={styles['row-left']}>
+              {module.text}
+            </div>
+            <div className={cx(styles['row-right'], styles['right-container'])}>
+              {projects}
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   renderSlick() {

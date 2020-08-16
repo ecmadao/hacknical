@@ -125,6 +125,7 @@ const datas = {
       }
     },
     custom: {
+      title: 'Custom module',
       mainButton: 'Add new section',
       sideButton: 'Add description',
       homepage: 'Related url',

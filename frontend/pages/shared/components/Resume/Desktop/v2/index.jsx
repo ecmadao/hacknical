@@ -199,48 +199,50 @@ class ResumeComponentV2 extends ResumeUIWrapper {
     })
   }
 
-  renderCustomModule(module, key) {
-    const { sections } = module
-    const exps = sections
-      .map((section, index) => {
-        const {
-          url,
-          title,
-          details
-        } = section
+  renderCustomModule(module) {
+    return (key) => {
+      const { sections } = module
+      const exps = sections
+        .map((section, index) => {
+          const {
+            url,
+            title,
+            details
+          } = section
 
-        const projectDetails = details.map((detail, i) => (
-          <li key={i}>
-            {renderTextWithUrl(detail)}
-          </li>
-        ))
-        return (
-          <div className={styles.row} key={index}>
-            <div className={cx(styles.rowLeft, styles.textRight)}>
-              {renderBaseInfo({
-                url,
-                type: 'link',
-                value: title,
-                className: styles.mainText
-              })}
-            </div>
-            <div className={styles.rowRight}>
-              <div>
-                <ul className={styles.list}>
-                  {projectDetails}
-                </ul>
+          const projectDetails = details.map((detail, i) => (
+            <li key={i}>
+              {renderTextWithUrl(detail)}
+            </li>
+          ))
+          return (
+            <div className={styles.row} key={index}>
+              <div className={cx(styles.rowLeft, styles.textRight)}>
+                {renderBaseInfo({
+                  url,
+                  type: 'link',
+                  value: title,
+                  className: styles.mainText
+                })}
+              </div>
+              <div className={styles.rowRight}>
+                <div>
+                  <ul className={styles.list}>
+                    {projectDetails}
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        )
-      })
-    if (!exps.length) return null
+          )
+        })
+      if (!exps.length) return null
 
-    return section({
-      key,
-      rows: exps,
-      title: module.text
-    })
+      return section({
+        key,
+        rows: exps,
+        title: module.text
+      })
+    }
   }
 
   renderPersonalProjects(key) {

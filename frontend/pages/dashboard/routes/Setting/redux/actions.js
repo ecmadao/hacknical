@@ -65,7 +65,7 @@ const fetchResumeShareInfo = () => (dispatch) => {
   })
 }
 
-const patchResumeInfo = key => (dispatch, getState) => {
+const toggleResumeInfo = key => (dispatch, getState) => {
   const { resumeInfo } = getState().setting
   const { loading } = resumeInfo
   const value = resumeInfo[key]
@@ -76,6 +76,14 @@ const patchResumeInfo = key => (dispatch, getState) => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
       [key]: !value
     })))
+  })
+}
+
+const patchResumeChange = data => (dispatch, getState) => {
+  const { resumeInfo } = getState().setting
+
+  API.resume.patchResumeInfo(data).then(() => {
+    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, data)))
   })
 }
 
@@ -93,35 +101,19 @@ const postResumeReminderChange = (key, value) => (dispatch, getState) => {
   })
 }
 
-const patchResumeGitHubSection = (sectionIndex, checked) => (dispatch, getState) => {
+const patchResumeSections = (sectionKey, sectionIndex, checked) => (dispatch, getState) => {
   const { resumeInfo } = getState().setting
-  const githubSections = [
-    ...resumeInfo.githubSections.slice(0, sectionIndex),
-    objectAssign({}, resumeInfo.githubSections[sectionIndex], { enabled: checked }),
-    ...resumeInfo.githubSections.slice(sectionIndex + 1),
+  const sections = resumeInfo[sectionKey]
+
+  const newSections = [
+    ...sections.slice(0, sectionIndex),
+    objectAssign({}, sections[sectionIndex], { enabled: checked }),
+    ...sections.slice(sectionIndex + 1),
   ]
 
-  API.resume.patchResumeInfo({ githubSections }).then(() => {
+  API.resume.patchResumeInfo({ [sectionKey]: newSections }).then(() => {
     dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      githubSections
-    })))
-  })
-}
-
-const reorderResumeGitHubSections = order => (dispatch, getState) => {
-  const { resumeInfo } = getState().setting
-  const { githubSections } = resumeInfo
-
-  const fromIndex = order.source.index
-  const toIndex = order.destination.index
-  if (toIndex === fromIndex) return
-
-  const [githubSection] = githubSections.splice(fromIndex, 1)
-  githubSections.splice(toIndex, 0, githubSection)
-
-  API.resume.patchResumeInfo({ githubSections }).then(() => {
-    dispatch(initialResumeShareInfo(objectAssign({}, resumeInfo, {
-      githubSections
+      [sectionKey]: newSections
     })))
   })
 }
@@ -140,7 +132,7 @@ export default {
   initialResumeShareInfo,
   fetchResumeShareInfo,
   postResumeReminderChange,
-  patchResumeGitHubSection,
-  patchResumeInfo,
-  reorderResumeGitHubSections
+  patchResumeSections,
+  toggleResumeInfo,
+  patchResumeChange
 }

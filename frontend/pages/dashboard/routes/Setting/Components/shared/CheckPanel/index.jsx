@@ -7,6 +7,7 @@ import Icon from 'COMPONENTS/Icon'
 const CheckPanel = (props) => {
   const {
     text,
+    disabled,
     checked,
     onChange,
     className
@@ -14,10 +15,13 @@ const CheckPanel = (props) => {
 
   return (
     <div
-      onClick={() => onChange(!checked)}
+      onClick={() => {
+        !disabled && onChange(!checked)
+      }}
       className={cx(
         styles.infoContainerLarge,
         styles.checkInfoContainer,
+        disabled && styles.disabled,
         className
       )}
     >

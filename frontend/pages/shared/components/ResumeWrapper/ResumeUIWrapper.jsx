@@ -7,6 +7,7 @@ import locales, { switchLanguage, getLocale } from 'LOCALES'
 import styles from '../Resume/shared/common.css'
 import AsyncGithub from '../shared/AsyncGithub'
 import Icon from 'COMPONENTS/Icon'
+import { RESUME_SECTION_IDS } from 'UTILS/constant/resume'
 
 const locale = getLocale()
 const resumeLocales = locales('resume')
@@ -68,6 +69,13 @@ class ResumeUIWrapper extends React.Component {
     return null
   }
 
+  renderOthers() {
+    return [
+      this.renderSupplements,
+      this.renderSocialLinks
+    ].map((func, index) => func && func.call(this, index))
+  }
+
   renderSupplements() {
     return null
   }
@@ -92,35 +100,36 @@ class ResumeUIWrapper extends React.Component {
     return customModules.map((module, index) => this.renderCustomModule(module, index))
   }
 
-  renderCustomModule(module, key) {
-    return null
+  renderCustomModule(module) {
+    return key => {}
+  }
+
+  renderSection(section, resume) {
+    switch (section.id) {
+      case RESUME_SECTION_IDS.INFO:
+        return () => {}
+      case RESUME_SECTION_IDS.WORK_EXPERIENCE:
+        return this.renderWorkExperiences
+      case RESUME_SECTION_IDS.PERSONAL_PROJECTS:
+        return this.renderPersonalProjects
+      case RESUME_SECTION_IDS.EDUCATIONS:
+        return this.renderEducations
+      case RESUME_SECTION_IDS.OTHERS:
+        return this.renderOthers
+      default:
+        if (section.tag !== RESUME_SECTION_IDS.CUSTOM) throw new Error(`Can not handle section ${JSON.stringify(section)}`)
+        const module = resume.customModules.find(module => module.id === section.id)
+        if (!module) return () => {}
+        return this.renderCustomModule(module)
+    }
   }
 
   renderResumeSections() {
-    const { resume } = this.props
-    const { info } = resume
-    const { freshGraduate } = info
-    let sectionFuncs = []
-    if (freshGraduate) {
-      sectionFuncs = [
-        this.renderEducations,
-        this.renderWorkExperiences,
-        this.renderPersonalProjects,
-        this.renderCustomModules,
-        this.renderSupplements,
-        this.renderSocialLinks
-      ]
-    } else {
-      sectionFuncs = [
-        this.renderWorkExperiences,
-        this.renderPersonalProjects,
-        this.renderEducations,
-        this.renderCustomModules,
-        this.renderSupplements,
-        this.renderSocialLinks
-      ]
-    }
-    return sectionFuncs.map((func, index) => func && func.call(this, index))
+    const { resume, shareInfo } = this.props
+
+    return shareInfo.resumeSections
+      .filter(section => section.enabled)
+      .map((section, index) => this.renderSection(section, resume).call(this, index))
   }
 
   renderGitHub() {

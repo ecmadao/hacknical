@@ -84,18 +84,12 @@ const datas = {
         checkAll: 'Check all',
         filter: 'Filter repositories'
       },
+    },
+    order: {
       ordering: 'Module sequence and visibility',
+      orderingError: 'Can not order this module',
+      orderingFixedError: 'Fixed module can not be reordered',
       orderingTip: 'Drag and drop to reorder; Click the row to toggle the visibility in sharing page',
-      sections: {
-        hotmap: 'Commit hotmap',
-        info: 'Basic info',
-        repos: 'Repos preview',
-        course: 'Coding timeline',
-        languages: 'Coding languages',
-        orgs: 'Organizations info',
-        contributed: 'Contributions',
-        commits: 'Commit info',
-      }
     },
     resume: {
       title: 'Resume',
