@@ -29,7 +29,7 @@ class ResumeWrapper extends React.Component {
         github: {},
         useGithub: true,
         githubUrl: null,
-        template: 'v0',
+        template: 'v1',
         resumeSections: [...DEFAULT_RESUME_SECTIONS]
       },
       languages: [],

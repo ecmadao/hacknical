@@ -1,5 +1,9 @@
 @import 'open-color/open-color.css';
 
+:root {
+  --mainFontSize: 16px;
+}
+
 .titleText {
   font-size: 1.5em;
   color: var(--oc-gray-9);
@@ -108,4 +112,15 @@
 .resumeLanguageActived {
   cursor: default;
   color: var(--oc-green-5);
+}
+
+.desktop_container {
+  width: 80%;
+  height: 100%;
+  max-width: 800px;
+  margin: 50px auto;
+}
+
+.mobile_container {
+  font-size: var(--mainFontSize);
 }

@@ -68,10 +68,6 @@
   color: var(--oc-green-5);
 }
 
-.container {
-  font-size: var(--mainFontSize);
-}
-
 .resumeContainer {
   padding-bottom: 20px;
 }

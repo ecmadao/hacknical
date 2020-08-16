@@ -1,7 +1,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ResumeMobileShare from 'SHARED/components/Resume/Mobile'
+import ResumeMobileShare from 'SHARED/components/Resume'
 import 'SRC/vendor/shared/loading.css'
 
 const renderApp = (domId, props = {}) => {
@@ -15,6 +15,7 @@ const renderApp = (domId, props = {}) => {
 $(() => {
   renderApp('resume', {
     login: window.login,
-    userId: window.userId
+    userId: window.userId,
+    device: 'mobile'
   })
 })

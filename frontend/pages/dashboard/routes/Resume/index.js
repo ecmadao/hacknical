@@ -5,6 +5,7 @@ import asyncComponent from 'COMPONENTS/AsyncComponent'
 
 export default (store, options) => {
   const { login, device } = options
+
   const resumeComponent = {
     desktop: asyncComponent(
       () => System.import('./Components')
@@ -14,7 +15,7 @@ export default (store, options) => {
         })
     ),
     mobile: asyncComponent(
-      () => System.import('SHARED/components/Resume/Mobile')
+      () => System.import('SHARED/components/Resume')
         .then(component => component.default)
     )
   }
