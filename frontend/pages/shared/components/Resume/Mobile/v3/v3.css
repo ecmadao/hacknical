@@ -142,10 +142,21 @@
 
 .row-right {
   flex: 1;
-  padding: 0 20px 10px 20px;
+  padding: 0 20px;
+
+  &:not(:first-child) {
+    padding-top: 10px;
+  }
+
+  &:last-child {
+    padding-bottom: 10px;
+  }
 }
 
 .right-container {
+  &:not(:first-child) {
+    border-top: 1px solid var(--sideBg);
+  }
 }
 
 .right-header {

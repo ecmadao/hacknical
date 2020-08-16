@@ -115,37 +115,32 @@ class ResumeContent extends ResumeUIWrapper {
           </li>
         ))
         return (
-          <div className={styles['section-row']} key={index}>
-            <div className={styles['row-left']}>
-              {super.getSectionTitle('educations')}
-            </div>
-            <div className={cx(styles['row-right'], styles['right-container'])}>
-              <div className={styles['right-header']}>
-                <div className={cx(styles.mainText, styles.edu)}>
-                  {school}
-                  &nbsp;
-                  {
-                    renderLabels(
-                      types,
-                      { color: 'darkLight', className: '' },
-                      styles.labelContainerClassName
-                    )
-                  }
-                </div>
-                <div className={styles.minText}>{startTime}~{endTime}</div>
-                <div className={styles.sideText}>{education}</div>
-                {major ? <div className={styles.sideText}>{major}</div> : null}
+          <div className={cx(styles['row-right'], styles['right-container'])} key={`edu-${index}`}>
+            <div className={styles['right-header']}>
+              <div className={cx(styles.mainText, styles.edu)}>
+                {school}
+                &nbsp;
+                {
+                  renderLabels(
+                    types,
+                    { color: 'darkLight', className: '' },
+                    styles.labelContainerClassName
+                  )
+                }
               </div>
-              {experiences.length && info.freshGraduate ? (
-                <div className={styles['section-projects']}>
-                  <div className={styles['section-project']}>
-                    <ul className={styles['section-list']}>
-                      {experienceDetails}
-                    </ul>
-                  </div>
-                </div>
-              ) : null}
+              <div className={styles.minText}>{startTime}~{endTime}</div>
+              <div className={styles.sideText}>{education}</div>
+              {major ? <div className={styles.sideText}>{major}</div> : null}
             </div>
+            {experiences.length && info.freshGraduate ? (
+              <div className={styles['section-projects']}>
+                <div className={styles['section-project']}>
+                  <ul className={styles['section-list']}>
+                    {experienceDetails}
+                  </ul>
+                </div>
+              </div>
+            ) : null}
           </div>
         )
       })
@@ -153,7 +148,12 @@ class ResumeContent extends ResumeUIWrapper {
     if (!edus.length) return null
     return (
       <div className={styles['resume-section']} key={key}>
-        {edus}
+        <div className={styles['section-row']}>
+          <div className={styles['row-left']}>
+            {super.getSectionTitle('educations')}
+          </div>
+          <div>{edus}</div>
+        </div>
       </div>
     )
   }
@@ -175,24 +175,19 @@ class ResumeContent extends ResumeUIWrapper {
         const workProjects = this.renderWorkProjects(projects)
 
         return (
-          <div className={styles['section-row']} key={index}>
-            <div className={styles['row-left']}>
-              {super.getSectionTitle('workExperiences')}
+          <div className={cx(styles['row-right'], styles['right-container'])} key={`workExperience-${index}`}>
+            <div className={styles['right-header']}>
+              {HeaderInfo({
+                url,
+                text: company,
+                className: styles.mainLinkText
+              })}
+              <div className={styles.minText}>{startTime}~{endTime}</div>
+              {position ? <div className={styles.sideText}>{position}</div> : null}
+              {renderLabels(techs, { color: 'darkLight' })}
             </div>
-            <div className={cx(styles['row-right'], styles['right-container'])}>
-              <div className={styles['right-header']}>
-                {HeaderInfo({
-                  url,
-                  text: company,
-                  className: styles.mainLinkText
-                })}
-                <div className={styles.minText}>{startTime}~{endTime}</div>
-                {position ? <div className={styles.sideText}>{position}</div> : null}
-                {renderLabels(techs, { color: 'darkLight' })}
-              </div>
-              <div className={styles['section-projects']}>
-                {workProjects}
-              </div>
+            <div className={styles['section-projects']}>
+              {workProjects}
             </div>
           </div>
         )
@@ -201,7 +196,12 @@ class ResumeContent extends ResumeUIWrapper {
     if (!exps.length) return null
     return (
       <div className={styles['resume-section']} key={key}>
-        {exps}
+        <div className={styles['section-row']}>
+          <div className={styles['row-left']}>
+            {super.getSectionTitle('workExperiences')}
+          </div>
+          <div>{exps}</div>
+        </div>
       </div>
     )
   }
@@ -266,8 +266,10 @@ class ResumeContent extends ResumeUIWrapper {
           <div className={styles['row-left']}>
             {super.getSectionTitle('personalProjects')}
           </div>
-          <div className={cx(styles['row-right'], styles['right-container'])}>
-            {projects}
+          <div>
+            <div className={cx(styles['row-right'], styles['right-container'])}>
+              {projects}
+            </div>
           </div>
         </div>
       </div>
@@ -329,8 +331,10 @@ class ResumeContent extends ResumeUIWrapper {
             <div className={styles['row-left']}>
               {module.text}
             </div>
-            <div className={cx(styles['row-right'], styles['right-container'])}>
-              {projects}
+            <div>
+              <div className={cx(styles['row-right'], styles['right-container'])}>
+                {projects}
+              </div>
             </div>
           </div>
         </div>
