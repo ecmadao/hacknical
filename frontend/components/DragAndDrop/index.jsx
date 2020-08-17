@@ -30,6 +30,7 @@ class DragAndDrop extends React.Component {
     const {
       disabled,
       children,
+      onItemClick,
       droppableId,
       itemClassName,
       containerClassName,
@@ -67,6 +68,7 @@ class DragAndDrop extends React.Component {
                         itemClassName,
                         child.itemClassName
                       )}
+                      onClick={() => onItemClick(index)}
                     >
                       {child.Component}
                     </div>
@@ -86,6 +88,7 @@ DragAndDrop.propTypes = {
   onDrop: PropTypes.func,
   onMoveEnd: PropTypes.func,
   onDragEnd: PropTypes.func,
+  onItemClick: PropTypes.func,
   children: PropTypes.array,
   disabled: PropTypes.bool,
   droppableId: PropTypes.string,
@@ -97,6 +100,7 @@ DragAndDrop.defaultProps = {
   onDrop: Function.prototype,
   onDragEnd: Function.prototype,
   onMoveEnd: Function.prototype,
+  onItemClick: Function.prototype,
   children: [],
   disabled: false,
   itemClassName: '',

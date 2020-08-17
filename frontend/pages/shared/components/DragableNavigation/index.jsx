@@ -14,6 +14,7 @@ class DragableNavigation extends React.Component {
   constructor(props) {
     super(props)
 
+    this.handleItemClick = this.handleItemClick.bind(this)
     this.handleSectionsReorder = this.handleSectionsReorder.bind(this)
     this.handleSectionChange = this.handleSectionChange.bind(this)
   }
@@ -66,6 +67,16 @@ class DragableNavigation extends React.Component {
     }
   }
 
+  handleItemClick(index) {
+    if (index % 2 === 1) return
+
+    const { sections } = this.props
+    const realIndex = index / 2
+    if (!sections[realIndex]) return
+
+    this.handleSectionChange(sections[realIndex].id)()
+  }
+
   render() {
     const {
       id,
@@ -83,8 +94,9 @@ class DragableNavigation extends React.Component {
         navigationCardBgClassName={styles.navigationCardBg}
       >
         <DragAndDrop
-          containerClassName={styles.dragableWrapper}
+          onItemClick={this.handleItemClick}
           onDragEnd={this.handleSectionsReorder}
+          containerClassName={styles.dragableWrapper}
         >
           {sections.reduce((list, section, index) => {
             list.push({
