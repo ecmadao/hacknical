@@ -200,6 +200,10 @@ const {
 )
 
 // resume share
+const updateResumeSections = sections => (dispatch) => {
+  dispatch(initialPubResumeStatus({ resumeSections: [...sections] }))
+}
+
 const fetchPubResumeStatus = () => (dispatch) => {
   return API.resume.getResumeInfo().then((result) => {
     result && dispatch(initialPubResumeStatus(result))
@@ -267,7 +271,9 @@ const resumeEditActions = {
   changeModuleSection,
   deleteModuleSection,
   removeCustomModule,
-  addCustomModule
+  addCustomModule,
+  // sections
+  updateResumeSections
 }
 
 export default objectAssign(

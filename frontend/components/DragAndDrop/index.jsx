@@ -14,20 +14,21 @@ class DragAndDrop extends React.Component {
   onDragEnd(order) {
     const { onDragEnd, onMoveEnd } = this.props
 
-    const { source, destination } = order
+    const { source, destination, draggableId } = order
 
     // dropped outside the list
     if (!destination) return
 
     if (source.droppableId === destination.droppableId) {
-      return onDragEnd({ source, destination })
+      return onDragEnd({ source, destination, draggableId })
     } else {
-      return onMoveEnd({ source, destination })
+      return onMoveEnd({ source, destination, draggableId })
     }
   }
 
   render() {
     const {
+      disabled,
       children,
       droppableId,
       itemClassName,
@@ -36,7 +37,7 @@ class DragAndDrop extends React.Component {
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <Droppable droppableId={droppableId}>
+        <Droppable droppableId={droppableId} isDropDisabled={disabled}>
           {(provided, snapshot) => (
             <div
               {...provided.droppableProps}
@@ -52,6 +53,7 @@ class DragAndDrop extends React.Component {
                   key={child.id}
                   draggableId={child.id}
                   index={index}
+                  isDragDisabled={child.disabled}
                 >
                   {(provided, snapshot) => (
                     <div
@@ -60,7 +62,7 @@ class DragAndDrop extends React.Component {
                       {...provided.dragHandleProps}
                       style={provided.draggableProps.style}
                       className={cx(
-                        styles.droppable_item,
+                        styles.draggable_item,
                         snapshot.isDragging && snapshot.dragging,
                         itemClassName,
                         child.itemClassName
@@ -85,6 +87,7 @@ DragAndDrop.propTypes = {
   onMoveEnd: PropTypes.func,
   onDragEnd: PropTypes.func,
   children: PropTypes.array,
+  disabled: PropTypes.bool,
   droppableId: PropTypes.string,
   itemClassName: PropTypes.string,
   containerClassName: PropTypes.string
@@ -95,6 +98,7 @@ DragAndDrop.defaultProps = {
   onDragEnd: Function.prototype,
   onMoveEnd: Function.prototype,
   children: [],
+  disabled: false,
   itemClassName: '',
   containerClassName: '',
   droppableId: 'droppableId'

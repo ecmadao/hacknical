@@ -1,17 +1,14 @@
 
 import React from 'react'
-import cx from 'classnames'
 import API from 'API'
-import locales from 'LOCALES'
 import styles from '../styles/github.css'
-import Navigation from 'COMPONENTS/Navigation'
-import DragAndDrop from 'COMPONENTS/DragAndDrop'
+import objectAssign from 'UTILS/object-assign'
 import GitHub from 'SHARED/components/GitHub/Desktop'
 import {
   DEFAULT_GITHUB_SECTIONS,
+  getGitHubSectionIntroBySection
 } from 'UTILS/constant/github'
-
-const githubText = locales('github.sections')
+import DragableNavigation from 'SHARED/components/DragableNavigation'
 
 class GitHubDesktop extends React.Component {
   constructor(props) {
@@ -34,20 +31,13 @@ class GitHubDesktop extends React.Component {
 
     this.setState({
       activeSection: sections[0].id,
-      githubSections: sections
+      githubSections: sections.map(section => objectAssign({}, section, {
+        title: getGitHubSectionIntroBySection(section).title.text
+      }))
     })
   }
 
-  handleSectionsReorder(order) {
-    const fromIndex = order.source.index
-    const toIndex = order.destination.index
-    if (toIndex === fromIndex) return
-
-    const githubSections = [...this.state.githubSections]
-
-    const [githubSection] = githubSections.splice(fromIndex, 1)
-    githubSections.splice(toIndex, 0, githubSection)
-
+  handleSectionsReorder(githubSections) {
     API.resume.patchResumeInfo({
       githubSections: [...githubSections]
     }).then(() => {
@@ -58,19 +48,9 @@ class GitHubDesktop extends React.Component {
   }
 
   handleSectionChange(id) {
-    return () => {
-      this.setState({
-        activeSection: id
-      })
-
-      const href = window.location.href
-      window.location.href = [
-        window.location.origin,
-        window.location.pathname,
-        window.location.search,
-        `#${id}`
-      ].join('')
-    }
+    this.setState({
+      activeSection: id
+    })
   }
 
   render() {
@@ -81,35 +61,13 @@ class GitHubDesktop extends React.Component {
 
     return (
       <div className={styles.container}>
-        <Navigation
-          fixed
+        <DragableNavigation
           id="github_navigation"
-
-          navigationCardClassName={styles.navigationCard}
-          navigationCardBgClassName={styles.navigationCardBg}
-        >
-          <DragAndDrop
-            containerClassName={styles.dragableWrapper}
-            onDragEnd={this.handleSectionsReorder}
-          >
-            {githubSections.map((section, index) => ({
-              id: section.id,
-              itemClassName: cx(
-                styles.dragableSection,
-                activeSection === section.id && styles.active
-              ),
-              Component: (
-                <div
-                  key={`${section.id}-${index}`}
-                  className={styles.navSectionWrapper}
-                  onClick={this.handleSectionChange(section.id)}
-                >
-                  {githubText[section.id].title}
-                </div>
-              )
-            }))}
-          </DragAndDrop>
-        </Navigation>
+          sections={githubSections}
+          activeSection={activeSection}
+          onReorder={this.handleSectionsReorder}
+          onActiveChange={this.handleSectionChange}
+        />
         <GitHub
           sections={githubSections}
         />

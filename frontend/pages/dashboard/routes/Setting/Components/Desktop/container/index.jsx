@@ -42,6 +42,7 @@ const RenderSectionsOrdering = (props = {}) => {
       >
         {props.sections.map((section, sectionIndex) => ({
           id: section.id,
+          disabled: section.editable === false,
           Component: (
             <CheckPanel
               key={section.id}

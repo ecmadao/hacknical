@@ -1,0 +1,71 @@
+@import 'open-color/open-color.css';
+
+.navigationCard {
+  &::after {
+    transform: translate(10px, 10px) !important;
+  }
+}
+
+.navigationCardBg {
+  padding: 20px 0 !important;
+  transform: initial !important;
+}
+
+.dragableWrapper {
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.dragableSection {
+  flex: 1;
+  width: 50px;
+  overflow: hidden;
+  padding: 10px !important;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    background-color: var(--bgDeep);
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &.active,
+  &:hover {
+    & .navSectionWrapper {
+      color: var(--oc-green-7);
+    }
+
+    &::before {
+      background-color: var(--oc-green-7);
+    }
+  }
+
+  & .navSectionWrapper {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+}
+
+.dragableSectionDivisive {
+  cursor: default !important;
+  padding: 0 !important;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 40px;
+    background-color: #eaeaea;
+    margin: 0 auto;
+  }
+
+  &:hover {
+    background-color: #fff !important;
+  }
+}

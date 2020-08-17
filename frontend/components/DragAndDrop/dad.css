@@ -10,7 +10,7 @@
   }
 }
 
-.droppable_item {
+.draggable_item {
   background-color: #fff;
   transition: background-color 0.2s;
   padding: 10px;

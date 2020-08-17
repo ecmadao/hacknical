@@ -17,12 +17,12 @@ import locales from 'LOCALES'
 import API from 'API'
 import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter'
 import message from 'UTILS/message'
-import Navigation from 'COMPONENTS/Navigation'
 import HeartBeat from 'UTILS/heartbeat'
 import NavSection from './NavSection'
 import ResumeOperations from './Operations'
 import { REMOTE_ASSETS } from 'UTILS/constant'
 import { getResumeSectionIntroBySection } from 'UTILS/constant/resume'
+import DragableNavigation from 'SHARED/components/DragableNavigation'
 
 const resumeTexts = locales('resume')
 const { editedConfirm, messages } = resumeTexts
@@ -44,7 +44,7 @@ class Resume extends React.Component {
     this.handleShareModalStatus = this.handleShareModalStatus.bind(this)
     this.handleTemplateModalStatus = this.handleTemplateModalStatus.bind(this)
     this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this)
-    this.handleSectionChange = this.handleSectionChange.bind(this)
+
     this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this)
   }
 
@@ -161,10 +161,6 @@ class Resume extends React.Component {
     this.setState({ openIntroModal })
   }
 
-  handleSectionChange(id) {
-    this.props.actions.handleActiveSectionChange(id)
-  }
-
   get sectionActiveIndex() {
     const { activeSection } = this.props.resume
 
@@ -182,7 +178,8 @@ class Resume extends React.Component {
     const { shareInfo } = this.props.resume
     return shareInfo.resumeSections.map(section => ({
       id: section.id,
-      text: section.title || getResumeSectionIntroBySection(section).title.text
+      disabled: section.editable === false,
+      title: section.title || getResumeSectionIntroBySection(section).title.text
     }))
   }
 
@@ -194,7 +191,9 @@ class Resume extends React.Component {
 
   handleSectionIndexChange(index) {
     const section = this.sections[index]
-    section && this.handleSectionChange(section.id)
+    if (section) {
+      this.props.actions.handleActiveSectionChange(section.id)
+    }
   }
 
   renderSectionCreator() {
@@ -237,13 +236,12 @@ class Resume extends React.Component {
 
     return (
       <div className={styles.resume_container}>
-        <Navigation
-          fixed
+        <DragableNavigation
           id="resume_navigation"
-          currentIndex={currentIndex}
-          activeSection={activeSection}
           sections={this.sections}
-          handleSectionChange={this.handleSectionChange}
+          activeSection={activeSection}
+          onReorder={actions.updateResumeSections}
+          onActiveChange={actions.handleActiveSectionChange}
           tail={this.renderSectionCreator()}
         />
         <ResumeOperations
@@ -263,8 +261,8 @@ class Resume extends React.Component {
           currentIndex={currentIndex}
           section={{
             id: this.currentSection.id,
-            text: this.currentSection.text.headline
-              || this.currentSection.text
+            text: this.currentSection.title.headline
+              || this.currentSection.title
           }}
           onSectionChange={this.handleSectionIndexChange}
         />
