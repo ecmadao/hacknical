@@ -15,6 +15,7 @@ import resumeActions from '../redux/actions'
 import Hotkeys from 'UTILS/hotkeys'
 import locales from 'LOCALES'
 import API from 'API'
+import objectAssign from 'UTILS/object-assign'
 import ResumeFormatter from 'SHARED/components/ResumeWrapper/ResumeFormatter'
 import message from 'UTILS/message'
 import HeartBeat from 'UTILS/heartbeat'
@@ -176,8 +177,7 @@ class Resume extends React.Component {
 
   get sections() {
     const { shareInfo } = this.props.resume
-    return shareInfo.resumeSections.map(section => ({
-      id: section.id,
+    return shareInfo.resumeSections.map(section => objectAssign({}, section, {
       disabled: section.editable === false,
       title: section.title || getResumeSectionIntroBySection(section).title.text
     }))
