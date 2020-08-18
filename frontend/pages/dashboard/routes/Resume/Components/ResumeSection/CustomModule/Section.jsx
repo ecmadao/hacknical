@@ -119,6 +119,8 @@ class Section extends React.Component {
             onDelete={this.handleDetailRemove}
             onChange={this.handleDetailChange}
             placeholder={resumeTexts.addSectionDetail}
+            itemClassName={styles.resume_list_item}
+            containerClassName={styles.resume_list_container}
             reorderList={this.handleDetailReorder}
           />
         </div>

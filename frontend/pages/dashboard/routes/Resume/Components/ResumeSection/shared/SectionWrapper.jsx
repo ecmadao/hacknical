@@ -104,7 +104,6 @@ class Wrapper extends React.Component {
               theme={titleEditing ? 'flat' : 'ghost'}
               disabled={!editable || !titleEditing}
               style={{ width: `${getTextWidth(title, 18)}px` }}
-              // style={{ width: `${title.length / 2 * 18 + 10}px`}}
             />
             &nbsp;
             <SectionTip {...this.props} />
@@ -149,6 +148,11 @@ class Wrapper extends React.Component {
             {currentIndex > 0 && (
               <ClassicButton
                 theme="dark"
+                buttonContainerClassName={
+                  currentIndex < maxIndex - 1
+                    ? styles.operation_button_with_right_margin
+                    : ''
+                }
               >
                 <Button
                   color="none"
@@ -161,7 +165,6 @@ class Wrapper extends React.Component {
                 />
               </ClassicButton>
             )}
-            &nbsp;&nbsp;&nbsp;
             {currentIndex < maxIndex - 1 && (
               <ClassicButton
                 theme="green"

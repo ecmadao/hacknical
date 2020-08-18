@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import styles from './nav.css'
-import locales from 'LOCALES'
+import locales, { getLocale } from 'LOCALES'
 import Navigation from 'COMPONENTS/Navigation'
 import DragAndDrop from 'COMPONENTS/DragAndDrop'
 import message from 'UTILS/message'
@@ -82,7 +82,8 @@ class DragableNavigation extends React.Component {
       id,
       tail,
       sections,
-      activeSection
+      activeSection,
+      dragableSectionClassName,
     } = this.props
 
     return (
@@ -103,6 +104,8 @@ class DragableNavigation extends React.Component {
               id: section.id,
               itemClassName: cx(
                 styles.dragableSection,
+                dragableSectionClassName,
+                getLocale() === 'en' && styles.wide,
                 activeSection === section.id && styles.active
               ),
               disabled: section.disabled,
@@ -142,6 +145,7 @@ DragableNavigation.propTypes = {
   sections: PropTypes.array,
   activeSection: PropTypes.string,
   id: PropTypes.string,
+  dragableSectionClassName: PropTypes.string,
 }
 
 DragableNavigation.defaultProps = {
@@ -150,6 +154,7 @@ DragableNavigation.defaultProps = {
   sections: [],
   activeSection: null,
   id: '',
+  dragableSectionClassName: '',
 }
 
 export default DragableNavigation

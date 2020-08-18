@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import resumeActions from '../../../redux/actions'
 import locales from 'LOCALES'
+import DragAndDrop from 'COMPONENTS/DragAndDrop'
 import SectionWrapper from '../shared/SectionWrapper'
 import Section from './Section'
 
@@ -12,6 +13,8 @@ const resumeTexts = locales('resume.sections.custom')
 class CustomModule extends React.Component {
   constructor(props) {
     super(props)
+
+    this.reorderSection = this.reorderSection.bind(this)
     this.deleteSection = this.deleteSection.bind(this)
     this.handleSectionChange = this.handleSectionChange.bind(this)
   }
@@ -27,19 +30,41 @@ class CustomModule extends React.Component {
     return () => actions.deleteModuleSection(moduleIndex, sectionIndex)
   }
 
-  renderModule() {
-    const { module, disabled } = this.props
+  reorderSection(order) {
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+    if (toIndex === fromIndex) return
+
+    const { actions, module, moduleIndex } = this.props
+    const newSections = [...module.sections]
+
+    const [section] = newSections.splice(fromIndex, 1)
+    newSections.splice(toIndex, 0, section)
+
+    actions.updateModuleSections(newSections, moduleIndex)
+  }
+
+  renderModules() {
+    const { module, disabled, moduleIndex } = this.props
     const { sections } = module
-    return sections.map((section, sectionIndex) => (
-      <Section
-        key={`CustomModule.${sectionIndex}`}
-        id={`CustomModule.${sectionIndex}`}
-        section={section}
-        disabled={disabled}
-        handleDelete={this.deleteSection(sectionIndex)}
-        handleChange={this.handleSectionChange(sectionIndex)}
-      />
-    ))
+
+    return (
+      <DragAndDrop onDragEnd={this.reorderSection}>
+        {sections.map((section, sectionIndex) => ({
+          id: `CustomModule.${moduleIndex}.Section.${sectionIndex}`,
+          Component: (
+            <Section
+              key={`CustomModule.${moduleIndex}.Section.${sectionIndex}`}
+              id={`CustomModule.${moduleIndex}.Section.${sectionIndex}`}
+              section={section}
+              disabled={disabled}
+              handleDelete={this.deleteSection(sectionIndex)}
+              handleChange={this.handleSectionChange(sectionIndex)}
+            />
+          )
+        }))}
+      </DragAndDrop>
+    )
   }
 
   render() {
@@ -55,7 +80,7 @@ class CustomModule extends React.Component {
         onClick={() => actions.addModuleSection(moduleIndex)}
         onDelete={() => actions.removeCustomModule(sectionId)}
       >
-        {this.renderModule()}
+        {this.renderModules()}
       </SectionWrapper>
     )
   }

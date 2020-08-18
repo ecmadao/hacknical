@@ -20,11 +20,11 @@ const datas = {
       daily: 'The crazy day',
     },
     info: {
-      title: 'Basic Info',
+      title: 'Basic info',
       joinedAt: 'Joined GitHub at %time'
     },
     baseInfo: {
-      title: 'Basic Info',
+      title: 'Basic info',
       joinedAt: 'Joined GitHub at %time'
     },
     predictions: {
@@ -47,7 +47,7 @@ const datas = {
       following: 'Following'
     },
     repos: {
-      title: 'Repositories Review',
+      title: 'Repos review',
       starsCount: 'Stars count',
       forksCount: 'Forks count',
       reposCount: 'Repos count',
@@ -70,14 +70,14 @@ const datas = {
       tipso: 'Repositories commit in the last year (only show top 10 repositories by commit amount)'
     },
     contributed: {
-      title: 'Contributed Repositories',
+      title: 'Contributed repos',
       showMore: 'show more',
       hideMore: 'hide',
       tipso: 'Issue, PR for others repositories in the last year will be marked as contributions',
       emptyText: 'No repositories info, please refresh in settings',
     },
     orgs: {
-      title: 'Organizations Info',
+      title: 'Orgs info',
       createdAt: 'Created at ',
       empty: 'No organizations info',
       joinedRepos: 'Public repos you joined',
@@ -91,7 +91,7 @@ const datas = {
       tipso: 'Only when you make yourself public in a organization can I get your orgs informations'
     },
     languages: {
-      title: 'Languages Review',
+      title: 'Coding languages',
       maxReposCountLanguage: 'Has most amount of repos',
       maxReposCountLanguageTip: 'Totally has $ repos relative to it',
       maxUsageLanguage: 'Max usage',
@@ -111,7 +111,7 @@ const datas = {
       relativeRepos: 'Repos relatived to this language'
     },
     commits: {
-      title: 'Commits Review',
+      title: 'Commits roadmap',
       maxDay: 'Your favorite day to commit',
       averageCount: 'Weekly commits',
       firstCommit: 'First commit in the last year',

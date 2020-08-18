@@ -156,8 +156,12 @@ const datas = {
     internship: '实习经历',
     projects: '个人项目',
     others: '其他补充',
-    addNew: '新增模块',
-    moduleName: '模块名称'
+    addNew: {
+      nav: '新增模块'
+    },
+    moduleName: {
+      nav: '模块名称'
+    }
   },
   options: {
     genders: {

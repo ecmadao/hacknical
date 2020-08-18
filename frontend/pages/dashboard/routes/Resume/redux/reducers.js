@@ -773,6 +773,25 @@ const reducers = handleActions({
     })
   },
 
+  UPDATE_MODULE_SECTIONS(state, action) {
+    const { customModules } = state
+    const { sections, moduleIndex } = action.payload
+    const customModule = customModules[moduleIndex]
+
+    return ({
+      ...state,
+      customModules: [
+        ...customModules.slice(0, moduleIndex),
+        Object.assign({}, customModule, {
+          sections: [
+            ...sections
+          ]
+        }),
+        ...customModules.slice(moduleIndex + 1),
+      ],
+    })
+  },
+
   CHANGE_MODULE_TITLE(state, action) {
     const { customModules } = state
     const { preTitle, title } = action.payload

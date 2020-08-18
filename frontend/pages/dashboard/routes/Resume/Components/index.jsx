@@ -22,7 +22,10 @@ import HeartBeat from 'UTILS/heartbeat'
 import NavSection from './NavSection'
 import ResumeOperations from './Operations'
 import { REMOTE_ASSETS } from 'UTILS/constant'
-import { getResumeSectionIntroBySection } from 'UTILS/constant/resume'
+import {
+  RESUME_SECTION_IDS,
+  getResumeSectionIntroBySection
+} from 'UTILS/constant/resume'
 import DragableNavigation from 'SHARED/components/DragableNavigation'
 
 const resumeTexts = locales('resume')
@@ -179,7 +182,9 @@ class Resume extends React.Component {
     const { shareInfo } = this.props.resume
     return shareInfo.resumeSections.map(section => objectAssign({}, section, {
       disabled: section.editable === false,
-      title: section.title || getResumeSectionIntroBySection(section).title.text
+      title: section.tag === RESUME_SECTION_IDS.CUSTOM
+        ? section.title
+        : getResumeSectionIntroBySection(section).title.text
     }))
   }
 
@@ -228,7 +233,6 @@ class Resume extends React.Component {
     } = resume
 
     const { url, openShare, template } = shareInfo
-    delete shareInfo.githubUrl
 
     const origin = window.location.origin
     const currentIndex = this.sectionActiveIndex

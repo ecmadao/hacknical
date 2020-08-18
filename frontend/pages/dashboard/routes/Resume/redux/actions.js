@@ -183,6 +183,7 @@ const {
   changeModuleSection,
   deleteModuleSection,
   changeModuleTitle,
+  updateModuleSections,
   removeCustomModule,
   addCustomModule,
   addModuleSection
@@ -192,7 +193,8 @@ const {
       ({ section, moduleIndex, sectionIndex }),
     DELETE_MODULE_SECTION: (moduleIndex, sectionIndex) =>
       ({ moduleIndex, sectionIndex }),
-    CHANGE_MODULE_TITLE: (preTitle, title) => ({ preTitle, title })
+    CHANGE_MODULE_TITLE: (preTitle, title) => ({ preTitle, title }),
+    UPDATE_MODULE_SECTIONS: (sections, moduleIndex) => ({ sections, moduleIndex })
   },
   'REMOVE_CUSTOM_MODULE',
   'ADD_CUSTOM_MODULE',
@@ -272,6 +274,7 @@ const resumeEditActions = {
   deleteModuleSection,
   removeCustomModule,
   addCustomModule,
+  updateModuleSections,
   // sections
   updateResumeSections
 }

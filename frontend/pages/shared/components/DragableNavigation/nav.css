@@ -22,6 +22,10 @@
   overflow: hidden;
   padding: 10px !important;
 
+  &.wide {
+    width: 60px;
+  }
+
   &::before {
     content: '';
     display: block;

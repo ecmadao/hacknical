@@ -56,6 +56,10 @@
   margin-bottom: 15px;
 }
 
+.operation_button_with_right_margin {
+  margin-right: 20px;
+}
+
 .operations_wrapper_left {
   composes: operations_wrapper;
   justify-content: flex-start;

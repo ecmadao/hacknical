@@ -32,7 +32,7 @@ const datas = {
   },
   sections: {
     info: {
-      title: 'Basic Info',
+      title: 'Basic info',
       name: 'Name',
       avator: {
         change: 'Choose',
@@ -60,7 +60,7 @@ const datas = {
       languages: 'Your skill'
     },
     educations: {
-      title: 'Education Experience',
+      title: 'Education experience',
       subTitle: 'In-School Experience',
       mainButton: 'Add edu experience',
       school: 'School name',
@@ -72,7 +72,7 @@ const datas = {
       introText: 'Write the activities you joined or achievements, then press enter to create it'
     },
     workExperiences: {
-      title: 'Work Experience',
+      title: 'Work experience',
       subTitle: 'Internship Experience',
       technologies: 'Coding languages or tools',
       mainButton: 'Add work experience',
@@ -93,7 +93,7 @@ const datas = {
       techIntroText: 'Press Enter to add',
     },
     personalProjects: {
-      title: 'Personal Projects',
+      title: 'Personal projects',
       projectName: 'Project name',
       homepage: 'Talk is cheap, show me your code',
       projectDesc: 'Project desc',
@@ -104,7 +104,7 @@ const datas = {
       textareaWordCount: '%n letters typed'
     },
     others: {
-      title: 'Others Info',
+      title: 'Others info',
       expectSalary: 'Expect salary',
       expectCity: 'Expect workplace',
       yourDream: 'Your dream/slogan?',
@@ -164,10 +164,10 @@ const datas = {
       headline: 'Others Information',
     },
     addNew: {
-      nav: 'addNew',
+      nav: 'Add new',
     },
     moduleName: {
-      nav: 'moduleName'
+      nav: 'Module name'
     }
   },
   options: {
