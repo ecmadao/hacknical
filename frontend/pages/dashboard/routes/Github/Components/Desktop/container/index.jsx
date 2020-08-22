@@ -15,8 +15,10 @@ class GitHubDesktop extends React.Component {
     super(props)
     this.state = {
       activeSection: null,
-      githubSections: []
+      githubSections: [],
+      loading: true
     }
+
     this.handleSectionsReorder = this.handleSectionsReorder.bind(this)
     this.handleSectionChange = this.handleSectionChange.bind(this)
   }
@@ -30,6 +32,7 @@ class GitHubDesktop extends React.Component {
     const sections = sectionData || [...DEFAULT_GITHUB_SECTIONS]
 
     this.setState({
+      loading: false,
       activeSection: sections[0].id,
       githubSections: sections.map(section => objectAssign({}, section, {
         title: getGitHubSectionIntroBySection(section).title.text
@@ -37,14 +40,21 @@ class GitHubDesktop extends React.Component {
     })
   }
 
-  handleSectionsReorder(githubSections) {
-    API.resume.patchResumeInfo({
-      githubSections: [...githubSections]
-    }).then(() => {
-      this.setState({
+  async handleSectionsReorder(githubSections) {
+    this.setState({ loading: true })
+
+    try {
+      await API.resume.patchResumeInfo({
         githubSections: [...githubSections]
       })
-    })
+    } catch (e) {
+      console.error(e)
+    } finally {
+      this.setState({
+        loading: false,
+        githubSections: [...githubSections]
+      })
+    }
   }
 
   handleSectionChange(id) {
@@ -55,6 +65,7 @@ class GitHubDesktop extends React.Component {
 
   render() {
     const {
+      loading,
       activeSection,
       githubSections
     } = this.state
@@ -63,14 +74,13 @@ class GitHubDesktop extends React.Component {
       <div className={styles.container}>
         <DragableNavigation
           id="github_navigation"
+          disabled={loading}
           sections={githubSections}
           activeSection={activeSection}
           onReorder={this.handleSectionsReorder}
           onActiveChange={this.handleSectionChange}
         />
-        <GitHub
-          sections={githubSections}
-        />
+        <GitHub sections={githubSections} />
       </div>
     )
   }

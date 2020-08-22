@@ -111,12 +111,14 @@ const Wrapper = (props) => {
         &nbsp;&nbsp;
         <ClassicButton
           theme="dark"
+          disabled={saveDisabled}
         >
           <Button
-            value={resumeTexts.buttons.preview}
             color="dark"
+            disabled={saveDisabled}
             onClick={handlePreview}
             className={styles.operation}
+            value={resumeTexts.buttons.preview}
             leftIcon={(
               <Icon icon="file-text-o" />
             )}

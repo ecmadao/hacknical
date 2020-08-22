@@ -54,7 +54,7 @@ class DragAndDrop extends React.Component {
                   key={child.id}
                   draggableId={child.id}
                   index={index}
-                  isDragDisabled={child.disabled}
+                  isDragDisabled={disabled || child.disabled}
                 >
                   {(provided, snapshot) => (
                     <div

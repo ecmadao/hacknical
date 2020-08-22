@@ -81,6 +81,7 @@ class DragableNavigation extends React.Component {
     const {
       id,
       tail,
+      disabled,
       sections,
       activeSection,
       dragableSectionClassName,
@@ -95,6 +96,7 @@ class DragableNavigation extends React.Component {
         navigationCardBgClassName={styles.navigationCardBg}
       >
         <DragAndDrop
+          disabled={disabled}
           onItemClick={this.handleItemClick}
           onDragEnd={this.handleSectionsReorder}
           containerClassName={styles.dragableWrapper}
@@ -146,6 +148,7 @@ DragableNavigation.propTypes = {
   activeSection: PropTypes.string,
   id: PropTypes.string,
   dragableSectionClassName: PropTypes.string,
+  disabled: PropTypes.bool
 }
 
 DragableNavigation.defaultProps = {
@@ -155,6 +158,7 @@ DragableNavigation.defaultProps = {
   activeSection: null,
   id: '',
   dragableSectionClassName: '',
+  disabled: false,
 }
 
 export default DragableNavigation

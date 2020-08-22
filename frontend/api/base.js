@@ -25,10 +25,10 @@ const param = (data, prefix = '') => {
     ], []).join('&')
 }
 
-const fetchApi = (url, method, data) => {
-  url = `/api${url}`
-  NProgress.start()
-  NProgress.set(0.4)
+const retryTimeouts = [1000, 2000, 3000]
+
+const fetchApi = async (uri, method, data) => {
+  let url = `/api${uri}`
   const options = {
     method,
     credentials: 'same-origin',
@@ -49,9 +49,15 @@ const fetchApi = (url, method, data) => {
     }
   }
 
-  return fetch(url, options)
-    .then(response => response.json())
-    .then((json) => {
+  for (const timeout of retryTimeouts) {
+    NProgress.start()
+    NProgress.set(0.4)
+
+    try {
+      options.timeout = timeout
+      const response = await fetch(url, options)
+      const json = response.json()
+
       if (json.message) {
         message.notice(json.message)
       }
@@ -62,13 +68,16 @@ const fetchApi = (url, method, data) => {
         window.location = json.url
       }
       NProgress.done()
+
       return json.result || null
-    }).catch((e) => {
-      NProgress.done()
+    } catch (e) {
       console.error(
         `[Request Parsing Error] ${url} - ${JSON.stringify(options)} - ${e.message} - ${e.stack}`
       )
-    })
+    } finally {
+      NProgress.done()
+    }
+  }
 }
 
 const getCsrf = () => {

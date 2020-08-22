@@ -243,6 +243,7 @@ class Resume extends React.Component {
         <DragableNavigation
           id="resume_navigation"
           sections={this.sections}
+          disabled={posting || loading}
           activeSection={activeSection}
           onReorder={actions.updateResumeSections}
           onActiveChange={actions.handleActiveSectionChange}
