@@ -56,7 +56,7 @@ const fetchApi = async (uri, method, data) => {
     try {
       options.timeout = timeout
       const response = await fetch(url, options)
-      const json = response.json()
+      const json = await response.json()
 
       if (json.message) {
         message.notice(json.message)
