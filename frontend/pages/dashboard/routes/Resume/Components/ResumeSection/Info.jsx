@@ -39,6 +39,7 @@ class Info extends React.Component {
 
     this.handleLanguageAdded = this.handleLanguageAdded.bind(this)
     this.handleLanguageRemoved = this.handleLanguageRemoved.bind(this)
+    this.handleLanguageReorder = this.handleLanguageReorder.bind(this)
   }
 
   handleAvatorModalToggle(toggle) {
@@ -88,6 +89,15 @@ class Info extends React.Component {
       languages: [
         ...languages.slice(0, index),
         ...languages.slice(index + 1)
+      ]
+    })
+  }
+
+  handleLanguageReorder(languages) {
+    const { actions } = this.props
+    actions.handleInfoChange({
+      languages: [
+        ...languages
       ]
     })
   }
@@ -233,6 +243,7 @@ class Info extends React.Component {
               onAdd={this.handleLanguageAdded}
               introText={resumeTexts.introText}
               onDelete={this.handleLanguageRemoved}
+              onReorder={this.handleLanguageReorder}
               placeholder={`+ ${resumeTexts.languages}`}
             />
           </div>

@@ -132,6 +132,7 @@ const {
 const {
   handlePersonalProjectChange,
   addProjectTech,
+  reorderProjectTech,
   deleteProjectTech,
   addPersonalProject,
   deletePersonalProject,
@@ -140,7 +141,8 @@ const {
   {
     HANDLE_PERSONAL_PROJECT_CHANGE: (personalProject, index) =>
       ({ personalProject, index }),
-    ADD_PROJECT_TECH: (tech, index) => ({ tech, index }),
+    ADD_PROJECT_TECH: (projectIndex, tech) => ({ tech, projectIndex }),
+    REORDER_PROJECT_TECH: (projectIndex, techs) => ({ techs, projectIndex }),
     DELETE_PROJECT_TECH: (projectIndex, techIndex) =>
       ({ projectIndex, techIndex })
   },
@@ -260,6 +262,7 @@ const resumeEditActions = {
   handlePersonalProjectChange,
   addProjectTech,
   deleteProjectTech,
+  reorderProjectTech,
   // others
   addSupplement,
   changeSupplement,

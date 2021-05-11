@@ -20,9 +20,9 @@ class DragAndDrop extends React.Component {
     if (!destination) return
 
     if (source.droppableId === destination.droppableId) {
-      return onDragEnd({ source, destination, draggableId })
+      return onDragEnd && onDragEnd({ source, destination, draggableId })
     } else {
-      return onMoveEnd({ source, destination, draggableId })
+      return onMoveEnd && onMoveEnd({ source, destination, draggableId })
     }
   }
 
@@ -30,6 +30,7 @@ class DragAndDrop extends React.Component {
     const {
       disabled,
       children,
+      direction,
       onItemClick,
       droppableId,
       itemClassName,
@@ -38,7 +39,7 @@ class DragAndDrop extends React.Component {
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <Droppable droppableId={droppableId} isDropDisabled={disabled}>
+        <Droppable droppableId={droppableId} isDropDisabled={disabled} direction={direction}>
           {(provided, snapshot) => (
             <div
               {...provided.droppableProps}
@@ -46,6 +47,7 @@ class DragAndDrop extends React.Component {
               className={cx(
                 styles.droppable_container,
                 snapshot.isDraggingOver && snapshot.dragging,
+                direction === "horizontal" && styles.horizontal,
                 containerClassName
               )}
             >
@@ -92,6 +94,7 @@ DragAndDrop.propTypes = {
   children: PropTypes.array,
   disabled: PropTypes.bool,
   droppableId: PropTypes.string,
+  direction: PropTypes.string,
   itemClassName: PropTypes.string,
   containerClassName: PropTypes.string
 }
@@ -105,6 +108,7 @@ DragAndDrop.defaultProps = {
   disabled: false,
   itemClassName: '',
   containerClassName: '',
+  direction: 'vertical',
   droppableId: 'droppableId'
 }
 

@@ -17,6 +17,7 @@ class PersonalProjects extends React.Component {
     super(props)
 
     this.addTech = this.addTech.bind(this)
+    this.reorderTech = this.reorderTech.bind(this)
     this.deleteProject = this.deleteProject.bind(this)
     this.deleteTech = this.deleteTech.bind(this)
     this.handleProjectChange = this.handleProjectChange.bind(this)
@@ -104,6 +105,7 @@ class PersonalProjects extends React.Component {
             onAdd={this.addTech(index)}
             introText={resumeTexts.introText}
             onDelete={this.deleteTech(index)}
+            onReorder={this.reorderTech(index)}
             placeholder={`+ ${resumeTexts.technologies}`}
           />
         </div>
@@ -124,8 +126,12 @@ class PersonalProjects extends React.Component {
     )
   }
 
-  addTech(index) {
-    return tech => this.props.actions.addProjectTech(tech, index)
+  addTech(projectIndex) {
+    return tech => this.props.actions.addProjectTech(projectIndex, tech)
+  }
+
+  reorderTech(projectIndex) {
+    return techs => this.props.actions.reorderProjectTech(projectIndex, techs)
   }
 
   deleteTech(projectIndex) {

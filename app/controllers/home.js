@@ -18,8 +18,12 @@ const renderLandingPage = async (ctx) => {
   const loginLink = `https://github.com/login/oauth/authorize?scope=user:email&client_id=${clientId}`
   logger.info(`[LoginLink] ${loginLink}`)
 
+  const { messageCode, messageType } = ctx.request.query
+
   await ctx.render('user/login', {
     loginLink,
+    messageCode,
+    messageType,
     title: ctx.__('loginPage.title')
   })
 }

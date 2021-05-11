@@ -23,6 +23,7 @@ class WorkExperience extends React.Component {
     this.handleEndTimeChange = this.handleEndTimeChange.bind(this)
     this.handleTechAdded = this.handleTechAdded.bind(this)
     this.handleTechRemoved = this.handleTechRemoved.bind(this)
+    this.handleTechReorder = this.handleTechReorder.bind(this)
   }
 
   handleTechAdded(tech) {
@@ -38,6 +39,11 @@ class WorkExperience extends React.Component {
       ...techs.splice(0, techIndex),
       ...techs.splice(techIndex + 1)
     ])
+  }
+
+  handleTechReorder(techs) {
+    const { handleExperienceChanged } = this.props
+    handleExperienceChanged('techs')([...techs])
   }
 
   handleStartFocus({ focused: startOpen }) {
@@ -179,6 +185,7 @@ class WorkExperience extends React.Component {
             className={styles.resume_work_techs}
             onAdd={this.handleTechAdded}
             onDelete={this.handleTechRemoved}
+            onReorder={this.handleTechReorder}
             placeholder={`+ ${resumeTexts.technologies}`}
           />
         </div>

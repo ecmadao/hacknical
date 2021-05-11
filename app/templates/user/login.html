@@ -21,6 +21,9 @@
 {% endblock %}
 
 {% block body %}
+  {% if messageCode %}
+    {% include "layouts/message.html" %}
+  {% endif %}
   <div id="login" class="login-main"></div>
 {% endblock %}
 

@@ -40,7 +40,10 @@ const logout = async (ctx) => {
   ctx.session.userId = null
   ctx.session.githubToken = null
   ctx.session.githubLogin = null
-  ctx.redirect('/')
+
+  const { messageCode, messageType } = ctx.request.query
+
+  ctx.redirect(`/?messageCode=${messageCode}&messageType=${messageType}`)
 }
 
 const loginByGitHub = async (ctx) => {
@@ -69,12 +72,14 @@ const loginByGitHub = async (ctx) => {
       if (user && user.initialed) {
         network.github.updateUserData(ctx.session.githubLogin, githubToken)
       }
+
       return ctx.redirect(`/${ctx.session.githubLogin}`)
     }
+
     return ctx.redirect('/api/user/logout')
   } catch (err) {
     logger.error(err)
-    return ctx.redirect('/api/user/logout')
+    return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
   }
 }
 

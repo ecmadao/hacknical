@@ -58,12 +58,16 @@ const fetchApi = async (uri, method, data) => {
       const response = await fetch(url, options)
       const json = await response.json()
 
-      if (json.message) {
-        message.notice(json.message)
-      }
       if (json.error) {
         message.error(json.error)
+      } else if (json.message) {
+        if (json.success) {
+          message.notice(json.message)
+        } else {
+          message.error(json.message)
+        }
       }
+
       if (json.url) {
         window.location = json.url
       }

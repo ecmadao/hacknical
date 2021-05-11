@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { Label, InputGroup } from 'light-ui'
 import styles from './labels.css'
+import DragAndDrop from 'COMPONENTS/DragAndDrop'
 
 class Wrapper extends React.Component {
   constructor(props) {
     super(props)
     this.onDelete = this.onDelete.bind(this)
+    this.onReorder = this.onReorder.bind(this)
   }
 
   onDelete(index) {
@@ -17,20 +19,49 @@ class Wrapper extends React.Component {
     }
   }
 
+  onReorder(order) {
+    const fromIndex = order.source.index
+    const toIndex = order.destination.index
+
+    if (toIndex === fromIndex) return
+
+    const { labels, onReorder } = this.props
+    if (!onReorder) return
+
+    const [label] = labels.splice(fromIndex, 1)
+    labels.splice(toIndex, 0, label)
+
+    onReorder(labels)
+  }
+
   renderLabels() {
     const { labels, disabled } = this.props
-    return labels.map((label, index) => (
-      <Label
-        key={index}
-        text={label}
-        color="darkLight"
-        deleteable
-        disabled={disabled}
-        clickable={false}
-        className={styles.label}
-        onDelete={this.onDelete(index)}
-      />
-    ))
+
+    return (
+      <DragAndDrop
+        direction="horizontal"
+        onDragEnd={this.onReorder}
+        containerClassName={styles.droppable_horizontal}>
+        {
+          labels.map((label, index) => ({
+            id: label,
+            itemClassName: styles.draggable_horizontal,
+            Component: (
+              <Label
+                key={index}
+                text={label}
+                color="darkLight"
+                deleteable
+                disabled={disabled}
+                clickable={false}
+                className={styles.label}
+                onDelete={this.onDelete(index)}
+              />
+            )
+          }))
+        }
+      </DragAndDrop>
+    )
   }
 
   render() {
@@ -49,7 +80,7 @@ class Wrapper extends React.Component {
     return (
       <div className={cx(styles.labelsWrapper, className)}>
         {this.renderLabels()}
-        { labels.length < max ? (
+        {labels.length < max ? (
           <div className={styles.inputWrapper}>
             <InputGroup
               value={value}
@@ -86,6 +117,7 @@ Wrapper.propTypes = {
   className: PropTypes.string,
   labels: PropTypes.array,
   onDelete: PropTypes.func,
+  onReorder: PropTypes.func,
   max: PropTypes.number
 }
 
@@ -96,6 +128,7 @@ Wrapper.defaultProps = {
   placeholder: '',
   className: '',
   onDelete: Function.prototype,
+  onReorder: Function.prototype,
 }
 
 export default Wrapper

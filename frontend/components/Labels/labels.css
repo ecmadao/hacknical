@@ -10,7 +10,6 @@
 }
 
 .label {
-  margin: 5px;
 }
 
 .wrapper {
@@ -25,4 +24,19 @@
 
 .input {
   flex: 0.5;
+}
+
+.droppable_horizontal {
+  margin-bottom: 5px;
+  background-color: transparent !important;
+}
+
+.draggable_horizontal {
+  padding: 0px;
+  margin: 3px 4px;
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
 }

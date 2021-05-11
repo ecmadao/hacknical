@@ -447,18 +447,36 @@ const reducers = handleActions({
   },
 
   ADD_PROJECT_TECH(state, action) {
-    const { tech, index } = action.payload
+    const { tech, projectIndex } = action.payload
     const { personalProjects } = state
-    const personalProject = personalProjects[index]
+    const personalProject = personalProjects[projectIndex]
 
     return ({
       ...state,
       personalProjects: [
-        ...personalProjects.slice(0, index),
+        ...personalProjects.slice(0, projectIndex),
         objectAssign({}, personalProject, {
           techs: [...personalProject.techs, tech]
         }),
-        ...personalProjects.slice(index + 1)
+        ...personalProjects.slice(projectIndex + 1)
+      ]
+    })
+  },
+
+  REORDER_PROJECT_TECH(state, action) {
+    const { techs, projectIndex } = action.payload
+
+    const { personalProjects } = state
+    const personalProject = personalProjects[projectIndex]
+
+    return ({
+      ...state,
+      personalProjects: [
+        ...personalProjects.slice(0, projectIndex),
+        objectAssign({}, personalProject, {
+          techs: [...techs]
+        }),
+        ...personalProjects.slice(projectIndex + 1)
       ]
     })
   },
