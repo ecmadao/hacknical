@@ -36,6 +36,7 @@
   color: var(--oc-gray-7);
   font-weight: normal;
   font-size: var(--sideFontSize);
+  white-space: pre-wrap;
 }
 
 .minText {

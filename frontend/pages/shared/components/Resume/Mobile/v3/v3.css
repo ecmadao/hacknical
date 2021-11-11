@@ -42,6 +42,7 @@
   composes: sideText;
   font-weight: normal;
   color: var(--oc-gray-6);
+  white-space: pre-wrap;
 }
 
 .linkText {
