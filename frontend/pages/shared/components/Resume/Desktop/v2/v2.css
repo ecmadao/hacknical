@@ -206,6 +206,8 @@
   margin: 5px 0 10px;
   line-height: 1.5em;
   display: block;
+  white-space: pre-wrap;
+  font-size: 14px;
 }
 
 .info_intro {

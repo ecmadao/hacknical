@@ -28,7 +28,9 @@ class PersonalProjects extends React.Component {
   }
 
   renderProject(disabled, personalProject, index) {
-    const { url, desc, techs, title } = personalProject
+    const {
+      url, desc, techs, title
+    } = personalProject
 
     return (
       <div

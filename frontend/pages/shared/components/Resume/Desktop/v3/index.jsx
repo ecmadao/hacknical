@@ -16,7 +16,9 @@ const resumeTexts = locales('resume')
 const { minutesBefore } = dateHelper.relative
 
 const renderPersonalProjectsRow = (options) => {
-  const { url, desc, techs, title, index } = options
+  const {
+    url, desc, techs, title, index
+  } = options
 
   return (
     <div
@@ -323,7 +325,9 @@ class ResumeComponentV3 extends ResumeUIWrapper {
 
   render() {
     const { resume, shareInfo, fromDownload } = this.props
-    const { info, others, educations, workExperiences } = resume
+    const {
+      info, others, educations, workExperiences
+    } = resume
     const { useGithub, githubUrl } = shareInfo
 
     const its = resumeTexts.options.person[info.gender] || resumeTexts.options.person.male

@@ -254,6 +254,7 @@
   font-size: 14px;
   line-height: 25px;
   color: var(--oc-gray-5);
+  white-space: pre-wrap;
 }
 
 .info_intro {
