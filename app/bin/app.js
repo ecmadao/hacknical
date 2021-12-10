@@ -131,7 +131,9 @@ app.use(router.routes(), router.allowedMethods())
 
 const init = async () => {
   try {
-    app.listen(process.env.PORT || port)
+    const appPort = process.env.PORT || port
+    app.listen(appPort)
+    logger.info(`Service start at port ${appPort}`)
   } catch (err) {
     logger.error(`[ERROR][${err || err.stack}]`)
   }
