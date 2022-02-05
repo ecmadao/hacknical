@@ -99,8 +99,8 @@ const setResume = async (ctx, next) => {
 }
 
 const downloadResume = async (ctx) => {
-  const { userId, githubLogin, locale } = ctx.session
-  const { locale } = ctx.query
+  const { userId, githubLogin } = ctx.session
+  const locale = ctx.query.locale || ctx.session.locale
 
   const [
     resumeInfo,
