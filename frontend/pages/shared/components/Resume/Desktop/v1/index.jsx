@@ -17,7 +17,9 @@ const resumeLocales = locales('resume')
 const { minutesBefore } = dateHelper.relative
 
 const info = (options) => {
-  const { text, icon, type, style = '' } = options
+  const {
+    text, icon, type, style = ''
+  } = options
   const component = options.component || null
 
   return (
@@ -189,7 +191,9 @@ class ResumeComponentV1 extends ResumeUIWrapper {
 
     const projects = personalProjects
       .map((project, index) => {
-        const { url, desc, techs, title } = project
+        const {
+          url, desc, techs, title
+        } = project
 
         return (
           <div key={index} className={styles.sec_section}>

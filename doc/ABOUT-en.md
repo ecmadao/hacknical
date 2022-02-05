@@ -10,7 +10,7 @@ In my experience, changing jobs, be it when interviewing someone else or being i
 4. Interviewers lack a metric to understand a developer's degree of proficiency in a certain language.
 5. Interviewees may not be able to pass the interview using their resume, as it doesn't give an idea of their character or personality.
 
-Candidates who have are inexperienced can find themselves in an embarrassing interview if they do not have a good template or guide for their resume. Hacknical wants to solve this provlem by allowing users to show their experience in a concise manner and by letting the interviewer easily understand the interviewee's skill level.
+Candidates who have are inexperienced can find themselves in an embarrassing interview if they do not have a good template or guide for their resume. Hacknical wants to solve this problem by allowing users to show their experience in a concise manner and by letting the interviewer easily understand the interviewee's skill level.
 
 ## What can Hacknical do?
 

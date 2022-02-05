@@ -226,6 +226,7 @@ class ResumeContent extends ResumeUIWrapper {
             {HeaderInfo({
               url,
               text: name,
+              showIcon: true,
               className: styles.sideLinkText
             })}
             <ul className={styles['section-list']}>
@@ -242,10 +243,16 @@ class ResumeContent extends ResumeUIWrapper {
 
     const projects = personalProjects
       .map((project, index) => {
-        const { desc, title } = project
+        const { desc, title, url } = project
         return (
           <div className={styles['section-project']} key={index}>
-            <div className={styles.mainText}>{title}</div>
+            {HeaderInfo({
+              url,
+              text: title,
+              showIcon: true,
+              className: styles.mainText
+            })}
+            <br />
             {desc ? (
               <div
                 className={cx(
@@ -462,7 +469,7 @@ class ResumeContent extends ResumeUIWrapper {
                 src={require('SRC/images/dead.png')}
               />
               <div className={styles['header-text']}>
-                {resumeLocales.mobile.empty}<br/>{resumeLocales.mobile.tip}
+                {resumeLocales.mobile.empty}<br />{resumeLocales.mobile.tip}
               </div>
             </div>
           </div>

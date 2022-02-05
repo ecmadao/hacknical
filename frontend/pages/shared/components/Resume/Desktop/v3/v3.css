@@ -13,7 +13,7 @@
 }
 
 .subTextLightDark {
-  font-size: 1em;
+  font-size: 14px;
   color: var(--oc-gray-6);
 }
 
@@ -219,6 +219,7 @@
   margin: 5px 0 10px;
   line-height: 1.5em;
   display: block;
+  white-space: pre-wrap;
 }
 
 .link_wrapper {

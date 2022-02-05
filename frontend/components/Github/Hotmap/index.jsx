@@ -35,7 +35,7 @@ class Hotmap extends React.Component {
     const {
       datas,
       levelRanges
-    } = (data ?? {})
+    } = (data || {})
 
     cal.init({
       domain: 'month',
