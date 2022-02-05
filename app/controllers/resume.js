@@ -100,13 +100,14 @@ const setResume = async (ctx, next) => {
 
 const downloadResume = async (ctx) => {
   const { userId, githubLogin, locale } = ctx.session
+  const { locale } = ctx.query
 
   const [
     resumeInfo,
     findResult
   ] = await Promise.all([
     network.user.getResumeInfo({ userId }),
-    network.user.getResume({ userId })
+    network.user.getResume({ userId, locale })
   ])
   const { template, resumeHash } = resumeInfo
 
@@ -128,7 +129,7 @@ const downloadResume = async (ctx) => {
     }
   })
 
-  logger.info(`[RESUME:DOWNLOAD][${resumeUrl}]`)
+  logger.info(`[RESUME:DOWNLOAD] - ${resumeUrl}`)
 
   network.stat.putStat({
     type: 'resume',

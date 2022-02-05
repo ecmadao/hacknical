@@ -7,7 +7,7 @@ const locale = getLocale()
 const getResume = () => API.get('/resume/data', { locale })
 const setResume = (resume, ...params) => API.put(`/resume/data?${params.join('&')}`, { resume, locale })
 
-const download = pageStyle => API.get('/resume/download', { pageStyle })
+const download = pageStyle => API.get('/resume/download', { pageStyle, locale })
 
 const getPubResume = hash => API.get('/resume/shared/public', { hash, locale })
 
