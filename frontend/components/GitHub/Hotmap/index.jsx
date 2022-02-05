@@ -35,7 +35,7 @@ class Hotmap extends React.Component {
     const {
       datas,
       levelRanges
-    } = data
+    } = (data ?? {})
 
     cal.init({
       domain: 'month',
@@ -59,7 +59,7 @@ class Hotmap extends React.Component {
 
   renderCardGroup() {
     const { renderCards, data } = this.props
-    if (!data.datas || !renderCards) return null
+    if (!data || !data.datas || !renderCards) return null
     const {
       end,
       start,
