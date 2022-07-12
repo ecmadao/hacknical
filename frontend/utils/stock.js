@@ -181,6 +181,7 @@ export const getPVStockConfig = (options) => {
     dateFormat
   } = options
 
+  pageViews.sort((pre, next) => pre.seconds - next.seconds)
   const seriesData = pageViews.map((pageView) => {
     const { count, seconds } = pageView
     return [seconds, count]
@@ -229,6 +230,7 @@ export const getCommitsStockConfig = (options) => {
     config.xAxis[0].max = timestampTo
     config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60)
   }
+
   config.tooltip.formatter = getTooltipFormatter(dateFormat, 'Commits')
   return config
 }

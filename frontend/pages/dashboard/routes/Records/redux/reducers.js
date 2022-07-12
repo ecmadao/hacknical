@@ -20,7 +20,7 @@ const initialState = {
     viewSources: [],
     pageViews: [],
     viewLogs: [],
-    viewType: VIEW_TYPES.HOURLY.ID
+    viewType: VIEW_TYPES.DAILY.ID
   },
   [RECORDS_SECTIONS.GITHUB.ID]: {
     recordsLoading: false,
@@ -36,7 +36,7 @@ const initialState = {
     viewSources: [],
     pageViews: [],
     viewLogs: [],
-    viewType: VIEW_TYPES.HOURLY.ID
+    viewType: VIEW_TYPES.DAILY.ID
   }
 }
 

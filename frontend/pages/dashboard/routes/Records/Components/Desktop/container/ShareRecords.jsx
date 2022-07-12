@@ -273,47 +273,6 @@ class ShareRecords extends React.Component {
     return datas[type]
   }
 
-  renderPVChartController() {
-    const { viewType, actions } = this.props
-    const controllers = []
-    const viewTypeKeys = Object.keys(VIEW_TYPES)
-    viewTypeKeys.forEach((key, i) => {
-      const {
-        ID,
-        SHORT,
-      } = VIEW_TYPES[key]
-      const isActive = ID === viewType
-      const onClick = isActive
-        ? Function.prototype
-        : () => actions.onViewTypeChange(ID)
-
-      controllers.push((
-        <span
-          key={controllers.length}
-          className={cx(
-            styles.chart_controller,
-            isActive && styles.controller_active
-          )}
-          onClick={onClick}
-        >
-          {SHORT}
-        </span>
-      ))
-      if (i !== viewTypeKeys.length - 1) {
-        controllers.push((
-          <span key={controllers.length}>
-            &nbsp;/&nbsp;
-          </span>
-        ))
-      }
-    })
-    return (
-      <div className={styles.chart_controllers}>
-        {controllers}
-      </div>
-    )
-  }
-
   render() {
     const {
       status,
@@ -385,7 +344,6 @@ class ShareRecords extends React.Component {
                   styles.pageview_chart_container
                 )}
               >
-                {this.renderPVChartController()}
                 <StockChart
                   tag={index}
                   data={pageViews}
