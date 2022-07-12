@@ -79,7 +79,7 @@ const formatHotmap = (hotmap) => {
     weekTmp.end = date
 
     if (level !== 0) {
-      if (levelRange[level] === null) {
+      if (!levelRange[level]) {
         levelRange[level] = {
           sum: 0,
           count: 0,
@@ -115,7 +115,7 @@ const formatHotmap = (hotmap) => {
     streak,
     datas: result,
     levelRanges: Object.keys(levelRange)
-      .filter(l => levelRange[l] !== null)
+      .filter(l => !!levelRange[l])
       .map(l => Math.ceil(levelRange[l].sum / levelRange[l].count)),
   }
 }
