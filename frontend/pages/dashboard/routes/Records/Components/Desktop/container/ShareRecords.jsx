@@ -158,7 +158,6 @@ class ShareRecords extends React.Component {
   basePageViews(dateFormat) {
     const { pageViews } = this.props
     const validatePageViews = {}
-
     for (const pageView of pageViews) {
       const { count, date } = pageView
       const validateDate = this.getPageViewDate(date)
@@ -170,12 +169,25 @@ class ShareRecords extends React.Component {
       }
       validatePageViews[validateDate].count += count
     }
-    const dateLabels = Object.keys(validatePageViews)
-    const viewDates = dateLabels.map(key => validatePageViews[key])
+
+    const viewDates = Object.keys(validatePageViews)
+      .map(key => validatePageViews[key])
+      .sort((pre, next) => pre.seconds - next.seconds)
 
     return {
       dateFormat,
-      pageViews: viewDates
+      pageViews: viewDates.reduce((res, cur, index) => {
+        if (index > 0) {
+          let { seconds } = viewDates[index - 1]
+          // TODO: support other intervals
+          while (seconds + (24 * 60 * 60) < cur.seconds) {
+            seconds += (24 * 60 * 60)
+            res.push({ count: 0, seconds })
+          }
+        }
+        res.push(cur)
+        return res
+      }, [])
     }
   }
 

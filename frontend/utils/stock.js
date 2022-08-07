@@ -181,12 +181,10 @@ export const getPVStockConfig = (options) => {
     dateFormat
   } = options
 
-  pageViews.sort((pre, next) => pre.seconds - next.seconds)
   const seriesData = pageViews.map((pageView) => {
     const { count, seconds } = pageView
     return [seconds, count]
   })
-
   const config = objectAssign(
     {},
     BASE_STOCK_CONFIG,
