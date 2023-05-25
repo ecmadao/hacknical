@@ -61,7 +61,7 @@ class Footer extends React.Component {
                   key="footer-3"
                   target="_blank"
                   className={styles.footerLink}
-                  href="http://www.beian.miit.gov.cn"
+                  href="beian.miit.gov.cn"
                 >
                   {footerText.gov}
                 </a>
