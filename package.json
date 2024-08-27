@@ -136,7 +136,7 @@
     "style-loader": "^0.20.1",
     "url-loader": "^0.6.2",
     "validator": "^6.2.0",
-    "webpack": "3.10.0"
+    "webpack": "5.94.0"
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
