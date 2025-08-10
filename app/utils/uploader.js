@@ -2,18 +2,40 @@
 import fs from 'fs'
 import path from 'path'
 import config from 'config'
-import oss from 'ali-oss'
 import logger from './logger'
 
 const g = (key, defaultValue) => process.env[key] || defaultValue || ''
 
-const store = oss({
-  accessKeyId: g('HACKNICAL_ALI_ACCESS_ID'),
-  accessKeySecret: g('HACKNICAL_ALI_ACCESS_KEY'),
-  bucket: config.get('services.oss.bucket'),
-  region: config.get('services.oss.region'),
-  internal: false
-})
+// 在开发环境中，如果没有配置 OSS，则使用 null
+let store = null;
+let OSSClient = null;
+
+// 只有在有 OSS 配置时才导入
+const accessKeyId = g('HACKNICAL_ALI_ACCESS_ID');
+const accessKeySecret = g('HACKNICAL_ALI_ACCESS_KEY');
+
+if (accessKeyId && accessKeySecret) {
+  try {
+    // eslint-disable-next-line import/no-extraneous-dependencies
+    import('ali-oss').then((aliOSS) => {
+      OSSClient = aliOSS.default;
+      store = OSSClient({
+        accessKeyId,
+        accessKeySecret,
+        bucket: config.get('services.oss.bucket'),
+        region: config.get('services.oss.region'),
+        internal: false
+      });
+      logger.info('[OSS] OSS client initialized successfully');
+    }).catch((err) => {
+      logger.error('[OSS] Failed to initialize OSS client:', err.message);
+    });
+  } catch (err) {
+    logger.error('[OSS] Failed to initialize OSS client:', err.message);
+  }
+} else {
+  logger.warn('[OSS] OSS credentials not configured, file upload will be disabled');
+}
 
 const nextTick = (func, ...params) =>
   process.nextTick(async () => {
@@ -25,6 +47,10 @@ const nextTick = (func, ...params) =>
   })
 
 export const uploadFile = ({ filePath, prefix = '' }) => {
+  if (!store) {
+    logger.warn('[OSS] OSS client not available, skipping file upload');
+    return;
+  }
   if (!fs.statSync(filePath).isFile()) return
 
   const filename = filePath.split('/').slice(-1)[0]
@@ -49,12 +75,22 @@ export const uploadFolder = ({ folderPath, prefix = '' }) => {
   }
 }
 
-export const getUploadUrl = ({ filePath, expires = 60, mimeType }) =>
-  store.signatureUrl(filePath, {
+export const getUploadUrl = ({ filePath, expires = 60, mimeType }) => {
+  if (!store) {
+    logger.warn('[OSS] OSS client not available, returning empty URL');
+    return '';
+  }
+  return store.signatureUrl(filePath, {
     expires,
     method: 'PUT',
     'Content-Type': mimeType
-  })
+  });
+}
 
-export const getOssObjectUrl = ({ filePath, baseUrl = '' }) =>
-  store.generateObjectUrl(filePath, baseUrl)
+export const getOssObjectUrl = ({ filePath, baseUrl = '' }) => {
+  if (!store) {
+    logger.warn('[OSS] OSS client not available, returning empty URL');
+    return '';
+  }
+  return store.generateObjectUrl(filePath, baseUrl);
+}

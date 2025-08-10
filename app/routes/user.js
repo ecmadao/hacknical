@@ -48,6 +48,44 @@ router.get(
   User.loginByGitHub
 )
 
+// Email authentication routes
+router.post(
+  '/register',
+  check.body('email'),
+  check.body('password'),
+  User.registerByEmail
+)
+
+router.post(
+  '/login/email',
+  check.body('email'),
+  check.body('password'),
+  User.loginByEmail
+)
+
+router.get(
+  '/verify-email',
+  User.verifyEmail
+)
+
+router.post(
+  '/verify-email',
+  User.verifyEmail
+)
+
+router.post(
+  '/reset-password',
+  check.body('email'),
+  User.requestPasswordReset
+)
+
+router.post(
+  '/confirm-reset-password',
+  check.body('token'),
+  check.body('newPassword'),
+  User.confirmPasswordReset
+)
+
 router.get(
   '/notifies',
   user.checkIfLogin(),

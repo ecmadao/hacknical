@@ -68,3 +68,41 @@ export const getResumeCount = () => ({
   useCache: true,
   url: '/resume/count'
 })
+
+/* =========================================================== */
+/* Email Authentication APIs */
+
+export const createUserByEmail = data => ({
+  body: { data },
+  method: 'post',
+  url: '/user/email'
+})
+
+export const loginByEmail = data => ({
+  body: { data },
+  method: 'post',
+  url: '/user/login/email'
+})
+
+export const verifyEmail = data => ({
+  body: { data },
+  method: 'post',
+  url: '/user/verify-email'
+})
+
+export const resetPassword = data => ({
+  body: { data },
+  method: 'post',
+  url: '/user/reset-password'
+})
+
+export const confirmPasswordReset = data => ({
+  body: { data },
+  method: 'post',
+  url: '/user/confirm-reset-password'
+})
+
+export const getUserByEmail = email => ({
+  qs: { email },
+  url: '/user/email/info'
+})
