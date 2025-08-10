@@ -4,7 +4,9 @@
 /node_modules
 /public/dll
 /public/downloads
+/public/assets
 .idea
 .vscode
 /log
 /app/config/webpack-assets.json
+package-lock.json

@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+
+{% block css %}
+  <link href="{{ assetsPath("assets/signup.bundle.css") }}" rel="stylesheet" type="text/css">
+  <style>
+    #login {
+      background-color: #252525;
+    }
+    #login canvas {
+      user-select: none;
+    }
+    .login-main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  {% if messageCode %}
+    {% include "layouts/message.html" %}
+  {% endif %}
+  <div id="login" class="login-main"></div>
+{% endblock %}
+
+{% block js %}
+  <script>
+    window.loginLink = "{{ loginLink }}";
+  </script>
+  <script async defer src="{{ assetsPath("assets/signup.bundle.js") }}"></script>
+{% endblock %}

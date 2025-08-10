@@ -42,6 +42,33 @@ router.get(
   user.checkIfLogin(),
   Home.renderInitialPage
 )
+
+// Email authentication routes
+router.get(
+  '/login',
+  user.checkNotLogin(),
+  Home.renderLandingPage
+)
+router.get(
+  '/signup',
+  user.checkNotLogin(),
+  Home.renderSignupPage
+)
+router.get(
+  '/forgot-password',
+  user.checkNotLogin(),
+  Home.renderForgotPasswordPage
+)
+router.get(
+  '/reset-password',
+  user.checkNotLogin(),
+  Home.renderResetPasswordPage
+)
+router.get(
+  '/verify-email',
+  Home.renderVerifyEmailPage
+)
+
 router.get(
   '/:login',
   user.checkValidateUser(),

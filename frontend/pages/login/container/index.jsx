@@ -11,22 +11,41 @@ import CountByStep from 'COMPONENTS/Count/CountByStep'
 import LogoText from 'COMPONENTS/LogoText'
 import Terminal from 'COMPONENTS/Terminal'
 import { ClassicButton } from 'light-ui'
+import EmailLoginForm from '../components/EmailLoginForm'
+import EmailRegisterForm from '../components/EmailRegisterForm'
 
 const {
   login: loginText,
-  statistic: statisticText
+  statistic: statisticText,
+  emailAuth: emailText
 } = locales('login')
 const locale = getLocale()
 
 const DEFAULT_NUM = 0
+const LOGIN_MODES = {
+  GITHUB: 'github',
+  EMAIL_LOGIN: 'email_login',
+  EMAIL_REGISTER: 'email_register'
+}
 
 class LoginPanel extends React.PureComponent {
   constructor(props) {
     super(props)
+    
+    // Determine initial login mode based on current URL
+    const currentPath = window.location.pathname
+    let initialMode = LOGIN_MODES.GITHUB  // Default to GitHub login to show all options
+    if (currentPath === '/signup') {
+      initialMode = LOGIN_MODES.EMAIL_REGISTER
+    } else if (currentPath === '/login') {
+      initialMode = LOGIN_MODES.EMAIL_LOGIN
+    }
+    
     this.state = {
       loading: true,
       statistic: {},
-      languages: []
+      languages: [],
+      loginMode: initialMode
     }
     this.heartBeat = null
     this.getStatistic = this.getStatistic.bind(this)
@@ -75,6 +94,10 @@ class LoginPanel extends React.PureComponent {
       },
       loading: false
     })
+  }
+
+  switchLoginMode = (mode) => {
+    this.setState({ loginMode: mode })
   }
 
   renderModal() {
@@ -187,16 +210,81 @@ class LoginPanel extends React.PureComponent {
     })
   }
 
-  render() {
+  renderMainContent() {
     const { loginLink } = this.props
+    const { loginMode } = this.state
 
+    switch (loginMode) {
+      case LOGIN_MODES.EMAIL_LOGIN:
+        return (
+          <EmailLoginForm
+            onSwitchToRegister={() => this.switchLoginMode(LOGIN_MODES.EMAIL_REGISTER)}
+            onBackToGithub={() => this.switchLoginMode(LOGIN_MODES.GITHUB)}
+          />
+        )
+      case LOGIN_MODES.EMAIL_REGISTER:
+        return (
+          <EmailRegisterForm
+            onSwitchToLogin={() => this.switchLoginMode(LOGIN_MODES.EMAIL_LOGIN)}
+            onBackToGithub={() => this.switchLoginMode(LOGIN_MODES.GITHUB)}
+          />
+        )
+      default:
+        return (
+          <div className={styles.githubLoginContainer}>
+            <LogoText theme="light" className={styles.logo} />
+            
+            <div className={styles.loginButtonsContainer}>
+              <ClassicButton
+                theme="light"
+                onClick={() => window.location = loginLink}
+                buttonContainerClassName={styles.loginButton}
+              >
+                <a
+                  href={loginLink}
+                  className={styles.githubLoginLink}
+                >
+                  <Icon icon="github" />
+                  &nbsp;
+                  {loginText.loginButton}
+                </a>
+              </ClassicButton>
+
+              <ClassicButton
+                theme="light"
+                onClick={() => this.switchLoginMode(LOGIN_MODES.EMAIL_LOGIN)}
+                buttonContainerClassName={styles.emailLoginButton}
+              >
+                <span className={styles.emailLoginLink}>
+                  <Icon icon="envelope" />
+                  &nbsp;
+                  {emailText.loginTitle}
+                </span>
+              </ClassicButton>
+            </div>
+     
+            <Terminal
+              className={styles.loginIntro}
+              wordLines={[`$ ${loginText.loginText}`]}
+            />
+            <div className={styles.statisticContainer}>
+              {this.renderLoading()}
+              {this.renderStatistic()}
+              {this.renderModal()}
+            </div>
+          </div>
+        )
+    }
+  }
+
+  render() {
     return (
       <div>
         <div className={styles.topbar}>
           <div className={styles.topbarSelector}>
             {this.renderLanguages()}
           </div>
-          <a href={loginLink} className={styles.topbarLink}>
+          <a href="/login" className={styles.topbarLink}>
             {loginText.topbarLogin}
           </a>
           <a
@@ -209,30 +297,7 @@ class LoginPanel extends React.PureComponent {
           </a>
         </div>
         <div className={styles.loginPannel}>
-          <LogoText theme="light" className={styles.logo} />
-          <ClassicButton
-            theme="light"
-            onClick={() => window.location = loginLink}
-            buttonContainerClassName={styles.loginButton}
-          >
-            <a
-              href={loginLink}
-              className={styles.githubLoginLink}
-            >
-              <Icon icon="github" />
-              &nbsp;
-              {loginText.loginButton}
-            </a>
-          </ClassicButton>
-          <Terminal
-            className={styles.loginIntro}
-            wordLines={[`$ ${loginText.loginText}`]}
-          />
-          <div className={styles.statisticContainer}>
-            {this.renderLoading()}
-            {this.renderStatistic()}
-            {this.renderModal()}
-          </div>
+          {this.renderMainContent()}
         </div>
       </div>
     )

@@ -1,0 +1,73 @@
+{% extends "layouts/base.html" %}
+
+{% block css %}
+  <link href="{{ assetsPath("assets/login.bundle.css") }}" rel="stylesheet" type="text/css">
+  <style>
+    #verify-email {
+      background-color: #252525;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .verify-container {
+      max-width: 500px;
+      padding: 40px;
+      text-align: center;
+      color: #fff;
+    }
+    .verify-success {
+      color: #22c55e;
+    }
+    .verify-error {
+      color: #ef4444;
+    }
+    .verify-title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .verify-message {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .verify-link {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #3b82f6;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 0 10px;
+      transition: background-color 0.3s;
+    }
+    .verify-link:hover {
+      background-color: #2563eb;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div id="verify-email">
+    <div class="verify-container">
+      {% if success %}
+        <div class="verify-success">
+          <h1 class="verify-title">✅ 邮箱验证成功</h1>
+          <p class="verify-message">
+            恭喜！你的邮箱已成功验证。现在你可以使用邮箱登录 Hacknical 了。
+          </p>
+          <a href="/login" class="verify-link">立即登录</a>
+        </div>
+      {% else %}
+        <div class="verify-error">
+          <h1 class="verify-title">❌ 验证失败</h1>
+          <p class="verify-message">
+            {{ message || '验证链接无效或已过期，请重新注册或申请验证邮件。' }}
+          </p>
+          <a href="/login" class="verify-link">返回登录</a>
+          <a href="/register" class="verify-link">重新注册</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

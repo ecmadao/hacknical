@@ -13,6 +13,13 @@ const markNotifies = messageIds => API.patch('/user/notifies', { messageIds })
 const getNotifies = () => API.get('/user/notifies')
 const voteNotify = (messageId, data) => API.patch(`/user/notifies/${messageId}`, data)
 
+// Email authentication APIs
+const registerByEmail = data => API.post('/user/register', data)
+const loginByEmail = data => API.post('/user/login/email', data)
+const verifyEmail = token => API.get(`/user/verify-email?token=${token}`)
+const requestPasswordReset = data => API.post('/user/reset-password', data)
+const confirmPasswordReset = data => API.post('/user/confirm-reset-password', data)
+
 export default {
   logout,
   initialed,
@@ -22,5 +29,11 @@ export default {
   // notify
   markNotifies,
   getNotifies,
-  voteNotify
+  voteNotify,
+  // email auth
+  registerByEmail,
+  loginByEmail,
+  verifyEmail,
+  requestPasswordReset,
+  confirmPasswordReset
 }
