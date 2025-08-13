@@ -7,7 +7,7 @@ export const getRecords = async (limit, query) => {
   try {
     records = await network.stat.getRecords(query)
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e)
   }
 
   const viewDevices = []

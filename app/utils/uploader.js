@@ -20,7 +20,7 @@ const nextTick = (func, ...params) =>
     try {
       await func(...params)
     } catch (e) {
-      logger.error(e)
+      logger.error(e.stack || e)
     }
   })
 

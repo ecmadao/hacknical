@@ -46,6 +46,81 @@ const logout = async (ctx) => {
   ctx.redirect(`/?messageCode=${messageCode}&messageType=${messageType}`)
 }
 
+const loginByAuth0 = async (ctx) => {
+  const { code } = ctx.request.query
+
+  if (!code) {
+    logger.error('[AUTH0:LOGIN] no authorization code provided')
+    return ctx.redirect('/api/user/logout?messageCode=auth0&messageType=error')
+  }
+
+  try {
+    const [
+      userTokenResponse,
+      managementTokenResponse
+    ] = await Promise.all([
+      network.auth0.getAccessToken(code),
+      network.auth0.getManagementToken()
+    ])
+    const { access_token: userToken } = userTokenResponse
+    const { access_token: managementToken } = managementTokenResponse
+    const userInfoResponse = await network.auth0.getUserInfo(userToken)
+
+    logger.debug(`[AUTH0:LOGIN] User info: ${JSON.stringify(userInfoResponse)}`)
+
+    const fullUserInfo = await network.auth0.getUserById(userInfoResponse.sub, managementToken)
+    // Find GitHub identity to get the access token
+    const githubIdentity = fullUserInfo.identities && fullUserInfo.identities.find(id => id.provider === 'github')
+    if (!githubIdentity) {
+      logger.error(`[AUTH0:LOGIN] cannot found github identity for ${JSON.stringify(fullUserInfo)}`)
+      return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
+    }
+
+    // Extract GitHub access token from the identity
+    const githubToken = githubIdentity.access_token
+    if (!githubToken) {
+      logger.error(`[AUTH0:LOGIN] cannot found github token for ${JSON.stringify(fullUserInfo)}`)
+      return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
+    }
+
+    // Get GitHub user info using the GitHub token
+    const githubUserInfo = await network.github.getLogin(githubToken)
+    logger.debug(`[AUTH0:LOGIN] GitHub user info: ${JSON.stringify(githubUserInfo)}`)
+    if (!githubUserInfo.login) {
+      logger.error(`[AUTH0:LOGIN] cannot found github login for ${JSON.stringify(userInfoResponse)}`)
+      return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
+    }
+
+    // Set GitHub session data
+    ctx.session.githubToken = githubToken
+    ctx.session.githubLogin = githubUserInfo.login
+    ctx.session.githubAvator = githubUserInfo.avator || githubUserInfo.avatar_url
+
+    // Create or update user
+    const user = await network.user.createUser(githubUserInfo)
+    notify.slack({
+      mq: ctx.mq,
+      data: {
+        type: 'login',
+        data: `<https://github.com/${githubUserInfo.login}|${githubUserInfo.login}> logged in via Auth0!`
+      }
+    })
+
+    logger.info(`[AUTH0:LOGIN] ${JSON.stringify(user)}`)
+    ctx.session.userId = user.userId
+
+    // Update user data if already initialized
+    if (user && user.initialed) {
+      network.github.updateUserData(ctx.session.githubLogin, githubToken)
+    }
+
+    return ctx.redirect(`/${ctx.session.githubLogin}`)
+  } catch (err) {
+    logger.error(`[AUTH0:LOGIN] ${err.stack || err.message || err}`)
+    return ctx.redirect('/api/user/logout?messageCode=auth0&messageType=error')
+  }
+}
+
 const loginByGitHub = async (ctx) => {
   const { code } = ctx.request.query
   try {
@@ -78,7 +153,7 @@ const loginByGitHub = async (ctx) => {
 
     return ctx.redirect('/api/user/logout')
   } catch (err) {
-    logger.error(err)
+    logger.error(`[GITHUB:LOGIN] ${err.stack || err.message || err}`)
     return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
   }
 }
@@ -142,7 +217,7 @@ const getUnreadNotifies = async (ctx) => {
   try {
     datas = await network.stat.getUnreadNotifies(userId, locale)
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e)
   } finally {
     ctx.body = {
       result: datas,
@@ -195,10 +270,12 @@ export default {
   getUserInfo,
   getGitHubSections,
   patchUserInfo,
-  loginByGitHub,
   initialFinished,
   // notify
   markNotifies,
   voteNotify,
-  getUnreadNotifies
+  getUnreadNotifies,
+  // login
+  loginByGitHub,
+  loginByAuth0
 }

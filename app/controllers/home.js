@@ -4,6 +4,7 @@ import getLanguages from '../config/languages'
 import logger from '../utils/logger'
 import notify from '../services/notify'
 import request from 'request'
+import auth0 from "../services/network/lib/auth0"
 
 const cacheControl = (ctx) => {
   ctx.set('Cache-Control', 'no-store, no-cache, must-revalidate')
@@ -12,12 +13,18 @@ const cacheControl = (ctx) => {
 }
 
 const renderLandingPage = async (ctx) => {
-  const clientId = await network.github.getVerify()
-
   cacheControl(ctx)
-  const loginLink = `https://github.com/login/oauth/authorize?scope=user:email&client_id=${clientId}`
-  logger.info(`[LoginLink] ${loginLink}`)
 
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: auth0.auth0Credential.clientId,
+    redirect_uri: auth0.auth0Credential.redirectUri,
+    scope: "openid profile email",
+    state: 'auth0.github.' + Date.now(),
+    connection: 'github' // Specify GitHub connection
+  });
+
+  const loginLink = `${auth0.auth0Credential.domain}/authorize?${params.toString()}`;
   const { messageCode, messageType } = ctx.request.query
 
   await ctx.render('user/login', {

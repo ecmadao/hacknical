@@ -27,7 +27,7 @@ const verify = (options = {}, appName = name) => {
       options.headers['Content-Type'] = contentType
     }
 
-    if (auth) {
+    if (auth && auth.secretKey && auth.publicKey) {
       const { secretKey, publicKey } = auth
       const signature = getSignature({
         ...options,
@@ -39,7 +39,7 @@ const verify = (options = {}, appName = name) => {
       options.headers.Authorization = `Bearer ${publicKey}:${signature}`
     }
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e)
   }
 }
 

@@ -49,6 +49,11 @@ router.get(
 )
 
 router.get(
+  '/login/auth0',
+  User.loginByAuth0
+)
+
+router.get(
   '/notifies',
   user.checkIfLogin(),
   User.getUnreadNotifies

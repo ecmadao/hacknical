@@ -17,7 +17,7 @@ const send = (Deliver, options) => {
       await new Deliver(mq).send(data)
       logger.info(`[notify] ${JSON.stringify(data)}`)
     } catch (e) {
-      logger.error(e)
+      logger.error(e.stack || e)
     }
   })
 }

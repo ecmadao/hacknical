@@ -57,7 +57,7 @@ const render500 = async (ctx, err) => {
   try {
     await Home.render500Page(ctx)
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e)
     return ctx.redirect('/500')
   }
 }
@@ -67,7 +67,7 @@ const catchError = () => async (ctx, next) => {
     await next()
     await redirect(ctx)
   } catch (err) {
-    logger.error(err)
+    logger.error(err.stack || err)
 
     const { message, errorCode } = err
     const { pathname } = ctx.request.URL

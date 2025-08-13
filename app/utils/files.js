@@ -55,7 +55,7 @@ export const shadowImport = (folder, options) => {
         cur[Symbol.for(key)] = result
         logger.info(`Module ${filepath} load as ${key}`)
       } catch (e) {
-        logger.error(e)
+        logger.error(e.stack || e)
       } finally {
         return cur
       }

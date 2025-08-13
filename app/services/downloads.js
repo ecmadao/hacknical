@@ -46,7 +46,7 @@ const renderScreenshot = async ({ input, output, pageConfig = {} }) => {
     await waitUntil(() => page.evaluate(() => window.done))
     await page.render(output)
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e)
   } finally {
     await instance.exit()
   }

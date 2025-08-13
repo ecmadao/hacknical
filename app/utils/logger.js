@@ -5,9 +5,12 @@ import config from 'config'
 const logConfig = config.get('log')
 const appName = config.get('appName')
 
+// Create a deep copy to avoid immutability issues with newer config versions
+const logAppenderCopy = JSON.parse(JSON.stringify(logConfig.appender))
+
 log4js.configure({
   appenders: [
-    logConfig.appender
+    logAppenderCopy
   ]
 })
 

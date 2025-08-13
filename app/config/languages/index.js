@@ -8,7 +8,7 @@ const getLanguages = (currentLanguage) => {
   try {
     datas = require(`./${locale}.js`).default
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e)
   }
   return datas
 }

@@ -86,17 +86,13 @@ const updateLogData = options => async (ctx, login) => {
   try {
     const { ip, ...others } = options
     let ipInfo = { ip }
-    try {
-      ipInfo = await network.ip.getInfo(ip)
-      ipInfo = JSON.parse(ipInfo)
-      Object.assign({}, ipInfo, { ip })
-      logger.info(`[IP:${ip}] ${JSON.stringify(ipInfo)}`)
-    } catch (e) {
-      logger.error(e)
-    }
+    ipInfo = await network.ip.getInfo(ip)
+    ipInfo = JSON.parse(ipInfo)
+    Object.assign({}, ipInfo, { ip })
+    logger.info(`[IP:${ip}] ${JSON.stringify(ipInfo)}`)
     await network.stat.putLogs(Object.assign({}, others, { login, ipInfo }))
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e)
   }
 }
 

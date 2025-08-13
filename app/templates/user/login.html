@@ -29,7 +29,7 @@
 
 {% block js %}
   <script>
-    window.loginLink = "{{ loginLink }}";
+    window.loginLink = "{{ loginLink }}".replaceAll("&amp;", "&");
   </script>
   <script async defer src="{{ assetsPath("assets/login.bundle.js") }}"></script>
 {% endblock %}
