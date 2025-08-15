@@ -158,8 +158,9 @@ const getIcon = async (ctx, next) => {
     const res = await network.besticon.getIcon(url)
     logger.debug(`[ICON] ${url} - ${JSON.stringify(res)}`)
     let icon = null
+    const icons = res ? res.icons : []
 
-    for (const item of res.icons) {
+    for (const item of icons) {
       if (icon === null) icon = item
 
       const diff = Math.abs(area - (item.width ** 2))
@@ -172,7 +173,7 @@ const getIcon = async (ctx, next) => {
 
     if (icon) iconUrl = request(icon.url)
   } catch (e) {
-    logger.error(e)
+    logger.error(e.stack || e.message || e)
     iconUrl = ''
   } finally {
     ctx.set('Content-Type', 'image/png')

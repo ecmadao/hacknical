@@ -58,6 +58,7 @@ router.get(
 )
 router.get(
   '/api/icon',
+  check.session(session.requiredSessions),
   check.query('url', 'size'),
   cache.get('icon.v1', {
     keys: ['query.url', 'query.size']
