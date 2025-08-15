@@ -11,6 +11,7 @@ import record from '../controllers/helper/record'
 import share from '../controllers/helper/share'
 import check from '../controllers/helper/check'
 import cache from '../controllers/helper/cache'
+import session from '../controllers/helper/session'
 
 const router = koaRouter()
 const basename = path.basename(module.filename)
