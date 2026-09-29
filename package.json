@@ -1,6 +1,6 @@
 {
   "name": "hacknical",
-  "version": "1.7.6",
+  "version": "1.8.0",
   "description": "hacker & technical",
   "main": "dist/bin/app.js",
   "scripts": {
@@ -10,6 +10,8 @@
     "build-dll": "bnr local:build:dll",
     "build-dll-pro": "bnr pro:build:dll",
     "start-dev": "npm run build-dll && npm run start-app",
+    "start-local": "NODE_ENV=localdev node app/index.js",
+    "start-sqlite": "npm run start-local",
     "start-app": "bnr local:app:start & bnr local:build:src",
     "start": "bnr pro:app:start",
     "stop": "bnr pro:app:stop",
@@ -19,7 +21,7 @@
   },
   "betterScripts": {
     "pro:build:src": {
-      "command": "./node_modules/webpack/bin/webpack.js --progress --colors --config frontend/webpack/webpack.production.js -p",
+      "command": "./node_modules/webpack/bin/webpack.js --progress --colors --config frontend/webpack/webpack.production.js",
       "env": {
         "NODE_ENV": "production"
       }
@@ -31,7 +33,7 @@
       }
     },
     "pro:build:dll": {
-      "command": "./node_modules/webpack/bin/webpack.js --config frontend/webpack/webpack.dll.js --progress --colors -p",
+      "command": "./node_modules/webpack/bin/webpack.js --config frontend/webpack/webpack.dll.js --progress --colors",
       "env": {
         "NODE_ENV": "production"
       }
@@ -78,7 +80,6 @@
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.11.6",
     "better-npm-run": "0.0.13",
-    "brotli-webpack-plugin": "^0.5.0",
     "cal-heatmap": "^3.6.2",
     "chart.js": "2.4.0",
     "classnames": "^2.2.5",
@@ -130,7 +131,7 @@
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0",
+    "redux-thunk": "2.2.0",
     "scrollreveal": "^3.3.2",
     "slick-carousel": "^1.6.0",
     "style-loader": "^0.20.1",
@@ -179,5 +180,9 @@
   "repository": {
     "url": "git@github.com:ecmadao/hacknical.git",
     "type": "git"
+  },
+  "engines": {
+    "node": ">=22.13.0",
+    "npm": ">=10.0.0"
   }
 }

@@ -2,12 +2,57 @@
   "port": "",
   "appKey": "",
   "appName": "hacknical",
+  "storage": {
+    "type": "sqlite",
+    "sqlite": {
+      "path": "data/hacknical.sqlite"
+    },
+    "uploadsPath": "public/uploads"
+  },
+  "cache": {
+    "driver": "memory",
+    "ttl": 3600
+  },
+  "github": {
+    "apiUrl": "https://api.github.com",
+    "oauth": {
+      "clientId": "",
+      "clientSecret": ""
+    }
+  },
   "links": {
     "github": "https://github.com/ecmadao/hacknical",
     "issue": "https://github.com/ecmadao/hacknical/issues",
     "homePage": "https://github.com/ecmadao/hacknical"
   },
-  "services": {},
+  "services": {
+    "oss": {
+      "driver": "local",
+      "bucket": "hacknical-local",
+      "region": "local",
+      "prefix": "/downloads",
+      "url": "/uploads",
+      "raw": ""
+    },
+    "messenger": {
+      "slack": {
+        "channel": ""
+      },
+      "email": {
+        "type": "local",
+        "channel": "",
+        "template": ""
+      }
+    }
+  },
+  "mq": {
+    "source": "noop",
+    "config": {},
+    "options": {},
+    "channels": {
+      "messenger": "messenger"
+    }
+  },
   "cdn": "",
   "url": "",
   "log": {

@@ -6,6 +6,7 @@ import fetch from '../../utils/fetch'
 import cache from '../../utils/cache'
 import NewError from '../../utils/error'
 import { shadowImport } from '../../utils/files'
+import local from '../local'
 
 const protocolRegex = /^https?:/
 
@@ -77,4 +78,14 @@ const handler = {
 function target() {}
 const SenderFactory = new Proxy(target, handler)
 
-export default SenderFactory
+const localMode = config.get('storage.type') === 'sqlite'
+
+const networkHandler = {
+  get(_, name) {
+    if (localMode && local[name]) return local[name]
+    return SenderFactory[name]
+  }
+}
+
+function networkTarget() {}
+export default new Proxy(networkTarget, networkHandler)

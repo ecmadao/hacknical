@@ -4,7 +4,6 @@ const webpack = require('webpack')
 const CleanPlugin = require('clean-webpack-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
-const BrotliPlugin = require('brotli-webpack-plugin')
 const PATH = require('../../config/path')
 
 const env = process.env.NODE_ENV || 'localdev'
@@ -30,11 +29,6 @@ const plugins = [
 
 if (isProduction) {
   plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
@@ -42,11 +36,6 @@ if (isProduction) {
     new CompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
-      test: /\.js$/,
-      minRatio: 0.9
-    }),
-    new BrotliPlugin({
-      asset: '[path].br[query]',
       test: /\.js$/,
       minRatio: 0.9
     })

@@ -2,6 +2,24 @@
   "port": "4000",
   "appKey": "hacknical-key",
   "appName": "hacknical-local",
+  "storage": {
+    "type": "sqlite",
+    "sqlite": {
+      "path": "data/hacknical.sqlite"
+    },
+    "uploadsPath": "public/uploads"
+  },
+  "cache": {
+    "driver": "memory",
+    "ttl": 3600
+  },
+  "github": {
+    "apiUrl": "https://api.github.com",
+    "oauth": {
+      "clientId": "",
+      "clientSecret": ""
+    }
+  },
   "services": {
     "redis": {
       "host": "127.0.0.1",
@@ -63,6 +81,7 @@
       }
     },
     "oss": {
+      "driver": "local",
       "bucket": "hacknical-private",
       "region": "oss-cn-beijing",
       "prefix": "/resumes",
@@ -71,7 +90,7 @@
     }
   },
   "mq": {
-    "source": "redis",
+    "source": "noop",
     "config": {
       "host": "127.0.0.1",
       "port": 6379

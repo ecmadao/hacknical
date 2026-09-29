@@ -10,17 +10,18 @@ import notify from '../services/notify'
 import network from '../services/network'
 import Home from './home'
 import { SCHOOLS } from '../utils/constant/school'
-import { getUploadUrl, getOssObjectUrl } from '../utils/uploader'
+import { getUploadUrl, getOssObjectUrl, isLocalStorage } from '../utils/uploader'
 import { getRecords, getLogs } from './helper/stat'
 
 const ossConfig = config.get('services.oss')
 
 /* ===================== private ===================== */
 
-const getResumeShareStatus = (resumeInfo, locale) => {
+const getResumeShareStatus = (resumeInfo, locale, origin = 'https://hacknical.com') => {
+  const baseUrl = origin.replace(/\/$/, '')
   return {
     ...resumeInfo,
-    githubUrl: `https://hacknical.com/${resumeInfo.login}/github?locale=${locale}`,
+    githubUrl: `${baseUrl}/${resumeInfo.login}/github?locale=${locale}`,
     url: resumeInfo.simplifyUrl && resumeInfo.login
       ? `${resumeInfo.login}/resume?locale=${locale}`
       : `resume/${resumeInfo.resumeHash}?locale=${locale}`
@@ -225,11 +226,14 @@ const getImageUploadUrl = async (ctx) => {
   }
 
   const filePath = `/uploads/${githubLogin}/avator/${new Date().getTime()}.${filename}`
+  const uploadUrl = getUploadUrl({
+    filePath,
+    mimeType
+  })
   const result = {
-    uploadUrl: getUploadUrl({
-      filePath,
-      mimeType
-    }).replace(ossConfig.raw, ossConfig.url),
+    uploadUrl: isLocalStorage
+      ? uploadUrl
+      : uploadUrl.replace(ossConfig.raw, ossConfig.url),
     previewUrl: getOssObjectUrl({ filePath, baseUrl: ossConfig.url })
   }
   logger.info(`upload: ${JSON.stringify(result)}`)
@@ -284,7 +288,7 @@ const getResumeInfo = async (ctx) => {
 
   let result = null
   if (resumeInfo) {
-    result = getResumeShareStatus(resumeInfo, locale)
+    result = getResumeShareStatus(resumeInfo, locale, ctx.request.origin)
   }
   ctx.body = {
     result,

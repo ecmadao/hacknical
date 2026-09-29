@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
-const BrotliPlugin = require('brotli-webpack-plugin')
 const PATH = require('../../config/path')
 const config = require('./webpack.config.v3')
 
@@ -13,20 +12,10 @@ config.plugins.push(
     allChunks: true,
     ignoreOrder: true
   }),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    },
-  }),
   new webpack.optimize.AggressiveMergingPlugin(),
   new CompressionPlugin({
     asset: '[path].gz[query]',
     algorithm: 'gzip',
-    test: /\.(js|css|html|woff2|woff|ttf|eot|jpg|jpge|png|svg)/,
-    minRatio: 0.9
-  }),
-  new BrotliPlugin({
-    asset: '[path].br[query]',
     test: /\.(js|css|html|woff2|woff|ttf|eot|jpg|jpge|png|svg)/,
     minRatio: 0.9
   }),

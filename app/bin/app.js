@@ -23,6 +23,7 @@ import loggerMiddleware from '../middlewares/logger'
 import { redisMiddleware } from '../middlewares/cache'
 import platformMiddleware from '../middlewares/platform'
 import firewallMiddleware from '../middlewares/firewall'
+import uploadsMiddleware from '../middlewares/uploads'
 
 // Handle unhandled promise rejections for Redis queue
 process.on('unhandledRejection', (reason, promise) => {
@@ -47,6 +48,7 @@ app.use(firewallMiddleware({
   blockList: []
 }))
 app.use(cors())
+app.use(uploadsMiddleware())
 
 // bodyparser
 app.use(bodyParser({

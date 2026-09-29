@@ -6,10 +6,16 @@ import PATH from '../../config/path'
 import logger from '../utils/logger'
 
 let manifest = {}
-const manifestPath =
-  path.resolve(__dirname, '../config', 'webpack-assets.json')
+const manifestPaths = [
+  // Production deployments download the manifest into app/config.
+  path.resolve(__dirname, '../config', 'webpack-assets.json'),
+  // Local builds emit it alongside the public assets.
+  path.resolve(__dirname, '../../public/assets', 'webpack-assets.json')
+]
 
-if (fs.existsSync(manifestPath)) {
+const manifestPath = manifestPaths.find(filePath => fs.existsSync(filePath))
+
+if (manifestPath) {
   manifest = require(`${manifestPath}`)
 }
 

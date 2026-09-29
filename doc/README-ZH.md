@@ -44,6 +44,18 @@ hacknical 目前拆分成为了两个 server，以及一个 UI 组件库：
 
 ### 本地开发
 
+当前版本默认使用 Node 22.13+ 自带的 SQLite（`node:sqlite`），本地启动不需要 Redis、MongoDB 或阿里云 OSS。数据库文件和上传文件分别保存在 `data/hacknical.sqlite` 与 `public/uploads/`。
+
+```bash
+$ nvm use
+$ npm install
+$ npm run start-local
+```
+
+默认监听 `http://localhost:4000`。如果需要 GitHub 登录，设置 `GITHUB_CLIENT_ID`、`GITHUB_CLIENT_SECRET`，并在本地配置中填写 OAuth 回调地址；也可以使用 `local:<login>` 形式的测试 code 创建本地用户。
+
+生产环境可以通过 `config/production.json` 覆盖 `storage.sqlite.path`、`storage.uploadsPath` 和 `services.oss.driver`。当 OSS 凭证不存在或驱动设置为 `local` 时，头像会写入本地上传目录。
+
 ```bash
 $ git clone git@github.com:ecmadao/hacknical.git
 $ git clone git@github.com:ecmadao/hacknical-github.git

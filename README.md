@@ -33,6 +33,16 @@ Extract dependency：
 
 [中文版说明](./doc/ABOUT-zh.md)
 
+## Local SQLite
+
+Node 22.13+ is required. The local profile uses Node's built-in SQLite driver, an in-process cache, a no-op message queue, and local file uploads, so Redis, MongoDB, and OSS are not required for local startup:
+
+```bash
+nvm use
+npm install
+npm run start-local
+```
+
 ## Todos
 
 - [x] support English
