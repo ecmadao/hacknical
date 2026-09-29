@@ -1,11 +1,9 @@
 {
   "presets": [
-    "env",
-    "stage-0",
-    "react"
+    "@babel/preset-env",
+    "@babel/preset-react"
   ],
   "plugins": [
-    "transform-runtime",
-    "add-react-displayname"
+    "@babel/plugin-transform-runtime"
   ]
 }
