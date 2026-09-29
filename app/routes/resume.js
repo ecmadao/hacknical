@@ -5,7 +5,7 @@ import session from '../controllers/helper/session'
 import cache from '../controllers/helper/cache'
 import check from '../controllers/helper/check'
 
-const router = koaRouter({
+const router = new koaRouter({
   prefix: '/api/resume'
 })
 

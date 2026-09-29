@@ -1,0 +1,50 @@
+{
+  "port": 4000,
+  "appKey": "REPLACE_WITH_RANDOM_HEX",
+  "appName": "hacknical",
+  "url": "https://hack.r2049.cn",
+  "storage": {
+    "type": "sqlite",
+    "sqlite": {
+      "path": "data/hacknical.sqlite"
+    },
+    "uploadsPath": "public/uploads"
+  },
+  "cache": {
+    "driver": "memory",
+    "ttl": 3600
+  },
+  "mq": {
+    "source": "noop",
+    "config": {},
+    "options": {},
+    "channels": {
+      "messenger": "messenger"
+    }
+  },
+  "services": {
+    "oss": {
+      "driver": "local",
+      "bucket": "hacknical-local",
+      "region": "local",
+      "prefix": "/downloads",
+      "url": "/uploads",
+      "raw": ""
+    },
+    "auth0": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "auth": {
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "https://hack.r2049.cn/api/user/login/auth0"
+      }
+    }
+  },
+  "log": {
+    "appender": {
+      "type": "console"
+    },
+    "level": "INFO"
+  }
+}

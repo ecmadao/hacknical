@@ -13,7 +13,7 @@ import check from '../controllers/helper/check'
 import cache from '../controllers/helper/cache'
 import session from '../controllers/helper/session'
 
-const router = koaRouter()
+const router = new koaRouter()
 const basename = path.basename(module.filename)
 
 fs.readdirSync(__dirname)

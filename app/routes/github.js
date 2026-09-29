@@ -5,7 +5,7 @@ import user from '../controllers/helper/user'
 import cache from '../controllers/helper/cache'
 import share from '../controllers/helper/share'
 
-const router = koaRouter({
+const router = new koaRouter({
   prefix: '/api/github'
 })
 

@@ -43,6 +43,55 @@
         "channel": "",
         "template": ""
       }
+    },
+    "besticon": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "auth": null
+    },
+    "github": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "refreshInterval": 6000,
+      "auth": {
+        "publicKey": "",
+        "secretKey": ""
+      }
+    },
+    "user": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "auth": {
+        "publicKey": "",
+        "secretKey": ""
+      }
+    },
+    "stat": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "auth": {
+        "publicKey": "",
+        "secretKey": ""
+      }
+    },
+    "ip": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "auth": null
+    },
+    "auth0": {
+      "url": "",
+      "timeouts": [4000, 4000, 4000],
+      "auth": {
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": ""
+      }
+    },
+    "redis": {
+      "host": "127.0.0.1",
+      "port": 6379,
+      "db": 1
     }
   },
   "mq": {

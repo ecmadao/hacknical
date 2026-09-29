@@ -5,7 +5,7 @@ import cache from '../controllers/helper/cache'
 import check from '../controllers/helper/check'
 import share from '../controllers/helper/share'
 
-const router = koaRouter({
+const router = new koaRouter({
   prefix: '/api/scientific'
 })
 

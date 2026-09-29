@@ -5,7 +5,7 @@ import user from '../controllers/helper/user'
 import check from '../controllers/helper/check'
 import cache from '../controllers/helper/cache'
 
-const router = koaRouter({
+const router = new koaRouter({
   prefix: '/api/user'
 })
 
