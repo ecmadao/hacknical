@@ -179,6 +179,10 @@
     "url": "git@github.com:ecmadao/hacknical.git",
     "type": "git"
   },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
+  },
   "engines": {
     "node": ">=22.13.0",
     "npm": ">=10.0.0"
