@@ -10,8 +10,10 @@ import session from 'koa-session'
 import config from 'config'
 import nunjucks from 'nunjucks'
 import views from 'koa-views'
-import userAgent from 'koa-useragent'
+import * as userAgentPkg from 'koa-useragent'
 import staticServer from 'koa-static'
+
+const userAgent = userAgentPkg.userAgent || userAgentPkg.default || userAgentPkg
 
 import router from '../routes'
 import logger from '../utils/logger'
@@ -99,7 +101,7 @@ app.use(new Csrf())
 app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
     assetsPath: assetsMiddleware,
-    csrf: ctx.csrf,
+    csrf: ctx.csrf || (ctx.state && ctx.state._csrf),
     env: process.env.NODE_ENV,
     footer: {
       about: ctx.__('dashboard.about'),
