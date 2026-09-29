@@ -97,7 +97,8 @@ module.exports = {
             options: {
               modules: {
                 localIdentName: '[name]__[local]___[hash:base64:5]',
-                exportLocalsConvention: 'asIs'
+                exportLocalsConvention: 'asIs',
+                namedExport: false
               },
               sourceMap: true,
               importLoaders: 1
@@ -116,7 +117,8 @@ module.exports = {
             options: {
               modules: {
                 localIdentName: '[name]__[local]___[hash:base64:5]',
-                exportLocalsConvention: 'asIs'
+                exportLocalsConvention: 'asIs',
+                namedExport: false
               },
               sourceMap: true,
               importLoaders: 1
