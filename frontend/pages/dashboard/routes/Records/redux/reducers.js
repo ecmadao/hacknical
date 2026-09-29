@@ -65,7 +65,7 @@ const reducers = handleActions({
       url = '',
       openShare = false,
       viewSources = [],
-      ...others,
+      ...others
     } = (action.payload || {})
 
     return ({
