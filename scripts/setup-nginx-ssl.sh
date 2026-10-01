@@ -56,18 +56,16 @@ nginx -t
 nginx -s reload
 echo "HTTP ACME 规则加载成功。"
 
-echo "=== [2/4] 向 ZeroSSL 申请 ECC TLS 证书 ==="
-# 与 papervault.top 和 pxmapping.cn 一致，采用 ZeroSSL 驱动
-"${ACME_SH}" --issue -d "${DOMAIN}" --webroot "${ACME_WEBROOT}" --server zerossl --keylength ec-256 || \
-"${ACME_SH}" --issue -d "${DOMAIN}" --webroot "${ACME_WEBROOT}" --server zerossl
+ACME_RUN="env -i HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin ${ACME_SH}"
+
+echo "=== [2/4] 向 ACME CA (ZeroSSL / LetsEncrypt) 申请 ECC TLS 证书 ==="
+# 优先采用 ZeroSSL，如失败则平滑降级至 LetsEncrypt (与 turn-us1.r2049.cn 一致)
+$ACME_RUN --issue -d "${DOMAIN}" --webroot "${ACME_WEBROOT}" --server zerossl --keylength ec-256 || \
+$ACME_RUN --issue -d "${DOMAIN}" --webroot "${ACME_WEBROOT}" --server letsencrypt --keylength ec-256
 
 echo "=== [3/4] 安装证书至 ${CERT_DIR} ==="
 mkdir -p "${CERT_DIR}"
-"${ACME_SH}" --install-cert -d "${DOMAIN}" --ecc \
-  --key-file "${CERT_DIR}/${DOMAIN}.key" \
-  --fullchain-file "${CERT_DIR}/fullchain.pem" \
-  --reloadcmd "nginx -s reload" || \
-"${ACME_SH}" --install-cert -d "${DOMAIN}" \
+$ACME_RUN --install-cert -d "${DOMAIN}" --ecc \
   --key-file "${CERT_DIR}/${DOMAIN}.key" \
   --fullchain-file "${CERT_DIR}/fullchain.pem" \
   --reloadcmd "nginx -s reload"

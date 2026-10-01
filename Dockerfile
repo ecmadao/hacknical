@@ -5,6 +5,11 @@ FROM node:22-bookworm-slim AS builder
 
 WORKDIR /app
 
+# 安装构建与解压工具 (bzip2 供 phantomjs-prebuilt 解压二进制)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends bzip2 ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
 # 安装依赖
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -27,6 +32,11 @@ WORKDIR /app
 
 ENV NODE_ENV=production \
     PORT=4000
+
+# 安装运行时所需的基础字体与证书库 (供 phantom 导出 PDF/图片等服务)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates fontconfig fonts-dejavu-core && \
+    rm -rf /var/lib/apt/lists/*
 
 # 拷贝生产依赖与构建产物
 COPY --from=builder /app/package.json ./package.json
