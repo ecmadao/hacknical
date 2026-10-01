@@ -492,12 +492,6 @@ class LoginPanel extends React.PureComponent {
           </div>
           <span
             className={styles.topbarLink}
-            onClick={() => this.openModal('signup')}
-          >
-            {authText.signupButton}
-          </span>
-          <span
-            className={styles.topbarLink}
             onClick={() => this.openModal('login')}
           >
             {authText.localLoginButton}
@@ -531,12 +525,6 @@ class LoginPanel extends React.PureComponent {
                 {loginText.loginButton}
               </a>
             </ClassicButton>
-            <div
-              className={styles.subActionBtn}
-              onClick={() => this.openModal('signup')}
-            >
-              {authText.signupButton}
-            </div>
             <div
               className={styles.subActionBtn}
               onClick={() => this.openModal('login')}
