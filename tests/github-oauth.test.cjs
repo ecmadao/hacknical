@@ -28,6 +28,7 @@ async function launch(configured = true) {
     ...process.env, NODE_ENV: 'production', PORT: String(port),
     APP_URL: 'https://hack.r2049.cn', APP_KEY: 'a'.repeat(64),
     SQLITE_PATH: database, LOG_LEVEL: 'ERROR',
+    GITHUB_API_URL: providerUrl,
     GITHUB_CLIENT_ID: '', GITHUB_CLIENT_SECRET: '',
     GITHUB_OAUTH_CLIENT_ID: configured ? 'test-client' : '',
     GITHUB_OAUTH_CLIENT_SECRET: configured ? 'test-secret' : '',
