@@ -17,8 +17,23 @@ const ossConfig = config.get('services.oss')
 
 /* ===================== private ===================== */
 
-const getResumeShareStatus = (resumeInfo, locale, origin = 'https://hacknical.com') => {
-  const baseUrl = origin.replace(/\/$/, '')
+const resolveOrigin = (ctx, origin) => {
+  if (typeof origin === 'string' && origin) return origin
+  if (ctx && ctx.headers && typeof ctx.headers.origin === 'string' && ctx.headers.origin) {
+    return ctx.headers.origin
+  }
+  if (ctx && ctx.protocol && ctx.host) {
+    return `${ctx.protocol}://${ctx.host}`
+  }
+  if (config.has('url') && config.get('url')) {
+    return config.get('url')
+  }
+  return 'https://hacknical.com'
+}
+
+const getResumeShareStatus = (resumeInfo, locale, origin) => {
+  const originStr = (typeof origin === 'string' && origin) || (config.has('url') && config.get('url')) || 'https://hacknical.com'
+  const baseUrl = originStr.replace(/\/$/, '')
   return {
     ...resumeInfo,
     githubUrl: `${baseUrl}/${resumeInfo.login}/github?locale=${locale}`,
@@ -119,8 +134,9 @@ const downloadResume = async (ctx) => {
   const updateTime = findResult.update_at || findResult.updated_at
   const seconds = dateHelper.getSeconds(updateTime)
 
+  const origin = resolveOrigin(ctx, ctx.request.origin)
   const resumeUrl =
-    `${ctx.request.origin}/${getResumeShareStatus(resumeInfo, locale).url}&userId=${userId}&notrace=true&fromDownload=true`
+    `${origin.replace(/\/$/, '')}/${getResumeShareStatus(resumeInfo, locale, origin).url}&userId=${userId}&notrace=true&fromDownload=true`
 
   notify.slack({
     mq: ctx.mq,
@@ -275,20 +291,27 @@ const getResumeByHash = async (ctx, next) => {
 
 const getResumeInfo = async (ctx) => {
   const { hash, userId } = ctx.query
-  const { locale } = ctx.session
+  const { locale = 'zh' } = ctx.session || {}
   const qs = {}
   if (hash) {
     qs.hash = hash
   } else if (userId) {
     qs.userId = userId
-  } else {
+  } else if (ctx.session && ctx.session.userId) {
     qs.userId = ctx.session.userId
+  } else {
+    ctx.body = {
+      result: null,
+      success: true,
+    }
+    return
   }
   const resumeInfo = await network.user.getResumeInfo(qs)
 
   let result = null
   if (resumeInfo) {
-    result = getResumeShareStatus(resumeInfo, locale, ctx.request.origin)
+    const origin = resolveOrigin(ctx, ctx.request.origin)
+    result = getResumeShareStatus(resumeInfo, locale, origin)
   }
   ctx.body = {
     result,

@@ -108,6 +108,58 @@ function browser() {
         json = JSON.parse(text)
       } catch {}
       return { status: response.status, headers: response.headers, json, text }
+    },
+    async put(url, data = {}) {
+      const payload = {
+        ...data,
+        _csrf: csrfToken
+      }
+      const response = await fetch(`${origin}${url}`, {
+        method: 'PUT',
+        redirect: 'manual',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Forwarded-Proto': 'https',
+          Cookie: [...cookies].map(([k, v]) => `${k}=${v}`).join('; ')
+        },
+        body: JSON.stringify(payload)
+      })
+      for (const cookie of response.headers.getSetCookie()) {
+        const pair = cookie.split(';')[0], at = pair.indexOf('=')
+        cookies.set(pair.slice(0, at), pair.slice(at + 1))
+      }
+      let json = null
+      const text = await response.text()
+      try {
+        json = JSON.parse(text)
+      } catch {}
+      return { status: response.status, headers: response.headers, json, text }
+    },
+    async patch(url, data = {}) {
+      const payload = {
+        ...data,
+        _csrf: csrfToken
+      }
+      const response = await fetch(`${origin}${url}`, {
+        method: 'PATCH',
+        redirect: 'manual',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Forwarded-Proto': 'https',
+          Cookie: [...cookies].map(([k, v]) => `${k}=${v}`).join('; ')
+        },
+        body: JSON.stringify(payload)
+      })
+      for (const cookie of response.headers.getSetCookie()) {
+        const pair = cookie.split(';')[0], at = pair.indexOf('=')
+        cookies.set(pair.slice(0, at), pair.slice(at + 1))
+      }
+      let json = null
+      const text = await response.text()
+      try {
+        json = JSON.parse(text)
+      } catch {}
+      return { status: response.status, headers: response.headers, json, text }
     }
   }
 }
@@ -331,4 +383,131 @@ test('login via username or email with password, and reject wrong password', asy
   assert.equal(loginByEmail.status, 200)
   assert.equal(loginByEmail.json.success, true)
   assert.equal(loginByEmail.json.url, '/geeker')
+})
+
+test('flow: resume edit, persist, share toggle, public access and reverse 404', async () => {
+  // Use existing logged-in client for geeker
+  const client = browser()
+  await client.get('/')
+  const loginRes = await client.post('/api/user/login/local', {
+    account: 'geeker',
+    password: 'super-secret-pwd'
+  })
+  assert.equal(loginRes.status, 200)
+  // Browser redirects to user page after login, refreshing CSRF token
+  await client.get(loginRes.json.url || "/geeker")
+
+  // 1. Read initial resume data
+  const initialDataRes = await client.get('/api/resume/data')
+  assert.equal(initialDataRes.status, 200)
+  const initialData = JSON.parse(initialDataRes.text)
+  assert.equal(initialData.success, true)
+  assert.ok(initialData.result.info)
+
+  // 2. Verify getResumeInfo handles missing Origin header safely (no 500 error)
+  const initialInfoRes = await client.get('/api/resume/info')
+  assert.equal(initialInfoRes.status, 200)
+  const initialInfo = JSON.parse(initialInfoRes.text)
+  assert.equal(initialInfo.success, true)
+  assert.ok(initialInfo.result.resumeHash)
+  const resumeHash = initialInfo.result.resumeHash
+
+  // 3. Update resume fields
+  const updatedResume = {
+    info: {
+      name: '极客测试专家',
+      title: '流控测试架构师',
+      email: 'geeker@hacknical.com',
+      phone: '13800000000',
+      location: '上海',
+      languages: ['JavaScript', 'TypeScript']
+    },
+    workExperiences: [
+      {
+        company: 'Antigravity Verification',
+        position: 'Lead QA',
+        startTime: '2023-01',
+        endTime: '至今',
+        details: '端到端全链路自动化与流控测试'
+      }
+    ],
+    educations: [
+      {
+        school: '复旦大学',
+        major: '软件工程',
+        degree: '学士',
+        startTime: '2016-09',
+        endTime: '2020-06'
+      }
+    ],
+    personalProjects: [],
+    others: { socialLinks: [] },
+    customModules: []
+  }
+
+  const saveRes = await client.put('/api/resume/data', {
+    resume: updatedResume,
+    locale: 'zh-CN'
+  })
+  assert.equal(saveRes.status, 200)
+  assert.equal(saveRes.json.success, true)
+
+  // 4. Re-read resume data to verify persistence
+  const reReadRes = await client.get('/api/resume/data')
+  assert.equal(reReadRes.status, 200)
+  const reReadData = JSON.parse(reReadRes.text)
+  assert.equal(reReadData.result.info.name, '极客测试专家')
+  assert.equal(reReadData.result.info.title, '流控测试架构师')
+  assert.equal(reReadData.result.workExperiences[0].company, 'Antigravity Verification')
+
+  // 5. Open public share
+  const shareToggleRes = await client.patch('/api/resume/info', {
+    info: {
+      openShare: true,
+      simplifyUrl: true
+    }
+  })
+  assert.equal(shareToggleRes.status, 200)
+  assert.equal(shareToggleRes.json.success, true)
+
+  // 6. Verify resume info returns updated public url
+  const infoAfterShareRes = await client.get('/api/resume/info')
+  assert.equal(infoAfterShareRes.status, 200)
+  const infoAfterShare = JSON.parse(infoAfterShareRes.text)
+  assert.equal(infoAfterShare.result.openShare, true)
+  assert.equal(infoAfterShare.result.simplifyUrl, true)
+  assert.match(infoAfterShare.result.url, /geeker\/resume/)
+
+  // 7. Unauthenticated client accesses public resume page
+  const unauthClient = browser()
+  const publicPageRes = await unauthClient.get('/geeker/resume')
+  assert.equal(publicPageRes.status, 200)
+  assert.match(publicPageRes.text, /<title>geeker 的个人简历 \| hacknical<\/title>/)
+  assert.match(publicPageRes.text, /window\.login = 'geeker'/)
+
+  // 8. Unauthenticated client accesses public resume API
+  const publicApiRes = await unauthClient.get(`/api/resume/shared/public?hash=${resumeHash}`)
+  assert.equal(publicApiRes.status, 200)
+  const publicApiData = JSON.parse(publicApiRes.text)
+  assert.equal(publicApiData.success, true)
+  assert.equal(publicApiData.result.info.name, '极客测试专家')
+  assert.equal(publicApiData.result.workExperiences[0].company, 'Antigravity Verification')
+
+  // 9. Disable public share
+  const disableShareRes = await client.patch('/api/resume/info', {
+    info: {
+      openShare: false
+    }
+  })
+  assert.equal(disableShareRes.status, 200)
+  assert.equal(disableShareRes.json.result.openShare, false)
+
+  // 10. Reverse verification: unauthenticated access redirects to 404
+  const closedPageRes = await unauthClient.get('/geeker/resume')
+  assert.equal(closedPageRes.status, 302)
+  assert.equal(closedPageRes.headers.get('location'), '/404')
+
+  const closedHashRes = await unauthClient.get(`/resume/${resumeHash}`)
+  assert.equal(closedHashRes.status, 302)
+  assert.equal(closedHashRes.headers.get('location'), '/404')
 })

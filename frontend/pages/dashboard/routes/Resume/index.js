@@ -20,7 +20,8 @@ export default (store, options) => {
     )
   }
 
-  const ResumeComponent = resumeComponent[device]
+  const isMobile = options.isMobile || (device || '').toLowerCase() === 'mobile'
+  const ResumeComponent = isMobile ? resumeComponent.mobile : resumeComponent.desktop
   return {
     path: `/${login}/archive`,
     component: ResumeComponent

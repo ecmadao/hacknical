@@ -10,7 +10,7 @@ import {
   InputGroupV2
 } from 'light-ui'
 import cx from 'classnames'
-import Img from 'react-image'
+import { Img } from 'react-image'
 import Icon from 'COMPONENTS/Icon'
 import Labels from 'COMPONENTS/Labels'
 import Avator from 'COMPONENTS/Avator'

@@ -95,6 +95,15 @@ const catchError = () => async (ctx, next) => {
         break
     }
 
+    if (/^\/api\//.test(pathname)) {
+      ctx.status = ctx.status >= 400 ? ctx.status : 500
+      ctx.body = {
+        message: message || 'Server Error',
+        success: false
+      }
+      return
+    }
+
     await render500(ctx, err)
   }
 }
