@@ -17,7 +17,8 @@
     "apiUrl": "https://api.github.com",
     "oauth": {
       "clientId": "",
-      "clientSecret": ""
+      "clientSecret": "",
+      "redirectUri": ""
     }
   },
   "links": {

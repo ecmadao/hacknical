@@ -1,0 +1,40 @@
+const { test } = require('node:test')
+const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
+const { spawnSync } = require('node:child_process')
+
+test('deployment preserves signing key, existing OAuth secrets and production config', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'hacknical-deploy-'))
+  try {
+    fs.mkdirSync(path.join(root, 'scripts'))
+    fs.mkdirSync(path.join(root, 'config'))
+    fs.copyFileSync('scripts/configure-deploy.py', path.join(root, 'scripts/configure-deploy.py'))
+    fs.copyFileSync('config/production.example.json', path.join(root, 'config/production.example.json'))
+    const env = { ...process.env, APP_URL: 'https://hack.r2049.cn', APP_KEY: '', GITHUB_OAUTH_CLIENT_ID: '', GITHUB_OAUTH_CLIENT_SECRET: '', GITHUB_OAUTH_REDIRECT_URI: '' }
+    const run = extra => spawnSync('python3', [path.join(root, 'scripts/configure-deploy.py')], { env: { ...env, ...extra }, encoding: 'utf8' })
+    const read = () => Object.fromEntries(fs.readFileSync(path.join(root, '.env'), 'utf8').trim().split('\n').map(line => {
+      const at = line.indexOf('=')
+      return [line.slice(0, at), JSON.parse(line.slice(at + 1))]
+    }))
+    assert.equal(run({}).status, 0)
+    const initial = read()
+    assert.match(initial.APP_KEY, /^[a-f\d]{64}$/)
+    assert.equal(initial.GITHUB_OAUTH_CLIENT_ID, '')
+    assert.equal(initial.GITHUB_OAUTH_REDIRECT_URI, 'https://hack.r2049.cn/api/user/login/github/callback')
+    assert.equal(fs.statSync(path.join(root, '.env')).mode & 0o777, 0o600)
+    const production = fs.readFileSync(path.join(root, 'config/production.json'), 'utf8')
+    const changed = run({ GITHUB_OAUTH_CLIENT_ID: 'real-client', GITHUB_OAUTH_CLIENT_SECRET: 'private-secret' })
+    assert.equal(changed.status, 0)
+    assert.ok(!changed.stdout.includes('private-secret'))
+    assert.equal(run({}).status, 0)
+    assert.equal(read().APP_KEY, initial.APP_KEY)
+    assert.equal(read().GITHUB_OAUTH_CLIENT_SECRET, 'private-secret')
+    assert.equal(fs.readFileSync(path.join(root, 'config/production.json'), 'utf8'), production)
+    const previous = fs.readFileSync(path.join(root, '.env'), 'utf8')
+    assert.notEqual(run({ APP_URL: 'http://invalid.example' }).status, 0)
+    assert.notEqual(run({ GITHUB_OAUTH_CLIENT_SECRET: 'first\nSECOND=bad' }).status, 0)
+    assert.equal(fs.readFileSync(path.join(root, '.env'), 'utf8'), previous)
+  } finally { fs.rmSync(root, { recursive: true, force: true }) }
+})

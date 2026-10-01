@@ -1,5 +1,10 @@
 .idea
 .vscode
+.env
+.env.*
+!.env.example
+.deployed-image
+__pycache__/
 *.DS_Store
 /app/config/webpack-assets.json
 /config/development.json

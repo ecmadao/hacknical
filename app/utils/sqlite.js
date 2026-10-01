@@ -23,6 +23,13 @@ db.exec(`
   PRAGMA journal_mode = WAL;
   PRAGMA foreign_keys = ON;
 
+  CREATE TABLE IF NOT EXISTS sessions (
+    id TEXT PRIMARY KEY,
+    data TEXT NOT NULL,
+    expires_at INTEGER NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS sessions_expiry ON sessions (expires_at);
+
   CREATE TABLE IF NOT EXISTS users (
     user_id TEXT PRIMARY KEY,
     github_login TEXT NOT NULL UNIQUE,

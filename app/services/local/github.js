@@ -1,5 +1,6 @@
 import request from 'request'
 import config from 'config'
+import { getToken, getLogin } from '../github-oauth'
 import db, { now, parseJson, stringifyJson } from '../../utils/sqlite'
 
 const githubConfig = config.get('github')
@@ -51,40 +52,6 @@ const cachedRequest = async (login, kind, path, token, fallback) => {
     return cacheSet(login, kind, value)
   } catch (e) {
     return cacheGet(login, kind) || fallback
-  }
-}
-
-const getToken = async (code) => {
-  if (!code) return ''
-  if (String(code).startsWith('local:')) return String(code)
-  const clientId = process.env.GITHUB_CLIENT_ID || githubConfig.oauth.clientId
-  const clientSecret = process.env.GITHUB_CLIENT_SECRET || githubConfig.oauth.clientSecret
-  if (!clientId || !clientSecret) return String(code)
-  try {
-    const result = await apiRequest('POST', '/login/oauth/access_token', null, {
-      headers: { Accept: 'application/json' },
-      body: { client_id: clientId, client_secret: clientSecret, code }
-    })
-    return result.access_token || ''
-  } catch (e) {
-    return ''
-  }
-}
-
-const getLogin = async (token) => {
-  if (String(token).startsWith('local:')) {
-    const login = String(token).slice('local:'.length)
-    return {
-      login,
-      name: login,
-      avatar_url: '',
-      html_url: `https://github.com/${login}`
-    }
-  }
-  try {
-    return await apiRequest('GET', '/user', token)
-  } catch (e) {
-    return null
   }
 }
 

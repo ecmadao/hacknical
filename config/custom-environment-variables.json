@@ -1,0 +1,14 @@
+{
+  "appKey": "APP_KEY",
+  "url": "APP_URL",
+  "storage": { "sqlite": { "path": "SQLITE_PATH" } },
+  "github": {
+    "apiUrl": "GITHUB_API_URL",
+    "oauth": {
+      "clientId": "GITHUB_OAUTH_CLIENT_ID",
+      "clientSecret": "GITHUB_OAUTH_CLIENT_SECRET",
+      "redirectUri": "GITHUB_OAUTH_REDIRECT_URI"
+    }
+  },
+  "log": { "level": "LOG_LEVEL" }
+}

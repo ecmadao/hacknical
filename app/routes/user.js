@@ -45,12 +45,12 @@ router.patch(
 
 router.get(
   '/login/github',
-  User.loginByGitHub
+  User.startGitHubLogin
 )
 
 router.get(
-  '/login/auth0',
-  User.loginByAuth0
+  '/login/github/callback',
+  User.loginByGitHub
 )
 
 router.get(

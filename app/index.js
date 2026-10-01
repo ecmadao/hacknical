@@ -1,4 +1,5 @@
 
 require('@babel/register')
-require('babel-polyfill')
+require('core-js/stable')
+require('regenerator-runtime/runtime')
 require('./bin/app.js')

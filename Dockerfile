@@ -52,6 +52,6 @@ EXPOSE 4000
 
 # 容器健康检查
 HEALTHCHECK --interval=20s --timeout=5s --start-period=15s --retries=3 \
-  CMD node -e "const http = require('http'); http.get('http://127.0.0.1:4000/', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1));"
+  CMD node -e "const http = require('http'); http.get('http://127.0.0.1:4000/api/healthz', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1));"
 
 CMD ["node", "dist/bin/app.js"]

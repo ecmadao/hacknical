@@ -10,14 +10,15 @@
     "build-dll": "bnr local:build:dll",
     "build-dll-pro": "bnr pro:build:dll",
     "start-dev": "npm run build-dll && npm run start-app",
-    "start-local": "NODE_ENV=localdev node app/index.js",
+    "start-local": "NODE_ENV=localdev node --env-file-if-exists=.env app/index.js",
     "start-sqlite": "npm run start-local",
     "start-app": "bnr local:app:start & bnr local:build:src",
     "start": "bnr pro:app:start",
     "stop": "bnr pro:app:stop",
     "precommit": "npm run lint",
     "lint": "eslint \"frontend/**/*.{js,jsx}\" \"app/**/*.js\"",
-    "deploy": "git checkout master && git pull origin master && npm i && npm i --only=dev && bash ./scripts/deploy.sh"
+    "deploy": "git checkout master && git pull origin master && npm i && npm i --only=dev && bash ./scripts/deploy.sh",
+    "test": "node --test tests/*.test.cjs"
   },
   "betterScripts": {
     "pro:build:src": {

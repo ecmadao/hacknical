@@ -43,6 +43,16 @@ npm install
 npm run start-local
 ```
 
+## GitHub 登录与 GitHub Actions 部署
+
+登录直接使用 GitHub OAuth，运行时不需要 Auth0 或单独的 GitHub 服务。授权入口为 `/api/user/login/github`，回调为 `/api/user/login/github/callback`；会话和 GitHub token 保存在 SQLite，浏览器只保存签名的会话 ID。
+
+本地开发先复制 `.env.example` 为 `.env`，填写 GitHub OAuth App 的 Client ID 和 Client Secret，再运行 `npm run start-local`。本地 OAuth App 回调地址为 `http://localhost:4000/api/user/login/github/callback`。未填写凭据时，首页正常运行，登录接口返回 `503 GITHUB_OAUTH_UNAVAILABLE`，不接受测试 code 或个人 token 代替授权码。
+
+线上地址为 [https://hack.r2049.cn](https://hack.r2049.cn)。参照 PaperVault，默认分支 push 或手动运行 **CI and Deploy** 会依次执行 lint、OAuth 回归测试、Docker 构建、推送 GHCR 和 SSH 部署；PR 仅验证和构建。部署使用当前构建的镜像 digest，并在健康检查失败时恢复上一版本。SQLite、上传文件和已有生产配置保留在原部署目录。
+
+完整配置及 OAuth App 创建步骤见 [部署文档](doc/DEPLOYMENT.md)。
+
 ## 本机部署 (Local Deployment)
 
 hacknical 在本机支持通过内建 SQLite、内存缓存以及本地文件系统完整运行生产模式，无需依赖外部 Redis、MongoDB 与云端 OSS。

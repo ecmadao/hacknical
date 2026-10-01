@@ -1,5 +1,13 @@
 .git
 .gitignore
+.env
+.env.*
+config/production.json
+config/development.json
+.deployed-image
+**/__pycache__
+public/assets
+public/dll
 .npmrc
 node_modules
 data
