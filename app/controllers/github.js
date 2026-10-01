@@ -3,7 +3,7 @@ import config from 'config'
 import network from '../services/network'
 import { combineReposCommits } from './helper/github'
 import { UPDATE_STATUS_TEXT } from '../utils/constant'
-import { is, sortBy } from '../utils/helper'
+import { is, sortBy, isGitHubSession } from '../utils/helper'
 import logger from '../utils/logger'
 import Home from './home'
 import { getRecords, getLogs } from './helper/stat'
@@ -14,7 +14,17 @@ const services = config.get('services.github')
 
 const _getUser = async (ctx) => {
   const { login } = ctx.params
-  const user = await network.github.getUser(login)
+  const targetUser = await network.user.getUser({ login })
+  if (targetUser && targetUser.authProvider === 'local') {
+    return {
+      login,
+      name: targetUser.userName || login,
+      avatar_url: '',
+      html_url: ''
+    }
+  }
+  const token = ctx.session && isGitHubSession(ctx.session) ? ctx.session.githubToken : null
+  const user = await network.github.getUser(login, token)
   if (!user) {
     return ctx.redirect('/404')
   }
@@ -47,6 +57,15 @@ const _getCommits = async (login, token) => {
 /* ================== router handler ================== */
 
 const getAllRepositories = async (ctx, next) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      result: [],
+      success: true
+    }
+    await next()
+    return
+  }
+
   const { githubLogin, githubToken } = ctx.session
   const repos = await network.github.getUserRepositories(githubLogin, githubToken)
   const result = []
@@ -75,6 +94,14 @@ const getAllRepositories = async (ctx, next) => {
 }
 
 const getUserContributed = async (ctx, next) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      result: []
+    }
+    await next()
+    return
+  }
   const repositories =
     await _getContributed(ctx.params.login, ctx.session.githubToken)
   ctx.body = {
@@ -85,6 +112,14 @@ const getUserContributed = async (ctx, next) => {
 }
 
 const getUserRepositories = async (ctx, next) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      result: []
+    }
+    await next()
+    return
+  }
   const repositories =
     await _getRepositories(ctx.params.login, ctx.session.githubToken)
   ctx.body = {
@@ -95,6 +130,17 @@ const getUserRepositories = async (ctx, next) => {
 }
 
 const getUserCommits = async (ctx, next) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      result: {
+        commits: [],
+        formatCommits: {}
+      }
+    }
+    await next()
+    return
+  }
   const {
     commits,
     formatCommits
@@ -115,6 +161,14 @@ const getUserCommits = async (ctx, next) => {
 }
 
 const getUserLanguages = async (ctx, next) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      result: {}
+    }
+    await next()
+    return
+  }
   const { login } = ctx.params
   const { githubToken } = ctx.session
 
@@ -127,6 +181,14 @@ const getUserLanguages = async (ctx, next) => {
 }
 
 const getUserOrganizations = async (ctx, next) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      result: []
+    }
+    await next()
+    return
+  }
   const { login } = ctx.params
   const { githubToken } = ctx.session
   const organizations =
@@ -158,6 +220,10 @@ const getUser = async (ctx, next) => {
 
 const renderGitHubPage = async (ctx) => {
   const { login } = ctx.params
+  const targetUser = await network.user.getUser({ login })
+  if (!targetUser || targetUser.authProvider === 'local' || !targetUser.githubShare) {
+    return ctx.redirect('/404')
+  }
   const { locale, device, isMobile } = ctx.state
   const { githubLogin } = ctx.session
   const title = ctx.__('sharePage.title', login)
@@ -178,6 +244,13 @@ const renderGitHubPage = async (ctx) => {
 }
 
 const getShareLogs = async (ctx) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      result: []
+    }
+    return
+  }
   const { limit } = ctx.query
   const { githubLogin } = ctx.session
 
@@ -194,6 +267,21 @@ const getShareLogs = async (ctx) => {
 
 const getShareRecords = async (ctx) => {
   const { githubLogin, locale } = ctx.session
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      result: {
+        locale,
+        login: githubLogin,
+        openShare: false,
+        url: '',
+        viewDevices: [],
+        viewSources: [],
+        pageViews: []
+      }
+    }
+    return
+  }
 
   const userInfo = await network.user.getUser({ login: githubLogin })
   const record = await getRecords(100, {
@@ -206,7 +294,7 @@ const getShareRecords = async (ctx) => {
     result: {
       locale,
       login: githubLogin,
-      openShare: userInfo.githubShare,
+      openShare: userInfo && userInfo.githubShare,
       url: `${githubLogin}/github`,
       ...record
     }
@@ -224,6 +312,20 @@ const fetchLongtimeAgo = startUpdateAt =>
     new Date().getTime() - new Date(startUpdateAt).getTime() > 10 * 60 * 1000
 
 const getUpdateStatus = async (ctx) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      result: {
+        status: 0,
+        lastUpdateTime: null,
+        finished: true,
+        refreshing: false,
+        refreshEnable: false,
+      },
+      success: true,
+      message: '',
+    }
+    return
+  }
   const { githubLogin, userId } = ctx.session
   const statusResult = await network.github.getUpdateStatus(githubLogin)
   logger.info(`${githubLogin} update status: ${JSON.stringify(statusResult)}`)
@@ -257,6 +359,13 @@ const getUpdateStatus = async (ctx) => {
 }
 
 const updateUserData = async (ctx) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      success: true,
+      message: ''
+    }
+    return
+  }
   const { githubToken, githubLogin } = ctx.session
   await network.github.updateUserData(githubLogin, githubToken)
 
@@ -267,6 +376,13 @@ const updateUserData = async (ctx) => {
 }
 
 const getZen = async (ctx) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      result: '',
+      success: true
+    }
+    return
+  }
   const { githubToken } = ctx.session
   const val = await network.github.getZen(githubToken)
   const result = is.object(val) ? '' : val
@@ -278,6 +394,13 @@ const getZen = async (ctx) => {
 }
 
 const getOctocat = async (ctx) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      result: '',
+      success: true
+    }
+    return
+  }
   const result = await network.github.getOctocat()
   ctx.body = {
     result,
@@ -286,6 +409,14 @@ const getOctocat = async (ctx) => {
 }
 
 const getUserHotmap = async (ctx, next) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      result: { start: null, end: null, datas: [], total: 0, streak: null },
+      success: true,
+    }
+    await next()
+    return
+  }
   const { login } = ctx.params
   const { locale } = ctx.session
   const result = await network.github.getHotmap(login, locale)

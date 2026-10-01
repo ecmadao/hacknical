@@ -12,6 +12,7 @@ import Home from './home'
 import { SCHOOLS } from '../utils/constant/school'
 import { getUploadUrl, getOssObjectUrl, isLocalStorage } from '../utils/uploader'
 import { getRecords, getLogs } from './helper/stat'
+import { isGitHubSession } from '../utils/helper'
 
 const ossConfig = config.get('services.oss')
 
@@ -59,10 +60,12 @@ const getResume = async (ctx) => {
     resume && resume.info
   ) {
     if (!resume.info.languages || !resume.info.languages.length) {
-      const languages = await network.github.getUserLanguages(githubLogin, githubToken)
-      resume.info.languages = Object.keys(languages)
-        .slice(0, 5)
-        .sort((k1, k2) => languages[k2] - languages[k1])
+      if (isGitHubSession(ctx.session)) {
+        const languages = await network.github.getUserLanguages(githubLogin, githubToken)
+        resume.info.languages = Object.keys(languages)
+          .slice(0, 5)
+          .sort((k1, k2) => languages[k2] - languages[k1])
+      }
     }
   }
 

@@ -81,7 +81,11 @@ function browser() {
       if (match) {
         csrfToken = match[1]
       }
-      return { status: response.status, headers: response.headers, text, ok: response.ok }
+      let json = null
+      try {
+        json = JSON.parse(text)
+      } catch {}
+      return { status: response.status, headers: response.headers, text, json, ok: response.ok }
     },
     async post(url, data = {}) {
       const payload = {
@@ -511,3 +515,63 @@ test('flow: resume edit, persist, share toggle, public access and reverse 404', 
   assert.equal(closedHashRes.status, 302)
   assert.equal(closedHashRes.headers.get('location'), '/404')
 })
+
+test('non-GitHub login does not execute GitHub operations and defaults to archive', async () => {
+  const client = browser()
+  await client.get('/')
+  const loginRes = await client.post('/api/user/login/local', {
+    account: 'geeker',
+    password: 'super-secret-pwd'
+  })
+  assert.equal(loginRes.status, 200)
+
+  // 1. Dashboard defaults to archive route for local login, and passes isGitHubUser=false
+  const pageRes = await client.get('/geeker')
+  assert.equal(pageRes.status, 200)
+  assert.match(pageRes.text, /window\.dashboardRoute = "archive"/)
+  assert.match(pageRes.text, /window\.isGitHubUser = "false"/)
+
+  // 2. getUpdateStatus returns idle without token expired error
+  const statusRes = await client.get('/api/github/update')
+  assert.equal(statusRes.status, 200)
+  assert.equal(statusRes.json.success, true)
+  assert.equal(statusRes.json.result.status, 0)
+  assert.equal(statusRes.json.result.finished, true)
+  assert.equal(statusRes.json.result.refreshing, false)
+  assert.equal(statusRes.json.message, '')
+
+  // 3. updateUserData does not execute background update
+  const updateRes = await client.put('/api/github/update')
+  assert.equal(updateRes.status, 200)
+  assert.equal(updateRes.json.success, true)
+  assert.equal(updateRes.json.message, '')
+
+  // 4. getAllRepositories returns empty
+  const reposRes = await client.get('/api/github/repositories/all')
+  assert.equal(reposRes.status, 200)
+  assert.deepEqual(reposRes.json.result, [])
+
+  // 5. octocat and zen return empty
+  const octoRes = await client.get('/api/github/octocat')
+  assert.equal(octoRes.status, 200)
+  assert.equal(octoRes.json.result, '')
+
+  const zenRes = await client.get('/api/github/zen')
+  assert.equal(zenRes.status, 200)
+  assert.equal(zenRes.json.result, '')
+
+  // 6. Scientific statistic and predictions return empty
+  const statRes = await client.get('/api/scientific/geeker/statistic')
+  assert.equal(statRes.status, 200)
+  assert.equal(statRes.json.result, null)
+
+  const predRes = await client.get('/api/scientific/geeker/predictions')
+  assert.equal(predRes.status, 200)
+  assert.deepEqual(predRes.json.result, [])
+
+  // 7. Visiting /geeker/github returns 404 for local user
+  const githubPageRes = await client.get('/geeker/github')
+  assert.equal(githubPageRes.status, 302)
+  assert.equal(githubPageRes.headers.get('location'), '/404')
+})
+

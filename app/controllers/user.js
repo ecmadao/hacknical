@@ -5,6 +5,7 @@ import logger from '../utils/logger'
 import notify from '../services/notify'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
 import * as githubOAuth from '../services/github-oauth'
+import { isGitHubSession } from '../utils/helper'
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx)
@@ -92,10 +93,11 @@ const loginByGitHub = async (ctx) => {
       githubTokenExpiresAt: expiresAt,
       githubLogin: userInfo.login,
       githubAvator: userInfo.avatar_url,
+      authProvider: 'github'
     }
     if (expiresAt) ctx.session.maxAge = Math.min(ctx.session.maxAge, expiresAt - Date.now())
     await ctx.session.regenerate()
-    if (user.initialed) {
+    if (user.initialed && isGitHubSession(ctx.session)) {
       network.github.updateUserData(userInfo.login, githubToken)
         .catch(() => logger.warn('[GITHUB:LOGIN] Profile refresh failed'))
     }
@@ -125,7 +127,8 @@ const signup = async (ctx) => {
       githubLogin: user.githubLogin,
       githubAvator: '',
       login: user.githubLogin,
-      email: user.email
+      email: user.email,
+      authProvider: 'local'
     }
     await ctx.session.regenerate()
     logger.info(`[LOCAL:SIGNUP] User ${user.githubLogin} registered successfully`)
@@ -156,7 +159,8 @@ const loginByLocal = async (ctx) => {
       githubLogin: user.githubLogin,
       githubAvator: user.avatar_url || '',
       login: user.githubLogin,
-      email: user.email
+      email: user.email,
+      authProvider: 'local'
     }
     await ctx.session.regenerate()
     logger.info(`[LOCAL:LOGIN] User ${user.githubLogin} logged in`)

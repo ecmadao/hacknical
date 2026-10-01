@@ -7,12 +7,16 @@ const renderOctocat = () =>
   API.github.octocat().then(console.log)
 
 $(() => {
+  const isGitHubUser = window.isGitHubUser === 'true'
   renderApp('root', {
     login: window.login,
     device: window.device,
     isAdmin: window.isAdmin === 'true',
     isMobile: window.isMobile === 'true',
-    dashboardRoute: window.dashboardRoute || 'visualize'
+    isGitHubUser,
+    dashboardRoute: window.dashboardRoute || (isGitHubUser ? 'visualize' : 'archive')
   })
-  renderOctocat()
+  if (isGitHubUser) {
+    renderOctocat()
+  }
 })

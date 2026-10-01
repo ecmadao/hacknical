@@ -2,8 +2,16 @@
 import network from '../services/network'
 import notify from '../services/notify'
 import getCacheKey from './helper/cacheKey'
+import { isGitHubSession } from '../utils/helper'
 
 const getUserStatistic = async (ctx) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      result: null,
+      success: true
+    }
+    return
+  }
   const { login } = ctx.params
   const { githubToken } = ctx.session
   const result = await network.github.getUserStatistic(login, githubToken)
@@ -14,6 +22,13 @@ const getUserStatistic = async (ctx) => {
 }
 
 const getUserPredictions = async (ctx) => {
+  if (!isGitHubSession(ctx.session)) {
+    ctx.body = {
+      result: [],
+      success: true
+    }
+    return
+  }
   const { login } = ctx.params
   const { githubToken, githubLogin } = ctx.session
   const result = login === githubLogin

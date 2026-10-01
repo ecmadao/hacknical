@@ -44,7 +44,7 @@ const cacheSet = (login, kind, value) => {
 const cachedRequest = async (login, kind, path, token, fallback) => {
   // A local login is deliberately offline. Reuse seeded SQLite data when it
   // exists and otherwise return the local fallback without contacting GitHub.
-  if (String(token).startsWith('local:')) {
+  if (!token || String(token).startsWith('local:')) {
     return cacheGet(login, kind) || fallback
   }
   try {
@@ -109,6 +109,9 @@ const getUpdateStatus = async login => cacheGet(login, 'update-status') || {
 }
 
 const updateUserData = async (login, token) => {
+  if (!token || String(token).startsWith('local:')) {
+    return true
+  }
   try {
     await Promise.all([
       getUser(login, token),
@@ -141,10 +144,12 @@ const updateUser = async (login, data) => {
 }
 
 const getZen = async (token) => {
+  if (!token || String(token).startsWith('local:')) return 'Keep it logically awesome.'
   try { return await apiRequest('GET', '/zen', token) } catch (e) { return 'Keep it logically awesome.' }
 }
 
 const getOctocat = async (token) => {
+  if (!token || String(token).startsWith('local:')) return ''
   try { return await apiRequest('GET', '/octocat', token) } catch (e) { return '' }
 }
 

@@ -4,6 +4,7 @@ import getLanguages from '../config/languages'
 import logger from '../utils/logger'
 import notify from '../services/notify'
 import request from 'request'
+import { isGitHubSession } from '../utils/helper'
 
 const cacheControl = (ctx) => {
   ctx.set('Cache-Control', 'no-store, no-cache, must-revalidate')
@@ -46,7 +47,9 @@ const render404Page = async (ctx) => {
 const renderDashboard = async (ctx) => {
   const { device, browser, platform } = ctx.state
   const { githubLogin, userId } = ctx.session
-  const { login, dashboardRoute = 'visualize' } = ctx.params
+  const isGitHub = isGitHubSession(ctx.session)
+  const defaultRoute = isGitHub ? 'visualize' : 'archive'
+  const { login, dashboardRoute = defaultRoute } = ctx.params
   const user = await network.user.getUser({ userId })
 
   logger.debug(`githubLogin: ${githubLogin}, userId: ${userId}`)
@@ -71,6 +74,7 @@ const renderDashboard = async (ctx) => {
     dashboardRoute,
     login: githubLogin,
     isAdmin: login === githubLogin,
+    isGitHubUser: isGitHub,
     title: ctx.__('dashboard.title', githubLogin)
   })
 }
