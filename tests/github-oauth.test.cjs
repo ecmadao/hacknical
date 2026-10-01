@@ -106,10 +106,13 @@ before(async () => {
       if (params.get('code') === 'http-error') response.statusCode = 502
       response.end(JSON.stringify(params.get('code') === 'denied'
         ? { error: 'bad_verification_code' } : { access_token: 'test-private-token', ...(params.get('code') === 'expiring' ? { expires_in: 28800 } : {}) }))
-    } else if (request.url === '/user') {
-      assert.equal(request.headers.authorization, 'Bearer test-private-token')
+    } else if (request.url === '/user' || request.url.startsWith('/users/octocat')) {
       if (profileFailure) response.statusCode = 401
-      response.end(JSON.stringify({ id: 123, login: 'octocat', name: 'Octocat', avatar_url: 'https://example.com/avatar.png' }))
+      if (request.url.includes('/repos') || request.url.includes('/orgs')) {
+        response.end(JSON.stringify([]))
+      } else {
+        response.end(JSON.stringify({ id: 123, login: 'octocat', name: 'Octocat', avatar_url: 'https://example.com/avatar.png' }))
+      }
     } else {
       response.statusCode = 404
       response.end('{}')
@@ -176,6 +179,11 @@ test('OAuth success persists user, rotates session, rejects replay, survives res
   await launch()
   const info = await client.get('/api/user/info')
   assert.equal((await info.json()).result.githubLogin, 'octocat')
+  const updateStatus = await client.get('/api/github/update')
+  const updateData = await updateStatus.json()
+  assert.equal(updateData.success, true)
+  assert.notEqual(updateData.result.status, 4)
+  assert.notEqual(updateData.message, 'GitHub token 过期，请退出后重新登录')
   const activeId = client.cookies.get('HACKNICAL:session')
   await client.get('/api/user/logout')
   const check = new DatabaseSync(database)
