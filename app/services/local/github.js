@@ -51,6 +51,9 @@ const cachedRequest = async (login, kind, path, token, fallback) => {
     const value = await apiRequest('GET', path, token)
     return cacheSet(login, kind, value)
   } catch (e) {
+    if (e && e.message && e.message.includes('GitHub API 401')) {
+      throw e
+    }
     return cacheGet(login, kind) || fallback
   }
 }
@@ -100,18 +103,42 @@ const getUserCommits = async login => {
 const getUserContributed = async login => cacheGet(login, 'contributed') || []
 const getHotmap = async login => cacheGet(login, 'hotmap') || emptyHotmap()
 const getUpdateStatus = async login => cacheGet(login, 'update-status') || {
-  status: 4,
+  status: 0,
   startUpdateAt: null,
   lastUpdateTime: null
 }
 
 const updateUserData = async (login, token) => {
-  await getUser(login, token)
-  cacheSet(login, 'update-status', { status: 4, startUpdateAt: null, lastUpdateTime: now() })
-  return true
+  try {
+    await Promise.all([
+      getUser(login, token),
+      getUserRepositories(login, token),
+      getUserOrganizations(login, token)
+    ])
+    cacheSet(login, 'update-status', { status: 1, startUpdateAt: null, lastUpdateTime: now() })
+    return true
+  } catch (e) {
+    if (e && e.message && e.message.includes('GitHub API 401')) {
+      cacheSet(login, 'update-status', { status: 4, startUpdateAt: null, lastUpdateTime: now() })
+    } else {
+      cacheSet(login, 'update-status', { status: 1, startUpdateAt: null, lastUpdateTime: now() })
+    }
+    return false
+  }
 }
 
-const updateUser = async (login, data) => cacheSet(login, 'user', { ...(cacheGet(login, 'user') || {}), ...data })
+const updateUser = async (login, data) => {
+  if (data && data.status !== undefined) {
+    const current = cacheGet(login, 'update-status') || {}
+    cacheSet(login, 'update-status', {
+      ...current,
+      status: data.status,
+      startUpdateAt: data.startUpdateAt !== undefined ? data.startUpdateAt : current.startUpdateAt,
+      lastUpdateTime: data.lastUpdateTime !== undefined ? data.lastUpdateTime : current.lastUpdateTime
+    })
+  }
+  return cacheSet(login, 'user', { ...(cacheGet(login, 'user') || {}), ...data })
+}
 
 const getZen = async (token) => {
   try { return await apiRequest('GET', '/zen', token) } catch (e) { return 'Keep it logically awesome.' }
