@@ -39,7 +39,7 @@ class AppContainer extends React.Component {
     const { history, routes, store } = this.props
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <ConnectedRouter history={history} store={store}>
           {renderRoutes(routes)}
         </ConnectedRouter>
       </Provider>
