@@ -2,7 +2,7 @@
   "port": 4000,
   "appKey": "REPLACE_WITH_RANDOM_HEX",
   "appName": "hacknical",
-  "url": "https://hack.r2049.cn",
+  "url": "https://your-domain.com",
   "storage": {
     "type": "sqlite",
     "sqlite": {
@@ -37,7 +37,7 @@
       "auth": {
         "clientId": "",
         "clientSecret": "",
-        "redirectUri": "https://hack.r2049.cn/api/user/login/auth0"
+        "redirectUri": "https://your-domain.com/api/user/login/auth0"
       }
     }
   },

@@ -1,11 +1,25 @@
 #!/bin/bash
 # ==============================================================================
-# 为 hack.r2049.cn 配置 Nginx 反向代理与申请 ZeroSSL 证书
-# 参考主机既有配置：/etc/nginx/conf.d/papervault.top.conf 和 pxmapping.cn.conf
+# 配置 Nginx 反向代理与通过 ACME 自动申请 TLS 证书
 # ==============================================================================
 set -euo pipefail
 
-DOMAIN="hack.r2049.cn"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+# 优先取参数 $1，其次环境变量 DOMAIN，再次从本地生产配置提取
+DOMAIN="${1:-${DOMAIN:-}}"
+if [ -z "${DOMAIN}" ] && [ -f "${PROJECT_DIR}/config/production.json" ]; then
+  DOMAIN=$(grep -o '"url": *"https://[^"]*"' "${PROJECT_DIR}/config/production.json" | sed 's/.*https:\/\///;s/".*//' || true)
+fi
+
+if [ -z "${DOMAIN}" ] || [ "${DOMAIN}" = "your-domain.com" ]; then
+  echo "❌ 错误：未指定要配置的域名！"
+  echo "👉 用法示例：sudo bash $0 <your-domain.com>"
+  echo "   或环境变量：DOMAIN=<your-domain.com> sudo -E bash $0"
+  exit 1
+fi
+
 UPSTREAM="http://127.0.0.1:4000"
 ACME_WEBROOT="/var/www/acme"
 CERT_DIR="/etc/nginx/cert/${DOMAIN}"
@@ -59,7 +73,7 @@ echo "HTTP ACME 规则加载成功。"
 ACME_RUN="env -i HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin ${ACME_SH}"
 
 echo "=== [2/4] 向 ACME CA (ZeroSSL / LetsEncrypt) 申请 ECC TLS 证书 ==="
-# 优先采用 ZeroSSL，如失败则平滑降级至 LetsEncrypt (与 turn-us1.r2049.cn 一致)
+# 优先采用 ZeroSSL，如失败则平滑降级至 LetsEncrypt
 $ACME_RUN --issue -d "${DOMAIN}" --webroot "${ACME_WEBROOT}" --server zerossl --keylength ec-256 || \
 $ACME_RUN --issue -d "${DOMAIN}" --webroot "${ACME_WEBROOT}" --server letsencrypt --keylength ec-256
 

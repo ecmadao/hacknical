@@ -15,6 +15,11 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
+DOMAIN="${1:-${DOMAIN:-}}"
+if [ -z "${DOMAIN}" ] && [ -f "${PROJECT_DIR}/config/production.json" ]; then
+  DOMAIN=$(grep -o '"url": *"https://[^"]*"' "${PROJECT_DIR}/config/production.json" | sed 's/.*https:\/\///;s/".*//' || true)
+fi
+
 echo "=========================================================="
 echo "步骤 1/2: 切换并启动 Hacknical Docker 容器化服务"
 echo "=========================================================="
@@ -22,15 +27,17 @@ bash "${SCRIPT_DIR}/deploy-docker.sh"
 
 echo ""
 echo "=========================================================="
-echo "步骤 2/2: 配置 Nginx 虚拟主机并申请 ZeroSSL TLS 证书"
+echo "步骤 2/2: 配置 Nginx 虚拟主机并申请 TLS 证书"
 echo "=========================================================="
-bash "${SCRIPT_DIR}/setup-nginx-ssl.sh"
+bash "${SCRIPT_DIR}/setup-nginx-ssl.sh" "${DOMAIN}"
 
 echo ""
 echo "=========================================================="
 echo "✅ 整体部署与域名证书上线全部完成！"
 echo "=========================================================="
-echo "您可以直接在浏览器访问: https://hack.r2049.cn"
-echo ""
-echo "最终连通性探测结果："
-curl -Is https://hack.r2049.cn/ | head -n 5 || true
+if [ -n "${DOMAIN}" ]; then
+  echo "您可以直接在浏览器访问: https://${DOMAIN}"
+  echo ""
+  echo "最终连通性探测结果："
+  curl -Is "https://${DOMAIN}/" | head -n 5 || true
+fi
