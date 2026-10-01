@@ -1,0 +1,12 @@
+.git
+.gitignore
+.npmrc
+node_modules
+data
+log
+public/uploads
+.gemini
+brain
+*.log
+.DS_Store
+dist

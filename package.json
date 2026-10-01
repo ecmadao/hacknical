@@ -141,6 +141,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
     "@koa/cors": "^5.0.0",
     "@sentry/browser": "^7.120.3",
     "ali-oss": "^6.23.0",

@@ -1,0 +1,18 @@
+services:
+  hacknical:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hacknical:latest
+    container_name: hacknical
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+    volumes:
+      - ./data:/app/data
+      - ./log:/app/log
+      - ./public/uploads:/app/public/uploads
+      - ./config/production.json:/app/config/production.json:ro

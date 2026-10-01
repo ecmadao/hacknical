@@ -71,7 +71,50 @@ hacknical 在本机支持通过内建 SQLite、内存缓存以及本地文件系
     ```bash
     tmux kill-session -t hacknical 2>/dev/null || true
     tmux new-session -d -s hacknical "NODE_ENV=production node dist/bin/app.js 2>&1 | tee -a log/production.log"
-    ```
+## Docker 容器化部署 (Docker Deployment)
+
+参考宿主机既有容器（如 `papervault`）的最佳实践，项目已支持完整的 Docker 容器化构建与数据持久化。
+
+### 1. 架构说明
+- **服务容器**：基于 `node:22-bookworm-slim` 多阶段构建，仅保留运行阶段所需的最小化生产依赖与编译产物。
+- **端口绑定**：`127.0.0.1:4000:4000`（安全绑定本机回环地址，由宿主机 Nginx 统一对外做反代与 SSL 卸载）。
+- **数据持久化挂载卷**：
+  - `./data:/app/data`：持久化保存 SQLite 数据库。
+  - `./public/uploads:/app/public/uploads`：保存上传的文件与生成的图片/PDF。
+  - `./log:/app/log`：容器日志输出持久化。
+  - `./config/production.json:/app/config/production.json:ro`：挂载生产环境配置。
+
+### 2. 容器部署与日常运维
+```bash
+# 一键自动构建、平滑停机旧本地进程并启动 Docker 容器：
+bash ./scripts/deploy-docker.sh
+
+# 查看容器运行状态
+docker compose ps
+
+# 查看容器实时日志
+docker compose logs -f
+
+# 停止或重启容器
+docker compose stop
+docker compose up -d
+```
+
+## 域名与 TLS 证书配置 (Nginx & ZeroSSL)
+
+主机域名为 `hack.r2049.cn`（公网解析已生效指向本机），沿用主机上 `papervault.top` 和 `pxmapping.cn` 既有的 **Nginx + acme.sh + ZeroSSL** 证书签发与续期体系：
+
+1. **一键完成反代配置与证书签发**（需要宿主机 root 权限）：
+   ```bash
+   sudo bash ./scripts/setup-nginx-ssl.sh
+   ```
+2. **全自动一键部署（Docker 启动 + 证书签发 + Nginx 重载）**：
+   ```bash
+   sudo bash ./scripts/setup-all.sh
+   ```
+3. **生成的配置与证书路径**：
+   - Nginx 站点配置：`/etc/nginx/conf.d/hack.r2049.cn.conf`
+   - 证书文件：`/etc/nginx/cert/hack.r2049.cn/{fullchain.pem, hack.r2049.cn.key}`
 
 
 ## Todos
