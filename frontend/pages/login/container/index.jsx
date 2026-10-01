@@ -10,11 +10,12 @@ import { formatNumber } from 'UTILS/formatter'
 import CountByStep from 'COMPONENTS/Count/CountByStep'
 import LogoText from 'COMPONENTS/LogoText'
 import Terminal from 'COMPONENTS/Terminal'
-import { ClassicButton } from 'light-ui'
+import { ClassicButton, PortalModal } from 'light-ui'
 
 const {
   login: loginText,
-  statistic: statisticText
+  statistic: statisticText,
+  auth: authText = {}
 } = locales('login')
 const locale = getLocale()
 
@@ -26,10 +27,134 @@ class LoginPanel extends React.PureComponent {
     this.state = {
       loading: true,
       statistic: {},
-      languages: []
+      languages: [],
+      modalType: null,
+      signupUsername: '',
+      signupEmail: '',
+      signupPassword: '',
+      signupConfirmPassword: '',
+      signupInviteCode: '',
+      loginAccount: '',
+      loginPassword: '',
+      submitting: false,
+      errorMsg: ''
     }
     this.heartBeat = null
     this.getStatistic = this.getStatistic.bind(this)
+    this.openModal = this.openModal.bind(this)
+    this.closeModal = this.closeModal.bind(this)
+    this.switchModal = this.switchModal.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSignup = this.handleSignup.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+  }
+
+  openModal(modalType) {
+    this.setState({
+      modalType,
+      errorMsg: '',
+      submitting: false
+    })
+  }
+
+  closeModal() {
+    this.setState({
+      modalType: null,
+      errorMsg: '',
+      submitting: false
+    })
+  }
+
+  switchModal(modalType) {
+    this.setState({
+      modalType,
+      errorMsg: '',
+      submitting: false
+    })
+  }
+
+  handleInputChange(field, value) {
+    this.setState({
+      [field]: value,
+      errorMsg: ''
+    })
+  }
+
+  async handleSignup(e) {
+    if (e && e.preventDefault) e.preventDefault()
+    const {
+      signupUsername,
+      signupEmail,
+      signupPassword,
+      signupConfirmPassword,
+      signupInviteCode,
+      submitting
+    } = this.state
+
+    if (submitting) return
+
+    if (!signupInviteCode || !signupUsername || !signupEmail || !signupPassword || !signupConfirmPassword) {
+      this.setState({ errorMsg: authText.errorRequired || '请完整填写各项信息' })
+      return
+    }
+
+    if (signupPassword !== signupConfirmPassword) {
+      this.setState({ errorMsg: authText.errorPasswordMatch || '两次输入的密码不一致' })
+      return
+    }
+
+    if (signupPassword.length < 6) {
+      this.setState({ errorMsg: '密码长度至少为 6 位' })
+      return
+    }
+
+    this.setState({ submitting: true, errorMsg: '' })
+
+    try {
+      const res = await API.user.signup({
+        username: signupUsername.trim(),
+        email: signupEmail.trim(),
+        password: signupPassword,
+        inviteCode: signupInviteCode.trim()
+      })
+      if (!res) {
+        this.setState({ submitting: false })
+      }
+    } catch (err) {
+      this.setState({
+        errorMsg: err.message || '注册失败，请检查填写内容',
+        submitting: false
+      })
+    }
+  }
+
+  async handleLogin(e) {
+    if (e && e.preventDefault) e.preventDefault()
+    const { loginAccount, loginPassword, submitting } = this.state
+
+    if (submitting) return
+
+    if (!loginAccount || !loginPassword) {
+      this.setState({ errorMsg: authText.errorRequired || '请完整填写账号与密码' })
+      return
+    }
+
+    this.setState({ submitting: true, errorMsg: '' })
+
+    try {
+      const res = await API.user.loginByLocal({
+        account: loginAccount.trim(),
+        password: loginPassword
+      })
+      if (!res) {
+        this.setState({ submitting: false })
+      }
+    } catch (err) {
+      this.setState({
+        errorMsg: err.message || '登录失败，请检查账号密码',
+        submitting: false
+      })
+    }
   }
 
   componentDidMount() {
@@ -187,6 +312,175 @@ class LoginPanel extends React.PureComponent {
     })
   }
 
+  renderAuthModal() {
+    const {
+      modalType,
+      signupUsername,
+      signupEmail,
+      signupPassword,
+      signupConfirmPassword,
+      signupInviteCode,
+      loginAccount,
+      loginPassword,
+      submitting,
+      errorMsg
+    } = this.state
+
+    if (!modalType) return null
+
+    const isSignup = modalType === 'signup'
+
+    return (
+      <PortalModal
+        showModal={Boolean(modalType)}
+        onClose={this.closeModal}
+      >
+        <div className={styles.authModalContainer}>
+          <div className={styles.authTabs}>
+            <div
+              className={cx(styles.authTab, isSignup && styles.activeAuthTab)}
+              onClick={() => this.switchModal('signup')}
+            >
+              {authText.signupTitle}
+            </div>
+            <div
+              className={cx(styles.authTab, !isSignup && styles.activeAuthTab)}
+              onClick={() => this.switchModal('login')}
+            >
+              {authText.loginTitle}
+            </div>
+          </div>
+
+          {errorMsg ? (
+            <div className={styles.authErrorNotice}>
+              {errorMsg}
+            </div>
+          ) : null}
+
+          {isSignup ? (
+            <form className={styles.authForm} onSubmit={this.handleSignup}>
+              <div className={styles.authField}>
+                <span className={styles.authLabel}>{authText.inviteCode}</span>
+                <input
+                  type="text"
+                  className={styles.authInput}
+                  placeholder={authText.inviteCode}
+                  value={signupInviteCode}
+                  onChange={e => this.handleInputChange('signupInviteCode', e.target.value)}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className={styles.authField}>
+                <span className={styles.authLabel}>{authText.username}</span>
+                <input
+                  type="text"
+                  className={styles.authInput}
+                  placeholder={authText.username}
+                  value={signupUsername}
+                  onChange={e => this.handleInputChange('signupUsername', e.target.value)}
+                  autoComplete="username"
+                />
+              </div>
+
+              <div className={styles.authField}>
+                <span className={styles.authLabel}>{authText.email}</span>
+                <input
+                  type="email"
+                  className={styles.authInput}
+                  placeholder={authText.email}
+                  value={signupEmail}
+                  onChange={e => this.handleInputChange('signupEmail', e.target.value)}
+                  autoComplete="email"
+                />
+              </div>
+
+              <div className={styles.authField}>
+                <span className={styles.authLabel}>{authText.password}</span>
+                <input
+                  type="password"
+                  className={styles.authInput}
+                  placeholder={authText.password}
+                  value={signupPassword}
+                  onChange={e => this.handleInputChange('signupPassword', e.target.value)}
+                  autoComplete="new-password"
+                />
+              </div>
+
+              <div className={styles.authField}>
+                <span className={styles.authLabel}>{authText.confirmPassword}</span>
+                <input
+                  type="password"
+                  className={styles.authInput}
+                  placeholder={authText.confirmPassword}
+                  value={signupConfirmPassword}
+                  onChange={e => this.handleInputChange('signupConfirmPassword', e.target.value)}
+                  autoComplete="new-password"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className={styles.authSubmitBtn}
+              >
+                {submitting ? '...' : authText.signupSubmit}
+              </button>
+
+              <div
+                className={styles.authSwitchLink}
+                onClick={() => this.switchModal('login')}
+              >
+                {authText.switchToLogin}
+              </div>
+            </form>
+          ) : (
+            <form className={styles.authForm} onSubmit={this.handleLogin}>
+              <div className={styles.authField}>
+                <span className={styles.authLabel}>{authText.account}</span>
+                <input
+                  type="text"
+                  className={styles.authInput}
+                  placeholder={authText.account}
+                  value={loginAccount}
+                  onChange={e => this.handleInputChange('loginAccount', e.target.value)}
+                  autoComplete="username"
+                />
+              </div>
+
+              <div className={styles.authField}>
+                <span className={styles.authLabel}>{authText.password}</span>
+                <input
+                  type="password"
+                  className={styles.authInput}
+                  placeholder={authText.password}
+                  value={loginPassword}
+                  onChange={e => this.handleInputChange('loginPassword', e.target.value)}
+                  autoComplete="current-password"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className={styles.authSubmitBtn}
+              >
+                {submitting ? '...' : authText.loginSubmit}
+              </button>
+
+              <div
+                className={styles.authSwitchLink}
+                onClick={() => this.switchModal('signup')}
+              >
+                {authText.switchToSignup}
+              </div>
+            </form>
+          )}
+        </div>
+      </PortalModal>
+    )
+  }
+
   render() {
     const { loginLink } = this.props
 
@@ -196,6 +490,18 @@ class LoginPanel extends React.PureComponent {
           <div className={styles.topbarSelector}>
             {this.renderLanguages()}
           </div>
+          <span
+            className={styles.topbarLink}
+            onClick={() => this.openModal('signup')}
+          >
+            {authText.signupButton}
+          </span>
+          <span
+            className={styles.topbarLink}
+            onClick={() => this.openModal('login')}
+          >
+            {authText.localLoginButton}
+          </span>
           <a href={loginLink} className={styles.topbarLink}>
             {loginText.topbarLogin}
           </a>
@@ -210,20 +516,34 @@ class LoginPanel extends React.PureComponent {
         </div>
         <div className={styles.loginPannel}>
           <LogoText theme="light" className={styles.logo} />
-          <ClassicButton
-            theme="light"
-            onClick={() => window.location = loginLink}
-            buttonContainerClassName={styles.loginButton}
-          >
-            <a
-              href={loginLink}
-              className={styles.githubLoginLink}
+          <div className={styles.loginButtonGroup}>
+            <ClassicButton
+              theme="light"
+              onClick={() => window.location = loginLink}
+              buttonContainerClassName={styles.loginButton}
             >
-              <Icon icon="github" />
-              &nbsp;
-              {loginText.loginButton}
-            </a>
-          </ClassicButton>
+              <a
+                href={loginLink}
+                className={styles.githubLoginLink}
+              >
+                <Icon icon="github" />
+                &nbsp;
+                {loginText.loginButton}
+              </a>
+            </ClassicButton>
+            <div
+              className={styles.subActionBtn}
+              onClick={() => this.openModal('signup')}
+            >
+              {authText.signupButton}
+            </div>
+            <div
+              className={styles.subActionBtn}
+              onClick={() => this.openModal('login')}
+            >
+              {authText.localLoginButton}
+            </div>
+          </div>
           <Terminal
             className={styles.loginIntro}
             wordLines={[`$ ${loginText.loginText}`]}
@@ -234,6 +554,7 @@ class LoginPanel extends React.PureComponent {
             {this.renderModal()}
           </div>
         </div>
+        {this.renderAuthModal()}
       </div>
     )
   }

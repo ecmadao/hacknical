@@ -96,9 +96,53 @@ db.exec(`
     read_at TEXT,
     vote INTEGER
   );
+
+  CREATE TABLE IF NOT EXISTS invite_codes (
+    code TEXT PRIMARY KEY,
+    used INTEGER NOT NULL DEFAULT 0,
+    used_by TEXT,
+    created_at TEXT NOT NULL,
+    used_at TEXT
+  );
+  CREATE INDEX IF NOT EXISTS invite_codes_used ON invite_codes (used);
 `)
 
+// Migrate users table columns if not present
+const userColumns = new Set(db.prepare('PRAGMA table_info(users)').all().map(col => col.name))
+if (!userColumns.has('email')) {
+  db.exec('ALTER TABLE users ADD COLUMN email TEXT')
+  db.exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email) WHERE email IS NOT NULL AND email != ''")
+}
+if (!userColumns.has('password_hash')) {
+  db.exec('ALTER TABLE users ADD COLUMN password_hash TEXT')
+}
+if (!userColumns.has('auth_provider')) {
+  db.exec('ALTER TABLE users ADD COLUMN auth_provider TEXT NOT NULL DEFAULT "github"')
+}
+
 export const now = () => new Date().toISOString()
+
+// Seed invite codes from env or default
+const seedInviteCodes = () => {
+  const envCodes = process.env.INVITE_CODES
+  const codesToSeed = envCodes
+    ? envCodes.split(/[,;\s]+/).map(c => c.trim()).filter(Boolean)
+    : []
+
+  const timestamp = now()
+  const insertStmt = db.prepare('INSERT OR IGNORE INTO invite_codes (code, used, created_at) VALUES (?, 0, ?)')
+  for (const code of codesToSeed) {
+    insertStmt.run(code, timestamp)
+  }
+
+  const count = db.prepare('SELECT COUNT(*) as total FROM invite_codes').get().total
+  if (count === 0) {
+    // If no invite code exists at all, seed a default code for instant usability
+    insertStmt.run('HACKNICAL-2026', timestamp)
+  }
+}
+
+seedInviteCodes()
 
 export const parseJson = (value, fallback = null) => {
   if (value === null || value === undefined || value === '') return fallback

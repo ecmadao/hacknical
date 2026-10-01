@@ -1,5 +1,12 @@
 import { randomUUID } from 'node:crypto'
 import db, { now, parseJson, stringifyJson } from '../../utils/sqlite'
+import { hashPassword, verifyPassword } from '../../utils/password'
+
+const RESERVED_USERNAMES = new Set([
+  'api', 'login', 'logout', 'resume', 'github', 'initial',
+  '404', '500', 'dashboard', 'user', 'settings', 'admin',
+  'administrator', 'root', 'static', 'assets', 'public'
+])
 
 const DEFAULT_RESUME_SECTIONS = [
   {
@@ -57,6 +64,18 @@ const createResume = (userId, login) => {
   return getResumeInfo({ userId, login })
 }
 
+const runTransaction = (fn) => {
+  db.exec('BEGIN')
+  try {
+    const result = fn()
+    db.exec('COMMIT')
+    return result
+  } catch (err) {
+    db.exec('ROLLBACK')
+    throw err
+  }
+}
+
 const rowToUser = (row) => {
   if (!row) return null
   const data = parseJson(row.data, {})
@@ -64,6 +83,9 @@ const rowToUser = (row) => {
     ...data,
     userId: row.user_id,
     githubLogin: row.github_login,
+    login: row.github_login,
+    email: row.email || data.email || '',
+    authProvider: row.auth_provider || 'github',
     initialed: Boolean(row.initialed),
     githubShare: Boolean(row.github_share),
     openShare: Boolean(row.github_share)
@@ -76,12 +98,159 @@ const findUserRow = (qs = {}) => {
   }
   const login = qs.login || qs.githubLogin
   if (login) {
-    return db.prepare('SELECT * FROM users WHERE github_login = ?').get(String(login))
+    return db.prepare('SELECT * FROM users WHERE lower(github_login) = lower(?)').get(String(login))
+  }
+  if (qs.email) {
+    return db.prepare('SELECT * FROM users WHERE lower(email) = lower(?)').get(String(qs.email))
   }
   return null
 }
 
 const getUser = async (qs = {}) => rowToUser(findUserRow(qs))
+
+const getInviteCode = (code) => {
+  if (!code || typeof code !== 'string') return null
+  return db.prepare('SELECT * FROM invite_codes WHERE code = ?').get(code.trim())
+}
+
+const createInviteCode = (code) => {
+  const trimmed = (code || '').trim()
+  if (!trimmed) throw new Error('Invite code cannot be empty')
+  const timestamp = now()
+  db.prepare(`
+    INSERT OR IGNORE INTO invite_codes (code, used, created_at)
+    VALUES (?, 0, ?)
+  `).run(trimmed, timestamp)
+  return getInviteCode(trimmed)
+}
+
+const validateInviteCode = (code) => {
+  const row = getInviteCode(code)
+  if (!row) return { valid: false, message: '邀请码不存在' }
+  if (row.used) return { valid: false, message: '邀请码已被使用' }
+  return { valid: true, row }
+}
+
+const registerLocalUser = async ({ username, email, password, inviteCode } = {}) => {
+  const trimmedUser = (username || '').trim()
+  const trimmedEmail = (email || '').trim().toLowerCase()
+  const trimmedCode = (inviteCode || '').trim()
+
+  if (!trimmedCode) {
+    throw new Error('请输入邀请码')
+  }
+  if (!trimmedUser) {
+    throw new Error('请输入用户名')
+  }
+  if (!/^[a-zA-Z0-9_-]{3,30}$/.test(trimmedUser)) {
+    throw new Error('用户名须为 3-30 位的字母、数字、下划线或中划线')
+  }
+  if (RESERVED_USERNAMES.has(trimmedUser.toLowerCase())) {
+    throw new Error('该用户名已被系统保留，请更换其他用户名')
+  }
+  if (!trimmedEmail) {
+    throw new Error('请输入邮箱')
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+    throw new Error('邮箱格式不正确')
+  }
+  if (!password || typeof password !== 'string' || password.length < 6) {
+    throw new Error('密码长度至少为 6 位')
+  }
+  if (password.length > 64) {
+    throw new Error('密码长度不能超过 64 位')
+  }
+
+  // 检查用户名是否重复
+  const existingLogin = db.prepare('SELECT user_id FROM users WHERE lower(github_login) = lower(?)').get(trimmedUser)
+  if (existingLogin) {
+    throw new Error('该用户名已被注册')
+  }
+
+  // 检查邮箱是否重复
+  const existingEmail = db.prepare('SELECT user_id FROM users WHERE lower(email) = lower(?)').get(trimmedEmail)
+  if (existingEmail) {
+    throw new Error('该邮箱已被注册')
+  }
+
+  // 检查邀请码有效性
+  const codeRow = db.prepare('SELECT * FROM invite_codes WHERE code = ?').get(trimmedCode)
+  if (!codeRow) {
+    throw new Error('邀请码不存在')
+  }
+  if (codeRow.used) {
+    throw new Error('邀请码已被使用')
+  }
+
+  const userId = randomUUID()
+  const timestamp = now()
+  const passwordHash = hashPassword(password)
+
+  runTransaction(() => {
+    const updateResult = db.prepare(`
+      UPDATE invite_codes SET used = 1, used_by = ?, used_at = ? WHERE code = ? AND used = 0
+    `).run(userId, timestamp, trimmedCode)
+
+    if (updateResult.changes === 0) {
+      throw new Error('邀请码已被使用')
+    }
+
+    const data = {
+      userName: trimmedUser,
+      email: trimmedEmail,
+      login: trimmedUser,
+      githubShare: true,
+      openShare: true,
+      initialed: true
+    }
+
+    db.prepare(`
+      INSERT INTO users (user_id, github_login, email, password_hash, auth_provider, data, initialed, github_share, created_at, updated_at)
+      VALUES (?, ?, ?, ?, 'local', ?, 1, 1, ?, ?)
+    `).run(
+      userId,
+      trimmedUser,
+      trimmedEmail,
+      passwordHash,
+      stringifyJson(data),
+      timestamp,
+      timestamp
+    )
+
+    createResume(userId, trimmedUser)
+  })
+
+  return getUser({ userId })
+}
+
+const loginLocalUser = async ({ account, password } = {}) => {
+  const trimmedAccount = (account || '').trim()
+  if (!trimmedAccount) {
+    throw new Error('请输入用户名或邮箱')
+  }
+  if (!password || typeof password !== 'string') {
+    throw new Error('请输入密码')
+  }
+
+  const row = db.prepare(`
+    SELECT * FROM users
+    WHERE lower(github_login) = lower(?) OR lower(email) = lower(?)
+  `).get(trimmedAccount, trimmedAccount)
+
+  if (!row) {
+    throw new Error('账号或密码错误')
+  }
+
+  if (row.auth_provider === 'github' && !row.password_hash) {
+    throw new Error('该账号由 GitHub 授权登录，请使用 GitHub 登录')
+  }
+
+  if (!row.password_hash || !verifyPassword(password, row.password_hash)) {
+    throw new Error('账号或密码错误')
+  }
+
+  return rowToUser(row)
+}
 
 const createUser = async (input = {}) => {
   const login = input.login || input.githubLogin
@@ -259,5 +428,10 @@ export default {
   updateResume,
   getResumeInfo,
   setResumeInfo,
-  getResumeCount: async () => db.prepare('SELECT COUNT(*) AS count FROM resumes').get().count
+  getResumeCount: async () => db.prepare('SELECT COUNT(*) AS count FROM resumes').get().count,
+  registerLocalUser,
+  loginLocalUser,
+  getInviteCode,
+  createInviteCode,
+  validateInviteCode
 }

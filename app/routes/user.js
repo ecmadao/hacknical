@@ -53,6 +53,16 @@ router.get(
   User.loginByGitHub
 )
 
+router.post(
+  '/signup',
+  User.signup
+)
+
+router.post(
+  '/login/local',
+  User.loginByLocal
+)
+
 router.get(
   '/notifies',
   user.checkIfLogin(),

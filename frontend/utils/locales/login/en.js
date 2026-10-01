@@ -11,6 +11,24 @@ const datas = {
     loginText: 'USE GITHUB DATA TO MAKE A BETTER RESUME',
     topbarLogin: 'LOGIN',
     topbarAbout: 'ABOUT'
+  },
+  auth: {
+    signupTitle: 'Register with Invite Code',
+    loginTitle: 'Account Login',
+    switchToLogin: 'Already have an account? Sign in',
+    switchToSignup: 'Need an account? Sign up with code',
+    inviteCode: 'Invite Code',
+    username: 'Username (letters, numbers, _)',
+    email: 'Email address',
+    password: 'Password (min 6 chars)',
+    confirmPassword: 'Confirm Password',
+    account: 'Username or Email',
+    signupSubmit: 'Sign Up',
+    loginSubmit: 'Sign In',
+    signupButton: 'Register with Invite Code',
+    localLoginButton: 'Account Login',
+    errorPasswordMatch: 'Passwords do not match',
+    errorRequired: 'Please fill in all required fields'
   }
 }
 

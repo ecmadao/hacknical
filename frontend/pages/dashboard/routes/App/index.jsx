@@ -7,11 +7,11 @@ import AppAction from './redux/actions'
 
 const dashboard = {
   mobile: asyncComponent(
-    () => System.import('./Components/Mobile')
+    () => import('./Components/Mobile')
       .then(component => component.default)
   ),
   desktop: asyncComponent(
-    () => System.import('./Components/Desktop')
+    () => import('./Components/Desktop')
       .then(component => component.default)
   )
 }

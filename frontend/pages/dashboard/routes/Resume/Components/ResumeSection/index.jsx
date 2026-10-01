@@ -4,27 +4,27 @@ import asyncComponent from 'COMPONENTS/AsyncComponent'
 
 const sections = {
   info: asyncComponent(
-    () => System.import('./Info')
+    () => import('./Info')
       .then(component => component.default)
   ),
   educations: asyncComponent(
-    () => System.import('./Educations')
+    () => import('./Educations')
       .then(component => component.default)
   ),
   workExperiences: asyncComponent(
-    () => System.import('./WorkExperiences')
+    () => import('./WorkExperiences')
       .then(component => component.default)
   ),
   personalProjects: asyncComponent(
-    () => System.import('./PersonalProjects')
+    () => import('./PersonalProjects')
       .then(component => component.default)
   ),
   others: asyncComponent(
-    () => System.import('./Others')
+    () => import('./Others')
       .then(component => component.default)
   ),
   custom: asyncComponent(
-    () => System.import('./CustomModule')
+    () => import('./CustomModule')
       .then(component => component.default)
   )
 }

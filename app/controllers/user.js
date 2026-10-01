@@ -108,6 +108,73 @@ const loginByGitHub = async (ctx) => {
   }
 }
 
+const signup = async (ctx) => {
+  ctx.set('Cache-Control', 'no-store')
+  const { username, email, password, inviteCode } = ctx.request.body || {}
+  try {
+    const user = await network.user.registerLocalUser({
+      username,
+      email,
+      password,
+      inviteCode
+    })
+    ctx.session = {
+      locale: (ctx.session && ctx.session.locale) || 'zh-CN',
+      userId: user.userId,
+      githubToken: `local:${user.userId}`,
+      githubLogin: user.githubLogin,
+      githubAvator: '',
+      login: user.githubLogin,
+      email: user.email
+    }
+    await ctx.session.regenerate()
+    logger.info(`[LOCAL:SIGNUP] User ${user.githubLogin} registered successfully`)
+    ctx.body = {
+      success: true,
+      message: '注册成功',
+      url: `/${user.githubLogin}`,
+      result: user
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '注册失败'
+    }
+  }
+}
+
+const loginByLocal = async (ctx) => {
+  ctx.set('Cache-Control', 'no-store')
+  const { account, password } = ctx.request.body || {}
+  try {
+    const user = await network.user.loginLocalUser({ account, password })
+    ctx.session = {
+      locale: (ctx.session && ctx.session.locale) || 'zh-CN',
+      userId: user.userId,
+      githubToken: `local:${user.userId}`,
+      githubLogin: user.githubLogin,
+      githubAvator: user.avatar_url || '',
+      login: user.githubLogin,
+      email: user.email
+    }
+    await ctx.session.regenerate()
+    logger.info(`[LOCAL:LOGIN] User ${user.githubLogin} logged in`)
+    ctx.body = {
+      success: true,
+      message: '登录成功',
+      url: `/${user.githubLogin}`,
+      result: user
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '登录失败'
+    }
+  }
+}
+
 const initialFinished = async (ctx) => {
   const { userId } = ctx.session
 
@@ -227,5 +294,7 @@ export default {
   getUnreadNotifies,
   // login
   startGitHubLogin,
-  loginByGitHub
+  loginByGitHub,
+  signup,
+  loginByLocal
 }

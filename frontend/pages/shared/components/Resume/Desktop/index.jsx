@@ -5,15 +5,15 @@ import { asyncComponent } from 'react-async-component'
 
 const ResumeViews = {
   v1: asyncComponent({
-    resolve: () => System.import('./v1'),
+    resolve: () => import('./v1'),
     LoadingComponent: () => <Loading loading />
   }),
   v2: asyncComponent({
-    resolve: () => System.import('./v2'),
+    resolve: () => import('./v2'),
     LoadingComponent: () => <Loading loading />
   }),
   v3: asyncComponent({
-    resolve: () => System.import('./v3'),
+    resolve: () => import('./v3'),
     LoadingComponent: () => <Loading loading />
   })
 }
