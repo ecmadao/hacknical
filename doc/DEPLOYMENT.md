@@ -37,7 +37,7 @@ OAuth App 创建前，服务器 `.env` 保留空值，登录返回 `503 GITHUB_O
 | Variable | `APP_URL` | `https://hack.r2049.cn` |
 | Variable | `DEPLOY_PATH` | `/var/lib/dsh/workspace/hacknical` |
 | Variable | `DEPLOY_PORT` | `22` |
-| Variable | `SSH_HOST_FINGERPRINT` | SSH 服务器 Ed25519 指纹，上传和执行均验证 |
+| Variable | `SSH_HOST_FINGERPRINT` | SSH 服务器 ECDSA 指纹（Actions 默认协商此算法），上传和执行均验证 |
 | Variable | `HACKNICAL_GITHUB_OAUTH_REDIRECT_URI` | `https://hack.r2049.cn/api/user/login/github/callback` |
 
 默认分支 `master` 的 push 和手动执行会完成：
