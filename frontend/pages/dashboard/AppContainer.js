@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { renderRoutes } from 'react-router-config'
-import { ConnectedRouter } from 'react-router-redux'
+import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { removeDOM } from 'UTILS/helper'
 import * as Sentry from '@sentry/browser'
@@ -10,7 +10,16 @@ class AppContainer extends React.Component {
   componentDidMount() {
     removeDOM('#loading', { async: true, timeout: 500 })
 
-    const { login: name, isMobile } = this.props
+    const { login: name, isMobile, history, store } = this.props
+    if (history && store) {
+      this.unsubscribeHistory = history.listen((location) => {
+        store.dispatch({
+          type: '@@router/LOCATION_CHANGE',
+          payload: location
+        })
+      })
+    }
+
     name && window.LogRocket && window.LogRocket.identify(name, {
       name,
       isMobile
@@ -23,6 +32,12 @@ class AppContainer extends React.Component {
           return event
         })
       })
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribeHistory) {
+      this.unsubscribeHistory()
     }
   }
 
@@ -39,9 +54,9 @@ class AppContainer extends React.Component {
     const { history, routes, store } = this.props
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history} store={store}>
+        <Router history={history}>
           {renderRoutes(routes)}
-        </ConnectedRouter>
+        </Router>
       </Provider>
     )
   }
