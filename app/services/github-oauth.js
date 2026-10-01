@@ -47,7 +47,7 @@ const requestJson = async (url, options) => {
   return response.json()
 }
 
-export const getToken = async code => {
+export const exchangeCode = async code => {
   if (!isConfigured() || typeof code !== 'string' || !code || code.startsWith('local:')) {
     throw new Error('GitHub OAuth is not configured or authorization code is invalid')
   }
@@ -65,8 +65,18 @@ export const getToken = async code => {
   if (result.error || typeof result.access_token !== 'string' || !result.access_token) {
     throw new Error('GitHub rejected the authorization code')
   }
-  return result.access_token
+  const lifetime = Number(result.expires_in)
+  if (result.expires_in !== undefined && (!Number.isFinite(lifetime) || lifetime <= 0)) {
+    throw new Error('GitHub returned an invalid token lifetime')
+  }
+  return {
+    accessToken: result.access_token,
+    expiresAt: result.expires_in === undefined ? null
+      : Date.now() + lifetime * 1000 - Math.min(60000, lifetime * 100)
+  }
 }
+
+export const getToken = async code => (await exchangeCode(code)).accessToken
 
 export const getLogin = async token => {
   if (!token || typeof token !== 'string' || token.startsWith('local:')) {

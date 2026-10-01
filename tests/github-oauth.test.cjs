@@ -105,7 +105,7 @@ before(async () => {
       assert.equal(params.get('redirect_uri'), 'https://hack.r2049.cn/api/user/login/github/callback')
       if (params.get('code') === 'http-error') response.statusCode = 502
       response.end(JSON.stringify(params.get('code') === 'denied'
-        ? { error: 'bad_verification_code' } : { access_token: 'test-private-token' }))
+        ? { error: 'bad_verification_code' } : { access_token: 'test-private-token', ...(params.get('code') === 'expiring' ? { expires_in: 28800 } : {}) }))
     } else if (request.url === '/user') {
       assert.equal(request.headers.authorization, 'Bearer test-private-token')
       if (profileFailure) response.statusCode = 401
@@ -182,6 +182,23 @@ test('OAuth success persists user, rotates session, rejects replay, survives res
   assert.equal(check.prepare('SELECT COUNT(*) AS count FROM sessions WHERE id = ?').get(activeId).count, 0)
   check.close()
   assert.equal((await client.get('/initial')).headers.get('location'), '/')
+})
+test('expiring OAuth tokens cap server sessions even when cookies are renewed', async () => {
+  const client = browser(), state = await start(client)
+  assert.equal((await callback(client, state, 'expiring')).headers.get('location'), '/octocat')
+  const db = new DatabaseSync(database)
+  const id = client.cookies.get('HACKNICAL:session')
+  const row = db.prepare('SELECT data, expires_at FROM sessions WHERE id = ?').get(id)
+  const session = JSON.parse(row.data)
+  assert.ok(session.githubTokenExpiresAt > Date.now() + 7 * 60 * 60 * 1000)
+  assert.ok(session.githubTokenExpiresAt < Date.now() + 8 * 60 * 60 * 1000)
+  assert.equal(row.expires_at, session.githubTokenExpiresAt)
+  // A renewed cookie must never extend authorization beyond provider expiry.
+  await client.get('/api/user/info')
+  assert.equal(db.prepare('SELECT expires_at FROM sessions WHERE id = ?').get(id).expires_at, row.expires_at)
+  db.prepare('UPDATE sessions SET expires_at = ? WHERE id = ?').run(Date.now() - 1, id)
+  assert.equal((await client.get('/initial')).headers.get('location'), '/')
+  db.close()
 })
 test('provider cancellation consumes state and returns to the landing page', async () => {
   const client = browser(), state = await start(client)

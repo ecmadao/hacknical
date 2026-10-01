@@ -64,7 +64,7 @@ npm run start-local
 
 本地 App 的 Homepage URL 为 `http://localhost:4000`，回调为 `http://localhost:4000/api/user/login/github/callback`。本地与线上建议各建一个 OAuth App。`GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` 旧环境变量仍可使用，但推荐统一使用 `GITHUB_OAUTH_*`。
 
-登录不再依赖 Auth0；旧 `/api/user/login/auth0` 回调已移除。OAuth state 为随机值，有效期 10 分钟且只能使用一次。GitHub token 保存在 SQLite `sessions` 表中，HTTPS cookie 使用 HttpOnly、Secure 和 SameSite=Lax；登录后刷新会话 ID，退出时删除服务端会话。切换到新会话存储后，已有浏览器会话需要重新登录。
+登录不再依赖 Auth0；旧 `/api/user/login/auth0` 回调已移除。OAuth state 为随机值，有效期 10 分钟且只能使用一次。GitHub token 保存在 SQLite `sessions` 表中，HTTPS cookie 使用 HttpOnly、Secure 和 SameSite=Lax；登录后刷新会话 ID，退出时删除服务端会话。保留 OAuth App 默认的访问令牌过期设置；服务端会话不会超过 GitHub 返回的 token 有效期，过期后重新登录。切换到新会话存储后，已有浏览器会话需要重新登录。
 
 ## 运维与回滚
 

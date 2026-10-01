@@ -81,7 +81,7 @@ const loginByGitHub = async (ctx) => {
   }
 
   try {
-    const githubToken = await githubOAuth.getToken(code)
+    const { accessToken: githubToken, expiresAt } = await githubOAuth.exchangeCode(code)
     const userInfo = await githubOAuth.getLogin(githubToken)
     const user = await network.user.createUser(userInfo)
     // Rotate the session ID after successful login.
@@ -89,9 +89,11 @@ const loginByGitHub = async (ctx) => {
       locale: ctx.session.locale,
       userId: user.userId,
       githubToken,
+      githubTokenExpiresAt: expiresAt,
       githubLogin: userInfo.login,
       githubAvator: userInfo.avatar_url,
     }
+    if (expiresAt) ctx.session.maxAge = Math.min(ctx.session.maxAge, expiresAt - Date.now())
     await ctx.session.regenerate()
     if (user.initialed) {
       network.github.updateUserData(userInfo.login, githubToken)

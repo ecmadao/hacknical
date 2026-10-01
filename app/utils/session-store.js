@@ -8,11 +8,13 @@ export default {
   },
   async set(key, value, maxAge) {
     const timestamp = Date.now()
+    const expiresAt = value.githubTokenExpiresAt
+      ? Math.min(timestamp + maxAge, value.githubTokenExpiresAt) : timestamp + maxAge
     db.prepare('DELETE FROM sessions WHERE expires_at <= ?').run(timestamp)
     db.prepare(`
       INSERT INTO sessions (id, data, expires_at) VALUES (?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET data = excluded.data, expires_at = excluded.expires_at
-    `).run(key, stringifyJson(value), timestamp + maxAge)
+    `).run(key, stringifyJson(value), expiresAt)
   },
   async destroy(key) {
     db.prepare('DELETE FROM sessions WHERE id = ?').run(key)
