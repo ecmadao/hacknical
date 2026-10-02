@@ -137,3 +137,15 @@
     font-size: 12px;
   }
 }
+
+:global([class*="classic"]:not([class*="flat"]))::after {
+  top: 0 !important;
+  left: 0 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+:global([class*="classic"]:not([class*="flat"])) > :global([class*="bg"]) {
+  position: relative !important;
+  z-index: 1 !important;
+}

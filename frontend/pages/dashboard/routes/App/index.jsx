@@ -36,7 +36,7 @@ class App extends React.Component {
     } = this.props
     const dashboardType = app.isMobile ? 'mobile' : 'desktop'
     const Dashboard = dashboard[dashboardType]
-    const routes = renderRoutes(route.routes)
+    const routes = renderRoutes(route.routes, {}, { location })
     return (
       <Dashboard
         routes={routes}

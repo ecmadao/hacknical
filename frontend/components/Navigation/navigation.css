@@ -5,9 +5,14 @@
   flex: 1;
   width: 50px;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 
   & .sectionWrapper {
     cursor: pointer;
+    position: relative;
+    z-index: 2;
+    width: 100%;
     transition: color 0.2s;
 
     &:hover {

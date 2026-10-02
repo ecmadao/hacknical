@@ -4,3 +4,16 @@
   width: 100%;
   min-height: 100%;
 }
+
+/* Fix ClassicCard faux-3d shadow pseudo-element falling below card and blocking clicks */
+[class*="classic"]:not([class*="flat"])::after {
+  top: 0 !important;
+  left: 0 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+[class*="classic"]:not([class*="flat"]) > [class*="bg"] {
+  position: relative !important;
+  z-index: 1 !important;
+}
