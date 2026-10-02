@@ -175,22 +175,24 @@ class ResumeUIWrapper extends React.Component {
     if (fromDownload) return null
 
     const { languages = [] } = resume
-    if (languages.length < 2) return null
+    const validLanguages = languages.filter(lang => lang && typeof lang === 'object' && lang.id && lang.text)
+    if (validLanguages.length < 2) return null
 
-    const languageDoms = languages.reduce((list, language, index) => {
+    const currentLocale = getLocale()
+    const languageDoms = validLanguages.reduce((list, language, index) => {
       list.push(
         <span
           key={`language-${index}`}
           className={cx(
             styles.resumeLanguage,
-            language.id === locale && styles.resumeLanguageActived
+            language.id === currentLocale && styles.resumeLanguageActived
           )}
           onClick={() => switchLanguage(language.id)}
         >
           {language.text}
         </span>
       )
-      if (languages[index + 1]) list.push('  /  ')
+      if (validLanguages[index + 1]) list.push('  /  ')
       return list
     }, [])
 

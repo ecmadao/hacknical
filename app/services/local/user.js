@@ -52,6 +52,29 @@ const flagValue = (value, fallback) => {
   return value ? 1 : 0
 }
 
+const normalizeLocale = (locale) => {
+  if (!locale) return 'zh'
+  if (/^en/i.test(locale)) return 'en'
+  if (/^zh/i.test(locale)) return 'zh'
+  return 'zh'
+}
+
+const RESUME_LANGUAGE_OPTIONS = {
+  zh: { id: 'zh', text: '中文' },
+  en: { id: 'en', text: 'English' }
+}
+
+const parseResumeLocales = (rawData) => {
+  const parsed = parseJson(rawData, null)
+  if (!parsed) return { zh: defaultResume() }
+  if (parsed._locales && typeof parsed._locales === 'object') {
+    return parsed._locales
+  }
+  return {
+    zh: parsed
+  }
+}
+
 const createResume = (userId, login) => {
   const timestamp = now()
   const hash = randomUUID().replace(/-/g, '').slice(0, 16)
@@ -63,7 +86,7 @@ const createResume = (userId, login) => {
   `).run(
     userId,
     hash,
-    stringifyJson(defaultResume()),
+    stringifyJson({ _locales: { zh: defaultResume() } }),
     stringifyJson(DEFAULT_RESUME_SECTIONS),
     stringifyJson(DEFAULT_GITHUB_SECTIONS),
     timestamp,
@@ -351,10 +374,30 @@ const getResumeInfo = async (qs = {}) => rowToResumeInfo(findResumeRow(qs))
 const getResume = async (qs = {}) => {
   const row = findResumeRow(qs)
   if (!row) return null
-  const resume = parseJson(row.data, defaultResume())
+  const localesData = parseResumeLocales(row.data)
+  const targetLocale = normalizeLocale(qs.locale)
+  const resume = localesData[targetLocale] || localesData.zh || Object.values(localesData)[0] || defaultResume()
+
+  const existingLocales = Object.keys(localesData).filter((loc) => {
+    const data = localesData[loc]
+    if (!data || typeof data !== 'object') return false
+    return Boolean(
+      (data.info && Object.keys(data.info).length)
+      || (data.educations && data.educations.length)
+      || (data.workExperiences && data.workExperiences.length)
+      || (data.personalProjects && data.personalProjects.length)
+    )
+  })
+  const localeIds = existingLocales.length ? existingLocales : ['zh']
+  const sortedLocaleIds = ['zh', 'en'].filter(id => localeIds.includes(id))
+  for (const id of localeIds) {
+    if (!sortedLocaleIds.includes(id)) sortedLocaleIds.push(id)
+  }
+  const languages = sortedLocaleIds.map(id => RESUME_LANGUAGE_OPTIONS[id] || { id, text: id })
+
   return {
     resume,
-    languages: resume.info && resume.info.languages ? resume.info.languages : [],
+    languages,
     updated_at: row.updated_at,
     created_at: row.created_at
   }
@@ -375,13 +418,17 @@ const updateResume = async ({
   }
   if (!row) throw new Error('User resume does not exist')
 
+  const targetLocale = normalizeLocale(locale)
+  const localesData = parseResumeLocales(row.data)
+  localesData[targetLocale] = resume || defaultResume()
+
   const timestamp = now()
   db.prepare('UPDATE resumes SET data = ?, updated_at = ? WHERE user_id = ?')
-    .run(stringifyJson(resume || defaultResume()), timestamp, targetUserId)
+    .run(stringifyJson({ _locales: localesData }), timestamp, targetUserId)
   return {
     ...(await getResumeInfo({ userId: targetUserId })),
     hash: row.resume_hash,
-    locale,
+    locale: targetLocale,
     newResume: false
   }
 }

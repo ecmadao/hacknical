@@ -139,13 +139,27 @@
 }
 
 :global([class*="classic"]:not([class*="flat"]))::after {
-  top: 0 !important;
-  left: 0 !important;
-  pointer-events: none !important;
-  z-index: 0 !important;
+  display: none !important;
+}
+
+:global([class*="classic"]:not([class*="flat"])) {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 4px !important;
+  background-color: var(--oc-white) !important;
 }
 
 :global([class*="classic"]:not([class*="flat"])) > :global([class*="bg"]) {
   position: relative !important;
+  transform: none !important;
+  border-radius: 4px !important;
   z-index: 1 !important;
+}
+
+:global([class*="logoContainer"]) :global([class*="logoBack"]) {
+  display: none !important;
+}
+
+:global([class*="logoContainer"]) :global([class*="logoFront"]) {
+  transform: none !important;
 }

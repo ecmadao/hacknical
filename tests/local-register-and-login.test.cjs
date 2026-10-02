@@ -496,6 +496,46 @@ test('flow: resume edit, persist, share toggle, public access and reverse 404', 
   assert.equal(publicApiData.success, true)
   assert.equal(publicApiData.result.info.name, '极客测试专家')
   assert.equal(publicApiData.result.workExperiences[0].company, 'Antigravity Verification')
+  // Languages must be localized language options, NOT the skill tags from info.languages
+  assert.deepEqual(publicApiData.result.languages, [{ id: 'zh', text: '中文' }])
+  assert.deepEqual(publicApiData.result.info.languages, ['JavaScript', 'TypeScript'])
+
+  // 8.1 Save an English resume version and verify multi-language independence
+  const enResume = {
+    ...updatedResume,
+    info: {
+      ...updatedResume.info,
+      name: 'Geeker Lead QA',
+      title: 'QA Architect'
+    }
+  }
+  const saveEnRes = await client.put('/api/resume/data', {
+    resume: enResume,
+    locale: 'en'
+  })
+  assert.equal(saveEnRes.status, 200)
+
+  // Verify English resume data
+  const readEnRes = await client.get('/api/resume/data?locale=en')
+  assert.equal(readEnRes.status, 200)
+  const readEnData = JSON.parse(readEnRes.text)
+  assert.equal(readEnData.result.info.name, 'Geeker Lead QA')
+
+  // Verify Chinese resume remains intact
+  const readZhRes = await client.get('/api/resume/data?locale=zh')
+  assert.equal(readZhRes.status, 200)
+  const readZhData = JSON.parse(readZhRes.text)
+  assert.equal(readZhData.result.info.name, '极客测试专家')
+
+  // Verify public API now returns both languages and handles locale switching
+  const publicEnApiRes = await unauthClient.get(`/api/resume/shared/public?hash=${resumeHash}&locale=en`)
+  assert.equal(publicEnApiRes.status, 200)
+  const publicEnData = JSON.parse(publicEnApiRes.text)
+  assert.equal(publicEnData.result.info.name, 'Geeker Lead QA')
+  assert.deepEqual(publicEnData.result.languages, [
+    { id: 'zh', text: '中文' },
+    { id: 'en', text: 'English' }
+  ])
 
   // 9. Disable public share
   const disableShareRes = await client.patch('/api/resume/info', {
