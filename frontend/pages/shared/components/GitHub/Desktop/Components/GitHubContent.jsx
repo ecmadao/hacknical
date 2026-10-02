@@ -68,8 +68,7 @@ class GitHubContent extends React.Component {
     return (
       <div
         className={cx(
-          styles.container,
-          containerClass
+          containerClass || styles.container
         )}
       >
         {isShare ? (

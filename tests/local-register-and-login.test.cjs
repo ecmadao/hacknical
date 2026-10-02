@@ -573,5 +573,10 @@ test('non-GitHub login does not execute GitHub operations and defaults to archiv
   const githubPageRes = await client.get('/geeker/github')
   assert.equal(githubPageRes.status, 302)
   assert.equal(githubPageRes.headers.get('location'), '/404')
+
+  // 8. githubSections defaults only to supported modules (info, repos, languages)
+  const sectionsRes = await client.get('/api/user/github')
+  assert.equal(sectionsRes.status, 200)
+  assert.deepEqual(sectionsRes.json.result.map(s => s.id), ['info', 'repos', 'languages'])
 })
 

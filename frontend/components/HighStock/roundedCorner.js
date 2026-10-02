@@ -28,7 +28,8 @@ function RoundedCorner(H) {
     proceed.call(this);
 
     if (rTopLeft || rTopRight || rBottomRight || rBottomLeft) {
-      H.each(this.points, (point) => {
+      const each = H.each || ((arr, fn) => (Array.isArray(arr) ? arr.forEach(fn) : Object.keys(arr).forEach(k => fn(arr[k], k))))
+      each(this.points, (point) => {
         const shapeArgs = point.shapeArgs;
         const w = shapeArgs.width;
         const h = shapeArgs.height;

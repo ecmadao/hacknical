@@ -12,6 +12,7 @@ import refresher from 'UTILS/refresher'
 import {
   USER,
   GITHUB_SECTIONS,
+  SUPPORTED_GITHUB_SECTIONS,
   DEFAULT_GITHUB_SECTIONS,
   getGitHubSectionIntroBySection,
   getGitHubSectionDefaultDataById
@@ -160,6 +161,7 @@ class GitHubWrapperV2 extends React.Component {
     if (identify1 !== identify2) {
       const { githubSections } = this.state
       const newSections = sections.reduce((list, section) => {
+        if (!SUPPORTED_GITHUB_SECTIONS.includes(section && section.id)) return list
         const item = githubSections.find(sec => sec.id === section.id)
         if (!item) return list
         list.push(item)
@@ -176,7 +178,9 @@ class GitHubWrapperV2 extends React.Component {
     const { isShare } = this.props
     const sectionData = await API.user.getGitHubSections(login)
 
-    const githubSections = (sectionData || [...DEFAULT_GITHUB_SECTIONS]).reduce((sections, section) => {
+    const rawSections = sectionData || [...DEFAULT_GITHUB_SECTIONS]
+    const githubSections = rawSections.reduce((sections, section) => {
+      if (!SUPPORTED_GITHUB_SECTIONS.includes(section && section.id)) return sections
       if (!section.enabled && isShare) return sections
       sections.push(
         objectAssign({}, section, {

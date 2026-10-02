@@ -26,9 +26,17 @@ const DEFAULT_RESUME_SECTIONS = [
   }
 ]
 
+const SUPPORTED_GITHUB_SECTIONS = new Set(['info', 'repos', 'languages'])
+
 const DEFAULT_GITHUB_SECTIONS = [
-  'hotmap', 'info', 'repos', 'course', 'languages', 'orgs', 'contributed', 'commits'
+  'info', 'repos', 'languages'
 ].map(id => ({ id, enabled: true }))
+
+const sanitizeGithubSections = (sections) => {
+  const list = Array.isArray(sections) ? sections : DEFAULT_GITHUB_SECTIONS
+  const filtered = list.filter(sec => SUPPORTED_GITHUB_SECTIONS.has(sec && sec.id))
+  return filtered.length ? filtered : DEFAULT_GITHUB_SECTIONS
+}
 
 const defaultResume = () => ({
   info: {},
@@ -333,7 +341,7 @@ const rowToResumeInfo = row => row && ({
   useGithub: Boolean(row.use_github),
   autosave: Boolean(row.autosave),
   resumeSections: parseJson(row.resume_sections, DEFAULT_RESUME_SECTIONS),
-  githubSections: parseJson(row.github_sections, DEFAULT_GITHUB_SECTIONS),
+  githubSections: sanitizeGithubSections(parseJson(row.github_sections, DEFAULT_GITHUB_SECTIONS)),
   updated_at: row.updated_at,
   created_at: row.created_at
 })
@@ -398,7 +406,7 @@ const setResumeInfo = async ({ userId, login, info = {} }) => {
     useGithub: flagValue(info.useGithub, row.use_github),
     autosave: flagValue(info.autosave, row.autosave),
     resumeSections: info.resumeSections || parseJson(row.resume_sections, DEFAULT_RESUME_SECTIONS),
-    githubSections: info.githubSections || parseJson(row.github_sections, DEFAULT_GITHUB_SECTIONS)
+    githubSections: sanitizeGithubSections(info.githubSections || parseJson(row.github_sections, DEFAULT_GITHUB_SECTIONS))
   }
   db.prepare(`
     UPDATE resumes

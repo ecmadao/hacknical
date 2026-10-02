@@ -199,7 +199,7 @@ const initialFinished = async (ctx) => {
 const getGitHubSections = async (ctx) => {
   const { login } = ctx.query
   const user = await network.user.getUser({
-    login: login || ctx.session.githubLogin
+    login: login || ctx.session.githubLogin || ctx.session.login
   })
   const resumeInfo = await network.user.getResumeInfo({ userId: user.userId })
 

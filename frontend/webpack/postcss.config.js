@@ -20,7 +20,10 @@ module.exports = {
     require('postcss-preset-env')({
       stage: 3,
       features: {
-        'nesting-rules': true,
+        'nesting-rules': {
+          edition: '2021',
+          noIsPseudoSelector: true
+        },
         'custom-properties': {
           preserve: true
         }

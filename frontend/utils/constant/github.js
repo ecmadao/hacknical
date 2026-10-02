@@ -48,11 +48,13 @@ export const GITHUB_SECTIONS = {
   COMMITS: 'commits'
 }
 
+export const SUPPORTED_GITHUB_SECTIONS = [
+  GITHUB_SECTIONS.INFO,
+  GITHUB_SECTIONS.REPOS,
+  GITHUB_SECTIONS.LANGUAGES
+]
+
 export const DEFAULT_GITHUB_SECTIONS = [
-  {
-    id: GITHUB_SECTIONS.HOTMAP,
-    enabled: true
-  },
   {
     id: GITHUB_SECTIONS.INFO,
     enabled: true
@@ -62,23 +64,7 @@ export const DEFAULT_GITHUB_SECTIONS = [
     enabled: true
   },
   {
-    id: GITHUB_SECTIONS.TIMELINE,
-    enabled: true
-  },
-  {
     id: GITHUB_SECTIONS.LANGUAGES,
-    enabled: true
-  },
-  {
-    id: GITHUB_SECTIONS.ORGS,
-    enabled: true
-  },
-  {
-    id: GITHUB_SECTIONS.CONTRIBUTIONS,
-    enabled: true
-  },
-  {
-    id: GITHUB_SECTIONS.COMMITS,
     enabled: true
   }
 ]
