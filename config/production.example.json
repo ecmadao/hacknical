@@ -31,6 +31,11 @@
       "url": "/uploads",
       "raw": ""
     },
+    "ip": {
+      "url": "https://api.live.bilibili.com",
+      "timeouts": [4000, 4000, 4000],
+      "auth": null
+    },
     "auth0": {
       "url": "",
       "timeouts": [4000, 4000, 4000],

@@ -76,7 +76,7 @@
       }
     },
     "ip": {
-      "url": "",
+      "url": "https://api.live.bilibili.com",
       "timeouts": [4000, 4000, 4000],
       "auth": null
     },
