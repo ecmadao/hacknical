@@ -15,7 +15,10 @@ if env_file.exists():
             key, value = line.split('=', 1)
             # Files written by this script use JSON strings (Compose-compatible).
             try:
-                values[key] = json.loads(value)
+                parsed = json.loads(value)
+                # Environment variables are always strings, even when their
+                # value looks numeric (for example INVITE_CODE_MAX_USES=100).
+                values[key] = parsed if isinstance(parsed, str) else str(parsed)
             except ValueError:
                 values[key] = value.strip().strip("'\"")
 
