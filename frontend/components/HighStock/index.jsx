@@ -24,6 +24,10 @@ class StockChart extends React.PureComponent {
   }
 
   renderChart() {
+    // There is no useful axis to render without valid points. This also
+    // prevents Highstock from entering its tick calculation with an empty
+    // or malformed series.
+    if (!Array.isArray(this.props.data) || this.props.data.length === 0) return
     return Highcharts.stockChart(update(this.props.config, {
       chart: {
         renderTo: {
