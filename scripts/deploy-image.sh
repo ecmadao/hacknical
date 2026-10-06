@@ -9,14 +9,18 @@ mkdir -p data log public/uploads config
 
 # Pull before touching the running service. A public GHCR image needs no login.
 if ! docker pull "$HACKNICAL_IMAGE"; then
-  : "${GHCR_TOKEN:?Private image requires GHCR_TOKEN}"
-  : "${GHCR_USER:?Private image requires GHCR_USER}"
-  auth_dir=$(mktemp -d)
-  trap 'rm -rf "$auth_dir"' EXIT
-  printf '%s' "$GHCR_TOKEN" | docker --config "$auth_dir" login ghcr.io -u "$GHCR_USER" --password-stdin
-  docker --config "$auth_dir" pull "$HACKNICAL_IMAGE"
-  rm -rf "$auth_dir"
-  trap - EXIT
+  if docker image inspect "$HACKNICAL_IMAGE" >/dev/null 2>&1; then
+    echo 'GHCR pull failed; using the matching image already cached locally.' >&2
+  else
+    : "${GHCR_TOKEN:?Private image requires GHCR_TOKEN}"
+    : "${GHCR_USER:?Private image requires GHCR_USER}"
+    auth_dir=$(mktemp -d)
+    trap 'rm -rf "$auth_dir"' EXIT
+    printf '%s' "$GHCR_TOKEN" | docker --config "$auth_dir" login ghcr.io -u "$GHCR_USER" --password-stdin
+    docker --config "$auth_dir" pull "$HACKNICAL_IMAGE"
+    rm -rf "$auth_dir"
+    trap - EXIT
+  fi
 fi
 
 previous_image=$(docker inspect hacknical --format '{{.Config.Image}}' 2>/dev/null || true)
