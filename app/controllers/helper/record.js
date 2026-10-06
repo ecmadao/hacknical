@@ -89,9 +89,12 @@ const updateLogData = options => async (ctx, login) => {
     ipInfo = await network.ip.getInfo(ip)
     if (typeof ipInfo === 'string') ipInfo = JSON.parse(ipInfo)
     const location = ipInfo && ipInfo.data ? ipInfo.data : ipInfo
+    const address = [location && location.country, location && location.province, location && location.city]
+      .filter(Boolean)
+      .join(' ')
     ipInfo = {
       ip,
-      addr: location && location.addr,
+      addr: address || (location && location.addr) || ip,
       country: location && location.country,
       province: location && location.province,
       city: location && location.city,
