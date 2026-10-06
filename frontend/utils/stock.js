@@ -196,6 +196,8 @@ export const getPVStockConfig = (options) => {
     PV_STOCK_CONFIG
   )
   config.series[0].data = seriesData
+  config.navigator.enabled = seriesData.length > 1
+  config.xAxis[0].ordinal = false
   config.xAxis[0].labels.formatter = getLabelFormatter()
 
   if (seriesData.length) {
