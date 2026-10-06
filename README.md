@@ -2,6 +2,8 @@
 
 Hacknical is a GitHub profile and resume tool. It collects GitHub contributions, commits, languages, repositories, and related statistics, then presents them as a shareable profile.
 
+This project is forked from [ecmadao/hacknical](https://github.com/ecmadao/hacknical) and is maintained in [liguobao/hacknical](https://github.com/liguobao/hacknical).
+
 ## Features
 
 - GitHub OAuth sign-in
@@ -37,6 +39,8 @@ GITHUB_OAUTH_REDIRECT_URI=http://localhost:4000/api/user/login/github/callback
 ```
 
 The OAuth callback URL must also be registered in the GitHub OAuth App.
+
+The temporary online deployment is available at [https://hack.r2049.cn/](https://hack.r2049.cn/).
 
 ## Production build
 
@@ -77,6 +81,7 @@ npm run build-static
 
 ## Project links
 
-- Website: [hacknical.com](https://hacknical.com)
-- Repository: [github.com/ecmadao/hacknical](https://github.com/ecmadao/hacknical)
-- Issues: [github.com/ecmadao/hacknical/issues](https://github.com/ecmadao/hacknical/issues)
+- Online deployment: [hack.r2049.cn](https://hack.r2049.cn/)
+- Current repository: [github.com/liguobao/hacknical](https://github.com/liguobao/hacknical)
+- Issues: [github.com/liguobao/hacknical/issues](https://github.com/liguobao/hacknical/issues)
+- Original repository: [github.com/ecmadao/hacknical](https://github.com/ecmadao/hacknical)

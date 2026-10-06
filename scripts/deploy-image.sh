@@ -31,13 +31,28 @@ rollback() {
   docker logs --tail 40 hacknical || true
   if [ "$had_env" = 1 ]; then mv .env.rollback .env; fi
   if [ -n "$previous_image" ]; then
-    HACKNICAL_IMAGE="$previous_image" docker compose -p hacknical -f docker-compose.deploy.yml up -d --wait --wait-timeout 120 || true
+    HACKNICAL_IMAGE="$previous_image" docker compose -p hacknical -f docker-compose.deploy.yml up -d --remove-orphans || true
   fi
   exit 1
 }
 trap rollback ERR
 python3 scripts/configure-deploy.py
-docker compose -p hacknical -f docker-compose.deploy.yml up -d --wait --wait-timeout 120
+docker compose -p hacknical -f docker-compose.deploy.yml up -d --remove-orphans
+for attempt in $(seq 1 60); do
+  health=$(docker inspect --format '{{.State.Health.Status}}' hacknical 2>/dev/null || true)
+  if [ "$health" = healthy ]; then
+    break
+  fi
+  if [ "$health" = unhealthy ] || [ "$health" = '' ]; then
+    echo "Container health check failed (status: ${health:-missing})." >&2
+    exit 1
+  fi
+  sleep 2
+done
+if [ "${health:-}" != healthy ]; then
+  echo 'Timed out waiting for the container health check.' >&2
+  exit 1
+fi
 curl --fail --silent --show-error --max-time 10 http://127.0.0.1:4000/api/healthz
 printf '%s\n' "$HACKNICAL_IMAGE" > .deployed-image
 rm -f .env.rollback
