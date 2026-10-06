@@ -490,12 +490,6 @@ class LoginPanel extends React.PureComponent {
           <div className={styles.topbarSelector}>
             {this.renderLanguages()}
           </div>
-          <span
-            className={styles.topbarLink}
-            onClick={() => this.openModal('login')}
-          >
-            {authText.localLoginButton}
-          </span>
           <a href={loginLink} className={styles.topbarLink}>
             {loginText.topbarLogin}
           </a>

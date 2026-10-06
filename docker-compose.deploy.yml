@@ -10,6 +10,7 @@ services:
       NODE_ENV: production
       PORT: 4000
       LOG_LEVEL: INFO
+      INVITE_CODE_MAX_USES: ${INVITE_CODE_MAX_USES:-1}
     volumes:
       - ./data:/app/data
       - ./log:/app/log

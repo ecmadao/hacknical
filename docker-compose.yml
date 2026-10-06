@@ -16,6 +16,7 @@ services:
       GITHUB_OAUTH_CLIENT_ID: ${GITHUB_OAUTH_CLIENT_ID:-}
       GITHUB_OAUTH_CLIENT_SECRET: ${GITHUB_OAUTH_CLIENT_SECRET:-}
       GITHUB_OAUTH_REDIRECT_URI: ${GITHUB_OAUTH_REDIRECT_URI:-}
+      INVITE_CODE_MAX_USES: ${INVITE_CODE_MAX_USES:-1}
     volumes:
       - ./data:/app/data
       - ./log:/app/log
