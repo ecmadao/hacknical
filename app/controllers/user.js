@@ -6,6 +6,7 @@ import notify from '../services/notify'
 import { randomBytes, timingSafeEqual } from 'node:crypto'
 import * as githubOAuth from '../services/github-oauth'
 import { isGitHubSession } from '../utils/helper'
+import { SESSION_MAX_AGE } from '../utils/constant'
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx)
@@ -95,7 +96,8 @@ const loginByGitHub = async (ctx) => {
       githubAvator: userInfo.avatar_url,
       authProvider: 'github'
     }
-    if (expiresAt) ctx.session.maxAge = Math.min(ctx.session.maxAge, expiresAt - Date.now())
+    // Reset any shorter lifetime restored from an older session.
+    ctx.session.maxAge = SESSION_MAX_AGE
     await ctx.session.regenerate()
     if (user.initialed && isGitHubSession(ctx.session)) {
       network.github.updateUserData(userInfo.login, githubToken)
@@ -130,6 +132,7 @@ const signup = async (ctx) => {
       email: user.email,
       authProvider: 'local'
     }
+    ctx.session.maxAge = SESSION_MAX_AGE
     await ctx.session.regenerate()
     logger.info(`[LOCAL:SIGNUP] User ${user.githubLogin} registered successfully`)
     ctx.body = {
@@ -162,6 +165,7 @@ const loginByLocal = async (ctx) => {
       email: user.email,
       authProvider: 'local'
     }
+    ctx.session.maxAge = SESSION_MAX_AGE
     await ctx.session.regenerate()
     logger.info(`[LOCAL:LOGIN] User ${user.githubLogin} logged in`)
     ctx.body = {

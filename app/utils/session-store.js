@@ -8,8 +8,8 @@ export default {
   },
   async set(key, value, maxAge) {
     const timestamp = Date.now()
-    const expiresAt = value.githubTokenExpiresAt
-      ? Math.min(timestamp + maxAge, value.githubTokenExpiresAt) : timestamp + maxAge
+    // Site login lifetime is independent of the GitHub API token lifetime.
+    const expiresAt = timestamp + maxAge
     db.prepare('DELETE FROM sessions WHERE expires_at <= ?').run(timestamp)
     db.prepare(`
       INSERT INTO sessions (id, data, expires_at) VALUES (?, ?, ?)

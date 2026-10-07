@@ -27,6 +27,7 @@ import platformMiddleware from '../middlewares/platform'
 import firewallMiddleware from '../middlewares/firewall'
 import uploadsMiddleware from '../middlewares/uploads'
 import sessionStore from '../utils/session-store'
+import { SESSION_MAX_AGE } from '../utils/constant'
 import db from '../utils/sqlite'
 
 // Handle unhandled promise rejections for Redis queue
@@ -96,7 +97,7 @@ locales(app, options)
 // session
 const CONFIG = {
   key: `${appName.toUpperCase()}:session`, /** cookie key */
-  maxAge: 24 * 60 * 60 * 1000 * 7, /** 7 days */
+  maxAge: SESSION_MAX_AGE, /** 7 days */
   overwrite: true, /** (boolean) can overwrite or not (default true) */
   httpOnly: true, /** (boolean) httpOnly or not (default true) */
   signed: true, /** (boolean) signed or not (default true) */

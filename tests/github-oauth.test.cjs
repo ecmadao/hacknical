@@ -195,19 +195,61 @@ test('OAuth success persists user, rotates session, rejects replay, survives res
   check.close()
   assert.equal((await client.get('/initial')).headers.get('location'), '/')
 })
-test('expiring OAuth tokens cap server sessions even when cookies are renewed', async () => {
+test('site login lasts seven days and renews independently of GitHub token expiry', async () => {
   const client = browser(), state = await start(client)
-  assert.equal((await callback(client, state, 'expiring')).headers.get('location'), '/octocat')
+  const sevenDays = 7 * 24 * 60 * 60 * 1000
   const db = new DatabaseSync(database)
+  // Reauthorization must not inherit the short lifetime of an older session.
+  const oldId = client.cookies.get('HACKNICAL:session')
+  const oldSession = JSON.parse(db.prepare('SELECT data FROM sessions WHERE id = ?').get(oldId).data)
+  oldSession._maxAge = 8 * 60 * 60 * 1000
+  db.prepare('UPDATE sessions SET data = ? WHERE id = ?').run(JSON.stringify(oldSession), oldId)
+  const loginAt = Date.now()
+  const response = await callback(client, state, 'expiring')
+  assert.equal(response.headers.get('location'), '/octocat')
+  const cookie = response.headers.getSetCookie().find(value => value.startsWith('HACKNICAL:session='))
+  const cookieExpiry = Date.parse(cookie.match(/expires=([^;]+)/i)[1])
+  assert.ok(cookieExpiry >= loginAt + sevenDays - 1000)
+  assert.ok(cookieExpiry <= Date.now() + sevenDays)
   const id = client.cookies.get('HACKNICAL:session')
   const row = db.prepare('SELECT data, expires_at FROM sessions WHERE id = ?').get(id)
   const session = JSON.parse(row.data)
   assert.ok(session.githubTokenExpiresAt > Date.now() + 7 * 60 * 60 * 1000)
   assert.ok(session.githubTokenExpiresAt < Date.now() + 8 * 60 * 60 * 1000)
-  assert.equal(row.expires_at, session.githubTokenExpiresAt)
-  // A renewed cookie must never extend authorization beyond provider expiry.
-  await client.get('/api/user/info')
-  assert.equal(db.prepare('SELECT expires_at FROM sessions WHERE id = ?').get(id).expires_at, row.expires_at)
+  assert.equal(session._maxAge, sevenDays)
+  assert.ok(row.expires_at >= loginAt + sevenDays)
+  assert.ok(row.expires_at <= Date.now() + sevenDays + 10000)
+
+  // Simulate an expired GitHub token and a site session nearing renewal.
+  session.githubTokenExpiresAt = Date.now() - 1
+  session._expire = Date.now() + 60 * 1000
+  db.prepare('UPDATE sessions SET data = ? WHERE id = ?').run(JSON.stringify(session), id)
+  await stop()
+  await launch()
+  const renewedAt = Date.now()
+  const info = await client.get('/api/user/info')
+  assert.equal(info.status, 200)
+  assert.equal((await info.json()).result.githubLogin, 'octocat')
+  const renewed = db.prepare('SELECT data, expires_at FROM sessions WHERE id = ?').get(id)
+  assert.ok(renewed.expires_at >= renewedAt + sevenDays)
+  assert.equal(JSON.parse(renewed.data)._maxAge, sevenDays)
+  const renewedCookie = info.headers.getSetCookie().find(value => value.startsWith('HACKNICAL:session='))
+  assert.ok(Date.parse(renewedCookie.match(/expires=([^;]+)/i)[1]) >= renewedAt + sevenDays - 1000)
+
+  // GitHub rejecting the token must not log the user out of the site.
+  profileFailure = true
+  try {
+    const repositories = await client.get('/api/github/repositories/all')
+    assert.ok(repositories.status >= 400)
+    const failure = await repositories.json()
+    assert.equal(failure.success, false)
+    assert.match(failure.message, /GitHub API 401/)
+    assert.equal((await (await client.get('/api/user/info')).json()).result.githubLogin, 'octocat')
+    assert.equal((await client.get('/initial')).status, 200)
+  } finally {
+    profileFailure = false
+  }
+
   db.prepare('UPDATE sessions SET expires_at = ? WHERE id = ?').run(Date.now() - 1, id)
   assert.equal((await client.get('/initial')).headers.get('location'), '/')
   db.close()
