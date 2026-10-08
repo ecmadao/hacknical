@@ -133,15 +133,17 @@ export const getResumeSectionIntroBySection = (section) => {
           icon: 'code'
         }
       }
-    default:
-      // TODO: Edward - Can section.title be empty?
-      if (!section.title) throw new Error(`unknown section: ${JSON.stringify(section)}`)
+    default: {
+      const customTitle = section.title || section.text || (sectionTexts.custom && sectionTexts.custom.title) || '自定义模块'
+      const prefix = (sectionTexts.custom && sectionTexts.custom.title) ? `${sectionTexts.custom.title} - ` : ''
+      const displayText = customTitle.startsWith(prefix) ? customTitle : `${prefix}${customTitle}`
       return {
         title: {
-          text: `${sectionTexts.custom.title} - ${section.title}`,
+          text: displayText,
           icon: 'code'
         }
       }
+    }
   }
 }
 

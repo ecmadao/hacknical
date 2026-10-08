@@ -195,7 +195,12 @@ const {
       ({ section, moduleIndex, sectionIndex }),
     DELETE_MODULE_SECTION: (moduleIndex, sectionIndex) =>
       ({ moduleIndex, sectionIndex }),
-    CHANGE_MODULE_TITLE: (preTitle, title) => ({ preTitle, title }),
+    CHANGE_MODULE_TITLE: (moduleIndexOrPreTitle, title) => {
+      if (typeof moduleIndexOrPreTitle === 'number') {
+        return { moduleIndex: moduleIndexOrPreTitle, title }
+      }
+      return { preTitle: moduleIndexOrPreTitle, title }
+    },
     UPDATE_MODULE_SECTIONS: (sections, moduleIndex) => ({ sections, moduleIndex })
   },
   'REMOVE_CUSTOM_MODULE',
@@ -277,6 +282,7 @@ const resumeEditActions = {
   deleteModuleSection,
   removeCustomModule,
   addCustomModule,
+  addModuleSection,
   updateModuleSections,
   // sections
   updateResumeSections
@@ -307,8 +313,6 @@ export default objectAssign(
     addWorkProjectDetail,
     addPersonalProject,
     addSocialLink,
-    // custom
-    addModuleSection,
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name])

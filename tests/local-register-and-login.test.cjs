@@ -468,7 +468,20 @@ test('flow: resume edit, persist, share toggle, public access and reverse 404', 
     ],
     personalProjects: [],
     others: { socialLinks: [] },
-    customModules: []
+    customModules: [
+      {
+        id: 'custom-opensource-1',
+        text: '开源贡献',
+        title: '开源贡献',
+        sections: [
+          {
+            title: 'hacknical',
+            url: 'https://github.com/liguobao/hacknical',
+            details: ['增加自定义模块功能', '优化部署流程']
+          }
+        ]
+      }
+    ]
   }
 
   const saveRes = await client.put('/api/resume/data', {
@@ -485,6 +498,9 @@ test('flow: resume edit, persist, share toggle, public access and reverse 404', 
   assert.equal(reReadData.result.info.name, '极客测试专家')
   assert.equal(reReadData.result.info.title, '流控测试架构师')
   assert.equal(reReadData.result.workExperiences[0].company, 'Antigravity Verification')
+  assert.equal(reReadData.result.customModules.length, 1)
+  assert.equal(reReadData.result.customModules[0].title, '开源贡献')
+  assert.equal(reReadData.result.customModules[0].sections[0].title, 'hacknical')
 
   // 5. Open public share
   const shareToggleRes = await client.patch('/api/resume/info', {

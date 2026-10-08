@@ -191,7 +191,7 @@ class Resume extends React.Component {
   get currentSection() {
     const { activeSection } = this.props.resume
 
-    return this.sections.find(section => section.id === activeSection)
+    return this.sections.find(section => section.id === activeSection) || this.sections[0] || null
   }
 
   handleSectionIndexChange(index) {
@@ -260,17 +260,20 @@ class Resume extends React.Component {
           handleIntroModalStatus={this.handleIntroModalStatus}
           handleTemplateModalStatus={this.handleTemplateModalStatus}
         />
-        <ResumeSection
-          maxIndex={max}
-          disabled={loading}
-          currentIndex={currentIndex}
-          section={{
-            id: this.currentSection.id,
-            text: this.currentSection.title.headline
-              || this.currentSection.title
-          }}
-          onSectionChange={this.handleSectionIndexChange}
-        />
+        {this.currentSection && (
+          <ResumeSection
+            maxIndex={max}
+            disabled={loading}
+            currentIndex={currentIndex}
+            section={{
+              id: this.currentSection.id,
+              text: (this.currentSection.title && this.currentSection.title.headline)
+                || this.currentSection.title
+                || ''
+            }}
+            onSectionChange={this.handleSectionIndexChange}
+          />
+        )}
         <ResumeFormatter
           resume={deepcopy(resume)}
           shareInfo={shareInfo}

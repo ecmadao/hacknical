@@ -9,6 +9,7 @@ import locales, { getLocale, switchLanguage } from 'LOCALES'
 import MenuWrapper from '../../shared/MenuWrapper'
 import Icon from 'COMPONENTS/Icon'
 import LogoText from 'COMPONENTS/LogoText'
+import { URLS } from 'UTILS/constant/github'
 
 const tabs = locales('dashboard.tabs')
 const locale = getLocale()
@@ -93,13 +94,25 @@ class Menus extends MenuWrapper {
               <Icon icon="navicon" />
             </div>
             <div className={styles.menuLogoBar}>
-              <LogoText theme="dark" />
+              <a
+                href={URLS.REPOSITORY}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LogoText theme="dark" />
+              </a>
             </div>
           </div>
           <PortalModal showModal={menuActive}>
             <div className={styles.menuContainer}>
               <div className={styles.menuTop}>
-                <LogoText theme="light" className={styles.menuLogo} />
+                <a
+                  href={URLS.REPOSITORY}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LogoText theme="light" className={styles.menuLogo} />
+                </a>
                 <div
                   onClick={this.toggleMenu}
                   className={styles.menuClose}>

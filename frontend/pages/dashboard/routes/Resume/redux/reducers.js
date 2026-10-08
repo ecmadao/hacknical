@@ -62,6 +62,11 @@ const reducers = handleActions({
     const { shareInfo } = state
     const { resumeSections } = shareInfo
 
+    const normalizedCustomModules = customModules.map(m => Object.assign({}, m, {
+      title: m.title || m.text,
+      text: m.text || m.title
+    }))
+
     return ({
       ...state,
       loading: false,
@@ -81,13 +86,27 @@ const reducers = handleActions({
       others: objectAssign({}, state.others, objectAssign({}, others, {
         socialLinks: [...validateSocialLinks(others.socialLinks)]
       })),
-      customModules: [...customModules],
+      customModules: normalizedCustomModules,
       shareInfo: objectAssign({}, shareInfo, {
-        resumeSections: resumeSections.reduce((list, section) => {
-          const item = validateResumeSection(section, customModules)
-          item && list.push(item)
-          return list
-        }, [])
+        resumeSections: (() => {
+          const validated = resumeSections.reduce((list, section) => {
+            const item = validateResumeSection(section, normalizedCustomModules)
+            item && list.push(item)
+            return list
+          }, [])
+          for (const cm of normalizedCustomModules) {
+            if (!validated.some(s => s.id === cm.id)) {
+              validated.push({
+                id: cm.id,
+                title: cm.title || cm.text,
+                enabled: true,
+                editable: true,
+                tag: RESUME_SECTION_IDS.CUSTOM,
+              })
+            }
+          }
+          return validated
+        })()
       })
     })
   },
@@ -674,12 +693,14 @@ const reducers = handleActions({
     const { customModules, shareInfo } = state
     const { resumeSections } = shareInfo
     const id = shortid.generate()
+    const title = action.payload
 
     return ({
       ...state,
+      edited: true,
       customModules: [
         ...customModules,
-        { id, text: action.payload, sections: [] }
+        { id, text: title, title, sections: [] }
       ],
       activeSection: id,
       shareInfo: objectAssign({}, shareInfo, {
@@ -687,7 +708,7 @@ const reducers = handleActions({
           ...resumeSections,
           {
             id,
-            title: action.payload,
+            title,
             enabled: true,
             editable: true,
             tag: RESUME_SECTION_IDS.CUSTOM,
@@ -715,11 +736,12 @@ const reducers = handleActions({
       const activeIndex = sectionIndex === resumeSections.length - 1
         ? sectionIndex - 1
         : sectionIndex + 1
-      activeSectionId = resumeSections[activeIndex].id
+      activeSectionId = resumeSections[activeIndex] ? resumeSections[activeIndex].id : DEFAULT_RESUME_SECTIONS[0].id
     }
 
     return ({
       ...state,
+      edited: true,
       customModules: newModules,
       activeSection: activeSectionId,
       shareInfo: objectAssign({}, shareInfo, {
@@ -735,15 +757,17 @@ const reducers = handleActions({
     const { customModules } = state
     const index = action.payload
     const customModule = customModules[index]
+    if (!customModule) return state
 
     return ({
       ...state,
+      edited: true,
       customModules: [
         ...customModules.slice(0, index),
         Object.assign({}, customModule, {
           sections: [...customModule.sections, Object.assign({}, CUSTOM_SECTION)],
-          ...customModules.slice(index + 1)
-        })
+        }),
+        ...customModules.slice(index + 1)
       ]
     })
   },
@@ -752,10 +776,12 @@ const reducers = handleActions({
     const { customModules } = state
     const { moduleIndex, sectionIndex } = action.payload
     const customModule = customModules[moduleIndex]
+    if (!customModule) return state
     const { sections } = customModule
 
     return ({
       ...state,
+      edited: true,
       customModules: [
         ...customModules.slice(0, moduleIndex),
         Object.assign({}, customModule, {
@@ -773,10 +799,12 @@ const reducers = handleActions({
     const { customModules } = state
     const { section, moduleIndex, sectionIndex } = action.payload
     const customModule = customModules[moduleIndex]
+    if (!customModule) return state
     const { sections } = customModule
 
     return ({
       ...state,
+      edited: true,
       customModules: [
         ...customModules.slice(0, moduleIndex),
         Object.assign({}, customModule, {
@@ -795,9 +823,11 @@ const reducers = handleActions({
     const { customModules } = state
     const { sections, moduleIndex } = action.payload
     const customModule = customModules[moduleIndex]
+    if (!customModule) return state
 
     return ({
       ...state,
+      edited: true,
       customModules: [
         ...customModules.slice(0, moduleIndex),
         Object.assign({}, customModule, {
@@ -811,17 +841,42 @@ const reducers = handleActions({
   },
 
   CHANGE_MODULE_TITLE(state, action) {
-    const { customModules } = state
-    const { preTitle, title } = action.payload
-    const index = customModules.findIndex(module => module.text === preTitle)
+    const { customModules, shareInfo } = state
+    const { moduleIndex, preTitle, title } = action.payload
+
+    let index = -1
+    if (typeof moduleIndex === 'number' && moduleIndex >= 0 && moduleIndex < customModules.length) {
+      index = moduleIndex
+    } else {
+      index = customModules.findIndex(module => module.text === preTitle || module.title === preTitle || module.id === preTitle)
+    }
+    if (index === -1) return state
+
+    const targetModule = customModules[index]
+    const newCustomModules = [
+      ...customModules.slice(0, index),
+      Object.assign({}, targetModule, { text: title, title }),
+      ...customModules.slice(index + 1)
+    ]
+
+    const { resumeSections } = shareInfo
+    const sectionIndex = resumeSections.findIndex(s => s.id === targetModule.id)
+    let newResumeSections = resumeSections
+    if (sectionIndex !== -1) {
+      newResumeSections = [
+        ...resumeSections.slice(0, sectionIndex),
+        Object.assign({}, resumeSections[sectionIndex], { title }),
+        ...resumeSections.slice(sectionIndex + 1)
+      ]
+    }
 
     return ({
       ...state,
-      customModules: [
-        ...customModules.slice(0, index),
-        Object.assign({}, customModules[index], { text: title }),
-        ...customModules.slice(index + 1)
-      ]
+      edited: true,
+      customModules: newCustomModules,
+      shareInfo: Object.assign({}, shareInfo, {
+        resumeSections: newResumeSections
+      })
     })
   },
 

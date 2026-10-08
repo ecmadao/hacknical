@@ -97,7 +97,7 @@ class Section extends React.Component {
                   disabled,
                   type: 'url',
                   style: { width: 200 },
-                  value: url.replace(/^https?:\/\//, ''),
+                  value: (url || '').replace(/^https?:\/\//, ''),
                   placeholder: resumeTexts.homepage,
                   onChange: handleChange('url')
                 }

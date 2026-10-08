@@ -4,13 +4,11 @@ import { connect } from 'react-redux'
 import cx from 'classnames'
 import { bindActionCreators } from 'redux'
 import { Loading, Button, Input, ClassicCard } from 'light-ui'
-import TimePicker from 'rc-times'
-import 'rc-times/css/timepicker.css'
 import settingActions from '../../../redux/actions'
 import styles from '../styles/setting.css'
 import locales from 'LOCALES'
 import { getGitHubSectionIntroBySection } from 'UTILS/constant/github'
-import { REMINDER_PREFIX, REMINDER_INTERVALS, getResumeSectionIntroBySection } from 'UTILS/constant/resume'
+import { getResumeSectionIntroBySection } from 'UTILS/constant/resume'
 import Panel from '../../shared/Panel'
 import InputPanel from '../../shared/InputPanel'
 import CheckPanel from '../../shared/CheckPanel'
@@ -59,19 +57,7 @@ const RenderSectionsOrdering = (props = {}) => {
   ]
 }
 
-const getReminderIndex = (value) => {
-  let index = REMINDER_INTERVALS.findIndex(obj => obj.id === value)
-  if (index === -1) index = 0
-  return index
-}
-
 class DesktopSetting extends React.Component {
-  constructor(props) {
-    super(props)
-    this.onReminderChange = this.onReminderChange.bind(this)
-    this.postResumeReminderChange = this.postResumeReminderChange.bind(this)
-  }
-
   componentDidMount() {
     const { actions } = this.props
     actions.fetchGithubUpdateStatus()
@@ -143,75 +129,6 @@ class DesktopSetting extends React.Component {
         />
       </Panel>
     )
-  }
-
-  onReminderChange({ indexs }) {
-    const index = indexs[0]
-    const id = REMINDER_INTERVALS[index].id
-    this.postResumeReminderChange('type')(id)
-  }
-
-  postResumeReminderChange(key) {
-    const { actions } = this.props
-    return val => actions.postResumeReminderChange(key, val)
-  }
-
-  renderResumeReminderSetting() {
-    const {
-      switcher,
-      resumeInfo
-    } = this.props
-
-    const resumeInfoLoading = resumeInfo && resumeInfo.loading
-    const panels = []
-
-    panels.push((
-      <Panel key="resumeReminderSetting-1">
-        <SwitcherPanel
-          switcher={switcher}
-          text={settingTexts.resume.reminder.title}
-          onChange={this.postResumeReminderChange('enable')}
-          disabled={resumeInfoLoading || resumeInfo.disabled}
-          checked={(resumeInfo && resumeInfo.reminder.enable) || false}
-        />
-      </Panel>
-    ))
-
-    if (resumeInfo && resumeInfo.reminder.enable) {
-      panels.push((
-        <Panel key="resumeReminderSetting-2">
-          <div className={cx(styles.info_container, styles.subSection)}>
-            <TimePicker
-              sections={[
-                {
-                  prefix: REMINDER_PREFIX,
-                  times: REMINDER_INTERVALS.map(obj => obj.value),
-                  activeIndex: getReminderIndex(resumeInfo.reminder.type)
-                }
-              ]}
-              color="yellow"
-              padding={10}
-              onTimeChange={this.onReminderChange}
-            />
-            &nbsp;
-            {settingTexts.resume.reminder.sendEmailTo}
-            &nbsp;
-            <div className={styles.inputContainer}>
-              <Input
-                type="email"
-                theme="borderless"
-                subTheme="underline"
-                className={styles.sectionInput}
-                placeholder={settingTexts.resume.reminder.placeholder}
-                value={resumeInfo.reminder.email}
-                onChange={this.postResumeReminderChange('email')}
-              />
-            </div>
-          </div>
-        </Panel>
-      ))
-    }
-    return panels
   }
 
   renderResumeShareSetting() {
@@ -351,7 +268,6 @@ class DesktopSetting extends React.Component {
             {!resumeInfo && (
               <Loading className={styles.info_loading} loading />
             )}
-            {this.renderResumeReminderSetting()}
             <Panel>
               <SwitcherPanel
                 switcher={switcher}
