@@ -100,11 +100,21 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS invite_codes (
     code TEXT PRIMARY KEY,
     used INTEGER NOT NULL DEFAULT 0,
+    use_count INTEGER NOT NULL DEFAULT 0,
+    max_uses INTEGER NOT NULL DEFAULT 100,
     used_by TEXT,
     created_at TEXT NOT NULL,
     used_at TEXT
   );
   CREATE INDEX IF NOT EXISTS invite_codes_used ON invite_codes (used);
+
+  CREATE TABLE IF NOT EXISTS invite_code_uses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL,
+    user_id TEXT NOT NULL,
+    used_at TEXT NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_invite_code_uses_code ON invite_code_uses (code);
 `)
 
 // Migrate users table columns if not present
@@ -120,6 +130,16 @@ if (!userColumns.has('auth_provider')) {
   db.exec('ALTER TABLE users ADD COLUMN auth_provider TEXT NOT NULL DEFAULT "github"')
 }
 
+// Migrate invite_codes table columns if not present
+const inviteColumns = new Set(db.prepare('PRAGMA table_info(invite_codes)').all().map(col => col.name))
+if (!inviteColumns.has('use_count')) {
+  db.exec('ALTER TABLE invite_codes ADD COLUMN use_count INTEGER NOT NULL DEFAULT 0')
+  db.exec('UPDATE invite_codes SET use_count = 1 WHERE used = 1')
+}
+if (!inviteColumns.has('max_uses')) {
+  db.exec('ALTER TABLE invite_codes ADD COLUMN max_uses INTEGER NOT NULL DEFAULT 100')
+}
+
 export const now = () => new Date().toISOString()
 
 // Seed invite codes from env or default
@@ -128,17 +148,18 @@ const seedInviteCodes = () => {
   const codesToSeed = envCodes
     ? envCodes.split(/[,;\s]+/).map(c => c.trim()).filter(Boolean)
     : []
+  const defaultMaxUses = parseInt(process.env.INVITE_CODE_MAX_USES, 10) || 100
 
   const timestamp = now()
-  const insertStmt = db.prepare('INSERT OR IGNORE INTO invite_codes (code, used, created_at) VALUES (?, 0, ?)')
+  const insertStmt = db.prepare('INSERT OR IGNORE INTO invite_codes (code, used, use_count, max_uses, created_at) VALUES (?, 0, 0, ?, ?)')
   for (const code of codesToSeed) {
-    insertStmt.run(code, timestamp)
+    insertStmt.run(code, defaultMaxUses, timestamp)
   }
 
   const count = db.prepare('SELECT COUNT(*) as total FROM invite_codes').get().total
   if (count === 0) {
     // If no invite code exists at all, seed a default code for instant usability
-    insertStmt.run('HACKNICAL-2026', timestamp)
+    insertStmt.run('HACKNICAL-2026', defaultMaxUses, timestamp)
   }
 }
 

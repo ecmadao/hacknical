@@ -270,8 +270,10 @@ test('successful registration consumes invite code, creates user and resume, and
 
   // Verify in SQLite database directly
   const db = new DatabaseSync(database)
-  const codeRow = db.prepare('SELECT * FROM invite_codes WHERE code = ?').get('TEST-CODE-1')
-  assert.equal(codeRow.used, 1)
+  let codeRow = db.prepare('SELECT * FROM invite_codes WHERE code = ?').get('TEST-CODE-1')
+  assert.equal(codeRow.use_count, 1)
+  assert.equal(codeRow.max_uses, 100)
+  assert.equal(codeRow.used, 0)
   assert.ok(codeRow.used_by)
   assert.ok(codeRow.used_at)
 
@@ -287,12 +289,32 @@ test('successful registration consumes invite code, creates user and resume, and
   const resumeRow = db.prepare('SELECT * FROM resumes WHERE user_id = ?').get(userRow.user_id)
   assert.ok(resumeRow)
 
-  // Verify that reusing the consumed invite code is rejected (using fresh client/csrf)
+  // Verify that the same invite code can be used by another user (up to max_uses: 100)
   const anotherClient = browser()
   await anotherClient.get('/')
-  const replayRes = await anotherClient.post('/api/user/signup', {
+  const secondUserRes = await anotherClient.post('/api/user/signup', {
     username: 'another_user',
     email: 'another@hacknical.com',
+    password: 'another-password',
+    inviteCode: 'TEST-CODE-1'
+  })
+  assert.equal(secondUserRes.status, 200)
+  assert.equal(secondUserRes.json.success, true)
+
+  codeRow = db.prepare('SELECT * FROM invite_codes WHERE code = ?').get('TEST-CODE-1')
+  assert.equal(codeRow.use_count, 2)
+  assert.equal(codeRow.used, 0)
+
+  const usageRows = db.prepare('SELECT * FROM invite_code_uses WHERE code = ?').all('TEST-CODE-1')
+  assert.equal(usageRows.length, 2)
+
+  // When usage limit is reached (set max_uses to 2), reusing the consumed code is rejected
+  db.prepare('UPDATE invite_codes SET max_uses = 2, used = 1 WHERE code = ?').run('TEST-CODE-1')
+  const thirdClient = browser()
+  await thirdClient.get('/')
+  const replayRes = await thirdClient.post('/api/user/signup', {
+    username: 'third_user',
+    email: 'third@hacknical.com',
     password: 'another-password',
     inviteCode: 'TEST-CODE-1'
   })

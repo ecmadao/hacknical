@@ -144,21 +144,23 @@ const getInviteCode = (code) => {
   return db.prepare('SELECT * FROM invite_codes WHERE code = ?').get(code.trim())
 }
 
-const createInviteCode = (code) => {
+const createInviteCode = (code, maxUses = (parseInt(process.env.INVITE_CODE_MAX_USES, 10) || 100)) => {
   const trimmed = (code || '').trim()
   if (!trimmed) throw new Error('Invite code cannot be empty')
   const timestamp = now()
   db.prepare(`
-    INSERT OR IGNORE INTO invite_codes (code, used, created_at)
-    VALUES (?, 0, ?)
-  `).run(trimmed, timestamp)
+    INSERT OR IGNORE INTO invite_codes (code, used, use_count, max_uses, created_at)
+    VALUES (?, 0, 0, ?, ?)
+  `).run(trimmed, maxUses, timestamp)
   return getInviteCode(trimmed)
 }
 
 const validateInviteCode = (code) => {
   const row = getInviteCode(code)
   if (!row) return { valid: false, message: '邀请码不存在' }
-  if (row.used) return { valid: false, message: '邀请码已被使用' }
+  const maxUses = typeof row.max_uses === 'number' ? row.max_uses : 100
+  const useCount = typeof row.use_count === 'number' ? row.use_count : (row.used ? 1 : 0)
+  if (row.used || useCount >= maxUses) return { valid: false, message: '邀请码已被使用或已达上限' }
   return { valid: true, row }
 }
 
@@ -209,8 +211,10 @@ const registerLocalUser = async ({ username, email, password, inviteCode } = {})
   if (!codeRow) {
     throw new Error('邀请码不存在')
   }
-  if (codeRow.used) {
-    throw new Error('邀请码已被使用')
+  const maxUses = typeof codeRow.max_uses === 'number' ? codeRow.max_uses : 100
+  const useCount = typeof codeRow.use_count === 'number' ? codeRow.use_count : (codeRow.used ? 1 : 0)
+  if (codeRow.used || useCount >= maxUses) {
+    throw new Error('邀请码已被使用或已达上限')
   }
 
   const userId = randomUUID()
@@ -219,12 +223,22 @@ const registerLocalUser = async ({ username, email, password, inviteCode } = {})
 
   runTransaction(() => {
     const updateResult = db.prepare(`
-      UPDATE invite_codes SET used = 1, used_by = ?, used_at = ? WHERE code = ? AND used = 0
+      UPDATE invite_codes
+      SET use_count = use_count + 1,
+          used = CASE WHEN use_count + 1 >= max_uses THEN 1 ELSE 0 END,
+          used_by = ?,
+          used_at = ?
+      WHERE code = ? AND use_count < max_uses
     `).run(userId, timestamp, trimmedCode)
 
     if (updateResult.changes === 0) {
-      throw new Error('邀请码已被使用')
+      throw new Error('邀请码已被使用或已达上限')
     }
+
+    db.prepare(`
+      INSERT INTO invite_code_uses (code, user_id, used_at)
+      VALUES (?, ?, ?)
+    `).run(trimmedCode, userId, timestamp)
 
     const data = {
       userName: trimmedUser,
