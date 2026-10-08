@@ -494,10 +494,10 @@ class LoginPanel extends React.PureComponent {
             {loginText.topbarLogin}
           </a>
           <a
-            rel="noopener"
+            rel="noopener noreferrer"
             target="_blank"
             className={styles.topbarLink}
-            href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`}
+            href={`https://github.com/liguobao/hacknical/blob/master/doc/ABOUT-${locale}.md`}
           >
             {loginText.topbarAbout}
           </a>

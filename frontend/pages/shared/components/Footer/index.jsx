@@ -25,45 +25,34 @@ class Footer extends React.Component {
           <div className={styles.footerRight}>
             {!isMobile && (
               <span className={styles.footerIntro}>
-                <Icon icon="code" /> by <a href="https://github.com/ecmadao" target="_blank">ecmadao</a> with <Icon icon="heart" />
+                <Icon icon="code-fork" /> {footerText.forkedFrom} <a rel="noopener noreferrer" href="https://github.com/ecmadao" target="_blank">ecmadao</a>
               </span>
             )}
-            <a rel="noopener" href={`https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`} target="_blank">
+            <a rel="noopener noreferrer" href={`https://github.com/liguobao/hacknical/blob/master/doc/ABOUT-${locale}.md`} target="_blank">
               {footerText.about}
             </a>
             &nbsp;&nbsp;
             {!isMobile && [
               (
                 <a
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   key="footer-1"
                   target="_blank"
                   className={styles.footerLink}
-                  href="https://github.com/ecmadao/hacknical/issues"
+                  href="https://github.com/liguobao/hacknical/issues"
                 >
                   {footerText.feedback}
                 </a>
               ),
               (
                 <a
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   key="footer-2"
                   target="_blank"
                   className={styles.footerLink}
-                  href="https://github.com/ecmadao/hacknical"
+                  href="https://github.com/liguobao/hacknical"
                 >
                   {footerText.code}
-                </a>
-              ),
-              (
-                <a
-                  rel="noopener"
-                  key="footer-3"
-                  target="_blank"
-                  className={styles.footerLink}
-                  href="https://beian.miit.gov.cn"
-                >
-                  {footerText.gov}
                 </a>
               )
             ]}

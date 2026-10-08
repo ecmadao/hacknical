@@ -73,7 +73,7 @@ class Menus extends MenuWrapper {
 
   render() {
     const { zen, menuActive } = this.state
-    const aboutUrl = `https://github.com/ecmadao/hacknical/blob/master/doc/ABOUT-${locale}.md`
+    const aboutUrl = `https://github.com/liguobao/hacknical/blob/master/doc/ABOUT-${locale}.md`
 
     return (
       <Topbar

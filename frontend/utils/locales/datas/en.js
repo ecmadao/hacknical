@@ -35,7 +35,7 @@ const datas = {
     about: 'ABOUT',
     feedback: 'FEEDBACK',
     code: 'SOURCE CODE',
-    gov: 'ICP-17008129-1'
+    forkedFrom: 'Forked from'
   }
 }
 
