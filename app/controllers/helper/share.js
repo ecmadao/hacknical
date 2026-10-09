@@ -1,6 +1,7 @@
 
 import { getValue } from '../../utils/helper'
 import network from '../../services/network'
+import { canReadResume, verifyDownloadToken } from '../../utils/resume-access'
 
 const githubEnable = (key = 'params.login') => async (ctx, next) => {
   const login = getValue(ctx, key)
@@ -16,21 +17,12 @@ const githubEnable = (key = 'params.login') => async (ctx, next) => {
 
 const isResumeOpenShare = (resumeInfo, options) => {
   if (resumeInfo.userId === options.userId) return true
+  if (verifyDownloadToken(resumeInfo.resumeHash, options.downloadToken)) return true
 
   if (!resumeInfo.openShare) return false
   if (options.login && !options.pinyin && !resumeInfo.simplifyUrl) return false
 
   return true
-}
-
-const isResumeDownload = (resumeInfo, query) => {
-  const {
-    userId,
-    notrace,
-  } = query
-
-  if (resumeInfo.userId === userId && notrace === 'true') return true
-  return false
 }
 
 const resumeParamsFormatter = async (ctx, source, pinyinSource = null) => {
@@ -64,10 +56,12 @@ const resumeEnable = (source = 'params.login', pinyinSource = null) => async (ct
 
   if (
     !resumeInfo
-    || (
-      !isResumeOpenShare(resumeInfo, { userId, [key]: value, pinyin })
-      && !isResumeDownload(resumeInfo, ctx.query || {})
-    )
+    || !isResumeOpenShare(resumeInfo, {
+      userId,
+      [key]: value,
+      pinyin,
+      downloadToken: ctx.query.downloadToken
+    })
   ) {
     return ctx.redirect('/404')
   }
@@ -76,7 +70,19 @@ const resumeEnable = (source = 'params.login', pinyinSource = null) => async (ct
   await next()
 }
 
+const resumeApiEnable = () => async (ctx, next) => {
+  const resumeInfo = await network.user.getResumeInfo({ hash: ctx.query.hash })
+  if (!canReadResume(resumeInfo, ctx.session, ctx.query.downloadToken)) {
+    ctx.status = 404
+    ctx.body = { success: false, message: 'Resume not found' }
+    return
+  }
+  ctx.resumeInfo = resumeInfo
+  await next()
+}
+
 export default {
   githubEnable,
-  resumeEnable
+  resumeEnable,
+  resumeApiEnable
 }

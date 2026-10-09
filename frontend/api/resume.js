@@ -3,6 +3,12 @@ import API from './base'
 import { getLocale } from 'LOCALES'
 
 const locale = getLocale()
+const getDownloadToken = () => {
+  if (typeof window === 'undefined') return null
+  const match = /[?&]downloadToken=(\d+\.[a-f0-9]{64})(?:&|$)/
+    .exec(window.location.search)
+  return match ? match[1] : null
+}
 
 const getResume = (options = {}) => {
   const { resumeId } = options
@@ -22,7 +28,14 @@ const download = (pageStyle, options = {}) => {
   return API.get('/resume/download', { pageStyle, locale, ...(resumeId ? { resumeId } : {}) })
 }
 
-const getPubResume = hash => API.get('/resume/shared/public', { hash, locale })
+const getPubResume = (hash) => {
+  const downloadToken = getDownloadToken()
+  return API.get('/resume/shared/public', {
+    hash,
+    locale,
+    ...(downloadToken ? { downloadToken } : {})
+  })
+}
 
 const getResumeInfo = (options = {}) => {
   const { hash, userId, resumeId } = options
@@ -30,6 +43,8 @@ const getResumeInfo = (options = {}) => {
   if (hash) qs.hash = hash
   if (userId) qs.userId = userId
   if (resumeId) qs.resumeId = resumeId
+  const downloadToken = getDownloadToken()
+  if (downloadToken) qs.downloadToken = downloadToken
   return API.get('/resume/info', qs)
 }
 

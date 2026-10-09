@@ -502,6 +502,69 @@ test('flow: resume edit, persist, share toggle, public access and reverse 404', 
   assert.equal(reReadData.result.customModules[0].title, '开源贡献')
   assert.equal(reReadData.result.customModules[0].sections[0].title, 'hacknical')
 
+  const unauthClient = browser()
+  const privateInfo = initialInfo.result
+  for (const query of [
+    `userId=${privateInfo.userId}`,
+    `resumeId=${privateInfo.resumeId}`,
+    `hash=${resumeHash}`
+  ]) {
+    const response = await unauthClient.get(`/api/resume/info?${query}`)
+    assert.equal(response.status, 404)
+  }
+  const privateApiRes = await unauthClient.get(`/api/resume/shared/public?hash=${resumeHash}`)
+  assert.equal(privateApiRes.status, 404)
+  const ownerPrivateRes = await client.get(`/api/resume/shared/public?hash=${resumeHash}`)
+  assert.equal(ownerPrivateRes.status, 200)
+  assert.equal(ownerPrivateRes.json.result.info.name, '极客测试专家')
+  const cachedOwnerRes = await unauthClient.get(`/api/resume/shared/public?hash=${resumeHash}`)
+  assert.equal(cachedOwnerRes.status, 404)
+  const forgedDownloadRes = await unauthClient.get(
+    `/resume/${resumeHash}?userId=${privateInfo.userId}&notrace=true`
+  )
+  assert.equal(forgedDownloadRes.status, 302)
+  assert.equal(forgedDownloadRes.headers.get('location'), '/404')
+
+  const previousAppKey = process.env.APP_KEY
+  process.env.APP_KEY = 'b'.repeat(64)
+  const { createDownloadToken } = require('../dist/utils/resume-access')
+  if (previousAppKey === undefined) delete process.env.APP_KEY
+  else process.env.APP_KEY = previousAppKey
+  const downloadToken = createDownloadToken(resumeHash)
+  const grantedPageRes = await unauthClient.get(
+    `/resume/${resumeHash}?downloadToken=${downloadToken}&fromDownload=true`
+  )
+  assert.equal(grantedPageRes.status, 200)
+  const grantedInfoRes = await unauthClient.get(
+    `/api/resume/info?hash=${resumeHash}&downloadToken=${downloadToken}`
+  )
+  assert.equal(grantedInfoRes.status, 200)
+  const grantedDataRes = await unauthClient.get(
+    `/api/resume/shared/public?hash=${resumeHash}&downloadToken=${downloadToken}`
+  )
+  assert.equal(grantedDataRes.status, 200)
+  assert.equal(grantedDataRes.json.result.info.name, '极客测试专家')
+  const cachedPrivateRes = await unauthClient.get(`/api/resume/shared/public?hash=${resumeHash}`)
+  assert.equal(cachedPrivateRes.status, 404)
+  const invalidToken = downloadToken.slice(0, -1)
+    + (downloadToken.endsWith('0') ? '1' : '0')
+  const invalidGrantRes = await unauthClient.get(
+    `/api/resume/shared/public?hash=${resumeHash}&downloadToken=${invalidToken}`
+  )
+  assert.equal(invalidGrantRes.status, 404)
+  const originalNow = Date.now
+  let expiredToken
+  try {
+    Date.now = () => originalNow() - 16 * 60 * 1000
+    expiredToken = createDownloadToken(resumeHash)
+  } finally {
+    Date.now = originalNow
+  }
+  const expiredGrantRes = await unauthClient.get(
+    `/api/resume/shared/public?hash=${resumeHash}&downloadToken=${expiredToken}`
+  )
+  assert.equal(expiredGrantRes.status, 404)
+
   // 5. Open public share
   const shareToggleRes = await client.patch('/api/resume/info', {
     info: {
@@ -521,11 +584,12 @@ test('flow: resume edit, persist, share toggle, public access and reverse 404', 
   assert.match(infoAfterShare.result.url, /geeker\/resume/)
 
   // 7. Unauthenticated client accesses public resume page
-  const unauthClient = browser()
   const publicPageRes = await unauthClient.get('/geeker/resume')
   assert.equal(publicPageRes.status, 200)
   assert.match(publicPageRes.text, /<title>geeker 的个人简历 \| hackneo<\/title>/)
   assert.match(publicPageRes.text, /window\.login = 'geeker'/)
+  const publicInfoRes = await unauthClient.get(`/api/resume/info?hash=${resumeHash}`)
+  assert.equal(publicInfoRes.status, 200)
 
   // 8. Unauthenticated client accesses public resume API
   const publicApiRes = await unauthClient.get(`/api/resume/shared/public?hash=${resumeHash}`)
@@ -592,6 +656,9 @@ test('flow: resume edit, persist, share toggle, public access and reverse 404', 
   const closedHashRes = await unauthClient.get(`/resume/${resumeHash}`)
   assert.equal(closedHashRes.status, 302)
   assert.equal(closedHashRes.headers.get('location'), '/404')
+
+  const closedApiRes = await unauthClient.get(`/api/resume/shared/public?hash=${resumeHash}`)
+  assert.equal(closedApiRes.status, 404)
 })
 
 test('non-GitHub login does not execute GitHub operations and defaults to archive', async () => {
