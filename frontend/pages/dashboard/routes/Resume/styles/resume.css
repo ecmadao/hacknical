@@ -66,6 +66,36 @@
   flex: 1;
 }
 
+.resume_title_badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  margin-right: 12px;
+  background-color: var(--oc-gray-1);
+  border: 1px solid var(--oc-gray-3);
+  border-radius: 16px;
+  font-size: 0.85em;
+  color: var(--oc-gray-7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--oc-gray-2);
+    border-color: var(--oc-gray-5);
+    color: var(--oc-gray-9);
+  }
+}
+
+.resume_title_text {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
 .operation {
   margin-top: 0px;
   margin-bottom: 0px;

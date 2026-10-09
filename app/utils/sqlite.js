@@ -41,8 +41,11 @@ db.exec(`
   );
 
   CREATE TABLE IF NOT EXISTS resumes (
-    user_id TEXT PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
+    resume_id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     resume_hash TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL DEFAULT '默认简历',
+    is_default INTEGER NOT NULL DEFAULT 0,
     data TEXT NOT NULL,
     template TEXT NOT NULL DEFAULT 'v1',
     simplify_url INTEGER NOT NULL DEFAULT 1,
@@ -54,6 +57,9 @@ db.exec(`
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   );
+  CREATE INDEX IF NOT EXISTS idx_resumes_user_id ON resumes (user_id);
+  CREATE INDEX IF NOT EXISTS idx_resumes_resume_hash ON resumes (resume_hash);
+  CREATE INDEX IF NOT EXISTS idx_resumes_user_default ON resumes (user_id, is_default);
 
   CREATE TABLE IF NOT EXISTS github_cache (
     login TEXT NOT NULL,
@@ -139,6 +145,57 @@ if (!inviteColumns.has('use_count')) {
 if (!inviteColumns.has('max_uses')) {
   db.exec('ALTER TABLE invite_codes ADD COLUMN max_uses INTEGER NOT NULL DEFAULT 100')
 }
+
+// Migrate resumes table to support multiple resumes per user
+const resumeColumns = new Set(db.prepare('PRAGMA table_info(resumes)').all().map(col => col.name))
+if (resumeColumns.size > 0 && !resumeColumns.has('resume_id')) {
+  db.exec('PRAGMA foreign_keys = OFF;')
+  db.exec(`
+    ALTER TABLE resumes RENAME TO resumes_old;
+
+    CREATE TABLE resumes (
+      resume_id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+      resume_hash TEXT NOT NULL UNIQUE,
+      title TEXT NOT NULL DEFAULT '默认简历',
+      is_default INTEGER NOT NULL DEFAULT 0,
+      data TEXT NOT NULL,
+      template TEXT NOT NULL DEFAULT 'v1',
+      simplify_url INTEGER NOT NULL DEFAULT 1,
+      open_share INTEGER NOT NULL DEFAULT 0,
+      use_github INTEGER NOT NULL DEFAULT 0,
+      autosave INTEGER NOT NULL DEFAULT 0,
+      resume_sections TEXT NOT NULL,
+      github_sections TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    INSERT INTO resumes (
+      resume_id, user_id, resume_hash, title, is_default,
+      data, template, simplify_url, open_share, use_github, autosave,
+      resume_sections, github_sections, created_at, updated_at
+    )
+    SELECT
+      lower(hex(randomblob(16))), user_id, resume_hash, '默认简历', 1,
+      data, template, simplify_url, open_share, use_github, autosave,
+      resume_sections, github_sections, created_at, updated_at
+    FROM resumes_old;
+
+    DROP TABLE resumes_old;
+  `)
+  db.exec('PRAGMA foreign_keys = ON;')
+} else {
+  if (resumeColumns.has('resume_id') && !resumeColumns.has('title')) {
+    db.exec("ALTER TABLE resumes ADD COLUMN title TEXT NOT NULL DEFAULT '默认简历'")
+  }
+  if (resumeColumns.has('resume_id') && !resumeColumns.has('is_default')) {
+    db.exec('ALTER TABLE resumes ADD COLUMN is_default INTEGER NOT NULL DEFAULT 0')
+  }
+}
+db.exec('CREATE INDEX IF NOT EXISTS idx_resumes_user_id ON resumes (user_id);')
+db.exec('CREATE INDEX IF NOT EXISTS idx_resumes_resume_hash ON resumes (resume_hash);')
+db.exec('CREATE INDEX IF NOT EXISTS idx_resumes_user_default ON resumes (user_id, is_default);')
 
 export const now = () => new Date().toISOString()
 

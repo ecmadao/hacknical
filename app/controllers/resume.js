@@ -52,8 +52,8 @@ const getResume = async (ctx) => {
     githubToken,
     githubLogin
   } = ctx.session
-  const { locale } = ctx.query
-  const data = await network.user.getResume({ userId, locale })
+  const { locale, resumeId } = ctx.query
+  const data = await network.user.getResume({ userId, locale, resumeId })
 
   const { resume = null } = (data || {})
   if (
@@ -71,19 +71,26 @@ const getResume = async (ctx) => {
 
   ctx.body = {
     success: true,
-    result: resume
+    result: resume ? {
+      ...resume,
+      resumeId: data.resumeId,
+      title: data.title,
+      isDefault: data.isDefault
+    } : null
   }
 }
 
 const setResume = async (ctx, next) => {
-  const { resume, locale } = ctx.request.body
-  const { message } = ctx.query
+  const { resume, locale, resumeId: bodyResumeId } = ctx.request.body
+  const { message, resumeId: queryResumeId } = ctx.query
+  const resumeId = bodyResumeId || queryResumeId
   const { userId, githubLogin } = ctx.session
 
   const result = await network.user.updateResume({
     userId,
     resume,
     locale,
+    resumeId,
     login: githubLogin
   })
 
@@ -123,13 +130,14 @@ const setResume = async (ctx, next) => {
 const downloadResume = async (ctx) => {
   const { userId, githubLogin } = ctx.session
   const locale = ctx.query.locale || ctx.session.locale
+  const { resumeId } = ctx.query
 
   const [
     resumeInfo,
     findResult
   ] = await Promise.all([
-    network.user.getResumeInfo({ userId }),
-    network.user.getResume({ userId, locale })
+    network.user.getResumeInfo({ userId, resumeId }),
+    network.user.getResume({ userId, locale, resumeId })
   ])
   const { template, resumeHash } = resumeInfo
 
@@ -296,11 +304,15 @@ const getResumeByHash = async (ctx, next) => {
 }
 
 const getResumeInfo = async (ctx) => {
-  const { hash, userId } = ctx.query
+  const { hash, userId, resumeId } = ctx.query
   const { locale = 'zh' } = ctx.session || {}
   const qs = {}
   if (hash) {
     qs.hash = hash
+  } else if (resumeId) {
+    qs.resumeId = resumeId
+    if (userId) qs.userId = userId
+    else if (ctx.session && ctx.session.userId) qs.userId = ctx.session.userId
   } else if (userId) {
     qs.userId = userId
   } else if (ctx.session && ctx.session.userId) {
@@ -343,8 +355,9 @@ const getShareLogs = async (ctx) => {
 const getShareRecords = async (ctx) => {
   const { userId, githubLogin } = ctx.session
   const { locale } = ctx.session
+  const { resumeId } = ctx.query
 
-  const resumeInfo = await network.user.getResumeInfo({ userId })
+  const resumeInfo = await network.user.getResumeInfo({ userId, resumeId })
 
   if (!resumeInfo) {
     return ctx.body = {
@@ -374,11 +387,14 @@ const getShareRecords = async (ctx) => {
 }
 
 const setResumeInfo = async (ctx) => {
-  const { info } = ctx.request.body
+  const { info, resumeId: bodyResumeId } = ctx.request.body
+  const { resumeId: queryResumeId } = ctx.query
+  const resumeId = bodyResumeId || queryResumeId || (info && info.resumeId)
   const { userId, githubLogin } = ctx.session
 
   const result = await network.user.setResumeInfo({
     info,
+    resumeId,
     userId,
     login: githubLogin
   })
@@ -386,6 +402,120 @@ const setResumeInfo = async (ctx) => {
   ctx.body = {
     result,
     success: true
+  }
+}
+
+const getResumeList = async (ctx) => {
+  const { userId } = ctx.session
+  const list = await network.user.getResumeList(userId)
+  ctx.body = {
+    success: true,
+    result: list
+  }
+}
+
+const createNewResume = async (ctx) => {
+  const { userId, githubLogin } = ctx.session
+  const { title, copyFromResumeId } = ctx.request.body || {}
+  const result = await network.user.createNewResume(userId, githubLogin, {
+    title,
+    copyFromResumeId
+  })
+  ctx.body = {
+    success: true,
+    result
+  }
+}
+
+const setDefaultResume = async (ctx) => {
+  const { userId } = ctx.session
+  const { resumeId } = ctx.request.body || {}
+  if (!resumeId) {
+    ctx.status = 400
+    ctx.body = { success: false, message: '缺少简历ID' }
+    return
+  }
+  try {
+    const list = await network.user.setDefaultResume(userId, resumeId)
+    ctx.body = {
+      success: true,
+      result: list
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '设置默认失败'
+    }
+  }
+}
+
+const deleteResume = async (ctx) => {
+  const { userId } = ctx.session
+  const resumeId = ctx.params.resumeId || (ctx.request.body && ctx.request.body.resumeId) || ctx.query.resumeId
+  if (!resumeId) {
+    ctx.status = 400
+    ctx.body = { success: false, message: '缺少简历ID' }
+    return
+  }
+  try {
+    const list = await network.user.deleteResume(userId, resumeId)
+    ctx.body = {
+      success: true,
+      result: list
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '删除失败'
+    }
+  }
+}
+
+const renameResume = async (ctx) => {
+  const { userId } = ctx.session
+  const { resumeId, title } = ctx.request.body || {}
+  if (!resumeId || !title) {
+    ctx.status = 400
+    ctx.body = { success: false, message: '缺少简历ID或名称' }
+    return
+  }
+  try {
+    const result = await network.user.renameResume(userId, resumeId, title)
+    ctx.body = {
+      success: true,
+      result
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '重命名失败'
+    }
+  }
+}
+
+const copyResume = async (ctx) => {
+  const { userId, githubLogin } = ctx.session
+  const { resumeId, title } = ctx.request.body || {}
+  if (!resumeId) {
+    ctx.status = 400
+    ctx.body = { success: false, message: '缺少简历ID' }
+    return
+  }
+  try {
+    const result = await network.user.copyResume(userId, githubLogin, resumeId, title)
+    ctx.body = {
+      success: true,
+      result
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '复制失败'
+    }
   }
 }
 
@@ -404,5 +534,12 @@ export default {
   // ============
   getResumeInfo,
   setResumeInfo,
-  getSchoolInfo
+  getSchoolInfo,
+  // ============ 多简历
+  getResumeList,
+  createNewResume,
+  setDefaultResume,
+  deleteResume,
+  renameResume,
+  copyResume
 }

@@ -1,0 +1,192 @@
+@import 'open-color/open-color.css';
+
+.container {
+  background-color: var(--bg);
+  box-shadow: var(--shadow4);
+  width: 580px;
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  composes: common-z-index from 'STYLES/common.css';
+  padding: 24px 28px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--oc-gray-2);
+}
+
+.headerTitle {
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--oc-gray-8);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.createArea {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+  background-color: var(--oc-gray-0);
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+
+.createInput {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--oc-gray-4);
+  border-radius: 3px;
+  font-size: 0.9em;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.createInput:focus {
+  border-color: var(--oc-blue-5);
+}
+
+.listWrapper {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--oc-gray-3);
+  background-color: var(--oc-white);
+  transition: all 0.2s ease;
+}
+
+.item:hover {
+  border-color: var(--oc-gray-5);
+  box-shadow: var(--MDShadow1);
+}
+
+.itemActive {
+  border-color: var(--oc-blue-5);
+  background-color: var(--oc-blue-0);
+}
+
+.itemLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.itemTitle {
+  font-weight: 600;
+  font-size: 1.05em;
+  color: var(--oc-gray-9);
+}
+
+.badgeDefault {
+  font-size: 0.75em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: var(--oc-green-1);
+  color: var(--oc-green-8);
+  font-weight: 500;
+}
+
+.badgeActive {
+  font-size: 0.75em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: var(--oc-blue-1);
+  color: var(--oc-blue-8);
+  font-weight: 500;
+}
+
+.itemMeta {
+  font-size: 0.8em;
+  color: var(--oc-gray-5);
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionBtn {
+  font-size: 0.85em;
+  padding: 4px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--oc-gray-3);
+  background-color: var(--oc-white);
+  color: var(--oc-gray-7);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.actionBtn:hover {
+  background-color: var(--oc-gray-1);
+  color: var(--oc-gray-9);
+  border-color: var(--oc-gray-4);
+}
+
+.actionBtnPrimary {
+  background-color: var(--oc-blue-6);
+  color: var(--oc-white);
+  border-color: var(--oc-blue-6);
+}
+
+.actionBtnPrimary:hover {
+  background-color: var(--oc-blue-7);
+  color: var(--oc-white);
+}
+
+.actionBtnDanger {
+  color: var(--oc-red-6);
+}
+
+.actionBtnDanger:hover {
+  background-color: var(--oc-red-0);
+  border-color: var(--oc-red-3);
+  color: var(--oc-red-7);
+}
+
+.renameInput {
+  padding: 4px 8px;
+  border: 1px solid var(--oc-blue-4);
+  border-radius: 3px;
+  font-size: 0.95em;
+  outline: none;
+}
+
+.footer {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+}

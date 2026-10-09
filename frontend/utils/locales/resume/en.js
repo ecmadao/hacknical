@@ -28,7 +28,27 @@ const datas = {
   modal: {
     shareText: 'to share your resume',
     chooseTemplate: 'Choose resume template',
-    contributeTemplate: 'Have advice for template? Come to create issue!'
+    contributeTemplate: 'Have advice for template? Come to create issue!',
+    resumes: {
+      title: 'Resume Manager',
+      switchTip: 'Switch / Manage Resumes',
+      current: 'Current Resume',
+      defaultBadge: 'Default',
+      setDefault: 'Set as Default',
+      rename: 'Rename',
+      delete: 'Delete',
+      copy: 'Duplicate',
+      create: 'New Resume',
+      inputTitle: 'Please enter resume name',
+      deleteConfirm: 'Are you sure to delete this resume? It cannot be recovered.',
+      atLeastOne: 'You must keep at least one resume',
+      copySuccess: 'Resume duplicated successfully',
+      createSuccess: 'Resume created successfully',
+      deleteSuccess: 'Resume deleted',
+      setDefaultSuccess: 'Set as default resume',
+      renameSuccess: 'Resume renamed successfully',
+      untitled: 'Untitled Resume'
+    }
   },
   sections: {
     info: {

@@ -11,6 +11,7 @@ import ResumeSection from './ResumeSection'
 import ResumeModal from './ResumeModal'
 import TemplateModal from './TemplateModal'
 import IntroModal from './IntroModal'
+import ResumeListModal from './ResumeListModal'
 import resumeActions from '../redux/actions'
 import Hotkeys from 'UTILS/hotkeys'
 import locales from 'LOCALES'
@@ -38,7 +39,8 @@ class Resume extends React.Component {
       openModal: false,
       openIntroModal: false,
       openShareModal: false,
-      openTemplateModal: false
+      openTemplateModal: false,
+      openResumeListModal: false
     }
 
     this.onBeforeUnload = this.onBeforeUnload.bind(this)
@@ -48,6 +50,7 @@ class Resume extends React.Component {
     this.handleShareModalStatus = this.handleShareModalStatus.bind(this)
     this.handleTemplateModalStatus = this.handleTemplateModalStatus.bind(this)
     this.handleIntroModalStatus = this.handleIntroModalStatus.bind(this)
+    this.handleResumeListModalStatus = this.handleResumeListModalStatus.bind(this)
 
     this.handleSectionIndexChange = this.handleSectionIndexChange.bind(this)
   }
@@ -74,7 +77,12 @@ class Resume extends React.Component {
 
   fetchResume() {
     const { actions } = this.props
+    actions.fetchResumeList()
     actions.fetchPubResumeStatus().then(() => actions.fetchResume())
+  }
+
+  handleResumeListModalStatus(openResumeListModal) {
+    this.setState({ openResumeListModal })
   }
 
   componentWillUnmount() {
@@ -101,9 +109,10 @@ class Resume extends React.Component {
   downloadResume(pageStyle) {
     message.notice(messages.download, 1800)
     const { actions, resume } = this.props
+    const { currentResumeId } = resume
     actions.toggleDownloadButton(true)
 
-    API.resume.download(pageStyle).then((result) => {
+    API.resume.download(pageStyle, { resumeId: currentResumeId }).then((result) => {
       if (result) {
         const { name } = resume.info
         Push.create(messages.downloadSuccess, {
@@ -259,6 +268,10 @@ class Resume extends React.Component {
           handleShareModalStatus={this.handleShareModalStatus}
           handleIntroModalStatus={this.handleIntroModalStatus}
           handleTemplateModalStatus={this.handleTemplateModalStatus}
+          handleResumeListModalStatus={this.handleResumeListModalStatus}
+          currentResumeTitle={resume.currentResumeTitle}
+          currentIsDefault={resume.currentIsDefault}
+          resumeList={resume.resumeList}
         />
         {this.currentSection && (
           <ResumeSection
@@ -288,6 +301,19 @@ class Resume extends React.Component {
           openModal={openIntroModal}
           onClose={() => this.handleIntroModalStatus(false)}
           intros={resumeTexts.intros}
+        />
+        <ResumeListModal
+          openModal={this.state.openResumeListModal}
+          onClose={() => this.handleResumeListModalStatus(false)}
+          resumeList={resume.resumeList}
+          currentResumeId={resume.currentResumeId}
+          currentResumeTitle={resume.currentResumeTitle}
+          onSwitchResume={actions.switchResume}
+          onCreateResume={actions.createNewResume}
+          onCopyResume={actions.copyResume}
+          onDeleteResume={actions.deleteResume}
+          onSetDefaultResume={actions.setDefaultResume}
+          onRenameResume={actions.renameResume}
         />
         <ShareModal
           openModal={openShareModal}

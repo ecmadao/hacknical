@@ -15,32 +15,41 @@ const {
   togglePosting,
   initialResume,
   initialPubResumeStatus,
-  handleActiveSectionChange
+  handleActiveSectionChange,
+  setResumeList,
+  setCurrentResumeInfo
 } = createActions(
   'TOGGLE_EDITED',
   'TOGGLE_LOADING',
   'TOGGLE_POSTING',
   'INITIAL_RESUME',
   'INITIAL_PUB_RESUME_STATUS',
-  'HANDLE_ACTIVE_SECTION_CHANGE'
+  'HANDLE_ACTIVE_SECTION_CHANGE',
+  'SET_RESUME_LIST',
+  'SET_CURRENT_RESUME_INFO'
 )
 
-const fetchResume = () => (dispatch) => {
-  API.resume.getResume().then((result) => {
+const fetchResume = resumeId => (dispatch, getState) => {
+  const targetResumeId = resumeId || getState().resume.currentResumeId
+  dispatch(toggleLoading(true))
+  return API.resume.getResume({ resumeId: targetResumeId }).then((result) => {
     if (result) {
       dispatch(initialResume(result))
     } else {
       dispatch(toggleLoading(false))
     }
+    return result
+  }).catch(() => {
+    dispatch(toggleLoading(false))
   })
 }
 
 const saveResume = params => (dispatch, getState) => {
   const { resume } = getState()
-  const { others } = resume
+  const { others, currentResumeId } = resume
   const { socialLinks } = others
 
-  if (resume.posting) return
+  if (resume.posting) return Promise.resolve()
   dispatch(togglePosting(true))
 
   const postResume = objectAssign({}, resume, {
@@ -57,18 +66,22 @@ const saveResume = params => (dispatch, getState) => {
     sections,
     activeSection,
     downloadDisabled,
+    resumeList,
+    currentResumeTitle,
+    currentIsDefault,
     ...postData
   } = postResume
 
   const { resumeSections } = shareInfo
 
   return API.resume
-    .patchResumeInfo({ resumeSections })
+    .patchResumeInfo({ resumeSections }, { resumeId: currentResumeId })
     .then(() => {
-      API.resume.setResume(postData, params).then((result) => {
+      return API.resume.setResume({ ...postData, resumeId: currentResumeId }, params).then((result) => {
         result && dispatch(initialPubResumeStatus(result))
         dispatch(togglePosting(false))
         dispatch(toggleEdited(false))
+        return result
       })
     })
 }
@@ -213,23 +226,118 @@ const updateResumeSections = sections => (dispatch) => {
   dispatch(initialPubResumeStatus({ resumeSections: [...sections] }))
 }
 
-const fetchPubResumeStatus = () => (dispatch) => {
-  return API.resume.getResumeInfo().then((result) => {
+const fetchPubResumeStatus = resumeId => (dispatch, getState) => {
+  const targetResumeId = resumeId || getState().resume.currentResumeId
+  return API.resume.getResumeInfo({ resumeId: targetResumeId }).then((result) => {
     result && dispatch(initialPubResumeStatus(result))
+    return result
+  })
+}
+
+const fetchResumeList = () => (dispatch) => {
+  return API.resume.getResumeList().then((result) => {
+    if (result) {
+      dispatch(setResumeList(result))
+    }
+    return result
+  })
+}
+
+const switchResume = resumeId => (dispatch, getState) => {
+  const { currentResumeId, edited, posting, loading } = getState().resume
+  if (!resumeId || resumeId === currentResumeId || loading) return Promise.resolve()
+
+  const proceed = () => {
+    return dispatch(fetchPubResumeStatus(resumeId)).then(() => {
+      return dispatch(fetchResume(resumeId))
+    }).then(() => {
+      return dispatch(fetchResumeList())
+    })
+  }
+
+  if (edited && !posting) {
+    return dispatch(saveResume()).then(proceed)
+  }
+  return proceed()
+}
+
+const createNewResume = (title, copyFromResumeId) => (dispatch) => {
+  return API.resume.createResume({ title, copyFromResumeId }).then((result) => {
+    if (result) {
+      dispatch(fetchResumeList())
+      if (result.resumeId) {
+        dispatch(switchResume(result.resumeId))
+      }
+    }
+    return result
+  })
+}
+
+const deleteResume = resumeId => (dispatch, getState) => {
+  return API.resume.deleteResume(resumeId).then((result) => {
+    if (result) {
+      dispatch(setResumeList(result))
+      const { currentResumeId } = getState().resume
+      if (resumeId === currentResumeId) {
+        const defaultItem = result.find(r => r.isDefault) || result[0]
+        if (defaultItem) {
+          dispatch(switchResume(defaultItem.resumeId))
+        }
+      }
+    }
+    return result
+  })
+}
+
+const setDefaultResume = resumeId => (dispatch) => {
+  return API.resume.setDefaultResume(resumeId).then((result) => {
+    if (result) {
+      dispatch(setResumeList(result))
+      dispatch(initialPubResumeStatus({ isDefault: true }))
+    }
+    return result
+  })
+}
+
+const renameResume = (resumeId, title) => (dispatch, getState) => {
+  return API.resume.renameResume(resumeId, title).then((result) => {
+    if (result) {
+      dispatch(fetchResumeList())
+      const { currentResumeId } = getState().resume
+      if (resumeId === currentResumeId) {
+        dispatch(setCurrentResumeInfo({ title: result.title }))
+      }
+    }
+    return result
+  })
+}
+
+const copyResume = (resumeId, title) => (dispatch) => {
+  return API.resume.copyResume(resumeId, title).then((result) => {
+    if (result) {
+      dispatch(fetchResumeList())
+      if (result.resumeId) {
+        dispatch(switchResume(result.resumeId))
+      }
+    }
+    return result
   })
 }
 
 const postShareStatus = () => (dispatch, getState) => {
-  const { openShare } = getState().resume.shareInfo
-  API.resume.patchResumeInfo({ openShare: !openShare }).then(() => {
+  const { openShare, resumeId } = getState().resume.shareInfo
+  const currentResumeId = resumeId || getState().resume.currentResumeId
+  API.resume.patchResumeInfo({ openShare: !openShare }, { resumeId: currentResumeId }).then(() => {
     dispatch(initialPubResumeStatus({ openShare: !openShare }))
   })
 }
 
 // resume template
 const postShareTemplate = template => (dispatch, getState) => {
-  if (template !== getState().resume.shareInfo) {
-    API.resume.patchResumeInfo({ template }).then(() => {
+  const { shareInfo, currentResumeId } = getState().resume
+  if (template !== shareInfo.template) {
+    const targetId = shareInfo.resumeId || currentResumeId
+    API.resume.patchResumeInfo({ template }, { resumeId: targetId }).then(() => {
       dispatch(initialPubResumeStatus({ template }))
     })
   }
@@ -313,6 +421,16 @@ export default objectAssign(
     addWorkProjectDetail,
     addPersonalProject,
     addSocialLink,
+    // multi resumes
+    setResumeList,
+    setCurrentResumeInfo,
+    fetchResumeList,
+    switchResume,
+    createNewResume,
+    deleteResume,
+    setDefaultResume,
+    renameResume,
+    copyResume
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name])

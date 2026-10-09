@@ -45,6 +45,10 @@ const initialState = {
   customModules: [],
   downloadDisabled: false,
   activeSection: DEFAULT_RESUME_SECTIONS[0].id,
+  resumeList: [],
+  currentResumeId: '',
+  currentResumeTitle: '默认简历',
+  currentIsDefault: true,
 }
 
 const reducers = handleActions({
@@ -57,6 +61,9 @@ const reducers = handleActions({
       workExperiences,
       personalProjects,
       customModules = [],
+      resumeId,
+      title,
+      isDefault
     } = action.payload
 
     const { shareInfo } = state
@@ -70,6 +77,9 @@ const reducers = handleActions({
     return ({
       ...state,
       loading: false,
+      currentResumeId: resumeId || state.currentResumeId,
+      currentResumeTitle: title || state.currentResumeTitle,
+      currentIsDefault: isDefault !== undefined ? isDefault : state.currentIsDefault,
       activeSection: resumeSections[0].id,
       info: objectAssign({}, state.info, info),
       educations: [...educations].sort(sortByDate),
@@ -671,12 +681,32 @@ const reducers = handleActions({
 
   // resume share
   INITIAL_PUB_RESUME_STATUS(state, action) {
-    const newShareInfo = action.payload
+    const newShareInfo = action.payload || {}
     const { shareInfo } = state
 
     return ({
       ...state,
+      currentResumeId: newShareInfo.resumeId || state.currentResumeId,
+      currentResumeTitle: newShareInfo.title || state.currentResumeTitle,
+      currentIsDefault: newShareInfo.isDefault !== undefined ? newShareInfo.isDefault : state.currentIsDefault,
       shareInfo: objectAssign({}, shareInfo, newShareInfo)
+    })
+  },
+
+  SET_RESUME_LIST(state, action) {
+    return ({
+      ...state,
+      resumeList: action.payload || []
+    })
+  },
+
+  SET_CURRENT_RESUME_INFO(state, action) {
+    const { resumeId, title, isDefault } = action.payload || {}
+    return ({
+      ...state,
+      currentResumeId: resumeId || state.currentResumeId,
+      currentResumeTitle: title || state.currentResumeTitle,
+      currentIsDefault: isDefault !== undefined ? isDefault : state.currentIsDefault
     })
   },
 
