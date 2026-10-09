@@ -1,5 +1,17 @@
 # [Hacknical](https://hacknical.com)
 
+
+======================================================
+
+**This repository is now in maintenance freeze mode and will receive limited updates going forward.
+For a more actively maintained version with better ongoing support, please use:**
+
+- Repository: https://github.com/liguobao/hacknical
+- The online website: https://hack.r2049.cn
+
+======================================================
+
+
 **hacknical, hacker & technical**
 
 ![hacknical-logo-with-text](./doc/screenshots/logos/hacknical-logo-large.png)
