@@ -60,8 +60,8 @@ class GitHubMobileContent extends React.Component {
   }
 
   initialScrollReveal() {
-    const { repositoriesLoaded, commitLoaded, hotmapLoaded } = this.props
-    if (!repositoriesLoaded || !commitLoaded || !hotmapLoaded) return
+    const { repositoriesLoaded } = this.props
+    if (!repositoriesLoaded) return
     if (this.scrollRevealLoaded) return
 
     this.scrollRevealLoaded = true
@@ -414,13 +414,15 @@ class GitHubMobileContent extends React.Component {
             </div>
           </div>
         </div>
-        <Hotmap
-          login={login}
-          hotmap={hotmap}
-          renderCards={false}
-          loaded={hotmapLoaded}
-          className={styles.hotmapContainer}
-        />
+        {hotmap && hotmap.datas && Object.keys(hotmap.datas).length > 0 ? (
+          <Hotmap
+            login={login}
+            hotmap={hotmap}
+            renderCards={false}
+            loaded={hotmapLoaded}
+            className={styles.hotmapContainer}
+          />
+        ) : null}
         <div className={cx(sharedStyles.mobile_card, styles.mobile_card_full)}>
           <div
             id="reposChartDOM"

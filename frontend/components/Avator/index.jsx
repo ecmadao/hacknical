@@ -1,7 +1,7 @@
 
 import React from 'react'
 import cx from 'classnames'
-import Img from 'react-image'
+import { Img } from 'react-image'
 import { Loading } from 'light-ui'
 import styles from './styles.css'
 

@@ -1,75 +1,87 @@
-# [Hacknical](https://hacknical.com)
+# Hacknical
 
-**hacknical, hacker & technical**
+Hacknical is a GitHub profile and resume tool. It collects GitHub contributions, commits, languages, repositories, and related statistics, then presents them as a shareable profile.
 
-![hacknical-logo-with-text](./doc/screenshots/logos/hacknical-logo-large.png)
+This project is forked from [ecmadao/hacknical](https://github.com/ecmadao/hacknical) and is maintained in [liguobao/hacknical](https://github.com/liguobao/hacknical).
 
-> A website for GitHub user to generate his GitHub data analysis (contributions/commits/languages/repos datas), helps to make a better resume.
+## Features
 
-[中文版 README](./doc/README-ZH.md)
+- GitHub OAuth sign-in
+- GitHub profile data analysis
+- Resume editing and public sharing
+- View statistics and share records
+- Local SQLite storage and local file uploads
 
-**Attention：Most of the pages support English now😁😁😁, including github data analysis page.**
+## Requirements
 
-Extract dependency：
+- Node.js 22.13 or newer
+- npm 10 or newer
 
-- UI Components --> [light-ui](https://github.com/ecmadao/light-ui)
-- GitHub API crawler --> [hacknical-github](https://github.com/ecmadao/hacknical-github)
+The current local runtime uses Node's built-in SQLite driver, an in-process memory cache, a no-op message queue, and local file storage. MongoDB, Redis, and a separate object-storage service are not required for local development or deployment.
 
-## Examples
+## Local development
 
-- [My GitHub data analysis](https://hacknical.com/ecmadao/github)
+```bash
+nvm use
+npm install
+cp .env.example .env
+npm run start-local
+```
 
-## Screenshots
+The application listens on `http://localhost:4000`. Configure GitHub OAuth in `.env` when GitHub sign-in is needed:
 
-> login page
+```dotenv
+APP_URL=http://localhost:4000
+APP_KEY=replace-with-a-stable-secret
+GITHUB_OAUTH_CLIENT_ID=your-client-id
+GITHUB_OAUTH_CLIENT_SECRET=your-client-secret
+GITHUB_OAUTH_REDIRECT_URI=http://localhost:4000/api/user/login/github/callback
+```
 
-![login page](./doc/screenshots/login-en.png)
+The OAuth callback URL must also be registered in the GitHub OAuth App.
 
-> github datas analysis
+The temporary online deployment is available at [https://hack.r2049.cn/](https://hack.r2049.cn/).
 
-![github datas](./doc/screenshots/github-en.png)
+## Production build
 
-## About
+Build the backend and frontend assets with:
 
-[中文版说明](./doc/ABOUT-zh.md)
+```bash
+npm run build-app
+npm run build-dll-pro
+npm run build-src
+NODE_ENV=production node dist/bin/app.js
+```
 
-## Todos
+For a local production deployment, the repository includes an idempotent script:
 
-- [x] support English
-- [x] support orgs
-- [ ] support forked repos
-- [ ] support edit resume in mobile
-- [x] support show resume in mobile
-- [x] support export resume to PDF
+```bash
+bash ./scripts/deploy-local.sh
+```
 
-## Techs
+The script creates the data directories, generates `config/production.json` when needed, builds the application, starts a tmux session named `hacknical`, and checks port `4000`.
 
-- backend
+## Data and configuration
 
-  - koa2
-  - redis
-  - mongoose
-  - nunjucks
-  - request
-  - pm2
+- SQLite database: `data/hacknical.sqlite`
+- Uploaded files: `public/uploads/`
+- Production logs: `log/production.log`
+- Example production config: `config/production.example.json`
 
-- frontend
+Keep `APP_KEY` stable between restarts and deployments. Do not commit `.env`, `config/production.json`, SQLite files, uploads, or logs.
 
-  - react
-  - redux
-  - react-router
-  - particles
-  - scrollreveal
-  - chart.js
-  - clipboard
-  - headroom.js
-  - webpack
+## Useful commands
 
+```bash
+npm run lint
+npm test
+npm run build-app
+npm run build-static
+```
 
-## License
+## Project links
 
-[Apache License](./LICENSE)
-
-## Author
-
-[ecmadao](//github.com/ecmadao)
+- Online deployment: [hack.r2049.cn](https://hack.r2049.cn/)
+- Current repository: [github.com/liguobao/hacknical](https://github.com/liguobao/hacknical)
+- Issues: [github.com/liguobao/hacknical/issues](https://github.com/liguobao/hacknical/issues)
+- Original repository: [github.com/ecmadao/hacknical](https://github.com/ecmadao/hacknical)

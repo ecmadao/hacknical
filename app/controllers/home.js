@@ -4,7 +4,7 @@ import getLanguages from '../config/languages'
 import logger from '../utils/logger'
 import notify from '../services/notify'
 import request from 'request'
-import auth0 from "../services/network/lib/auth0"
+import { isGitHubSession } from '../utils/helper'
 
 const cacheControl = (ctx) => {
   ctx.set('Cache-Control', 'no-store, no-cache, must-revalidate')
@@ -15,16 +15,7 @@ const cacheControl = (ctx) => {
 const renderLandingPage = async (ctx) => {
   cacheControl(ctx)
 
-  const params = new URLSearchParams({
-    response_type: "code",
-    client_id: auth0.auth0Credential.clientId,
-    redirect_uri: auth0.auth0Credential.redirectUri,
-    scope: "openid profile email",
-    state: 'auth0.github.' + Date.now(),
-    connection: 'github' // Specify GitHub connection
-  });
-
-  const loginLink = `${auth0.auth0Credential.domain}/authorize?${params.toString()}`;
+  const loginLink = '/api/user/login/github'
   const { messageCode, messageType } = ctx.request.query
 
   await ctx.render('user/login', {
@@ -56,7 +47,9 @@ const render404Page = async (ctx) => {
 const renderDashboard = async (ctx) => {
   const { device, browser, platform } = ctx.state
   const { githubLogin, userId } = ctx.session
-  const { login, dashboardRoute = 'visualize' } = ctx.params
+  const isGitHub = isGitHubSession(ctx.session)
+  const defaultRoute = isGitHub ? 'visualize' : 'archive'
+  const { login, dashboardRoute = defaultRoute } = ctx.params
   const user = await network.user.getUser({ userId })
 
   logger.debug(`githubLogin: ${githubLogin}, userId: ${userId}`)
@@ -81,6 +74,7 @@ const renderDashboard = async (ctx) => {
     dashboardRoute,
     login: githubLogin,
     isAdmin: login === githubLogin,
+    isGitHubUser: isGitHub,
     title: ctx.__('dashboard.title', githubLogin)
   })
 }

@@ -46,7 +46,8 @@ class CustomModule extends React.Component {
 
   renderModules() {
     const { module, disabled, moduleIndex } = this.props
-    const { sections } = module
+    if (!module) return null
+    const { sections = [] } = module
 
     return (
       <DragAndDrop onDragEnd={this.reorderSection}>
@@ -68,17 +69,20 @@ class CustomModule extends React.Component {
   }
 
   render() {
-    const { actions, sectionId, moduleIndex } = this.props
+    const { actions, sectionId, moduleIndex, module } = this.props
+    if (!module) return null
+    const title = module.text || module.title || this.props.title || ''
     return (
       <SectionWrapper
         editable
         deletable
         editButton
         {...this.props}
+        title={title}
         button={resumeTexts.mainButton}
-        onTitleChange={actions.changeModuleTitle}
+        onTitleChange={(pre, next) => actions.changeModuleTitle(moduleIndex, next)}
         onClick={() => actions.addModuleSection(moduleIndex)}
-        onDelete={() => actions.removeCustomModule(sectionId)}
+        onDelete={() => actions.removeCustomModule(sectionId || module.id)}
       >
         {this.renderModules()}
       </SectionWrapper>
@@ -86,12 +90,13 @@ class CustomModule extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { customModules, activeSection } = state.resume
-  const moduleIndex = customModules.findIndex(module => module.id === activeSection)
+function mapStateToProps(state, ownProps) {
+  const { customModules = [], activeSection } = state.resume
+  const targetId = (ownProps && (ownProps.sectionId || ownProps.section)) || activeSection
+  const moduleIndex = customModules.findIndex(module => module.id === targetId)
   return {
     moduleIndex,
-    module: customModules[moduleIndex]
+    module: customModules[moduleIndex] || null
   }
 }
 

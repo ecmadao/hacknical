@@ -5,7 +5,7 @@ import user from '../controllers/helper/user'
 import check from '../controllers/helper/check'
 import cache from '../controllers/helper/cache'
 
-const router = koaRouter({
+const router = new koaRouter({
   prefix: '/api/user'
 })
 
@@ -45,12 +45,22 @@ router.patch(
 
 router.get(
   '/login/github',
-  User.loginByGitHub
+  User.startGitHubLogin
 )
 
 router.get(
-  '/login/auth0',
-  User.loginByAuth0
+  '/login/github/callback',
+  User.loginByGitHub
+)
+
+router.post(
+  '/signup',
+  User.signup
+)
+
+router.post(
+  '/login/local',
+  User.loginByLocal
 )
 
 router.get(

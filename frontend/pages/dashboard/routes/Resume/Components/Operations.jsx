@@ -28,7 +28,9 @@ const Wrapper = (props) => {
     onTransitionEnd,
     handleShareModalStatus,
     handleIntroModalStatus,
-    handleTemplateModalStatus
+    handleTemplateModalStatus,
+    handleResumeListModalStatus,
+    currentResumeTitle
   } = props
 
   const downloadOptions = [
@@ -42,6 +44,8 @@ const Wrapper = (props) => {
     }
   ]
 
+  const resumesModalTexts = (resumeTexts.modal && resumeTexts.modal.resumes) || {}
+
   return (
     <div
       className={cx(
@@ -51,6 +55,21 @@ const Wrapper = (props) => {
       onTransitionEnd={onTransitionEnd}
     >
       <div className={styles.operations_wrapper}>
+        <Tipso
+          trigger="hover"
+          theme="dark"
+          className={styles.icon_button_tipso}
+          tipsoContent={(<span>{resumesModalTexts.switchTip || '切换 / 管理多份简历'}</span>)}
+        >
+          <div
+            className={styles.resume_switcher_btn}
+            onClick={() => handleResumeListModalStatus && handleResumeListModalStatus(true)}
+          >
+            <Icon icon="files-o" />
+            <span className={styles.resume_title_text}>{currentResumeTitle || '默认简历'}</span>
+            <Icon icon="angle-down" />
+          </div>
+        </Tipso>
         <IconButton
           color="gray"
           icon="question"

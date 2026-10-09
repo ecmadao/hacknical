@@ -9,6 +9,7 @@ class StockChart extends React.PureComponent {
   constructor() {
     super()
     this.highstock = null
+    this.renderTimer = null
   }
 
   componentDidMount() {
@@ -24,13 +25,31 @@ class StockChart extends React.PureComponent {
   }
 
   renderChart() {
-    return Highcharts.stockChart(update(this.props.config, {
-      chart: {
-        renderTo: {
-          $set: this.highstock
+    // There is no useful axis to render without valid points. This also
+    // prevents Highstock from entering its tick calculation with an empty
+    // or malformed series.
+    const series = this.props.config.series || []
+    const points = series.reduce((count, item) => (
+      count + (Array.isArray(item.data) ? item.data.length : 0)
+    ), 0)
+    if (points < 2 || !this.highstock) return
+    if (this.highstock.clientWidth <= 0 || this.highstock.clientHeight <= 0) {
+      clearTimeout(this.renderTimer)
+      this.renderTimer = setTimeout(() => this.renderChart(), 100)
+      return
+    }
+    try {
+      return Highcharts.stockChart(update(this.props.config, {
+        chart: {
+          renderTo: {
+            $set: this.highstock
+          }
         }
-      }
-    }))
+      }))
+    } catch (error) {
+      console.error('[HighStock] chart initialization failed', error)
+      return null
+    }
   }
 
   render() {

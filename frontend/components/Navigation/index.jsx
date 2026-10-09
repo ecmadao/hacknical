@@ -64,10 +64,13 @@ class Nav extends React.PureComponent {
         activeSection === id && styles.active
       )
       return (
-        <div className={sectionClass} key={index}>
+        <div
+          className={sectionClass}
+          key={index}
+          onClick={() => handleSectionChange(id)}
+        >
           <div
             className={styles.sectionWrapper}
-            onClick={() => handleSectionChange(id)}
           >
             {text}
           </div>

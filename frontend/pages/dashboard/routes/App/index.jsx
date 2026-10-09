@@ -7,11 +7,11 @@ import AppAction from './redux/actions'
 
 const dashboard = {
   mobile: asyncComponent(
-    () => System.import('./Components/Mobile')
+    () => import('./Components/Mobile')
       .then(component => component.default)
   ),
   desktop: asyncComponent(
-    () => System.import('./Components/Desktop')
+    () => import('./Components/Desktop')
       .then(component => component.default)
   )
 }
@@ -36,7 +36,7 @@ class App extends React.Component {
     } = this.props
     const dashboardType = app.isMobile ? 'mobile' : 'desktop'
     const Dashboard = dashboard[dashboardType]
-    const routes = renderRoutes(route.routes)
+    const routes = renderRoutes(route.routes, {}, { location })
     return (
       <Dashboard
         routes={routes}

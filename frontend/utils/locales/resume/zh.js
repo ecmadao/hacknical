@@ -28,7 +28,37 @@ const datas = {
   modal: {
     shareText: '分享你的个人简历',
     chooseTemplate: '简历模板选择',
-    contributeTemplate: '有更好的模板建议？在 issue 里提出反馈'
+    contributeTemplate: '有更好的模板建议？在 issue 里提出反馈',
+    resumes: {
+      title: '多简历管理',
+      switchTip: '切换 / 管理多份简历',
+      current: '当前简历',
+      defaultBadge: '默认',
+      setDefault: '设为默认',
+      rename: '重命名',
+      delete: '删除',
+      copy: '复制简历',
+      create: '新建简历',
+      inputTitle: '请输入简历名称',
+      deleteConfirm: '确定要删除此简历吗？删除后不可恢复。',
+      atLeastOne: '至少需要保留一份简历',
+      copySuccess: '简历复制成功',
+      createSuccess: '简历创建成功',
+      deleteSuccess: '简历已删除',
+      setDefaultSuccess: '已设为默认简历',
+      renameSuccess: '简历重命名成功',
+      untitled: '未命名简历',
+      shareUrl: '公开地址',
+      copyShareUrl: '复制公开链接',
+      openShareUrl: '在新窗口查看',
+      publicShared: '已公开',
+      notPublicShared: '未公开',
+      copyLinkSuccess: '公开链接已复制到剪贴板',
+      switchToEdit: '编辑此简历',
+      togglePublicTip: '点击公开此版本简历',
+      togglePrivateTip: '点击设为私密 (关闭公开)',
+      privateNotice: '私密状态仅自己可见'
+    }
   },
   sections: {
     info: {

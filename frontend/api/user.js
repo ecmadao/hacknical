@@ -9,6 +9,9 @@ const getGitHubSections = login => API.get('/user/github', { login })
 
 const initialed = () => API.patch('/user/initialed')
 
+const signup = data => API.post('/user/signup', data)
+const loginByLocal = data => API.post('/user/login/local', data)
+
 const markNotifies = messageIds => API.patch('/user/notifies', { messageIds })
 const getNotifies = () => API.get('/user/notifies')
 const voteNotify = (messageId, data) => API.patch(`/user/notifies/${messageId}`, data)
@@ -16,6 +19,8 @@ const voteNotify = (messageId, data) => API.patch(`/user/notifies/${messageId}`,
 export default {
   logout,
   initialed,
+  signup,
+  loginByLocal,
   getUserInfo,
   patchUserInfo,
   getGitHubSections,

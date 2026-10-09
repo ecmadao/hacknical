@@ -90,11 +90,18 @@
 }
 
 .disabled {
-  composes: card_disabled from 'STYLES/common.css';
+  opacity: 0.9;
+  position: relative;
 
   &::before {
-    z-index: 9;
+    display: none !important;
   }
+}
+
+.shareStatusNotice {
+  font-size: 12px;
+  color: var(--oc-gray-6);
+  font-weight: normal;
 }
 
 .info_container {

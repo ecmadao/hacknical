@@ -5,7 +5,7 @@ import session from '../controllers/helper/session'
 import cache from '../controllers/helper/cache'
 import check from '../controllers/helper/check'
 
-const router = koaRouter({
+const router = new koaRouter({
   prefix: '/api/resume'
 })
 
@@ -64,6 +64,59 @@ router.patch(
   check.session(session.requiredSessions),
   check.body('info'),
   Resume.setResumeInfo
+)
+
+router.get(
+  '/list',
+  check.session(session.requiredSessions),
+  Resume.getResumeList
+)
+
+router.post(
+  '/new',
+  check.session(session.requiredSessions),
+  Resume.createNewResume
+)
+
+router.post(
+  '/default',
+  check.session(session.requiredSessions),
+  check.body('resumeId'),
+  Resume.setDefaultResume
+)
+
+router.delete(
+  '/:resumeId',
+  check.session(session.requiredSessions),
+  Resume.deleteResume
+)
+
+router.delete(
+  '/',
+  check.session(session.requiredSessions),
+  Resume.deleteResume
+)
+
+router.post(
+  '/rename',
+  check.session(session.requiredSessions),
+  check.body('resumeId'),
+  check.body('title'),
+  Resume.renameResume
+)
+
+router.post(
+  '/copy',
+  check.session(session.requiredSessions),
+  check.body('resumeId'),
+  Resume.copyResume
+)
+
+router.post(
+  '/share',
+  check.session(session.requiredSessions),
+  check.body('resumeId'),
+  Resume.toggleResumeShare
 )
 
 router.get(

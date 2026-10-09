@@ -68,3 +68,44 @@ export const getResumeCount = () => ({
   useCache: true,
   url: '/resume/count'
 })
+
+export const getResumeList = qs => ({
+  qs,
+  url: '/resume/list'
+})
+
+export const createNewResume = data => ({
+  body: data,
+  method: 'post',
+  url: '/resume/new'
+})
+
+export const deleteResume = resumeId => ({
+  method: 'delete',
+  url: `/resume/${resumeId}`
+})
+
+export const setDefaultResume = data => ({
+  body: data,
+  method: 'post',
+  url: '/resume/default'
+})
+
+export const renameResume = data => ({
+  body: data,
+  method: 'put',
+  url: '/resume/rename'
+})
+
+export const copyResume = data => ({
+  body: data,
+  method: 'post',
+  url: '/resume/copy'
+})
+
+export const toggleResumeShare = data => ({
+  body: data,
+  method: 'post',
+  url: '/resume/share'
+})
+

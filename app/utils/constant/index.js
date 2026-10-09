@@ -1,4 +1,6 @@
 
+export const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000
+
 export const VALIDATE_DASHBOARD = new Set([
   'records',
   'archive',

@@ -87,8 +87,21 @@ const updateLogData = options => async (ctx, login) => {
     const { ip, ...others } = options
     let ipInfo = { ip }
     ipInfo = await network.ip.getInfo(ip)
-    ipInfo = JSON.parse(ipInfo)
-    Object.assign({}, ipInfo, { ip })
+    if (typeof ipInfo === 'string') ipInfo = JSON.parse(ipInfo)
+    const location = ipInfo && ipInfo.data ? ipInfo.data : ipInfo
+    const address = [location && location.country, location && location.province, location && location.city]
+      .filter(Boolean)
+      .join(' ')
+    ipInfo = {
+      ip,
+      addr: address || (location && location.addr) || ip,
+      country: location && location.country,
+      province: location && location.province,
+      city: location && location.city,
+      isp: location && location.isp,
+      latitude: location && location.latitude,
+      longitude: location && location.longitude
+    }
     logger.info(`[IP:${ip}] ${JSON.stringify(ipInfo)}`)
     await network.stat.putLogs(Object.assign({}, others, { login, ipInfo }))
   } catch (e) {

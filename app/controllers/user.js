@@ -3,6 +3,10 @@ import network from '../services/network'
 import getCacheKey from './helper/cacheKey'
 import logger from '../utils/logger'
 import notify from '../services/notify'
+import { randomBytes, timingSafeEqual } from 'node:crypto'
+import * as githubOAuth from '../services/github-oauth'
+import { isGitHubSession } from '../utils/helper'
+import { SESSION_MAX_AGE } from '../utils/constant'
 
 const clearCache = async (ctx, next) => {
   const cacheKey = getCacheKey(ctx)
@@ -37,124 +41,145 @@ const clearCache = async (ctx, next) => {
 }
 
 const logout = async (ctx) => {
-  ctx.session.userId = null
-  ctx.session.githubToken = null
-  ctx.session.githubLogin = null
-
-  const { messageCode, messageType } = ctx.request.query
-
-  ctx.redirect(`/?messageCode=${messageCode}&messageType=${messageType}`)
+  ctx.session = null
+  const { messageCode = '', messageType = '' } = ctx.request.query
+  ctx.redirect(`/?${new URLSearchParams({ messageCode, messageType })}`)
 }
 
-const loginByAuth0 = async (ctx) => {
-  const { code } = ctx.request.query
-
-  if (!code) {
-    logger.error('[AUTH0:LOGIN] no authorization code provided')
-    return ctx.redirect('/api/user/logout?messageCode=auth0&messageType=error')
+const startGitHubLogin = async (ctx) => {
+  ctx.set('Cache-Control', 'no-store')
+  if (!githubOAuth.isConfigured()) {
+    ctx.status = 503
+    ctx.body = {
+      success: false,
+      code: 'GITHUB_OAUTH_UNAVAILABLE',
+      message: 'GitHub 登录尚未配置，请设置 GITHUB_OAUTH_CLIENT_ID 和 GITHUB_OAUTH_CLIENT_SECRET。'
+    }
+    return
   }
-
-  try {
-    const [
-      userTokenResponse,
-      managementTokenResponse
-    ] = await Promise.all([
-      network.auth0.getAccessToken(code),
-      network.auth0.getManagementToken()
-    ])
-    const { access_token: userToken } = userTokenResponse
-    const { access_token: managementToken } = managementTokenResponse
-    const userInfoResponse = await network.auth0.getUserInfo(userToken)
-
-    logger.debug(`[AUTH0:LOGIN] User info: ${JSON.stringify(userInfoResponse)}`)
-
-    const fullUserInfo = await network.auth0.getUserById(userInfoResponse.sub, managementToken)
-    // Find GitHub identity to get the access token
-    const githubIdentity = fullUserInfo.identities && fullUserInfo.identities.find(id => id.provider === 'github')
-    if (!githubIdentity) {
-      logger.error(`[AUTH0:LOGIN] cannot found github identity for ${JSON.stringify(fullUserInfo)}`)
-      return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
-    }
-
-    // Extract GitHub access token from the identity
-    const githubToken = githubIdentity.access_token
-    if (!githubToken) {
-      logger.error(`[AUTH0:LOGIN] cannot found github token for ${JSON.stringify(fullUserInfo)}`)
-      return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
-    }
-
-    // Get GitHub user info using the GitHub token
-    const githubUserInfo = await network.github.getLogin(githubToken)
-    logger.debug(`[AUTH0:LOGIN] GitHub user info: ${JSON.stringify(githubUserInfo)}`)
-    if (!githubUserInfo.login) {
-      logger.error(`[AUTH0:LOGIN] cannot found github login for ${JSON.stringify(userInfoResponse)}`)
-      return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
-    }
-
-    // Set GitHub session data
-    ctx.session.githubToken = githubToken
-    ctx.session.githubLogin = githubUserInfo.login
-    ctx.session.githubAvator = githubUserInfo.avator || githubUserInfo.avatar_url
-
-    // Create or update user
-    const user = await network.user.createUser(githubUserInfo)
-    notify.slack({
-      mq: ctx.mq,
-      data: {
-        type: 'login',
-        data: `<https://github.com/${githubUserInfo.login}|${githubUserInfo.login}> logged in via Auth0!`
-      }
-    })
-
-    logger.info(`[AUTH0:LOGIN] ${JSON.stringify(user)}`)
-    ctx.session.userId = user.userId
-
-    // Update user data if already initialized
-    if (user && user.initialed) {
-      network.github.updateUserData(ctx.session.githubLogin, githubToken)
-    }
-
-    return ctx.redirect(`/${ctx.session.githubLogin}`)
-  } catch (err) {
-    logger.error(`[AUTH0:LOGIN] ${err.stack || err.message || err}`)
-    return ctx.redirect('/api/user/logout?messageCode=auth0&messageType=error')
-  }
+  const state = randomBytes(32).toString('hex')
+  ctx.session.githubOAuth = { state, createdAt: Date.now() }
+  ctx.redirect(githubOAuth.authorizationUrl(state))
 }
 
 const loginByGitHub = async (ctx) => {
-  const { code } = ctx.request.query
+  ctx.set('Cache-Control', 'no-store')
+  const { code, state, error } = ctx.request.query
+  const pending = ctx.session.githubOAuth
+  delete ctx.session.githubOAuth
+
+  const expected = pending && pending.state
+  const validState = typeof state === 'string' && typeof expected === 'string'
+    && Buffer.byteLength(state) === Buffer.byteLength(expected)
+    && timingSafeEqual(Buffer.from(state), Buffer.from(expected))
+  const age = pending && Date.now() - pending.createdAt
+  if (!validState || age < 0 || age > 10 * 60 * 1000 || !Number.isFinite(age)) {
+    ctx.status = 400
+    ctx.body = { success: false, code: 'INVALID_OAUTH_STATE', message: '登录验证已失效，请返回首页重新登录。' }
+    return
+  }
+  if (error || typeof code !== 'string' || !code) {
+    return ctx.redirect('/?messageCode=github&messageType=error')
+  }
+
   try {
-    const githubToken = await network.github.getToken(code)
-    const userInfo = await network.github.getLogin(githubToken)
-    logger.debug(userInfo)
-
-    if (userInfo.login) {
-      ctx.session.githubToken = githubToken
-      ctx.session.githubLogin = userInfo.login
-      ctx.session.githubAvator = userInfo.avator
-
-      const user = await network.user.createUser(userInfo)
-      notify.slack({
-        mq: ctx.mq,
-        data: {
-          type: 'login',
-          data: `<https://github.com/${userInfo.login}|${userInfo.login}> logined!`
-        }
-      })
-
-      logger.info(`[USER:LOGIN] ${JSON.stringify(user)}`)
-      ctx.session.userId = user.userId
-      if (user && user.initialed) {
-        network.github.updateUserData(ctx.session.githubLogin, githubToken)
-      }
-
-      return ctx.redirect(`/${ctx.session.githubLogin}`)
+    const { accessToken: githubToken, expiresAt } = await githubOAuth.exchangeCode(code)
+    const userInfo = await githubOAuth.getLogin(githubToken)
+    const user = await network.user.createUser(userInfo)
+    // Rotate the session ID after successful login.
+    ctx.session = {
+      locale: ctx.session.locale,
+      userId: user.userId,
+      githubToken,
+      githubTokenExpiresAt: expiresAt,
+      githubLogin: userInfo.login,
+      githubAvator: userInfo.avatar_url,
+      authProvider: 'github'
     }
-
-    return ctx.redirect('/api/user/logout')
+    // Reset any shorter lifetime restored from an older session.
+    ctx.session.maxAge = SESSION_MAX_AGE
+    await ctx.session.regenerate()
+    if (user.initialed && isGitHubSession(ctx.session)) {
+      network.github.updateUserData(userInfo.login, githubToken)
+        .catch(() => logger.warn('[GITHUB:LOGIN] Profile refresh failed'))
+    }
+    logger.info(`[GITHUB:LOGIN] ${userInfo.login}`)
+    return ctx.redirect(`/${userInfo.login}`)
   } catch (err) {
-    logger.error(`[GITHUB:LOGIN] ${err.stack || err.message || err}`)
-    return ctx.redirect('/api/user/logout?messageCode=github&messageType=error')
+    // Provider responses may contain credentials; do not log their bodies.
+    logger.error('[GITHUB:LOGIN] OAuth exchange or user creation failed')
+    return ctx.redirect('/?messageCode=github&messageType=error')
+  }
+}
+
+const signup = async (ctx) => {
+  ctx.set('Cache-Control', 'no-store')
+  const { username, email, password, inviteCode } = ctx.request.body || {}
+  try {
+    const user = await network.user.registerLocalUser({
+      username,
+      email,
+      password,
+      inviteCode
+    })
+    ctx.session = {
+      locale: (ctx.session && ctx.session.locale) || 'zh-CN',
+      userId: user.userId,
+      githubToken: `local:${user.userId}`,
+      githubLogin: user.githubLogin,
+      githubAvator: '',
+      login: user.githubLogin,
+      email: user.email,
+      authProvider: 'local'
+    }
+    ctx.session.maxAge = SESSION_MAX_AGE
+    await ctx.session.regenerate()
+    logger.info(`[LOCAL:SIGNUP] User ${user.githubLogin} registered successfully`)
+    ctx.body = {
+      success: true,
+      message: '注册成功',
+      url: `/${user.githubLogin}`,
+      result: user
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '注册失败'
+    }
+  }
+}
+
+const loginByLocal = async (ctx) => {
+  ctx.set('Cache-Control', 'no-store')
+  const { account, password } = ctx.request.body || {}
+  try {
+    const user = await network.user.loginLocalUser({ account, password })
+    ctx.session = {
+      locale: (ctx.session && ctx.session.locale) || 'zh-CN',
+      userId: user.userId,
+      githubToken: `local:${user.userId}`,
+      githubLogin: user.githubLogin,
+      githubAvator: user.avatar_url || '',
+      login: user.githubLogin,
+      email: user.email,
+      authProvider: 'local'
+    }
+    ctx.session.maxAge = SESSION_MAX_AGE
+    await ctx.session.regenerate()
+    logger.info(`[LOCAL:LOGIN] User ${user.githubLogin} logged in`)
+    ctx.body = {
+      success: true,
+      message: '登录成功',
+      url: `/${user.githubLogin}`,
+      result: user
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '登录失败'
+    }
   }
 }
 
@@ -178,7 +203,7 @@ const initialFinished = async (ctx) => {
 const getGitHubSections = async (ctx) => {
   const { login } = ctx.query
   const user = await network.user.getUser({
-    login: login || ctx.session.githubLogin
+    login: login || ctx.session.githubLogin || ctx.session.login
   })
   const resumeInfo = await network.user.getResumeInfo({ userId: user.userId })
 
@@ -276,6 +301,8 @@ export default {
   voteNotify,
   getUnreadNotifies,
   // login
+  startGitHubLogin,
   loginByGitHub,
-  loginByAuth0
+  signup,
+  loginByLocal
 }

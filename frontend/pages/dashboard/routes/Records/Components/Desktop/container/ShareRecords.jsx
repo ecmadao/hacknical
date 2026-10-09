@@ -80,8 +80,30 @@ class ShareRecords extends React.Component {
 
   copyUrl() {
     const { index } = this.props
-    document.querySelector(`#shareGithubUrl-${index}`).select()
-    message.notice(recordsTexts.copied)
+    const dom = document.querySelector(`#shareGithubUrl-${index}`)
+    const text = dom ? dom.value : ''
+    if (dom) {
+      dom.select()
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText && text) {
+      navigator.clipboard.writeText(text).then(() => {
+        message.notice(recordsTexts.copied)
+      }).catch(() => {
+        try {
+          document.execCommand('copy')
+        } catch (e) {
+          // ignore
+        }
+        message.notice(recordsTexts.copied)
+      })
+    } else {
+      try {
+        document.execCommand('copy')
+      } catch (e) {
+        // ignore
+      }
+      message.notice(recordsTexts.copied)
+    }
   }
 
   renderShareController() {
@@ -100,6 +122,11 @@ class ShareRecords extends React.Component {
         &nbsp;&nbsp;
         {titleTexts.link}
         &nbsp;&nbsp;
+        {!info.openShare && (
+          <span className={styles.shareStatusNotice}>
+            ({locales('dashboard').setting.resume.openShareClose || '未开启公开分享'})
+          </span>
+        )}
       </div>,
       <div className={controllerClass} key="shareController">
         <ClassicCard className={styles.shareCard} bgClassName={styles.shareCardBg} hoverable={false}>

@@ -5,6 +5,7 @@ import styles from '../styles/github.css'
 import objectAssign from 'UTILS/object-assign'
 import GitHub from 'SHARED/components/GitHub/Desktop'
 import {
+  SUPPORTED_GITHUB_SECTIONS,
   DEFAULT_GITHUB_SECTIONS,
   getGitHubSectionIntroBySection
 } from 'UTILS/constant/github'
@@ -29,7 +30,8 @@ class GitHubDesktop extends React.Component {
 
   async fetchGitHubSections() {
     const sectionData = await API.user.getGitHubSections()
-    const sections = sectionData || [...DEFAULT_GITHUB_SECTIONS]
+    const rawSections = sectionData || [...DEFAULT_GITHUB_SECTIONS]
+    const sections = rawSections.filter(section => SUPPORTED_GITHUB_SECTIONS.includes(section && section.id))
 
     this.setState({
       loading: false,
@@ -80,7 +82,10 @@ class GitHubDesktop extends React.Component {
           onReorder={this.handleSectionsReorder}
           onActiveChange={this.handleSectionChange}
         />
-        <GitHub sections={githubSections} />
+        <GitHub
+          sections={githubSections}
+          containerClass={styles.githubWrapper}
+        />
       </div>
     )
   }

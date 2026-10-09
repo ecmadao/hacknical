@@ -18,7 +18,7 @@ const isResumeOpenShare = (resumeInfo, options) => {
   if (resumeInfo.userId === options.userId) return true
 
   if (!resumeInfo.openShare) return false
-  if (options.login && !resumeInfo.simplifyUrl) return false
+  if (options.login && !options.pinyin && !resumeInfo.simplifyUrl) return false
 
   return true
 }
@@ -33,33 +33,39 @@ const isResumeDownload = (resumeInfo, query) => {
   return false
 }
 
-const resumeParamsFormatter = async (ctx, source) => {
+const resumeParamsFormatter = async (ctx, source, pinyinSource = null) => {
   const key = source.split('.').slice(-1)[0]
   const value = getValue(ctx, source)
+  const pinyin = pinyinSource ? getValue(ctx, pinyinSource) : (ctx.params && ctx.params.pinyin)
 
   if (key === 'login') {
     const user = await network.user.getUser({ login: value })
-    return {
+    const qs = {
       userId: user.userId
     }
+    if (pinyin) {
+      qs.pinyin = pinyin
+    }
+    return qs
   }
   return {
     [key]: value
   }
 }
 
-const resumeEnable = (source = 'params.login') => async (ctx, next) => {
+const resumeEnable = (source = 'params.login', pinyinSource = null) => async (ctx, next) => {
   const key = source.split('.').slice(-1)[0]
   const value = getValue(ctx, source)
+  const pinyin = pinyinSource ? getValue(ctx, pinyinSource) : (ctx.params && ctx.params.pinyin)
   const { userId } = ctx.session
 
-  const qs = await resumeParamsFormatter(ctx, source)
+  const qs = await resumeParamsFormatter(ctx, source, pinyinSource)
   const resumeInfo = await network.user.getResumeInfo(qs)
 
   if (
     !resumeInfo
     || (
-      !isResumeOpenShare(resumeInfo, { userId, [key]: value })
+      !isResumeOpenShare(resumeInfo, { userId, [key]: value, pinyin })
       && !isResumeDownload(resumeInfo, ctx.query || {})
     )
   ) {

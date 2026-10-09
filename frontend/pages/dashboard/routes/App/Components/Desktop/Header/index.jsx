@@ -38,7 +38,14 @@ class Header extends MenuWrapper {
       <div className={styles.app_header}>
         <div className={styles.app_header_container}>
           <div className={styles.header_logo}>
-            <LogoText theme="dark" />
+            <a
+              href={URLS.REPOSITORY}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.header_logo_link}
+            >
+              <LogoText theme="dark" />
+            </a>
           </div>
           <div className={styles.header_zen}>
             <Tipso

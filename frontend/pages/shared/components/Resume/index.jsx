@@ -12,7 +12,7 @@ const ResumeComponentLoader = (props) => {
   const platform = `${device[0].toUpperCase()}${device.slice(1)}`
 
   const ResumeView = asyncComponent({
-    resolve: () => System.import(`./${platform}/${shareInfo.template.toLowerCase()}`),
+    resolve: () => import(`./${platform}/${shareInfo.template.toLowerCase()}`),
     LoadingComponent: () => <Loading loading />
   })
 

@@ -4,3 +4,31 @@
   width: 100%;
   min-height: 100%;
 }
+
+/* Modernize ClassicCard: eliminate harsh offset shadow pseudo-element that looks like an ugly misaligned border */
+[class*="classic"]:not([class*="flat"])::after {
+  display: none !important;
+}
+
+[class*="classic"]:not([class*="flat"]) {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 4px !important;
+  background-color: var(--oc-white) !important;
+}
+
+[class*="classic"]:not([class*="flat"]) > [class*="bg"] {
+  position: relative !important;
+  transform: none !important;
+  border-radius: 4px !important;
+  z-index: 1 !important;
+}
+
+/* Eliminate harsh double shadow text rendering */
+[class*="logoContainer"] [class*="logoBack"] {
+  display: none !important;
+}
+
+[class*="logoContainer"] [class*="logoFront"] {
+  transform: none !important;
+}

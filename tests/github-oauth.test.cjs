@@ -1,0 +1,326 @@
+const { test, before, after } = require('node:test')
+const assert = require('node:assert/strict')
+const http = require('node:http')
+const { spawn } = require('node:child_process')
+const { once } = require('node:events')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
+const { DatabaseSync } = require('node:sqlite')
+
+let provider, providerUrl, app, origin, temporary, database, output = ''
+const exchanges = []
+let profileFailure = false
+
+async function unusedPort() {
+  const server = http.createServer()
+  server.listen(0, '127.0.0.1')
+  await once(server, 'listening')
+  const port = server.address().port
+  await new Promise(resolve => server.close(resolve))
+  return port
+}
+
+async function launch(configured = true) {
+  const port = await unusedPort()
+  origin = `http://127.0.0.1:${port}`
+  const env = {
+    ...process.env, NODE_ENV: 'production', PORT: String(port),
+    APP_URL: 'https://hack.r2049.cn', APP_KEY: 'a'.repeat(64),
+    SQLITE_PATH: database, LOG_LEVEL: 'ERROR',
+    GITHUB_API_URL: providerUrl,
+    GITHUB_CLIENT_ID: '', GITHUB_CLIENT_SECRET: '',
+    GITHUB_OAUTH_CLIENT_ID: configured ? 'test-client' : '',
+    GITHUB_OAUTH_CLIENT_SECRET: configured ? 'test-secret' : '',
+    GITHUB_OAUTH_REDIRECT_URI: 'https://hack.r2049.cn/api/user/login/github/callback',
+    NODE_CONFIG: JSON.stringify({
+      github: { apiUrl: providerUrl, oauth: { baseUrl: providerUrl, clientId: '', clientSecret: '' } }
+    })
+  }
+  app = spawn(process.execPath, ['dist/bin/app.js'], { env, stdio: ['ignore', 'pipe', 'pipe'] })
+  app.stdout.on('data', data => { output += data })
+  app.stderr.on('data', data => { output += data })
+  for (let i = 0; i < 100; i += 1) {
+    if (app.exitCode !== null) throw new Error(output)
+    try {
+      if ((await fetch(`${origin}/api/healthz`)).ok) return
+    } catch {}
+    await new Promise(resolve => setTimeout(resolve, 50))
+  }
+  throw new Error(`Server did not start: ${output}`)
+}
+async function stop() {
+  if (app && app.exitCode === null) {
+    const done = once(app, 'exit')
+    app.kill('SIGTERM')
+    await done
+  }
+}
+function browser() {
+  const cookies = new Map()
+  return {
+    cookies,
+    async get(url) {
+      const response = await fetch(`${origin}${url}`, {
+        redirect: 'manual',
+        headers: { 'X-Forwarded-Proto': 'https', Cookie: [...cookies].map(([key, value]) => `${key}=${value}`).join('; ') }
+      })
+      for (const cookie of response.headers.getSetCookie()) {
+        const pair = cookie.split(';')[0], at = pair.indexOf('=')
+        cookies.set(pair.slice(0, at), pair.slice(at + 1))
+      }
+      return response
+    }
+  }
+}
+async function start(client) {
+  const response = await client.get('/api/user/login/github')
+  assert.equal(response.status, 302)
+  const target = new URL(response.headers.get('location'))
+  assert.equal(target.origin, providerUrl)
+  assert.equal(target.pathname, '/login/oauth/authorize')
+  assert.equal(target.searchParams.get('client_id'), 'test-client')
+  assert.equal(target.searchParams.get('redirect_uri'), 'https://hack.r2049.cn/api/user/login/github/callback')
+  assert.equal(target.searchParams.get('scope'), 'read:user user:email')
+  assert.match(target.searchParams.get('state'), /^[a-f\d]{64}$/)
+  assert.ok(response.headers.getSetCookie().filter(cookie => cookie.startsWith('HACKNICAL:session')).every(cookie => /httponly/i.test(cookie) && /secure/i.test(cookie) && /samesite=lax/i.test(cookie)), JSON.stringify(response.headers.getSetCookie()))
+  return target.searchParams.get('state')
+}
+async function callback(client, state, code = 'good') {
+  return client.get(`/api/user/login/github/callback?${new URLSearchParams({ code, state })}`)
+}
+
+before(async () => {
+  temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'hacknical-oauth-'))
+  database = path.join(temporary, 'test.sqlite')
+  provider = http.createServer(async (request, response) => {
+    response.setHeader('Content-Type', 'application/json')
+    if (request.url === '/login/oauth/access_token') {
+      let body = ''
+      for await (const data of request) body += data
+      const params = new URLSearchParams(body)
+      exchanges.push(Object.fromEntries(params))
+      assert.equal(request.method, 'POST')
+      assert.equal(params.get('client_secret'), 'test-secret')
+      assert.equal(params.get('redirect_uri'), 'https://hack.r2049.cn/api/user/login/github/callback')
+      if (params.get('code') === 'http-error') response.statusCode = 502
+      response.end(JSON.stringify(params.get('code') === 'denied'
+        ? { error: 'bad_verification_code' } : { access_token: 'test-private-token', ...(params.get('code') === 'expiring' ? { expires_in: 28800 } : {}) }))
+    } else if (request.url === '/user' || request.url.startsWith('/users/octocat')) {
+      if (profileFailure) response.statusCode = 401
+      if (request.url.includes('/repos') || request.url.includes('/orgs')) {
+        response.end(JSON.stringify([]))
+      } else {
+        response.end(JSON.stringify({ id: 123, login: 'octocat', name: 'Octocat', avatar_url: 'https://example.com/avatar.png' }))
+      }
+    } else {
+      response.statusCode = 404
+      response.end('{}')
+    }
+  })
+  provider.listen(0, '127.0.0.1')
+  await once(provider, 'listening')
+  providerUrl = `http://127.0.0.1:${provider.address().port}`
+  await launch()
+})
+after(async () => {
+  await stop()
+  if (provider) await new Promise(resolve => provider.close(resolve))
+  if (temporary) fs.rmSync(temporary, { recursive: true, force: true })
+})
+
+test('health check works without forwarded HTTPS or session cookies', async () => {
+  const response = await fetch(`${origin}/api/healthz`)
+  assert.deepEqual(await response.json(), { status: 'ok' })
+  assert.equal(response.headers.get('set-cookie'), null)
+})
+test('landing page links to direct GitHub login', async () => {
+  const response = await browser().get('/')
+  assert.equal(response.status, 200)
+  assert.match(await response.text(), /window.loginLink = "\/api\/user\/login\/github"/)
+})
+test('missing, forged and cross-browser OAuth states cannot exchange codes', async () => {
+  const initial = exchanges.length
+  assert.equal((await browser().get('/api/user/login/github/callback?code=good')).status, 400)
+  const first = browser(), state = await start(first)
+  assert.equal((await callback(browser(), state)).status, 400)
+  assert.equal((await callback(first, 'wrong')).status, 400)
+  assert.equal((await callback(first, state)).status, 400)
+  assert.equal(exchanges.length, initial)
+})
+test('expired state is rejected', async () => {
+  const client = browser(), state = await start(client)
+  const db = new DatabaseSync(database)
+  const id = client.cookies.get('HACKNICAL:session')
+  const data = JSON.parse(db.prepare('SELECT data FROM sessions WHERE id = ?').get(id).data)
+  data.githubOAuth.createdAt = Date.now() - 11 * 60 * 1000
+  db.prepare('UPDATE sessions SET data = ? WHERE id = ?').run(JSON.stringify(data), id)
+  db.close()
+  assert.equal((await callback(client, state)).status, 400)
+})
+test('OAuth success persists user, rotates session, rejects replay, survives restart and logs out', async () => {
+  const client = browser(), state = await start(client)
+  const oldId = client.cookies.get('HACKNICAL:session')
+  const response = await callback(client, state)
+  assert.equal(response.status, 302)
+  assert.equal(response.headers.get('location'), '/octocat')
+  assert.notEqual(client.cookies.get('HACKNICAL:session'), oldId)
+  assert.ok([...client.cookies.values()].every(value => !value.includes('test-private-token')))
+  const db = new DatabaseSync(database)
+  assert.equal(db.prepare('SELECT COUNT(*) AS count FROM users').get().count, 1)
+  assert.equal(db.prepare('SELECT COUNT(*) AS count FROM resumes').get().count, 1)
+  assert.equal(db.prepare('SELECT COUNT(*) AS count FROM sessions WHERE id = ?').get(oldId).count, 0)
+  const session = JSON.parse(db.prepare('SELECT data FROM sessions WHERE id = ?').get(client.cookies.get('HACKNICAL:session')).data)
+  assert.equal(session.githubToken, 'test-private-token')
+  assert.equal(session.githubAvator, 'https://example.com/avatar.png')
+  db.close()
+  assert.equal((await callback(client, state)).status, 400)
+  await stop()
+  await launch()
+  const info = await client.get('/api/user/info')
+  assert.equal((await info.json()).result.githubLogin, 'octocat')
+  const updateStatus = await client.get('/api/github/update')
+  const updateData = await updateStatus.json()
+  assert.equal(updateData.success, true)
+  assert.notEqual(updateData.result.status, 4)
+  assert.notEqual(updateData.message, 'GitHub token 过期，请退出后重新登录')
+  const sectionsRes = await client.get('/api/user/github')
+  const sectionsData = await sectionsRes.json()
+  assert.equal(sectionsData.success, true)
+  assert.deepEqual(sectionsData.result.map(s => s.id), ['info', 'repos', 'languages'])
+  const activeId = client.cookies.get('HACKNICAL:session')
+  await client.get('/api/user/logout')
+  const check = new DatabaseSync(database)
+  assert.equal(check.prepare('SELECT COUNT(*) AS count FROM sessions WHERE id = ?').get(activeId).count, 0)
+  check.close()
+  assert.equal((await client.get('/initial')).headers.get('location'), '/')
+})
+test('site login lasts seven days and renews independently of GitHub token expiry', async () => {
+  const client = browser(), state = await start(client)
+  const sevenDays = 7 * 24 * 60 * 60 * 1000
+  const db = new DatabaseSync(database)
+  // Reauthorization must not inherit the short lifetime of an older session.
+  const oldId = client.cookies.get('HACKNICAL:session')
+  const oldSession = JSON.parse(db.prepare('SELECT data FROM sessions WHERE id = ?').get(oldId).data)
+  oldSession._maxAge = 8 * 60 * 60 * 1000
+  db.prepare('UPDATE sessions SET data = ? WHERE id = ?').run(JSON.stringify(oldSession), oldId)
+  const loginAt = Date.now()
+  const response = await callback(client, state, 'expiring')
+  assert.equal(response.headers.get('location'), '/octocat')
+  const cookie = response.headers.getSetCookie().find(value => value.startsWith('HACKNICAL:session='))
+  const cookieExpiry = Date.parse(cookie.match(/expires=([^;]+)/i)[1])
+  assert.ok(cookieExpiry >= loginAt + sevenDays - 1000)
+  assert.ok(cookieExpiry <= Date.now() + sevenDays)
+  const id = client.cookies.get('HACKNICAL:session')
+  const row = db.prepare('SELECT data, expires_at FROM sessions WHERE id = ?').get(id)
+  const session = JSON.parse(row.data)
+  assert.ok(session.githubTokenExpiresAt > Date.now() + 7 * 60 * 60 * 1000)
+  assert.ok(session.githubTokenExpiresAt < Date.now() + 8 * 60 * 60 * 1000)
+  assert.equal(session._maxAge, sevenDays)
+  assert.ok(row.expires_at >= loginAt + sevenDays)
+  assert.ok(row.expires_at <= Date.now() + sevenDays + 10000)
+
+  // Simulate an expired GitHub token and a site session nearing renewal.
+  session.githubTokenExpiresAt = Date.now() - 1
+  session._expire = Date.now() + 60 * 1000
+  db.prepare('UPDATE sessions SET data = ? WHERE id = ?').run(JSON.stringify(session), id)
+  await stop()
+  await launch()
+  const renewedAt = Date.now()
+  const info = await client.get('/api/user/info')
+  assert.equal(info.status, 200)
+  assert.equal((await info.json()).result.githubLogin, 'octocat')
+  const renewed = db.prepare('SELECT data, expires_at FROM sessions WHERE id = ?').get(id)
+  assert.ok(renewed.expires_at >= renewedAt + sevenDays)
+  assert.equal(JSON.parse(renewed.data)._maxAge, sevenDays)
+  const renewedCookie = info.headers.getSetCookie().find(value => value.startsWith('HACKNICAL:session='))
+  assert.ok(Date.parse(renewedCookie.match(/expires=([^;]+)/i)[1]) >= renewedAt + sevenDays - 1000)
+
+  // GitHub rejecting the token must not log the user out of the site.
+  profileFailure = true
+  try {
+    const repositories = await client.get('/api/github/repositories/all')
+    assert.equal(repositories.status, 200)
+    const reposAllData = await repositories.json()
+    assert.equal(reposAllData.success, true)
+    assert.ok(Array.isArray(reposAllData.result))
+    assert.equal((await (await client.get('/api/user/info')).json()).result.githubLogin, 'octocat')
+    assert.equal((await client.get('/initial')).status, 200)
+
+    // Dependent GitHub endpoints must catch the 401 error and fallback safely without dying
+    const userRepos = await client.get('/api/github/octocat/repositories')
+    assert.equal(userRepos.status, 200)
+    const reposData = await userRepos.json()
+    assert.equal(reposData.success, true)
+    assert.ok(Array.isArray(reposData.result))
+
+    const userLanguages = await client.get('/api/github/octocat/languages')
+    assert.equal(userLanguages.status, 200)
+    const languagesData = await userLanguages.json()
+    assert.equal(languagesData.success, true)
+
+    const userOrgs = await client.get('/api/github/octocat/organizations')
+    assert.equal(userOrgs.status, 200)
+    const orgsData = await userOrgs.json()
+    assert.equal(orgsData.success, true)
+
+    const userContributed = await client.get('/api/github/octocat/contributed')
+    assert.equal(userContributed.status, 200)
+    const contribData = await userContributed.json()
+    assert.equal(contribData.success, true)
+    assert.ok(Array.isArray(contribData.result))
+
+    const userCommits = await client.get('/api/github/octocat/commits')
+    assert.equal(userCommits.status, 200)
+    const commitsData = await userCommits.json()
+    assert.equal(commitsData.success, true)
+
+    const userInfo = await client.get('/api/github/octocat/info')
+    assert.equal(userInfo.status, 200)
+    const userInfoData = await userInfo.json()
+    assert.equal(userInfoData.success, true)
+
+    const userHotmap = await client.get('/api/github/octocat/hotmap')
+    assert.equal(userHotmap.status, 200)
+    const hotmapData = await userHotmap.json()
+    assert.equal(hotmapData.success, true)
+
+    const updateStatus = await client.get('/api/github/update')
+    const updateData = await updateStatus.json()
+    assert.equal(updateData.success, true)
+    assert.equal(updateData.result.status, 4)
+  } finally {
+    profileFailure = false
+  }
+
+  db.prepare('UPDATE sessions SET expires_at = ? WHERE id = ?').run(Date.now() - 1, id)
+  assert.equal((await client.get('/initial')).headers.get('location'), '/')
+  db.close()
+})
+test('provider cancellation consumes state and returns to the landing page', async () => {
+  const client = browser(), state = await start(client)
+  const response = await client.get(`/api/user/login/github/callback?state=${state}&error=access_denied`)
+  assert.equal(response.headers.get('location'), '/?messageCode=github&messageType=error')
+  assert.equal((await callback(client, state)).status, 400)
+})
+test('failed token exchanges and profile responses cannot log a user in', async () => {
+  for (const code of ['denied', 'http-error', 'local:octocat']) {
+    const client = browser(), state = await start(client)
+    const response = await callback(client, state, code)
+    assert.equal(response.headers.get('location'), '/?messageCode=github&messageType=error')
+    assert.equal((await client.get('/initial')).headers.get('location'), '/')
+  }
+  profileFailure = true
+  try {
+    const client = browser(), state = await start(client)
+    assert.equal((await callback(client, state)).headers.get('location'), '/?messageCode=github&messageType=error')
+  } finally { profileFailure = false }
+})
+test('missing OAuth credentials leave health available and show a setup message', async () => {
+  await stop()
+  await launch(false)
+  const response = await browser().get('/api/user/login/github')
+  assert.equal(response.status, 503)
+  assert.equal((await response.json()).code, 'GITHUB_OAUTH_UNAVAILABLE')
+  assert.ok(!output.includes('test-private-token') && !output.includes('test-secret'))
+})

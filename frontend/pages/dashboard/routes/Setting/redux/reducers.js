@@ -2,7 +2,7 @@
 import { handleActions } from 'redux-actions'
 import objectAssign from 'UTILS/object-assign'
 import dateHelper from 'UTILS/date'
-import { DEFAULT_GITHUB_SECTIONS } from 'UTILS/constant/github'
+import { DEFAULT_GITHUB_SECTIONS, SUPPORTED_GITHUB_SECTIONS } from 'UTILS/constant/github'
 import { DEFAULT_RESUME_SECTIONS } from 'UTILS/constant/resume'
 
 const initialState = {
@@ -75,7 +75,8 @@ const reducers = handleActions({
       resumeInfo: objectAssign({}, resumeInfo, payload, {
         loading: false,
         disabled: false,
-        githubSections: payload.githubSections || [...DEFAULT_GITHUB_SECTIONS],
+        githubSections: (payload.githubSections || [...DEFAULT_GITHUB_SECTIONS])
+          .filter(section => SUPPORTED_GITHUB_SECTIONS.includes(section && section.id)),
         resumeSections: payload.resumeSections || [...DEFAULT_RESUME_SECTIONS]
       }),
     })

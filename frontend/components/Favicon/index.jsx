@@ -1,6 +1,6 @@
 
 import React from 'react'
-import Img from 'react-image'
+import { Img } from 'react-image'
 import cx from 'classnames'
 import { Loading } from 'light-ui'
 import styles from './favicon.css'

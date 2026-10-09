@@ -12,11 +12,14 @@ export const switchLanguage = (locale) => {
     lang = getLocale() === 'en' ? 'zh' : 'en'
   }
 
-  window.location.href = `${window.location.origin}${window.location.pathname}?locale=${lang}`
+  const { origin, pathname, search } = window.location
+  const searchParams = new URLSearchParams(search)
+  searchParams.set('locale', lang)
+  window.location.href = `${origin}${pathname}?${searchParams.toString()}`
 }
 
 export const getLocale = () => {
-  const locale = window.locale || getQurtyLocale() || 'en'
+  const locale = getQurtyLocale() || window.locale || 'en'
   if (/^en/.test(locale)) {
     return 'en'
   }

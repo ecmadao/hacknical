@@ -4,7 +4,12 @@ const config = require('config')
 const git = require('git-rev-sync')
 
 const CDN = config.get('cdn')
-const appVersion = git.short()
+let appVersion = 'latest'
+try {
+  appVersion = process.env.APP_VERSION || git.short()
+} catch (e) {
+  appVersion = process.env.APP_VERSION || 'latest'
+}
 const CDN_URI = appVersion
 
 const CDN_URL = CDN ? `${CDN}/${CDN_URI}` : ''

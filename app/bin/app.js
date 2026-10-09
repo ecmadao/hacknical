@@ -10,8 +10,10 @@ import session from 'koa-session'
 import config from 'config'
 import nunjucks from 'nunjucks'
 import views from 'koa-views'
-import userAgent from 'koa-useragent'
+import * as userAgentPkg from 'koa-useragent'
 import staticServer from 'koa-static'
+
+const userAgent = userAgentPkg.userAgent || userAgentPkg.default || userAgentPkg
 
 import router from '../routes'
 import logger from '../utils/logger'
@@ -23,6 +25,10 @@ import loggerMiddleware from '../middlewares/logger'
 import { redisMiddleware } from '../middlewares/cache'
 import platformMiddleware from '../middlewares/platform'
 import firewallMiddleware from '../middlewares/firewall'
+import uploadsMiddleware from '../middlewares/uploads'
+import sessionStore from '../utils/session-store'
+import { SESSION_MAX_AGE } from '../utils/constant'
+import db from '../utils/sqlite'
 
 // Handle unhandled promise rejections for Redis queue
 process.on('unhandledRejection', (reason, promise) => {
@@ -37,9 +43,24 @@ const port = config.get('port')
 const appKey = config.get('appKey')
 const appName = config.get('appName')
 
+if (process.env.NODE_ENV === 'production' && (!appKey || appKey === 'REPLACE_WITH_RANDOM_HEX' || appKey.length < 32)) {
+  throw new Error('Production requires a stable APP_KEY with at least 32 characters')
+}
+
 const app = new Koa()
 app.proxy = true
 app.keys = [appKey]
+
+// Health checks must work over loopback HTTP without creating secure cookies.
+app.use(async (ctx, next) => {
+  if (ctx.path === '/api/healthz' && ctx.method === 'GET') {
+    db.prepare('SELECT 1').get()
+    ctx.set('Cache-Control', 'no-store')
+    ctx.body = { status: 'ok' }
+    return
+  }
+  await next()
+})
 
 // koa logger
 app.use(koaLogger())
@@ -47,6 +68,7 @@ app.use(firewallMiddleware({
   blockList: []
 }))
 app.use(cors())
+app.use(uploadsMiddleware())
 
 // bodyparser
 app.use(bodyParser({
@@ -75,10 +97,13 @@ locales(app, options)
 // session
 const CONFIG = {
   key: `${appName.toUpperCase()}:session`, /** cookie key */
-  maxAge: 24 * 60 * 60 * 1000 * 7, /** 7 days */
+  maxAge: SESSION_MAX_AGE, /** 7 days */
   overwrite: true, /** (boolean) can overwrite or not (default true) */
   httpOnly: true, /** (boolean) httpOnly or not (default true) */
   signed: true, /** (boolean) signed or not (default true) */
+  sameSite: 'lax',
+  // koa-session sets Secure automatically for HTTPS (including the trusted proxy).
+  store: sessionStore,
   renew: true, /** (boolean) renew session when session is nearly expired */
 }
 app.use(session(CONFIG, app))
@@ -97,7 +122,7 @@ app.use(new Csrf())
 app.use(async (ctx, next) => {
   ctx.state = Object.assign({}, ctx.state, {
     assetsPath: assetsMiddleware,
-    csrf: ctx.csrf,
+    csrf: ctx.csrf || (ctx.state && ctx.state._csrf),
     env: process.env.NODE_ENV,
     footer: {
       about: ctx.__('dashboard.about'),

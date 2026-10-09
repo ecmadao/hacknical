@@ -1,0 +1,18 @@
+services:
+  hacknical:
+    image: ${HACKNICAL_IMAGE:?Set HACKNICAL_IMAGE to the release image digest}
+    container_name: hacknical
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4000:4000"
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      LOG_LEVEL: INFO
+      INVITE_CODE_MAX_USES: ${INVITE_CODE_MAX_USES:-1}
+    volumes:
+      - ./data:/app/data
+      - ./log:/app/log
+      - ./public/uploads:/app/public/uploads
+      - ./config/production.json:/app/config/production.json:ro

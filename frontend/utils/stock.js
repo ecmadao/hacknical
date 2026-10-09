@@ -181,20 +181,27 @@ export const getPVStockConfig = (options) => {
     dateFormat
   } = options
 
-  const seriesData = pageViews.map((pageView) => {
-    const { count, seconds } = pageView
-    return [seconds, count]
-  })
+  // Highstock cannot build an ordinal axis from NaN/undefined x values.
+  // A single malformed record from the statistics API used to make the
+  // whole records page fail during `setTickInterval`/`unsquish`.
+  const seriesData = pageViews
+    .map((pageView) => {
+      const { count, seconds } = pageView
+      return [seconds, count]
+    })
+    .filter(([seconds, count]) => Number.isFinite(seconds) && Number.isFinite(count))
   const config = objectAssign(
     {},
     BASE_STOCK_CONFIG,
     PV_STOCK_CONFIG
   )
   config.series[0].data = seriesData
+  config.navigator.enabled = seriesData.length > 1
+  config.xAxis[0].ordinal = false
   config.xAxis[0].labels.formatter = getLabelFormatter()
 
-  if (pageViews.length) {
-    const timestampTo = pageViews[pageViews.length - 1].seconds
+  if (seriesData.length) {
+    const timestampTo = seriesData[seriesData.length - 1][0]
     config.xAxis[0].max = timestampTo
     config.xAxis[0].min = timestampTo - (30 * 24 * 60 * 60)
   }

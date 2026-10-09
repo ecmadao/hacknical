@@ -133,7 +133,7 @@ class OrganizationsInfo extends React.Component {
     const { login } = this.props
     const activeOrg = organizations[activeIndex]
     const { created_at, description, blog } = activeOrg
-    const repos = [...activeOrg.repos] || []
+    const repos = [...(activeOrg.repos || [])]
 
     return (
       <div className={styles.org_detail}>

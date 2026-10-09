@@ -58,9 +58,12 @@ const fetchApi = async (uri, method, data) => {
       const response = await fetch(url, options)
       const json = await response.json()
 
-      if (json.error) {
+      const isBadCredentials = (str) =>
+        typeof str === 'string' && (str.includes('GitHub API 401') || str.includes('Bad credentials'))
+
+      if (json.error && !isBadCredentials(json.error)) {
         message.error(json.error)
-      } else if (json.message) {
+      } else if (json.message && !isBadCredentials(json.message)) {
         if (json.success) {
           message.notice(json.message)
         } else {

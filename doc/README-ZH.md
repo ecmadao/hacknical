@@ -44,48 +44,21 @@ hacknical 目前拆分成为了两个 server，以及一个 UI 组件库：
 
 ### 本地开发
 
+当前版本默认使用 Node 22.13+ 自带的 SQLite（`node:sqlite`），本地启动不需要 Redis、MongoDB 或阿里云 OSS。数据库文件和上传文件分别保存在 `data/hacknical.sqlite` 与 `public/uploads/`。
+
 ```bash
-$ git clone git@github.com:ecmadao/hacknical.git
-$ git clone git@github.com:ecmadao/hacknical-github.git
-
-$ cd hacknical
-$ npm i
-$ cd hacknical-github
-$ npm i
-
-# 安装 redis 以及 MongoDB
-# 具体安装教程忽略，请自行搜索
+$ nvm use
+$ npm install
+$ npm run start-local
 ```
 
-在 [OAuth application](https://github.com/settings/applications/new) 注册一个新应用以便进行本地开发，配置如下：
+默认监听 `http://localhost:4000`。复制 `.env.example` 为 `.env`，填写 `GITHUB_OAUTH_CLIENT_ID` 和 `GITHUB_OAUTH_CLIENT_SECRET`，`npm run start-local` 会自动加载配置。
 
-```text
-Application name: hacknical-local
-Homepage URL: http://localhost:4000/
-Authorization callback URL: http://localhost:4000/user/login/github
-```
+在 [GitHub OAuth App](https://github.com/settings/applications/new) 注册本地应用，Homepage URL 填 `http://localhost:4000`，Authorization callback URL 填 `http://localhost:4000/api/user/login/github/callback`。登录直接调用 GitHub OAuth，不需要额外的 GitHub server 或 Auth0。
 
-注册成功之后，将获取的 `Client ID` 、`Client Secret` 以及 `Application name` 填充至 `hacknical-github/config/localdev.json` 文件中：
+线上地址为 <https://hack.r2049.cn>。GitHub Actions 会构建镜像、推送 GHCR 并通过 SSH 更新服务；OAuth App 尚未配置时保留空凭据，登录返回配置提示。完整的仓库 secret/variable 清单与操作步骤见 [GitHub 登录与部署文档](DEPLOYMENT.md)。
 
-```json
-// hacknical-github/config/localdev.json
-{
-  "production": false,
-  "port": "5002",
-  "appKey": "hacknical-github-local",
-  "appName": "hacknical-github-local",
-  "app": {
-    "hacknical-local": {
-      "clientId": "将你的 Client ID 填充至此",
-      "clientSecret": "将你的 Client Secret 填充至此",
-      "appName": "hacknical-local",
-      "token": ""
-    }
-  }
-}
-```
-
-除此以外，还可以在 `hacknical/config/localdev.json` 以及 `hacknical-github/config/localdev.json` 中修改数据库链接、server 端口等配置。
+生产环境仍可通过 `config/production.json` 覆盖存储配置；环境变量优先。SQLite 和上传目录在发布时保留。
 
 ### 提交说明
 

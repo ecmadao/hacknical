@@ -9,7 +9,7 @@ const platformMiddleware = () => async (ctx, next) => {
   ctx.state.device = userAgent.isMobile ? 'mobile' : 'desktop'
 
   await next()
-  const { githubLogin } = ctx.session
+  const { githubLogin } = ctx.session || {}
   logger.info(
     `[${userAgent.browser}][${userAgent.platform}]${
       userAgent.isMobile ? '[Mobile]' : '[Desktop]'
