@@ -57,9 +57,6 @@ db.exec(`
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   );
-  CREATE INDEX IF NOT EXISTS idx_resumes_user_id ON resumes (user_id);
-  CREATE INDEX IF NOT EXISTS idx_resumes_resume_hash ON resumes (resume_hash);
-  CREATE INDEX IF NOT EXISTS idx_resumes_user_default ON resumes (user_id, is_default);
 
   CREATE TABLE IF NOT EXISTS github_cache (
     login TEXT NOT NULL,

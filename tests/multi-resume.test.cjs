@@ -351,3 +351,79 @@ test('multi-resume workflow: create, list, edit independently, switch default, c
   assert.equal(deleteResFail.status, 400)
   assert.match(deleteResFail.json.message, /至少需要保留一份简历/)
 })
+
+test('smooth migration from legacy schema with existing data (no is_default column initially)', async () => {
+  await stop()
+
+  // 模拟现有的老生产数据库
+  const legacyDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hacknical-legacy-db-'))
+  const legacyDbPath = path.join(legacyDir, 'legacy.sqlite')
+  const { DatabaseSync } = require('node:sqlite')
+  const legacyDb = new DatabaseSync(legacyDbPath)
+
+  // 创建老表结构（无 resume_id，无 is_default，无 title，主键为 user_id）
+  legacyDb.exec(`
+    CREATE TABLE users (
+      user_id TEXT PRIMARY KEY,
+      github_login TEXT NOT NULL UNIQUE,
+      email TEXT,
+      password_hash TEXT,
+      auth_provider TEXT NOT NULL DEFAULT "github",
+      data TEXT NOT NULL,
+      initialed INTEGER NOT NULL DEFAULT 0,
+      github_share INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    CREATE TABLE resumes (
+      user_id TEXT PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
+      resume_hash TEXT NOT NULL UNIQUE,
+      data TEXT NOT NULL,
+      template TEXT NOT NULL DEFAULT 'v1',
+      simplify_url INTEGER NOT NULL DEFAULT 1,
+      open_share INTEGER NOT NULL DEFAULT 0,
+      use_github INTEGER NOT NULL DEFAULT 0,
+      autosave INTEGER NOT NULL DEFAULT 0,
+      resume_sections TEXT NOT NULL,
+      github_sections TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+  `)
+
+  // 插入老用户和老简历数据（无 is_default 列）
+  const timestamp = new Date().toISOString()
+  legacyDb.prepare(`
+    INSERT INTO users (user_id, github_login, email, password_hash, auth_provider, data, initialed, github_share, created_at, updated_at)
+    VALUES ('old-user-1', 'olduser', 'olduser@example.com', NULL, 'github', '{}', 1, 1, ?, ?)
+  `).run(timestamp, timestamp)
+
+  legacyDb.prepare(`
+    INSERT INTO resumes (user_id, resume_hash, data, template, simplify_url, open_share, use_github, autosave, resume_sections, github_sections, created_at, updated_at)
+    VALUES ('old-user-1', 'oldresumehash123', '{"_locales":{"zh":{"info":{"name":"老用户","title":"老高级工程师"}}}}', 'v1', 1, 1, 0, 0, '[]', '[]', ?, ?)
+  `).run(timestamp, timestamp)
+
+  legacyDb.close()
+
+  // 用这个包含老数据的数据库启动应用
+  database = legacyDbPath
+  await launch()
+
+  // 验证数据库结构已成功迁移，老数据完整保留且具备 is_default 和 resume_id
+  const migratedDb = new DatabaseSync(legacyDbPath)
+  const columns = migratedDb.prepare('PRAGMA table_info(resumes)').all().map(c => c.name)
+  assert.ok(columns.includes('resume_id'))
+  assert.ok(columns.includes('is_default'))
+  assert.ok(columns.includes('title'))
+
+  const migratedRow = migratedDb.prepare("SELECT * FROM resumes WHERE user_id = 'old-user-1'").get()
+  assert.ok(migratedRow)
+  assert.ok(migratedRow.resume_id)
+  assert.equal(migratedRow.title, '默认简历')
+  assert.equal(migratedRow.is_default, 1)
+  assert.equal(migratedRow.resume_hash, 'oldresumehash123')
+  migratedDb.close()
+
+  fs.rmSync(legacyDir, { recursive: true, force: true })
+})
