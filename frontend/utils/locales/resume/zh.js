@@ -47,7 +47,14 @@ const datas = {
       deleteSuccess: '简历已删除',
       setDefaultSuccess: '已设为默认简历',
       renameSuccess: '简历重命名成功',
-      untitled: '未命名简历'
+      untitled: '未命名简历',
+      shareUrl: '公开地址',
+      copyShareUrl: '复制公开链接',
+      openShareUrl: '在新窗口查看',
+      publicShared: '已公开',
+      notPublicShared: '未公开',
+      copyLinkSuccess: '公开链接已复制到剪贴板',
+      switchToEdit: '编辑此简历'
     }
   },
   sections: {

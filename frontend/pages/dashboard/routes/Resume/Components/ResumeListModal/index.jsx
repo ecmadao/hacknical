@@ -1,13 +1,45 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { PortalModal, Button, IconButton } from 'light-ui'
+import {
+  PortalModal,
+  IconButton,
+  Button,
+  Input,
+  Tipso,
+  ClassicButton
+} from 'light-ui'
 import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
-import styles from '../../styles/resume_list_modal.css'
+import message from 'UTILS/message'
 import dateHelper from 'UTILS/date'
+import styles from '../../styles/resume_list_modal.css'
 
 const resumeTexts = locales('resume')
 const modalTexts = resumeTexts.modal.resumes || {}
+
+const copyToClipboard = (text) => {
+  if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text)
+  }
+  const textArea = document.createElement('textarea')
+  textArea.value = text
+  textArea.style.position = 'fixed'
+  textArea.style.left = '-999999px'
+  textArea.style.top = '-999999px'
+  document.body.appendChild(textArea)
+  textArea.focus()
+  textArea.select()
+  return new Promise((resolve, reject) => {
+    const success = document.execCommand('copy')
+    textArea.remove()
+    if (success) {
+      resolve()
+    } else {
+      reject(new Error('copy failed'))
+    }
+  })
+}
 
 class ResumeListModal extends React.Component {
   constructor(props) {
@@ -22,6 +54,7 @@ class ResumeListModal extends React.Component {
 
     this.handleCreateSubmit = this.handleCreateSubmit.bind(this)
     this.handleRenameSubmit = this.handleRenameSubmit.bind(this)
+    this.handleCopyLink = this.handleCopyLink.bind(this)
   }
 
   handleCreateSubmit() {
@@ -46,6 +79,16 @@ class ResumeListModal extends React.Component {
     })
   }
 
+  handleCopyLink(url) {
+    copyToClipboard(url)
+      .then(() => {
+        message.notice(modalTexts.copyLinkSuccess || '公开链接已复制到剪贴板', 1800)
+      })
+      .catch(() => {
+        message.error('复制失败，请手动复制', 1800)
+      })
+  }
+
   render() {
     const {
       openModal,
@@ -66,6 +109,8 @@ class ResumeListModal extends React.Component {
       confirmDeleteId
     } = this.state
 
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+
     return (
       <PortalModal
         showModal={openModal}
@@ -78,46 +123,41 @@ class ResumeListModal extends React.Component {
               <span>{modalTexts.title || '多简历管理'}</span>
             </div>
             {!isCreating && (
-              <button
-                type="button"
-                className={cx(styles.actionBtn, styles.actionBtnPrimary)}
-                onClick={() => this.setState({ isCreating: true, newTitle: '' })}
-              >
-                <Icon icon="plus" />
-                <span>{modalTexts.create || '新建简历'}</span>
-              </button>
+              <ClassicButton theme="dark">
+                <Button
+                  color="none"
+                  value={modalTexts.create || '新建简历'}
+                  leftIcon={<Icon icon="plus" />}
+                  onClick={() => this.setState({ isCreating: true, newTitle: '' })}
+                />
+              </ClassicButton>
             )}
           </div>
 
           {isCreating && (
             <div className={styles.createArea}>
-              <input
-                type="text"
+              <Input
+                theme="flat"
                 className={styles.createInput}
                 placeholder={modalTexts.inputTitle || '请输入简历名称'}
                 value={newTitle}
                 autoFocus
-                onChange={e => this.setState({ newTitle: e.target.value })}
+                onChange={val => this.setState({ newTitle: val })}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') this.handleCreateSubmit()
                   if (e.key === 'Escape') this.setState({ isCreating: false, newTitle: '' })
                 }}
               />
-              <button
-                type="button"
-                className={cx(styles.actionBtn, styles.actionBtnPrimary)}
+              <IconButton
+                color="green"
+                icon="check"
                 onClick={this.handleCreateSubmit}
-              >
-                <Icon icon="check" />
-                <span>确定</span>
-              </button>
-              <button
-                type="button"
-                className={styles.actionBtn}
+              />
+              <IconButton
+                color="gray"
+                icon="times"
                 onClick={() => this.setState({ isCreating: false, newTitle: '' })}
-              >
-                <span>取消</span>
-              </button>
+              />
             </div>
           )}
 
@@ -128,6 +168,9 @@ class ResumeListModal extends React.Component {
               const isConfirmingDelete = confirmDeleteId === item.resumeId
               const updateTime = item.updatedAt ? dateHelper.validator.fullDate(item.updatedAt) : ''
 
+              const sharePath = item.sharePath || `resume/${item.resumeHash}`
+              const fullShareUrl = item.shareUrl || `${origin}/${sharePath}`
+
               return (
                 <div
                   key={item.resumeId}
@@ -136,136 +179,196 @@ class ResumeListModal extends React.Component {
                     isActive && styles.itemActive
                   )}
                 >
-                  <div className={styles.itemLeft}>
+                  <div className={styles.itemTop}>
                     <div className={styles.itemHeader}>
                       {isRenaming ? (
-                        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                          <input
-                            type="text"
+                        <div className={styles.renameInputWrapper}>
+                          <Input
+                            theme="flat"
                             className={styles.renameInput}
                             value={renamingTitle}
                             autoFocus
-                            onChange={e => this.setState({ renamingTitle: e.target.value })}
+                            onChange={val => this.setState({ renamingTitle: val })}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') this.handleRenameSubmit(item.resumeId)
                               if (e.key === 'Escape') this.setState({ renamingId: null, renamingTitle: '' })
                             }}
                           />
-                          <button
-                            type="button"
-                            className={cx(styles.actionBtn, styles.actionBtnPrimary)}
+                          <IconButton
+                            color="green"
+                            icon="check"
+                            className={styles.miniBtn}
                             onClick={() => this.handleRenameSubmit(item.resumeId)}
-                          >
-                            <Icon icon="check" />
-                          </button>
-                          <button
-                            type="button"
-                            className={styles.actionBtn}
+                          />
+                          <IconButton
+                            color="gray"
+                            icon="times"
+                            className={styles.miniBtn}
                             onClick={() => this.setState({ renamingId: null, renamingTitle: '' })}
-                          >
-                            <Icon icon="times" />
-                          </button>
+                          />
                         </div>
                       ) : (
                         <span className={styles.itemTitle}>{item.title}</span>
                       )}
 
-                      {item.isDefault && (
+                      {item.isDefault ? (
                         <span className={styles.badgeDefault}>
                           {modalTexts.defaultBadge || '默认'}
                         </span>
-                      )}
-                      {isActive && (
+                      ) : null}
+
+                      {isActive ? (
                         <span className={styles.badgeActive}>
                           {modalTexts.current || '当前编辑'}
                         </span>
+                      ) : null}
+
+                      {item.openShare ? (
+                        <span className={styles.badgePublic}>
+                          {modalTexts.publicShared || '已公开'}
+                        </span>
+                      ) : (
+                        <span className={styles.badgePrivate}>
+                          {modalTexts.notPublicShared || '未公开'}
+                        </span>
                       )}
                     </div>
-                    {updateTime && (
-                      <div className={styles.itemMeta}>
-                        <span>{`更新于 ${updateTime}`}</span>
-                      </div>
-                    )}
+
+                    <div className={styles.itemActions}>
+                      {!isActive && (
+                        <Tipso
+                          trigger="hover"
+                          theme="dark"
+                          tipsoContent={(<span>{modalTexts.switchToEdit || '编辑此简历'}</span>)}
+                        >
+                          <IconButton
+                            color="gray"
+                            icon="pencil"
+                            className={styles.actionBtn}
+                            onClick={() => {
+                              onSwitchResume && onSwitchResume(item.resumeId)
+                              onClose && onClose()
+                            }}
+                          />
+                        </Tipso>
+                      )}
+
+                      {!item.isDefault && (
+                        <Tipso
+                          trigger="hover"
+                          theme="dark"
+                          tipsoContent={(<span>{modalTexts.setDefault || '设为默认'}</span>)}
+                        >
+                          <IconButton
+                            color="gray"
+                            icon="star-o"
+                            className={styles.actionBtn}
+                            onClick={() => onSetDefaultResume && onSetDefaultResume(item.resumeId)}
+                          />
+                        </Tipso>
+                      )}
+
+                      {!isRenaming && (
+                        <Tipso
+                          trigger="hover"
+                          theme="dark"
+                          tipsoContent={(<span>{modalTexts.rename || '重命名'}</span>)}
+                        >
+                          <IconButton
+                            color="gray"
+                            icon="edit"
+                            className={styles.actionBtn}
+                            onClick={() => this.setState({ renamingId: item.resumeId, renamingTitle: item.title })}
+                          />
+                        </Tipso>
+                      )}
+
+                      <Tipso
+                        trigger="hover"
+                        theme="dark"
+                        tipsoContent={(<span>{modalTexts.copy || '复制简历'}</span>)}
+                      >
+                        <IconButton
+                          color="gray"
+                          icon="copy"
+                          className={styles.actionBtn}
+                          onClick={() => onCopyResume && onCopyResume(item.resumeId, `${item.title} (副本)`)}
+                        />
+                      </Tipso>
+
+                      {resumeList.length > 1 && (
+                        isConfirmingDelete ? (
+                          <div className={styles.deleteConfirmBox}>
+                            <span>确认删除？</span>
+                            <IconButton
+                              color="red"
+                              icon="check"
+                              className={styles.miniBtn}
+                              onClick={() => {
+                                onDeleteResume && onDeleteResume(item.resumeId)
+                                this.setState({ confirmDeleteId: null })
+                              }}
+                            />
+                            <IconButton
+                              color="gray"
+                              icon="times"
+                              className={styles.miniBtn}
+                              onClick={() => this.setState({ confirmDeleteId: null })}
+                            />
+                          </div>
+                        ) : (
+                          <Tipso
+                            trigger="hover"
+                            theme="dark"
+                            tipsoContent={(<span>{modalTexts.delete || '删除'}</span>)}
+                          >
+                            <IconButton
+                              color="gray"
+                              icon="trash"
+                              className={styles.actionBtn}
+                              onClick={() => this.setState({ confirmDeleteId: item.resumeId })}
+                            />
+                          </Tipso>
+                        )
+                      )}
+                    </div>
                   </div>
 
-                  <div className={styles.itemActions}>
-                    {!isActive && (
-                      <button
-                        type="button"
-                        className={cx(styles.actionBtn, styles.actionBtnPrimary)}
-                        onClick={() => {
-                          onSwitchResume && onSwitchResume(item.resumeId)
-                          onClose && onClose()
-                        }}
+                  <div className={styles.urlRow}>
+                    <Icon icon="link" className={styles.urlIcon} />
+                    <span className={styles.urlText} title={fullShareUrl}>
+                      {fullShareUrl}
+                    </span>
+                    <div className={styles.urlActions}>
+                      <Tipso
+                        trigger="hover"
+                        theme="dark"
+                        tipsoContent={(<span>{modalTexts.copyShareUrl || '复制公开链接'}</span>)}
                       >
-                        <Icon icon="pencil" />
-                        <span>切换编辑</span>
-                      </button>
-                    )}
-
-                    {!item.isDefault && (
-                      <button
-                        type="button"
-                        className={styles.actionBtn}
-                        onClick={() => onSetDefaultResume && onSetDefaultResume(item.resumeId)}
+                        <IconButton
+                          color="gray"
+                          icon="clipboard"
+                          className={styles.miniBtn}
+                          onClick={() => this.handleCopyLink(fullShareUrl)}
+                        />
+                      </Tipso>
+                      <Tipso
+                        trigger="hover"
+                        theme="dark"
+                        tipsoContent={(<span>{modalTexts.openShareUrl || '在新窗口查看'}</span>)}
                       >
-                        <Icon icon="star-o" />
-                        <span>{modalTexts.setDefault || '设为默认'}</span>
-                      </button>
-                    )}
+                        <IconButton
+                          color="gray"
+                          icon="external-link"
+                          className={styles.miniBtn}
+                          onClick={() => window.open(fullShareUrl, '_blank')}
+                        />
+                      </Tipso>
+                    </div>
+                  </div>
 
-                    {!isRenaming && (
-                      <button
-                        type="button"
-                        className={styles.actionBtn}
-                        onClick={() => this.setState({ renamingId: item.resumeId, renamingTitle: item.title })}
-                      >
-                        <Icon icon="edit" />
-                        <span>{modalTexts.rename || '重命名'}</span>
-                      </button>
-                    )}
-
-                    <button
-                      type="button"
-                      className={styles.actionBtn}
-                      onClick={() => onCopyResume && onCopyResume(item.resumeId, `${item.title} (副本)`)}
-                    >
-                      <Icon icon="copy" />
-                      <span>{modalTexts.copy || '复制'}</span>
-                    </button>
-
-                    {resumeList.length > 1 && (
-                      isConfirmingDelete ? (
-                        <div style={{ display: 'inline-flex', gap: 4 }}>
-                          <button
-                            type="button"
-                            className={cx(styles.actionBtn, styles.actionBtnDanger)}
-                            onClick={() => {
-                              onDeleteResume && onDeleteResume(item.resumeId)
-                              this.setState({ confirmDeleteId: null })
-                            }}
-                          >
-                            <span>确认删除</span>
-                          </button>
-                          <button
-                            type="button"
-                            className={styles.actionBtn}
-                            onClick={() => this.setState({ confirmDeleteId: null })}
-                          >
-                            <span>取消</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          className={cx(styles.actionBtn, styles.actionBtnDanger)}
-                          onClick={() => this.setState({ confirmDeleteId: item.resumeId })}
-                        >
-                          <Icon icon="trash" />
-                          <span>{modalTexts.delete || '删除'}</span>
-                        </button>
-                      )
-                    )}
+                  <div className={styles.itemBottom}>
+                    {updateTime ? <span>{`更新于 ${updateTime}`}</span> : <span />}
                   </div>
                 </div>
               )
@@ -273,18 +376,47 @@ class ResumeListModal extends React.Component {
           </div>
 
           <div className={styles.footer}>
-            <button
-              type="button"
-              className={styles.actionBtn}
-              onClick={onClose}
-            >
-              <span>关闭</span>
-            </button>
+            <blockquote>
+              提示：非默认简历通过专属哈希地址公开；公开开关可在编辑时右上角“分享”中切换。
+            </blockquote>
+            <ClassicButton theme="dark">
+              <Button
+                color="none"
+                value="关闭"
+                onClick={onClose}
+              />
+            </ClassicButton>
           </div>
         </div>
       </PortalModal>
     )
   }
+}
+
+ResumeListModal.propTypes = {
+  openModal: PropTypes.bool,
+  onClose: PropTypes.func,
+  resumeList: PropTypes.array,
+  currentResumeId: PropTypes.string,
+  onSwitchResume: PropTypes.func,
+  onCreateResume: PropTypes.func,
+  onCopyResume: PropTypes.func,
+  onDeleteResume: PropTypes.func,
+  onSetDefaultResume: PropTypes.func,
+  onRenameResume: PropTypes.func
+}
+
+ResumeListModal.defaultProps = {
+  openModal: false,
+  onClose: Function.prototype,
+  resumeList: [],
+  currentResumeId: '',
+  onSwitchResume: Function.prototype,
+  onCreateResume: Function.prototype,
+  onCopyResume: Function.prototype,
+  onDeleteResume: Function.prototype,
+  onSetDefaultResume: Function.prototype,
+  onRenameResume: Function.prototype
 }
 
 export default ResumeListModal

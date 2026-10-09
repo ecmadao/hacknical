@@ -38,7 +38,7 @@ const getResumeShareStatus = (resumeInfo, locale, origin) => {
   return {
     ...resumeInfo,
     githubUrl: `${baseUrl}/${resumeInfo.login}/github?locale=${locale}`,
-    url: resumeInfo.simplifyUrl && resumeInfo.login
+    url: resumeInfo.simplifyUrl && resumeInfo.login && resumeInfo.isDefault
       ? `${resumeInfo.login}/resume?locale=${locale}`
       : `resume/${resumeInfo.resumeHash}?locale=${locale}`
   }
@@ -406,11 +406,27 @@ const setResumeInfo = async (ctx) => {
 }
 
 const getResumeList = async (ctx) => {
-  const { userId } = ctx.session
+  const { userId, githubLogin } = ctx.session
   const list = await network.user.getResumeList(userId)
+  const origin = resolveOrigin(ctx, ctx.request.origin)
+  const baseUrl = origin.replace(/\/$/, '')
+  const result = (list || []).map((item) => {
+    const isDefault = Boolean(item.isDefault)
+    const simplifyUrl = Boolean(item.simplifyUrl)
+    const sharePath = isDefault && simplifyUrl && githubLogin
+      ? `${githubLogin}/resume`
+      : `resume/${item.resumeHash}`
+    return {
+      ...item,
+      isDefault,
+      simplifyUrl,
+      sharePath,
+      shareUrl: `${baseUrl}/${sharePath}`
+    }
+  })
   ctx.body = {
     success: true,
-    result: list
+    result
   }
 }
 

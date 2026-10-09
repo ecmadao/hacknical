@@ -66,26 +66,41 @@
   flex: 1;
 }
 
-.resume_title_badge {
+.resume_switcher_btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 12px;
-  margin-right: 12px;
-  background-color: var(--oc-gray-1);
-  border: 1px solid var(--oc-gray-3);
-  border-radius: 16px;
-  font-size: 0.85em;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  margin-right: 8px;
+  background-color: var(--oc-white);
+  border: 1px solid var(--oc-gray-4);
+  border-radius: 2px;
+  font-size: 13px;
   color: var(--oc-gray-7);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
 
+  & i {
+    font-size: 12px;
+    color: var(--oc-gray-6);
+  }
+
   &:hover {
-    background-color: var(--oc-gray-2);
+    background-color: var(--oc-gray-1);
     border-color: var(--oc-gray-5);
     color: var(--oc-gray-9);
+
+    & i {
+      color: var(--oc-gray-8);
+    }
   }
+}
+
+.resume_title_badge {
+  composes: resume_switcher_btn;
 }
 
 .resume_title_text {

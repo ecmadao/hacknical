@@ -47,7 +47,14 @@ const datas = {
       deleteSuccess: 'Resume deleted',
       setDefaultSuccess: 'Set as default resume',
       renameSuccess: 'Resume renamed successfully',
-      untitled: 'Untitled Resume'
+      untitled: 'Untitled Resume',
+      shareUrl: 'Public URL',
+      copyShareUrl: 'Copy Public Link',
+      openShareUrl: 'Open in New Window',
+      publicShared: 'Public',
+      notPublicShared: 'Private',
+      copyLinkSuccess: 'Public link copied to clipboard',
+      switchToEdit: 'Edit this resume'
     }
   },
   sections: {
