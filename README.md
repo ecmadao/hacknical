@@ -40,7 +40,7 @@ GITHUB_OAUTH_REDIRECT_URI=http://localhost:4000/api/user/login/github/callback
 
 The OAuth callback URL must also be registered in the GitHub OAuth App.
 
-The temporary online deployment is available at [https://hack.r2049.cn/](https://hack.r2049.cn/).
+The online deployment is available at [https://hackneo.cn/](https://hackneo.cn/).
 
 ## Production build
 
@@ -81,7 +81,7 @@ npm run build-static
 
 ## Project links
 
-- Online deployment: [hack.r2049.cn](https://hack.r2049.cn/)
+- Online deployment: [hackneo.cn](https://hackneo.cn/)
 - Current repository: [github.com/liguobao/hacknical](https://github.com/liguobao/hacknical)
 - Issues: [github.com/liguobao/hacknical/issues](https://github.com/liguobao/hacknical/issues)
 - Original repository: [github.com/ecmadao/hacknical](https://github.com/ecmadao/hacknical)

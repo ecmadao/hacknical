@@ -121,7 +121,7 @@ class Resume extends React.Component {
         })
         const a = document.createElement('a')
         a.href = result
-        a.download = `${name ? `${name}-resume` : 'resume'}-hacknical.pdf`
+          a.download = `${name ? `${name}-resume` : 'resume'}-hackneo.pdf`
         a.click()
       } else {
         Push.create(messages.downloadError, {

@@ -12,7 +12,7 @@ test('deployment preserves signing key, existing OAuth secrets and production co
     fs.mkdirSync(path.join(root, 'config'))
     fs.copyFileSync('scripts/configure-deploy.py', path.join(root, 'scripts/configure-deploy.py'))
     fs.copyFileSync('config/production.example.json', path.join(root, 'config/production.example.json'))
-    const env = { ...process.env, APP_URL: 'https://hack.r2049.cn', APP_KEY: '', GITHUB_OAUTH_CLIENT_ID: '', GITHUB_OAUTH_CLIENT_SECRET: '', GITHUB_OAUTH_REDIRECT_URI: '' }
+    const env = { ...process.env, APP_URL: 'https://hackneo.cn', APP_KEY: '', GITHUB_OAUTH_CLIENT_ID: '', GITHUB_OAUTH_CLIENT_SECRET: '', GITHUB_OAUTH_REDIRECT_URI: '' }
     const run = extra => spawnSync('python3', [path.join(root, 'scripts/configure-deploy.py')], { env: { ...env, ...extra }, encoding: 'utf8' })
     const read = () => Object.fromEntries(fs.readFileSync(path.join(root, '.env'), 'utf8').trim().split('\n').map(line => {
       const at = line.indexOf('=')
@@ -22,7 +22,7 @@ test('deployment preserves signing key, existing OAuth secrets and production co
     const initial = read()
     assert.match(initial.APP_KEY, /^[a-f\d]{64}$/)
     assert.equal(initial.GITHUB_OAUTH_CLIENT_ID, '')
-    assert.equal(initial.GITHUB_OAUTH_REDIRECT_URI, 'https://hack.r2049.cn/api/user/login/github/callback')
+    assert.equal(initial.GITHUB_OAUTH_REDIRECT_URI, 'https://hackneo.cn/api/user/login/github/callback')
     assert.equal(fs.statSync(path.join(root, '.env')).mode & 0o777, 0o600)
     const production = fs.readFileSync(path.join(root, 'config/production.json'), 'utf8')
     const changed = run({ GITHUB_OAUTH_CLIENT_ID: 'real-client', GITHUB_OAUTH_CLIENT_SECRET: 'private-secret' })
@@ -32,6 +32,14 @@ test('deployment preserves signing key, existing OAuth secrets and production co
     assert.equal(read().APP_KEY, initial.APP_KEY)
     assert.equal(read().GITHUB_OAUTH_CLIENT_SECRET, 'private-secret')
     assert.equal(fs.readFileSync(path.join(root, 'config/production.json'), 'utf8'), production)
+    assert.equal(run({ APP_URL: 'https://hackneo.cn' }).status, 0)
+    assert.equal(read().APP_URL, 'https://hackneo.cn')
+    assert.equal(read().GITHUB_OAUTH_REDIRECT_URI, 'https://hackneo.cn/api/user/login/github/callback')
+    assert.equal(read().APP_KEY, initial.APP_KEY)
+    assert.equal(read().GITHUB_OAUTH_CLIENT_SECRET, 'private-secret')
+    assert.equal(run({ APP_URL: 'https://hackneo.cn', GITHUB_OAUTH_REDIRECT_URI: 'https://auth.example/callback' }).status, 0)
+    assert.equal(run({ APP_URL: 'https://hackneo.cn' }).status, 0)
+    assert.equal(read().GITHUB_OAUTH_REDIRECT_URI, 'https://auth.example/callback')
     const previous = fs.readFileSync(path.join(root, '.env'), 'utf8')
     assert.notEqual(run({ APP_URL: 'http://invalid.example' }).status, 0)
     assert.notEqual(run({ GITHUB_OAUTH_CLIENT_SECRET: 'first\nSECOND=bad' }).status, 0)

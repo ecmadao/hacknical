@@ -62,7 +62,7 @@ class InitialPanel extends React.Component {
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.contentHeader}>
-            <LogoText theme="light" text={`HACKNICAL INITIALIZING - ${login}`}/>
+            <LogoText theme="light" text={`HACKNEO INITIALIZING - ${login}`}/>
           </div>
           <div className={styles.contentWrapper}>
             <Terminal

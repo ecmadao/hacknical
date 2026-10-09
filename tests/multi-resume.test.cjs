@@ -25,7 +25,7 @@ async function launch() {
     ...process.env,
     NODE_ENV: 'production',
     PORT: String(port),
-    APP_URL: 'https://hack.r2049.cn',
+    APP_URL: 'https://hackneo.cn',
     APP_KEY: 'c'.repeat(64),
     SQLITE_PATH: database,
     LOG_LEVEL: 'ERROR',
@@ -33,7 +33,7 @@ async function launch() {
     GITHUB_API_URL: 'https://api.github.com',
     GITHUB_OAUTH_CLIENT_ID: 'dummy-id',
     GITHUB_OAUTH_CLIENT_SECRET: 'dummy-secret',
-    GITHUB_OAUTH_REDIRECT_URI: 'https://hack.r2049.cn/api/user/login/github/callback'
+    GITHUB_OAUTH_REDIRECT_URI: 'https://hackneo.cn/api/user/login/github/callback'
   }
   app = spawn(process.execPath, ['dist/bin/app.js'], { env, stdio: ['ignore', 'pipe', 'pipe'] })
   app.stdout.on('data', data => { output += data })

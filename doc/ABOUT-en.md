@@ -53,6 +53,6 @@ Right now, Hacknical is in the beta stages and not everything works perfectly.
 - Hacknical is an open source project licensed under the [Apache License](https://github.com/ecmadao/hacknical/blob/master/LICENSE).
 - The project repository is located on Github at [ecmadao/hacknical](https://github.com/ecmadao/hacknical).
 - This project is guaranteed to be free for users permanently.
-- To see this app in action, take a look at my [resume]https://hacknical.com/ecmadao/resume) and [Github data analysis report](https://hacknical.com/ecmadao/github), both adapted for the mobile site.
+- To see this app in action, take a look at my [resume](https://hackneo.cn/ecmadao/resume) and [Github data analysis report](https://hackneo.cn/ecmadao/github), both adapted for the mobile site.
 
 Leave any comments, suggestions or issues at the [issues page](https://github.com/ecmadao/hacknical/issues) to help me improve this app. Thank you.

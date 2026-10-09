@@ -30,11 +30,11 @@ const resolveOrigin = (ctx, origin) => {
   if (config.has('url') && config.get('url')) {
     return config.get('url')
   }
-  return 'https://hacknical.com'
+  return 'https://hackneo.cn'
 }
 
 const getResumeShareStatus = (resumeInfo, locale, origin) => {
-  const originStr = (typeof origin === 'string' && origin) || (config.has('url') && config.get('url')) || 'https://hacknical.com'
+  const originStr = (typeof origin === 'string' && origin) || (config.has('url') && config.get('url')) || 'https://hackneo.cn'
   const baseUrl = originStr.replace(/\/$/, '')
   const pinyin = resumeInfo.pinyin || titleToPinyin(resumeInfo.title)
   let relativePath = ''

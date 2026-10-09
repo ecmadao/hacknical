@@ -3,35 +3,35 @@
 		"text": "中文",
     "id": "zh"
   },
-	"description": "hacknical - 查看自己的 GitHub 总结，并协助你完善自我简历",
+	"description": "hackneo - 查看自己的 GitHub 总结，并协助你完善自我简历",
 	"keywords": "GitHub，数据可视化，简历，在线简历",
 	"loginPage": {
-		"title": "hacknical | 更加高效的在线简历"
+		"title": "hackneo | 更加高效的在线简历"
 	},
 	"404Page": {
-		"title": "hacknical | 没有找到页面",
+		"title": "hackneo | 没有找到页面",
     "404": "没有找到页面",
 		"text": "阿西吧！你进入了未知区域",
 		"redirectText": "即将回到首页"
 	},
 	"500Page": {
-		"title": "hacknical | 服务器错误",
+		"title": "hackneo | 服务器错误",
 		"text": "阿西吧！服务器貌似挂了..",
 		"redirectText": "休息一会吧~",
 		"500": "服务器错误"
 	},
 	"dashboard": {
-		"title": "hacknical | %s 的个人主页",
+		"title": "hackneo | %s 的个人主页",
 		"about": "关于",
 		"feedback": "反馈",
 		"code": "源码"
 	},
   "sharePage": {
-    "title": "%s 的 GitHub 总结 | hacknical",
+    "title": "%s 的 GitHub 总结 | hackneo",
     "joinAt": "加入于"
   },
 	"resumePage": {
-    "title": "%s 的个人简历 | hacknical"
+    "title": "%s 的个人简历 | hackneo"
   },
 	"mobilePage": {
 		"setting": "数据更新",

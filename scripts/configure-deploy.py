@@ -22,6 +22,9 @@ if env_file.exists():
             except ValueError:
                 values[key] = value.strip().strip("'\"")
 
+previous_url = values.get('APP_URL', '').rstrip('/')
+previous_redirect = values.get('GITHUB_OAUTH_REDIRECT_URI', '')
+
 for key in ('APP_URL', 'APP_KEY', 'GITHUB_OAUTH_CLIENT_ID',
             'GITHUB_OAUTH_CLIENT_SECRET', 'GITHUB_OAUTH_REDIRECT_URI'):
     if os.environ.get(key):
@@ -30,8 +33,11 @@ for key in ('APP_URL', 'APP_KEY', 'GITHUB_OAUTH_CLIENT_ID',
 url = urlparse(values.get('APP_URL', ''))
 if url.scheme != 'https' or not url.netloc or url.path not in ('', '/'):
     raise SystemExit('APP_URL must be the public HTTPS origin')
-values.setdefault('GITHUB_OAUTH_REDIRECT_URI',
-                  values['APP_URL'].rstrip('/') + '/api/user/login/github/callback')
+if not os.environ.get('GITHUB_OAUTH_REDIRECT_URI') and (
+        not previous_redirect or previous_redirect ==
+        previous_url + '/api/user/login/github/callback'):
+    values['GITHUB_OAUTH_REDIRECT_URI'] = (
+        values['APP_URL'].rstrip('/') + '/api/user/login/github/callback')
 values.setdefault('GITHUB_OAUTH_CLIENT_ID', '')
 values.setdefault('GITHUB_OAUTH_CLIENT_SECRET', '')
 

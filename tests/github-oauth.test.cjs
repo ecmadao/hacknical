@@ -26,13 +26,13 @@ async function launch(configured = true) {
   origin = `http://127.0.0.1:${port}`
   const env = {
     ...process.env, NODE_ENV: 'production', PORT: String(port),
-    APP_URL: 'https://hack.r2049.cn', APP_KEY: 'a'.repeat(64),
+    APP_URL: 'https://hackneo.cn', APP_KEY: 'a'.repeat(64),
     SQLITE_PATH: database, LOG_LEVEL: 'ERROR',
     GITHUB_API_URL: providerUrl,
     GITHUB_CLIENT_ID: '', GITHUB_CLIENT_SECRET: '',
     GITHUB_OAUTH_CLIENT_ID: configured ? 'test-client' : '',
     GITHUB_OAUTH_CLIENT_SECRET: configured ? 'test-secret' : '',
-    GITHUB_OAUTH_REDIRECT_URI: 'https://hack.r2049.cn/api/user/login/github/callback',
+    GITHUB_OAUTH_REDIRECT_URI: 'https://hackneo.cn/api/user/login/github/callback',
     NODE_CONFIG: JSON.stringify({
       github: { apiUrl: providerUrl, oauth: { baseUrl: providerUrl, clientId: '', clientSecret: '' } }
     })
@@ -80,7 +80,7 @@ async function start(client) {
   assert.equal(target.origin, providerUrl)
   assert.equal(target.pathname, '/login/oauth/authorize')
   assert.equal(target.searchParams.get('client_id'), 'test-client')
-  assert.equal(target.searchParams.get('redirect_uri'), 'https://hack.r2049.cn/api/user/login/github/callback')
+  assert.equal(target.searchParams.get('redirect_uri'), 'https://hackneo.cn/api/user/login/github/callback')
   assert.equal(target.searchParams.get('scope'), 'read:user user:email')
   assert.match(target.searchParams.get('state'), /^[a-f\d]{64}$/)
   assert.ok(response.headers.getSetCookie().filter(cookie => cookie.startsWith('HACKNICAL:session')).every(cookie => /httponly/i.test(cookie) && /secure/i.test(cookie) && /samesite=lax/i.test(cookie)), JSON.stringify(response.headers.getSetCookie()))
@@ -102,7 +102,7 @@ before(async () => {
       exchanges.push(Object.fromEntries(params))
       assert.equal(request.method, 'POST')
       assert.equal(params.get('client_secret'), 'test-secret')
-      assert.equal(params.get('redirect_uri'), 'https://hack.r2049.cn/api/user/login/github/callback')
+      assert.equal(params.get('redirect_uri'), 'https://hackneo.cn/api/user/login/github/callback')
       if (params.get('code') === 'http-error') response.statusCode = 502
       response.end(JSON.stringify(params.get('code') === 'denied'
         ? { error: 'bad_verification_code' } : { access_token: 'test-private-token', ...(params.get('code') === 'expiring' ? { expires_in: 28800 } : {}) }))

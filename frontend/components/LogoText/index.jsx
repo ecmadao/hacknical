@@ -20,7 +20,7 @@ const _LogoText = (props) => {
     <ClassicText
       {...props}
       className={textClassName}
-      text={props.text || 'hacknical'}
+      text={props.text || 'hackneo'}
     />
   )
 }

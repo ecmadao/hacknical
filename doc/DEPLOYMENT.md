@@ -1,6 +1,6 @@
 # GitHub 登录与自动部署
 
-线上地址：<https://hack.r2049.cn>。SSH 自动部署沿用服务器上已有的项目目录 `/var/lib/dsh/workspace/hacknical`，端口为 `127.0.0.1:4000`，Nginx 负责 HTTPS。数据库、上传资源和日志分别位于 `data/`、`public/uploads/`、`log/`，发布不会删除这些目录。
+线上地址：<https://hackneo.cn>。SSH 自动部署沿用服务器上已有的项目目录 `/var/lib/dsh/workspace/hacknical`，端口为 `127.0.0.1:4000`，Nginx 负责 HTTPS。数据库、上传资源和日志分别位于 `data/`、`public/uploads/`、`log/`，发布不会删除这些目录。旧域名 `hack.r2049.cn` 的 HTTP / HTTPS 请求会以 301 跳转到新域名，保留路径和查询参数。
 
 ## 创建 GitHub OAuth App
 
@@ -9,8 +9,8 @@
 | 字段 | 值 |
 | --- | --- |
 | Application name | Hacknical |
-| Homepage URL | `https://hack.r2049.cn` |
-| Authorization callback URL | `https://hack.r2049.cn/api/user/login/github/callback` |
+| Homepage URL | `https://hackneo.cn` |
+| Authorization callback URL | `https://hackneo.cn/api/user/login/github/callback` |
 
 创建后生成 Client Secret，在本仓库 **Settings → Secrets and variables → Actions** 添加：
 
@@ -23,6 +23,8 @@
 
 OAuth App 创建前，服务器 `.env` 保留空值，登录返回 `503 GITHUB_OAUTH_UNAVAILABLE`。不能完成真实 GitHub 授权，但网站和部署流程可以正常工作。空的工作流 secret 不会覆盖服务器上已配置的非空凭据。
 
+域名迁移时，在已有 OAuth App 的设置页同时更新 Homepage URL 和 Authorization callback URL；Client ID 和 Client Secret 沿用原值。GitHub 账户页面的回调地址必须与服务器配置一致。新域名不会继承旧域名的登录 cookie，需要重新登录。
+
 ## GitHub Actions 配置
 
 工作流：`.github/workflows/docker-publish.yml`。
@@ -34,11 +36,11 @@ OAuth App 创建前，服务器 `.env` 保留空值，登录返回 `503 GITHUB_O
 | Secret | `SSH_PRIVATE_KEY` | 本项目专用部署密钥 |
 | Secret，可选 | `APP_KEY` | 稳定的会话签名密钥，至少 32 字符；未提供则沿用服务器配置或首次自动生成 |
 | Variable | `DEPLOY_ENABLED` | `true` |
-| Variable | `APP_URL` | `https://hack.r2049.cn` |
+| Variable | `APP_URL` | `https://hackneo.cn` |
 | Variable | `DEPLOY_PATH` | `/var/lib/dsh/workspace/hacknical` |
 | Variable | `DEPLOY_PORT` | `22` |
 | Variable | `SSH_HOST_FINGERPRINT` | SSH 服务器 ECDSA 指纹（Actions 默认协商此算法），上传和执行均验证 |
-| Variable | `HACKNICAL_GITHUB_OAUTH_REDIRECT_URI` | `https://hack.r2049.cn/api/user/login/github/callback` |
+| Variable | `HACKNICAL_GITHUB_OAUTH_REDIRECT_URI` | `https://hackneo.cn/api/user/login/github/callback` |
 
 默认分支 `master` 的 push 和手动执行会完成：
 
@@ -73,10 +75,31 @@ cd /var/lib/dsh/workspace/hacknical
 docker compose -p hacknical -f docker-compose.deploy.yml ps
 docker logs --tail 100 hacknical
 curl -fsS http://127.0.0.1:4000/api/healthz
-curl -fsS https://hack.r2049.cn/api/healthz
+curl -fsS https://hackneo.cn/api/healthz
 
 # 使用已知正常的 commit SHA 镜像手动回滚
 HACKNICAL_IMAGE=ghcr.io/liguobao/hacknical:<commit-sha> bash scripts/deploy-image.sh
 ```
 
 `.env` 和 `config/production.json` 仅服务器持有，权限为 `600`，不会传入 Docker 构建上下文。需要备份时应使用 SQLite 在线备份 API 或停机后备份数据库及 WAL，而不是在运行时只复制主数据库文件。
+
+## Nginx 与 SSL 证书
+
+DNS A 记录指向 `216.167.70.178`。Nginx 配置保存在 `doc/nginx/hackneo.cn.conf` 和 `doc/nginx/hack.r2049.cn.conf`，服务器对应目录为 `/etc/nginx/conf.d/`。新域名反向代理到 `127.0.0.1:4000`，旧域名保留证书并跳转；两者均保留 HTTP ACME challenge 路径。
+
+服务器使用已有的 `/root/.acme.sh/acme.sh` 和 Let's Encrypt。首次签发前，先配置新域名的 HTTP server 块，使 `/.well-known/acme-challenge/` 从 `/var/www/acme` 提供文件，然后执行：
+
+```bash
+mkdir -p /var/www/acme /etc/nginx/cert/hackneo.cn
+/root/.acme.sh/acme.sh --issue --server letsencrypt \
+  -d hackneo.cn --webroot /var/www/acme --keylength ec-256
+/root/.acme.sh/acme.sh --install-cert -d hackneo.cn --ecc \
+  --key-file /etc/nginx/cert/hackneo.cn/hackneo.cn.key \
+  --fullchain-file /etc/nginx/cert/hackneo.cn/fullchain.pem \
+  --reloadcmd 'nginx -t && systemctl reload nginx'
+cp doc/nginx/hackneo.cn.conf /etc/nginx/conf.d/hackneo.cn.conf
+cp doc/nginx/hack.r2049.cn.conf /etc/nginx/conf.d/hack.r2049.cn.conf
+nginx -t && systemctl reload nginx
+```
+
+已有 root crontab 每天运行 `acme.sh --cron`，续期后会安装证书并校验、重载 Nginx。需要持续保留两个域名的 DNS 解析及 80 端口访问。`scripts/configure-deploy.py` 在 `APP_URL` 变化时会同步由旧站点地址生成的默认 OAuth 回调；显式指定的回调或自定义回调沿用配置。

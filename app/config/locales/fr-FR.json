@@ -3,32 +3,32 @@
     "text": "Fr",
     "id": "fr"
   },
-  "description": "Hacknical - Une plateforme destinée aux utilisateurs GitHub afin de promouvoir un CV plus adapté.",
+  "description": "Hackneo - Une plateforme destinée aux utilisateurs GitHub afin de promouvoir un CV plus adapté.",
   "keywords": "GitHub, GitHub-Contributions, GitHub-Analyse, Curriculum Vitae, CV",
   "loginPage": {
-    "title": "Hacknical | Un meilleur CV"
+    "title": "Hackneo | Un meilleur CV"
   },
   "404Page": {
-    "title": "Hacknical | page introuvable",
+    "title": "Hackneo | page introuvable",
     "404": "404 introuvable.",
     "text": "WTF? ÊTES-VOUS PERDU?",
 	  "redirectText": "Retour à l'accueil dans quelques secondes"
   },
   "500Page": {
-		"title": "hacknical | server error",
+		"title": "hackneo | server error",
 		"text": "WTF? Some terrible things happened",
 		"redirectText": "Take a rest~",
 		"500": "Some terrible things happened"
 	},
   "dashboard": {
-    "title": "Hacknical | %s"
+    "title": "Hackneo | %s"
   },
   "sharePage": {
-    "github": "%s's GitHub résumé | Hacknical",
+    "github": "%s's GitHub résumé | Hackneo",
     "joinAt": "À rejoint le"
   },
   "resumePage": {
-    "title": "%s's résumé | Hacknical"
+    "title": "%s's résumé | Hackneo"
   },
   "mobilePage": {
     "setting": "Paramètres",

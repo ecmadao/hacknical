@@ -3,35 +3,35 @@
     "text": "En",
     "id": "en"
   },
-  "description": "hacknical - A website for GitHub user to make a better resume.",
+  "description": "hackneo - A website for GitHub user to make a better resume.",
   "keywords": "GitHub, GitHub-Contributions, GitHub-Analysis, Resume, Resume-Template, Data-Analysis",
   "loginPage": {
-    "title": "hacknical | Make a better resume"
+    "title": "hackneo | Make a better resume"
   },
   "404Page": {
-    "title": "hacknical | not found",
+    "title": "hackneo | not found",
     "404": "404 not found.",
     "text": "WTF? YOU ARE IN THE NO-MANS LAND",
 	  "redirectText": "Going back home in a few seconds"
   },
   "500Page": {
-		"title": "hacknical | server error",
+		"title": "hackneo | server error",
 		"text": "WTF? Some terrible things happened",
 		"redirectText": "Take a rest~",
 		"500": "Some terrible things happened"
 	},
   "dashboard": {
-    "title": "hacknical | %s",
+    "title": "hackneo | %s",
     "about": "about",
 		"feedback": "feedback",
 		"code": "source code"
   },
   "sharePage": {
-    "title": "%s's GitHub summary | hacknical",
+    "title": "%s's GitHub summary | hackneo",
     "joinAt": "Joined at"
   },
   "resumePage": {
-    "title": "%s's resume | hacknical"
+    "title": "%s's resume | hackneo"
   },
   "mobilePage": {
     "setting": "Setting",

@@ -2,7 +2,7 @@
   "port": 4000,
   "appKey": "REPLACE_WITH_RANDOM_HEX",
   "appName": "hacknical",
-  "url": "https://your-domain.com",
+  "url": "https://hackneo.cn",
   "storage": {
     "type": "sqlite",
     "sqlite": {
