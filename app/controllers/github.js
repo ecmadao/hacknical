@@ -24,7 +24,17 @@ const _getUser = async (ctx) => {
     }
   }
   const token = ctx.session && isGitHubSession(ctx.session) ? ctx.session.githubToken : null
-  const user = await network.github.getUser(login, token)
+  let user
+  try {
+    user = await network.github.getUser(login, token)
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUser failed for ${login}: ${err.message}`)
+      user = await network.github.getUser(login, null)
+    } else {
+      throw err
+    }
+  }
   if (!user) {
     return ctx.redirect('/404')
   }
@@ -32,25 +42,59 @@ const _getUser = async (ctx) => {
 }
 
 const _getRepositories = async (login, token) => {
-  const repositories = await network.github.getUserRepositories(login, token)
-  repositories.sort(sortBy.star)
-  return repositories
+  try {
+    const repositories = await network.github.getUserRepositories(login, token)
+    repositories.sort(sortBy.star)
+    return repositories
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUserRepositories failed for ${login}: ${err.message}`)
+      const repositories = await network.github.getUserRepositories(login, null)
+      repositories.sort(sortBy.star)
+      return repositories
+    }
+    throw err
+  }
 }
 
 const _getContributed = async (login, token) => {
-  const repos = await network.github.getUserContributed(login, token)
-  repos.sort(sortBy.star)
-  return repos
+  try {
+    const repos = await network.github.getUserContributed(login, token)
+    repos.sort(sortBy.star)
+    return repos
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUserContributed failed for ${login}: ${err.message}`)
+      const repos = await network.github.getUserContributed(login, null)
+      repos.sort(sortBy.star)
+      return repos
+    }
+    throw err
+  }
 }
 
 const _getCommits = async (login, token) => {
-  const commits = await network.github.getUserCommits(login, token)
-  const formatCommits = combineReposCommits(commits)
-  commits.sort(sortBy.x('totalCommits', parseInt))
+  try {
+    const commits = await network.github.getUserCommits(login, token)
+    const formatCommits = combineReposCommits(commits)
+    commits.sort(sortBy.x('totalCommits', parseInt))
 
-  return {
-    commits,
-    formatCommits
+    return {
+      commits,
+      formatCommits
+    }
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUserCommits failed for ${login}: ${err.message}`)
+      const commits = await network.github.getUserCommits(login, null)
+      const formatCommits = combineReposCommits(commits)
+      commits.sort(sortBy.x('totalCommits', parseInt))
+      return {
+        commits,
+        formatCommits
+      }
+    }
+    throw err
   }
 }
 
@@ -172,7 +216,17 @@ const getUserLanguages = async (ctx, next) => {
   const { login } = ctx.params
   const { githubToken } = ctx.session
 
-  const languages = await network.github.getUserLanguages(login, githubToken)
+  let languages
+  try {
+    languages = await network.github.getUserLanguages(login, githubToken)
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUserLanguages failed for ${login}: ${err.message}`)
+      languages = await network.github.getUserLanguages(login, null)
+    } else {
+      throw err
+    }
+  }
   ctx.body = {
     success: true,
     result: languages
@@ -191,8 +245,19 @@ const getUserOrganizations = async (ctx, next) => {
   }
   const { login } = ctx.params
   const { githubToken } = ctx.session
-  const organizations =
-    await network.github.getUserOrganizations(login, githubToken)
+  let organizations
+  try {
+    organizations =
+      await network.github.getUserOrganizations(login, githubToken)
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUserOrganizations failed for ${login}: ${err.message}`)
+      organizations =
+        await network.github.getUserOrganizations(login, null)
+    } else {
+      throw err
+    }
+  }
 
   ctx.body = {
     success: true,
@@ -203,17 +268,36 @@ const getUserOrganizations = async (ctx, next) => {
 
 const getUser = async (ctx, next) => {
   const { login } = ctx.params
-  const [user, userInfo] = await Promise.all([
-    _getUser(ctx),
-    network.user.getUser({ login })
-  ])
+  try {
+    const [user, userInfo] = await Promise.all([
+      _getUser(ctx),
+      network.user.getUser({ login })
+    ])
 
-  const result = Object.assign({}, user)
-  result.openShare = userInfo.githubShare
-  result.shareUrl = `${login}/github?locale=${ctx.session.locale}`
-  ctx.body = {
-    result,
-    success: true,
+    const result = Object.assign({}, user)
+    result.openShare = userInfo && userInfo.githubShare
+    result.shareUrl = `${login}/github?locale=${ctx.session.locale}`
+    ctx.body = {
+      result,
+      success: true,
+    }
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUser failed for ${login}: ${err.message}`)
+      const [user, userInfo] = await Promise.all([
+        network.github.getUser(login, null),
+        network.user.getUser({ login })
+      ])
+      const result = Object.assign({}, user)
+      result.openShare = userInfo && userInfo.githubShare
+      result.shareUrl = `${login}/github?locale=${ctx.session.locale}`
+      ctx.body = {
+        result,
+        success: true,
+      }
+    } else {
+      throw err
+    }
   }
   await next()
 }
@@ -419,7 +503,17 @@ const getUserHotmap = async (ctx, next) => {
   }
   const { login } = ctx.params
   const { locale } = ctx.session
-  const result = await network.github.getHotmap(login, locale)
+  let result
+  try {
+    result = await network.github.getHotmap(login, locale)
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      logger.warn(`[GITHUB:API:401] getUserHotmap failed for ${login}: ${err.message}`)
+      result = { start: null, end: null, datas: [], total: 0, streak: null }
+    } else {
+      throw err
+    }
+  }
 
   ctx.body = {
     result,

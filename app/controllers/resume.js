@@ -61,10 +61,14 @@ const getResume = async (ctx) => {
   ) {
     if (!resume.info.languages || !resume.info.languages.length) {
       if (isGitHubSession(ctx.session)) {
-        const languages = await network.github.getUserLanguages(githubLogin, githubToken)
-        resume.info.languages = Object.keys(languages)
-          .slice(0, 5)
-          .sort((k1, k2) => languages[k2] - languages[k1])
+        try {
+          const languages = await network.github.getUserLanguages(githubLogin, githubToken)
+          resume.info.languages = Object.keys(languages)
+            .slice(0, 5)
+            .sort((k1, k2) => languages[k2] - languages[k1])
+        } catch (err) {
+          logger.warn(`[RESUME:GITHUB] Failed to fetch languages for ${githubLogin}: ${err.message}`)
+        }
       }
     }
   }

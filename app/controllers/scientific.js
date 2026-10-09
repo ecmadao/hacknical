@@ -14,10 +14,21 @@ const getUserStatistic = async (ctx) => {
   }
   const { login } = ctx.params
   const { githubToken } = ctx.session
-  const result = await network.github.getUserStatistic(login, githubToken)
-  ctx.body = {
-    result,
-    success: true
+  try {
+    const result = await network.github.getUserStatistic(login, githubToken)
+    ctx.body = {
+      result,
+      success: true
+    }
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      ctx.body = {
+        result: null,
+        success: true
+      }
+      return
+    }
+    throw err
   }
 }
 
@@ -31,9 +42,18 @@ const getUserPredictions = async (ctx) => {
   }
   const { login } = ctx.params
   const { githubToken, githubLogin } = ctx.session
-  const result = login === githubLogin
-    ? (await network.github.getUserPredictions(githubLogin, githubToken) || [])
-    : []
+  let result = []
+  try {
+    result = login === githubLogin
+      ? (await network.github.getUserPredictions(githubLogin, githubToken) || [])
+      : []
+  } catch (err) {
+    if (err && err.message && err.message.includes('GitHub API 401')) {
+      result = []
+    } else {
+      throw err
+    }
+  }
 
   const results = await Promise.all(result.map(async (repository) => {
     const { full_name } = repository

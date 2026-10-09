@@ -52,6 +52,7 @@ const cachedRequest = async (login, kind, path, token, fallback) => {
     return cacheSet(login, kind, value)
   } catch (e) {
     if (e && e.message && e.message.includes('GitHub API 401')) {
+      cacheSet(login, 'update-status', { status: 4, startUpdateAt: null, lastUpdateTime: now() })
       throw e
     }
     return cacheGet(login, kind) || fallback

@@ -246,6 +246,28 @@ test('site login lasts seven days and renews independently of GitHub token expir
     assert.match(failure.message, /GitHub API 401/)
     assert.equal((await (await client.get('/api/user/info')).json()).result.githubLogin, 'octocat')
     assert.equal((await client.get('/initial')).status, 200)
+
+    // Dependent GitHub endpoints must catch the 401 error and fallback safely without dying
+    const userRepos = await client.get('/api/github/octocat/repositories')
+    assert.equal(userRepos.status, 200)
+    const reposData = await userRepos.json()
+    assert.equal(reposData.success, true)
+    assert.ok(Array.isArray(reposData.result))
+
+    const userLanguages = await client.get('/api/github/octocat/languages')
+    assert.equal(userLanguages.status, 200)
+    const languagesData = await userLanguages.json()
+    assert.equal(languagesData.success, true)
+
+    const userOrgs = await client.get('/api/github/octocat/organizations')
+    assert.equal(userOrgs.status, 200)
+    const orgsData = await userOrgs.json()
+    assert.equal(orgsData.success, true)
+
+    const updateStatus = await client.get('/api/github/update')
+    const updateData = await updateStatus.json()
+    assert.equal(updateData.success, true)
+    assert.equal(updateData.result.status, 4)
   } finally {
     profileFailure = false
   }
