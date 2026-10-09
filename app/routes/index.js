@@ -96,6 +96,13 @@ router.get(
   Resume.renderResumePage
 )
 router.get(
+  '/:login/resume/:pinyin',
+  share.resumeEnable('params.login', 'params.pinyin'),
+  record.resume('params.login'),
+  record.ipResume('params.login'),
+  Resume.renderResumePage
+)
+router.get(
   '/:login/:dashboardRoute',
   user.checkValidateUser(),
   user.checkValidateDashboard(),

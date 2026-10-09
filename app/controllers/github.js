@@ -111,21 +111,37 @@ const getAllRepositories = async (ctx, next) => {
   }
 
   const { githubLogin, githubToken } = ctx.session
-  const repos = await network.github.getUserRepositories(githubLogin, githubToken)
+  let repos = []
+  try {
+    repos = await network.github.getUserRepositories(githubLogin, githubToken)
+  } catch (err) {
+    if (err && err.message && (err.message.includes('GitHub API 401') || err.message.includes('Bad credentials'))) {
+      logger.warn(`[GITHUB:API:401] getAllRepositories failed for ${githubLogin}: ${err.message}`)
+      try {
+        repos = await network.github.getUserRepositories(githubLogin, null)
+      } catch (e) {
+        repos = []
+      }
+    } else {
+      throw err
+    }
+  }
   const result = []
 
-  for (const repository of repos) {
-    if (!repository.fork) {
-      const {
-        name,
-        language,
-        stargazers_count
-      } = repository
-      result.push({
-        name,
-        language,
-        stargazers_count
-      })
+  if (Array.isArray(repos)) {
+    for (const repository of repos) {
+      if (!repository.fork) {
+        const {
+          name,
+          language,
+          stargazers_count
+        } = repository
+        result.push({
+          name,
+          language,
+          stargazers_count
+        })
+      }
     }
   }
 
@@ -451,7 +467,11 @@ const updateUserData = async (ctx) => {
     return
   }
   const { githubToken, githubLogin } = ctx.session
-  await network.github.updateUserData(githubLogin, githubToken)
+  try {
+    await network.github.updateUserData(githubLogin, githubToken)
+  } catch (err) {
+    logger.warn(`[GITHUB:API:401] updateUserData failed for ${githubLogin}: ${err.message}`)
+  }
 
   ctx.body = {
     success: true,
@@ -468,7 +488,12 @@ const getZen = async (ctx) => {
     return
   }
   const { githubToken } = ctx.session
-  const val = await network.github.getZen(githubToken)
+  let val = ''
+  try {
+    val = await network.github.getZen(githubToken)
+  } catch (err) {
+    val = ''
+  }
   const result = is.object(val) ? '' : val
 
   ctx.body = {
@@ -485,7 +510,12 @@ const getOctocat = async (ctx) => {
     }
     return
   }
-  const result = await network.github.getOctocat()
+  let result = ''
+  try {
+    result = await network.github.getOctocat()
+  } catch (err) {
+    result = ''
+  }
   ctx.body = {
     result,
     success: true

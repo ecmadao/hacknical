@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import db, { now, parseJson, stringifyJson } from '../../utils/sqlite'
 import { hashPassword, verifyPassword } from '../../utils/password'
+import { titleToPinyin } from '../../utils/pinyin'
 
 const RESERVED_USERNAMES = new Set([
   'api', 'login', 'logout', 'resume', 'github', 'initial',
@@ -75,6 +76,22 @@ const parseResumeLocales = (rawData) => {
   }
 }
 
+const getUniquePinyin = (userId, title, currentResumeId = null) => {
+  const base = titleToPinyin(title)
+  let candidate = base
+  let counter = 1
+  while (true) {
+    const existing = db.prepare(
+      'SELECT resume_id FROM resumes WHERE user_id = ? AND pinyin = ? AND resume_id != ?'
+    ).get(String(userId), candidate, String(currentResumeId || ''))
+    if (!existing) {
+      return candidate
+    }
+    counter += 1
+    candidate = `${base}-${counter}`
+  }
+}
+
 const createResume = (userId, login, options = {}) => {
   const timestamp = now()
   const resumeId = randomUUID()
@@ -89,6 +106,7 @@ const createResume = (userId, login, options = {}) => {
   let resumeSections = stringifyJson(DEFAULT_RESUME_SECTIONS)
   let githubSections = stringifyJson(DEFAULT_GITHUB_SECTIONS)
   const title = (options.title || '').trim() || (existingCount === 0 ? '默认简历' : `我的简历 ${existingCount + 1}`)
+  const pinyin = getUniquePinyin(userId, title)
 
   if (options.copyFromResumeId) {
     const source = db.prepare('SELECT * FROM resumes WHERE resume_id = ? AND user_id = ?').get(String(options.copyFromResumeId), String(userId))
@@ -107,14 +125,15 @@ const createResume = (userId, login, options = {}) => {
 
   db.prepare(`
     INSERT INTO resumes
-      (resume_id, user_id, resume_hash, title, is_default, data, template, simplify_url, open_share,
+      (resume_id, user_id, resume_hash, title, pinyin, is_default, data, template, simplify_url, open_share,
        use_github, autosave, resume_sections, github_sections, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?, ?, ?, ?)
   `).run(
     resumeId,
     userId,
     hash,
     title,
+    pinyin,
     isDefault,
     resumeData,
     template,
@@ -399,6 +418,16 @@ const findResumeRow = (qs = {}) => {
     `).get(String(qs.resumeId))
     if (row) return row
   }
+  if (qs.pinyin) {
+    if (qs.userId) {
+      const row = db.prepare(`
+        SELECT r.*, u.github_login FROM resumes r
+        JOIN users u ON u.user_id = r.user_id
+        WHERE r.pinyin = ? AND r.user_id = ?
+      `).get(String(qs.pinyin), String(qs.userId))
+      if (row) return row
+    }
+  }
   if (qs.hash) {
     return db.prepare(`
       SELECT r.*, u.github_login FROM resumes r
@@ -426,7 +455,7 @@ const findResumeRow = (qs = {}) => {
   if (login) {
     const userRow = findUserRow({ login })
     if (userRow) {
-      return findResumeRow({ userId: userRow.user_id })
+      return findResumeRow({ userId: userRow.user_id, pinyin: qs.pinyin })
     }
   }
   return null
@@ -437,6 +466,7 @@ const rowToResumeInfo = row => row && ({
   userId: row.user_id,
   login: row.github_login,
   title: row.title || '默认简历',
+  pinyin: row.pinyin || titleToPinyin(row.title),
   isDefault: Boolean(row.is_default),
   resumeHash: row.resume_hash,
   template: row.template,
@@ -582,7 +612,7 @@ const setResumeInfo = async ({ userId, login, resumeId, info = {} }) => {
 const getResumeList = async (userId) => {
   if (!userId) return []
   const rows = db.prepare(`
-    SELECT resume_id, user_id, resume_hash, title, is_default, template, open_share, simplify_url, created_at, updated_at
+    SELECT resume_id, user_id, resume_hash, title, pinyin, is_default, template, open_share, simplify_url, created_at, updated_at
     FROM resumes
     WHERE user_id = ?
     ORDER BY is_default DESC, updated_at DESC
@@ -592,6 +622,7 @@ const getResumeList = async (userId) => {
     userId: r.user_id,
     resumeHash: r.resume_hash,
     title: r.title || '默认简历',
+    pinyin: r.pinyin || titleToPinyin(r.title),
     isDefault: Boolean(r.is_default),
     template: r.template,
     openShare: Boolean(r.open_share),
@@ -647,8 +678,17 @@ const renameResume = async (userId, resumeId, title) => {
   if (!trimmed) throw new Error('简历名称不能为空')
   const row = db.prepare('SELECT * FROM resumes WHERE resume_id = ? AND user_id = ?').get(String(resumeId), String(userId))
   if (!row) throw new Error('简历不存在')
-  db.prepare('UPDATE resumes SET title = ?, updated_at = ? WHERE resume_id = ?').run(trimmed, now(), String(resumeId))
+  const newPinyin = getUniquePinyin(userId, trimmed, resumeId)
+  db.prepare('UPDATE resumes SET title = ?, pinyin = ?, updated_at = ? WHERE resume_id = ?').run(trimmed, newPinyin, now(), String(resumeId))
   return getResumeInfo({ resumeId, userId })
+}
+
+const toggleResumeShare = async (userId, resumeId, openShare) => {
+  const row = db.prepare('SELECT * FROM resumes WHERE resume_id = ? AND user_id = ?').get(String(resumeId), String(userId))
+  if (!row) throw new Error('简历不存在')
+  const targetShare = openShare !== undefined ? (openShare ? 1 : 0) : (row.open_share ? 0 : 1)
+  db.prepare('UPDATE resumes SET open_share = ?, updated_at = ? WHERE resume_id = ?').run(targetShare, now(), String(resumeId))
+  return getResumeList(userId)
 }
 
 const copyResume = async (userId, login, resumeId, title) => {
@@ -684,5 +724,6 @@ export default {
   setDefaultResume,
   deleteResume,
   renameResume,
-  copyResume
+  copyResume,
+  toggleResumeShare
 }

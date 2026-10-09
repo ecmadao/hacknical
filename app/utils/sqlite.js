@@ -3,6 +3,7 @@ import path from 'path'
 import { DatabaseSync } from 'node:sqlite'
 import config from 'config'
 import PATH from '../../config/path'
+import { titleToPinyin } from './pinyin'
 
 const storageConfig = config.get('storage')
 const configuredPath = storageConfig.sqlite && storageConfig.sqlite.path
@@ -45,6 +46,7 @@ db.exec(`
     user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     resume_hash TEXT NOT NULL UNIQUE,
     title TEXT NOT NULL DEFAULT '默认简历',
+    pinyin TEXT NOT NULL DEFAULT '',
     is_default INTEGER NOT NULL DEFAULT 0,
     data TEXT NOT NULL,
     template TEXT NOT NULL DEFAULT 'v1',
@@ -155,6 +157,7 @@ if (resumeColumns.size > 0 && !resumeColumns.has('resume_id')) {
       user_id TEXT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
       resume_hash TEXT NOT NULL UNIQUE,
       title TEXT NOT NULL DEFAULT '默认简历',
+      pinyin TEXT NOT NULL DEFAULT '',
       is_default INTEGER NOT NULL DEFAULT 0,
       data TEXT NOT NULL,
       template TEXT NOT NULL DEFAULT 'v1',
@@ -169,12 +172,12 @@ if (resumeColumns.size > 0 && !resumeColumns.has('resume_id')) {
     );
 
     INSERT INTO resumes (
-      resume_id, user_id, resume_hash, title, is_default,
+      resume_id, user_id, resume_hash, title, pinyin, is_default,
       data, template, simplify_url, open_share, use_github, autosave,
       resume_sections, github_sections, created_at, updated_at
     )
     SELECT
-      lower(hex(randomblob(16))), user_id, resume_hash, '默认简历', 1,
+      lower(hex(randomblob(16))), user_id, resume_hash, '默认简历', 'morenjianli', 1,
       data, template, simplify_url, open_share, use_github, autosave,
       resume_sections, github_sections, created_at, updated_at
     FROM resumes_old;
@@ -186,13 +189,30 @@ if (resumeColumns.size > 0 && !resumeColumns.has('resume_id')) {
   if (resumeColumns.has('resume_id') && !resumeColumns.has('title')) {
     db.exec("ALTER TABLE resumes ADD COLUMN title TEXT NOT NULL DEFAULT '默认简历'")
   }
+  if (resumeColumns.has('resume_id') && !resumeColumns.has('pinyin')) {
+    db.exec("ALTER TABLE resumes ADD COLUMN pinyin TEXT NOT NULL DEFAULT ''")
+  }
   if (resumeColumns.has('resume_id') && !resumeColumns.has('is_default')) {
     db.exec('ALTER TABLE resumes ADD COLUMN is_default INTEGER NOT NULL DEFAULT 0')
   }
 }
+
+// Populate pinyin for any existing rows that have empty pinyin
+const existingResumeCols = new Set(db.prepare('PRAGMA table_info(resumes)').all().map(col => col.name))
+if (existingResumeCols.has('pinyin')) {
+  const emptyPinyinRows = db.prepare("SELECT resume_id, title FROM resumes WHERE pinyin = '' OR pinyin IS NULL").all()
+  if (emptyPinyinRows && emptyPinyinRows.length > 0) {
+    const updatePinyinStmt = db.prepare('UPDATE resumes SET pinyin = ? WHERE resume_id = ?')
+    for (const r of emptyPinyinRows) {
+      updatePinyinStmt.run(titleToPinyin(r.title), r.resume_id)
+    }
+  }
+}
+
 db.exec('CREATE INDEX IF NOT EXISTS idx_resumes_user_id ON resumes (user_id);')
 db.exec('CREATE INDEX IF NOT EXISTS idx_resumes_resume_hash ON resumes (resume_hash);')
 db.exec('CREATE INDEX IF NOT EXISTS idx_resumes_user_default ON resumes (user_id, is_default);')
+db.exec('CREATE INDEX IF NOT EXISTS idx_resumes_user_pinyin ON resumes (user_id, pinyin);')
 
 export const now = () => new Date().toISOString()
 

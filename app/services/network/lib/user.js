@@ -102,3 +102,10 @@ export const copyResume = data => ({
   method: 'post',
   url: '/resume/copy'
 })
+
+export const toggleResumeShare = data => ({
+  body: data,
+  method: 'post',
+  url: '/resume/share'
+})
+

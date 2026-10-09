@@ -50,10 +50,15 @@ class ResumeWrapper extends React.Component {
   }
 
   async fetchResumeData() {
-    const { userId } = this.props
-    const resumeInfo = await API.resume.getResumeInfo({ userId })
+    const { userId, hash } = this.props
+    const targetHash = hash || (typeof window !== 'undefined' && window.resumeHash)
+    const targetPinyin = typeof window !== 'undefined' && window.pinyin
+    const query = targetHash
+      ? { hash: targetHash }
+      : (targetPinyin && userId ? { pinyin: targetPinyin, userId } : { userId })
+    const resumeInfo = await API.resume.getResumeInfo(query)
 
-    const { resumeHash } = resumeInfo
+    const { resumeHash } = (resumeInfo || {})
 
     this.initialShareInfo(resumeInfo)
     this.fetchResume(resumeHash)

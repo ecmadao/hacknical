@@ -95,10 +95,12 @@ class ResumeListModal extends React.Component {
       onClose,
       resumeList = [],
       currentResumeId,
+      login = '',
       onSwitchResume,
       onCopyResume,
       onDeleteResume,
-      onSetDefaultResume
+      onSetDefaultResume,
+      onToggleShareResume
     } = this.props
 
     const {
@@ -168,7 +170,15 @@ class ResumeListModal extends React.Component {
               const isConfirmingDelete = confirmDeleteId === item.resumeId
               const updateTime = item.updatedAt ? dateHelper.validator.fullDate(item.updatedAt) : ''
 
-              const sharePath = item.sharePath || `resume/${item.resumeHash}`
+              let sharePath = ''
+              if (item.isDefault && item.simplifyUrl && login) {
+                sharePath = `${login}/resume`
+              } else if (login && item.pinyin) {
+                sharePath = `${login}/resume/${item.pinyin}`
+              } else {
+                sharePath = `resume/${item.resumeHash}`
+              }
+
               const fullShareUrl = item.shareUrl || `${origin}/${sharePath}`
 
               return (
@@ -223,15 +233,32 @@ class ResumeListModal extends React.Component {
                         </span>
                       ) : null}
 
-                      {item.openShare ? (
-                        <span className={styles.badgePublic}>
-                          {modalTexts.publicShared || '已公开'}
-                        </span>
-                      ) : (
-                        <span className={styles.badgePrivate}>
-                          {modalTexts.notPublicShared || '未公开'}
-                        </span>
-                      )}
+                      <Tipso
+                        trigger="hover"
+                        theme="dark"
+                        tipsoContent={(
+                          <span>
+                            {item.openShare
+                              ? (modalTexts.togglePrivateTip || '点击设为私密 (关闭公开)')
+                              : (modalTexts.togglePublicTip || '点击公开此版本简历')}
+                          </span>
+                        )}
+                      >
+                        <div
+                          className={cx(
+                            styles.badgeShareBtn,
+                            item.openShare ? styles.badgePublic : styles.badgePrivate
+                          )}
+                          onClick={() => onToggleShareResume && onToggleShareResume(item.resumeId, !item.openShare)}
+                        >
+                          <Icon icon={item.openShare ? 'globe' : 'lock'} />
+                          <span>
+                            {item.openShare
+                              ? (modalTexts.publicShared || '已公开')
+                              : (modalTexts.notPublicShared || '未公开')}
+                          </span>
+                        </div>
+                      </Tipso>
                     </div>
 
                     <div className={styles.itemActions}>
@@ -334,11 +361,16 @@ class ResumeListModal extends React.Component {
                     </div>
                   </div>
 
-                  <div className={styles.urlRow}>
+                  <div className={cx(styles.urlRow, !item.openShare && styles.urlRowPrivate)}>
                     <Icon icon="link" className={styles.urlIcon} />
                     <span className={styles.urlText} title={fullShareUrl}>
                       {fullShareUrl}
                     </span>
+                    {!item.openShare && (
+                      <span className={styles.privateNoticeTag}>
+                        {modalTexts.privateNotice || '私密状态仅自己可见'}
+                      </span>
+                    )}
                     <div className={styles.urlActions}>
                       <Tipso
                         trigger="hover"
@@ -377,7 +409,7 @@ class ResumeListModal extends React.Component {
 
           <div className={styles.footer}>
             <blockquote>
-              提示：非默认简历通过专属哈希地址公开；公开开关可在编辑时右上角“分享”中切换。
+              提示：每份简历均有专属拼音地址 /:login/resume/:pinyin；点击标签可随时切换公开/私密状态。
             </blockquote>
             <ClassicButton theme="dark">
               <Button
@@ -398,12 +430,14 @@ ResumeListModal.propTypes = {
   onClose: PropTypes.func,
   resumeList: PropTypes.array,
   currentResumeId: PropTypes.string,
+  login: PropTypes.string,
   onSwitchResume: PropTypes.func,
   onCreateResume: PropTypes.func,
   onCopyResume: PropTypes.func,
   onDeleteResume: PropTypes.func,
   onSetDefaultResume: PropTypes.func,
-  onRenameResume: PropTypes.func
+  onRenameResume: PropTypes.func,
+  onToggleShareResume: PropTypes.func
 }
 
 ResumeListModal.defaultProps = {
@@ -411,12 +445,14 @@ ResumeListModal.defaultProps = {
   onClose: Function.prototype,
   resumeList: [],
   currentResumeId: '',
+  login: '',
   onSwitchResume: Function.prototype,
   onCreateResume: Function.prototype,
   onCopyResume: Function.prototype,
   onDeleteResume: Function.prototype,
   onSetDefaultResume: Function.prototype,
-  onRenameResume: Function.prototype
+  onRenameResume: Function.prototype,
+  onToggleShareResume: Function.prototype
 }
 
 export default ResumeListModal

@@ -324,6 +324,19 @@ const copyResume = (resumeId, title) => (dispatch) => {
   })
 }
 
+const toggleResumeShare = (resumeId, openShare) => (dispatch, getState) => {
+  return API.resume.toggleResumeShare(resumeId, openShare).then((result) => {
+    if (result) {
+      dispatch(setResumeList(result))
+      const { currentResumeId } = getState().resume
+      if (resumeId === currentResumeId) {
+        dispatch(initialPubResumeStatus({ openShare }))
+      }
+    }
+    return result
+  })
+}
+
 const postShareStatus = () => (dispatch, getState) => {
   const { openShare, resumeId } = getState().resume.shareInfo
   const currentResumeId = resumeId || getState().resume.currentResumeId
@@ -430,7 +443,8 @@ export default objectAssign(
     deleteResume,
     setDefaultResume,
     renameResume,
-    copyResume
+    copyResume,
+    toggleResumeShare
   },
   Object.keys(resumeEditActions).reduce((dict, name) => {
     dict[name] = handleResumeChange(resumeEditActions[name])

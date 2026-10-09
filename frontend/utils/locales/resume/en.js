@@ -54,7 +54,10 @@ const datas = {
       publicShared: 'Public',
       notPublicShared: 'Private',
       copyLinkSuccess: 'Public link copied to clipboard',
-      switchToEdit: 'Edit this resume'
+      switchToEdit: 'Edit this resume',
+      togglePublicTip: 'Click to make public',
+      togglePrivateTip: 'Click to make private',
+      privateNotice: 'Private only to yourself'
     }
   },
   sections: {

@@ -2,6 +2,7 @@ import request from 'request'
 import config from 'config'
 import { getToken, getLogin } from '../github-oauth'
 import db, { now, parseJson, stringifyJson } from '../../utils/sqlite'
+import logger from '../../utils/logger'
 
 const githubConfig = config.get('github')
 const API_URL = (process.env.GITHUB_API_URL || githubConfig.apiUrl || 'https://api.github.com').replace(/\/$/, '')
@@ -51,9 +52,10 @@ const cachedRequest = async (login, kind, path, token, fallback) => {
     const value = await apiRequest('GET', path, token)
     return cacheSet(login, kind, value)
   } catch (e) {
-    if (e && e.message && e.message.includes('GitHub API 401')) {
+    if (e && e.message && (e.message.includes('GitHub API 401') || e.message.includes('Bad credentials'))) {
+      logger.warn(`[GITHUB:API:401] Token expired for ${login} on ${kind}: ${e.message}`)
       cacheSet(login, 'update-status', { status: 4, startUpdateAt: null, lastUpdateTime: now() })
-      throw e
+      return cacheGet(login, kind) || fallback
     }
     return cacheGet(login, kind) || fallback
   }
@@ -119,10 +121,15 @@ const updateUserData = async (login, token) => {
       getUserRepositories(login, token),
       getUserOrganizations(login, token)
     ])
+    const status = cacheGet(login, 'update-status')
+    if (status && status.status === 4) {
+      return false
+    }
     cacheSet(login, 'update-status', { status: 1, startUpdateAt: null, lastUpdateTime: now() })
     return true
   } catch (e) {
-    if (e && e.message && e.message.includes('GitHub API 401')) {
+    if (e && e.message && (e.message.includes('GitHub API 401') || e.message.includes('Bad credentials'))) {
+      logger.warn(`[GITHUB:API:401] updateUserData failed for ${login}: ${e.message}`)
       cacheSet(login, 'update-status', { status: 4, startUpdateAt: null, lastUpdateTime: now() })
     } else {
       cacheSet(login, 'update-status', { status: 1, startUpdateAt: null, lastUpdateTime: now() })

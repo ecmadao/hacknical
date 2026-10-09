@@ -54,7 +54,10 @@ const datas = {
       publicShared: '已公开',
       notPublicShared: '未公开',
       copyLinkSuccess: '公开链接已复制到剪贴板',
-      switchToEdit: '编辑此简历'
+      switchToEdit: '编辑此简历',
+      togglePublicTip: '点击公开此版本简历',
+      togglePrivateTip: '点击设为私密 (关闭公开)',
+      privateNotice: '私密状态仅自己可见'
     }
   },
   sections: {

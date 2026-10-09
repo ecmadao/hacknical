@@ -55,6 +55,7 @@ const deleteResume = resumeId => API.delete(`/resume/${resumeId}`)
 const setDefaultResume = resumeId => API.post('/resume/default', { resumeId })
 const renameResume = (resumeId, title) => API.post('/resume/rename', { resumeId, title })
 const copyResume = (resumeId, title) => API.post('/resume/copy', { resumeId, title })
+const toggleResumeShare = (resumeId, openShare) => API.post('/resume/share', { resumeId, openShare })
 
 export default {
   getResume,
@@ -74,5 +75,6 @@ export default {
   deleteResume,
   setDefaultResume,
   renameResume,
-  copyResume
+  copyResume,
+  toggleResumeShare
 }

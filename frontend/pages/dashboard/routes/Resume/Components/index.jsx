@@ -314,6 +314,8 @@ class Resume extends React.Component {
           onDeleteResume={actions.deleteResume}
           onSetDefaultResume={actions.setDefaultResume}
           onRenameResume={actions.renameResume}
+          onToggleShareResume={actions.toggleResumeShare}
+          login={login}
         />
         <ShareModal
           openModal={openShareModal}

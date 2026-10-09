@@ -240,10 +240,10 @@ test('site login lasts seven days and renews independently of GitHub token expir
   profileFailure = true
   try {
     const repositories = await client.get('/api/github/repositories/all')
-    assert.ok(repositories.status >= 400)
-    const failure = await repositories.json()
-    assert.equal(failure.success, false)
-    assert.match(failure.message, /GitHub API 401/)
+    assert.equal(repositories.status, 200)
+    const reposAllData = await repositories.json()
+    assert.equal(reposAllData.success, true)
+    assert.ok(Array.isArray(reposAllData.result))
     assert.equal((await (await client.get('/api/user/info')).json()).result.githubLogin, 'octocat')
     assert.equal((await client.get('/initial')).status, 200)
 
@@ -263,6 +263,27 @@ test('site login lasts seven days and renews independently of GitHub token expir
     assert.equal(userOrgs.status, 200)
     const orgsData = await userOrgs.json()
     assert.equal(orgsData.success, true)
+
+    const userContributed = await client.get('/api/github/octocat/contributed')
+    assert.equal(userContributed.status, 200)
+    const contribData = await userContributed.json()
+    assert.equal(contribData.success, true)
+    assert.ok(Array.isArray(contribData.result))
+
+    const userCommits = await client.get('/api/github/octocat/commits')
+    assert.equal(userCommits.status, 200)
+    const commitsData = await userCommits.json()
+    assert.equal(commitsData.success, true)
+
+    const userInfo = await client.get('/api/github/octocat/info')
+    assert.equal(userInfo.status, 200)
+    const userInfoData = await userInfo.json()
+    assert.equal(userInfoData.success, true)
+
+    const userHotmap = await client.get('/api/github/octocat/hotmap')
+    assert.equal(userHotmap.status, 200)
+    const hotmapData = await userHotmap.json()
+    assert.equal(hotmapData.success, true)
 
     const updateStatus = await client.get('/api/github/update')
     const updateData = await updateStatus.json()

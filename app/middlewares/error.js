@@ -96,6 +96,16 @@ const catchError = () => async (ctx, next) => {
     }
 
     if (/^\/api\//.test(pathname)) {
+      if (err && err.message && (err.message.includes('GitHub API 401') || err.message.includes('Bad credentials'))) {
+        logger.warn(`[API:GITHUB:401] Caught unhandled GitHub 401 on ${pathname}: ${err.message}`)
+        ctx.status = 200
+        ctx.body = {
+          success: true,
+          result: null,
+          message: ''
+        }
+        return
+      }
       ctx.status = ctx.status >= 400 ? ctx.status : 500
       ctx.body = {
         message: message || 'Server Error',

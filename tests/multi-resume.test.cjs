@@ -334,6 +334,36 @@ test('multi-resume workflow: create, list, edit independently, switch default, c
   assert.equal(publicLoginRes.status, 200)
   assert.match(publicLoginRes.text, /resume/)
 
+  // 验证拼音 URL 访问：/multidev/resume/quanzhankaifajianli
+  const secondPinyin = secondResume.pinyin || 'quanzhankaifajianli'
+  const publicPinyinRes = await unauthClient.get(`/multidev/resume/${secondPinyin}`)
+  assert.equal(publicPinyinRes.status, 200)
+  assert.match(publicPinyinRes.text, /resume/)
+
+  // 9.1 测试快捷公开接口 /api/resume/share：
+  // 将第 1 份简历公开
+  const shareToggleRes = await client.post('/api/resume/share', {
+    resumeId: firstResumeId,
+    openShare: true
+  })
+  assert.equal(shareToggleRes.status, 200)
+  const item1 = shareToggleRes.json.result.find(r => r.resumeId === firstResumeId)
+  assert.equal(item1.openShare, true)
+
+  // 匿名访问第 1 份简历的拼音地址
+  const item1Pinyin = item1.pinyin || 'morenjianli'
+  const publicItem1Res = await unauthClient.get(`/multidev/resume/${item1Pinyin}`)
+  assert.equal(publicItem1Res.status, 200)
+  assert.match(publicItem1Res.text, /resume/)
+
+  // 将第 1 份简历关闭公开，再次匿名访问应当 404/重定向
+  await client.post('/api/resume/share', {
+    resumeId: firstResumeId,
+    openShare: false
+  })
+  const publicItem1ClosedRes = await unauthClient.get(`/multidev/resume/${item1Pinyin}`)
+  assert.equal(publicItem1ClosedRes.status, 302)
+
   // 10. 测试删除简历：删除第 3 份简历
   const deleteRes1 = await client.delete(`/api/resume/${thirdResumeId}`)
   assert.equal(deleteRes1.status, 200)

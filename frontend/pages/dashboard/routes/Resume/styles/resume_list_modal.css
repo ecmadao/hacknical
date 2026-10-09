@@ -145,6 +145,30 @@
   border: 1px solid var(--oc-gray-3);
 }
 
+.badgeShareBtn {
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    filter: brightness(0.92);
+    box-shadow: var(--MDShadow1);
+  }
+}
+
+.urlRowPrivate {
+  opacity: 0.85;
+}
+
+.privateNoticeTag {
+  font-size: 11px;
+  color: var(--oc-gray-5);
+  margin-left: 6px;
+}
+
 .itemActions {
   display: flex;
   align-items: center;

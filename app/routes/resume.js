@@ -112,6 +112,13 @@ router.post(
   Resume.copyResume
 )
 
+router.post(
+  '/share',
+  check.session(session.requiredSessions),
+  check.body('resumeId'),
+  Resume.toggleResumeShare
+)
+
 router.get(
   '/shared/public',
   check.query('hash'),

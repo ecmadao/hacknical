@@ -13,6 +13,7 @@ import { SCHOOLS } from '../utils/constant/school'
 import { getUploadUrl, getOssObjectUrl, isLocalStorage } from '../utils/uploader'
 import { getRecords, getLogs } from './helper/stat'
 import { isGitHubSession } from '../utils/helper'
+import { titleToPinyin } from '../utils/pinyin'
 
 const ossConfig = config.get('services.oss')
 
@@ -35,12 +36,20 @@ const resolveOrigin = (ctx, origin) => {
 const getResumeShareStatus = (resumeInfo, locale, origin) => {
   const originStr = (typeof origin === 'string' && origin) || (config.has('url') && config.get('url')) || 'https://hacknical.com'
   const baseUrl = originStr.replace(/\/$/, '')
+  const pinyin = resumeInfo.pinyin || titleToPinyin(resumeInfo.title)
+  let relativePath = ''
+  if (resumeInfo.isDefault && resumeInfo.simplifyUrl && resumeInfo.login) {
+    relativePath = `${resumeInfo.login}/resume?locale=${locale}`
+  } else if (resumeInfo.login && pinyin) {
+    relativePath = `${resumeInfo.login}/resume/${pinyin}?locale=${locale}`
+  } else {
+    relativePath = `resume/${resumeInfo.resumeHash}?locale=${locale}`
+  }
   return {
     ...resumeInfo,
+    pinyin,
     githubUrl: `${baseUrl}/${resumeInfo.login}/github?locale=${locale}`,
-    url: resumeInfo.simplifyUrl && resumeInfo.login && resumeInfo.isDefault
-      ? `${resumeInfo.login}/resume?locale=${locale}`
-      : `resume/${resumeInfo.resumeHash}?locale=${locale}`
+    url: relativePath
   }
 }
 
@@ -214,6 +223,8 @@ const renderResumePage = async (ctx) => {
   await ctx.render(`resume/${device}`, {
     login,
     userId,
+    resumeHash: resumeInfo.resumeHash,
+    pinyin: resumeInfo.pinyin,
     fromDownload,
     user: {
       login,
@@ -308,11 +319,14 @@ const getResumeByHash = async (ctx, next) => {
 }
 
 const getResumeInfo = async (ctx) => {
-  const { hash, userId, resumeId } = ctx.query
+  const { hash, userId, resumeId, pinyin } = ctx.query
   const { locale = 'zh' } = ctx.session || {}
   const qs = {}
   if (hash) {
     qs.hash = hash
+  } else if (pinyin && (userId || (ctx.session && ctx.session.userId))) {
+    qs.pinyin = pinyin
+    qs.userId = userId || ctx.session.userId
   } else if (resumeId) {
     qs.resumeId = resumeId
     if (userId) qs.userId = userId
@@ -409,28 +423,62 @@ const setResumeInfo = async (ctx) => {
   }
 }
 
-const getResumeList = async (ctx) => {
-  const { userId, githubLogin } = ctx.session
-  const list = await network.user.getResumeList(userId)
-  const origin = resolveOrigin(ctx, ctx.request.origin)
+const formatResumeList = (list, githubLogin, origin) => {
   const baseUrl = origin.replace(/\/$/, '')
-  const result = (list || []).map((item) => {
+  return (list || []).map((item) => {
     const isDefault = Boolean(item.isDefault)
     const simplifyUrl = Boolean(item.simplifyUrl)
-    const sharePath = isDefault && simplifyUrl && githubLogin
-      ? `${githubLogin}/resume`
-      : `resume/${item.resumeHash}`
+    const pinyin = item.pinyin || titleToPinyin(item.title)
+    let sharePath = ''
+    if (isDefault && simplifyUrl && githubLogin) {
+      sharePath = `${githubLogin}/resume`
+    } else if (githubLogin && pinyin) {
+      sharePath = `${githubLogin}/resume/${pinyin}`
+    } else {
+      sharePath = `resume/${item.resumeHash}`
+    }
     return {
       ...item,
+      pinyin,
       isDefault,
       simplifyUrl,
       sharePath,
       shareUrl: `${baseUrl}/${sharePath}`
     }
   })
+}
+
+const getResumeList = async (ctx) => {
+  const { userId, githubLogin } = ctx.session
+  const list = await network.user.getResumeList(userId)
+  const origin = resolveOrigin(ctx, ctx.request.origin)
   ctx.body = {
     success: true,
-    result
+    result: formatResumeList(list, githubLogin, origin)
+  }
+}
+
+const toggleResumeShare = async (ctx) => {
+  const { userId, githubLogin } = ctx.session
+  const { resumeId, openShare } = ctx.request.body || {}
+  if (!resumeId) {
+    ctx.status = 400
+    ctx.body = { success: false, message: '缺少简历ID' }
+    return
+  }
+  try {
+    const list = await network.user.toggleResumeShare(userId, resumeId, openShare)
+    const origin = resolveOrigin(ctx, ctx.request.origin)
+    ctx.body = {
+      success: true,
+      result: formatResumeList(list, githubLogin, origin)
+    }
+  } catch (err) {
+    ctx.status = 400
+    ctx.body = {
+      success: false,
+      message: err.message || '更新分享状态失败'
+    }
   }
 }
 
@@ -561,5 +609,6 @@ export default {
   setDefaultResume,
   deleteResume,
   renameResume,
-  copyResume
+  copyResume,
+  toggleResumeShare
 }
