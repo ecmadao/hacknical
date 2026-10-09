@@ -94,34 +94,7 @@ class GitHubMobileContent extends React.Component {
     const commitDates = []
     const dateLabels = []
 
-    const monthlyCommits = {}
-
-    for (const commit of commits) {
-      const endDate = getDateBySeconds(commit.week)
-      const [year, month, day] = endDate.split('-')
-      const sliceIndex = parseInt(day, 10) < 7 ? (7 - parseInt(day, 10)) : 0
-
-      const thisMonthKey = `${year}-${parseInt(month, 10)}`
-      const totalCommits = commit.days.slice(sliceIndex).reduce(
-        (pre, next) => pre + next, 0
-      )
-      const targetCommits = monthlyCommits[thisMonthKey]
-      monthlyCommits[thisMonthKey] = Number.isNaN(targetCommits)
-        ? totalCommits
-        : totalCommits + targetCommits
-
-      if (sliceIndex > 0) {
-        const preMonthKey = parseInt(month, 10) - 1 <= 0
-          ? `${parseInt(year, 10) - 1}-12`
-          : `${year}-${parseInt(month, 10) - 1}`
-        const preTotalCommits = commit.days.slice(0, sliceIndex)
-          .reduce((pre, next) => pre + next, 0)
-        const preTargetCommits = monthlyCommits[preMonthKey]
-        monthlyCommits[preMonthKey] = Number.isNaN(preTargetCommits)
-          ? preTotalCommits
-          : preTotalCommits + preTargetCommits
-      }
-    }
+    const monthlyCommits = github.getMonthlyCommitCounts(commits, getDateBySeconds)
 
     for (const key of Object.keys(monthlyCommits)) {
       commitDates.push(monthlyCommits[key])
