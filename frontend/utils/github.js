@@ -68,6 +68,32 @@ const getLanguageUsed = (repos) => {
   return result
 }
 
+const getMonthlyCommitCounts = (commits, getDateBySeconds) => {
+  const monthlyCommits = {}
+  const sumDays = days => days.reduce((sum, value) => {
+    const count = Number(value)
+    return Number.isFinite(count) ? sum + count : sum
+  }, 0)
+
+  for (const commit of commits) {
+    const [year, month, day] = getDateBySeconds(commit.week).split('-')
+    const sliceIndex = Number(day) < 7 ? 7 - Number(day) : 0
+    const currentMonth = `${year}-${Number(month)}`
+    monthlyCommits[currentMonth] = (monthlyCommits[currentMonth] || 0)
+      + sumDays(commit.days.slice(sliceIndex))
+
+    if (sliceIndex > 0) {
+      const previousMonth = Number(month) === 1
+        ? `${Number(year) - 1}-12`
+        : `${year}-${Number(month) - 1}`
+      monthlyCommits[previousMonth] = (monthlyCommits[previousMonth] || 0)
+        + sumDays(commit.days.slice(0, sliceIndex))
+    }
+  }
+
+  return monthlyCommits
+}
+
 const getReposByLanguage = (repos, targetLanguage) => {
   const filtered = repos.filter((repository) => {
     const { languages, language } = repository
@@ -281,6 +307,7 @@ export default {
   getLanguageDistribution,
   getLanguageSkill,
   getLanguageUsed,
+  getMonthlyCommitCounts,
   getReposByLanguage,
   getMinDate,
   getMaxDate,
