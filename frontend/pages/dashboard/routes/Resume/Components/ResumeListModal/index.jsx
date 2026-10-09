@@ -7,7 +7,8 @@ import {
   Button,
   Input,
   Tipso,
-  ClassicButton
+  ClassicButton,
+  Switcher
 } from 'light-ui'
 import locales from 'LOCALES'
 import Icon from 'COMPONENTS/Icon'
@@ -233,32 +234,34 @@ class ResumeListModal extends React.Component {
                         </span>
                       ) : null}
 
-                      <Tipso
-                        trigger="hover"
-                        theme="dark"
-                        tipsoContent={(
-                          <span>
-                            {item.openShare
-                              ? (modalTexts.togglePrivateTip || '点击设为私密 (关闭公开)')
-                              : (modalTexts.togglePublicTip || '点击公开此版本简历')}
-                          </span>
+                      <div
+                        className={cx(
+                          styles.shareToggleBox,
+                          item.openShare ? styles.shareToggleBoxPublic : styles.shareToggleBoxPrivate
                         )}
+                        title={item.openShare
+                          ? (modalTexts.togglePrivateTip || '点击设为私密 (关闭公开)')
+                          : (modalTexts.togglePublicTip || '点击公开此版本简历')}
+                        onClick={() => onToggleShareResume && onToggleShareResume(item.resumeId, !item.openShare)}
                       >
-                        <div
-                          className={cx(
-                            styles.badgeShareBtn,
-                            item.openShare ? styles.badgePublic : styles.badgePrivate
-                          )}
-                          onClick={() => onToggleShareResume && onToggleShareResume(item.resumeId, !item.openShare)}
-                        >
+                        <span className={cx(
+                          styles.shareToggleLabel,
+                          item.openShare ? styles.shareLabelPublic : styles.shareLabelPrivate
+                        )}>
                           <Icon icon={item.openShare ? 'globe' : 'lock'} />
                           <span>
                             {item.openShare
                               ? (modalTexts.publicShared || '已公开')
                               : (modalTexts.notPublicShared || '未公开')}
                           </span>
-                        </div>
-                      </Tipso>
+                        </span>
+                        <Switcher
+                          version="v2"
+                          size="small"
+                          checked={Boolean(item.openShare)}
+                          className={styles.shareSwitcher}
+                        />
+                      </div>
                     </div>
 
                     <div className={styles.itemActions}>
@@ -409,7 +412,7 @@ class ResumeListModal extends React.Component {
 
           <div className={styles.footer}>
             <blockquote>
-              提示：每份简历均有专属拼音地址 /:login/resume/:pinyin；点击标签可随时切换公开/私密状态。
+              提示：每份简历均有专属拼音地址 /:login/resume/:pinyin；切换“公开”开关可随时开启/关闭专属地址访问。
             </blockquote>
             <ClassicButton theme="dark">
               <Button
