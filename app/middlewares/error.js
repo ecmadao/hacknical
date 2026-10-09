@@ -25,6 +25,7 @@ const redirect = async (ctx) => {
   }
 
   if (ctx.status === 404) {
+    if (ctx.path.startsWith('/api/')) return false
     return ctx.redirect('/404')
   }
 

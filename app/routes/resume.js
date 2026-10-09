@@ -4,6 +4,7 @@ import Resume from '../controllers/resume'
 import session from '../controllers/helper/session'
 import cache from '../controllers/helper/cache'
 import check from '../controllers/helper/check'
+import share from '../controllers/helper/share'
 
 const router = new koaRouter({
   prefix: '/api/resume'
@@ -122,6 +123,7 @@ router.post(
 router.get(
   '/shared/public',
   check.query('hash'),
+  share.resumeApiEnable(),
   cache.get('resume', {
     keys: ['query.hash', 'query.locale']
   }),

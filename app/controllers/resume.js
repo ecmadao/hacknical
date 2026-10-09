@@ -14,6 +14,7 @@ import { getUploadUrl, getOssObjectUrl, isLocalStorage } from '../utils/uploader
 import { getRecords, getLogs } from './helper/stat'
 import { isGitHubSession } from '../utils/helper'
 import { titleToPinyin } from '../utils/pinyin'
+import { canReadResume, createDownloadToken } from '../utils/resume-access'
 
 const ossConfig = config.get('services.oss')
 
@@ -161,9 +162,10 @@ const downloadResume = async (ctx) => {
   const updateTime = findResult.update_at || findResult.updated_at
   const seconds = dateHelper.getSeconds(updateTime)
 
-  const origin = resolveOrigin(ctx, ctx.request.origin)
+  const origin = (config.has('url') && config.get('url')) || resolveOrigin(ctx, ctx.request.origin)
+  const downloadToken = createDownloadToken(resumeHash)
   const resumeUrl =
-    `${origin.replace(/\/$/, '')}/${getResumeShareStatus(resumeInfo, locale, origin).url}&userId=${userId}&notrace=true&fromDownload=true`
+    `${origin.replace(/\/$/, '')}/${getResumeShareStatus(resumeInfo, locale, origin).url}&downloadToken=${downloadToken}&fromDownload=true`
 
   notify.slack({
     mq: ctx.mq,
@@ -173,7 +175,7 @@ const downloadResume = async (ctx) => {
     }
   })
 
-  logger.info(`[RESUME:DOWNLOAD] - ${resumeUrl}`)
+  logger.info(`[RESUME:DOWNLOAD] ${githubLogin}:${resumeHash}`)
 
   network.stat.putStat({
     type: 'resume',
@@ -293,8 +295,6 @@ const getResumeByHash = async (ctx, next) => {
   const { hash, locale } = ctx.query
   const findResult = await network.user.getResume({ hash, locale })
 
-  logger.debug(`[getResumeByHash] ${JSON.stringify(findResult)}`)
-
   let result = null
   if (findResult) {
     const { languages, updated_at } = findResult
@@ -343,6 +343,11 @@ const getResumeInfo = async (ctx) => {
     return
   }
   const resumeInfo = await network.user.getResumeInfo(qs)
+  if (!canReadResume(resumeInfo, ctx.session, ctx.query.downloadToken)) {
+    ctx.status = 404
+    ctx.body = { success: false, message: 'Resume not found' }
+    return
+  }
 
   let result = null
   if (resumeInfo) {
