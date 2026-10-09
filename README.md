@@ -7,7 +7,7 @@
 For a more actively maintained version with better ongoing support, please use:**
 
 - Repository: https://github.com/liguobao/hacknical
-- The online website: https://hack.r2049.cn
+- The online website: https://hackneo.cn
 
 ======================================================
 
