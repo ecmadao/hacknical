@@ -20,9 +20,8 @@ const getLanguageDistribution = (repos) => {
 
   for (const repository of repos) {
     const { language } = repository
-    reposLanguages[language] = Number.isNaN(reposLanguages[language])
-      ? 1
-      : reposLanguages[language] + 1
+    if (!language) continue
+    reposLanguages[language] = (reposLanguages[language] || 0) + 1
   }
   return reposLanguages
 }
